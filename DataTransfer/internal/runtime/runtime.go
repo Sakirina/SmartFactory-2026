@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"log/slog"
 	"sync"
 	"sync/atomic"
 	"time"
@@ -11,13 +12,15 @@ import (
 	dtv1 "competition2026/product/datatransfer/gen/datatransfer/v1"
 	"competition2026/product/datatransfer/internal/command"
 	"competition2026/product/datatransfer/internal/config"
+	"competition2026/product/datatransfer/internal/connector"
 	dterrors "competition2026/product/datatransfer/internal/errors"
 )
 
 type Runtime struct {
-	cfg      config.Config
-	commands *command.Service
-	store    *ringStore
+	cfg        config.Config
+	commands   *command.Service
+	connectors *connector.Manager
+	store      *ringStore
 
 	mu            sync.RWMutex
 	subscribers   map[uint64]subscription
@@ -30,6 +33,7 @@ type Runtime struct {
 	rejectedCommandTotal  atomic.Int64
 	duplicateCommandTotal atomic.Int64
 	configRejectTotal     atomic.Int64
+	discoveryEventTotal   atomic.Int64
 }
 
 type subscription struct {
@@ -51,6 +55,7 @@ type Snapshot struct {
 	RejectedCommandTotal  int64
 	DuplicateCommandTotal int64
 	ConfigRejectTotal     int64
+	DiscoveryEventTotal   int64
 }
 
 func New(cfg config.Config) *Runtime {
@@ -64,6 +69,13 @@ func New(cfg config.Config) *Runtime {
 
 func (r *Runtime) Config() config.Config {
 	return r.cfg
+}
+
+func (r *Runtime) AttachConnectorManager(manager *connector.Manager) {
+	r.mu.Lock()
+	r.connectors = manager
+	r.mu.Unlock()
+	r.commands.SetResolver(manager)
 }
 
 func (r *Runtime) Publish(msg *dtv1.DeviceMessage) error {
@@ -143,20 +155,26 @@ func (r *Runtime) HandleCommand(ctx context.Context, msg *dtv1.DeviceMessage) (*
 }
 
 func (r *Runtime) AcceptCommandAsync(ctx context.Context, msg *dtv1.DeviceMessage) (*dtv1.CommandAccepted, error) {
-	response, duplicate, err := r.HandleCommand(ctx, msg)
+	if err := ctx.Err(); err != nil {
+		return nil, err
+	}
+	accepted, err := r.commands.HandleAsync(msg, func(response *dtv1.CommandResponsePayload) {
+		r.countCommandResponse(response, false)
+		if publishErr := r.Publish(commandResponseMessage(msg, response)); publishErr != nil {
+			r.rejectedCommandTotal.Add(1)
+		}
+	})
 	if err != nil {
+		if errors.Is(err, command.ErrDuplicate) {
+			r.duplicateCommandTotal.Add(1)
+			r.rejectedCommandTotal.Add(1)
+		} else {
+			r.rejectedCommandTotal.Add(1)
+		}
 		return nil, err
 	}
-	if duplicate {
-		return nil, command.ErrDuplicate
-	}
-	if err := r.Publish(commandResponseMessage(msg, response)); err != nil {
-		return nil, err
-	}
-	return &dtv1.CommandAccepted{
-		CommandId:  msg.CommandId,
-		AcceptedAt: nowMillis(),
-	}, nil
+	r.downstreamTotal.Add(1)
+	return accepted, nil
 }
 
 func (r *Runtime) RejectConfig(update *dtv1.DeviceConfigUpdate) *dtv1.ConfigUpdateResponse {
@@ -167,17 +185,24 @@ func (r *Runtime) RejectConfig(update *dtv1.DeviceConfigUpdate) *dtv1.ConfigUpda
 	}
 	return &dtv1.ConfigUpdateResponse{
 		Success:      false,
-		ErrorMessage: fmt.Sprintf("%s: configuration hot reload is not enabled in P0", dterrors.CodeConfigNotEnabled),
+		ErrorMessage: fmt.Sprintf("%s: configuration hot reload is not enabled in P1", dterrors.CodeConfigNotEnabled),
 		UpdateId:     updateID,
 	}
 }
 
-func (r *Runtime) ListDevices(_ *dtv1.ListDevicesRequest) *dtv1.ListDevicesResponse {
+func (r *Runtime) ListDevices(req *dtv1.ListDevicesRequest) *dtv1.ListDevicesResponse {
+	r.mu.RLock()
+	manager := r.connectors
+	r.mu.RUnlock()
+	if manager != nil {
+		return manager.ListDevices(req)
+	}
 	return &dtv1.ListDevicesResponse{}
 }
 
 func (r *Runtime) MetricsResponse() *dtv1.MetricsResponse {
 	snapshot := r.Snapshot()
+	_, _, connectorMetrics := r.connectorSnapshot()
 	return &dtv1.MetricsResponse{
 		Timestamp:           snapshot.Timestamp,
 		ConnectedDevices:    snapshot.ConnectedDevices,
@@ -189,7 +214,7 @@ func (r *Runtime) MetricsResponse() *dtv1.MetricsResponse {
 		BackpressureActive:  false,
 		BackpressurePolicy:  dtv1.BackpressurePolicy_BP_UNSPECIFIED,
 		QueueUsagePercent:   snapshot.BufferUsagePercent,
-		Connectors:          map[string]*dtv1.ConnectorMetrics{},
+		Connectors:          connectorMetrics,
 	}
 }
 
@@ -200,6 +225,7 @@ func (r *Runtime) Snapshot() Snapshot {
 	r.mu.RUnlock()
 
 	bufferSize, bufferUsage := r.store.Stats()
+	connectedDevices, activeConnectors, _ := r.connectorSnapshot()
 	return Snapshot{
 		Timestamp:             nowMillis(),
 		Ready:                 r.ready(grpcServing, mqttConnected),
@@ -207,13 +233,14 @@ func (r *Runtime) Snapshot() Snapshot {
 		MQTTConnected:         mqttConnected,
 		BufferSize:            int64(bufferSize),
 		BufferUsagePercent:    bufferUsage,
-		ConnectedDevices:      0,
-		ActiveConnectors:      0,
+		ConnectedDevices:      connectedDevices,
+		ActiveConnectors:      activeConnectors,
 		UpstreamTotal:         r.upstreamTotal.Load(),
 		DownstreamTotal:       r.downstreamTotal.Load(),
 		RejectedCommandTotal:  r.rejectedCommandTotal.Load(),
 		DuplicateCommandTotal: r.duplicateCommandTotal.Load(),
 		ConfigRejectTotal:     r.configRejectTotal.Load(),
+		DiscoveryEventTotal:   r.discoveryEventTotal.Load(),
 	}
 }
 
@@ -235,11 +262,63 @@ func (r *Runtime) Ready() bool {
 }
 
 func (r *Runtime) ready(grpcServing, mqttConnected bool) bool {
+	connectorsReady := true
+	r.mu.RLock()
+	manager := r.connectors
+	r.mu.RUnlock()
+	if manager != nil {
+		connectorsReady = manager.Ready()
+	}
+	if !connectorsReady {
+		return false
+	}
 	switch r.cfg.RunMode {
 	case config.RunModeSplit:
 		return mqttConnected
 	default:
 		return grpcServing
+	}
+}
+
+func (r *Runtime) RecordDiscovery(event DiscoveryEvent) {
+	r.discoveryEventTotal.Add(1)
+	slog.Info(
+		"discovery event recorded",
+		"device_id", event.DeviceID,
+		"device_name", event.DeviceName,
+		"device_type", event.DeviceType,
+		"protocol", event.Protocol,
+		"connector_id", event.ConnectorID,
+		"observed_at", event.ObservedAt,
+	)
+}
+
+type DiscoveryEvent struct {
+	DeviceID    string
+	DeviceName  string
+	DeviceType  string
+	Protocol    string
+	ConnectorID string
+	ObservedAt  int64
+	Metadata    map[string]string
+}
+
+func (r *Runtime) connectorSnapshot() (int32, int32, map[string]*dtv1.ConnectorMetrics) {
+	r.mu.RLock()
+	manager := r.connectors
+	r.mu.RUnlock()
+	if manager == nil {
+		return 0, 0, map[string]*dtv1.ConnectorMetrics{}
+	}
+	return manager.Snapshot()
+}
+
+func (r *Runtime) countCommandResponse(response *dtv1.CommandResponsePayload, duplicate bool) {
+	if duplicate {
+		r.duplicateCommandTotal.Add(1)
+	}
+	if response.GetStatus() == dtv1.CommandStatus_REJECTED {
+		r.rejectedCommandTotal.Add(1)
 	}
 }
 
@@ -259,7 +338,7 @@ func commandResponseMessage(cmd *dtv1.DeviceMessage, response *dtv1.CommandRespo
 			CmdResponse: response,
 		},
 		Metadata: map[string]string{
-			"phase": "P0",
+			"phase": "P1",
 		},
 	}
 }

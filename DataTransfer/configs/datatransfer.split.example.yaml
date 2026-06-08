@@ -19,3 +19,37 @@ mqtt:
 runtime:
   ring_size: 2048
   command_ttl_seconds: 3600
+connectors:
+  - connector_id: "modbus-gateway-001"
+    protocol: "modbus_tcp"
+    default_tags:
+      gateway: "gateway-001"
+      site: "plant-a"
+    connection:
+      host: "127.0.0.1"
+      port: 1502
+      unit_id: 1
+      timeout_millis: 1000
+    polling:
+      interval_millis: 1000
+      timeout_millis: 1000
+    action_mappings:
+      set_speed:
+        type: "write_single_register"
+        address: 20
+        data_type: "uint16"
+        param: "speed"
+    devices:
+      - device_id: "modbus-gateway-device-001"
+        device_name: "Gateway Modbus Device"
+        device_type: "plc"
+        unit_id: 1
+        tags:
+          workshop: "A"
+        datapoints:
+          - key: "speed"
+            register_type: "holding_register"
+            address: 20
+            data_type: "uint16"
+            unit: "rpm"
+            quality: "good"

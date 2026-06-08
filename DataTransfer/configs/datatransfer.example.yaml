@@ -13,4 +13,58 @@ mqtt:
 runtime:
   ring_size: 1024
   command_ttl_seconds: 3600
-
+connectors:
+  - connector_id: "modbus-local"
+    protocol: "modbus_tcp"
+    default_tags:
+      site: "lab"
+      line: "demo"
+    connection:
+      host: "127.0.0.1"
+      port: 1502
+      unit_id: 1
+      timeout_millis: 1000
+    polling:
+      interval_millis: 1000
+      timeout_millis: 1000
+    action_mappings:
+      set_speed:
+        type: "write_single_register"
+        address: 20
+        data_type: "uint16"
+        param: "speed"
+      start:
+        type: "write_single_coil"
+        address: 1
+        value: "true"
+      stop:
+        type: "write_single_coil"
+        address: 1
+        value: "false"
+    devices:
+      - device_id: "modbus-demo-001"
+        device_name: "Local Modbus Demo"
+        device_type: "plc"
+        unit_id: 1
+        tags:
+          workshop: "A"
+        datapoints:
+          - key: "running"
+            register_type: "coil"
+            address: 1
+            data_type: "bool"
+            quality: "good"
+          - key: "temperature"
+            register_type: "holding_register"
+            address: 10
+            data_type: "int16"
+            scale: 0.1
+            unit: "celsius"
+            quality: "good"
+          - key: "energy"
+            register_type: "input_register"
+            address: 12
+            quantity: 2
+            data_type: "float32"
+            unit: "kwh"
+            quality: "good"

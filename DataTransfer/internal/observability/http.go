@@ -35,11 +35,14 @@ func RenderPrometheus(snapshot dtruntime.Snapshot) string {
 	writeMetric(&b, "datatransfer_mqtt_connected", boolFloat(snapshot.MQTTConnected))
 	writeMetric(&b, "datatransfer_buffer_messages", float64(snapshot.BufferSize))
 	writeMetric(&b, "datatransfer_buffer_usage_percent", snapshot.BufferUsagePercent)
+	writeMetric(&b, "datatransfer_connected_devices", float64(snapshot.ConnectedDevices))
+	writeMetric(&b, "datatransfer_active_connectors", float64(snapshot.ActiveConnectors))
 	writeMetric(&b, "datatransfer_upstream_messages_total", float64(snapshot.UpstreamTotal))
 	writeMetric(&b, "datatransfer_downstream_commands_total", float64(snapshot.DownstreamTotal))
 	writeMetric(&b, "datatransfer_rejected_commands_total", float64(snapshot.RejectedCommandTotal))
 	writeMetric(&b, "datatransfer_duplicate_commands_total", float64(snapshot.DuplicateCommandTotal))
 	writeMetric(&b, "datatransfer_config_rejections_total", float64(snapshot.ConfigRejectTotal))
+	writeMetric(&b, "datatransfer_discovery_events_total", float64(snapshot.DiscoveryEventTotal))
 	return b.String()
 }
 

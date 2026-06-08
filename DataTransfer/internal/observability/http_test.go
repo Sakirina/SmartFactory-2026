@@ -35,7 +35,14 @@ func TestManagementEndpoints(t *testing.T) {
 
 	metrics := httptest.NewRecorder()
 	handler.ServeHTTP(metrics, httptest.NewRequest(http.MethodGet, "/metrics", nil))
-	if !strings.Contains(metrics.Body.String(), "datatransfer_ready 1") {
-		t.Fatalf("metrics body missing ready metric:\n%s", metrics.Body.String())
+	body := metrics.Body.String()
+	for _, expected := range []string{
+		"datatransfer_ready 1",
+		"datatransfer_active_connectors",
+		"datatransfer_discovery_events_total",
+	} {
+		if !strings.Contains(body, expected) {
+			t.Fatalf("metrics body missing %q:\n%s", expected, body)
+		}
 	}
 }

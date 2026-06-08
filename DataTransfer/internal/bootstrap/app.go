@@ -12,6 +12,8 @@ import (
 	"time"
 
 	"competition2026/product/datatransfer/internal/config"
+	"competition2026/product/datatransfer/internal/connector"
+	_ "competition2026/product/datatransfer/internal/connector/modbus"
 	grpcadapter "competition2026/product/datatransfer/internal/northbound/grpc"
 	mqttadapter "competition2026/product/datatransfer/internal/northbound/mqtt"
 	"competition2026/product/datatransfer/internal/observability"
@@ -30,8 +32,13 @@ func (a App) Run(ctx context.Context) error {
 	}
 	logger := newLogger(cfg.Log.Level)
 	rt := dtruntime.New(cfg)
+	connectorManager, err := connector.NewManager(cfg.Connectors, rt, logger)
+	if err != nil {
+		return err
+	}
+	rt.AttachConnectorManager(connectorManager)
 
-	errCh := make(chan error, 3)
+	errCh := make(chan error, 4)
 	httpServer := &http.Server{
 		Addr:              cfg.Management.Addr,
 		Handler:           observability.Handler(rt),
@@ -40,6 +47,13 @@ func (a App) Run(ctx context.Context) error {
 	go func() {
 		logger.Info("management server starting", "addr", cfg.Management.Addr)
 		if err := httpServer.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
+			errCh <- err
+		}
+	}()
+
+	go func() {
+		logger.Info("connector manager starting", "connectors", len(cfg.Connectors))
+		if err := connectorManager.Start(ctx); err != nil && !errors.Is(err, context.Canceled) {
 			errCh <- err
 		}
 	}()

@@ -17,12 +17,13 @@ const (
 )
 
 type Config struct {
-	RunMode    string           `yaml:"run_mode"`
-	Log        LogConfig        `yaml:"log"`
-	Management ManagementConfig `yaml:"management"`
-	GRPC       GRPCConfig       `yaml:"grpc"`
-	MQTT       MQTTConfig       `yaml:"mqtt"`
-	Runtime    RuntimeConfig    `yaml:"runtime"`
+	RunMode    string            `yaml:"run_mode"`
+	Log        LogConfig         `yaml:"log"`
+	Management ManagementConfig  `yaml:"management"`
+	GRPC       GRPCConfig        `yaml:"grpc"`
+	MQTT       MQTTConfig        `yaml:"mqtt"`
+	Runtime    RuntimeConfig     `yaml:"runtime"`
+	Connectors []ConnectorConfig `yaml:"connectors"`
 }
 
 type LogConfig struct {
@@ -57,6 +58,63 @@ type TLSConfig struct {
 type RuntimeConfig struct {
 	RingSize          int `yaml:"ring_size"`
 	CommandTTLSeconds int `yaml:"command_ttl_seconds"`
+}
+
+type ConnectorConfig struct {
+	ConnectorID    string                   `yaml:"connector_id"`
+	Protocol       string                   `yaml:"protocol"`
+	DefaultTags    map[string]string        `yaml:"default_tags"`
+	Connection     ConnectionConfig         `yaml:"connection"`
+	Polling        PollingConfig            `yaml:"polling"`
+	Devices        []DeviceConfig           `yaml:"devices"`
+	ActionMappings map[string]ActionMapping `yaml:"action_mappings"`
+}
+
+type ConnectionConfig struct {
+	URL           string `yaml:"url"`
+	Host          string `yaml:"host"`
+	Port          int    `yaml:"port"`
+	UnitID        uint8  `yaml:"unit_id"`
+	TimeoutMillis int    `yaml:"timeout_millis"`
+}
+
+type PollingConfig struct {
+	IntervalMillis int `yaml:"interval_millis"`
+	TimeoutMillis  int `yaml:"timeout_millis"`
+}
+
+type DeviceConfig struct {
+	DeviceID       string                   `yaml:"device_id"`
+	DeviceName     string                   `yaml:"device_name"`
+	DeviceType     string                   `yaml:"device_type"`
+	Protocol       string                   `yaml:"protocol"`
+	UnitID         uint8                    `yaml:"unit_id"`
+	Tags           map[string]string        `yaml:"tags"`
+	Datapoints     []DatapointConfig        `yaml:"datapoints"`
+	ActionMappings map[string]ActionMapping `yaml:"action_mappings"`
+}
+
+type DatapointConfig struct {
+	Key          string   `yaml:"key"`
+	RegisterType string   `yaml:"register_type"`
+	Address      uint16   `yaml:"address"`
+	Quantity     uint16   `yaml:"quantity"`
+	DataType     string   `yaml:"data_type"`
+	Scale        *float64 `yaml:"scale"`
+	Offset       float64  `yaml:"offset"`
+	Unit         string   `yaml:"unit"`
+	Quality      string   `yaml:"quality"`
+}
+
+type ActionMapping struct {
+	Type         string   `yaml:"type"`
+	RegisterType string   `yaml:"register_type"`
+	Address      uint16   `yaml:"address"`
+	Quantity     uint16   `yaml:"quantity"`
+	DataType     string   `yaml:"data_type"`
+	Param        string   `yaml:"param"`
+	Value        string   `yaml:"value"`
+	Values       []string `yaml:"values"`
 }
 
 func Defaults() Config {
@@ -136,6 +194,63 @@ func (c *Config) Validate() error {
 		}
 		if c.MQTT.ConnectTimeout <= 0 {
 			c.MQTT.ConnectTimeout = Defaults().MQTT.ConnectTimeout
+		}
+	}
+	seenConnectors := make(map[string]struct{}, len(c.Connectors))
+	seenDevices := make(map[string]struct{})
+	for idx := range c.Connectors {
+		conn := &c.Connectors[idx]
+		conn.ConnectorID = strings.TrimSpace(conn.ConnectorID)
+		conn.Protocol = strings.ToLower(strings.TrimSpace(conn.Protocol))
+		if conn.ConnectorID == "" {
+			return fmt.Errorf("connectors[%d].connector_id is required", idx)
+		}
+		if conn.Protocol == "" {
+			return fmt.Errorf("connectors[%d].protocol is required", idx)
+		}
+		if _, ok := seenConnectors[conn.ConnectorID]; ok {
+			return fmt.Errorf("duplicate connector_id %q", conn.ConnectorID)
+		}
+		seenConnectors[conn.ConnectorID] = struct{}{}
+		if conn.Connection.TimeoutMillis <= 0 {
+			conn.Connection.TimeoutMillis = 1000
+		}
+		if conn.Polling.IntervalMillis <= 0 {
+			conn.Polling.IntervalMillis = 1000
+		}
+		if conn.Polling.TimeoutMillis <= 0 {
+			conn.Polling.TimeoutMillis = conn.Connection.TimeoutMillis
+		}
+		for devIdx := range conn.Devices {
+			device := &conn.Devices[devIdx]
+			device.DeviceID = strings.TrimSpace(device.DeviceID)
+			if device.DeviceID == "" {
+				return fmt.Errorf("connectors[%d].devices[%d].device_id is required", idx, devIdx)
+			}
+			if _, ok := seenDevices[device.DeviceID]; ok {
+				return fmt.Errorf("duplicate device_id %q", device.DeviceID)
+			}
+			seenDevices[device.DeviceID] = struct{}{}
+			if device.Protocol == "" {
+				device.Protocol = conn.Protocol
+			} else {
+				device.Protocol = strings.ToLower(strings.TrimSpace(device.Protocol))
+			}
+			for dpIdx := range device.Datapoints {
+				dp := &device.Datapoints[dpIdx]
+				dp.Key = strings.TrimSpace(dp.Key)
+				dp.RegisterType = strings.ToLower(strings.TrimSpace(dp.RegisterType))
+				dp.DataType = strings.ToLower(strings.TrimSpace(dp.DataType))
+				if dp.Key == "" {
+					return fmt.Errorf("connectors[%d].devices[%d].datapoints[%d].key is required", idx, devIdx, dpIdx)
+				}
+				if dp.RegisterType == "" {
+					return fmt.Errorf("connectors[%d].devices[%d].datapoints[%d].register_type is required", idx, devIdx, dpIdx)
+				}
+				if dp.DataType == "" {
+					dp.DataType = "uint16"
+				}
+			}
 		}
 	}
 	return nil

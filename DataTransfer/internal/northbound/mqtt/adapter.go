@@ -138,7 +138,7 @@ func (a *Adapter) handleCommand(payload []byte) {
 		Payload: &dtv1.DeviceMessage_CmdResponse{
 			CmdResponse: response,
 		},
-		Metadata: map[string]string{"phase": "P0"},
+		Metadata: map[string]string{"phase": "P1"},
 	}
 	if err := a.PublishUpstream(context.Background(), responseMsg); err != nil {
 		a.log.Error("mqtt command response publish failed", "error", err, "command_id", msg.GetCommandId())
@@ -152,7 +152,7 @@ func (a *Adapter) handleConfig(payload []byte) {
 		return
 	}
 	response := a.rt.RejectConfig(&update)
-	a.log.Info("mqtt config update rejected in P0", "update_id", response.GetUpdateId(), "error", response.GetErrorMessage())
+	a.log.Info("mqtt config update rejected in P1", "update_id", response.GetUpdateId(), "error", response.GetErrorMessage())
 }
 
 func (a *Adapter) publishBatch(ctx context.Context, topic string, qos byte, messages []*dtv1.DeviceMessage) error {

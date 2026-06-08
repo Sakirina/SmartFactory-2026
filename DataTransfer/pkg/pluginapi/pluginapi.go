@@ -12,6 +12,15 @@ type CommandResponsePayload = dtv1.CommandResponsePayload
 type ReportStrategyConfig = dtv1.ReportStrategyConfig
 type DeviceInfo = dtv1.DeviceInfo
 
+const (
+	ConnectorStateInitializing = "initializing"
+	ConnectorStateRunning      = "running"
+	ConnectorStateError        = "error"
+	ConnectorStateStopped      = "stopped"
+
+	ProtocolModbusTCP = "modbus_tcp"
+)
+
 type Connector interface {
 	Init(config ConnectorConfig) error
 	Start(ctx context.Context, upstream chan<- *DeviceMessage) error

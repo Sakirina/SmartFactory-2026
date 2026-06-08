@@ -1,6 +1,11 @@
 package config
 
-import "testing"
+import (
+	"os"
+	"path/filepath"
+	"strings"
+	"testing"
+)
 
 func TestLoadAppliesEnvironmentOverrides(t *testing.T) {
 	t.Setenv("DT_RUN_MODE", RunModeSplit)
@@ -34,5 +39,90 @@ func TestLoadRejectsSplitWithoutBroker(t *testing.T) {
 	_, err := Load("")
 	if err == nil {
 		t.Fatal("Load succeeded, want validation error")
+	}
+}
+
+func TestLoadConnectorStaticConfig(t *testing.T) {
+	dir := t.TempDir()
+	path := filepath.Join(dir, "datatransfer.yaml")
+	data := []byte(`
+run_mode: embedded
+management:
+  addr: "127.0.0.1:0"
+grpc:
+  enabled: true
+  addr: "127.0.0.1:0"
+mqtt:
+  enabled: false
+runtime:
+  ring_size: 16
+  command_ttl_seconds: 60
+connectors:
+  - connector_id: "modbus-1"
+    protocol: "MODBUS_TCP"
+    connection:
+      host: "127.0.0.1"
+      port: 1502
+    devices:
+      - device_id: "device-1"
+        datapoints:
+          - key: "temperature"
+            register_type: "HOLDING_REGISTER"
+            address: 10
+            data_type: "INT16"
+`)
+	if err := os.WriteFile(path, data, 0o600); err != nil {
+		t.Fatalf("write config: %v", err)
+	}
+
+	cfg, err := Load(path)
+	if err != nil {
+		t.Fatalf("Load returned error: %v", err)
+	}
+	conn := cfg.Connectors[0]
+	if conn.Protocol != "modbus_tcp" {
+		t.Fatalf("protocol = %q, want modbus_tcp", conn.Protocol)
+	}
+	if conn.Connection.TimeoutMillis != 1000 {
+		t.Fatalf("connection timeout = %d, want 1000", conn.Connection.TimeoutMillis)
+	}
+	if conn.Polling.IntervalMillis != 1000 || conn.Polling.TimeoutMillis != 1000 {
+		t.Fatalf("polling = %+v, want default 1000ms interval and timeout", conn.Polling)
+	}
+	dp := conn.Devices[0].Datapoints[0]
+	if dp.RegisterType != "holding_register" || dp.DataType != "int16" {
+		t.Fatalf("datapoint normalization = %+v", dp)
+	}
+}
+
+func TestLoadRejectsDuplicateDeviceID(t *testing.T) {
+	dir := t.TempDir()
+	path := filepath.Join(dir, "datatransfer.yaml")
+	data := []byte(`
+management:
+  addr: "127.0.0.1:0"
+grpc:
+  enabled: true
+  addr: "127.0.0.1:0"
+connectors:
+  - connector_id: "modbus-1"
+    protocol: "modbus_tcp"
+    devices:
+      - device_id: "device-1"
+        datapoints:
+          - key: "a"
+            register_type: "coil"
+      - device_id: "device-1"
+        datapoints:
+          - key: "b"
+            register_type: "coil"
+`)
+	if err := os.WriteFile(path, data, 0o600); err != nil {
+		t.Fatalf("write config: %v", err)
+	}
+
+	_, err := Load(path)
+	if err == nil || !strings.Contains(err.Error(), "duplicate device_id") {
+		t.Fatalf("Load error = %v, want duplicate device_id", err)
 	}
 }

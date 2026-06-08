@@ -4,12 +4,14 @@ go 1.25.0
 
 require (
 	github.com/eclipse/paho.mqtt.golang v1.5.1
+	github.com/simonvetter/modbus v1.6.4
 	google.golang.org/grpc v1.81.1
 	google.golang.org/protobuf v1.36.11
 	gopkg.in/yaml.v3 v3.0.1
 )
 
 require (
+	github.com/goburrow/serial v0.1.0 // indirect
 	github.com/gorilla/websocket v1.5.3 // indirect
 	golang.org/x/net v0.51.0 // indirect
 	golang.org/x/sync v0.20.0 // indirect
