@@ -1,0 +1,338 @@
+syntax = "proto3";
+
+package datatransfer.v1;
+
+option go_package = "competition2026/product/datatransfer/gen/datatransfer/v1;dtv1";
+
+enum Direction {
+  DIRECTION_UNSPECIFIED = 0;
+  UPSTREAM = 1;
+  DOWNSTREAM = 2;
+}
+
+enum MessageType {
+  TYPE_UNSPECIFIED = 0;
+  TELEMETRY = 1;
+  STATUS = 2;
+  EVENT = 3;
+  CMD_RESPONSE = 4;
+  PARAM_UPDATE = 10;
+  CONTROL = 11;
+  QUERY = 12;
+}
+
+enum DataQuality {
+  QUALITY_UNSPECIFIED = 0;
+  GOOD = 1;
+  BAD = 2;
+  UNCERTAIN = 3;
+}
+
+enum DeviceState {
+  STATE_UNSPECIFIED = 0;
+  ONLINE = 1;
+  OFFLINE = 2;
+  ERROR = 3;
+  UNKNOWN = 4;
+}
+
+enum Severity {
+  SEVERITY_UNSPECIFIED = 0;
+  INFO = 1;
+  WARNING = 2;
+  ALARM = 3;
+  CRITICAL = 4;
+}
+
+enum CommandStatus {
+  CMD_STATUS_UNSPECIFIED = 0;
+  SUCCESS = 1;
+  FAILURE = 2;
+  TIMEOUT = 3;
+  REJECTED = 4;
+}
+
+enum CommandPriority {
+  PRIORITY_UNSPECIFIED = 0;
+  NORMAL = 1;
+  HIGH = 2;
+  URGENT = 3;
+}
+
+enum ApplyMode {
+  APPLY_UNSPECIFIED = 0;
+  IMMEDIATE = 1;
+  ON_RESTART = 2;
+}
+
+enum QueryType {
+  QUERY_UNSPECIFIED = 0;
+  READ_CURRENT = 1;
+  READ_RANGE = 2;
+  READ_CONFIG = 3;
+}
+
+enum ReportStrategyMode {
+  STRATEGY_UNSPECIFIED = 0;
+  ON_RECEIVED = 1;
+  ON_CHANGE = 2;
+  ON_REPORT_PERIOD = 3;
+  ON_CHANGE_OR_REPORT_PERIOD = 4;
+}
+
+enum BackpressurePolicy {
+  BP_UNSPECIFIED = 0;
+  BP_BLOCK = 1;
+  BP_DROP_OLDEST = 2;
+  BP_DEGRADE = 3;
+}
+
+message DeviceIdentity {
+  string device_id = 1;
+  string device_name = 2;
+  string device_type = 3;
+  string connector_id = 4;
+  string protocol = 5;
+  map<string, string> tags = 6;
+}
+
+message DeviceMessage {
+  string message_id = 1;
+  int64 timestamp = 2;
+  Direction direction = 3;
+  DeviceIdentity device = 4;
+  MessageType type = 5;
+  string command_id = 6;
+
+  oneof payload {
+    TelemetryPayload telemetry = 10;
+    StatusPayload status = 11;
+    EventPayload event = 12;
+    CommandResponsePayload cmd_response = 13;
+    ParamUpdatePayload param_update = 14;
+    ControlPayload control = 15;
+    QueryPayload query = 16;
+  }
+
+  map<string, string> metadata = 20;
+}
+
+message TelemetryPayload {
+  repeated Datapoint datapoints = 1;
+}
+
+message Datapoint {
+  string key = 1;
+  DataValue value = 2;
+  int64 timestamp = 3;
+  DataQuality quality = 4;
+  string unit = 5;
+}
+
+message DataValue {
+  oneof kind {
+    double double_value = 1;
+    int64 int_value = 2;
+    bool bool_value = 3;
+    string string_value = 4;
+    bytes bytes_value = 5;
+  }
+}
+
+message StatusPayload {
+  DeviceState state = 1;
+  string reason = 2;
+  int64 last_seen = 3;
+}
+
+message EventPayload {
+  string event_type = 1;
+  Severity severity = 2;
+  string description = 3;
+  map<string, string> data = 4;
+}
+
+message CommandResponsePayload {
+  string command_id = 1;
+  CommandStatus status = 2;
+  string message = 3;
+  map<string, string> result = 4;
+}
+
+message ParamUpdatePayload {
+  repeated ParamEntry params = 1;
+}
+
+message ParamEntry {
+  string key = 1;
+  DataValue value = 2;
+  ApplyMode apply_mode = 3;
+}
+
+message ControlPayload {
+  string action = 1;
+  map<string, string> params = 2;
+  CommandOptions options = 3;
+}
+
+message QueryPayload {
+  QueryType query_type = 1;
+  repeated string keys = 2;
+  CommandOptions options = 3;
+}
+
+message CommandOptions {
+  int32 timeout_ms = 1;
+  int32 retry_count = 2;
+  CommandPriority priority = 3;
+}
+
+message DeviceMessageBatch {
+  repeated DeviceMessage messages = 1;
+  string batch_id = 2;
+  int64 created_at = 3;
+}
+
+message ReportStrategyConfig {
+  ReportStrategyMode mode = 1;
+  int32 period_seconds = 2;
+  double deadband = 3;
+}
+
+message DatapointStrategyOverride {
+  string key = 1;
+  ReportStrategyConfig strategy = 2;
+}
+
+message SubscribeRequest {
+  repeated string device_ids = 1;
+  repeated string device_types = 2;
+  repeated string connector_ids = 3;
+  repeated MessageType types = 4;
+  map<string, string> tag_match = 5;
+}
+
+message PullRequest {
+  int64 since_timestamp = 1;
+  int32 max_count = 2;
+  repeated MessageType types = 3;
+}
+
+message CommandAccepted {
+  string command_id = 1;
+  int64 accepted_at = 2;
+}
+
+message ListDevicesRequest {
+  string connector_id = 1;
+  DeviceState state = 2;
+  map<string, string> tag_match = 3;
+}
+
+message ListDevicesResponse {
+  repeated DeviceInfo devices = 1;
+}
+
+message DeviceInfo {
+  DeviceIdentity identity = 1;
+  DeviceState state = 2;
+  int64 connected_at = 3;
+  int64 last_seen = 4;
+}
+
+message DeviceConfigUpdate {
+  enum UpdateAction {
+    ACTION_UNSPECIFIED = 0;
+    ADD_DEVICE = 1;
+    UPDATE_DEVICE = 2;
+    REMOVE_DEVICE = 3;
+    ADD_CONNECTOR = 4;
+    UPDATE_CONNECTOR = 5;
+    REMOVE_CONNECTOR = 6;
+    UPDATE_GLOBAL = 7;
+  }
+
+  string update_id = 1;
+  UpdateAction action = 2;
+  string change_source = 3;
+  int64 timestamp = 4;
+  int64 entity_revision = 5;
+
+  oneof config {
+    DeviceConfigPayload device_config = 10;
+    ConnectorConfigPayload connector_config = 11;
+    GlobalConfigPayload global_config = 12;
+  }
+}
+
+message DeviceConfigPayload {
+  string device_id = 1;
+  string device_name = 2;
+  string device_type = 3;
+  string connector_id = 4;
+  map<string, string> tags = 5;
+  bytes address = 6;
+  bytes datapoints = 7;
+  repeated DatapointStrategyOverride strategy_overrides = 8;
+}
+
+message ConnectorConfigPayload {
+  string connector_id = 1;
+  string protocol = 2;
+  map<string, string> default_tags = 3;
+  bytes connection = 4;
+  bytes polling = 5;
+  bytes converter = 6;
+  ReportStrategyConfig report_strategy = 7;
+}
+
+message GlobalConfigPayload {
+  ReportStrategyConfig default_report_strategy = 1;
+  BackpressurePolicy backpressure_policy = 2;
+  int32 queue_capacity = 3;
+}
+
+message ConfigUpdateResponse {
+  bool success = 1;
+  string error_message = 2;
+  string update_id = 3;
+}
+
+message MetricsRequest {}
+
+message MetricsResponse {
+  int64 timestamp = 1;
+  int32 connected_devices = 2;
+  int32 active_connectors = 3;
+  double upstream_msg_per_sec = 4;
+  double downstream_cmd_per_sec = 5;
+  int64 buffer_size = 6;
+  double buffer_usage_percent = 7;
+  bool backpressure_active = 8;
+  BackpressurePolicy backpressure_policy = 9;
+  double queue_usage_percent = 10;
+  int64 strategy_filtered_count = 11;
+  double strategy_pass_through_rate = 12;
+  map<string, ConnectorMetrics> connectors = 20;
+}
+
+message ConnectorMetrics {
+  string connector_id = 1;
+  string protocol = 2;
+  string state = 3;
+  int32 device_count = 4;
+  double msg_per_sec = 5;
+  double avg_latency_ms = 6;
+  int64 error_count = 7;
+}
+
+service DataTransferService {
+  rpc SubscribeTelemetry(SubscribeRequest) returns (stream DeviceMessage);
+  rpc SubscribeEvents(SubscribeRequest) returns (stream DeviceMessage);
+  rpc PullMessages(PullRequest) returns (DeviceMessageBatch);
+  rpc SendCommand(DeviceMessage) returns (CommandResponsePayload);
+  rpc SendCommandAsync(DeviceMessage) returns (CommandAccepted);
+  rpc PushDeviceConfig(DeviceConfigUpdate) returns (ConfigUpdateResponse);
+  rpc ListDevices(ListDevicesRequest) returns (ListDevicesResponse);
+  rpc GetMetrics(MetricsRequest) returns (MetricsResponse);
+}

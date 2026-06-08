@@ -1,0 +1,21 @@
+run_mode: split
+log:
+  level: info
+management:
+  addr: ":8080"
+grpc:
+  enabled: false
+  addr: "127.0.0.1:50051"
+mqtt:
+  enabled: true
+  broker: "tcp://127.0.0.1:1883"
+  gateway_id: "gateway-001"
+  client_id: ""
+  username: ""
+  password: ""
+  tls:
+    enabled: false
+    insecure_skip_verify: false
+runtime:
+  ring_size: 2048
+  command_ttl_seconds: 3600
