@@ -1,6 +1,7 @@
 package config
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"os"
@@ -52,8 +53,11 @@ type MQTTConfig struct {
 }
 
 type TLSConfig struct {
-	Enabled            bool `yaml:"enabled"`
-	InsecureSkipVerify bool `yaml:"insecure_skip_verify"`
+	Enabled            bool   `yaml:"enabled"`
+	InsecureSkipVerify bool   `yaml:"insecure_skip_verify"`
+	CertFile           string `yaml:"cert_file"`
+	KeyFile            string `yaml:"key_file"`
+	CAFile             string `yaml:"ca_file"`
 }
 
 type RuntimeConfig struct {
@@ -80,14 +84,28 @@ type ConnectorConfig struct {
 	Polling        PollingConfig            `yaml:"polling"`
 	Devices        []DeviceConfig           `yaml:"devices"`
 	ActionMappings map[string]ActionMapping `yaml:"action_mappings"`
+	ReportStrategy ReportStrategyConfig     `yaml:"report_strategy"`
 }
 
 type ConnectionConfig struct {
-	URL           string `yaml:"url"`
-	Host          string `yaml:"host"`
-	Port          int    `yaml:"port"`
-	UnitID        uint8  `yaml:"unit_id"`
-	TimeoutMillis int    `yaml:"timeout_millis"`
+	URL                  string    `yaml:"url"`
+	Host                 string    `yaml:"host"`
+	Port                 int       `yaml:"port"`
+	UnitID               uint8     `yaml:"unit_id"`
+	TimeoutMillis        int       `yaml:"timeout_millis"`
+	Username             string    `yaml:"username"`
+	Password             string    `yaml:"password"`
+	SecurityPolicy       string    `yaml:"security_policy"`
+	SecurityMode         string    `yaml:"security_mode"`
+	CertFile             string    `yaml:"cert_file"`
+	KeyFile              string    `yaml:"key_file"`
+	CAFile               string    `yaml:"ca_file"`
+	TelemetryTopic       string    `yaml:"telemetry_topic"`
+	StatusTopic          string    `yaml:"status_topic"`
+	EventTopic           string    `yaml:"event_topic"`
+	CommandResponseTopic string    `yaml:"cmd_response_topic"`
+	CommandTopic         string    `yaml:"command_topic"`
+	TLS                  TLSConfig `yaml:"tls"`
 }
 
 type PollingConfig struct {
@@ -102,12 +120,15 @@ type DeviceConfig struct {
 	Protocol       string                   `yaml:"protocol"`
 	UnitID         uint8                    `yaml:"unit_id"`
 	Tags           map[string]string        `yaml:"tags"`
+	Address        json.RawMessage          `yaml:"address"`
 	Datapoints     []DatapointConfig        `yaml:"datapoints"`
 	ActionMappings map[string]ActionMapping `yaml:"action_mappings"`
 }
 
 type DatapointConfig struct {
 	Key          string   `yaml:"key"`
+	Source       string   `yaml:"source"`
+	NodeID       string   `yaml:"node_id"`
 	RegisterType string   `yaml:"register_type"`
 	Address      uint16   `yaml:"address"`
 	Quantity     uint16   `yaml:"quantity"`
@@ -122,11 +143,21 @@ type ActionMapping struct {
 	Type         string   `yaml:"type"`
 	RegisterType string   `yaml:"register_type"`
 	Address      uint16   `yaml:"address"`
+	NodeID       string   `yaml:"node_id"`
+	MethodID     string   `yaml:"method_id"`
 	Quantity     uint16   `yaml:"quantity"`
 	DataType     string   `yaml:"data_type"`
 	Param        string   `yaml:"param"`
 	Value        string   `yaml:"value"`
 	Values       []string `yaml:"values"`
+	Topic        string   `yaml:"topic"`
+	Template     string   `yaml:"template"`
+}
+
+type ReportStrategyConfig struct {
+	Mode          string  `yaml:"mode"`
+	PeriodSeconds int     `yaml:"period_seconds"`
+	Deadband      float64 `yaml:"deadband"`
 }
 
 func Defaults() Config {
@@ -265,7 +296,7 @@ func (c *Config) Validate() error {
 		if conn.Connection.TimeoutMillis <= 0 {
 			conn.Connection.TimeoutMillis = 1000
 		}
-		if conn.Polling.IntervalMillis <= 0 {
+		if conn.Polling.IntervalMillis <= 0 && conn.Protocol == "modbus_tcp" {
 			conn.Polling.IntervalMillis = 1000
 		}
 		if conn.Polling.TimeoutMillis <= 0 {
@@ -289,13 +320,26 @@ func (c *Config) Validate() error {
 			for dpIdx := range device.Datapoints {
 				dp := &device.Datapoints[dpIdx]
 				dp.Key = strings.TrimSpace(dp.Key)
+				dp.Source = strings.TrimSpace(dp.Source)
+				dp.NodeID = strings.TrimSpace(dp.NodeID)
 				dp.RegisterType = strings.ToLower(strings.TrimSpace(dp.RegisterType))
 				dp.DataType = strings.ToLower(strings.TrimSpace(dp.DataType))
 				if dp.Key == "" {
 					return fmt.Errorf("connectors[%d].devices[%d].datapoints[%d].key is required", idx, devIdx, dpIdx)
 				}
-				if dp.RegisterType == "" {
-					return fmt.Errorf("connectors[%d].devices[%d].datapoints[%d].register_type is required", idx, devIdx, dpIdx)
+				switch device.Protocol {
+				case "modbus_tcp":
+					if dp.RegisterType == "" {
+						return fmt.Errorf("connectors[%d].devices[%d].datapoints[%d].register_type is required", idx, devIdx, dpIdx)
+					}
+				case "mqtt_device":
+					if dp.Source == "" {
+						return fmt.Errorf("connectors[%d].devices[%d].datapoints[%d].source is required", idx, devIdx, dpIdx)
+					}
+				case "opcua":
+					if dp.NodeID == "" {
+						return fmt.Errorf("connectors[%d].devices[%d].datapoints[%d].node_id is required", idx, devIdx, dpIdx)
+					}
 				}
 				if dp.DataType == "" {
 					dp.DataType = "uint16"

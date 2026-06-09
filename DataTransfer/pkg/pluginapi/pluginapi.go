@@ -11,6 +11,7 @@ type DeviceMessage = dtv1.DeviceMessage
 type CommandResponsePayload = dtv1.CommandResponsePayload
 type ReportStrategyConfig = dtv1.ReportStrategyConfig
 type DeviceInfo = dtv1.DeviceInfo
+type ConfigUpdateResponse = dtv1.ConfigUpdateResponse
 
 const (
 	ConnectorStateInitializing = "initializing"
@@ -18,7 +19,10 @@ const (
 	ConnectorStateError        = "error"
 	ConnectorStateStopped      = "stopped"
 
-	ProtocolModbusTCP = "modbus_tcp"
+	ProtocolModbusTCP  = "modbus_tcp"
+	ProtocolMQTTDevice = "mqtt_device"
+	ProtocolOPCUA      = "opcua"
+	ProtocolSidecar    = "sidecar"
 )
 
 type Connector interface {

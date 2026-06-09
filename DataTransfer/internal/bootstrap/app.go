@@ -13,12 +13,16 @@ import (
 
 	"competition2026/product/datatransfer/internal/buffer"
 	"competition2026/product/datatransfer/internal/config"
+	"competition2026/product/datatransfer/internal/configmanager"
 	"competition2026/product/datatransfer/internal/connector"
 	_ "competition2026/product/datatransfer/internal/connector/modbus"
+	_ "competition2026/product/datatransfer/internal/connector/mqttdevice"
+	_ "competition2026/product/datatransfer/internal/connector/opcua"
 	grpcadapter "competition2026/product/datatransfer/internal/northbound/grpc"
 	mqttadapter "competition2026/product/datatransfer/internal/northbound/mqtt"
 	"competition2026/product/datatransfer/internal/observability"
 	dtruntime "competition2026/product/datatransfer/internal/runtime"
+	"competition2026/product/datatransfer/internal/storage"
 	"google.golang.org/grpc"
 )
 
@@ -38,10 +42,11 @@ func (a App) Run(ctx context.Context) error {
 		return err
 	}
 	rt.AttachConnectorManager(connectorManager)
+	rt.AttachConfigManager(configmanager.New(connectorManager, logger))
 
 	var bufferStore *buffer.Store
 	if cfg.Buffer.Enabled {
-		bufferStore, err = buffer.Open(ctx, cfg.Buffer)
+		bufferStore, err = storage.OpenBuffer(ctx, cfg.Buffer)
 		if err != nil {
 			return err
 		}

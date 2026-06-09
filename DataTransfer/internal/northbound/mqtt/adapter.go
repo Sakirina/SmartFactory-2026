@@ -2,7 +2,6 @@ package mqtt
 
 import (
 	"context"
-	"crypto/tls"
 	"fmt"
 	"log/slog"
 	"sync/atomic"
@@ -13,6 +12,7 @@ import (
 	"competition2026/product/datatransfer/internal/config"
 	dterrors "competition2026/product/datatransfer/internal/errors"
 	dtruntime "competition2026/product/datatransfer/internal/runtime"
+	"competition2026/product/datatransfer/internal/security"
 	paho "github.com/eclipse/paho.mqtt.golang"
 	"google.golang.org/protobuf/proto"
 )
@@ -82,7 +82,11 @@ func (a *Adapter) Start(ctx context.Context) error {
 		opts.SetPassword(a.cfg.Password)
 	}
 	if a.cfg.TLS.Enabled {
-		opts.SetTLSConfig(&tls.Config{InsecureSkipVerify: a.cfg.TLS.InsecureSkipVerify})
+		tlsCfg, err := security.TLSConfig(a.cfg.TLS)
+		if err != nil {
+			return err
+		}
+		opts.SetTLSConfig(tlsCfg)
 	}
 	opts.SetConnectionLostHandler(func(_ paho.Client, err error) {
 		a.connected.Store(false)
@@ -220,8 +224,8 @@ func (a *Adapter) handleConfig(payload []byte) {
 		a.log.Error("mqtt config decode failed", "code", dterrors.CodeMQTTDecodeFailed, "error", err)
 		return
 	}
-	response := a.rt.RejectConfig(&update)
-	a.log.Info("mqtt config update rejected in P1", "update_id", response.GetUpdateId(), "error", response.GetErrorMessage())
+	response := a.rt.ApplyConfig(&update)
+	a.log.Info("mqtt config update handled", "update_id", response.GetUpdateId(), "success", response.GetSuccess(), "error", response.GetErrorMessage())
 }
 
 func (a *Adapter) IsConnected() bool {

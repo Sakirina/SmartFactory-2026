@@ -77,3 +77,57 @@ connectors:
             data_type: "float32"
             unit: "kwh"
             quality: "good"
+
+  # MQTT Device example. Uncomment when a device-side MQTT broker is available.
+  # - connector_id: "mqtt-device-local"
+  #   protocol: "mqtt_device"
+  #   default_tags:
+  #     site: "lab"
+  #   connection:
+  #     url: "tcp://127.0.0.1:1883"
+  #     telemetry_topic: "devices/{device_id}/telemetry"
+  #     status_topic: "devices/{device_id}/status"
+  #     event_topic: "devices/{device_id}/event"
+  #     cmd_response_topic: "devices/{device_id}/cmd-response"
+  #     command_topic: "devices/{device_id}/command"
+  #   action_mappings:
+  #     start:
+  #       topic: "devices/{device_id}/command"
+  #   devices:
+  #     - device_id: "mqtt-device-001"
+  #       device_name: "MQTT Device Demo"
+  #       device_type: "sensor"
+  #       datapoints:
+  #         - key: "temperature"
+  #           source: "metrics.temperature"
+  #           data_type: "float64"
+  #           unit: "celsius"
+  #         - key: "running"
+  #           source: "state.running"
+  #           data_type: "bool"
+
+  # OPC-UA example. Uncomment when an OPC-UA endpoint is available.
+  # - connector_id: "opcua-local"
+  #   protocol: "opcua"
+  #   connection:
+  #     url: "opc.tcp://127.0.0.1:4840"
+  #     security_policy: "None"
+  #     security_mode: "None"
+  #   action_mappings:
+  #     reset:
+  #       type: "call"
+  #       node_id: "ns=2;s=Machine"
+  #       method_id: "ns=2;s=Reset"
+  #   devices:
+  #     - device_id: "opcua-device-001"
+  #       device_name: "OPC-UA Demo"
+  #       device_type: "plc"
+  #       datapoints:
+  #         - key: "temperature"
+  #           node_id: "ns=2;s=Temperature"
+  #           data_type: "float64"
+  #           unit: "celsius"
+
+  # Sidecar mock is exposed as a local plugin isolation contract in
+  # proto/datatransfer/plugin/v1/plugin.proto. P3 does not launch external
+  # sidecar processes from YAML yet.

@@ -12,6 +12,7 @@ import (
 	dtv1 "competition2026/product/datatransfer/gen/datatransfer/v1"
 	"competition2026/product/datatransfer/internal/command"
 	"competition2026/product/datatransfer/internal/config"
+	"competition2026/product/datatransfer/internal/configmanager"
 	"competition2026/product/datatransfer/internal/connector"
 	dterrors "competition2026/product/datatransfer/internal/errors"
 )
@@ -20,6 +21,7 @@ type Runtime struct {
 	cfg        config.Config
 	commands   *command.Service
 	connectors *connector.Manager
+	configs    *configmanager.Manager
 	upstream   UpstreamSink
 	buffer     PersistentBufferProvider
 	store      *ringStore
@@ -100,6 +102,12 @@ func (r *Runtime) AttachConnectorManager(manager *connector.Manager) {
 	r.connectors = manager
 	r.mu.Unlock()
 	r.commands.SetResolver(manager)
+}
+
+func (r *Runtime) AttachConfigManager(manager *configmanager.Manager) {
+	r.mu.Lock()
+	r.configs = manager
+	r.mu.Unlock()
 }
 
 func (r *Runtime) AttachUpstreamSink(sink UpstreamSink) {
@@ -234,6 +242,20 @@ func (r *Runtime) RejectConfig(update *dtv1.DeviceConfigUpdate) *dtv1.ConfigUpda
 		ErrorMessage: fmt.Sprintf("%s: configuration hot reload is not enabled in P1", dterrors.CodeConfigNotEnabled),
 		UpdateId:     updateID,
 	}
+}
+
+func (r *Runtime) ApplyConfig(update *dtv1.DeviceConfigUpdate) *dtv1.ConfigUpdateResponse {
+	r.mu.RLock()
+	manager := r.configs
+	r.mu.RUnlock()
+	if manager == nil {
+		return r.RejectConfig(update)
+	}
+	response := manager.Apply(update)
+	if !response.GetSuccess() {
+		r.configRejectTotal.Add(1)
+	}
+	return response
 }
 
 func (r *Runtime) ListDevices(req *dtv1.ListDevicesRequest) *dtv1.ListDevicesResponse {

@@ -62,3 +62,68 @@ connectors:
             data_type: "uint16"
             unit: "rpm"
             quality: "good"
+
+  # MQTT Device example. This is a southbound broker connection; it is separate
+  # from the northbound MQTT broker configured above.
+  # - connector_id: "mqtt-device-gateway-001"
+  #   protocol: "mqtt_device"
+  #   default_tags:
+  #     gateway: "gateway-001"
+  #     site: "plant-a"
+  #   connection:
+  #     url: "tcp://127.0.0.1:1884"
+  #     telemetry_topic: "devices/{device_id}/telemetry"
+  #     status_topic: "devices/{device_id}/status"
+  #     event_topic: "devices/{device_id}/event"
+  #     cmd_response_topic: "devices/{device_id}/cmd-response"
+  #     command_topic: "devices/{device_id}/command"
+  #   devices:
+  #     - device_id: "mqtt-device-plant-a-001"
+  #       device_name: "Plant A MQTT Device"
+  #       device_type: "sensor"
+  #       tags:
+  #         workshop: "A"
+  #       datapoints:
+  #         - key: "temperature"
+  #           source: "metrics.temperature"
+  #           data_type: "float64"
+  #           unit: "celsius"
+
+  # OPC-UA example. TLS and username/password fields are reserved through the
+  # shared connection model and can be enabled after the target endpoint policy
+  # is confirmed.
+  # - connector_id: "opcua-gateway-001"
+  #   protocol: "opcua"
+  #   connection:
+  #     url: "opc.tcp://127.0.0.1:4840"
+  #     username: ""
+  #     password: ""
+  #     security_policy: "None"
+  #     security_mode: "None"
+  #     tls:
+  #       enabled: false
+  #       insecure_skip_verify: false
+  #       cert_file: ""
+  #       key_file: ""
+  #       ca_file: ""
+  #   action_mappings:
+  #     set_speed:
+  #       type: "write"
+  #       node_id: "ns=2;s=SpeedSetpoint"
+  #       param: "speed"
+  #     reset:
+  #       type: "call"
+  #       node_id: "ns=2;s=Machine"
+  #       method_id: "ns=2;s=Reset"
+  #   devices:
+  #     - device_id: "opcua-device-plant-a-001"
+  #       device_name: "Plant A OPC-UA Device"
+  #       device_type: "plc"
+  #       datapoints:
+  #         - key: "speed"
+  #           node_id: "ns=2;s=Speed"
+  #           data_type: "float64"
+  #           unit: "rpm"
+
+  # Sidecar mock lives in internal/connector/sidecar and is validated with
+  # bufconn tests. External sidecar process management remains outside P3.

@@ -60,7 +60,7 @@ func (s *Server) SendCommandAsync(ctx context.Context, msg *dtv1.DeviceMessage) 
 }
 
 func (s *Server) PushDeviceConfig(_ context.Context, update *dtv1.DeviceConfigUpdate) (*dtv1.ConfigUpdateResponse, error) {
-	return s.rt.RejectConfig(update), nil
+	return s.rt.ApplyConfig(update), nil
 }
 
 func (s *Server) ListDevices(_ context.Context, req *dtv1.ListDevicesRequest) (*dtv1.ListDevicesResponse, error) {

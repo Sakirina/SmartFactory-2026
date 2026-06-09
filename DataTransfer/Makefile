@@ -5,7 +5,7 @@ GOMODCACHE ?= $(CURDIR)/.cache/go-mod
 GOENV := GOPATH=$(GOPATH) GOCACHE=$(GOCACHE) GOMODCACHE=$(GOMODCACHE)
 PATH := $(TOOLS_BIN):$(PATH)
 
-PROTO_FILE := proto/datatransfer/v1/datatransfer.proto
+PROTO_FILES := proto/datatransfer/v1/datatransfer.proto proto/datatransfer/plugin/v1/plugin.proto
 
 .PHONY: tools proto test
 
@@ -18,7 +18,7 @@ proto: tools
 	protoc --proto_path=. \
 		--go_out=. --go_opt=module=competition2026/product/datatransfer \
 		--go-grpc_out=. --go-grpc_opt=module=competition2026/product/datatransfer \
-		$(PROTO_FILE)
+		$(PROTO_FILES)
 
 test:
 	$(GOENV) go test ./...
