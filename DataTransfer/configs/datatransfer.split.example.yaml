@@ -19,6 +19,15 @@ mqtt:
 runtime:
   ring_size: 2048
   command_ttl_seconds: 3600
+buffer:
+  enabled: true
+  storage_type: "sqlite"
+  path: "data/datatransfer-buffer.db"
+  max_size_mb: 512
+  ttl_hours: 168
+  resume_rate_limit: 1000
+  resume_batch_size: 100
+  cleanup_interval_seconds: 60
 connectors:
   - connector_id: "modbus-gateway-001"
     protocol: "modbus_tcp"

@@ -20,6 +20,8 @@ type Runtime struct {
 	cfg        config.Config
 	commands   *command.Service
 	connectors *connector.Manager
+	upstream   UpstreamSink
+	buffer     PersistentBufferProvider
 	store      *ringStore
 
 	mu            sync.RWMutex
@@ -41,6 +43,27 @@ type subscription struct {
 	ch     chan *dtv1.DeviceMessage
 }
 
+type UpstreamSink interface {
+	HandleUpstream(ctx context.Context, msg *dtv1.DeviceMessage) error
+}
+
+type PersistentBufferProvider interface {
+	BufferSnapshot() PersistentBufferSnapshot
+}
+
+type PersistentBufferSnapshot struct {
+	Pending          int64
+	Sending          int64
+	Completed        int64
+	Dropped          int64
+	Retry            int64
+	LastErrorCount   int64
+	CapacityBytes    int64
+	UsedBytes        int64
+	UsagePercent     float64
+	ReplayBatchTotal int64
+}
+
 type Snapshot struct {
 	Timestamp             int64
 	Ready                 bool
@@ -56,6 +79,7 @@ type Snapshot struct {
 	DuplicateCommandTotal int64
 	ConfigRejectTotal     int64
 	DiscoveryEventTotal   int64
+	PersistentBuffer      PersistentBufferSnapshot
 }
 
 func New(cfg config.Config) *Runtime {
@@ -78,12 +102,34 @@ func (r *Runtime) AttachConnectorManager(manager *connector.Manager) {
 	r.commands.SetResolver(manager)
 }
 
+func (r *Runtime) AttachUpstreamSink(sink UpstreamSink) {
+	r.mu.Lock()
+	r.upstream = sink
+	r.mu.Unlock()
+}
+
+func (r *Runtime) AttachPersistentBuffer(provider PersistentBufferProvider) {
+	r.mu.Lock()
+	r.buffer = provider
+	r.mu.Unlock()
+}
+
 func (r *Runtime) Publish(msg *dtv1.DeviceMessage) error {
 	if msg == nil {
 		return fmt.Errorf("%s: message is nil", dterrors.CodeRuntimeInvalid)
 	}
 	if msg.Timestamp == 0 {
 		msg.Timestamp = nowMillis()
+	}
+	if msg.Direction == dtv1.Direction_UPSTREAM {
+		r.mu.RLock()
+		sink := r.upstream
+		r.mu.RUnlock()
+		if sink != nil {
+			if err := sink.HandleUpstream(context.Background(), msg); err != nil {
+				return err
+			}
+		}
 	}
 	r.store.Add(msg)
 	if msg.Direction == dtv1.Direction_UPSTREAM {
@@ -203,17 +249,23 @@ func (r *Runtime) ListDevices(req *dtv1.ListDevicesRequest) *dtv1.ListDevicesRes
 func (r *Runtime) MetricsResponse() *dtv1.MetricsResponse {
 	snapshot := r.Snapshot()
 	_, _, connectorMetrics := r.connectorSnapshot()
+	bufferSize := snapshot.BufferSize
+	bufferUsage := snapshot.BufferUsagePercent
+	if r.cfg.RunMode == config.RunModeSplit {
+		bufferSize = snapshot.PersistentBuffer.Pending + snapshot.PersistentBuffer.Sending
+		bufferUsage = snapshot.PersistentBuffer.UsagePercent
+	}
 	return &dtv1.MetricsResponse{
 		Timestamp:           snapshot.Timestamp,
 		ConnectedDevices:    snapshot.ConnectedDevices,
 		ActiveConnectors:    snapshot.ActiveConnectors,
 		UpstreamMsgPerSec:   float64(snapshot.UpstreamTotal),
 		DownstreamCmdPerSec: float64(snapshot.DownstreamTotal),
-		BufferSize:          snapshot.BufferSize,
-		BufferUsagePercent:  snapshot.BufferUsagePercent,
+		BufferSize:          bufferSize,
+		BufferUsagePercent:  bufferUsage,
 		BackpressureActive:  false,
 		BackpressurePolicy:  dtv1.BackpressurePolicy_BP_UNSPECIFIED,
-		QueueUsagePercent:   snapshot.BufferUsagePercent,
+		QueueUsagePercent:   bufferUsage,
 		Connectors:          connectorMetrics,
 	}
 }
@@ -226,6 +278,11 @@ func (r *Runtime) Snapshot() Snapshot {
 
 	bufferSize, bufferUsage := r.store.Stats()
 	connectedDevices, activeConnectors, _ := r.connectorSnapshot()
+	persistentBuffer := r.persistentBufferSnapshot()
+	if r.cfg.RunMode == config.RunModeSplit && persistentBuffer.CapacityBytes > 0 {
+		bufferSize = int(persistentBuffer.Pending + persistentBuffer.Sending)
+		bufferUsage = persistentBuffer.UsagePercent
+	}
 	return Snapshot{
 		Timestamp:             nowMillis(),
 		Ready:                 r.ready(grpcServing, mqttConnected),
@@ -241,6 +298,7 @@ func (r *Runtime) Snapshot() Snapshot {
 		DuplicateCommandTotal: r.duplicateCommandTotal.Load(),
 		ConfigRejectTotal:     r.configRejectTotal.Load(),
 		DiscoveryEventTotal:   r.discoveryEventTotal.Load(),
+		PersistentBuffer:      persistentBuffer,
 	}
 }
 
@@ -311,6 +369,16 @@ func (r *Runtime) connectorSnapshot() (int32, int32, map[string]*dtv1.ConnectorM
 		return 0, 0, map[string]*dtv1.ConnectorMetrics{}
 	}
 	return manager.Snapshot()
+}
+
+func (r *Runtime) persistentBufferSnapshot() PersistentBufferSnapshot {
+	r.mu.RLock()
+	provider := r.buffer
+	r.mu.RUnlock()
+	if provider == nil {
+		return PersistentBufferSnapshot{}
+	}
+	return provider.BufferSnapshot()
 }
 
 func (r *Runtime) countCommandResponse(response *dtv1.CommandResponsePayload, duplicate bool) {

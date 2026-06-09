@@ -43,6 +43,16 @@ func RenderPrometheus(snapshot dtruntime.Snapshot) string {
 	writeMetric(&b, "datatransfer_duplicate_commands_total", float64(snapshot.DuplicateCommandTotal))
 	writeMetric(&b, "datatransfer_config_rejections_total", float64(snapshot.ConfigRejectTotal))
 	writeMetric(&b, "datatransfer_discovery_events_total", float64(snapshot.DiscoveryEventTotal))
+	writeMetric(&b, "datatransfer_persistent_buffer_pending", float64(snapshot.PersistentBuffer.Pending))
+	writeMetric(&b, "datatransfer_persistent_buffer_sending", float64(snapshot.PersistentBuffer.Sending))
+	writeMetric(&b, "datatransfer_persistent_buffer_completed", float64(snapshot.PersistentBuffer.Completed))
+	writeMetric(&b, "datatransfer_persistent_buffer_dropped_total", float64(snapshot.PersistentBuffer.Dropped))
+	writeMetric(&b, "datatransfer_persistent_buffer_retry_total", float64(snapshot.PersistentBuffer.Retry))
+	writeMetric(&b, "datatransfer_persistent_buffer_last_error_total", float64(snapshot.PersistentBuffer.LastErrorCount))
+	writeMetric(&b, "datatransfer_persistent_buffer_capacity_bytes", float64(snapshot.PersistentBuffer.CapacityBytes))
+	writeMetric(&b, "datatransfer_persistent_buffer_used_bytes", float64(snapshot.PersistentBuffer.UsedBytes))
+	writeMetric(&b, "datatransfer_persistent_buffer_usage_percent", snapshot.PersistentBuffer.UsagePercent)
+	writeMetric(&b, "datatransfer_replay_batches_total", float64(snapshot.PersistentBuffer.ReplayBatchTotal))
 	return b.String()
 }
 

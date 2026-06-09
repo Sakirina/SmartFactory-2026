@@ -13,6 +13,8 @@ func TestLoadAppliesEnvironmentOverrides(t *testing.T) {
 	t.Setenv("DT_MQTT_GATEWAY_ID", "edge-001")
 	t.Setenv("DT_GRPC_ENABLED", "false")
 	t.Setenv("DT_RUNTIME_RING_SIZE", "42")
+	t.Setenv("DT_BUFFER_PATH", filepath.Join(t.TempDir(), "buffer.db"))
+	t.Setenv("DT_BUFFER_RESUME_BATCH_SIZE", "7")
 
 	cfg, err := Load("")
 	if err != nil {
@@ -30,6 +32,12 @@ func TestLoadAppliesEnvironmentOverrides(t *testing.T) {
 	if cfg.Runtime.RingSize != 42 {
 		t.Fatalf("RingSize = %d", cfg.Runtime.RingSize)
 	}
+	if !cfg.Buffer.Enabled {
+		t.Fatal("Buffer should be enabled for split mode")
+	}
+	if cfg.Buffer.ResumeBatchSize != 7 {
+		t.Fatalf("ResumeBatchSize = %d, want 7", cfg.Buffer.ResumeBatchSize)
+	}
 }
 
 func TestLoadRejectsSplitWithoutBroker(t *testing.T) {
@@ -39,6 +47,18 @@ func TestLoadRejectsSplitWithoutBroker(t *testing.T) {
 	_, err := Load("")
 	if err == nil {
 		t.Fatal("Load succeeded, want validation error")
+	}
+}
+
+func TestLoadRejectsUnsupportedBufferStorage(t *testing.T) {
+	t.Setenv("DT_RUN_MODE", RunModeSplit)
+	t.Setenv("DT_MQTT_BROKER", "tcp://127.0.0.1:1883")
+	t.Setenv("DT_MQTT_GATEWAY_ID", "edge-001")
+	t.Setenv("DT_BUFFER_STORAGE_TYPE", "file")
+
+	_, err := Load("")
+	if err == nil || !strings.Contains(err.Error(), "buffer.storage_type") {
+		t.Fatalf("Load error = %v, want buffer.storage_type validation error", err)
 	}
 }
 

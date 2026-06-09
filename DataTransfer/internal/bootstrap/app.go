@@ -11,6 +11,7 @@ import (
 	"strings"
 	"time"
 
+	"competition2026/product/datatransfer/internal/buffer"
 	"competition2026/product/datatransfer/internal/config"
 	"competition2026/product/datatransfer/internal/connector"
 	_ "competition2026/product/datatransfer/internal/connector/modbus"
@@ -38,7 +39,20 @@ func (a App) Run(ctx context.Context) error {
 	}
 	rt.AttachConnectorManager(connectorManager)
 
-	errCh := make(chan error, 4)
+	var bufferStore *buffer.Store
+	if cfg.Buffer.Enabled {
+		bufferStore, err = buffer.Open(ctx, cfg.Buffer)
+		if err != nil {
+			return err
+		}
+		defer func() {
+			if err := bufferStore.Close(); err != nil {
+				logger.Warn("buffer store close failed", "error", err)
+			}
+		}()
+	}
+
+	errCh := make(chan error, 5)
 	httpServer := &http.Server{
 		Addr:              cfg.Management.Addr,
 		Handler:           observability.Handler(rt),
@@ -76,7 +90,15 @@ func (a App) Run(ctx context.Context) error {
 	}
 
 	if cfg.MQTT.Enabled {
-		adapter := mqttadapter.New(cfg.MQTT, rt, logger)
+		var adapter *mqttadapter.Adapter
+		if bufferStore != nil {
+			adapter = mqttadapter.New(cfg.MQTT, rt, logger, mqttadapter.WithBuffer(bufferStore, cfg.Buffer))
+			rt.AttachUpstreamSink(adapter)
+			rt.AttachPersistentBuffer(adapter)
+		} else {
+			adapter = mqttadapter.New(cfg.MQTT, rt, logger)
+			rt.AttachUpstreamSink(adapter)
+		}
 		go func() {
 			logger.Info("mqtt adapter starting", "broker", cfg.MQTT.Broker, "gateway_id", cfg.MQTT.GatewayID)
 			if err := adapter.Start(ctx); err != nil && !errors.Is(err, context.Canceled) {

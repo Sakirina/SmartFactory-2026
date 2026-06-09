@@ -22,6 +22,7 @@ type Config struct {
 	Management ManagementConfig  `yaml:"management"`
 	GRPC       GRPCConfig        `yaml:"grpc"`
 	MQTT       MQTTConfig        `yaml:"mqtt"`
+	Buffer     BufferConfig      `yaml:"buffer"`
 	Runtime    RuntimeConfig     `yaml:"runtime"`
 	Connectors []ConnectorConfig `yaml:"connectors"`
 }
@@ -58,6 +59,17 @@ type TLSConfig struct {
 type RuntimeConfig struct {
 	RingSize          int `yaml:"ring_size"`
 	CommandTTLSeconds int `yaml:"command_ttl_seconds"`
+}
+
+type BufferConfig struct {
+	Enabled                bool   `yaml:"enabled"`
+	StorageType            string `yaml:"storage_type"`
+	Path                   string `yaml:"path"`
+	MaxSizeMB              int    `yaml:"max_size_mb"`
+	TTLHours               int    `yaml:"ttl_hours"`
+	ResumeRateLimit        int    `yaml:"resume_rate_limit"`
+	ResumeBatchSize        int    `yaml:"resume_batch_size"`
+	CleanupIntervalSeconds int    `yaml:"cleanup_interval_seconds"`
 }
 
 type ConnectorConfig struct {
@@ -134,6 +146,16 @@ func Defaults() Config {
 			Enabled:        false,
 			ConnectTimeout: 5,
 		},
+		Buffer: BufferConfig{
+			Enabled:                false,
+			StorageType:            "sqlite",
+			Path:                   "data/datatransfer-buffer.db",
+			MaxSizeMB:              512,
+			TTLHours:               168,
+			ResumeRateLimit:        1000,
+			ResumeBatchSize:        100,
+			CleanupIntervalSeconds: 60,
+		},
 		Runtime: RuntimeConfig{
 			RingSize:          1024,
 			CommandTTLSeconds: int(time.Hour.Seconds()),
@@ -181,6 +203,7 @@ func (c *Config) Validate() error {
 	}
 	if c.RunMode == RunModeSplit {
 		c.MQTT.Enabled = true
+		c.Buffer.Enabled = true
 	}
 	if c.MQTT.Enabled {
 		if strings.TrimSpace(c.MQTT.Broker) == "" {
@@ -194,6 +217,33 @@ func (c *Config) Validate() error {
 		}
 		if c.MQTT.ConnectTimeout <= 0 {
 			c.MQTT.ConnectTimeout = Defaults().MQTT.ConnectTimeout
+		}
+	}
+	if c.Buffer.Enabled {
+		c.Buffer.StorageType = strings.ToLower(strings.TrimSpace(c.Buffer.StorageType))
+		if c.Buffer.StorageType == "" {
+			c.Buffer.StorageType = Defaults().Buffer.StorageType
+		}
+		if c.Buffer.StorageType != "sqlite" {
+			return fmt.Errorf("buffer.storage_type %q is not supported in P2; use %q", c.Buffer.StorageType, "sqlite")
+		}
+		if strings.TrimSpace(c.Buffer.Path) == "" {
+			c.Buffer.Path = Defaults().Buffer.Path
+		}
+		if c.Buffer.MaxSizeMB <= 0 {
+			c.Buffer.MaxSizeMB = Defaults().Buffer.MaxSizeMB
+		}
+		if c.Buffer.TTLHours <= 0 {
+			c.Buffer.TTLHours = Defaults().Buffer.TTLHours
+		}
+		if c.Buffer.ResumeRateLimit <= 0 {
+			c.Buffer.ResumeRateLimit = Defaults().Buffer.ResumeRateLimit
+		}
+		if c.Buffer.ResumeBatchSize <= 0 {
+			c.Buffer.ResumeBatchSize = Defaults().Buffer.ResumeBatchSize
+		}
+		if c.Buffer.CleanupIntervalSeconds <= 0 {
+			c.Buffer.CleanupIntervalSeconds = Defaults().Buffer.CleanupIntervalSeconds
 		}
 	}
 	seenConnectors := make(map[string]struct{}, len(c.Connectors))
@@ -271,6 +321,14 @@ func applyEnv(cfg *Config, lookup func(string) (string, bool)) {
 	setBool(lookup, "DT_MQTT_TLS_ENABLED", &cfg.MQTT.TLS.Enabled)
 	setBool(lookup, "DT_MQTT_TLS_INSECURE_SKIP_VERIFY", &cfg.MQTT.TLS.InsecureSkipVerify)
 	setInt(lookup, "DT_MQTT_CONNECT_TIMEOUT_SECONDS", &cfg.MQTT.ConnectTimeout)
+	setBool(lookup, "DT_BUFFER_ENABLED", &cfg.Buffer.Enabled)
+	setString(lookup, "DT_BUFFER_STORAGE_TYPE", &cfg.Buffer.StorageType)
+	setString(lookup, "DT_BUFFER_PATH", &cfg.Buffer.Path)
+	setInt(lookup, "DT_BUFFER_MAX_SIZE_MB", &cfg.Buffer.MaxSizeMB)
+	setInt(lookup, "DT_BUFFER_TTL_HOURS", &cfg.Buffer.TTLHours)
+	setInt(lookup, "DT_BUFFER_RESUME_RATE_LIMIT", &cfg.Buffer.ResumeRateLimit)
+	setInt(lookup, "DT_BUFFER_RESUME_BATCH_SIZE", &cfg.Buffer.ResumeBatchSize)
+	setInt(lookup, "DT_BUFFER_CLEANUP_INTERVAL_SECONDS", &cfg.Buffer.CleanupIntervalSeconds)
 	setInt(lookup, "DT_RUNTIME_RING_SIZE", &cfg.Runtime.RingSize)
 	setInt(lookup, "DT_RUNTIME_COMMAND_TTL_SECONDS", &cfg.Runtime.CommandTTLSeconds)
 }

@@ -92,6 +92,35 @@ func TestAsyncCommandPublishesCommandResponse(t *testing.T) {
 	}
 }
 
+func TestSplitMetricsUsePersistentBufferSnapshot(t *testing.T) {
+	cfg := config.Defaults()
+	cfg.RunMode = config.RunModeSplit
+	rt := New(cfg)
+	rt.AttachPersistentBuffer(fakeBufferProvider{snapshot: PersistentBufferSnapshot{
+		Pending:       3,
+		Sending:       2,
+		CapacityBytes: 100,
+		UsedBytes:     25,
+		UsagePercent:  25,
+	}})
+
+	response := rt.MetricsResponse()
+	if response.GetBufferSize() != 5 {
+		t.Fatalf("buffer size = %d, want 5", response.GetBufferSize())
+	}
+	if response.GetBufferUsagePercent() != 25 {
+		t.Fatalf("buffer usage = %v, want 25", response.GetBufferUsagePercent())
+	}
+}
+
+type fakeBufferProvider struct {
+	snapshot PersistentBufferSnapshot
+}
+
+func (p fakeBufferProvider) BufferSnapshot() PersistentBufferSnapshot {
+	return p.snapshot
+}
+
 func telemetryMessage(id, workshop string) *dtv1.DeviceMessage {
 	return &dtv1.DeviceMessage{
 		MessageId: id,

@@ -12,6 +12,7 @@ import (
 
 func TestManagementEndpoints(t *testing.T) {
 	rt := dtruntime.New(config.Defaults())
+	rt.AttachPersistentBuffer(metricsBufferProvider{})
 	handler := Handler(rt)
 
 	health := httptest.NewRecorder()
@@ -40,9 +41,28 @@ func TestManagementEndpoints(t *testing.T) {
 		"datatransfer_ready 1",
 		"datatransfer_active_connectors",
 		"datatransfer_discovery_events_total",
+		"datatransfer_persistent_buffer_pending 3",
+		"datatransfer_replay_batches_total 2",
 	} {
 		if !strings.Contains(body, expected) {
 			t.Fatalf("metrics body missing %q:\n%s", expected, body)
 		}
+	}
+}
+
+type metricsBufferProvider struct{}
+
+func (metricsBufferProvider) BufferSnapshot() dtruntime.PersistentBufferSnapshot {
+	return dtruntime.PersistentBufferSnapshot{
+		Pending:          3,
+		Sending:          1,
+		Completed:        5,
+		Dropped:          1,
+		Retry:            2,
+		LastErrorCount:   1,
+		CapacityBytes:    1024,
+		UsedBytes:        512,
+		UsagePercent:     50,
+		ReplayBatchTotal: 2,
 	}
 }
