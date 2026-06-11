@@ -25,10 +25,49 @@ var (
 const (
 	defaultControlTimeout = 10 * time.Second
 	defaultCommandTimeout = 30 * time.Second
-
-	retryBaseInterval = 200 * time.Millisecond
-	retryMaxInterval  = 5 * time.Second
 )
+
+// RetryPolicy 为重试间隔策略(FR-S-014:固定间隔与指数退避均须支持)。
+// 重试次数不在此处:始终由调用方按指令通过 CommandOptions.retry_count 指定。
+type RetryPolicy struct {
+	Mode        string // RetryModeFixed | RetryModeExponential
+	Interval    time.Duration
+	MaxInterval time.Duration
+}
+
+const (
+	RetryModeFixed       = "fixed"
+	RetryModeExponential = "exponential"
+)
+
+// DefaultRetryPolicy 与历史行为一致:指数退避,200ms 起、上限 5s。
+func DefaultRetryPolicy() RetryPolicy {
+	return RetryPolicy{
+		Mode:        RetryModeExponential,
+		Interval:    200 * time.Millisecond,
+		MaxInterval: 5 * time.Second,
+	}
+}
+
+// intervalFor 计算第 attempt 次重试(从 1 起)前的等待时长。
+func (p RetryPolicy) intervalFor(attempt int) time.Duration {
+	interval := p.Interval
+	if interval <= 0 {
+		interval = DefaultRetryPolicy().Interval
+	}
+	if p.Mode == RetryModeFixed {
+		return interval
+	}
+	limit := p.MaxInterval
+	if limit <= 0 {
+		limit = DefaultRetryPolicy().MaxInterval
+	}
+	backoff := interval << (attempt - 1)
+	if backoff > limit || backoff <= 0 {
+		return limit
+	}
+	return backoff
+}
 
 type Executor interface {
 	SendCommand(ctx context.Context, cmd *dtv1.DeviceMessage) (*dtv1.CommandResponsePayload, error)
@@ -46,6 +85,7 @@ type Result struct {
 type Service struct {
 	mu       sync.Mutex
 	ttl      time.Duration
+	retry    RetryPolicy
 	resolver Resolver
 	records  map[string]record
 }
@@ -57,11 +97,19 @@ type record struct {
 }
 
 func NewService(ttl time.Duration) *Service {
+	return NewServiceWithRetry(ttl, DefaultRetryPolicy())
+}
+
+func NewServiceWithRetry(ttl time.Duration, retry RetryPolicy) *Service {
 	if ttl <= 0 {
 		ttl = time.Hour
 	}
+	if retry.Mode != RetryModeFixed && retry.Mode != RetryModeExponential {
+		retry = DefaultRetryPolicy()
+	}
 	return &Service{
 		ttl:     ttl,
+		retry:   retry,
 		records: make(map[string]record),
 	}
 }
@@ -140,7 +188,8 @@ func (s *Service) reserve(commandID string, internalStatus string) (bool, *dtv1.
 }
 
 // execute 下发指令并按 CommandOptions.retry_count 重试(FR-S-014)。
-// 仅对传输/执行错误重试;REJECTED 等确定性结果不重试。重试间隔指数退避。
+// 仅对传输/执行错误重试;REJECTED 等确定性结果不重试。
+// 重试间隔由服务级 RetryPolicy 决定(固定间隔或指数退避)。
 func (s *Service) execute(ctx context.Context, msg *dtv1.DeviceMessage) *dtv1.CommandResponsePayload {
 	executor, ok := s.resolve(msg.GetDevice().GetDeviceId())
 	if !ok {
@@ -157,7 +206,7 @@ func (s *Service) execute(ctx context.Context, msg *dtv1.DeviceMessage) *dtv1.Co
 				"attempt", attempt,
 				"max_retries", retries,
 			)
-			if !sleepContext(ctx, retryInterval(attempt)) {
+			if !sleepContext(ctx, s.retry.intervalFor(attempt)) {
 				break
 			}
 		}
@@ -295,14 +344,6 @@ func commandRetryCount(msg *dtv1.DeviceMessage) int {
 		return 0
 	}
 	return int(count)
-}
-
-func retryInterval(attempt int) time.Duration {
-	interval := retryBaseInterval << (attempt - 1)
-	if interval > retryMaxInterval || interval <= 0 {
-		return retryMaxInterval
-	}
-	return interval
 }
 
 func sleepContext(ctx context.Context, d time.Duration) bool {

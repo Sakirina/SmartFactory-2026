@@ -209,3 +209,53 @@ func testControlCommand(commandID string) *dtv1.DeviceMessage {
 		},
 	}
 }
+
+func TestRetryPolicyIntervals(t *testing.T) {
+	fixed := RetryPolicy{Mode: RetryModeFixed, Interval: 300 * time.Millisecond}
+	for attempt := 1; attempt <= 4; attempt++ {
+		if got := fixed.intervalFor(attempt); got != 300*time.Millisecond {
+			t.Fatalf("fixed interval attempt %d = %v, want constant 300ms", attempt, got)
+		}
+	}
+
+	exp := RetryPolicy{Mode: RetryModeExponential, Interval: 200 * time.Millisecond, MaxInterval: time.Second}
+	wants := []time.Duration{200 * time.Millisecond, 400 * time.Millisecond, 800 * time.Millisecond, time.Second, time.Second}
+	for idx, want := range wants {
+		if got := exp.intervalFor(idx + 1); got != want {
+			t.Fatalf("exponential interval attempt %d = %v, want %v", idx+1, got, want)
+		}
+	}
+}
+
+func TestRouterRetriesWithFixedIntervalPolicy(t *testing.T) {
+	attempts := 0
+	executor := &fakeExecutor{
+		fn: func(_ context.Context, msg *dtv1.DeviceMessage) (*dtv1.CommandResponsePayload, error) {
+			attempts++
+			if attempts < 3 {
+				return nil, errors.New("transient")
+			}
+			return &dtv1.CommandResponsePayload{CommandId: msg.GetCommandId(), Status: dtv1.CommandStatus_SUCCESS}, nil
+		},
+	}
+	service := NewServiceWithRetry(time.Minute, RetryPolicy{Mode: RetryModeFixed, Interval: 10 * time.Millisecond})
+	service.SetResolver(fakeResolver{executor: executor, ok: true})
+
+	cmd := testControlCommand("cmd-fixed-retry")
+	cmd.GetControl().Options = &dtv1.CommandOptions{RetryCount: 3, TimeoutMs: 5000}
+	started := time.Now()
+	result, err := service.Handle(context.Background(), cmd)
+	if err != nil {
+		t.Fatalf("Handle returned error: %v", err)
+	}
+	if result.Response.GetStatus() != dtv1.CommandStatus_SUCCESS {
+		t.Fatalf("status = %s, want SUCCESS", result.Response.GetStatus())
+	}
+	if attempts != 3 {
+		t.Fatalf("attempts = %d, want 3", attempts)
+	}
+	// 两次固定 10ms 间隔重试,总耗时应远小于指数退避(200+400ms)路径。
+	if elapsed := time.Since(started); elapsed > 150*time.Millisecond {
+		t.Fatalf("elapsed = %v; fixed 10ms intervals expected, exponential fallback suspected", elapsed)
+	}
+}

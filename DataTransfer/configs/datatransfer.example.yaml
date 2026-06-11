@@ -24,6 +24,11 @@ mqtt:
 runtime:
   ring_size: 1024
   command_ttl_seconds: 3600
+  # 指令重试间隔策略(FR-S-014)。重试次数由调用方 CommandOptions.retry_count 按指令指定。
+  command_retry:
+    interval_mode: exponential   # fixed | exponential
+    interval_ms: 200             # fixed 的间隔 / exponential 的基数
+    max_interval_ms: 5000        # exponential 的上限
 
 # 全局上报策略(FR-S-033~036,可选,默认 ON_RECEIVED 即不过滤)。
 # 可被 Connector 级 report_strategy 与数据点级 report_strategy 覆盖,

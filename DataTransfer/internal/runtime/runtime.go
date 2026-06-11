@@ -114,9 +114,14 @@ type Snapshot struct {
 }
 
 func New(cfg config.Config) *Runtime {
+	retry := command.RetryPolicy{
+		Mode:        cfg.Runtime.CommandRetry.IntervalMode,
+		Interval:    time.Duration(cfg.Runtime.CommandRetry.IntervalMS) * time.Millisecond,
+		MaxInterval: time.Duration(cfg.Runtime.CommandRetry.MaxIntervalMS) * time.Millisecond,
+	}
 	return &Runtime{
 		cfg:         cfg,
-		commands:    command.NewService(time.Duration(cfg.Runtime.CommandTTLSeconds) * time.Second),
+		commands:    command.NewServiceWithRetry(time.Duration(cfg.Runtime.CommandTTLSeconds)*time.Second, retry),
 		store:       newRingStore(cfg.Runtime.RingSize),
 		subscribers: make(map[uint64]subscription),
 		strategy:    strategy.NewEngine(cfg.ReportStrategy),

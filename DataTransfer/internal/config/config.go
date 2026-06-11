@@ -88,6 +88,15 @@ type TLSConfig struct {
 type RuntimeConfig struct {
 	RingSize          int `yaml:"ring_size"`
 	CommandTTLSeconds int `yaml:"command_ttl_seconds"`
+	// CommandRetry 为指令重试的间隔策略(FR-S-014:固定间隔与指数退避均须支持)。
+	// 重试次数始终由调用方按指令通过 CommandOptions.retry_count 控制。
+	CommandRetry CommandRetryConfig `yaml:"command_retry"`
+}
+
+type CommandRetryConfig struct {
+	IntervalMode  string `yaml:"interval_mode"`   // fixed | exponential(默认)
+	IntervalMS    int    `yaml:"interval_ms"`     // fixed 的间隔 / exponential 的基数,默认 200
+	MaxIntervalMS int    `yaml:"max_interval_ms"` // exponential 的上限,默认 5000
 }
 
 type BufferConfig struct {
@@ -222,6 +231,11 @@ func Defaults() Config {
 		Runtime: RuntimeConfig{
 			RingSize:          1024,
 			CommandTTLSeconds: int(time.Hour.Seconds()),
+			CommandRetry: CommandRetryConfig{
+				IntervalMode:  "exponential",
+				IntervalMS:    200,
+				MaxIntervalMS: 5000,
+			},
 		},
 	}
 }
@@ -277,6 +291,23 @@ func (c *Config) Validate() error {
 	}
 	if c.Runtime.CommandTTLSeconds <= 0 {
 		c.Runtime.CommandTTLSeconds = Defaults().Runtime.CommandTTLSeconds
+	}
+	retry := &c.Runtime.CommandRetry
+	retry.IntervalMode = strings.ToLower(strings.TrimSpace(retry.IntervalMode))
+	if retry.IntervalMode == "" {
+		retry.IntervalMode = Defaults().Runtime.CommandRetry.IntervalMode
+	}
+	if retry.IntervalMode != "fixed" && retry.IntervalMode != "exponential" {
+		return fmt.Errorf("runtime.command_retry.interval_mode must be %q or %q", "fixed", "exponential")
+	}
+	if retry.IntervalMS <= 0 {
+		retry.IntervalMS = Defaults().Runtime.CommandRetry.IntervalMS
+	}
+	if retry.MaxIntervalMS <= 0 {
+		retry.MaxIntervalMS = Defaults().Runtime.CommandRetry.MaxIntervalMS
+	}
+	if retry.MaxIntervalMS < retry.IntervalMS {
+		return errors.New("runtime.command_retry.max_interval_ms must be >= interval_ms")
 	}
 	if c.RunMode == RunModeSplit {
 		c.MQTT.Enabled = true
@@ -469,6 +500,9 @@ func applyEnv(cfg *Config, lookup func(string) (string, bool)) {
 	setInt(lookup, "DT_BUFFER_CLEANUP_INTERVAL_SECONDS", &cfg.Buffer.CleanupIntervalSeconds)
 	setInt(lookup, "DT_RUNTIME_RING_SIZE", &cfg.Runtime.RingSize)
 	setInt(lookup, "DT_RUNTIME_COMMAND_TTL_SECONDS", &cfg.Runtime.CommandTTLSeconds)
+	setString(lookup, "DT_RUNTIME_COMMAND_RETRY_INTERVAL_MODE", &cfg.Runtime.CommandRetry.IntervalMode)
+	setInt(lookup, "DT_RUNTIME_COMMAND_RETRY_INTERVAL_MS", &cfg.Runtime.CommandRetry.IntervalMS)
+	setInt(lookup, "DT_RUNTIME_COMMAND_RETRY_MAX_INTERVAL_MS", &cfg.Runtime.CommandRetry.MaxIntervalMS)
 }
 
 func setString(lookup func(string) (string, bool), key string, target *string) {
