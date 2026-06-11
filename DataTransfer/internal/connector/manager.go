@@ -11,6 +11,13 @@ import (
 	dtv1 "competition2026/product/datatransfer/gen/datatransfer/v1"
 	"competition2026/product/datatransfer/internal/command"
 	"competition2026/product/datatransfer/internal/config"
+	dterrors "competition2026/product/datatransfer/internal/errors"
+)
+
+// restartBaseDelay/restartMaxDelay 控制 Connector 异常退出后的自动重启退避(DT-CON-003)。
+const (
+	restartBaseDelay = time.Second
+	restartMaxDelay  = time.Minute
 )
 
 type Manager struct {
@@ -22,10 +29,19 @@ type Manager struct {
 	connectors  map[string]Connector
 	configs     map[string]config.ConnectorConfig
 	deviceIndex map[string]Connector
-	startCtx    context.Context
-	started     bool
-	ready       atomic.Bool
-	wg          sync.WaitGroup
+	// 上报策略索引(FR-S-035):随配置变更与 deviceIndex 一并重建。
+	connectorStrategy map[string]config.ReportStrategyConfig
+	datapointStrategy map[datapointKey]config.ReportStrategyConfig
+	startCtx          context.Context
+	started           bool
+	ready             atomic.Bool
+	wg                sync.WaitGroup
+
+	// 背压观测(FR-S-037~039):基于 upstream 通道使用率的水位状态。
+	bpActive       atomic.Bool
+	bpTriggerTotal atomic.Int64
+	bpDroppedTotal atomic.Int64
+	bpPolicy       atomic.Int32 // dtv1.BackpressurePolicy
 }
 
 func NewManager(configs []config.ConnectorConfig, publisher Publisher, logger *slog.Logger) (*Manager, error) {
@@ -92,11 +108,86 @@ func (m *Manager) Start(ctx context.Context) error {
 			m.wg.Wait()
 			return nil
 		case msg := <-m.upstream:
+			m.observeBackpressure()
+			if m.shouldDropForBackpressure(msg) {
+				continue
+			}
 			if err := m.publisher.Publish(msg); err != nil {
 				m.logger.Error("publish connector message failed", "error", err, "message_id", msg.GetMessageId())
 			}
 		}
 	}
+}
+
+// SetBackpressurePolicy 设置背压策略(BP_BLOCK 为默认行为:通道写满时 Connector 自然阻塞)。
+// BP_DEGRADE 需要 Connector 支持动态采集降频,当前版本回退为 BP_BLOCK 并记录警告。
+func (m *Manager) SetBackpressurePolicy(policy dtv1.BackpressurePolicy) {
+	if policy == dtv1.BackpressurePolicy_BP_DEGRADE {
+		m.logger.Warn("BP_DEGRADE is not supported by built-in connectors yet; falling back to BP_BLOCK",
+			"code", dterrors.CodeStrategyApplied)
+		policy = dtv1.BackpressurePolicy_BP_BLOCK
+	}
+	m.bpPolicy.Store(int32(policy))
+	m.logger.Info("backpressure policy applied", "code", dterrors.CodeStrategyApplied, "policy", policy.String())
+}
+
+// observeBackpressure 按三级水位(80% 触发 / 50% 解除)记录背压状态(FR-S-039:不得静默发生)。
+func (m *Manager) observeBackpressure() {
+	usage := m.QueueUsagePercent()
+	if usage >= 80 && !m.bpActive.Load() {
+		m.bpActive.Store(true)
+		m.bpTriggerTotal.Add(1)
+		m.logger.Warn("backpressure triggered",
+			"code", dterrors.CodeBackpressureOn,
+			"queue_usage_percent", usage,
+			"policy", m.BackpressurePolicy().String(),
+		)
+	} else if usage <= 50 && m.bpActive.Load() {
+		m.bpActive.Store(false)
+		m.logger.Info("backpressure released", "code", dterrors.CodeBackpressureOff, "queue_usage_percent", usage)
+	}
+}
+
+// shouldDropForBackpressure 在 BP_DROP_OLDEST 策略且背压激活时丢弃队首(最旧)遥测消息。
+// STATUS/EVENT/CMD_RESPONSE 优先级高于遥测,任何策略下都不丢弃。
+func (m *Manager) shouldDropForBackpressure(msg *dtv1.DeviceMessage) bool {
+	if !m.bpActive.Load() {
+		return false
+	}
+	if m.BackpressurePolicy() != dtv1.BackpressurePolicy_BP_DROP_OLDEST {
+		return false
+	}
+	if msg.GetType() != dtv1.MessageType_TELEMETRY {
+		return false
+	}
+	m.bpDroppedTotal.Add(1)
+	m.logger.Warn("telemetry dropped by backpressure policy",
+		"code", dterrors.CodeBufferFull,
+		"message_id", msg.GetMessageId(),
+		"device_id", msg.GetDevice().GetDeviceId(),
+	)
+	return true
+}
+
+func (m *Manager) QueueUsagePercent() float64 {
+	capacity := cap(m.upstream)
+	if capacity == 0 {
+		return 0
+	}
+	return float64(len(m.upstream)) * 100 / float64(capacity)
+}
+
+// BackpressureSnapshot 返回背压观测状态:是否激活、策略、队列使用率、触发次数、丢弃总数。
+func (m *Manager) BackpressureSnapshot() (bool, dtv1.BackpressurePolicy, float64, int64, int64) {
+	return m.bpActive.Load(), m.BackpressurePolicy(), m.QueueUsagePercent(), m.bpTriggerTotal.Load(), m.bpDroppedTotal.Load()
+}
+
+func (m *Manager) BackpressurePolicy() dtv1.BackpressurePolicy {
+	policy := dtv1.BackpressurePolicy(m.bpPolicy.Load())
+	if policy == dtv1.BackpressurePolicy_BP_UNSPECIFIED {
+		return dtv1.BackpressurePolicy_BP_BLOCK
+	}
+	return policy
 }
 
 func (m *Manager) Ready() bool {
@@ -110,8 +201,8 @@ func (m *Manager) ApplyConnector(cfg config.ConnectorConfig) error {
 	current, exists := m.connectors[cfg.ConnectorID]
 	oldCfg := m.configs[cfg.ConnectorID]
 	if exists && oldCfg.Protocol == cfg.Protocol {
-		if err := current.ReloadConfig(cfg); err != nil {
-			_ = current.ReloadConfig(oldCfg)
+		if err := current.ReloadConfig(cloneConnectorConfig(cfg)); err != nil {
+			_ = current.ReloadConfig(cloneConnectorConfig(oldCfg))
 			m.rebuildDeviceIndexLocked()
 			return fmt.Errorf("reload connector %q: %w", cfg.ConnectorID, err)
 		}
@@ -124,7 +215,7 @@ func (m *Manager) ApplyConnector(cfg config.ConnectorConfig) error {
 		return UnknownProtocolError(cfg.Protocol)
 	}
 	next := factory()
-	if err := next.Init(cfg); err != nil {
+	if err := next.Init(cloneConnectorConfig(cfg)); err != nil {
 		return fmt.Errorf("init connector %q: %w", cfg.ConnectorID, err)
 	}
 	if exists {
@@ -158,7 +249,10 @@ func (m *Manager) RemoveConnector(connectorID string) error {
 
 func (m *Manager) ApplyDevice(connectorID string, device config.DeviceConfig) error {
 	m.mu.RLock()
-	cfg, ok := m.configs[connectorID]
+	stored, ok := m.configs[connectorID]
+	// 必须先克隆再修改:configs 中的切片与 map 不能被就地修改,
+	// 否则会与并发读者产生数据竞争,且 ApplyConnector 失败回滚时旧配置已被污染。
+	cfg := cloneConnectorConfig(stored)
 	m.mu.RUnlock()
 	if !ok {
 		return fmt.Errorf("connector %q is not registered", connectorID)
@@ -179,17 +273,19 @@ func (m *Manager) ApplyDevice(connectorID string, device config.DeviceConfig) er
 
 func (m *Manager) RemoveDevice(connectorID, deviceID string) error {
 	m.mu.RLock()
-	cfg, ok := m.configs[connectorID]
+	stored, ok := m.configs[connectorID]
+	cfg := cloneConnectorConfig(stored)
 	m.mu.RUnlock()
 	if !ok {
 		return fmt.Errorf("connector %q is not registered", connectorID)
 	}
-	next := cfg.Devices[:0]
+	next := make([]config.DeviceConfig, 0, len(cfg.Devices))
 	found := false
+	var removed config.DeviceConfig
 	for _, device := range cfg.Devices {
 		if device.DeviceID == deviceID {
 			found = true
-			m.publishDeviceOffline(connectorID, cfg.Protocol, device)
+			removed = device
 			continue
 		}
 		next = append(next, device)
@@ -197,8 +293,13 @@ func (m *Manager) RemoveDevice(connectorID, deviceID string) error {
 	if !found {
 		return fmt.Errorf("device %q is not registered", deviceID)
 	}
-	cfg.Devices = append([]config.DeviceConfig(nil), next...)
-	return m.ApplyConnector(cfg)
+	cfg.Devices = next
+	if err := m.ApplyConnector(cfg); err != nil {
+		return err
+	}
+	// 仅在变更成功后再发布离线状态,避免失败回滚时上游收到虚假离线。
+	m.publishDeviceOffline(connectorID, cfg.Protocol, removed)
+	return nil
 }
 
 func (m *Manager) ConnectorConfig(connectorID string) (config.ConnectorConfig, bool) {
@@ -231,9 +332,8 @@ func (m *Manager) ListDevices(req *dtv1.ListDevicesRequest) *dtv1.ListDevicesRes
 	resp := &dtv1.ListDevicesResponse{}
 	for _, conn := range m.connectors {
 		for _, device := range conn.Devices() {
-			if matchesDevice(req, &device) {
-				copyDevice := device
-				resp.Devices = append(resp.Devices, &copyDevice)
+			if matchesDevice(req, device) {
+				resp.Devices = append(resp.Devices, device)
 			}
 		}
 	}
@@ -259,14 +359,71 @@ func (m *Manager) Snapshot() (connectedDevices int32, activeConnectors int32, me
 	return connectedDevices, activeConnectors, metrics
 }
 
+// startConnectorLocked 启动 Connector 并守护其生命周期:
+// panic 被恢复(NFR-008 进程内隔离),异常退出按指数退避自动重启(DT-CON-003),
+// 直至 ctx 取消或该 Connector 实例被替换/移除。
 func (m *Manager) startConnectorLocked(conn Connector) {
+	ctx := m.startCtx
 	m.wg.Add(1)
 	go func() {
 		defer m.wg.Done()
-		if err := conn.Start(m.startCtx, m.upstream); err != nil && m.startCtx.Err() == nil {
-			m.logger.Error("connector exited with error", "error", err)
+		delay := restartBaseDelay
+		for ctx.Err() == nil {
+			err := m.runConnector(ctx, conn)
+			if ctx.Err() != nil || !m.isCurrent(conn) {
+				return
+			}
+			if err == nil {
+				// Start 正常返回但 ctx 未取消:视为协议层自行退出,同样按退避重启。
+				err = fmt.Errorf("connector start returned before shutdown")
+			}
+			m.logger.Error("connector exited; scheduling restart",
+				"code", dterrors.CodeConnectorCrashed,
+				"error", err,
+				"restart_in", delay.String(),
+			)
+			timer := time.NewTimer(delay)
+			select {
+			case <-ctx.Done():
+				timer.Stop()
+				return
+			case <-timer.C:
+			}
+			if delay *= 2; delay > restartMaxDelay {
+				delay = restartMaxDelay
+			}
+			if !m.isCurrent(conn) {
+				return
+			}
 		}
 	}()
+}
+
+func (m *Manager) runConnector(ctx context.Context, conn Connector) (err error) {
+	defer func() {
+		if recovered := recover(); recovered != nil {
+			err = fmt.Errorf("connector panicked: %v", recovered)
+		}
+	}()
+	return conn.Start(ctx, m.upstream)
+}
+
+// isCurrent 判断该实例是否仍是注册表中的当前 Connector(被热替换后旧实例不再重启)。
+func (m *Manager) isCurrent(conn Connector) bool {
+	m.mu.RLock()
+	defer m.mu.RUnlock()
+	for _, current := range m.connectors {
+		if current == conn {
+			return true
+		}
+	}
+	return false
+}
+
+type datapointKey struct {
+	connectorID string
+	deviceID    string
+	key         string
 }
 
 func (m *Manager) rebuildDeviceIndexLocked() {
@@ -279,6 +436,33 @@ func (m *Manager) rebuildDeviceIndexLocked() {
 			}
 		}
 	}
+	m.connectorStrategy = make(map[string]config.ReportStrategyConfig, len(m.configs))
+	m.datapointStrategy = make(map[datapointKey]config.ReportStrategyConfig)
+	for connectorID, cfg := range m.configs {
+		m.connectorStrategy[connectorID] = cfg.ReportStrategy
+		for _, device := range cfg.Devices {
+			for _, dp := range device.Datapoints {
+				if dp.Strategy != nil {
+					m.datapointStrategy[datapointKey{connectorID, device.DeviceID, dp.Key}] = *dp.Strategy
+				}
+			}
+		}
+	}
+}
+
+// StrategyFor 实现 strategy.Resolver:返回数据点级与 Connector 级策略(可为 nil)。
+func (m *Manager) StrategyFor(connectorID, deviceID, key string) (*config.ReportStrategyConfig, *config.ReportStrategyConfig) {
+	m.mu.RLock()
+	defer m.mu.RUnlock()
+	var dpLevel *config.ReportStrategyConfig
+	if strategy, ok := m.datapointStrategy[datapointKey{connectorID, deviceID, key}]; ok {
+		dpLevel = &strategy
+	}
+	var connLevel *config.ReportStrategyConfig
+	if strategy, ok := m.connectorStrategy[connectorID]; ok {
+		connLevel = &strategy
+	}
+	return dpLevel, connLevel
 }
 
 func (m *Manager) publishConnectorOfflineLocked(conn Connector) {
@@ -292,7 +476,7 @@ func (m *Manager) publishDeviceOffline(connectorID, protocol string, device conf
 	m.publishOfflineInfo(info)
 }
 
-func (m *Manager) publishOfflineInfo(info dtv1.DeviceInfo) {
+func (m *Manager) publishOfflineInfo(info *dtv1.DeviceInfo) {
 	if m.publisher == nil {
 		return
 	}

@@ -1,3 +1,5 @@
+// Package grpc 实现方案A 北向 gRPC 适配:DataTransferService 全部方法
+// (订阅流、近期消息拉取、同步/异步指令、配置推送、设备列表、指标)。
 package grpc
 
 import (

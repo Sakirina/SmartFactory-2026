@@ -1,3 +1,6 @@
+// Package sidecar 提供第三层纯自定义插件的进程间隔离通道 mock(设计 DQ-009):
+// 通过 proto/datatransfer/plugin/v1 的 gRPC 契约验证 Init/Start 流/SendCommand/
+// ReloadConfig/Stop 语义。正式 sidecar 进程拉起属后续迭代,本 mock 为遗留预留代码。
 package sidecar
 
 import (

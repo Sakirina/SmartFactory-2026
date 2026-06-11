@@ -1,3 +1,6 @@
+// Package buffer 实现方案B 的 SQLite 本地缓冲(设计 4.10):
+// pending→sending(带 lease)→completed 两阶段确认、FIFO 容量淘汰、TTL 清理,
+// 以及缓存化的容量统计(避免热路径全表扫描)。
 package buffer
 
 import (
@@ -5,6 +8,7 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"log/slog"
 	"os"
 	"path/filepath"
 	"strings"
@@ -13,6 +17,7 @@ import (
 
 	dtv1 "competition2026/product/datatransfer/gen/datatransfer/v1"
 	"competition2026/product/datatransfer/internal/config"
+	dterrors "competition2026/product/datatransfer/internal/errors"
 	"google.golang.org/protobuf/proto"
 	_ "modernc.org/sqlite"
 )
@@ -27,6 +32,10 @@ type Store struct {
 	db      *sql.DB
 	cfg     config.BufferConfig
 	dropped atomic.Int64
+	// usedBytes 缓存 payload 总字节数,避免每次入队全表 SUM(5000 msg/s 时为热点)。
+	// 入队/清理时增量维护,清理路径会用精确 SUM 重新校准。
+	usedBytes     atomic.Int64
+	highWaterWarn atomic.Bool
 }
 
 type Record struct {
@@ -65,7 +74,20 @@ func Open(ctx context.Context, cfg config.BufferConfig) (*Store, error) {
 		_ = db.Close()
 		return nil, err
 	}
+	if err := store.recalculateUsedBytes(ctx); err != nil {
+		_ = db.Close()
+		return nil, err
+	}
 	return store, nil
+}
+
+func (s *Store) recalculateUsedBytes(ctx context.Context) error {
+	var used int64
+	if err := s.db.QueryRowContext(ctx, `SELECT COALESCE(SUM(LENGTH(payload)), 0) FROM outbound_messages`).Scan(&used); err != nil {
+		return err
+	}
+	s.usedBytes.Store(used)
+	return nil
 }
 
 func (s *Store) Close() error {
@@ -87,7 +109,7 @@ func (s *Store) Enqueue(ctx context.Context, msg *dtv1.DeviceMessage) (*Record, 
 		return nil, err
 	}
 	device := msg.GetDevice()
-	_, err = s.db.ExecContext(ctx, `
+	res, err := s.db.ExecContext(ctx, `
 INSERT OR IGNORE INTO outbound_messages (
   message_id, batch_key, message_type, device_id, connector_id,
   created_at_ms, status, payload, retry_count, lease_until_ms
@@ -97,10 +119,41 @@ INSERT OR IGNORE INTO outbound_messages (
 	if err != nil {
 		return nil, err
 	}
-	if err := s.enforceCapacity(ctx); err != nil {
-		return nil, err
+	if affected, err := res.RowsAffected(); err == nil && affected > 0 {
+		s.usedBytes.Add(int64(len(payload)))
+	}
+	s.checkHighWater()
+	// 仅当缓存用量超限时才进入精确清理路径,避免每条消息的全表扫描。
+	if capacity := s.capacityBytes(); capacity > 0 && s.usedBytes.Load() > capacity {
+		if err := s.enforceCapacity(ctx); err != nil {
+			return nil, err
+		}
 	}
 	return s.recordByMessageID(ctx, msg.GetMessageId())
+}
+
+func (s *Store) capacityBytes() int64 {
+	return int64(s.cfg.MaxSizeMB) * 1024 * 1024
+}
+
+// checkHighWater 在容量使用率穿越 80% 时记录一次告警(DT-BUF-001),回落后复位。
+func (s *Store) checkHighWater() {
+	capacity := s.capacityBytes()
+	if capacity <= 0 {
+		return
+	}
+	usage := float64(s.usedBytes.Load()) * 100 / float64(capacity)
+	if usage >= 80 {
+		if s.highWaterWarn.CompareAndSwap(false, true) {
+			slog.Warn("buffer capacity above high watermark",
+				"code", dterrors.CodeBufferHighWater,
+				"usage_percent", usage,
+				"capacity_mb", s.cfg.MaxSizeMB,
+			)
+		}
+	} else if usage < 70 {
+		s.highWaterWarn.Store(false)
+	}
 }
 
 func (s *Store) ClaimByMessageID(ctx context.Context, messageID string, lease time.Duration) (*Record, bool, error) {
@@ -193,16 +246,11 @@ func (s *Store) MarkCompleted(ctx context.Context, ids []int64) error {
 		return nil
 	}
 	now := time.Now().UnixMilli()
-	for _, id := range ids {
-		if _, err := s.db.ExecContext(ctx, `
-UPDATE outbound_messages
-SET status = ?, completed_at_ms = ?, lease_until_ms = 0
-WHERE id = ?
-`, StatusCompleted, now, id); err != nil {
-			return err
-		}
-	}
-	return nil
+	query, args := batchUpdate(
+		`UPDATE outbound_messages SET status = ?, completed_at_ms = ?, lease_until_ms = 0 WHERE id IN`,
+		[]any{StatusCompleted, now}, ids)
+	_, err := s.db.ExecContext(ctx, query, args...)
+	return err
 }
 
 func (s *Store) MarkFailed(ctx context.Context, ids []int64, cause error) error {
@@ -213,16 +261,22 @@ func (s *Store) MarkFailed(ctx context.Context, ids []int64, cause error) error 
 	if cause != nil {
 		message = cause.Error()
 	}
+	query, args := batchUpdate(
+		`UPDATE outbound_messages SET status = ?, lease_until_ms = 0, retry_count = retry_count + 1, last_error = ? WHERE id IN`,
+		[]any{StatusPending, message}, ids)
+	_, err := s.db.ExecContext(ctx, query, args...)
+	return err
+}
+
+func batchUpdate(prefix string, fixed []any, ids []int64) (string, []any) {
+	placeholders := strings.Repeat("?,", len(ids))
+	placeholders = placeholders[:len(placeholders)-1]
+	args := make([]any, 0, len(fixed)+len(ids))
+	args = append(args, fixed...)
 	for _, id := range ids {
-		if _, err := s.db.ExecContext(ctx, `
-UPDATE outbound_messages
-SET status = ?, lease_until_ms = 0, retry_count = retry_count + 1, last_error = ?
-WHERE id = ?
-`, StatusPending, message, id); err != nil {
-			return err
-		}
+		args = append(args, id)
 	}
-	return nil
+	return prefix + " (" + placeholders + ")", args
 }
 
 func (s *Store) Cleanup(ctx context.Context) error {
@@ -236,8 +290,10 @@ func (s *Store) Cleanup(ctx context.Context) error {
 			args:  []any{StatusCompleted, cutoff},
 		},
 		{
-			query: `DELETE FROM outbound_messages WHERE status = ? AND created_at_ms < ?`,
-			args:  []any{StatusPending, cutoff},
+			// pending 与 lease 早已过期的 sending 记录一并按 TTL 清理,
+			// 避免续传中断后残留 sending 行永不回收。
+			query: `DELETE FROM outbound_messages WHERE status IN (?, ?) AND created_at_ms < ?`,
+			args:  []any{StatusPending, StatusSending, cutoff},
 		},
 	}
 	for _, deletion := range deletions {
@@ -245,11 +301,18 @@ func (s *Store) Cleanup(ctx context.Context) error {
 		if err != nil {
 			return err
 		}
-		if count, err := res.RowsAffected(); err == nil {
+		if count, err := res.RowsAffected(); err == nil && count > 0 {
 			s.dropped.Add(count)
 		}
 	}
-	return s.enforceCapacity(ctx)
+	// 删除后用精确 SUM 校准缓存,消除增量维护的累计误差。
+	if err := s.recalculateUsedBytes(ctx); err != nil {
+		return err
+	}
+	if capacity := s.capacityBytes(); capacity > 0 && s.usedBytes.Load() > capacity {
+		return s.enforceCapacity(ctx)
+	}
+	return nil
 }
 
 func (s *Store) Stats(ctx context.Context) (Stats, error) {
@@ -289,12 +352,7 @@ GROUP BY status
 	if err := rows.Err(); err != nil {
 		return Stats{}, err
 	}
-	if err := s.db.QueryRowContext(ctx, `
-SELECT COALESCE(SUM(LENGTH(payload)), 0)
-FROM outbound_messages
-`).Scan(&stats.UsedBytes); err != nil {
-		return Stats{}, err
-	}
+	stats.UsedBytes = s.usedBytes.Load()
 	if err := s.db.QueryRowContext(ctx, `
 SELECT COUNT(*)
 FROM outbound_messages
@@ -377,29 +435,33 @@ func scanRecord(row scanner) (*Record, error) {
 	return &record, nil
 }
 
+// enforceCapacity 按 FIFO 淘汰最旧的非 sending 记录,直至回到容量内(FR-S-023)。
+// 仅在缓存用量显示超限时被调用;进入后先做一次精确校准。
 func (s *Store) enforceCapacity(ctx context.Context) error {
-	capacity := int64(s.cfg.MaxSizeMB) * 1024 * 1024
+	capacity := s.capacityBytes()
 	if capacity <= 0 {
 		return nil
 	}
-	for {
-		var used int64
-		if err := s.db.QueryRowContext(ctx, `SELECT COALESCE(SUM(LENGTH(payload)), 0) FROM outbound_messages`).Scan(&used); err != nil {
-			return err
-		}
-		if used <= capacity {
+	if err := s.recalculateUsedBytes(ctx); err != nil {
+		return err
+	}
+	evicted := false
+	for s.usedBytes.Load() > capacity {
+		var id, size int64
+		err := s.db.QueryRowContext(ctx, `
+SELECT id, LENGTH(payload)
+FROM outbound_messages
+WHERE status != ?
+ORDER BY created_at_ms ASC, id ASC
+LIMIT 1
+`, StatusSending).Scan(&id, &size)
+		if errors.Is(err, sql.ErrNoRows) {
 			return nil
 		}
-		res, err := s.db.ExecContext(ctx, `
-DELETE FROM outbound_messages
-WHERE id = (
-  SELECT id
-  FROM outbound_messages
-  WHERE status != ?
-  ORDER BY created_at_ms ASC, id ASC
-  LIMIT 1
-)
-`, StatusSending)
+		if err != nil {
+			return err
+		}
+		res, err := s.db.ExecContext(ctx, `DELETE FROM outbound_messages WHERE id = ?`, id)
 		if err != nil {
 			return err
 		}
@@ -410,8 +472,17 @@ WHERE id = (
 		if affected == 0 {
 			return nil
 		}
+		if !evicted {
+			evicted = true
+			slog.Warn("buffer is full; evicting oldest records",
+				"code", dterrors.CodeBufferFull,
+				"capacity_mb", s.cfg.MaxSizeMB,
+			)
+		}
 		s.dropped.Add(affected)
+		s.usedBytes.Add(-size)
 	}
+	return nil
 }
 
 func batchKey(msg *dtv1.DeviceMessage) string {

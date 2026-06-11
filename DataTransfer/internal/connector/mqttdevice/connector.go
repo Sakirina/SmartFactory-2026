@@ -1,3 +1,6 @@
+// Package mqttdevice 实现 MQTT Device Connector(接口文档 4.2.3):
+// 订阅设备侧 JSON 遥测/状态/事件/回执 topic(模板可自定义,按段匹配提取 device_id),
+// 下行指令编码为 JSON 发布到设备 command topic。
 package mqttdevice
 
 import (
@@ -16,19 +19,34 @@ import (
 	"competition2026/product/datatransfer/internal/security"
 	paho "github.com/eclipse/paho.mqtt.golang"
 	"github.com/tidwall/gjson"
+	"google.golang.org/protobuf/proto"
 )
 
 const Protocol = "mqtt_device"
+
+const (
+	kindTelemetry       = "telemetry"
+	kindStatus          = "status"
+	kindEvent           = "event"
+	kindCommandResponse = "cmd-response"
+)
+
+// topicRoute 描述一类设备上行消息的 topic 模板,模板中 {device_id} 为设备占位符。
+type topicRoute struct {
+	kind     string
+	template string
+}
 
 type Connector struct {
 	mu            sync.RWMutex
 	cfg           config.ConnectorConfig
 	client        paho.Client
 	status        connector.Status
-	devices       []dtv1.DeviceInfo
+	devices       []*dtv1.DeviceInfo
 	deviceConfigs map[string]config.DeviceConfig
 	startedAt     time.Time
 	upstream      chan<- *dtv1.DeviceMessage
+	subscribed    []string
 }
 
 func init() {
@@ -53,7 +71,7 @@ func (c *Connector) Init(cfg config.ConnectorConfig) error {
 	c.cfg = cfg
 	c.status = connector.NewStatus(cfg.ConnectorID, cfg.Protocol)
 	c.status.DeviceCount = len(cfg.Devices)
-	c.devices = make([]dtv1.DeviceInfo, 0, len(cfg.Devices))
+	c.devices = make([]*dtv1.DeviceInfo, 0, len(cfg.Devices))
 	c.deviceConfigs = make(map[string]config.DeviceConfig, len(cfg.Devices))
 	now := time.Now()
 	for _, device := range cfg.Devices {
@@ -85,10 +103,10 @@ func (c *Connector) SendCommand(ctx context.Context, cmd *dtv1.DeviceMessage) (*
 	cfg := c.cfg
 	c.mu.RUnlock()
 	if !ok {
-		return rejectedResponse(cmd, dterrors.CodeCommandNoConnector, "device is not managed by this connector"), nil
+		return rejectedResponse(cmd, dterrors.CodeCommandNoRoute, "device is not managed by this connector"), nil
 	}
 	if client == nil || !client.IsConnected() {
-		return nil, fmt.Errorf("%s: mqtt device client is not connected", dterrors.CodeConnectorRuntime)
+		return nil, fmt.Errorf("%s: mqtt device client is not connected", dterrors.CodeConnectorConnectFailed)
 	}
 	payload, err := commandPayload(cmd)
 	if err != nil {
@@ -110,10 +128,13 @@ func (c *Connector) SendCommand(ctx context.Context, cmd *dtv1.DeviceMessage) (*
 
 func (c *Connector) Stop() error {
 	c.mu.Lock()
-	defer c.mu.Unlock()
+	client := c.client
+	c.client = nil
 	c.setStateLocked(connector.StateStopped, "")
-	if c.client != nil && c.client.IsConnected() {
-		c.client.Disconnect(250)
+	c.mu.Unlock()
+	// Disconnect 可能阻塞至 250ms,放在锁外执行以免阻塞 Status()/Devices()。
+	if client != nil && client.IsConnected() {
+		client.Disconnect(250)
 	}
 	return nil
 }
@@ -128,11 +149,13 @@ func (c *Connector) Status() connector.Status {
 	return status
 }
 
-func (c *Connector) Devices() []dtv1.DeviceInfo {
+func (c *Connector) Devices() []*dtv1.DeviceInfo {
 	c.mu.RLock()
 	defer c.mu.RUnlock()
-	out := make([]dtv1.DeviceInfo, len(c.devices))
-	copy(out, c.devices)
+	out := make([]*dtv1.DeviceInfo, 0, len(c.devices))
+	for _, device := range c.devices {
+		out = append(out, proto.Clone(device).(*dtv1.DeviceInfo))
+	}
 	return out
 }
 
@@ -190,46 +213,90 @@ func (c *Connector) connect() error {
 	c.mu.Unlock()
 	token := client.Connect()
 	if !token.WaitTimeout(time.Duration(timeoutMillis(cfg.Connection.TimeoutMillis)) * time.Millisecond) {
-		return fmt.Errorf("%s: mqtt device connect timeout", dterrors.CodeConnectorRuntime)
+		return fmt.Errorf("%s: mqtt device connect timeout", dterrors.CodeConnectorConnectFailed)
 	}
 	return token.Error()
+}
+
+// topicRoutes 返回四类上行消息的 topic 模板(可被连接配置覆盖,默认 devices/{device_id}/<kind>)。
+func topicRoutes(cfg config.ConnectorConfig) []topicRoute {
+	return []topicRoute{
+		{kindTelemetry, templateOrDefault(cfg.Connection.TelemetryTopic, "devices/{device_id}/telemetry")},
+		{kindStatus, templateOrDefault(cfg.Connection.StatusTopic, "devices/{device_id}/status")},
+		{kindEvent, templateOrDefault(cfg.Connection.EventTopic, "devices/{device_id}/event")},
+		{kindCommandResponse, templateOrDefault(cfg.Connection.CommandResponseTopic, "devices/{device_id}/cmd-response")},
+	}
 }
 
 func (c *Connector) subscribe(client paho.Client) error {
 	c.mu.RLock()
 	cfg := c.cfg
+	previous := append([]string(nil), c.subscribed...)
 	c.mu.RUnlock()
-	filters := map[string]byte{
-		subscribeTopic(cfg.Connection.TelemetryTopic, "devices/+/telemetry"):          1,
-		subscribeTopic(cfg.Connection.StatusTopic, "devices/+/status"):                1,
-		subscribeTopic(cfg.Connection.EventTopic, "devices/+/event"):                  1,
-		subscribeTopic(cfg.Connection.CommandResponseTopic, "devices/+/cmd-response"): 1,
+
+	filters := make(map[string]byte, 4)
+	for _, route := range topicRoutes(cfg) {
+		filters[subscriptionFilter(route.template)] = 1
 	}
 	token := client.SubscribeMultiple(filters, c.routeMessage)
 	token.Wait()
-	return token.Error()
+	if err := token.Error(); err != nil {
+		return err
+	}
+
+	// 退订不再使用的旧 topic,避免热加载后残留订阅继续投递消息。
+	var stale []string
+	for _, topic := range previous {
+		if _, ok := filters[topic]; !ok {
+			stale = append(stale, topic)
+		}
+	}
+	if len(stale) > 0 {
+		unsubToken := client.Unsubscribe(stale...)
+		unsubToken.Wait()
+		if err := unsubToken.Error(); err != nil {
+			slog.Warn("mqtt device unsubscribe stale topics failed", "connector_id", cfg.ConnectorID, "error", err)
+		}
+	}
+
+	current := make([]string, 0, len(filters))
+	for topic := range filters {
+		current = append(current, topic)
+	}
+	c.mu.Lock()
+	c.subscribed = current
+	c.mu.Unlock()
+	return nil
 }
 
 func (c *Connector) routeMessage(_ paho.Client, msg paho.Message) {
-	deviceID := deviceIDFromTopic(msg.Topic())
 	c.mu.RLock()
-	device, ok := c.deviceConfigs[deviceID]
 	cfg := c.cfg
 	upstream := c.upstream
 	c.mu.RUnlock()
-	if !ok || upstream == nil {
+	if upstream == nil {
+		return
+	}
+	kind, deviceID := matchRoute(topicRoutes(cfg), msg.Topic())
+	if kind == "" || deviceID == "" {
+		return
+	}
+	c.mu.RLock()
+	device, ok := c.deviceConfigs[deviceID]
+	c.mu.RUnlock()
+	if !ok {
 		return
 	}
 	var out *dtv1.DeviceMessage
 	var err error
-	switch {
-	case strings.HasSuffix(msg.Topic(), "/telemetry"):
+	switch kind {
+	case kindTelemetry:
 		out, err = c.telemetryMessage(cfg, device, msg.Payload())
-	case strings.HasSuffix(msg.Topic(), "/status"):
+	case kindStatus:
 		out = c.statusMessage(cfg, device, msg.Payload())
-	case strings.HasSuffix(msg.Topic(), "/event"):
+	case kindEvent:
 		out = c.eventMessage(cfg, device, msg.Payload())
-	case strings.HasSuffix(msg.Topic(), "/cmd-response"):
+	case kindCommandResponse:
 		out = c.commandResponseMessage(cfg, device, msg.Payload())
 	}
 	if err != nil {
@@ -244,7 +311,8 @@ func (c *Connector) routeMessage(_ paho.Client, msg paho.Message) {
 	select {
 	case upstream <- out:
 	default:
-		c.markError(fmt.Errorf("%s: upstream channel is full", dterrors.CodeConnectorRuntime))
+		// 通道已满即背压:丢弃并计数,不阻塞 MQTT 回调线程(FR-S-039 通过指标可见)。
+		c.markError(fmt.Errorf("%s: upstream channel is full, message dropped", dterrors.CodeBackpressureOn))
 	}
 }
 
@@ -399,23 +467,51 @@ func identity(cfg config.ConnectorConfig, device config.DeviceConfig) *dtv1.Devi
 	}
 }
 
-func subscribeTopic(configured, fallback string) string {
+func templateOrDefault(configured, fallback string) string {
 	if configured == "" {
 		return fallback
 	}
-	return strings.ReplaceAll(configured, "{device_id}", "+")
+	return configured
+}
+
+// subscriptionFilter 把模板中的 {device_id} 占位符转换为 MQTT 单层通配符。
+func subscriptionFilter(template string) string {
+	return strings.ReplaceAll(template, "{device_id}", "+")
 }
 
 func renderTopic(template, deviceID string) string {
 	return strings.ReplaceAll(template, "{device_id}", deviceID)
 }
 
-func deviceIDFromTopic(topic string) string {
-	parts := strings.Split(topic, "/")
-	if len(parts) >= 3 && parts[0] == "devices" {
-		return parts[1]
+// matchRoute 将实际 topic 与各模板逐段匹配,返回消息类别与提取出的 device_id。
+// 支持自定义 topic 模板(不再假定固定的 devices/ 前缀和后缀)。
+func matchRoute(routes []topicRoute, topic string) (string, string) {
+	topicParts := strings.Split(topic, "/")
+	for _, route := range routes {
+		templateParts := strings.Split(route.template, "/")
+		if len(templateParts) != len(topicParts) {
+			continue
+		}
+		deviceID := ""
+		matched := true
+		for idx, part := range templateParts {
+			switch part {
+			case "{device_id}", "+":
+				deviceID = topicParts[idx]
+			default:
+				if part != topicParts[idx] {
+					matched = false
+				}
+			}
+			if !matched {
+				break
+			}
+		}
+		if matched && deviceID != "" {
+			return route.kind, deviceID
+		}
 	}
-	return ""
+	return "", ""
 }
 
 func clientID(cfg config.ConnectorConfig) string {
@@ -433,15 +529,10 @@ func timeoutMillis(value int) int {
 }
 
 func waitToken(ctx context.Context, token paho.Token) error {
-	done := make(chan struct{})
-	go func() {
-		token.Wait()
-		close(done)
-	}()
 	select {
 	case <-ctx.Done():
 		return ctx.Err()
-	case <-done:
+	case <-token.Done():
 		return token.Error()
 	}
 }

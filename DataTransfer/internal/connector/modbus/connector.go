@@ -1,3 +1,6 @@
+// Package modbus 实现 Modbus TCP Connector(设计 4.3 首个内置协议):
+// 周期轮询读取线圈/寄存器、双向 Converter(解码遥测、编码下行写操作)、
+// 设备状态跟踪与单连接串行访问。poll 与 SendCommand 经 opMu 互斥。
 package modbus
 
 import (
@@ -15,6 +18,7 @@ import (
 	"competition2026/product/datatransfer/internal/connector"
 	dterrors "competition2026/product/datatransfer/internal/errors"
 	smodbus "github.com/simonvetter/modbus"
+	"google.golang.org/protobuf/proto"
 )
 
 const Protocol = "modbus_tcp"
@@ -44,7 +48,7 @@ type Connector struct {
 	client        Client
 	clientOpen    bool
 	status        connector.Status
-	devices       []dtv1.DeviceInfo
+	devices       []*dtv1.DeviceInfo
 	deviceConfigs map[string]config.DeviceConfig
 	startedAt     time.Time
 }
@@ -77,7 +81,7 @@ func (c *Connector) Init(cfg config.ConnectorConfig) error {
 	c.converter = NewConverter(cfg)
 	c.status = connector.NewStatus(cfg.ConnectorID, cfg.Protocol)
 	c.status.DeviceCount = len(cfg.Devices)
-	c.devices = make([]dtv1.DeviceInfo, 0, len(cfg.Devices))
+	c.devices = make([]*dtv1.DeviceInfo, 0, len(cfg.Devices))
 	c.deviceConfigs = make(map[string]config.DeviceConfig, len(cfg.Devices))
 	for _, device := range cfg.Devices {
 		c.deviceConfigs[device.DeviceID] = device
@@ -92,8 +96,9 @@ func (c *Connector) Start(ctx context.Context, upstream chan<- *dtv1.DeviceMessa
 	c.setState(connector.StateInitializing, "")
 	c.mu.Lock()
 	c.startedAt = time.Now()
+	intervalMillis := c.cfg.Polling.IntervalMillis
 	c.mu.Unlock()
-	interval := time.Duration(c.cfg.Polling.IntervalMillis) * time.Millisecond
+	interval := time.Duration(intervalMillis) * time.Millisecond
 	if interval <= 0 {
 		interval = time.Second
 	}
@@ -121,7 +126,7 @@ func (c *Connector) SendCommand(ctx context.Context, cmd *dtv1.DeviceMessage) (*
 	deviceID := cmd.GetDevice().GetDeviceId()
 	device, ok := c.deviceConfig(deviceID)
 	if !ok {
-		return rejectedResponse(cmd, dterrors.CodeCommandNoConnector, "device is not managed by this connector"), nil
+		return rejectedResponse(cmd, dterrors.CodeCommandNoRoute, "device is not managed by this connector"), nil
 	}
 	if err := c.setUnit(device); err != nil {
 		return nil, err
@@ -155,15 +160,25 @@ func (c *Connector) Status() connector.Status {
 	return status
 }
 
-func (c *Connector) Devices() []dtv1.DeviceInfo {
+func (c *Connector) Devices() []*dtv1.DeviceInfo {
 	c.mu.RLock()
 	defer c.mu.RUnlock()
-	out := make([]dtv1.DeviceInfo, len(c.devices))
-	copy(out, c.devices)
+	out := make([]*dtv1.DeviceInfo, 0, len(c.devices))
+	for _, device := range c.devices {
+		out = append(out, proto.Clone(device).(*dtv1.DeviceInfo))
+	}
 	return out
 }
 
+// ReloadConfig 与 poll/SendCommand 串行(opMu),并关闭旧连接,
+// 使连接参数变更在下一次操作时以新配置重建客户端。
 func (c *Connector) ReloadConfig(cfg config.ConnectorConfig) error {
+	c.opMu.Lock()
+	defer c.opMu.Unlock()
+	if err := c.closeClientLocked(); err != nil {
+		// 旧连接关闭失败不阻塞配置应用,记录后继续。
+		c.markError(err)
+	}
 	return c.Init(cfg)
 }
 
@@ -175,14 +190,14 @@ func (c *Connector) poll(ctx context.Context, upstream chan<- *dtv1.DeviceMessag
 	defer c.opMu.Unlock()
 	if err := c.ensureClient(); err != nil {
 		c.markError(err)
-		c.markAllDevices(dtv1.DeviceState_OFFLINE, upstream)
+		c.markAllDevices(ctx, dtv1.DeviceState_OFFLINE, upstream)
 		return
 	}
 	for _, device := range c.snapshotDeviceConfigs() {
 		if err := c.setUnit(device); err != nil {
 			c.markError(err)
 			_ = c.closeClientLocked()
-			c.markDeviceState(device.DeviceID, dtv1.DeviceState_ERROR, upstream)
+			c.markDeviceState(ctx, device.DeviceID, dtv1.DeviceState_ERROR, upstream)
 			continue
 		}
 		readings := make([]Reading, 0, len(device.Datapoints))
@@ -192,7 +207,7 @@ func (c *Connector) poll(ctx context.Context, upstream chan<- *dtv1.DeviceMessag
 			if err != nil {
 				c.markError(err)
 				_ = c.closeClientLocked()
-				c.markDeviceState(device.DeviceID, dtv1.DeviceState_ERROR, upstream)
+				c.markDeviceState(ctx, device.DeviceID, dtv1.DeviceState_ERROR, upstream)
 				readFailed = true
 				break
 			}
@@ -208,12 +223,18 @@ func (c *Connector) poll(ctx context.Context, upstream chan<- *dtv1.DeviceMessag
 		if len(readings) == 0 {
 			continue
 		}
-		msg, err := c.converter.BuildTelemetry(device, readings)
+		msg, skipped, err := c.converter.BuildTelemetry(device, readings)
+		for range skipped {
+			c.addError()
+		}
 		if err != nil {
 			c.markError(err)
 			continue
 		}
-		c.markDeviceState(device.DeviceID, dtv1.DeviceState_ONLINE, upstream)
+		if msg == nil {
+			continue
+		}
+		c.markDeviceState(ctx, device.DeviceID, dtv1.DeviceState_ONLINE, upstream)
 		c.addMessageIn()
 		select {
 		case upstream <- msg:
@@ -222,6 +243,12 @@ func (c *Connector) poll(ctx context.Context, upstream chan<- *dtv1.DeviceMessag
 		}
 	}
 	c.setState(connector.StateRunning, "")
+}
+
+func (c *Connector) addError() {
+	c.mu.Lock()
+	defer c.mu.Unlock()
+	c.status.Stats.ErrorsTotal++
 }
 
 func (c *Connector) readDatapoint(datapoint config.DatapointConfig) (any, error) {
@@ -441,33 +468,40 @@ func (c *Connector) addMessageOut() {
 	c.status.Stats.MessagesOut++
 }
 
-func (c *Connector) markAllDevices(state dtv1.DeviceState, upstream chan<- *dtv1.DeviceMessage) {
+func (c *Connector) markAllDevices(ctx context.Context, state dtv1.DeviceState, upstream chan<- *dtv1.DeviceMessage) {
 	for _, device := range c.snapshotDeviceConfigs() {
-		c.markDeviceState(device.DeviceID, state, upstream)
+		c.markDeviceState(ctx, device.DeviceID, state, upstream)
 	}
 }
 
-func (c *Connector) markDeviceState(deviceID string, state dtv1.DeviceState, upstream chan<- *dtv1.DeviceMessage) {
+// markDeviceState 在锁内更新设备状态并构造状态消息,锁外做带 ctx 的阻塞发送。
+// 不再为发送启动 goroutine:既避免停机时 goroutine 泄漏,也保证状态消息有序。
+func (c *Connector) markDeviceState(ctx context.Context, deviceID string, state dtv1.DeviceState, upstream chan<- *dtv1.DeviceMessage) {
+	var msg *dtv1.DeviceMessage
 	c.mu.Lock()
-	defer c.mu.Unlock()
-	for idx := range c.devices {
-		device := &c.devices[idx]
+	for _, device := range c.devices {
 		if device.GetIdentity().GetDeviceId() != deviceID {
 			continue
 		}
-		if device.State == state {
-			device.LastSeen = time.Now().UnixMilli()
-			return
-		}
-		device.State = state
 		device.LastSeen = time.Now().UnixMilli()
-		if upstream != nil {
-			msg := statusMessage(c.cfg, device)
-			go func() {
-				upstream <- msg
-			}()
+		if device.State != state {
+			device.State = state
+			if upstream != nil {
+				msg = statusMessage(c.cfg, device)
+			}
 		}
+		break
+	}
+	c.mu.Unlock()
+	if msg == nil {
 		return
+	}
+	if ctx == nil {
+		ctx = context.Background()
+	}
+	select {
+	case upstream <- msg:
+	case <-ctx.Done():
 	}
 }
 
@@ -477,7 +511,7 @@ func statusMessage(cfg config.ConnectorConfig, device *dtv1.DeviceInfo) *dtv1.De
 		MessageId: fmt.Sprintf("modbus-status-%s-%d", device.GetIdentity().GetDeviceId(), time.Now().UnixNano()),
 		Timestamp: now,
 		Direction: dtv1.Direction_UPSTREAM,
-		Device:    device.GetIdentity(),
+		Device:    proto.Clone(device.GetIdentity()).(*dtv1.DeviceIdentity),
 		Type:      dtv1.MessageType_STATUS,
 		Payload: &dtv1.DeviceMessage_Status{
 			Status: &dtv1.StatusPayload{

@@ -1,3 +1,6 @@
+// Package pluginapi 暴露 Connector 插件开发契约(接口文档 4.1):
+// 插件只依赖本包与生成的 proto 类型,不得 import internal/。
+// 与 internal/connector 的接口保持同构;sidecar 进程间隔离见 plugin proto。
 package pluginapi
 
 import (
@@ -31,7 +34,8 @@ type Connector interface {
 	SendCommand(ctx context.Context, cmd *DeviceMessage) (*CommandResponsePayload, error)
 	Stop() error
 	Status() ConnectorStatus
-	Devices() []DeviceInfo
+	// Devices 返回设备快照。元素为独立副本(指针切片避免按值拷贝 protobuf 消息)。
+	Devices() []*DeviceInfo
 	ReloadConfig(config ConnectorConfig) error
 }
 

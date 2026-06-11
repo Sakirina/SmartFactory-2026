@@ -49,9 +49,12 @@ func TestConverterBuildsTelemetryWithScaleAndMergedTags(t *testing.T) {
 		},
 	}
 
-	msg, err := NewConverter(connectorCfg).BuildTelemetry(device, readings)
+	msg, skipped, err := NewConverter(connectorCfg).BuildTelemetry(device, readings)
 	if err != nil {
 		t.Fatalf("BuildTelemetry returned error: %v", err)
+	}
+	if len(skipped) != 0 {
+		t.Fatalf("skipped = %v, want none", skipped)
 	}
 	if msg.GetDevice().GetConnectorId() != "modbus-1" {
 		t.Fatalf("connector id = %q", msg.GetDevice().GetConnectorId())

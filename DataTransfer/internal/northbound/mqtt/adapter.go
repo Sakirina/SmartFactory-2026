@@ -1,3 +1,6 @@
+// Package mqtt 实现方案B 北向 MQTT 适配(v3.1.1 生产路径):
+// 上行批量发布(经 SQLite 缓冲两阶段确认)、断连缓冲与限速续传(Replay)、
+// 下行 command/config 订阅与分发、遗嘱消息。v5 兼容扩展见 DT-COL-013 spike 结论。
 package mqtt
 
 import (
@@ -91,7 +94,8 @@ func (a *Adapter) Start(ctx context.Context) error {
 	opts.SetConnectionLostHandler(func(_ paho.Client, err error) {
 		a.connected.Store(false)
 		a.rt.SetMQTTConnected(false)
-		a.log.Warn("mqtt connection lost", "error", err)
+		a.log.Warn("northbound mqtt connection lost; switching to buffer mode",
+			"code", dterrors.CodeNorthboundDown, "error", err)
 	})
 	opts.SetReconnectingHandler(func(_ paho.Client, _ *paho.ClientOptions) {
 		a.connected.Store(false)
@@ -101,6 +105,7 @@ func (a *Adapter) Start(ctx context.Context) error {
 	opts.SetOnConnectHandler(func(client paho.Client) {
 		a.connected.Store(true)
 		a.rt.SetMQTTConnected(true)
+		a.log.Info("northbound mqtt connection established", "code", dterrors.CodeNorthboundUp)
 		if err := a.subscribe(client); err != nil {
 			a.log.Error("mqtt subscribe failed", "error", err)
 		}
@@ -193,7 +198,7 @@ func (a *Adapter) routeMessage(_ paho.Client, message paho.Message) {
 func (a *Adapter) handleCommand(payload []byte) {
 	var msg dtv1.DeviceMessage
 	if err := proto.Unmarshal(payload, &msg); err != nil {
-		a.log.Error("mqtt command decode failed", "code", dterrors.CodeMQTTDecodeFailed, "error", err)
+		a.log.Error("mqtt command decode failed", "code", dterrors.CodeNorthboundDecode, "error", err)
 		return
 	}
 	response, _, err := a.rt.HandleCommand(context.Background(), &msg)
@@ -211,7 +216,7 @@ func (a *Adapter) handleCommand(payload []byte) {
 		Payload: &dtv1.DeviceMessage_CmdResponse{
 			CmdResponse: response,
 		},
-		Metadata: map[string]string{"phase": "P1"},
+		Metadata: map[string]string{"origin": "command-router"},
 	}
 	if err := a.PublishUpstream(context.Background(), responseMsg); err != nil {
 		a.log.Error("mqtt command response publish failed", "error", err, "command_id", msg.GetCommandId())
@@ -221,7 +226,7 @@ func (a *Adapter) handleCommand(payload []byte) {
 func (a *Adapter) handleConfig(payload []byte) {
 	var update dtv1.DeviceConfigUpdate
 	if err := proto.Unmarshal(payload, &update); err != nil {
-		a.log.Error("mqtt config decode failed", "code", dterrors.CodeMQTTDecodeFailed, "error", err)
+		a.log.Error("mqtt config decode failed", "code", dterrors.CodeNorthboundDecode, "error", err)
 		return
 	}
 	response := a.rt.ApplyConfig(&update)
@@ -258,6 +263,9 @@ func (a *Adapter) BufferSnapshot() dtruntime.PersistentBufferSnapshot {
 func (a *Adapter) replayLoop(ctx context.Context) {
 	ticker := time.NewTicker(time.Second)
 	defer ticker.Stop()
+	replaying := false
+	replayedRecords := 0
+	var replayStartedAt time.Time
 	for {
 		select {
 		case <-ctx.Done():
@@ -272,7 +280,22 @@ func (a *Adapter) replayLoop(ctx context.Context) {
 				break
 			}
 			if len(records) == 0 {
+				if replaying {
+					a.log.Info("buffer replay completed",
+						"code", dterrors.CodeBufferReplayDone,
+						"replayed_records", replayedRecords,
+						"elapsed", time.Since(replayStartedAt).String(),
+					)
+					replaying = false
+					replayedRecords = 0
+				}
 				break
+			}
+			if !replaying {
+				replaying = true
+				replayedRecords = 0
+				replayStartedAt = time.Now()
+				a.log.Info("buffer replay started", "code", dterrors.CodeBufferReplayStart, "first_batch", len(records))
 			}
 			ids := recordIDs(records)
 			if err := a.sendRecords(ctx, records); err != nil {
@@ -284,6 +307,7 @@ func (a *Adapter) replayLoop(ctx context.Context) {
 				a.log.Error("buffer mark completed failed", "error", err, "records", len(records))
 				break
 			}
+			replayedRecords += len(records)
 			a.replayBatchTotal.Add(1)
 			a.applyRateLimit(ctx, len(records))
 		}
@@ -380,15 +404,10 @@ func recordIDs(records []buffer.Record) []int64 {
 }
 
 func waitToken(ctx context.Context, token paho.Token) error {
-	done := make(chan struct{})
-	go func() {
-		token.Wait()
-		close(done)
-	}()
 	select {
 	case <-ctx.Done():
 		return ctx.Err()
-	case <-done:
+	case <-token.Done():
 		return token.Error()
 	}
 }

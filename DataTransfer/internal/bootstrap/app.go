@@ -1,3 +1,6 @@
+// Package bootstrap 负责进程装配:加载配置、初始化日志、创建 Runtime 与各模块,
+// 按运行模式(embedded/split)启动管理端、gRPC/MQTT 北向与 Connector Manager,
+// 并处理信号驱动的优雅停机。gRPC 反射仅在 environment=development 且显式开启时注册。
 package bootstrap
 
 import (
@@ -22,8 +25,11 @@ import (
 	mqttadapter "competition2026/product/datatransfer/internal/northbound/mqtt"
 	"competition2026/product/datatransfer/internal/observability"
 	dtruntime "competition2026/product/datatransfer/internal/runtime"
+	"competition2026/product/datatransfer/internal/security"
 	"competition2026/product/datatransfer/internal/storage"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials"
+	"google.golang.org/grpc/reflection"
 )
 
 type App struct {
@@ -42,7 +48,12 @@ func (a App) Run(ctx context.Context) error {
 		return err
 	}
 	rt.AttachConnectorManager(connectorManager)
-	rt.AttachConfigManager(configmanager.New(connectorManager, logger))
+	configManager := configmanager.New(connectorManager, logger)
+	configManager.SetGlobalApplier(rt)
+	rt.AttachConfigManager(configManager)
+	if cfg.MQTT.Enabled && cfg.MQTT.TLS.Enabled && cfg.MQTT.TLS.InsecureSkipVerify {
+		logger.Warn("mqtt tls certificate verification is DISABLED (insecure_skip_verify); never use this in production")
+	}
 
 	var bufferStore *buffer.Store
 	if cfg.Buffer.Enabled {
@@ -79,15 +90,17 @@ func (a App) Run(ctx context.Context) error {
 
 	var grpcServer *grpc.Server
 	if cfg.GRPC.Enabled {
-		grpcServer = grpc.NewServer()
-		grpcadapter.Register(grpcServer, rt)
+		grpcServer, err = buildGRPCServer(cfg, rt, logger)
+		if err != nil {
+			return err
+		}
 		listener, err := net.Listen("tcp", cfg.GRPC.Addr)
 		if err != nil {
 			return err
 		}
 		rt.SetGRPCServing(true)
 		go func() {
-			logger.Info("grpc server starting", "addr", cfg.GRPC.Addr)
+			logger.Info("grpc server starting", "addr", cfg.GRPC.Addr, "tls", cfg.GRPC.TLS.Enabled, "reflection", reflectionEnabled(cfg))
 			if err := grpcServer.Serve(listener); err != nil && !errors.Is(err, grpc.ErrServerStopped) {
 				errCh <- err
 			}
@@ -137,6 +150,31 @@ func (a App) Run(ctx context.Context) error {
 		}
 	}
 	return nil
+}
+
+// buildGRPCServer 按配置组装 gRPC 服务端:可选服务端 TLS(含 mTLS),
+// 以及仅限开发环境的 Server Reflection(默认关闭;生产配置已被 Validate 拒绝,
+// 此处再按 environment 判断一次作为纵深防御)。
+func buildGRPCServer(cfg config.Config, rt *dtruntime.Runtime, logger *slog.Logger) (*grpc.Server, error) {
+	var opts []grpc.ServerOption
+	if cfg.GRPC.TLS.Enabled {
+		tlsCfg, err := security.ServerTLSConfig(cfg.GRPC.TLS)
+		if err != nil {
+			return nil, fmt.Errorf("grpc server tls: %w", err)
+		}
+		opts = append(opts, grpc.Creds(credentials.NewTLS(tlsCfg)))
+	}
+	server := grpc.NewServer(opts...)
+	grpcadapter.Register(server, rt)
+	if reflectionEnabled(cfg) {
+		reflection.Register(server)
+		logger.Warn("grpc server reflection is ENABLED (development only); do not expose this endpoint to untrusted networks")
+	}
+	return server, nil
+}
+
+func reflectionEnabled(cfg config.Config) bool {
+	return cfg.GRPC.Reflection && cfg.Environment == config.EnvDevelopment
 }
 
 func newLogger(level string) *slog.Logger {

@@ -1,3 +1,6 @@
+// Package storage 是本地缓冲存储的工厂入口,即信创适配的 StorageBackend
+// 工程预留点(设计 DQ-008):国产数据库适配器未来在此边界接入,调用方不感知。
+// 当前唯一实现为 SQLite;本包为遗留预留代码,保留勿删。
 package storage
 
 import (

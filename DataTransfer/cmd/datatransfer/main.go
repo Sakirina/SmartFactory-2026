@@ -1,3 +1,4 @@
+// datatransfer 是数据传递微服务主入口:解析 -config 与信号,委托 bootstrap 运行。
 package main
 
 import (

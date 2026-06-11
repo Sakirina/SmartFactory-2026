@@ -1,3 +1,6 @@
+// Package connector 定义南向协议适配器契约(Connector 接口、工厂注册表)
+// 与 Connector Manager:实例生命周期、panic 恢复与退避自动重启(DT-CON-003)、
+// 设备路由索引、上报策略索引、背压水位观测(FR-S-037~039)。
 package connector
 
 import (
@@ -23,7 +26,9 @@ type Connector interface {
 	SendCommand(ctx context.Context, cmd *dtv1.DeviceMessage) (*dtv1.CommandResponsePayload, error)
 	Stop() error
 	Status() Status
-	Devices() []dtv1.DeviceInfo
+	// Devices 返回当前管理的设备快照。返回的元素为独立副本,调用方可安全持有;
+	// 使用指针切片以避免按值拷贝 protobuf 消息(go vet copylocks)。
+	Devices() []*dtv1.DeviceInfo
 	ReloadConfig(config config.ConnectorConfig) error
 }
 
@@ -99,8 +104,8 @@ func StatusMetrics(status Status) *dtv1.ConnectorMetrics {
 	}
 }
 
-func DeviceInfoFromConfig(connectorID, protocol string, tags map[string]string, device config.DeviceConfig, state dtv1.DeviceState, now time.Time) dtv1.DeviceInfo {
-	return dtv1.DeviceInfo{
+func DeviceInfoFromConfig(connectorID, protocol string, tags map[string]string, device config.DeviceConfig, state dtv1.DeviceState, now time.Time) *dtv1.DeviceInfo {
+	return &dtv1.DeviceInfo{
 		Identity: &dtv1.DeviceIdentity{
 			DeviceId:    device.DeviceID,
 			DeviceName:  device.DeviceName,

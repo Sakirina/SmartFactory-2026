@@ -122,6 +122,82 @@ func TestRouterRejectsInvalidPayload(t *testing.T) {
 	}
 }
 
+func TestRouterRetriesTransientErrorsPerOptions(t *testing.T) {
+	attempts := 0
+	executor := &fakeExecutor{
+		fn: func(_ context.Context, msg *dtv1.DeviceMessage) (*dtv1.CommandResponsePayload, error) {
+			attempts++
+			if attempts < 3 {
+				return nil, errors.New("transient connection error")
+			}
+			return &dtv1.CommandResponsePayload{CommandId: msg.GetCommandId(), Status: dtv1.CommandStatus_SUCCESS}, nil
+		},
+	}
+	service := NewService(time.Minute)
+	service.SetResolver(fakeResolver{executor: executor, ok: true})
+
+	cmd := testControlCommand("cmd-retry")
+	cmd.GetControl().Options = &dtv1.CommandOptions{RetryCount: 3, TimeoutMs: 5000}
+	result, err := service.Handle(context.Background(), cmd)
+	if err != nil {
+		t.Fatalf("Handle returned error: %v", err)
+	}
+	if result.Response.GetStatus() != dtv1.CommandStatus_SUCCESS {
+		t.Fatalf("status = %s, want SUCCESS after retries", result.Response.GetStatus())
+	}
+	if attempts != 3 {
+		t.Fatalf("attempts = %d, want 3 (1 initial + 2 retries)", attempts)
+	}
+}
+
+func TestRouterDoesNotRetryWhenRetryCountZero(t *testing.T) {
+	attempts := 0
+	executor := &fakeExecutor{
+		fn: func(context.Context, *dtv1.DeviceMessage) (*dtv1.CommandResponsePayload, error) {
+			attempts++
+			return nil, errors.New("boom")
+		},
+	}
+	service := NewService(time.Minute)
+	service.SetResolver(fakeResolver{executor: executor, ok: true})
+
+	result, err := service.Handle(context.Background(), testControlCommand("cmd-noretry"))
+	if err != nil {
+		t.Fatalf("Handle returned error: %v", err)
+	}
+	if result.Response.GetStatus() != dtv1.CommandStatus_FAILURE {
+		t.Fatalf("status = %s, want FAILURE", result.Response.GetStatus())
+	}
+	if attempts != 1 {
+		t.Fatalf("attempts = %d, want exactly 1 (retry_count=0 means no retry)", attempts)
+	}
+}
+
+func TestRouterDoesNotRetryRejectedResponses(t *testing.T) {
+	attempts := 0
+	executor := &fakeExecutor{
+		fn: func(_ context.Context, msg *dtv1.DeviceMessage) (*dtv1.CommandResponsePayload, error) {
+			attempts++
+			return &dtv1.CommandResponsePayload{CommandId: msg.GetCommandId(), Status: dtv1.CommandStatus_REJECTED}, nil
+		},
+	}
+	service := NewService(time.Minute)
+	service.SetResolver(fakeResolver{executor: executor, ok: true})
+
+	cmd := testControlCommand("cmd-rejected")
+	cmd.GetControl().Options = &dtv1.CommandOptions{RetryCount: 5}
+	result, err := service.Handle(context.Background(), cmd)
+	if err != nil {
+		t.Fatalf("Handle returned error: %v", err)
+	}
+	if result.Response.GetStatus() != dtv1.CommandStatus_REJECTED {
+		t.Fatalf("status = %s, want REJECTED", result.Response.GetStatus())
+	}
+	if attempts != 1 {
+		t.Fatalf("attempts = %d, want 1 (deterministic rejection must not retry)", attempts)
+	}
+}
+
 func testControlCommand(commandID string) *dtv1.DeviceMessage {
 	return &dtv1.DeviceMessage{
 		Direction: dtv1.Direction_DOWNSTREAM,

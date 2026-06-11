@@ -2,7 +2,9 @@ package connector
 
 import (
 	"context"
+	"errors"
 	"sync"
+	"sync/atomic"
 	"testing"
 	"time"
 
@@ -59,6 +61,68 @@ func TestManagerDynamicConnectorAndDeviceReload(t *testing.T) {
 	}
 }
 
+// TestFailedReloadDoesNotCorruptStoredConfig 回归:ApplyDevice/RemoveDevice 必须
+// 先克隆配置再修改;否则失败回滚后 Manager 中保存的配置已被就地污染。
+func TestFailedReloadDoesNotCorruptStoredConfig(t *testing.T) {
+	const protocol = "fake_failing_reload"
+	conn := &failingReloadConnector{}
+	Register(protocol, func() Connector { return conn })
+	manager, err := NewManager([]config.ConnectorConfig{{
+		ConnectorID: "conn-f",
+		Protocol:    protocol,
+		Devices: []config.DeviceConfig{
+			{DeviceID: "dev-a", DeviceName: "A"},
+			{DeviceID: "dev-b", DeviceName: "B"},
+		},
+	}}, &fakePublisher{}, nil)
+	if err != nil {
+		t.Fatalf("NewManager returned error: %v", err)
+	}
+
+	conn.failReload.Store(true)
+	if err := manager.RemoveDevice("conn-f", "dev-a"); err == nil {
+		t.Fatal("RemoveDevice should fail when reload fails")
+	}
+	cfg, ok := manager.ConnectorConfig("conn-f")
+	if !ok || len(cfg.Devices) != 2 {
+		t.Fatalf("stored config corrupted after failed reload: devices = %+v", cfg.Devices)
+	}
+	if cfg.Devices[0].DeviceID != "dev-a" || cfg.Devices[1].DeviceID != "dev-b" {
+		t.Fatalf("stored device order corrupted: %+v", cfg.Devices)
+	}
+
+	if err := manager.ApplyDevice("conn-f", config.DeviceConfig{DeviceID: "dev-c"}); err == nil {
+		t.Fatal("ApplyDevice should fail when reload fails")
+	}
+	cfg, _ = manager.ConnectorConfig("conn-f")
+	if len(cfg.Devices) != 2 {
+		t.Fatalf("stored config gained device after failed apply: %+v", cfg.Devices)
+	}
+
+	conn.failReload.Store(false)
+	if err := manager.RemoveDevice("conn-f", "dev-a"); err != nil {
+		t.Fatalf("RemoveDevice after recovery returned error: %v", err)
+	}
+	cfg, _ = manager.ConnectorConfig("conn-f")
+	if len(cfg.Devices) != 1 || cfg.Devices[0].DeviceID != "dev-b" {
+		t.Fatalf("devices after successful remove = %+v", cfg.Devices)
+	}
+}
+
+type failingReloadConnector struct {
+	fakeReloadConnector
+	failReload atomic.Bool
+}
+
+func (f *failingReloadConnector) ReloadConfig(cfg config.ConnectorConfig) error {
+	if f.failReload.Load() {
+		return errReloadRejected
+	}
+	return f.fakeReloadConnector.ReloadConfig(cfg)
+}
+
+var errReloadRejected = errors.New("reload rejected by connector")
+
 type fakeReloadConnector struct {
 	mu      sync.Mutex
 	cfg     config.ConnectorConfig
@@ -98,10 +162,10 @@ func (f *fakeReloadConnector) Status() Status {
 	return Status{ConnectorID: f.cfg.ConnectorID, Protocol: f.cfg.Protocol, State: StateRunning, DeviceCount: len(f.cfg.Devices)}
 }
 
-func (f *fakeReloadConnector) Devices() []dtv1.DeviceInfo {
+func (f *fakeReloadConnector) Devices() []*dtv1.DeviceInfo {
 	f.mu.Lock()
 	defer f.mu.Unlock()
-	out := make([]dtv1.DeviceInfo, 0, len(f.cfg.Devices))
+	out := make([]*dtv1.DeviceInfo, 0, len(f.cfg.Devices))
 	for _, device := range f.cfg.Devices {
 		out = append(out, DeviceInfoFromConfig(f.cfg.ConnectorID, f.cfg.Protocol, nil, device, dtv1.DeviceState_ONLINE, time.Now()))
 	}

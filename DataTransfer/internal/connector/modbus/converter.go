@@ -41,15 +41,20 @@ func NewConverter(connector config.ConnectorConfig) *Converter {
 	return &Converter{connector: connector}
 }
 
-func (c *Converter) BuildTelemetry(device config.DeviceConfig, readings []Reading) (*dtv1.DeviceMessage, error) {
+// BuildTelemetry 将一轮采集的原始读取转换为单条 TELEMETRY 消息。
+// 单个数据点解码失败只跳过该点(设计 4.4 / NFR-010),失败原因经 skipped 返回;
+// 全部数据点都失败时返回错误(DT-CVT-001),整条消息跳过。
+func (c *Converter) BuildTelemetry(device config.DeviceConfig, readings []Reading) (*dtv1.DeviceMessage, []error, error) {
 	if len(readings) == 0 {
-		return nil, nil
+		return nil, nil, nil
 	}
 	datapoints := make([]*dtv1.Datapoint, 0, len(readings))
+	var skipped []error
 	for _, reading := range readings {
 		value, err := decodeValue(reading.Raw, reading.Datapoint)
 		if err != nil {
-			return nil, err
+			skipped = append(skipped, fmt.Errorf("datapoint %q: %w", reading.Datapoint.Key, err))
+			continue
 		}
 		datapoints = append(datapoints, &dtv1.Datapoint{
 			Key:       reading.Datapoint.Key,
@@ -58,6 +63,9 @@ func (c *Converter) BuildTelemetry(device config.DeviceConfig, readings []Readin
 			Quality:   qualityFromString(reading.Datapoint.Quality),
 			Unit:      reading.Datapoint.Unit,
 		})
+	}
+	if len(datapoints) == 0 {
+		return nil, skipped, fmt.Errorf("%s: all datapoints failed to decode for device %s", dterrors.CodeConverterFailed, device.DeviceID)
 	}
 	now := time.Now().UnixMilli()
 	return &dtv1.DeviceMessage{
@@ -80,7 +88,7 @@ func (c *Converter) BuildTelemetry(device config.DeviceConfig, readings []Readin
 			"time_source": "collector",
 			"protocol":    c.connector.Protocol,
 		},
-	}, nil
+	}, skipped, nil
 }
 
 func decodeValue(raw any, datapoint config.DatapointConfig) (*dtv1.DataValue, error) {

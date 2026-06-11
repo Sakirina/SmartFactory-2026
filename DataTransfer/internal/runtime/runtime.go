@@ -1,3 +1,6 @@
+// Package runtime 是消息中枢:接收 Connector 上行消息,经上报策略过滤后
+// 交付北向 sink、近期环形缓冲与订阅者;承接下行指令与配置推送的入口,
+// 并汇总全局指标(速率、背压、策略、缓冲)供管理端与 GetMetrics 使用。
 package runtime
 
 import (
@@ -15,6 +18,7 @@ import (
 	"competition2026/product/datatransfer/internal/configmanager"
 	"competition2026/product/datatransfer/internal/connector"
 	dterrors "competition2026/product/datatransfer/internal/errors"
+	"competition2026/product/datatransfer/internal/strategy"
 )
 
 type Runtime struct {
@@ -25,6 +29,7 @@ type Runtime struct {
 	upstream   UpstreamSink
 	buffer     PersistentBufferProvider
 	store      *ringStore
+	strategy   *strategy.Engine
 
 	mu            sync.RWMutex
 	subscribers   map[uint64]subscription
@@ -38,6 +43,15 @@ type Runtime struct {
 	duplicateCommandTotal atomic.Int64
 	configRejectTotal     atomic.Int64
 	discoveryEventTotal   atomic.Int64
+	subscriberDropTotal   atomic.Int64
+
+	// 速率窗口:供 MetricsResponse 计算条/秒(FR-S-030 要求速率而非累计值)。
+	rateMu     sync.Mutex
+	rateAt     time.Time
+	rateUp     int64
+	rateDown   int64
+	upPerSec   float64
+	downPerSec float64
 }
 
 type subscription struct {
@@ -81,7 +95,22 @@ type Snapshot struct {
 	DuplicateCommandTotal int64
 	ConfigRejectTotal     int64
 	DiscoveryEventTotal   int64
+	SubscriberDropTotal   int64
 	PersistentBuffer      PersistentBufferSnapshot
+
+	// 背压观测(FR-S-039)
+	BackpressureActive       bool
+	BackpressurePolicy       dtv1.BackpressurePolicy
+	QueueUsagePercent        float64
+	BackpressureTriggerTotal int64
+	BackpressureDropTotal    int64
+
+	// 上报策略统计(FR-S-030)
+	StrategyFilteredMessages int64
+	StrategyDeliveredCount   int64
+	StrategyFilteredPoints   int64
+
+	Connectors map[string]*dtv1.ConnectorMetrics
 }
 
 func New(cfg config.Config) *Runtime {
@@ -90,6 +119,8 @@ func New(cfg config.Config) *Runtime {
 		commands:    command.NewService(time.Duration(cfg.Runtime.CommandTTLSeconds) * time.Second),
 		store:       newRingStore(cfg.Runtime.RingSize),
 		subscribers: make(map[uint64]subscription),
+		strategy:    strategy.NewEngine(cfg.ReportStrategy),
+		rateAt:      time.Now(),
 	}
 }
 
@@ -102,6 +133,47 @@ func (r *Runtime) AttachConnectorManager(manager *connector.Manager) {
 	r.connectors = manager
 	r.mu.Unlock()
 	r.commands.SetResolver(manager)
+	r.strategy.SetResolver(manager)
+	if policy, ok := dtv1.BackpressurePolicy_value[r.cfg.Backpressure.Policy]; ok && policy != 0 {
+		manager.SetBackpressurePolicy(dtv1.BackpressurePolicy(policy))
+	}
+}
+
+// ApplyGlobalConfig 承接 UPDATE_GLOBAL 推送:热更新全局上报策略与背压策略。
+// queue_capacity 当前为启动期参数,运行时不支持调整,推送非零值时记录警告并忽略。
+func (r *Runtime) ApplyGlobalConfig(payload *dtv1.GlobalConfigPayload) error {
+	if payload == nil {
+		return fmt.Errorf("global config payload is required")
+	}
+	if strategyCfg := payload.GetDefaultReportStrategy(); strategyCfg != nil {
+		r.strategy.SetGlobal(config.ReportStrategyConfig{
+			Mode:          strategyCfg.GetMode().String(),
+			PeriodSeconds: int(strategyCfg.GetPeriodSeconds()),
+			Deadband:      strategyCfg.GetDeadband(),
+		})
+		slog.Info("global report strategy applied",
+			"code", dterrors.CodeStrategyApplied,
+			"mode", strategyCfg.GetMode().String(),
+			"period_seconds", strategyCfg.GetPeriodSeconds(),
+			"deadband", strategyCfg.GetDeadband(),
+		)
+	}
+	if policy := payload.GetBackpressurePolicy(); policy != dtv1.BackpressurePolicy_BP_UNSPECIFIED {
+		r.mu.RLock()
+		manager := r.connectors
+		r.mu.RUnlock()
+		if manager == nil {
+			return fmt.Errorf("connector manager is not attached")
+		}
+		manager.SetBackpressurePolicy(policy)
+	}
+	if payload.GetQueueCapacity() != 0 {
+		slog.Warn("queue_capacity hot update is not supported; restart with runtime.ring_size instead",
+			"code", dterrors.CodeConfigWarning,
+			"requested", payload.GetQueueCapacity(),
+		)
+	}
+	return nil
 }
 
 func (r *Runtime) AttachConfigManager(manager *configmanager.Manager) {
@@ -129,6 +201,13 @@ func (r *Runtime) Publish(msg *dtv1.DeviceMessage) error {
 	if msg.Timestamp == 0 {
 		msg.Timestamp = nowMillis()
 	}
+	// 上报策略仅过滤上行 TELEMETRY(FR-S-036);整条被过滤时静默成功,计入策略指标。
+	if msg.Direction == dtv1.Direction_UPSTREAM && msg.Type == dtv1.MessageType_TELEMETRY {
+		msg = r.strategy.Apply(msg)
+		if msg == nil {
+			return nil
+		}
+	}
 	if msg.Direction == dtv1.Direction_UPSTREAM {
 		r.mu.RLock()
 		sink := r.upstream
@@ -153,6 +232,8 @@ func (r *Runtime) Publish(msg *dtv1.DeviceMessage) error {
 		select {
 		case sub.ch <- msg:
 		default:
+			// 订阅者消费过慢导致的丢弃必须可见(FR-S-039),通过计数与指标暴露。
+			r.subscriberDropTotal.Add(1)
 		}
 	}
 	return nil
@@ -239,7 +320,7 @@ func (r *Runtime) RejectConfig(update *dtv1.DeviceConfigUpdate) *dtv1.ConfigUpda
 	}
 	return &dtv1.ConfigUpdateResponse{
 		Success:      false,
-		ErrorMessage: fmt.Sprintf("%s: configuration hot reload is not enabled in P1", dterrors.CodeConfigNotEnabled),
+		ErrorMessage: fmt.Sprintf("%s: configuration manager is not attached", dterrors.CodeConfigRejected),
 		UpdateId:     updateID,
 	}
 }
@@ -270,42 +351,67 @@ func (r *Runtime) ListDevices(req *dtv1.ListDevicesRequest) *dtv1.ListDevicesRes
 
 func (r *Runtime) MetricsResponse() *dtv1.MetricsResponse {
 	snapshot := r.Snapshot()
-	_, _, connectorMetrics := r.connectorSnapshot()
 	bufferSize := snapshot.BufferSize
 	bufferUsage := snapshot.BufferUsagePercent
 	if r.cfg.RunMode == config.RunModeSplit {
 		bufferSize = snapshot.PersistentBuffer.Pending + snapshot.PersistentBuffer.Sending
 		bufferUsage = snapshot.PersistentBuffer.UsagePercent
 	}
-	return &dtv1.MetricsResponse{
-		Timestamp:           snapshot.Timestamp,
-		ConnectedDevices:    snapshot.ConnectedDevices,
-		ActiveConnectors:    snapshot.ActiveConnectors,
-		UpstreamMsgPerSec:   float64(snapshot.UpstreamTotal),
-		DownstreamCmdPerSec: float64(snapshot.DownstreamTotal),
-		BufferSize:          bufferSize,
-		BufferUsagePercent:  bufferUsage,
-		BackpressureActive:  false,
-		BackpressurePolicy:  dtv1.BackpressurePolicy_BP_UNSPECIFIED,
-		QueueUsagePercent:   bufferUsage,
-		Connectors:          connectorMetrics,
+	upRate, downRate := r.rates(snapshot.UpstreamTotal, snapshot.DownstreamTotal)
+	delivered := snapshot.StrategyDeliveredCount
+	filtered := snapshot.StrategyFilteredMessages
+	passThrough := 1.0
+	if delivered+filtered > 0 {
+		passThrough = float64(delivered) / float64(delivered+filtered)
 	}
+	return &dtv1.MetricsResponse{
+		Timestamp:               snapshot.Timestamp,
+		ConnectedDevices:        snapshot.ConnectedDevices,
+		ActiveConnectors:        snapshot.ActiveConnectors,
+		UpstreamMsgPerSec:       upRate,
+		DownstreamCmdPerSec:     downRate,
+		BufferSize:              bufferSize,
+		BufferUsagePercent:      bufferUsage,
+		BackpressureActive:      snapshot.BackpressureActive,
+		BackpressurePolicy:      snapshot.BackpressurePolicy,
+		QueueUsagePercent:       snapshot.QueueUsagePercent,
+		StrategyFilteredCount:   filtered,
+		StrategyPassThroughRate: passThrough,
+		Connectors:              snapshot.Connectors,
+	}
+}
+
+// rates 以两次调用之间的增量计算条/秒;距上次窗口不足 1s 时沿用上次速率,避免抖动。
+func (r *Runtime) rates(upTotal, downTotal int64) (float64, float64) {
+	r.rateMu.Lock()
+	defer r.rateMu.Unlock()
+	now := time.Now()
+	elapsed := now.Sub(r.rateAt).Seconds()
+	if elapsed >= 1 {
+		r.upPerSec = float64(upTotal-r.rateUp) / elapsed
+		r.downPerSec = float64(downTotal-r.rateDown) / elapsed
+		r.rateUp = upTotal
+		r.rateDown = downTotal
+		r.rateAt = now
+	}
+	return r.upPerSec, r.downPerSec
 }
 
 func (r *Runtime) Snapshot() Snapshot {
 	r.mu.RLock()
 	grpcServing := r.grpcServing
 	mqttConnected := r.mqttConnected
+	manager := r.connectors
 	r.mu.RUnlock()
 
 	bufferSize, bufferUsage := r.store.Stats()
-	connectedDevices, activeConnectors, _ := r.connectorSnapshot()
+	connectedDevices, activeConnectors, connectorMetrics := r.connectorSnapshot()
 	persistentBuffer := r.persistentBufferSnapshot()
 	if r.cfg.RunMode == config.RunModeSplit && persistentBuffer.CapacityBytes > 0 {
 		bufferSize = int(persistentBuffer.Pending + persistentBuffer.Sending)
 		bufferUsage = persistentBuffer.UsagePercent
 	}
-	return Snapshot{
+	snapshot := Snapshot{
 		Timestamp:             nowMillis(),
 		Ready:                 r.ready(grpcServing, mqttConnected),
 		GRPCServing:           grpcServing,
@@ -320,8 +426,24 @@ func (r *Runtime) Snapshot() Snapshot {
 		DuplicateCommandTotal: r.duplicateCommandTotal.Load(),
 		ConfigRejectTotal:     r.configRejectTotal.Load(),
 		DiscoveryEventTotal:   r.discoveryEventTotal.Load(),
+		SubscriberDropTotal:   r.subscriberDropTotal.Load(),
 		PersistentBuffer:      persistentBuffer,
+		BackpressurePolicy:    dtv1.BackpressurePolicy_BP_BLOCK,
+		Connectors:            connectorMetrics,
 	}
+	if manager != nil {
+		active, policy, queueUsage, triggers, drops := manager.BackpressureSnapshot()
+		snapshot.BackpressureActive = active
+		snapshot.BackpressurePolicy = policy
+		snapshot.QueueUsagePercent = queueUsage
+		snapshot.BackpressureTriggerTotal = triggers
+		snapshot.BackpressureDropTotal = drops
+	}
+	filteredMessages, deliveredMessages, filteredPoints := r.strategy.Stats()
+	snapshot.StrategyFilteredMessages = filteredMessages
+	snapshot.StrategyDeliveredCount = deliveredMessages
+	snapshot.StrategyFilteredPoints = filteredPoints
+	return snapshot
 }
 
 func (r *Runtime) SetGRPCServing(serving bool) {
@@ -428,7 +550,7 @@ func commandResponseMessage(cmd *dtv1.DeviceMessage, response *dtv1.CommandRespo
 			CmdResponse: response,
 		},
 		Metadata: map[string]string{
-			"phase": "P1",
+			"origin": "command-router",
 		},
 	}
 }

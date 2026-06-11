@@ -146,3 +146,38 @@ connectors:
 		t.Fatalf("Load error = %v, want duplicate device_id", err)
 	}
 }
+
+func TestEnvironmentAndReflectionValidation(t *testing.T) {
+	base := Defaults()
+	if base.Environment != EnvProduction {
+		t.Fatalf("default environment = %q, want production (safe default)", base.Environment)
+	}
+	if base.GRPC.Reflection {
+		t.Fatal("reflection must default to disabled")
+	}
+
+	cfg := Defaults()
+	cfg.GRPC.Reflection = true
+	if err := cfg.Validate(); err == nil {
+		t.Fatal("production + reflection must be rejected")
+	}
+
+	cfg = Defaults()
+	cfg.Environment = "development"
+	cfg.GRPC.Reflection = true
+	if err := cfg.Validate(); err != nil {
+		t.Fatalf("development + reflection should be allowed: %v", err)
+	}
+
+	cfg = Defaults()
+	cfg.Environment = "staging"
+	if err := cfg.Validate(); err == nil {
+		t.Fatal("unknown environment must be rejected")
+	}
+
+	cfg = Defaults()
+	cfg.GRPC.TLS.Enabled = true
+	if err := cfg.Validate(); err == nil {
+		t.Fatal("grpc tls without cert/key must be rejected")
+	}
+}

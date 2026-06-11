@@ -160,3 +160,31 @@ func waitForConnectorRunning(t *testing.T, conn *Connector) {
 	}
 	t.Fatal("connector did not reach running state")
 }
+
+func TestMatchRouteSupportsCustomTopicTemplates(t *testing.T) {
+	routes := topicRoutes(config.ConnectorConfig{
+		Connection: config.ConnectionConfig{
+			TelemetryTopic: "factory/{device_id}/data",
+			StatusTopic:    "factory/{device_id}/state",
+		},
+	})
+	kind, deviceID := matchRoute(routes, "factory/sensor-9/data")
+	if kind != kindTelemetry || deviceID != "sensor-9" {
+		t.Fatalf("custom telemetry route = (%q, %q), want (telemetry, sensor-9)", kind, deviceID)
+	}
+	kind, deviceID = matchRoute(routes, "factory/sensor-9/state")
+	if kind != kindStatus || deviceID != "sensor-9" {
+		t.Fatalf("custom status route = (%q, %q), want (status, sensor-9)", kind, deviceID)
+	}
+	// 默认模板仍然生效(event 未自定义)。
+	kind, deviceID = matchRoute(routes, "devices/sensor-1/event")
+	if kind != kindEvent || deviceID != "sensor-1" {
+		t.Fatalf("default event route = (%q, %q), want (event, sensor-1)", kind, deviceID)
+	}
+	if kind, _ := matchRoute(routes, "factory/sensor-9/unknown"); kind != "" {
+		t.Fatalf("unknown topic matched kind %q", kind)
+	}
+	if kind, _ := matchRoute(routes, "factory/a/b/data"); kind != "" {
+		t.Fatalf("segment count mismatch matched kind %q", kind)
+	}
+}

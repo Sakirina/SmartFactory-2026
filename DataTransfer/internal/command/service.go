@@ -1,9 +1,13 @@
+// Package command 实现 Command Router 与 Ack Tracker(设计 4.9):
+// 校验下行指令、按 command_id 去重(DT-CMD-005)、路由至 Connector 执行,
+// 支持按 CommandOptions 的超时与重试(FR-S-014),维护指令结果的 TTL 记录。
 package command
 
 import (
 	"context"
 	"errors"
 	"fmt"
+	"log/slog"
 	"sync"
 	"time"
 
@@ -14,6 +18,16 @@ import (
 var (
 	ErrInvalidCommand = errors.New("invalid command")
 	ErrDuplicate      = errors.New("duplicate command")
+)
+
+// 按指令类型的默认超时(FR-S-014:超时时间按指令类型可配置,CONTROL 默认较短)。
+// CommandOptions.timeout_ms > 0 时覆盖默认值。
+const (
+	defaultControlTimeout = 10 * time.Second
+	defaultCommandTimeout = 30 * time.Second
+
+	retryBaseInterval = 200 * time.Millisecond
+	retryMaxInterval  = 5 * time.Second
 )
 
 type Executor interface {
@@ -125,37 +139,63 @@ func (s *Service) reserve(commandID string, internalStatus string) (bool, *dtv1.
 	return false, nil
 }
 
+// execute 下发指令并按 CommandOptions.retry_count 重试(FR-S-014)。
+// 仅对传输/执行错误重试;REJECTED 等确定性结果不重试。重试间隔指数退避。
 func (s *Service) execute(ctx context.Context, msg *dtv1.DeviceMessage) *dtv1.CommandResponsePayload {
 	executor, ok := s.resolve(msg.GetDevice().GetDeviceId())
 	if !ok {
-		return rejected(msg.CommandId, dterrors.CodeCommandNoConnector, "target device has no connector route")
+		return rejected(msg.CommandId, dterrors.CodeCommandNoRoute, "target device has no connector route")
 	}
-	response, err := executor.SendCommand(ctx, msg)
-	if err != nil {
-		if errors.Is(ctx.Err(), context.DeadlineExceeded) {
-			return &dtv1.CommandResponsePayload{
-				CommandId: msg.CommandId,
-				Status:    dtv1.CommandStatus_TIMEOUT,
-				Message:   fmt.Sprintf("%s: command timed out", dterrors.CodeCommandTimeout),
+	retries := commandRetryCount(msg)
+	var lastErr error
+	for attempt := 0; attempt <= retries; attempt++ {
+		if attempt > 0 {
+			slog.Warn("command retrying",
+				"code", dterrors.CodeCommandRetrying,
+				"command_id", msg.CommandId,
+				"device_id", msg.GetDevice().GetDeviceId(),
+				"attempt", attempt,
+				"max_retries", retries,
+			)
+			if !sleepContext(ctx, retryInterval(attempt)) {
+				break
 			}
 		}
-		return &dtv1.CommandResponsePayload{
-			CommandId: msg.CommandId,
-			Status:    dtv1.CommandStatus_FAILURE,
-			Message:   err.Error(),
+		response, err := executor.SendCommand(ctx, msg)
+		if err == nil {
+			if response == nil {
+				return &dtv1.CommandResponsePayload{
+					CommandId: msg.CommandId,
+					Status:    dtv1.CommandStatus_FAILURE,
+					Message:   "connector returned nil command response",
+				}
+			}
+			if response.CommandId == "" {
+				response.CommandId = msg.CommandId
+			}
+			return response
+		}
+		lastErr = err
+		if ctx.Err() != nil {
+			break
 		}
 	}
-	if response == nil {
+	if errors.Is(ctx.Err(), context.DeadlineExceeded) {
 		return &dtv1.CommandResponsePayload{
 			CommandId: msg.CommandId,
-			Status:    dtv1.CommandStatus_FAILURE,
-			Message:   "connector returned nil command response",
+			Status:    dtv1.CommandStatus_TIMEOUT,
+			Message:   fmt.Sprintf("%s: command timed out", dterrors.CodeCommandTimeout),
 		}
 	}
-	if response.CommandId == "" {
-		response.CommandId = msg.CommandId
+	message := "command failed"
+	if lastErr != nil {
+		message = lastErr.Error()
 	}
-	return response
+	return &dtv1.CommandResponsePayload{
+		CommandId: msg.CommandId,
+		Status:    dtv1.CommandStatus_FAILURE,
+		Message:   message,
+	}
 }
 
 func (s *Service) resolve(deviceID string) (Executor, bool) {
@@ -217,7 +257,11 @@ func validate(msg *dtv1.DeviceMessage) error {
 func withCommandTimeout(ctx context.Context, msg *dtv1.DeviceMessage) (context.Context, context.CancelFunc) {
 	timeout := commandTimeout(msg)
 	if timeout <= 0 {
-		timeout = 30 * time.Second
+		if msg.GetType() == dtv1.MessageType_CONTROL {
+			timeout = defaultControlTimeout
+		} else {
+			timeout = defaultCommandTimeout
+		}
 	}
 	return context.WithTimeout(ctx, timeout)
 }
@@ -236,6 +280,40 @@ func commandTimeout(msg *dtv1.DeviceMessage) time.Duration {
 		return 0
 	}
 	return time.Duration(timeoutMS) * time.Millisecond
+}
+
+// commandRetryCount 取 CommandOptions.retry_count;0 表示不重试(与 proto 注释一致)。
+func commandRetryCount(msg *dtv1.DeviceMessage) int {
+	var count int32
+	switch payload := msg.GetPayload().(type) {
+	case *dtv1.DeviceMessage_Control:
+		count = payload.Control.GetOptions().GetRetryCount()
+	case *dtv1.DeviceMessage_Query:
+		count = payload.Query.GetOptions().GetRetryCount()
+	}
+	if count < 0 {
+		return 0
+	}
+	return int(count)
+}
+
+func retryInterval(attempt int) time.Duration {
+	interval := retryBaseInterval << (attempt - 1)
+	if interval > retryMaxInterval || interval <= 0 {
+		return retryMaxInterval
+	}
+	return interval
+}
+
+func sleepContext(ctx context.Context, d time.Duration) bool {
+	timer := time.NewTimer(d)
+	defer timer.Stop()
+	select {
+	case <-ctx.Done():
+		return false
+	case <-timer.C:
+		return true
+	}
 }
 
 func rejected(commandID, code, message string) *dtv1.CommandResponsePayload {

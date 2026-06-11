@@ -1,8 +1,12 @@
+// Package opcua 实现 OPC-UA Connector(Read/Write/Call/Subscribe 契约)。
+// native 客户端目前覆盖 Read/Write/Call;Subscription 仅经测试 fake client 验证,
+// native 实现留待 DT-COL-016(遗留代码保留,勿删 Subscribe 空实现)。
 package opcua
 
 import (
 	"context"
 	"fmt"
+	"sort"
 	"strconv"
 	"strings"
 	"sync"
@@ -15,6 +19,7 @@ import (
 	"competition2026/product/datatransfer/internal/security"
 	gopcua "github.com/gopcua/opcua"
 	"github.com/gopcua/opcua/ua"
+	"google.golang.org/protobuf/proto"
 )
 
 const Protocol = "opcua"
@@ -37,7 +42,7 @@ type Connector struct {
 	cfg           config.ConnectorConfig
 	client        Client
 	status        connector.Status
-	devices       []dtv1.DeviceInfo
+	devices       []*dtv1.DeviceInfo
 	deviceConfigs map[string]config.DeviceConfig
 	startedAt     time.Time
 }
@@ -71,7 +76,7 @@ func (c *Connector) Init(cfg config.ConnectorConfig) error {
 	c.cfg = cfg
 	c.status = connector.NewStatus(cfg.ConnectorID, cfg.Protocol)
 	c.status.DeviceCount = len(cfg.Devices)
-	c.devices = make([]dtv1.DeviceInfo, 0, len(cfg.Devices))
+	c.devices = make([]*dtv1.DeviceInfo, 0, len(cfg.Devices))
 	c.deviceConfigs = make(map[string]config.DeviceConfig, len(cfg.Devices))
 	now := time.Now()
 	for _, device := range cfg.Devices {
@@ -143,10 +148,10 @@ func (c *Connector) SendCommand(ctx context.Context, cmd *dtv1.DeviceMessage) (*
 	device, ok := c.deviceConfigs[cmd.GetDevice().GetDeviceId()]
 	c.mu.RUnlock()
 	if !ok {
-		return rejectedResponse(cmd, dterrors.CodeCommandNoConnector, "device is not managed by this connector"), nil
+		return rejectedResponse(cmd, dterrors.CodeCommandNoRoute, "device is not managed by this connector"), nil
 	}
 	if client == nil {
-		return nil, fmt.Errorf("%s: opcua client is not connected", dterrors.CodeConnectorRuntime)
+		return nil, fmt.Errorf("%s: opcua client is not connected", dterrors.CodeConnectorConnectFailed)
 	}
 	switch cmd.GetType() {
 	case dtv1.MessageType_QUERY:
@@ -230,11 +235,13 @@ func (c *Connector) Status() connector.Status {
 	return status
 }
 
-func (c *Connector) Devices() []dtv1.DeviceInfo {
+func (c *Connector) Devices() []*dtv1.DeviceInfo {
 	c.mu.RLock()
 	defer c.mu.RUnlock()
-	out := make([]dtv1.DeviceInfo, len(c.devices))
-	copy(out, c.devices)
+	out := make([]*dtv1.DeviceInfo, 0, len(c.devices))
+	for _, device := range c.devices {
+		out = append(out, proto.Clone(device).(*dtv1.DeviceInfo))
+	}
 	return out
 }
 
@@ -358,7 +365,7 @@ func (c *nativeClient) Read(ctx context.Context, nodeID string) (any, error) {
 		return nil, err
 	}
 	if len(resp.Results) == 0 || resp.Results[0].Value == nil {
-		return nil, fmt.Errorf("%s: opcua read returned no value", dterrors.CodeConnectorRuntime)
+		return nil, fmt.Errorf("%s: opcua read returned no value", dterrors.CodeConnectorTimeout)
 	}
 	return resp.Results[0].Value.Value(), nil
 }
@@ -479,10 +486,18 @@ func dataValueToAny(value *dtv1.DataValue) any {
 	}
 }
 
+// paramsToArgs 将控制参数转换为 Method 入参。Go map 遍历顺序随机,
+// 必须按 key 字典序排序,否则多参数 Method Call 的实参顺序不可重现。
+// 约定:参数 key 按字典序对应 OPC-UA Method 的 InputArguments 顺序。
 func paramsToArgs(params map[string]string) []any {
-	args := make([]any, 0, len(params))
-	for _, value := range params {
-		args = append(args, value)
+	keys := make([]string, 0, len(params))
+	for key := range params {
+		keys = append(keys, key)
+	}
+	sort.Strings(keys)
+	args := make([]any, 0, len(keys))
+	for _, key := range keys {
+		args = append(args, params[key])
 	}
 	return args
 }

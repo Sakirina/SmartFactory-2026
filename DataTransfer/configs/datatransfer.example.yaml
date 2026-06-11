@@ -1,3 +1,6 @@
+# environment: development 允许开启 gRPC 反射等调试面;production(默认)下
+# reflection: true 会被启动校验直接拒绝。
+environment: development
 run_mode: embedded
 log:
   level: info
@@ -6,6 +9,14 @@ management:
 grpc:
   enabled: true
   addr: "127.0.0.1:50051"
+  # gRPC Server Reflection(grpcurl 调试用),默认关闭;仅 development 可开。
+  reflection: false
+  # gRPC 服务端 TLS(可选;配置 ca_file 后启用 mTLS)。开发环境反射可工作在 TLS 之上。
+  # tls:
+  #   enabled: true
+  #   cert_file: "certs/server.crt"
+  #   key_file: "certs/server.key"
+  #   ca_file: "certs/ca.crt"
 mqtt:
   enabled: false
   broker: ""
@@ -13,6 +24,20 @@ mqtt:
 runtime:
   ring_size: 1024
   command_ttl_seconds: 3600
+
+# 全局上报策略(FR-S-033~036,可选,默认 ON_RECEIVED 即不过滤)。
+# 可被 Connector 级 report_strategy 与数据点级 report_strategy 覆盖,
+# 也可由设备注册微服务通过 UPDATE_GLOBAL 热更新。
+report_strategy:
+  mode: ON_RECEIVED   # ON_RECEIVED | ON_CHANGE | ON_REPORT_PERIOD | ON_CHANGE_OR_REPORT_PERIOD
+  # period_seconds: 60   # 周期模式必填
+  # deadband: 0.1        # ON_CHANGE 死区(数值型)
+
+# 全局背压策略(FR-S-037~039)。BP_BLOCK:队列满时阻塞采集(默认);
+# BP_DROP_OLDEST:背压激活时丢弃最旧遥测(状态/事件/回执永不丢弃);
+# BP_DEGRADE:暂未支持,自动回退 BP_BLOCK。
+backpressure:
+  policy: BP_BLOCK
 buffer:
   enabled: false
   storage_type: "sqlite"
@@ -70,6 +95,11 @@ connectors:
             scale: 0.1
             unit: "celsius"
             quality: "good"
+            # 数据点级上报策略覆盖示例(优先级最高):
+            # report_strategy:
+            #   mode: ON_CHANGE_OR_REPORT_PERIOD
+            #   period_seconds: 30
+            #   deadband: 0.2
           - key: "energy"
             register_type: "input_register"
             address: 12
