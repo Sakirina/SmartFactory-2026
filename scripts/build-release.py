@@ -11,6 +11,21 @@ import shutil
 import subprocess
 
 ROOT = Path(__file__).resolve().parents[1]
+PUBLIC_DIRECTORIES = {'.github', 'DataTransfer', 'Platform', 'Frontends', 'contracts', 'deploy', 'examples', 'scripts', 'tests'}
+PUBLIC_ROOT_FILES = {'.gitattributes', '.gitignore', 'README.md', 'LICENSE', 'LICENSE.md', 'LICENSE.txt'}
+EXCLUDED_DIRECTORIES = {'.local', '.git', '.agents', '.codex', '.cache', '.tools', '.venv', 'node_modules', '__pycache__', '.pytest_cache', 'dist', 'bin', 'coverage', 'test-results', 'playwright-report'}
+INTERNAL_SCRIPTS = {'create-product-document.py', 'create-product-presentation.mjs', 'record-demo.mjs'}
+
+
+def public_source_path(relative):
+    if relative.parts[0] not in PUBLIC_DIRECTORIES and str(relative) not in PUBLIC_ROOT_FILES:return False
+    if relative.parts[:2] == ('DataTransfer', 'docs'):return False
+    if any(part in EXCLUDED_DIRECTORIES or part.startswith('.chart-data-') for part in relative.parts):return False
+    name=relative.name
+    if name in {'.DS_Store', 'AGENTS.md'} or name in INTERNAL_SCRIPTS:return False
+    if name == '.env' or (name.startswith('.env.') and name not in {'.env.example', '.env.sample'}):return False
+    if name.endswith(('-credentials.json', '.tsbuildinfo')):return False
+    return relative.suffix.lower() not in {'.db', '.sqlite', '.sqlite3', '.log', '.pyc', '.pyo', '.key', '.pem', '.p12', '.pfx', '.zip', '.tar', '.gz', '.tgz', '.7z', '.docx', '.pptx', '.xlsx', '.pdf', '.mp4', '.srt'} and not name.endswith(('.db-shm', '.db-wal'))
 
 
 def sha(path):
@@ -29,13 +44,24 @@ def source_snapshot(output):
         paths=ROOT.rglob('*')
         previous=ROOT.parent/'release-manifest.json'
         commit=json.loads(previous.read_text()).get('source_commit','unversioned-source') if previous.is_file() else 'unversioned-source'
-    excluded={'.local','.git','node_modules','__pycache__','.venv','dist','bin'}
     selected=[]
     for original in paths:
         relative=original.relative_to(ROOT)
-        if original.is_relative_to(output) or any(p in excluded or p.startswith('.chart-data-') for p in relative.parts) or relative.name=='.DS_Store':continue
-        if original.is_file() and not original.is_symlink():selected.append((original,relative))
+        if original.is_relative_to(output) or not public_source_path(relative):continue
+        if original.is_file() and not original.is_symlink() and original.resolve().is_relative_to(ROOT):selected.append((original,relative))
     return selected,commit
+
+
+def copy_release_sources(output):
+    paths,source_commit=source_snapshot(output)
+    for original,relative in paths:
+        targets=[output/'source'/relative]
+        if str(relative)=='README.md' or relative.parts[0] in {'scripts','contracts','examples','deploy'} or relative.parts[:2]==('tests','fixtures'):
+            targets.append(output/relative)
+        for target in targets:
+            target.parent.mkdir(parents=True,exist_ok=True)
+            shutil.copy2(original,target)
+    return source_commit
 
 
 def rewrite_document_links(output):
@@ -73,17 +99,8 @@ def main():
     if not args.skip_frontend_build:
         subprocess.run(['npm','run','build'],cwd=ROOT/'Frontends',check=True)
     shutil.copytree(ROOT/'Frontends/dist',output/'Frontends/dist',dirs_exist_ok=args.resume)
-    for name in ['scripts','contracts','examples','deploy','tests/fixtures']:
-        shutil.copytree(ROOT/name,output/name,ignore=shutil.ignore_patterns('__pycache__','*.pyc'),dirs_exist_ok=args.resume)
-    shutil.copyfile(ROOT/'README.md',output/'README.md')
-    for name in ['docs','deliverables']:
-        if (ROOT/name).is_dir():
-            shutil.copytree(ROOT/name,output/name,ignore=shutil.ignore_patterns('__pycache__','*.pyc'),dirs_exist_ok=args.resume)
-    # A repository follows Git's ignore rules; an unpacked source snapshot can also rebuild.
-    source=output/'source';source.mkdir(exist_ok=args.resume)
-    paths,source_commit=source_snapshot(output)
-    for original,relative in paths:
-        target=source/relative;target.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(original,target)
+    # Apply the same public-file selection to Git checkouts and unpacked source snapshots.
+    source_commit=copy_release_sources(output)
     rewrite_document_links(output)
     components=[]
     licenses=output/'licenses';licenses.mkdir(exist_ok=args.resume)

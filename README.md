@@ -37,6 +37,29 @@
 
    部署包包含可执行程序、前端静态文件、源码、契约、部署工具及组件许可证。源码快照也支持在没有 Git 元数据的目录中重新构建。
 
+## GitHub 自动构建与发布
+
+[Build and release](https://github.com/Sakirina/SmartFactory-2026/actions/workflows/build-release.yml) 工作流在推送 `main`、提交面向 `main` 的 Pull Request 或手动运行时执行两个 Go 模块的测试、契约检查、打包内容检查和前端构建，并生成 Linux x86_64 部署包。通过检查的产物保存在该次运行的 Artifacts 中，保留 14 天；手动构建可在 Actions 页面点击 **Run workflow**。
+
+发布版本时，为已经完成检查的提交创建版本标签并推送：
+
+```sh
+git tag -a v1.0.0 -m "SmartFactory v1.0.0"
+git push origin v1.0.0
+```
+
+将示例中的 `v1.0.0` 替换为本次版本号。工作流会重新执行检查和构建，成功后自动创建 GitHub Release，附上 `smartfactory-v1.0.0-linux-amd64.tar.gz` 与对应的 `.sha256` 文件；`v1.0.0-rc.1` 这类带后缀的版本会标记为预发布。上传完成后 Release 才会公开，已经发布的版本需要使用新标签更新。
+
+部署包包含 13 个 Go 可执行程序、三套前端页面、公开源码、契约、部署脚本和组件许可证，内部文档、赛事材料、缓存及本地凭据由打包器排除；GitHub 自动生成的源码包通过 `.gitattributes` 排除内部材料。容器镜像按 `deploy/images.lock.json` 在部署主机另行准备。发布步骤使用 GitHub 自动提供的 `GITHUB_TOKEN`，所需的 `contents: write` 权限已在工作流中声明。
+
+下载部署包后，可以在 Linux 上核对摘要并解包：
+
+```sh
+sha256sum -c smartfactory-v1.0.0-linux-amd64.tar.gz.sha256
+tar -xzf smartfactory-v1.0.0-linux-amd64.tar.gz
+python3 smartfactory-v1.0.0-linux-amd64/scripts/verify-release.py smartfactory-v1.0.0-linux-amd64
+```
+
 ## 部署流程
 
 ThingsBoard、PostgreSQL、Kafka、NATS 与其他镜像的内容摘要保存在 `deploy/images.lock.json`。运行 `python3 scripts/pull-images.py` 查看所需镜像和传输规模，确认后添加 `--execute` 获取镜像。

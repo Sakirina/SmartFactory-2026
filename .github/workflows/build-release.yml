@@ -1,0 +1,165 @@
+name: Build and release
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-release-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref_type != 'tag' }}
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build:
+    name: Test and build Linux x86_64
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    outputs:
+      artifact-name: ${{ steps.metadata.outputs.artifact-name }}
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set artifact name
+        id: metadata
+        env:
+          REF_TYPE: ${{ github.ref_type }}
+          REF_NAME: ${{ github.ref_name }}
+          COMMIT: ${{ github.sha }}
+        run: |
+          if [[ "$REF_TYPE" == tag ]]; then
+            if [[ ! "$REF_NAME" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z]+([.-][0-9A-Za-z]+)*)?$ ]]; then
+              echo 'Release tags must look like v1.0.0 or v1.0.0-rc.1.' >&2
+              exit 1
+            fi
+            version="$REF_NAME"
+          else
+            version="snapshot-${COMMIT:0:12}"
+          fi
+          echo "artifact-name=smartfactory-${version}-linux-amd64" >> "$GITHUB_OUTPUT"
+
+      - name: Set up Go
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: Platform/go.mod
+          cache-dependency-path: |
+            DataTransfer/go.sum
+            Platform/go.sum
+
+      - name: Set up Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: Frontends/package-lock.json
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: tests/fixtures/requirements-contracts.txt
+
+      - name: Install build and validation dependencies
+        run: |
+          npm ci --prefix Frontends --no-audit --no-fund
+          python -m pip install -r tests/fixtures/requirements-contracts.txt
+
+      - name: Test Go services
+        run: |
+          go -C DataTransfer test ./...
+          go -C Platform test ./...
+
+      - name: Check contracts and release contents
+        run: |
+          python scripts/check-contracts.py
+          python -m unittest discover -s tests -p 'test_*.py' -v
+
+      - name: Build and verify deployment bundle
+        env:
+          BUNDLE_NAME: ${{ steps.metadata.outputs.artifact-name }}
+        run: |
+          python scripts/build-release.py \
+            --output "$RUNNER_TEMP/$BUNDLE_NAME" --os linux --arch amd64
+          python scripts/verify-release.py "$RUNNER_TEMP/$BUNDLE_NAME"
+          mkdir -p "$RUNNER_TEMP/release-assets"
+          tar -C "$RUNNER_TEMP" -czf "$RUNNER_TEMP/release-assets/$BUNDLE_NAME.tar.gz" "$BUNDLE_NAME"
+          cd "$RUNNER_TEMP/release-assets"
+          sha256sum "$BUNDLE_NAME.tar.gz" > "$BUNDLE_NAME.tar.gz.sha256"
+          sha256sum -c "$BUNDLE_NAME.tar.gz.sha256"
+
+      - name: Upload deployment bundle
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: ${{ steps.metadata.outputs.artifact-name }}
+          path: ${{ runner.temp }}/release-assets/*
+          if-no-files-found: error
+          retention-days: 14
+          compression-level: 0
+
+      - name: Write build summary
+        env:
+          BUNDLE_NAME: ${{ steps.metadata.outputs.artifact-name }}
+        run: |
+          {
+            echo '### SmartFactory Linux x86_64 bundle'
+            echo
+            echo "Artifact: $BUNDLE_NAME"
+            echo
+            echo 'Includes service binaries, frontend pages, public source, deployment tools, licenses, and SHA-256 checksums.'
+            echo 'Version tags publish this bundle to GitHub Releases; branch and manual builds retain it as an Actions artifact for 14 days.'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  publish:
+    name: Publish GitHub Release
+    if: github.event_name == 'push' && github.ref_type == 'tag'
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - name: Download verified bundle
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: ${{ needs.build.outputs.artifact-name }}
+          path: release-assets
+
+      - name: Verify archive checksums
+        working-directory: release-assets
+        run: sha256sum -c ./*.sha256
+
+      - name: Create and publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          prerelease=false
+          if [[ "$RELEASE_TAG" == *-* ]]; then
+            prerelease=true
+          fi
+          if draft=$(gh release view "$RELEASE_TAG" --json isDraft --jq '.isDraft' 2>/dev/null); then
+            if [[ "$draft" != true ]]; then
+              echo "Release $RELEASE_TAG is already published; use a new version tag." >&2
+              exit 1
+            fi
+          else
+            gh release create "$RELEASE_TAG" --verify-tag --draft \
+              --title "SmartFactory $RELEASE_TAG" --generate-notes \
+              --prerelease="$prerelease"
+          fi
+          gh release upload "$RELEASE_TAG" release-assets/*.tar.gz release-assets/*.sha256 --clobber
+          gh release edit "$RELEASE_TAG" --draft=false --prerelease="$prerelease"
