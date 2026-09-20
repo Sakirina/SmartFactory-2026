@@ -55,8 +55,8 @@ func TestRouterExecutesAndDeduplicatesCommandID(t *testing.T) {
 	if !duplicate.Duplicate {
 		t.Fatal("duplicate command_id should be marked duplicate")
 	}
-	if duplicate.Response.GetStatus() != dtv1.CommandStatus_REJECTED {
-		t.Fatalf("duplicate status = %s, want REJECTED", duplicate.Response.GetStatus())
+	if duplicate.Response.GetStatus() != dtv1.CommandStatus_SUCCESS {
+		t.Fatalf("duplicate status = %s, want cached SUCCESS", duplicate.Response.GetStatus())
 	}
 	if executor.calls != 1 {
 		t.Fatalf("executor calls = %d, want 1", executor.calls)
@@ -74,7 +74,7 @@ func TestRouterReturnsTimeout(t *testing.T) {
 	service.SetResolver(fakeResolver{executor: executor, ok: true})
 
 	cmd := testControlCommand("cmd-timeout")
-	cmd.GetControl().Options = &dtv1.CommandOptions{TimeoutMs: 1}
+	cmd.GetControl().Options = &dtv1.CommandOptions{TimeoutMs: 1, Idempotent: true}
 	result, err := service.Handle(context.Background(), cmd)
 	if err != nil {
 		t.Fatalf("Handle returned error: %v", err)
@@ -137,7 +137,7 @@ func TestRouterRetriesTransientErrorsPerOptions(t *testing.T) {
 	service.SetResolver(fakeResolver{executor: executor, ok: true})
 
 	cmd := testControlCommand("cmd-retry")
-	cmd.GetControl().Options = &dtv1.CommandOptions{RetryCount: 3, TimeoutMs: 5000}
+	cmd.GetControl().Options = &dtv1.CommandOptions{RetryCount: 3, TimeoutMs: 5000, Idempotent: true}
 	result, err := service.Handle(context.Background(), cmd)
 	if err != nil {
 		t.Fatalf("Handle returned error: %v", err)
@@ -165,8 +165,8 @@ func TestRouterDoesNotRetryWhenRetryCountZero(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Handle returned error: %v", err)
 	}
-	if result.Response.GetStatus() != dtv1.CommandStatus_FAILURE {
-		t.Fatalf("status = %s, want FAILURE", result.Response.GetStatus())
+	if result.Response.GetStatus() != dtv1.CommandStatus_RESULT_UNKNOWN {
+		t.Fatalf("status = %s, want RESULT_UNKNOWN", result.Response.GetStatus())
 	}
 	if attempts != 1 {
 		t.Fatalf("attempts = %d, want exactly 1 (retry_count=0 means no retry)", attempts)
@@ -242,7 +242,7 @@ func TestRouterRetriesWithFixedIntervalPolicy(t *testing.T) {
 	service.SetResolver(fakeResolver{executor: executor, ok: true})
 
 	cmd := testControlCommand("cmd-fixed-retry")
-	cmd.GetControl().Options = &dtv1.CommandOptions{RetryCount: 3, TimeoutMs: 5000}
+	cmd.GetControl().Options = &dtv1.CommandOptions{RetryCount: 3, TimeoutMs: 5000, Idempotent: true}
 	started := time.Now()
 	result, err := service.Handle(context.Background(), cmd)
 	if err != nil {

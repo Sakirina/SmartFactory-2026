@@ -1,0 +1,82 @@
+{
+  "$defs": {
+    "Alarm": {
+      "additionalProperties": false,
+      "properties": {
+        "acknowledged": {
+          "type": "boolean"
+        },
+        "active": {
+          "type": "boolean"
+        },
+        "cleared_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "count": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "definition_id": {
+          "type": "string"
+        },
+        "definition_version": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "entity_id": {
+          "type": "string"
+        },
+        "historical": {
+          "type": "boolean"
+        },
+        "id": {
+          "type": "string"
+        },
+        "revision_reason": {
+          "type": "string"
+        },
+        "revision_status": {
+          "type": "string"
+        },
+        "severity": {
+          "type": "string"
+        },
+        "started_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "updated_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "value": {},
+        "version": {
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "definition_id",
+        "definition_version",
+        "entity_id",
+        "severity",
+        "active",
+        "acknowledged",
+        "started_ms",
+        "updated_ms",
+        "cleared_ms",
+        "count",
+        "historical",
+        "value",
+        "version"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/Alarm.schema.json",
+  "$ref": "#/$defs/Alarm",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Alarm"
+}

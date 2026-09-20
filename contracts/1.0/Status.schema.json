@@ -1,0 +1,42 @@
+{
+  "$defs": {
+    "Status": {
+      "additionalProperties": false,
+      "properties": {
+        "error": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "last_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "next_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "sequence": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "state": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "state",
+        "last_ms",
+        "next_ms",
+        "sequence"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/Status.schema.json",
+  "$ref": "#/$defs/Status",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Status"
+}

@@ -1,0 +1,121 @@
+{
+  "$defs": {
+    "Department": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "manager_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "parent_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "parent_id",
+        "manager_id"
+      ],
+      "type": "object"
+    },
+    "Member": {
+      "additionalProperties": false,
+      "properties": {
+        "active": {
+          "type": "boolean"
+        },
+        "department_id": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "grade": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "login": {
+          "type": "string"
+        },
+        "manager_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "login",
+        "name",
+        "department_id",
+        "manager_id",
+        "grade",
+        "email",
+        "phone",
+        "active"
+      ],
+      "type": "object"
+    },
+    "OrganizationSync": {
+      "additionalProperties": false,
+      "properties": {
+        "departments": {
+          "items": {
+            "$ref": "#/$defs/Department"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "full": {
+          "type": "boolean"
+        },
+        "id": {
+          "type": "string"
+        },
+        "members": {
+          "items": {
+            "$ref": "#/$defs/Member"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "sequence": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "source": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "source",
+        "sequence",
+        "full",
+        "departments",
+        "members"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/OrganizationSync.schema.json",
+  "$ref": "#/$defs/OrganizationSync",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OrganizationSync"
+}

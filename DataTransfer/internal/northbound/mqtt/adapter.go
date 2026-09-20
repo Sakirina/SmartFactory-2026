@@ -66,6 +66,7 @@ func New(cfg config.MQTTConfig, rt *dtruntime.Runtime, logger *slog.Logger, opts
 }
 
 func (a *Adapter) Start(ctx context.Context) error {
+	go a.replayDurable(ctx)
 	if a.store != nil {
 		go a.replayLoop(ctx)
 		go a.cleanupLoop(ctx)
@@ -135,6 +136,14 @@ func (a *Adapter) HandleUpstream(ctx context.Context, msg *dtv1.DeviceMessage) e
 }
 
 func (a *Adapter) PublishUpstream(ctx context.Context, msg *dtv1.DeviceMessage) error {
+	if a.rt.HasDurableJournal() && dtruntime.IsDurableMessage(msg) {
+		// Runtime has already committed this message. Delivery continues until a
+		// receiver acknowledges the payload after its own transaction commits.
+		if a.IsConnected() {
+			_ = a.publishDirect(ctx, msg)
+		}
+		return nil
+	}
 	if a.store != nil {
 		return a.publishReliable(ctx, msg)
 	}
@@ -176,8 +185,9 @@ func (a *Adapter) publishReliable(ctx context.Context, msg *dtv1.DeviceMessage) 
 
 func (a *Adapter) subscribe(client paho.Client) error {
 	filters := map[string]byte{
-		a.topics.DownCommand(): 2,
-		a.topics.DownConfig():  2,
+		a.topics.DownCommand():         2,
+		a.topics.DownConfig():          2,
+		a.topics.DownAcknowledgement(): 1,
 	}
 	token := client.SubscribeMultiple(filters, a.routeMessage)
 	token.Wait()
@@ -186,6 +196,15 @@ func (a *Adapter) subscribe(client paho.Client) error {
 
 func (a *Adapter) routeMessage(_ paho.Client, message paho.Message) {
 	switch message.Topic() {
+	case a.topics.DownAcknowledgement():
+		var ack dtv1.MessageAcknowledgement
+		if err := proto.Unmarshal(message.Payload(), &ack); err != nil {
+			a.log.Error("invalid application acknowledgement", "error", err)
+			return
+		}
+		if err := a.rt.AcknowledgeMessage(context.Background(), &ack); err != nil {
+			a.log.Error("application acknowledgement rejected", "message_id", ack.MessageId, "error", err)
+		}
 	case a.topics.DownCommand():
 		a.handleCommand(message.Payload())
 	case a.topics.DownConfig():
@@ -218,7 +237,7 @@ func (a *Adapter) handleCommand(payload []byte) {
 		},
 		Metadata: map[string]string{"origin": "command-router"},
 	}
-	if err := a.PublishUpstream(context.Background(), responseMsg); err != nil {
+	if err := a.rt.Publish(responseMsg); err != nil {
 		a.log.Error("mqtt command response publish failed", "error", err, "command_id", msg.GetCommandId())
 	}
 }
@@ -230,7 +249,55 @@ func (a *Adapter) handleConfig(payload []byte) {
 		return
 	}
 	response := a.rt.ApplyConfig(&update)
+	event := &dtv1.DeviceMessage{MessageId: fmt.Sprintf("configuration-response-%s-%d", update.UpdateId, time.Now().UnixNano()), Timestamp: time.Now().UnixMilli(), Direction: dtv1.Direction_UPSTREAM, Type: dtv1.MessageType_EVENT, Payload: &dtv1.DeviceMessage_Event{Event: &dtv1.EventPayload{EventType: "configuration_response", Data: map[string]string{"update_id": update.UpdateId, "success": fmt.Sprint(response.Success), "error": response.ErrorMessage}}}}
+	if err := a.rt.Publish(event); err != nil {
+		a.log.Error("cannot persist configuration response", "update_id", update.UpdateId, "error", err)
+	}
 	a.log.Info("mqtt config update handled", "update_id", response.GetUpdateId(), "success", response.GetSuccess(), "error", response.GetErrorMessage())
+}
+
+func (a *Adapter) replayDurable(ctx context.Context) {
+	ticker := time.NewTicker(time.Second)
+	defer ticker.Stop()
+	for {
+		select {
+		case <-ctx.Done():
+			return
+		case <-ticker.C:
+			if a.store != nil {
+				gaps, err := a.store.PendingGaps(ctx)
+				if err != nil {
+					a.log.Error("read buffered data gaps", "error", err)
+					continue
+				}
+				for _, gap := range gaps {
+					if err = a.rt.Publish(gap); err != nil {
+						break
+					}
+					if err = a.store.GapForwarded(ctx, gap.MessageId); err != nil {
+						break
+					}
+				}
+				if err != nil {
+					a.log.Error("forward buffered data gaps", "error", err)
+					continue
+				}
+			}
+			if !a.IsConnected() {
+				continue
+			}
+			batch, err := a.rt.PendingMessages(ctx, 100)
+			if err != nil {
+				a.log.Error("read durable outbox", "error", err)
+				continue
+			}
+			for _, msg := range batch.Messages {
+				if err := a.publishDirect(ctx, msg); err != nil {
+					break
+				}
+			}
+		}
+	}
 }
 
 func (a *Adapter) IsConnected() bool {

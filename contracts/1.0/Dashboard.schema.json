@@ -1,0 +1,103 @@
+{
+  "$defs": {
+    "Dashboard": {
+      "additionalProperties": false,
+      "properties": {
+        "device_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "group_id": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "keys": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "metrics": {
+          "items": {
+            "$ref": "#/$defs/DashboardMetric"
+          },
+          "maxItems": 12,
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "refresh_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "show_alarms": {
+          "type": "boolean"
+        },
+        "show_sources": {
+          "type": "boolean"
+        },
+        "title": {
+          "type": "string"
+        },
+        "version": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "window_ms": {
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "group_id",
+        "version",
+        "device_ids",
+        "keys",
+        "metrics",
+        "window_ms",
+        "refresh_ms",
+        "show_sources",
+        "show_alarms"
+      ],
+      "type": "object"
+    },
+    "DashboardMetric": {
+      "additionalProperties": false,
+      "properties": {
+        "device_id": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "device_id",
+        "key",
+        "label"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/Dashboard.schema.json",
+  "$ref": "#/$defs/Dashboard",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Dashboard"
+}

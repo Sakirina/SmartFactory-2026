@@ -1,0 +1,94 @@
+{
+  "name": "smartfactory-site",
+  "services": {
+    "nats-1": {
+      "image": "library/nats@sha256:383e95bac92d099fa612f6bbe5c4c83ae15af22e409a89fecd2e3c5092a8b2dc",
+      "platform": "linux/amd64",
+      "pull_policy": "never",
+      "restart": "unless-stopped",
+      "command": [
+        "-c",
+        "/config/nats.conf"
+      ],
+      "ports": [
+        "127.0.0.1:14222:4222",
+        "127.0.0.1:18222:8222"
+      ],
+      "volumes": [
+        "../.local/site/nats-1.conf:/config/nats.conf:ro",
+        "../.local/site/pki/nats-1.pem:/certs/nats-1.pem:ro",
+        "../.local/site/pki/nats-1.key:/certs/nats-1.key:ro",
+        "../.local/site/pki/ca.pem:/certs/ca.pem:ro",
+        "nats-1:/data"
+      ],
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "10m",
+          "max-file": "3"
+        }
+      }
+    },
+    "nats-2": {
+      "image": "library/nats@sha256:383e95bac92d099fa612f6bbe5c4c83ae15af22e409a89fecd2e3c5092a8b2dc",
+      "platform": "linux/amd64",
+      "pull_policy": "never",
+      "restart": "unless-stopped",
+      "command": [
+        "-c",
+        "/config/nats.conf"
+      ],
+      "ports": [
+        "127.0.0.1:14223:4222",
+        "127.0.0.1:18223:8222"
+      ],
+      "volumes": [
+        "../.local/site/nats-2.conf:/config/nats.conf:ro",
+        "../.local/site/pki/nats-2.pem:/certs/nats-2.pem:ro",
+        "../.local/site/pki/nats-2.key:/certs/nats-2.key:ro",
+        "../.local/site/pki/ca.pem:/certs/ca.pem:ro",
+        "nats-2:/data"
+      ],
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "10m",
+          "max-file": "3"
+        }
+      }
+    },
+    "nats-3": {
+      "image": "library/nats@sha256:383e95bac92d099fa612f6bbe5c4c83ae15af22e409a89fecd2e3c5092a8b2dc",
+      "platform": "linux/amd64",
+      "pull_policy": "never",
+      "restart": "unless-stopped",
+      "command": [
+        "-c",
+        "/config/nats.conf"
+      ],
+      "ports": [
+        "127.0.0.1:14224:4222",
+        "127.0.0.1:18224:8222"
+      ],
+      "volumes": [
+        "../.local/site/nats-3.conf:/config/nats.conf:ro",
+        "../.local/site/pki/nats-3.pem:/certs/nats-3.pem:ro",
+        "../.local/site/pki/nats-3.key:/certs/nats-3.key:ro",
+        "../.local/site/pki/ca.pem:/certs/ca.pem:ro",
+        "nats-3:/data"
+      ],
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "10m",
+          "max-file": "3"
+        }
+      }
+    }
+  },
+  "volumes": {
+    "nats-1": {},
+    "nats-2": {},
+    "nats-3": {}
+  }
+}

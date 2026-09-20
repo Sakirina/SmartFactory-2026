@@ -59,6 +59,19 @@ connectors: []
 	if _, err := dtv1.NewDataTransferServiceClient(conn).GetMetrics(callCtx, &dtv1.MetricsRequest{}); err != nil {
 		t.Fatalf("GetMetrics returned error: %v", err)
 	}
+	// A connected client that has not sent headers and an open telemetry stream
+	// must both finish when the application is cancelled.
+	idle, err := net.Dial("tcp", managementAddr)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer idle.Close()
+	stream, err := dtv1.NewDataTransferServiceClient(conn).SubscribeTelemetry(context.Background(), &dtv1.SubscribeRequest{})
+	if err != nil {
+		t.Fatal(err)
+	}
+	streamDone := make(chan error, 1)
+	go func() { _, err := stream.Recv(); streamDone <- err }()
 
 	cancel()
 	select {
@@ -69,6 +82,33 @@ connectors: []
 	case <-time.After(2 * time.Second):
 		t.Fatal("timed out waiting for App.Run shutdown")
 	}
+	select {
+	case <-streamDone:
+	case <-time.After(time.Second):
+		t.Fatal("telemetry stream survived application shutdown")
+	}
+}
+
+func TestFailedGRPCStartupReleasesManagementListener(t *testing.T) {
+	occupied, err := net.Listen("tcp", "127.0.0.1:0")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer occupied.Close()
+	management := freeAddr(t)
+	path := filepath.Join(t.TempDir(), "config.yaml")
+	data := fmt.Sprintf("management:\n  addr: %q\ngrpc:\n  enabled: true\n  addr: %q\n", management, occupied.Addr().String())
+	if err := os.WriteFile(path, []byte(data), 0o600); err != nil {
+		t.Fatal(err)
+	}
+	if err := (App{ConfigPath: path}).Run(context.Background()); err == nil {
+		t.Fatal("expected occupied gRPC address to fail startup")
+	}
+	listener, err := net.Listen("tcp", management)
+	if err != nil {
+		t.Fatalf("management listener leaked after startup failure: %v", err)
+	}
+	_ = listener.Close()
 }
 
 func freeAddr(t *testing.T) string {

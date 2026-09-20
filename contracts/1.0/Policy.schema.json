@@ -1,0 +1,208 @@
+{
+  "$defs": {
+    "Condition": {
+      "additionalProperties": false,
+      "properties": {
+        "device_id": {
+          "type": "string"
+        },
+        "interlock": {
+          "type": "boolean"
+        },
+        "key": {
+          "type": "string"
+        },
+        "max_age_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "operator": {
+          "type": "string"
+        },
+        "value": {}
+      },
+      "required": [
+        "device_id",
+        "key",
+        "operator",
+        "value",
+        "max_age_ms",
+        "interlock"
+      ],
+      "type": "object"
+    },
+    "Policy": {
+      "additionalProperties": false,
+      "properties": {
+        "channels": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "conditions": {
+          "items": {
+            "$ref": "#/$defs/Condition"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "degraded": {
+          "items": {
+            "$ref": "#/$defs/Step"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "edge_ids": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "freshness_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "late_notification": {
+          "type": "string"
+        },
+        "memory_bytes": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "recipients": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "risk_category": {
+          "type": "string"
+        },
+        "risk_level": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "safety_user_id": {
+          "type": "string"
+        },
+        "schedule": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Schedule"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "steps": {
+          "items": {
+            "$ref": "#/$defs/Step"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "timeout_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "watchdog": {
+          "type": "boolean"
+        }
+      },
+      "required": [],
+      "type": "object"
+    },
+    "Schedule": {
+      "additionalProperties": false,
+      "properties": {
+        "every_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "next_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "timezone": {
+          "type": "string"
+        },
+        "window_ms": {
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "every_ms",
+        "next_ms",
+        "window_ms",
+        "timezone"
+      ],
+      "type": "object"
+    },
+    "Step": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "type": "string"
+        },
+        "device_id": {
+          "type": "string"
+        },
+        "edge_id": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "idempotent": {
+          "type": "boolean"
+        },
+        "params": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "timeout_ms": {
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "edge_id",
+        "device_id",
+        "action",
+        "params",
+        "idempotent",
+        "timeout_ms"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/Policy.schema.json",
+  "$ref": "#/$defs/Policy",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Policy"
+}

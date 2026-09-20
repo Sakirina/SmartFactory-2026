@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "platform": "linux/amd64",
+  "images": {
+    "thingsboard": "thingsboard/tb-node:4.3.1.5",
+    "thingsboard_edge": "thingsboard/tb-edge:4.3.1.1EDGE",
+    "postgres": "postgres:16",
+    "kafka": "apache/kafka:4.0.0",
+    "nats": "nats:2.11.9-alpine",
+    "envoy": "envoyproxy/envoy:v1.35.5",
+    "go_builder": "golang:1.25-alpine",
+    "node_builder": "node:22-alpine",
+    "runtime": "alpine:3.22"
+  },
+  "sources": {
+    "thingsboard": {
+      "tag": "v4.3.1.5",
+      "commit": "2cd31ac359214f94b945546830da503ddf80070f"
+    },
+    "thingsboard_edge": {
+      "version": "4.3.1.1EDGE",
+      "docker_tag": "4.3.1.1EDGE",
+      "commit": "04d9daf4a557a13483de2310e35b6493aff751fc"
+    }
+  },
+  "notes": "镜像标签与源码版本分别记录；resolve-images.py 查询清单与尺寸，pull-images.py 仅执行明确选择的已锁定镜像。"
+}

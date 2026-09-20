@@ -13,6 +13,8 @@ import (
 
 	dtv1 "competition2026/product/datatransfer/gen/datatransfer/v1"
 	dterrors "competition2026/product/datatransfer/internal/errors"
+	"competition2026/product/datatransfer/internal/state"
+	"google.golang.org/protobuf/proto"
 )
 
 var (
@@ -88,11 +90,17 @@ type Service struct {
 	retry    RetryPolicy
 	resolver Resolver
 	records  map[string]record
+	journal  *state.Store
+	ctx      context.Context
+	cancel   context.CancelFunc
+	closed   bool
+	wg       sync.WaitGroup
 }
 
 type record struct {
 	response  *dtv1.CommandResponsePayload
 	status    string
+	request   *dtv1.DeviceMessage
 	expiresAt time.Time
 }
 
@@ -107,11 +115,23 @@ func NewServiceWithRetry(ttl time.Duration, retry RetryPolicy) *Service {
 	if retry.Mode != RetryModeFixed && retry.Mode != RetryModeExponential {
 		retry = DefaultRetryPolicy()
 	}
+	ctx, cancel := context.WithCancel(context.Background())
 	return &Service{
+		ctx: ctx, cancel: cancel,
 		ttl:     ttl,
 		retry:   retry,
 		records: make(map[string]record),
 	}
+}
+
+func (s *Service) SetJournal(journal *state.Store) { s.mu.Lock(); s.journal = journal; s.mu.Unlock() }
+
+func (s *Service) Close() {
+	s.mu.Lock()
+	s.closed = true
+	s.cancel()
+	s.mu.Unlock()
+	s.wg.Wait()
 }
 
 func (s *Service) SetResolver(resolver Resolver) {
@@ -127,14 +147,21 @@ func (s *Service) Handle(ctx context.Context, msg *dtv1.DeviceMessage) (Result, 
 	if err := validate(msg); err != nil {
 		return Result{}, err
 	}
-	if duplicate, response := s.reserve(msg.CommandId, "running"); duplicate {
+	msg = proto.Clone(msg).(*dtv1.DeviceMessage)
+	duplicate, response, err := s.reserve(ctx, msg, "running")
+	if err != nil {
+		return Result{}, err
+	}
+	if duplicate {
 		return Result{Response: response, Duplicate: true}, nil
 	}
 
 	execCtx, cancel := withCommandTimeout(ctx, msg)
 	defer cancel()
-	response := s.execute(execCtx, msg)
-	s.complete(msg.CommandId, response)
+	response = s.execute(execCtx, msg)
+	if err := s.complete(msg.CommandId, response); err != nil {
+		return Result{}, err
+	}
 	return Result{Response: response}, nil
 }
 
@@ -142,15 +169,32 @@ func (s *Service) HandleAsync(msg *dtv1.DeviceMessage, publish func(*dtv1.Comman
 	if err := validate(msg); err != nil {
 		return nil, err
 	}
-	if duplicate, _ := s.reserve(msg.CommandId, "accepted"); duplicate {
+	msg = proto.Clone(msg).(*dtv1.DeviceMessage)
+	s.mu.Lock()
+	if s.closed {
+		s.mu.Unlock()
+		return nil, context.Canceled
+	}
+	s.wg.Add(1)
+	s.mu.Unlock()
+	duplicate, _, err := s.reserve(s.ctx, msg, "accepted")
+	if err != nil {
+		s.wg.Done()
+		return nil, err
+	}
+	if duplicate {
+		s.wg.Done()
 		return nil, ErrDuplicate
 	}
 	acceptedAt := time.Now()
 	go func() {
-		ctx, cancel := withCommandTimeout(context.Background(), msg)
+		defer s.wg.Done()
+		ctx, cancel := withCommandTimeout(s.ctx, msg)
 		defer cancel()
 		response := s.execute(ctx, msg)
-		s.complete(msg.CommandId, response)
+		if err := s.complete(msg.CommandId, response); err != nil {
+			response = &dtv1.CommandResponsePayload{CommandId: msg.CommandId, Status: dtv1.CommandStatus_RESULT_UNKNOWN, Message: "cannot persist command outcome: " + err.Error()}
+		}
 		if publish != nil {
 			publish(response)
 		}
@@ -161,39 +205,37 @@ func (s *Service) HandleAsync(msg *dtv1.DeviceMessage, publish func(*dtv1.Comman
 	}, nil
 }
 
-func (s *Service) reserve(commandID string, internalStatus string) (bool, *dtv1.CommandResponsePayload) {
+func (s *Service) reserve(ctx context.Context, msg *dtv1.DeviceMessage, internalStatus string) (bool, *dtv1.CommandResponsePayload, error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
-
-	now := time.Now()
-	s.prune(now)
-	if existing, ok := s.records[commandID]; ok {
-		return true, &dtv1.CommandResponsePayload{
-			CommandId: commandID,
-			Status:    dtv1.CommandStatus_REJECTED,
-			Message:   fmt.Sprintf("%s: duplicate command", dterrors.CodeCommandDuplicate),
-			Result:    copyMap(existing.response.GetResult()),
+	if s.closed {
+		return false, nil, context.Canceled
+	}
+	if s.journal != nil {
+		response, duplicate, err := s.journal.Reserve(ctx, msg)
+		return duplicate, response, err
+	}
+	s.prune(time.Now())
+	if existing, ok := s.records[msg.CommandId]; ok {
+		if !proto.Equal(existing.request, msg) {
+			return false, nil, state.ErrConflict
 		}
+		return true, proto.Clone(existing.response).(*dtv1.CommandResponsePayload), nil
 	}
-	s.records[commandID] = record{
-		response: &dtv1.CommandResponsePayload{
-			CommandId: commandID,
-			Status:    dtv1.CommandStatus_CMD_STATUS_UNSPECIFIED,
-			Message:   internalStatus,
-		},
-		status:    internalStatus,
-		expiresAt: now.Add(s.ttl),
-	}
-	return false, nil
+	s.records[msg.CommandId] = record{request: proto.Clone(msg).(*dtv1.DeviceMessage), response: &dtv1.CommandResponsePayload{CommandId: msg.CommandId, Status: dtv1.CommandStatus_RESULT_UNKNOWN, Message: internalStatus}, status: internalStatus, expiresAt: time.Now().Add(s.ttl)}
+	return false, nil, nil
 }
 
 // execute 下发指令并按 CommandOptions.retry_count 重试(FR-S-014)。
-// 仅对传输/执行错误重试;REJECTED 等确定性结果不重试。
+// 查询和明确声明幂等的控制可重试;其他控制的传输错误进入结果待核对状态。
 // 重试间隔由服务级 RetryPolicy 决定(固定间隔或指数退避)。
 func (s *Service) execute(ctx context.Context, msg *dtv1.DeviceMessage) *dtv1.CommandResponsePayload {
 	executor, ok := s.resolve(msg.GetDevice().GetDeviceId())
 	if !ok {
 		return rejected(msg.CommandId, dterrors.CodeCommandNoRoute, "target device has no connector route")
+	}
+	if deadline := msg.GetControl().GetOptions().GetStartDeadlineMs(); deadline > 0 && time.Now().UnixMilli() >= deadline {
+		return rejected(msg.CommandId, dterrors.CodeCommandTimeout, "command start deadline expired")
 	}
 	retries := commandRetryCount(msg)
 	var lastErr error
@@ -210,6 +252,15 @@ func (s *Service) execute(ctx context.Context, msg *dtv1.DeviceMessage) *dtv1.Co
 				break
 			}
 		}
+		if err := ctx.Err(); err != nil {
+			lastErr = err
+			break
+		}
+		if attempt == 0 {
+			if deadline := msg.GetControl().GetOptions().GetStartDeadlineMs(); deadline > 0 && time.Now().UnixMilli() >= deadline {
+				return rejected(msg.CommandId, dterrors.CodeCommandTimeout, "command start deadline expired")
+			}
+		}
 		response, err := executor.SendCommand(ctx, msg)
 		if err == nil {
 			if response == nil {
@@ -223,6 +274,9 @@ func (s *Service) execute(ctx context.Context, msg *dtv1.DeviceMessage) *dtv1.Co
 				response.CommandId = msg.CommandId
 			}
 			return response
+		}
+		if !commandIsIdempotent(msg) {
+			return &dtv1.CommandResponsePayload{CommandId: msg.CommandId, Status: dtv1.CommandStatus_RESULT_UNKNOWN, Message: "device outcome must be reconciled: " + err.Error()}
 		}
 		lastErr = err
 		if ctx.Err() != nil {
@@ -257,18 +311,24 @@ func (s *Service) resolve(deviceID string) (Executor, bool) {
 	return resolver.ResolveDevice(deviceID)
 }
 
-func (s *Service) complete(commandID string, response *dtv1.CommandResponsePayload) {
+func (s *Service) complete(commandID string, response *dtv1.CommandResponsePayload) error {
 	s.mu.Lock()
 	defer s.mu.Unlock()
-	status := "failure"
-	if response != nil {
-		status = response.GetStatus().String()
+	if s.journal != nil {
+		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		defer cancel()
+		return s.journal.Complete(ctx, response)
 	}
-	s.records[commandID] = record{
-		response:  response,
-		status:    status,
-		expiresAt: time.Now().Add(s.ttl),
-	}
+	entry := s.records[commandID]
+	entry.response = proto.Clone(response).(*dtv1.CommandResponsePayload)
+	entry.status = response.Status.String()
+	entry.expiresAt = time.Now().Add(s.ttl)
+	s.records[commandID] = entry
+	return nil
+}
+
+func commandIsIdempotent(msg *dtv1.DeviceMessage) bool {
+	return msg.Type == dtv1.MessageType_QUERY || msg.GetControl().GetOptions().GetIdempotent()
 }
 
 func validate(msg *dtv1.DeviceMessage) error {
@@ -340,7 +400,7 @@ func commandRetryCount(msg *dtv1.DeviceMessage) int {
 	case *dtv1.DeviceMessage_Query:
 		count = payload.Query.GetOptions().GetRetryCount()
 	}
-	if count < 0 {
+	if count < 0 || !commandIsIdempotent(msg) {
 		return 0
 	}
 	return int(count)
@@ -367,7 +427,7 @@ func rejected(commandID, code, message string) *dtv1.CommandResponsePayload {
 
 func (s *Service) prune(now time.Time) {
 	for commandID, entry := range s.records {
-		if now.After(entry.expiresAt) {
+		if now.After(entry.expiresAt) && entry.status != "running" && entry.status != "accepted" {
 			delete(s.records, commandID)
 		}
 	}

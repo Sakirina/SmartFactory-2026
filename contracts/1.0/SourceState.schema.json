@@ -1,0 +1,36 @@
+{
+  "$defs": {
+    "SourceState": {
+      "additionalProperties": false,
+      "properties": {
+        "backfill": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "last_seen_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "last_seen_ms",
+        "status",
+        "backfill"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/SourceState.schema.json",
+  "$ref": "#/$defs/SourceState",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SourceState"
+}

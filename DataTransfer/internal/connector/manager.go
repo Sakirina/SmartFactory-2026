@@ -25,8 +25,11 @@ type Manager struct {
 	logger    *slog.Logger
 	upstream  chan *dtv1.DeviceMessage
 
+	updateMu    sync.Mutex
 	mu          sync.RWMutex
 	connectors  map[string]Connector
+	cancels     map[string]context.CancelFunc
+	done        map[string]chan struct{}
 	configs     map[string]config.ConnectorConfig
 	deviceIndex map[string]Connector
 	// 上报策略索引(FR-S-035):随配置变更与 deviceIndex 一并重建。
@@ -42,6 +45,8 @@ type Manager struct {
 	bpTriggerTotal atomic.Int64
 	bpDroppedTotal atomic.Int64
 	bpPolicy       atomic.Int32 // dtv1.BackpressurePolicy
+	watermarks     atomic.Pointer[dtv1.QueueWatermarks]
+	queueLevel     atomic.Int32
 }
 
 func NewManager(configs []config.ConnectorConfig, publisher Publisher, logger *slog.Logger) (*Manager, error) {
@@ -53,6 +58,8 @@ func NewManager(configs []config.ConnectorConfig, publisher Publisher, logger *s
 		logger:      logger,
 		upstream:    make(chan *dtv1.DeviceMessage, 256),
 		connectors:  make(map[string]Connector, len(configs)),
+		cancels:     make(map[string]context.CancelFunc),
+		done:        make(map[string]chan struct{}),
 		configs:     make(map[string]config.ConnectorConfig, len(configs)),
 		deviceIndex: make(map[string]Connector),
 	}
@@ -112,39 +119,90 @@ func (m *Manager) Start(ctx context.Context) error {
 			if m.shouldDropForBackpressure(msg) {
 				continue
 			}
-			if err := m.publisher.Publish(msg); err != nil {
-				m.logger.Error("publish connector message failed", "error", err, "message_id", msg.GetMessageId())
+			err := m.publisher.Publish(msg)
+			critical := msg.Type == dtv1.MessageType_EVENT || msg.Type == dtv1.MessageType_STATUS || msg.Type == dtv1.MessageType_CMD_RESPONSE
+			for err != nil && ctx.Err() == nil {
+				m.logger.Error("publish deferred", "error", err, "message_id", msg.GetMessageId())
+				timer := time.NewTimer(100 * time.Millisecond)
+				select {
+				case <-ctx.Done():
+					timer.Stop()
+				case <-timer.C:
+				}
+				if ctx.Err() != nil {
+					break
+				}
+				err = m.publisher.Publish(msg)
 			}
+			if err == nil && critical {
+				m.mu.RLock()
+				source := m.connectors[msg.GetDevice().GetConnectorId()]
+				m.mu.RUnlock()
+				if observer, ok := source.(CommitObserver); ok {
+					observer.Committed(msg)
+				}
+			} else if err != nil {
+				m.logger.Error("publish failed", "error", err, "message_id", msg.GetMessageId())
+			}
+
 		}
 	}
 }
 
 // SetBackpressurePolicy 设置背压策略(BP_BLOCK 为默认行为:通道写满时 Connector 自然阻塞)。
-// BP_DEGRADE 需要 Connector 支持动态采集降频,当前版本回退为 BP_BLOCK 并记录警告。
 func (m *Manager) SetBackpressurePolicy(policy dtv1.BackpressurePolicy) {
-	if policy == dtv1.BackpressurePolicy_BP_DEGRADE {
-		m.logger.Warn("BP_DEGRADE is not supported by built-in connectors yet; falling back to BP_BLOCK",
-			"code", dterrors.CodeStrategyApplied)
-		policy = dtv1.BackpressurePolicy_BP_BLOCK
-	}
 	m.bpPolicy.Store(int32(policy))
+	if policy != dtv1.BackpressurePolicy_BP_DEGRADE {
+		m.collectionFactor(1)
+	}
 	m.logger.Info("backpressure policy applied", "code", dterrors.CodeStrategyApplied, "policy", policy.String())
 }
 
 // observeBackpressure 按三级水位(80% 触发 / 50% 解除)记录背压状态(FR-S-039:不得静默发生)。
 func (m *Manager) observeBackpressure() {
 	usage := m.QueueUsagePercent()
-	if usage >= 80 && !m.bpActive.Load() {
+	w := m.Watermarks()
+	level := int32(0)
+	if usage >= w.Error {
+		level = 3
+	} else if usage >= w.Warning {
+		level = 2
+	} else if usage >= w.Reminder {
+		level = 1
+	}
+	if previous := m.queueLevel.Swap(level); previous != level {
+		m.logger.Info("queue watermark changed", "level", m.QueueLevel(), "queue_usage_percent", usage)
+	}
+	if usage >= w.Warning && !m.bpActive.Load() {
 		m.bpActive.Store(true)
+		if m.BackpressurePolicy() == dtv1.BackpressurePolicy_BP_DEGRADE {
+			m.collectionFactor(4)
+		}
 		m.bpTriggerTotal.Add(1)
 		m.logger.Warn("backpressure triggered",
 			"code", dterrors.CodeBackpressureOn,
 			"queue_usage_percent", usage,
 			"policy", m.BackpressurePolicy().String(),
 		)
-	} else if usage <= 50 && m.bpActive.Load() {
+	} else if usage <= w.Recovery && m.bpActive.Load() {
 		m.bpActive.Store(false)
+		m.collectionFactor(1)
 		m.logger.Info("backpressure released", "code", dterrors.CodeBackpressureOff, "queue_usage_percent", usage)
+	}
+}
+func (m *Manager) collectionFactor(factor int64) {
+	m.mu.RLock()
+	values := make([]Connector, 0, len(m.connectors))
+	for _, c := range m.connectors {
+		values = append(values, c)
+	}
+	m.mu.RUnlock()
+	for _, c := range values {
+		if rate, ok := c.(RateController); ok {
+			if e := rate.SetCollectionFactor(factor); e != nil {
+				m.logger.Warn("collection rate update failed", "connector_id", c.Status().ConnectorID, "error", e)
+			}
+		}
 	}
 }
 
@@ -160,6 +218,14 @@ func (m *Manager) shouldDropForBackpressure(msg *dtv1.DeviceMessage) bool {
 	if msg.GetType() != dtv1.MessageType_TELEMETRY {
 		return false
 	}
+	if recorder, ok := m.publisher.(GapRecorder); ok {
+		if err := recorder.RecordGap(msg, "collection_queue", "queue capacity exceeded"); err != nil {
+			m.logger.Error("gap journal unavailable; retaining telemetry", "error", err)
+			return false
+		}
+	} else {
+		return false
+	}
 	m.bpDroppedTotal.Add(1)
 	m.logger.Warn("telemetry dropped by backpressure policy",
 		"code", dterrors.CodeBufferFull,
@@ -167,6 +233,23 @@ func (m *Manager) shouldDropForBackpressure(msg *dtv1.DeviceMessage) bool {
 		"device_id", msg.GetDevice().GetDeviceId(),
 	)
 	return true
+}
+
+func (m *Manager) Watermarks() *dtv1.QueueWatermarks {
+	if v := m.watermarks.Load(); v != nil {
+		return &dtv1.QueueWatermarks{Reminder: v.Reminder, Warning: v.Warning, Error: v.Error, Recovery: v.Recovery}
+	}
+	return &dtv1.QueueWatermarks{Reminder: 60, Warning: 80, Error: 95, Recovery: 50}
+}
+func (m *Manager) SetWatermarks(w *dtv1.QueueWatermarks) error {
+	if w == nil || !(w.Recovery >= 0 && w.Recovery < w.Reminder && w.Reminder < w.Warning && w.Warning < w.Error && w.Error <= 100) {
+		return fmt.Errorf("watermarks require 0 <= recovery < reminder < warning < error <= 100")
+	}
+	m.watermarks.Store(&dtv1.QueueWatermarks{Reminder: w.Reminder, Warning: w.Warning, Error: w.Error, Recovery: w.Recovery})
+	return nil
+}
+func (m *Manager) QueueLevel() string {
+	return []string{"normal", "reminder", "warning", "error"}[m.queueLevel.Load()]
 }
 
 func (m *Manager) QueueUsagePercent() float64 {
@@ -195,21 +278,9 @@ func (m *Manager) Ready() bool {
 }
 
 func (m *Manager) ApplyConnector(cfg config.ConnectorConfig) error {
+	m.updateMu.Lock()
+	defer m.updateMu.Unlock()
 	cfg = cloneConnectorConfig(cfg)
-	m.mu.Lock()
-	defer m.mu.Unlock()
-	current, exists := m.connectors[cfg.ConnectorID]
-	oldCfg := m.configs[cfg.ConnectorID]
-	if exists && oldCfg.Protocol == cfg.Protocol {
-		if err := current.ReloadConfig(cloneConnectorConfig(cfg)); err != nil {
-			_ = current.ReloadConfig(cloneConnectorConfig(oldCfg))
-			m.rebuildDeviceIndexLocked()
-			return fmt.Errorf("reload connector %q: %w", cfg.ConnectorID, err)
-		}
-		m.configs[cfg.ConnectorID] = cfg
-		m.rebuildDeviceIndexLocked()
-		return nil
-	}
 	factory, ok := factoryFor(cfg.Protocol)
 	if !ok {
 		return UnknownProtocolError(cfg.Protocol)
@@ -218,12 +289,25 @@ func (m *Manager) ApplyConnector(cfg config.ConnectorConfig) error {
 	if err := next.Init(cloneConnectorConfig(cfg)); err != nil {
 		return fmt.Errorf("init connector %q: %w", cfg.ConnectorID, err)
 	}
+	m.mu.RLock()
+	current, exists := m.connectors[cfg.ConnectorID]
+	cancel := m.cancels[cfg.ConnectorID]
+	done := m.done[cfg.ConnectorID]
+	m.mu.RUnlock()
 	if exists {
-		m.publishConnectorOfflineLocked(current)
-		if err := current.Stop(); err != nil {
-			m.logger.Warn("connector stop failed during reload", "connector_id", cfg.ConnectorID, "error", err)
+		if cancel != nil {
+			cancel()
 		}
+		if err := current.Stop(); err != nil {
+			return fmt.Errorf("stop connector %q before replacement: %w", cfg.ConnectorID, err)
+		}
+		if done != nil {
+			<-done
+		}
+		m.publishConnectorOfflineLocked(current)
 	}
+	m.mu.Lock()
+	defer m.mu.Unlock()
 	m.connectors[cfg.ConnectorID] = next
 	m.configs[cfg.ConnectorID] = cfg
 	m.rebuildDeviceIndexLocked()
@@ -234,17 +318,34 @@ func (m *Manager) ApplyConnector(cfg config.ConnectorConfig) error {
 }
 
 func (m *Manager) RemoveConnector(connectorID string) error {
-	m.mu.Lock()
-	defer m.mu.Unlock()
+	m.updateMu.Lock()
+	defer m.updateMu.Unlock()
+	m.mu.RLock()
 	conn, ok := m.connectors[connectorID]
+	cancel := m.cancels[connectorID]
+	done := m.done[connectorID]
+	m.mu.RUnlock()
 	if !ok {
 		return fmt.Errorf("connector %q is not registered", connectorID)
 	}
+	if cancel != nil {
+		cancel()
+	}
+	if err := conn.Stop(); err != nil {
+		return err
+	}
+	if done != nil {
+		<-done
+	}
 	m.publishConnectorOfflineLocked(conn)
+	m.mu.Lock()
+	defer m.mu.Unlock()
 	delete(m.connectors, connectorID)
 	delete(m.configs, connectorID)
+	delete(m.cancels, connectorID)
+	delete(m.done, connectorID)
 	m.rebuildDeviceIndexLocked()
-	return conn.Stop()
+	return nil
 }
 
 func (m *Manager) ApplyDevice(connectorID string, device config.DeviceConfig) error {
@@ -363,10 +464,15 @@ func (m *Manager) Snapshot() (connectedDevices int32, activeConnectors int32, me
 // panic 被恢复(NFR-008 进程内隔离),异常退出按指数退避自动重启(DT-CON-003),
 // 直至 ctx 取消或该 Connector 实例被替换/移除。
 func (m *Manager) startConnectorLocked(conn Connector) {
-	ctx := m.startCtx
+	ctx, cancel := context.WithCancel(m.startCtx)
+	m.cancels[conn.Status().ConnectorID] = cancel
+	done := make(chan struct{})
+	m.done[conn.Status().ConnectorID] = done
 	m.wg.Add(1)
 	go func() {
 		defer m.wg.Done()
+		defer close(done)
+		defer cancel()
 		delay := restartBaseDelay
 		for ctx.Err() == nil {
 			err := m.runConnector(ctx, conn)

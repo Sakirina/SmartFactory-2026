@@ -5,6 +5,7 @@ package runtime
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"log/slog"
@@ -18,10 +19,13 @@ import (
 	"competition2026/product/datatransfer/internal/configmanager"
 	"competition2026/product/datatransfer/internal/connector"
 	dterrors "competition2026/product/datatransfer/internal/errors"
+	"competition2026/product/datatransfer/internal/state"
 	"competition2026/product/datatransfer/internal/strategy"
 )
 
 type Runtime struct {
+	ctx        context.Context
+	cancel     context.CancelFunc
 	cfg        config.Config
 	commands   *command.Service
 	connectors *connector.Manager
@@ -32,10 +36,14 @@ type Runtime struct {
 	strategy   *strategy.Engine
 
 	mu            sync.RWMutex
+	publishMu     sync.Mutex
 	subscribers   map[uint64]subscription
+	consumers     map[string]Filter
 	nextSubID     uint64
 	grpcServing   bool
 	mqttConnected bool
+	closed        bool
+	journal       *state.Store
 
 	upstreamTotal         atomic.Int64
 	downstreamTotal       atomic.Int64
@@ -44,6 +52,7 @@ type Runtime struct {
 	configRejectTotal     atomic.Int64
 	discoveryEventTotal   atomic.Int64
 	subscriberDropTotal   atomic.Int64
+	continuousGapTotal    atomic.Int64
 
 	// 速率窗口:供 MetricsResponse 计算条/秒(FR-S-030 要求速率而非累计值)。
 	rateMu     sync.Mutex
@@ -55,8 +64,11 @@ type Runtime struct {
 }
 
 type subscription struct {
-	filter Filter
-	ch     chan *dtv1.DeviceMessage
+	filter   Filter
+	ch       chan *dtv1.DeviceMessage
+	consumer string
+	ctx      context.Context
+	stop     context.CancelFunc
 }
 
 type UpstreamSink interface {
@@ -114,19 +126,109 @@ type Snapshot struct {
 }
 
 func New(cfg config.Config) *Runtime {
+	ctx, cancel := context.WithCancel(context.Background())
 	retry := command.RetryPolicy{
 		Mode:        cfg.Runtime.CommandRetry.IntervalMode,
 		Interval:    time.Duration(cfg.Runtime.CommandRetry.IntervalMS) * time.Millisecond,
 		MaxInterval: time.Duration(cfg.Runtime.CommandRetry.MaxIntervalMS) * time.Millisecond,
 	}
 	return &Runtime{
+		ctx:         ctx,
+		cancel:      cancel,
 		cfg:         cfg,
 		commands:    command.NewServiceWithRetry(time.Duration(cfg.Runtime.CommandTTLSeconds)*time.Second, retry),
 		store:       newRingStore(cfg.Runtime.RingSize),
 		subscribers: make(map[uint64]subscription),
+		consumers:   make(map[string]Filter),
 		strategy:    strategy.NewEngine(cfg.ReportStrategy),
 		rateAt:      time.Now(),
 	}
+}
+
+// Close cancels in-flight upstream work and finishes long-lived subscriptions.
+func (r *Runtime) Close() error {
+	r.cancel()
+	r.commands.Close()
+	r.publishMu.Lock()
+	defer r.publishMu.Unlock()
+	r.mu.Lock()
+	defer r.mu.Unlock()
+	if r.closed {
+		return nil
+	}
+	r.closed = true
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+	var result error
+	for id, sub := range r.subscribers {
+		result = errors.Join(result, r.drainCanceledContext(ctx, sub))
+		delete(r.subscribers, id)
+		close(sub.ch)
+	}
+	if r.journal != nil {
+		result = errors.Join(result, r.journal.FlushGaps(ctx, true))
+	}
+	return result
+}
+
+func (r *Runtime) AttachCommandJournal(journal *state.Store) error {
+	stored, err := journal.Consumers(r.ctx)
+	if err != nil {
+		return err
+	}
+	consumers := map[string]Filter{}
+	for id, raw := range stored {
+		var filter Filter
+		if err = json.Unmarshal(raw, &filter); err != nil {
+			return err
+		}
+		consumers[id] = filter
+	}
+	r.commands.SetJournal(journal)
+	r.mu.Lock()
+	r.journal = journal
+	for id, filter := range consumers {
+		r.consumers[id] = filter
+	}
+	r.mu.Unlock()
+	return nil
+}
+
+func (r *Runtime) HasDurableJournal() bool {
+	r.mu.RLock()
+	defer r.mu.RUnlock()
+	return r.journal != nil
+}
+
+func IsDurableMessage(msg *dtv1.DeviceMessage) bool {
+	return msg.Direction == dtv1.Direction_UPSTREAM && (msg.Type == dtv1.MessageType_EVENT || msg.Type == dtv1.MessageType_STATUS || msg.Type == dtv1.MessageType_CMD_RESPONSE)
+}
+
+func (r *Runtime) PendingMessages(ctx context.Context, limit int) (*dtv1.DeviceMessageBatch, error) {
+	r.mu.RLock()
+	journal := r.journal
+	r.mu.RUnlock()
+	if journal == nil {
+		return &dtv1.DeviceMessageBatch{}, nil
+	}
+	if err := journal.FlushGaps(ctx, false); err != nil {
+		return nil, err
+	}
+	messages, err := journal.Pending(ctx, limit)
+	if err != nil {
+		return nil, err
+	}
+	return &dtv1.DeviceMessageBatch{Messages: messages, CreatedAt: time.Now().UnixMilli()}, nil
+}
+
+func (r *Runtime) AcknowledgeMessage(ctx context.Context, ack *dtv1.MessageAcknowledgement) error {
+	r.mu.RLock()
+	journal := r.journal
+	r.mu.RUnlock()
+	if journal == nil {
+		return fmt.Errorf("durable journal is not configured")
+	}
+	return journal.Acknowledge(ctx, ack)
 }
 
 func (r *Runtime) Config() config.Config {
@@ -149,6 +251,17 @@ func (r *Runtime) AttachConnectorManager(manager *connector.Manager) {
 func (r *Runtime) ApplyGlobalConfig(payload *dtv1.GlobalConfigPayload) error {
 	if payload == nil {
 		return fmt.Errorf("global config payload is required")
+	}
+	if w := payload.GetWatermarks(); w != nil {
+		r.mu.RLock()
+		manager := r.connectors
+		r.mu.RUnlock()
+		if manager == nil {
+			return fmt.Errorf("connector manager is not attached")
+		}
+		if err := manager.SetWatermarks(w); err != nil {
+			return err
+		}
 	}
 	if strategyCfg := payload.GetDefaultReportStrategy(); strategyCfg != nil {
 		r.strategy.SetGlobal(config.ReportStrategyConfig{
@@ -187,6 +300,26 @@ func (r *Runtime) AttachConfigManager(manager *configmanager.Manager) {
 	r.mu.Unlock()
 }
 
+func (r *Runtime) GlobalConfigSnapshot() *dtv1.GlobalConfigPayload {
+	cfg := r.strategy.Global()
+	mode := dtv1.ReportStrategyMode(dtv1.ReportStrategyMode_value[cfg.Mode])
+	if mode == dtv1.ReportStrategyMode_STRATEGY_UNSPECIFIED {
+		mode = dtv1.ReportStrategyMode_ON_RECEIVED
+	}
+	r.mu.RLock()
+	manager := r.connectors
+	r.mu.RUnlock()
+	policy := dtv1.BackpressurePolicy_BP_BLOCK
+	if manager != nil {
+		policy = manager.BackpressurePolicy()
+	}
+	result := &dtv1.GlobalConfigPayload{DefaultReportStrategy: &dtv1.ReportStrategyConfig{Mode: mode, PeriodSeconds: int32(cfg.PeriodSeconds), Deadband: cfg.Deadband}, BackpressurePolicy: policy}
+	if manager != nil {
+		result.Watermarks = manager.Watermarks()
+	}
+	return result
+}
+
 func (r *Runtime) AttachUpstreamSink(sink UpstreamSink) {
 	r.mu.Lock()
 	r.upstream = sink
@@ -200,11 +333,26 @@ func (r *Runtime) AttachPersistentBuffer(provider PersistentBufferProvider) {
 }
 
 func (r *Runtime) Publish(msg *dtv1.DeviceMessage) error {
+	r.publishMu.Lock()
+	defer r.publishMu.Unlock()
+	if err := r.ctx.Err(); err != nil {
+		return err
+	}
 	if msg == nil {
 		return fmt.Errorf("%s: message is nil", dterrors.CodeRuntimeInvalid)
 	}
 	if msg.Timestamp == 0 {
 		msg.Timestamp = nowMillis()
+	}
+	if IsDurableMessage(msg) {
+		r.mu.RLock()
+		journal := r.journal
+		r.mu.RUnlock()
+		if journal != nil {
+			if err := journal.Enqueue(r.ctx, msg); err != nil {
+				return err
+			}
+		}
 	}
 	// 上报策略仅过滤上行 TELEMETRY(FR-S-036);整条被过滤时静默成功,计入策略指标。
 	if msg.Direction == dtv1.Direction_UPSTREAM && msg.Type == dtv1.MessageType_TELEMETRY {
@@ -218,7 +366,7 @@ func (r *Runtime) Publish(msg *dtv1.DeviceMessage) error {
 		sink := r.upstream
 		r.mu.RUnlock()
 		if sink != nil {
-			if err := sink.HandleUpstream(context.Background(), msg); err != nil {
+			if err := sink.HandleUpstream(r.ctx, msg); err != nil {
 				return err
 			}
 		}
@@ -230,31 +378,200 @@ func (r *Runtime) Publish(msg *dtv1.DeviceMessage) error {
 
 	r.mu.RLock()
 	defer r.mu.RUnlock()
+	active := make(map[string]bool)
 	for _, sub := range r.subscribers {
+		if sub.ctx.Err() != nil {
+			if err := r.drainCanceled(sub); err != nil {
+				return err
+			}
+			continue
+		}
 		if !sub.filter.Match(msg) {
 			continue
 		}
+		active[sub.consumer] = true
 		select {
 		case sub.ch <- msg:
 		default:
-			// 订阅者消费过慢导致的丢弃必须可见(FR-S-039),通过计数与指标暴露。
-			r.subscriberDropTotal.Add(1)
+			policy := dtv1.BackpressurePolicy_BP_BLOCK
+			if r.connectors != nil {
+				policy = r.connectors.BackpressurePolicy()
+			}
+			if sub.consumer != "" && policy == dtv1.BackpressurePolicy_BP_DROP_OLDEST && msg.Type == dtv1.MessageType_TELEMETRY {
+				select {
+				case oldest := <-sub.ch:
+					if oldest.Type == dtv1.MessageType_TELEMETRY {
+						if err := r.recordGap(r.journal, oldest, "subscriber:"+sub.consumer, "subscriber queue capacity exceeded"); err != nil {
+							sub.ch <- oldest
+							return err
+						}
+					}
+					r.subscriberDropTotal.Add(1)
+				default:
+				}
+			}
+			if sub.consumer == "" {
+				r.subscriberDropTotal.Add(1)
+				continue
+			}
+			select {
+			case sub.ch <- msg:
+			case <-sub.ctx.Done():
+				if msg.Type == dtv1.MessageType_TELEMETRY {
+					if err := r.recordGap(r.journal, msg, "subscriber:"+sub.consumer, "subscriber disconnected"); err != nil {
+						return err
+					}
+				}
+			case <-r.ctx.Done():
+				return r.ctx.Err()
+			}
+		}
+	}
+	if msg.Type == dtv1.MessageType_TELEMETRY {
+		for consumer, filter := range r.consumers {
+			if !active[consumer] && filter.Match(msg) {
+				if err := r.recordGap(r.journal, msg, "subscriber:"+consumer, "subscriber disconnected"); err != nil {
+					return err
+				}
+			}
 		}
 	}
 	return nil
 }
 
+func (r *Runtime) RecordGap(msg *dtv1.DeviceMessage, scope, reason string) error {
+	r.mu.RLock()
+	journal := r.journal
+	r.mu.RUnlock()
+	return r.recordGap(journal, msg, scope, reason)
+}
+func (r *Runtime) recordGap(journal *state.Store, msg *dtv1.DeviceMessage, scope, reason string) error {
+	if journal == nil {
+		return fmt.Errorf("durable gap journal is not configured")
+	}
+	if err := journal.RecordGap(r.ctx, msg, scope, reason); err != nil {
+		return err
+	}
+	r.continuousGapTotal.Add(int64(len(msg.GetTelemetry().GetDatapoints())))
+	return nil
+}
+
+func (r *Runtime) drainCanceled(sub subscription) error {
+	return r.drainCanceledContext(r.ctx, sub)
+}
+func (r *Runtime) drainCanceledContext(ctx context.Context, sub subscription) error {
+	if sub.consumer == "" {
+		return nil
+	}
+	messages := []*dtv1.DeviceMessage{}
+	for {
+		select {
+		case msg, ok := <-sub.ch:
+			if !ok {
+				return nil
+			}
+			if msg.Type == dtv1.MessageType_TELEMETRY {
+				messages = append(messages, msg)
+			}
+		default:
+			if len(messages) == 0 {
+				return nil
+			}
+			if r.journal == nil {
+				for _, msg := range messages {
+					sub.ch <- msg
+				}
+				return fmt.Errorf("durable gap journal is not configured")
+			}
+			if err := r.journal.RecordGaps(ctx, messages, "subscriber:"+sub.consumer, "subscriber disconnected with queued telemetry"); err != nil {
+				for _, msg := range messages {
+					sub.ch <- msg
+				}
+				return err
+			}
+			for _, msg := range messages {
+				r.continuousGapTotal.Add(int64(len(msg.GetTelemetry().GetDatapoints())))
+			}
+			return nil
+		}
+	}
+}
+
+// RegisterConsumer persists telemetry filters once, so a collector restart can
+// record losses until an already registered business consumer reconnects.
+func (r *Runtime) RegisterConsumer(filter Filter, consumer string) error {
+	if consumer == "" {
+		return nil
+	}
+	if len(consumer) > 128 {
+		return fmt.Errorf("consumer_id exceeds 128 bytes")
+	}
+	if len(filter.Types) > 0 {
+		if _, ok := filter.Types[dtv1.MessageType_TELEMETRY]; !ok {
+			return nil
+		}
+	}
+	r.mu.Lock()
+	defer r.mu.Unlock()
+	if r.journal != nil {
+		raw, err := json.Marshal(filter)
+		if err != nil {
+			return err
+		}
+		if err = r.journal.SaveConsumer(r.ctx, consumer, raw); err != nil {
+			return err
+		}
+	}
+	r.consumers[consumer] = filter
+	return nil
+}
+
 func (r *Runtime) Subscribe(filter Filter) (<-chan *dtv1.DeviceMessage, func()) {
+	return r.SubscribeFor(filter, "")
+}
+func (r *Runtime) SubscribeFor(filter Filter, consumer string) (<-chan *dtv1.DeviceMessage, func()) {
+	if err := r.RegisterConsumer(filter, consumer); err != nil {
+		slog.Error("consumer registration failed", "error", err)
+		ch := make(chan *dtv1.DeviceMessage)
+		close(ch)
+		return ch, func() {}
+	}
 	id := atomic.AddUint64((*uint64)(&r.nextSubID), 1)
-	ch := make(chan *dtv1.DeviceMessage, 64)
+	size := 64
+	if consumer != "" {
+		size = min(max(r.cfg.Runtime.RingSize, 256), 8192)
+	}
+	ch := make(chan *dtv1.DeviceMessage, size)
+	ctx, stop := context.WithCancel(r.ctx)
 
 	r.mu.Lock()
-	r.subscribers[id] = subscription{filter: filter, ch: ch}
+	for oldID, sub := range r.subscribers {
+		if sub.ctx.Err() != nil && len(sub.ch) == 0 {
+			delete(r.subscribers, oldID)
+			close(sub.ch)
+		}
+	}
+	if r.closed {
+		close(ch)
+	} else {
+		r.subscribers[id] = subscription{filter: filter, ch: ch, consumer: consumer, ctx: ctx, stop: stop}
+	}
 	r.mu.Unlock()
 
 	cancel := func() {
+		stop()
 		r.mu.Lock()
 		if sub, ok := r.subscribers[id]; ok {
+			if sub.consumer != "" {
+				ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+				err := r.drainCanceledContext(ctx, sub)
+				cancel()
+				if err != nil {
+					slog.Error("gap persistence deferred", "error", err)
+					r.mu.Unlock()
+					return
+				}
+			}
 			delete(r.subscribers, id)
 			close(sub.ch)
 		}
@@ -369,7 +686,15 @@ func (r *Runtime) MetricsResponse() *dtv1.MetricsResponse {
 	if delivered+filtered > 0 {
 		passThrough = float64(delivered) / float64(delivered+filtered)
 	}
+	level := "normal"
+	r.mu.RLock()
+	if r.connectors != nil {
+		level = r.connectors.QueueLevel()
+	}
+	r.mu.RUnlock()
 	return &dtv1.MetricsResponse{
+		QueueLevel:              level,
+		ContinuousGapTotal:      r.continuousGapTotal.Load(),
 		Timestamp:               snapshot.Timestamp,
 		ConnectedDevices:        snapshot.ConnectedDevices,
 		ActiveConnectors:        snapshot.ActiveConnectors,

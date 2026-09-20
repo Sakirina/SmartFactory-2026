@@ -1,0 +1,271 @@
+{
+  "name": "smartfactory-native",
+  "services": {
+    "cloud-db": {
+      "image": "library/postgres@sha256:a85daf0dbd5e79586e850e3fe4b21b796799828ad015ce2166aeb98cc24da61c",
+      "platform": "linux/amd64",
+      "pull_policy": "never",
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "10m",
+          "max-file": "3"
+        }
+      },
+      "restart": "unless-stopped",
+      "environment": {
+        "POSTGRES_DB": "thingsboard",
+        "POSTGRES_PASSWORD": "${POSTGRES_PASSWORD:?run scripts/prepare-deploy.py}"
+      },
+      "ports": [
+        "127.0.0.1:54320:5432"
+      ],
+      "volumes": [
+        "cloud-db:/var/lib/postgresql/data"
+      ],
+      "healthcheck": {
+        "test": [
+          "CMD-SHELL",
+          "pg_isready -U postgres -d thingsboard"
+        ],
+        "interval": "5s",
+        "timeout": "3s",
+        "retries": 20
+      }
+    },
+    "edge-db": {
+      "image": "library/postgres@sha256:a85daf0dbd5e79586e850e3fe4b21b796799828ad015ce2166aeb98cc24da61c",
+      "platform": "linux/amd64",
+      "pull_policy": "never",
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "10m",
+          "max-file": "3"
+        }
+      },
+      "restart": "unless-stopped",
+      "environment": {
+        "POSTGRES_DB": "tb_edge",
+        "POSTGRES_PASSWORD": "${POSTGRES_PASSWORD:?run scripts/prepare-deploy.py}"
+      },
+      "ports": [
+        "127.0.0.1:54321:5432"
+      ],
+      "volumes": [
+        "edge-db:/var/lib/postgresql/data"
+      ],
+      "healthcheck": {
+        "test": [
+          "CMD-SHELL",
+          "pg_isready -U postgres -d tb_edge"
+        ],
+        "interval": "5s",
+        "timeout": "3s",
+        "retries": 20
+      }
+    },
+    "kafka": {
+      "image": "apache/kafka@sha256:01b9a4030e54c6068e66eb3ba4cb82c0d89238629ef1c30d79b86036bf89b1b7",
+      "platform": "linux/amd64",
+      "pull_policy": "never",
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "10m",
+          "max-file": "3"
+        }
+      },
+      "restart": "unless-stopped",
+      "environment": {
+        "KAFKA_NODE_ID": "1",
+        "KAFKA_PROCESS_ROLES": "broker,controller",
+        "KAFKA_LISTENERS": "PLAINTEXT://:9092,CONTROLLER://:9093",
+        "KAFKA_ADVERTISED_LISTENERS": "PLAINTEXT://kafka:9092",
+        "KAFKA_LISTENER_SECURITY_PROTOCOL_MAP": "CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT",
+        "KAFKA_CONTROLLER_QUORUM_VOTERS": "1@kafka:9093",
+        "KAFKA_CONTROLLER_LISTENER_NAMES": "CONTROLLER",
+        "KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR": "1",
+        "KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR": "1",
+        "KAFKA_TRANSACTION_STATE_LOG_MIN_ISR": "1",
+        "KAFKA_LOG_RETENTION_HOURS": "48",
+        "KAFKA_LOG_DIRS": "/tmp/kraft-combined-logs",
+        "KAFKA_HEAP_OPTS": "-Xms256m -Xmx512m"
+      },
+      "volumes": [
+        "kafka:/tmp/kraft-combined-logs"
+      ],
+      "healthcheck": {
+        "test": [
+          "CMD-SHELL",
+          "/opt/kafka/bin/kafka-broker-api-versions.sh --bootstrap-server localhost:9092 >/dev/null 2>&1"
+        ],
+        "interval": "10s",
+        "timeout": "10s",
+        "retries": 30
+      },
+      "depends_on": {
+        "kafka-storage-init": {
+          "condition": "service_completed_successfully"
+        }
+      }
+    },
+    "kafka-storage-init": {
+      "image": "library/alpine@sha256:3e9b4b680bfc9fb5269227cffbd6d42be39fbf7c0b908123913864aa4447e764",
+      "platform": "linux/amd64",
+      "pull_policy": "never",
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "10m",
+          "max-file": "3"
+        }
+      },
+      "user": "0:0",
+      "command": [
+        "chown",
+        "1000:1000",
+        "/storage"
+      ],
+      "volumes": [
+        "kafka:/storage"
+      ]
+    },
+    "tb-install": {
+      "image": "thingsboard/tb-node@sha256:dc5a3cdf4b267f5fac036946051e4f4c2515ed31f911fe2921920df3ae5cd61f",
+      "platform": "linux/amd64",
+      "pull_policy": "never",
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "10m",
+          "max-file": "3"
+        }
+      },
+      "profiles": [
+        "install"
+      ],
+      "environment": {
+        "SPRING_DATASOURCE_URL": "jdbc:postgresql://cloud-db:5432/thingsboard",
+        "SPRING_DATASOURCE_USERNAME": "postgres",
+        "SPRING_DATASOURCE_PASSWORD": "${POSTGRES_PASSWORD}",
+        "TB_QUEUE_TYPE": "kafka",
+        "TB_KAFKA_SERVERS": "kafka:9092",
+        "TB_QUEUE_KAFKA_BOOTSTRAP_SERVERS": "kafka:9092",
+        "EDGES_ENABLED": "true",
+        "JS_EVALUATOR": "local",
+        "JAVA_OPTS": "-Xms384m -Xmx768m -XX:MaxMetaspaceSize=384m -XX:MaxDirectMemorySize=128m -XX:ReservedCodeCacheSize=128m -XX:ActiveProcessorCount=4 -Xss512k",
+        "TB_SERVICE_ID": "sf-cloud-native",
+        "INSTALL_TB": "true",
+        "LOAD_DEMO": "false"
+      },
+      "depends_on": {
+        "cloud-db": {
+          "condition": "service_healthy"
+        },
+        "kafka": {
+          "condition": "service_healthy"
+        }
+      }
+    },
+    "thingsboard": {
+      "image": "thingsboard/tb-node@sha256:dc5a3cdf4b267f5fac036946051e4f4c2515ed31f911fe2921920df3ae5cd61f",
+      "platform": "linux/amd64",
+      "pull_policy": "never",
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "10m",
+          "max-file": "3"
+        }
+      },
+      "restart": "unless-stopped",
+      "environment": {
+        "SPRING_DATASOURCE_URL": "jdbc:postgresql://cloud-db:5432/thingsboard",
+        "SPRING_DATASOURCE_USERNAME": "postgres",
+        "SPRING_DATASOURCE_PASSWORD": "${POSTGRES_PASSWORD}",
+        "TB_QUEUE_TYPE": "kafka",
+        "TB_KAFKA_SERVERS": "kafka:9092",
+        "TB_QUEUE_KAFKA_BOOTSTRAP_SERVERS": "kafka:9092",
+        "EDGES_ENABLED": "true",
+        "JS_EVALUATOR": "local",
+        "JAVA_OPTS": "-Xms384m -Xmx768m -XX:MaxMetaspaceSize=384m -XX:MaxDirectMemorySize=128m -XX:ReservedCodeCacheSize=128m -XX:ActiveProcessorCount=4 -Xss512k",
+        "TB_SERVICE_ID": "sf-cloud-native"
+      },
+      "ports": [
+        "127.0.0.1:18080:8080",
+        "127.0.0.1:17070:7070",
+        "127.0.0.1:11883:1883"
+      ],
+      "extra_hosts": [
+        "host.docker.internal:host-gateway"
+      ],
+      "depends_on": {
+        "cloud-db": {
+          "condition": "service_healthy"
+        },
+        "kafka": {
+          "condition": "service_healthy"
+        }
+      },
+      "volumes": [
+        "tb-logs:/var/log/thingsboard"
+      ]
+    },
+    "thingsboard-edge": {
+      "image": "thingsboard/tb-edge@sha256:5f38bb644cb219f341ad59f7357d3f6efa4bf4b84d43adf2cadd2e3a2113e3a1",
+      "platform": "linux/amd64",
+      "pull_policy": "never",
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "10m",
+          "max-file": "3"
+        }
+      },
+      "profiles": [
+        "edge"
+      ],
+      "restart": "unless-stopped",
+      "environment": {
+        "SPRING_DATASOURCE_URL": "jdbc:postgresql://edge-db:5432/tb_edge",
+        "SPRING_DATASOURCE_USERNAME": "postgres",
+        "SPRING_DATASOURCE_PASSWORD": "${POSTGRES_PASSWORD}",
+        "CLOUD_RPC_HOST": "host.docker.internal",
+        "CLOUD_RPC_PORT": "17071",
+        "CLOUD_RPC_SSL_ENABLED": "false",
+        "JAVA_OPTS": "-Xms256m -Xmx512m -XX:MaxMetaspaceSize=256m -XX:MaxDirectMemorySize=128m -XX:ReservedCodeCacheSize=128m -XX:ActiveProcessorCount=4 -Xss512k"
+      },
+      "env_file": [
+        "../.local/tb-edge.env"
+      ],
+      "ports": [
+        "127.0.0.1:18081:8080",
+        "127.0.0.1:11884:1883"
+      ],
+      "extra_hosts": [
+        "host.docker.internal:host-gateway"
+      ],
+      "depends_on": {
+        "edge-db": {
+          "condition": "service_healthy"
+        },
+        "thingsboard": {
+          "condition": "service_started"
+        }
+      },
+      "volumes": [
+        "tb-edge-data:/data",
+        "tb-edge-logs:/var/log/tb-edge"
+      ]
+    }
+  },
+  "volumes": {
+    "cloud-db": {},
+    "edge-db": {},
+    "kafka": {},
+    "tb-logs": {},
+    "tb-edge-data": {},
+    "tb-edge-logs": {}
+  }
+}

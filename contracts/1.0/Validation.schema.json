@@ -1,0 +1,41 @@
+{
+  "$defs": {
+    "Validation": {
+      "additionalProperties": false,
+      "properties": {
+        "errors": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "native_plan": {},
+        "order": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "valid": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "valid",
+        "errors",
+        "order"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/Validation.schema.json",
+  "$ref": "#/$defs/Validation",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Validation"
+}

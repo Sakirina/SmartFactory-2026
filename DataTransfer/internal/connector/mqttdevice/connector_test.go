@@ -17,6 +17,11 @@ import (
 )
 
 func TestConnectorTelemetryAndCommandThroughBroker(t *testing.T) {
+	for _, version := range []string{"3.1.1", "5.0"} {
+		t.Run(version, func(t *testing.T) { testConnectorProtocol(t, version) })
+	}
+}
+func testConnectorProtocol(t *testing.T, version string) {
 	broker, cleanup := startBroker(t)
 	defer cleanup()
 
@@ -26,6 +31,7 @@ func TestConnectorTelemetryAndCommandThroughBroker(t *testing.T) {
 		Protocol:    Protocol,
 		Connection: config.ConnectionConfig{
 			URL:          broker,
+			MQTTVersion:  version,
 			CommandTopic: "devices/{device_id}/command",
 		},
 		Devices: []config.DeviceConfig{{
@@ -59,6 +65,12 @@ func TestConnectorTelemetryAndCommandThroughBroker(t *testing.T) {
 	}
 
 	commandPayloads := subscribeRaw(t, broker, "devices/device-1/command")
+	replySent := make(chan []byte, 1)
+	go func() {
+		payload := <-commandPayloads
+		publisher.Publish("devices/device-1/cmd-response", 1, false, []byte(`{"command_id":"cmd-1","status":"success","message_id":"reply-1","timestamp":1700000000000}`)).Wait()
+		replySent <- payload
+	}()
 	resp, err := conn.SendCommand(context.Background(), &dtv1.DeviceMessage{
 		CommandId: "cmd-1",
 		Direction: dtv1.Direction_DOWNSTREAM,
@@ -69,7 +81,7 @@ func TestConnectorTelemetryAndCommandThroughBroker(t *testing.T) {
 	if err != nil || resp.GetStatus() != dtv1.CommandStatus_SUCCESS {
 		t.Fatalf("SendCommand = (%v, %v), want success", resp, err)
 	}
-	payload := receivePayload(t, commandPayloads)
+	payload := receivePayload(t, replySent)
 	if got := gjson.GetBytes(payload, "command_id").String(); got != "cmd-1" {
 		t.Fatalf("command_id = %q, want cmd-1", got)
 	}

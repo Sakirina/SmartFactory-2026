@@ -1,0 +1,57 @@
+{
+  "$defs": {
+    "QualitySummary": {
+      "additionalProperties": false,
+      "properties": {
+        "bad": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "completeness": {
+          "enum": [
+            "unknown",
+            "complete",
+            "incomplete"
+          ],
+          "type": "string"
+        },
+        "excluded": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "good": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "missing": {
+          "anyOf": [
+            {
+              "format": "int64",
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "uncertain": {
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "good",
+        "bad",
+        "uncertain",
+        "excluded",
+        "missing",
+        "completeness"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/QualitySummary.schema.json",
+  "$ref": "#/$defs/QualitySummary",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "QualitySummary"
+}

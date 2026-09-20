@@ -1,0 +1,39 @@
+{
+  "$defs": {
+    "Condition": {
+      "additionalProperties": false,
+      "properties": {
+        "device_id": {
+          "type": "string"
+        },
+        "interlock": {
+          "type": "boolean"
+        },
+        "key": {
+          "type": "string"
+        },
+        "max_age_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "operator": {
+          "type": "string"
+        },
+        "value": {}
+      },
+      "required": [
+        "device_id",
+        "key",
+        "operator",
+        "value",
+        "max_age_ms",
+        "interlock"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/Condition.schema.json",
+  "$ref": "#/$defs/Condition",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Condition"
+}

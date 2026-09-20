@@ -1,0 +1,87 @@
+{
+  "$defs": {
+    "Actor": {
+      "additionalProperties": false,
+      "properties": {
+        "ai": {
+          "type": "boolean"
+        },
+        "department_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "roles": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "session_id": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "user_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "user_id",
+        "name",
+        "department_id",
+        "roles",
+        "source",
+        "session_id",
+        "ai"
+      ],
+      "type": "object"
+    },
+    "Approval": {
+      "additionalProperties": false,
+      "properties": {
+        "actor": {
+          "$ref": "#/$defs/Actor"
+        },
+        "at_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "binding": {
+          "type": "string"
+        },
+        "local": {
+          "type": "boolean"
+        },
+        "role": {
+          "type": "string"
+        },
+        "step_up": {
+          "type": "boolean"
+        },
+        "user_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "user_id",
+        "role",
+        "at_ms",
+        "binding",
+        "local",
+        "step_up",
+        "actor"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/Approval.schema.json",
+  "$ref": "#/$defs/Approval",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Approval"
+}

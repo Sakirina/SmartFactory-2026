@@ -114,6 +114,13 @@ type failingReloadConnector struct {
 	failReload atomic.Bool
 }
 
+func (f *failingReloadConnector) Init(cfg config.ConnectorConfig) error {
+	if f.failReload.Load() {
+		return errReloadRejected
+	}
+	return f.fakeReloadConnector.Init(cfg)
+}
+
 func (f *failingReloadConnector) ReloadConfig(cfg config.ConnectorConfig) error {
 	if f.failReload.Load() {
 		return errReloadRejected

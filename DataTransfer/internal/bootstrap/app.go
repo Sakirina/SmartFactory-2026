@@ -11,7 +11,9 @@ import (
 	"net"
 	"net/http"
 	"os"
+	"path/filepath"
 	"strings"
+	"sync"
 	"time"
 
 	"competition2026/product/datatransfer/internal/buffer"
@@ -21,11 +23,13 @@ import (
 	_ "competition2026/product/datatransfer/internal/connector/modbus"
 	_ "competition2026/product/datatransfer/internal/connector/mqttdevice"
 	_ "competition2026/product/datatransfer/internal/connector/opcua"
+	_ "competition2026/product/datatransfer/internal/connector/sidecar"
 	grpcadapter "competition2026/product/datatransfer/internal/northbound/grpc"
 	mqttadapter "competition2026/product/datatransfer/internal/northbound/mqtt"
 	"competition2026/product/datatransfer/internal/observability"
 	dtruntime "competition2026/product/datatransfer/internal/runtime"
 	"competition2026/product/datatransfer/internal/security"
+	"competition2026/product/datatransfer/internal/state"
 	"competition2026/product/datatransfer/internal/storage"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
@@ -36,13 +40,16 @@ type App struct {
 	ConfigPath string
 }
 
-func (a App) Run(ctx context.Context) error {
+func (a App) Run(ctx context.Context) (runErr error) {
+	ctx, cancelRun := context.WithCancel(ctx)
+	defer cancelRun()
 	cfg, err := config.Load(a.ConfigPath)
 	if err != nil {
 		return err
 	}
 	logger := newLogger(cfg.Log.Level)
 	rt := dtruntime.New(cfg)
+	defer rt.Close()
 	connectorManager, err := connector.NewManager(cfg.Connectors, rt, logger)
 	if err != nil {
 		return err
@@ -51,6 +58,22 @@ func (a App) Run(ctx context.Context) error {
 	configManager := configmanager.New(connectorManager, logger)
 	configManager.SetGlobalApplier(rt)
 	rt.AttachConfigManager(configManager)
+	statePath := cfg.Runtime.StatePath
+	if statePath != ":memory:" && !strings.HasPrefix(statePath, "file:") && !filepath.IsAbs(statePath) && a.ConfigPath != "" {
+		statePath = filepath.Join(filepath.Dir(a.ConfigPath), statePath)
+	}
+	journal, err := state.Open(ctx, statePath)
+	if err != nil {
+		return fmt.Errorf("open runtime state: %w", err)
+	}
+	defer journal.Close()
+	defer rt.Close()
+	if err = rt.AttachCommandJournal(journal); err != nil {
+		return err
+	}
+	if err := configManager.AttachJournal(ctx, journal); err != nil {
+		return err
+	}
 	if cfg.MQTT.Enabled && cfg.MQTT.TLS.Enabled && cfg.MQTT.TLS.InsecureSkipVerify {
 		logger.Warn("mqtt tls certificate verification is DISABLED (insecure_skip_verify); never use this in production")
 	}
@@ -68,43 +91,108 @@ func (a App) Run(ctx context.Context) error {
 		}()
 	}
 
-	errCh := make(chan error, 5)
-	httpServer := &http.Server{
-		Addr:              cfg.Management.Addr,
-		Handler:           observability.Handler(rt),
-		ReadHeaderTimeout: 5 * time.Second,
+	// Bind every listener before starting workers so startup failure leaves no service running.
+	httpListener, err := net.Listen("tcp", cfg.Management.Addr)
+	if err != nil {
+		return err
 	}
-	go func() {
-		logger.Info("management server starting", "addr", cfg.Management.Addr)
-		if err := httpServer.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
-			errCh <- err
-		}
-	}()
-
-	go func() {
-		logger.Info("connector manager starting", "connectors", len(cfg.Connectors))
-		if err := connectorManager.Start(ctx); err != nil && !errors.Is(err, context.Canceled) {
-			errCh <- err
-		}
-	}()
-
+	defer httpListener.Close()
 	var grpcServer *grpc.Server
+	var grpcListener net.Listener
 	if cfg.GRPC.Enabled {
 		grpcServer, err = buildGRPCServer(cfg, rt, logger)
 		if err != nil {
 			return err
 		}
-		listener, err := net.Listen("tcp", cfg.GRPC.Addr)
+		grpcListener, err = net.Listen("tcp", cfg.GRPC.Addr)
 		if err != nil {
 			return err
 		}
-		rt.SetGRPCServing(true)
+		defer grpcListener.Close()
+	}
+
+	errCh := make(chan error, 5)
+	var workers sync.WaitGroup
+	start := func(fn func() error) {
+		workers.Add(1)
 		go func() {
-			logger.Info("grpc server starting", "addr", cfg.GRPC.Addr, "tls", cfg.GRPC.TLS.Enabled, "reflection", reflectionEnabled(cfg))
-			if err := grpcServer.Serve(listener); err != nil && !errors.Is(err, grpc.ErrServerStopped) {
+			defer workers.Done()
+			if err := fn(); err != nil && !errors.Is(err, context.Canceled) && !errors.Is(err, http.ErrServerClosed) && !errors.Is(err, grpc.ErrServerStopped) {
 				errCh <- err
 			}
 		}()
+	}
+	connections := &httpConnections{states: make(map[net.Conn]http.ConnState)}
+	httpServer := &http.Server{
+		Addr:              cfg.Management.Addr,
+		Handler:           observability.Handler(rt),
+		ReadHeaderTimeout: 5 * time.Second,
+		BaseContext:       func(net.Listener) context.Context { return ctx },
+		ConnState:         connections.track,
+	}
+	defer func() {
+		cancelRun()
+		runErr = errors.Join(runErr, rt.Close())
+		rt.SetGRPCServing(false)
+		connections.stopAcceptingRequests()
+		shutdownCtx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		defer cancel()
+		stopped := make(chan struct{})
+		go func() {
+			if grpcServer != nil {
+				grpcServer.GracefulStop()
+			}
+			close(stopped)
+		}()
+		if err := httpServer.Shutdown(shutdownCtx); err != nil {
+			_ = httpServer.Close()
+			runErr = errors.Join(runErr, fmt.Errorf("management shutdown: %w", err))
+		}
+		select {
+		case <-stopped:
+		case <-shutdownCtx.Done():
+			if grpcServer != nil {
+				grpcServer.Stop()
+			}
+		}
+		workersDone := make(chan struct{})
+		go func() { workers.Wait(); close(workersDone) }()
+		select {
+		case <-workersDone:
+		case <-shutdownCtx.Done():
+			runErr = errors.Join(runErr, fmt.Errorf("worker shutdown: %w", shutdownCtx.Err()))
+		}
+	}()
+	start(func() error {
+		logger.Info("management server starting", "addr", cfg.Management.Addr)
+		return httpServer.Serve(httpListener)
+	})
+
+	start(func() error {
+		logger.Info("connector manager starting", "connectors", len(cfg.Connectors))
+		return connectorManager.Start(ctx)
+	})
+	start(func() error {
+		timer := time.NewTicker(time.Minute)
+		defer timer.Stop()
+		for {
+			if _, err := journal.CompactAcknowledged(ctx, 500); err != nil && ctx.Err() == nil {
+				logger.Warn("acknowledged payload cleanup deferred", "error", err)
+			}
+			select {
+			case <-ctx.Done():
+				return ctx.Err()
+			case <-timer.C:
+			}
+		}
+	})
+
+	if grpcServer != nil {
+		rt.SetGRPCServing(true)
+		start(func() error {
+			logger.Info("grpc server starting", "addr", cfg.GRPC.Addr, "tls", cfg.GRPC.TLS.Enabled, "reflection", reflectionEnabled(cfg))
+			return grpcServer.Serve(grpcListener)
+		})
 	}
 
 	if cfg.MQTT.Enabled {
@@ -117,12 +205,10 @@ func (a App) Run(ctx context.Context) error {
 			adapter = mqttadapter.New(cfg.MQTT, rt, logger)
 			rt.AttachUpstreamSink(adapter)
 		}
-		go func() {
+		start(func() error {
 			logger.Info("mqtt adapter starting", "broker", cfg.MQTT.Broker, "gateway_id", cfg.MQTT.GatewayID)
-			if err := adapter.Start(ctx); err != nil && !errors.Is(err, context.Canceled) {
-				errCh <- err
-			}
-		}()
+			return adapter.Start(ctx)
+		})
 	}
 
 	select {
@@ -131,25 +217,44 @@ func (a App) Run(ctx context.Context) error {
 		return err
 	}
 
-	shutdownCtx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
-	if err := httpServer.Shutdown(shutdownCtx); err != nil {
-		logger.Warn("management server shutdown failed", "error", err)
+	return nil
+}
+
+// net/http waits for new connections to become idle before shutting down. A client
+// that connects without sending a request must not delay service cancellation.
+type httpConnections struct {
+	mu      sync.Mutex
+	states  map[net.Conn]http.ConnState
+	closing bool
+}
+
+func (c *httpConnections) track(conn net.Conn, state http.ConnState) {
+	c.mu.Lock()
+	if state == http.StateClosed || state == http.StateHijacked {
+		delete(c.states, conn)
+	} else {
+		c.states[conn] = state
 	}
-	if grpcServer != nil {
-		rt.SetGRPCServing(false)
-		stopped := make(chan struct{})
-		go func() {
-			grpcServer.GracefulStop()
-			close(stopped)
-		}()
-		select {
-		case <-stopped:
-		case <-shutdownCtx.Done():
-			grpcServer.Stop()
+	closeNow := c.closing && (state == http.StateNew || state == http.StateIdle)
+	c.mu.Unlock()
+	if closeNow {
+		_ = conn.Close()
+	}
+}
+
+func (c *httpConnections) stopAcceptingRequests() {
+	c.mu.Lock()
+	c.closing = true
+	var idle []net.Conn
+	for conn, state := range c.states {
+		if state == http.StateNew || state == http.StateIdle {
+			idle = append(idle, conn)
 		}
 	}
-	return nil
+	c.mu.Unlock()
+	for _, conn := range idle {
+		_ = conn.Close()
+	}
 }
 
 // buildGRPCServer 按配置组装 gRPC 服务端:可选服务端 TLS(含 mTLS),

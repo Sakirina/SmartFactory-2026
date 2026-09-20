@@ -1,0 +1,53 @@
+{
+  "$defs": {
+    "Aggregate": {
+      "additionalProperties": false,
+      "properties": {
+        "average": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "complete": {
+          "type": "string"
+        },
+        "count": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "excluded": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "max": {
+          "type": "number"
+        },
+        "min": {
+          "type": "number"
+        },
+        "sum": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "count",
+        "excluded",
+        "sum",
+        "min",
+        "max",
+        "average",
+        "complete"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/Aggregate.schema.json",
+  "$ref": "#/$defs/Aggregate",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Aggregate"
+}

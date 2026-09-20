@@ -9,6 +9,7 @@ import (
 	dtv1 "competition2026/product/datatransfer/gen/datatransfer/v1"
 	"competition2026/product/datatransfer/internal/command"
 	dtruntime "competition2026/product/datatransfer/internal/runtime"
+	"competition2026/product/datatransfer/internal/state"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -27,9 +28,20 @@ func New(rt *dtruntime.Runtime) *Server {
 	return &Server{rt: rt}
 }
 
+func (s *Server) PullPendingMessages(ctx context.Context, req *dtv1.PendingRequest) (*dtv1.DeviceMessageBatch, error) {
+	return s.rt.PendingMessages(ctx, int(req.GetLimit()))
+}
+
+func (s *Server) AcknowledgeMessage(ctx context.Context, ack *dtv1.MessageAcknowledgement) (*dtv1.AcknowledgementResponse, error) {
+	if err := s.rt.AcknowledgeMessage(ctx, ack); err != nil {
+		return nil, grpcError(err)
+	}
+	return &dtv1.AcknowledgementResponse{Success: true}, nil
+}
+
 func (s *Server) SubscribeTelemetry(req *dtv1.SubscribeRequest, stream dtv1.DataTransferService_SubscribeTelemetryServer) error {
 	filter := dtruntime.FilterFromSubscribeRequest(req, []dtv1.MessageType{dtv1.MessageType_TELEMETRY})
-	return s.stream(stream.Context(), filter, stream.Send)
+	return s.stream(stream.Context(), filter, req.GetConsumerId(), stream.Send)
 }
 
 func (s *Server) SubscribeEvents(req *dtv1.SubscribeRequest, stream dtv1.DataTransferService_SubscribeEventsServer) error {
@@ -38,7 +50,7 @@ func (s *Server) SubscribeEvents(req *dtv1.SubscribeRequest, stream dtv1.DataTra
 		dtv1.MessageType_EVENT,
 		dtv1.MessageType_CMD_RESPONSE,
 	})
-	return s.stream(stream.Context(), filter, stream.Send)
+	return s.stream(stream.Context(), filter, req.GetConsumerId(), stream.Send)
 }
 
 func (s *Server) PullMessages(_ context.Context, req *dtv1.PullRequest) (*dtv1.DeviceMessageBatch, error) {
@@ -73,8 +85,11 @@ func (s *Server) GetMetrics(context.Context, *dtv1.MetricsRequest) (*dtv1.Metric
 	return s.rt.MetricsResponse(), nil
 }
 
-func (s *Server) stream(ctx context.Context, filter dtruntime.Filter, send func(*dtv1.DeviceMessage) error) error {
-	ch, cancel := s.rt.Subscribe(filter)
+func (s *Server) stream(ctx context.Context, filter dtruntime.Filter, consumer string, send func(*dtv1.DeviceMessage) error) error {
+	if err := s.rt.RegisterConsumer(filter, consumer); err != nil {
+		return status.Error(codes.Unavailable, err.Error())
+	}
+	ch, cancel := s.rt.SubscribeFor(filter, consumer)
 	defer cancel()
 	for {
 		select {
@@ -92,6 +107,9 @@ func (s *Server) stream(ctx context.Context, filter dtruntime.Filter, send func(
 }
 
 func grpcError(err error) error {
+	if errors.Is(err, state.ErrConflict) {
+		return status.Error(codes.FailedPrecondition, err.Error())
+	}
 	if errors.Is(err, command.ErrInvalidCommand) {
 		return status.Error(codes.InvalidArgument, err.Error())
 	}

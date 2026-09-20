@@ -1,0 +1,35 @@
+{
+  "$defs": {
+    "Schedule": {
+      "additionalProperties": false,
+      "properties": {
+        "every_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "next_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "timezone": {
+          "type": "string"
+        },
+        "window_ms": {
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "every_ms",
+        "next_ms",
+        "window_ms",
+        "timezone"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/Schedule.schema.json",
+  "$ref": "#/$defs/Schedule",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Schedule"
+}

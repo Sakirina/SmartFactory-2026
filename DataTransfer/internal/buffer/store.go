@@ -12,6 +12,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"sync"
 	"sync/atomic"
 	"time"
 
@@ -29,6 +30,7 @@ const (
 )
 
 type Store struct {
+	mu      sync.Mutex
 	db      *sql.DB
 	cfg     config.BufferConfig
 	dropped atomic.Int64
@@ -61,7 +63,7 @@ type Stats struct {
 }
 
 func Open(ctx context.Context, cfg config.BufferConfig) (*Store, error) {
-	if err := os.MkdirAll(filepath.Dir(cfg.Path), 0o755); err != nil {
+	if err := os.MkdirAll(filepath.Dir(cfg.Path), 0o700); err != nil {
 		return nil, err
 	}
 	db, err := sql.Open("sqlite", cfg.Path)
@@ -75,6 +77,10 @@ func Open(ctx context.Context, cfg config.BufferConfig) (*Store, error) {
 		return nil, err
 	}
 	if err := store.recalculateUsedBytes(ctx); err != nil {
+		_ = db.Close()
+		return nil, err
+	}
+	if err := os.Chmod(cfg.Path, 0600); err != nil {
 		_ = db.Close()
 		return nil, err
 	}
@@ -98,15 +104,20 @@ func (s *Store) Close() error {
 }
 
 func (s *Store) Enqueue(ctx context.Context, msg *dtv1.DeviceMessage) (*Record, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
 	if msg == nil {
 		return nil, errors.New("buffer message is nil")
 	}
 	if strings.TrimSpace(msg.MessageId) == "" {
 		return nil, errors.New("buffer message_id is required")
 	}
-	payload, err := proto.Marshal(msg)
+	payload, err := proto.MarshalOptions{Deterministic: true}.Marshal(msg)
 	if err != nil {
 		return nil, err
+	}
+	if capacity := s.capacityBytes(); capacity > 0 && int64(len(payload)) > capacity {
+		return nil, errors.New("message exceeds continuous buffer capacity")
 	}
 	device := msg.GetDevice()
 	res, err := s.db.ExecContext(ctx, `
@@ -129,7 +140,11 @@ INSERT OR IGNORE INTO outbound_messages (
 			return nil, err
 		}
 	}
-	return s.recordByMessageID(ctx, msg.GetMessageId())
+	record, err := s.recordByMessageID(ctx, msg.GetMessageId())
+	if err == nil && !proto.Equal(record.Message, msg) {
+		return nil, errors.New("message_id conflicts with buffered content")
+	}
+	return record, err
 }
 
 func (s *Store) capacityBytes() int64 {
@@ -280,30 +295,14 @@ func batchUpdate(prefix string, fixed []any, ids []int64) (string, []any) {
 }
 
 func (s *Store) Cleanup(ctx context.Context) error {
+	s.mu.Lock()
+	defer s.mu.Unlock()
 	cutoff := time.Now().Add(-time.Duration(s.cfg.TTLHours) * time.Hour).UnixMilli()
-	deletions := []struct {
-		query string
-		args  []any
-	}{
-		{
-			query: `DELETE FROM outbound_messages WHERE status = ? AND COALESCE(completed_at_ms, created_at_ms) < ?`,
-			args:  []any{StatusCompleted, cutoff},
-		},
-		{
-			// pending 与 lease 早已过期的 sending 记录一并按 TTL 清理,
-			// 避免续传中断后残留 sending 行永不回收。
-			query: `DELETE FROM outbound_messages WHERE status IN (?, ?) AND created_at_ms < ?`,
-			args:  []any{StatusPending, StatusSending, cutoff},
-		},
+	if _, err := s.db.ExecContext(ctx, `DELETE FROM outbound_messages WHERE status=? AND COALESCE(completed_at_ms,created_at_ms)<?`, StatusCompleted, cutoff); err != nil {
+		return err
 	}
-	for _, deletion := range deletions {
-		res, err := s.db.ExecContext(ctx, deletion.query, deletion.args...)
-		if err != nil {
-			return err
-		}
-		if count, err := res.RowsAffected(); err == nil && count > 0 {
-			s.dropped.Add(count)
-		}
+	if err := s.expireTelemetry(ctx, cutoff); err != nil {
+		return err
 	}
 	// 删除后用精确 SUM 校准缓存,消除增量维护的累计误差。
 	if err := s.recalculateUsedBytes(ctx); err != nil {
@@ -386,6 +385,7 @@ CREATE TABLE IF NOT EXISTS outbound_messages (
 CREATE UNIQUE INDEX IF NOT EXISTS idx_outbound_message_id ON outbound_messages(message_id);
 CREATE INDEX IF NOT EXISTS idx_outbound_pending ON outbound_messages(status, created_at_ms);
 CREATE INDEX IF NOT EXISTS idx_outbound_device ON outbound_messages(device_id, created_at_ms);
+CREATE TABLE IF NOT EXISTS buffer_gaps(message_id TEXT PRIMARY KEY,payload BLOB NOT NULL);
 `)
 	return err
 }
@@ -447,30 +447,50 @@ func (s *Store) enforceCapacity(ctx context.Context) error {
 	}
 	evicted := false
 	for s.usedBytes.Load() > capacity {
-		var id, size int64
-		err := s.db.QueryRowContext(ctx, `
-SELECT id, LENGTH(payload)
-FROM outbound_messages
-WHERE status != ?
-ORDER BY created_at_ms ASC, id ASC
-LIMIT 1
-`, StatusSending).Scan(&id, &size)
-		if errors.Is(err, sql.ErrNoRows) {
-			return nil
-		}
+		tx, err := s.db.BeginTx(ctx, nil)
 		if err != nil {
 			return err
 		}
-		res, err := s.db.ExecContext(ctx, `DELETE FROM outbound_messages WHERE id = ?`, id)
+		var id, size int64
+		var payload []byte
+		var status string
+		err = tx.QueryRowContext(ctx, `
+SELECT id, LENGTH(payload),payload,status
+FROM outbound_messages
+WHERE status != ? AND (status=? OR message_type=?)
+ORDER BY CASE WHEN status='completed' THEN 0 ELSE 1 END, created_at_ms ASC, id ASC
+LIMIT 1
+`, StatusSending, StatusCompleted, dtv1.MessageType_TELEMETRY).Scan(&id, &size, &payload, &status)
+		if errors.Is(err, sql.ErrNoRows) {
+			tx.Rollback()
+			return errors.New("buffer capacity is occupied by unacknowledged critical messages")
+		}
 		if err != nil {
+			tx.Rollback()
+			return err
+		}
+		if status != StatusCompleted {
+			if err = recordGap(ctx, tx, payload, "continuous buffer capacity exceeded"); err != nil {
+				tx.Rollback()
+				return err
+			}
+		}
+		res, err := tx.ExecContext(ctx, `DELETE FROM outbound_messages WHERE id = ?`, id)
+		if err != nil {
+			tx.Rollback()
 			return err
 		}
 		affected, err := res.RowsAffected()
 		if err != nil {
+			tx.Rollback()
 			return err
 		}
 		if affected == 0 {
+			tx.Rollback()
 			return nil
+		}
+		if err = tx.Commit(); err != nil {
+			return err
 		}
 		if !evicted {
 			evicted = true
@@ -479,7 +499,9 @@ LIMIT 1
 				"capacity_mb", s.cfg.MaxSizeMB,
 			)
 		}
-		s.dropped.Add(affected)
+		if status != StatusCompleted {
+			s.dropped.Add(affected)
+		}
 		s.usedBytes.Add(-size)
 	}
 	return nil

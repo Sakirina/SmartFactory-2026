@@ -86,8 +86,9 @@ type TLSConfig struct {
 }
 
 type RuntimeConfig struct {
-	RingSize          int `yaml:"ring_size"`
-	CommandTTLSeconds int `yaml:"command_ttl_seconds"`
+	StatePath         string `yaml:"state_path"`
+	RingSize          int    `yaml:"ring_size"`
+	CommandTTLSeconds int    `yaml:"command_ttl_seconds"`
 	// CommandRetry 为指令重试的间隔策略(FR-S-014:固定间隔与指数退避均须支持)。
 	// 重试次数始终由调用方按指令通过 CommandOptions.retry_count 控制。
 	CommandRetry CommandRetryConfig `yaml:"command_retry"`
@@ -111,14 +112,19 @@ type BufferConfig struct {
 }
 
 type ConnectorConfig struct {
-	ConnectorID    string                   `yaml:"connector_id"`
-	Protocol       string                   `yaml:"protocol"`
-	DefaultTags    map[string]string        `yaml:"default_tags"`
-	Connection     ConnectionConfig         `yaml:"connection"`
-	Polling        PollingConfig            `yaml:"polling"`
-	Devices        []DeviceConfig           `yaml:"devices"`
-	ActionMappings map[string]ActionMapping `yaml:"action_mappings"`
-	ReportStrategy ReportStrategyConfig     `yaml:"report_strategy"`
+	Process        *ProcessConfig           `yaml:"process" json:"process,omitempty"`
+	ConnectorID    string                   `yaml:"connector_id" json:"connector_id"`
+	Protocol       string                   `yaml:"protocol" json:"protocol"`
+	DefaultTags    map[string]string        `yaml:"default_tags" json:"default_tags"`
+	Connection     ConnectionConfig         `yaml:"connection" json:"connection"`
+	Polling        PollingConfig            `yaml:"polling" json:"polling"`
+	Devices        []DeviceConfig           `yaml:"devices" json:"devices"`
+	ActionMappings map[string]ActionMapping `yaml:"action_mappings" json:"action_mappings"`
+	ReportStrategy ReportStrategyConfig     `yaml:"report_strategy" json:"report_strategy"`
+}
+type ProcessConfig struct {
+	Executable string   `yaml:"executable" json:"executable"`
+	Args       []string `yaml:"args" json:"args,omitempty"`
 }
 
 // 以下结构同时承载 YAML(本地配置)与 JSON(设备注册微服务推送的
@@ -126,6 +132,7 @@ type ConnectorConfig struct {
 // 与 YAML 字段名保持一致(snake_case),已在 CSC-002 中向设备注册微服务声明。
 
 type ConnectionConfig struct {
+	MQTTVersion          string    `yaml:"mqtt_version" json:"mqtt_version,omitempty"`
 	URL                  string    `yaml:"url" json:"url"`
 	Host                 string    `yaml:"host" json:"host"`
 	Port                 int       `yaml:"port" json:"port"`
@@ -147,8 +154,10 @@ type ConnectionConfig struct {
 }
 
 type PollingConfig struct {
-	IntervalMillis int `yaml:"interval_millis" json:"interval_millis"`
-	TimeoutMillis  int `yaml:"timeout_millis" json:"timeout_millis"`
+	Mode                  string `yaml:"mode" json:"mode,omitempty"`
+	PublishIntervalMillis int    `yaml:"publish_interval_millis" json:"publish_interval_millis,omitempty"`
+	IntervalMillis        int    `yaml:"interval_millis" json:"interval_millis"`
+	TimeoutMillis         int    `yaml:"timeout_millis" json:"timeout_millis"`
 }
 
 type DeviceConfig struct {
@@ -164,6 +173,10 @@ type DeviceConfig struct {
 }
 
 type DatapointConfig struct {
+	ByteOrder    string   `yaml:"byte_order" json:"byte_order,omitempty"`
+	WordOrder    string   `yaml:"word_order" json:"word_order,omitempty"`
+	BitOffset    uint8    `yaml:"bit_offset" json:"bit_offset,omitempty"`
+	BitLength    uint8    `yaml:"bit_length" json:"bit_length,omitempty"`
 	Key          string   `yaml:"key" json:"key"`
 	Source       string   `yaml:"source" json:"source,omitempty"`
 	NodeID       string   `yaml:"node_id" json:"node_id,omitempty"`
@@ -180,18 +193,27 @@ type DatapointConfig struct {
 }
 
 type ActionMapping struct {
-	Type         string   `yaml:"type" json:"type"`
-	RegisterType string   `yaml:"register_type" json:"register_type,omitempty"`
-	Address      uint16   `yaml:"address" json:"address,omitempty"`
-	NodeID       string   `yaml:"node_id" json:"node_id,omitempty"`
-	MethodID     string   `yaml:"method_id" json:"method_id,omitempty"`
-	Quantity     uint16   `yaml:"quantity" json:"quantity,omitempty"`
-	DataType     string   `yaml:"data_type" json:"data_type,omitempty"`
-	Param        string   `yaml:"param" json:"param,omitempty"`
-	Value        string   `yaml:"value" json:"value,omitempty"`
-	Values       []string `yaml:"values" json:"values,omitempty"`
-	Topic        string   `yaml:"topic" json:"topic,omitempty"`
-	Template     string   `yaml:"template" json:"template,omitempty"`
+	Inputs       []ArgumentMapping `yaml:"inputs" json:"inputs,omitempty"`
+	ByteOrder    string            `yaml:"byte_order" json:"byte_order,omitempty"`
+	WordOrder    string            `yaml:"word_order" json:"word_order,omitempty"`
+	Scale        *float64          `yaml:"scale" json:"scale,omitempty"`
+	Offset       float64           `yaml:"offset" json:"offset,omitempty"`
+	Type         string            `yaml:"type" json:"type"`
+	RegisterType string            `yaml:"register_type" json:"register_type,omitempty"`
+	Address      uint16            `yaml:"address" json:"address,omitempty"`
+	NodeID       string            `yaml:"node_id" json:"node_id,omitempty"`
+	MethodID     string            `yaml:"method_id" json:"method_id,omitempty"`
+	Quantity     uint16            `yaml:"quantity" json:"quantity,omitempty"`
+	DataType     string            `yaml:"data_type" json:"data_type,omitempty"`
+	Param        string            `yaml:"param" json:"param,omitempty"`
+	Value        string            `yaml:"value" json:"value,omitempty"`
+	Values       []string          `yaml:"values" json:"values,omitempty"`
+	Topic        string            `yaml:"topic" json:"topic,omitempty"`
+	Template     string            `yaml:"template" json:"template,omitempty"`
+}
+type ArgumentMapping struct {
+	Param    string `yaml:"param" json:"param"`
+	DataType string `yaml:"data_type" json:"data_type"`
 }
 
 type ReportStrategyConfig struct {
@@ -229,6 +251,7 @@ func Defaults() Config {
 			CleanupIntervalSeconds: 60,
 		},
 		Runtime: RuntimeConfig{
+			StatePath:         ".local/datatransfer-state.db",
 			RingSize:          1024,
 			CommandTTLSeconds: int(time.Hour.Seconds()),
 			CommandRetry: CommandRetryConfig{
@@ -388,6 +411,14 @@ func (c *Config) Validate() error {
 		if conn.Polling.TimeoutMillis <= 0 {
 			conn.Polling.TimeoutMillis = conn.Connection.TimeoutMillis
 		}
+		if conn.Protocol == "opcua" {
+			if conn.Polling.Mode == "" {
+				conn.Polling.Mode = "subscribe"
+			}
+			if conn.Polling.Mode != "subscribe" && conn.Polling.Mode != "poll" {
+				return fmt.Errorf("connectors[%d].polling.mode must be subscribe or poll", idx)
+			}
+		}
 		for devIdx := range conn.Devices {
 			device := &conn.Devices[devIdx]
 			device.DeviceID = strings.TrimSpace(device.DeviceID)
@@ -499,6 +530,7 @@ func applyEnv(cfg *Config, lookup func(string) (string, bool)) {
 	setInt(lookup, "DT_BUFFER_RESUME_BATCH_SIZE", &cfg.Buffer.ResumeBatchSize)
 	setInt(lookup, "DT_BUFFER_CLEANUP_INTERVAL_SECONDS", &cfg.Buffer.CleanupIntervalSeconds)
 	setInt(lookup, "DT_RUNTIME_RING_SIZE", &cfg.Runtime.RingSize)
+	setString(lookup, "DT_RUNTIME_STATE_PATH", &cfg.Runtime.StatePath)
 	setInt(lookup, "DT_RUNTIME_COMMAND_TTL_SECONDS", &cfg.Runtime.CommandTTLSeconds)
 	setString(lookup, "DT_RUNTIME_COMMAND_RETRY_INTERVAL_MODE", &cfg.Runtime.CommandRetry.IntervalMode)
 	setInt(lookup, "DT_RUNTIME_COMMAND_RETRY_INTERVAL_MS", &cfg.Runtime.CommandRetry.IntervalMS)

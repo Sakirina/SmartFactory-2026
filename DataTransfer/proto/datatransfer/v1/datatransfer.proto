@@ -50,6 +50,7 @@ enum CommandStatus {
   FAILURE = 2;
   TIMEOUT = 3;
   REJECTED = 4;
+  RESULT_UNKNOWN = 5;
 }
 
 enum CommandPriority {
@@ -115,6 +116,9 @@ message DeviceMessage {
   }
 
   map<string, string> metadata = 20;
+  uint64 source_sequence = 21;
+  string time_source = 22;
+  int64 entity_revision = 23;
 }
 
 message TelemetryPayload {
@@ -127,6 +131,8 @@ message Datapoint {
   int64 timestamp = 3;
   DataQuality quality = 4;
   string unit = 5;
+  string quality_reason = 6;
+  string time_source = 7;
 }
 
 message DataValue {
@@ -136,6 +142,7 @@ message DataValue {
     bool bool_value = 3;
     string string_value = 4;
     bytes bytes_value = 5;
+    uint64 uint_value = 6;
   }
 }
 
@@ -185,6 +192,8 @@ message CommandOptions {
   int32 timeout_ms = 1;
   int32 retry_count = 2;
   CommandPriority priority = 3;
+  bool idempotent = 4;
+  int64 start_deadline_ms = 5;
 }
 
 message DeviceMessageBatch {
@@ -192,6 +201,14 @@ message DeviceMessageBatch {
   string batch_id = 2;
   int64 created_at = 3;
 }
+
+message PendingRequest { int32 limit = 1; }
+message MessageAcknowledgement {
+  string message_id = 1;
+  bytes payload_sha256 = 2;
+  string receiver_id = 3;
+}
+message AcknowledgementResponse { bool success = 1; }
 
 message ReportStrategyConfig {
   ReportStrategyMode mode = 1;
@@ -205,6 +222,7 @@ message DatapointStrategyOverride {
 }
 
 message SubscribeRequest {
+  string consumer_id = 20;
   repeated string device_ids = 1;
   repeated string device_types = 2;
   repeated string connector_ids = 3;
@@ -290,12 +308,21 @@ message GlobalConfigPayload {
   ReportStrategyConfig default_report_strategy = 1;
   BackpressurePolicy backpressure_policy = 2;
   int32 queue_capacity = 3;
+  QueueWatermarks watermarks = 4;
+}
+
+message QueueWatermarks {
+  double reminder = 1;
+  double warning = 2;
+  double error = 3;
+  double recovery = 4;
 }
 
 message ConfigUpdateResponse {
   bool success = 1;
   string error_message = 2;
   string update_id = 3;
+  int64 applied_entity_revision = 4;
 }
 
 message MetricsRequest {}
@@ -313,6 +340,8 @@ message MetricsResponse {
   double queue_usage_percent = 10;
   int64 strategy_filtered_count = 11;
   double strategy_pass_through_rate = 12;
+  string queue_level = 13;
+  int64 continuous_gap_total = 14;
   map<string, ConnectorMetrics> connectors = 20;
 }
 
@@ -327,6 +356,8 @@ message ConnectorMetrics {
 }
 
 service DataTransferService {
+  rpc PullPendingMessages(PendingRequest) returns (DeviceMessageBatch);
+  rpc AcknowledgeMessage(MessageAcknowledgement) returns (AcknowledgementResponse);
   rpc SubscribeTelemetry(SubscribeRequest) returns (stream DeviceMessage);
   rpc SubscribeEvents(SubscribeRequest) returns (stream DeviceMessage);
   rpc PullMessages(PullRequest) returns (DeviceMessageBatch);

@@ -1,0 +1,48 @@
+{
+  "$defs": {
+    "Grant": {
+      "additionalProperties": false,
+      "properties": {
+        "actions": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "group_id": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "resources": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "team_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "team_id",
+        "group_id",
+        "resources",
+        "actions"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/Grant.schema.json",
+  "$ref": "#/$defs/Grant",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Grant"
+}

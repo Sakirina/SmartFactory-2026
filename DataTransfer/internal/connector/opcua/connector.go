@@ -1,24 +1,20 @@
 // Package opcua 实现 OPC-UA Connector(Read/Write/Call/Subscribe 契约)。
-// native 客户端目前覆盖 Read/Write/Call;Subscription 仅经测试 fake client 验证,
-// native 实现留待 DT-COL-016(遗留代码保留,勿删 Subscribe 空实现)。
 package opcua
 
 import (
 	"context"
 	"fmt"
 	"sort"
-	"strconv"
 	"strings"
 	"sync"
+	"sync/atomic"
 	"time"
 
 	dtv1 "competition2026/product/datatransfer/gen/datatransfer/v1"
 	"competition2026/product/datatransfer/internal/config"
 	"competition2026/product/datatransfer/internal/connector"
+	"competition2026/product/datatransfer/internal/conversion"
 	dterrors "competition2026/product/datatransfer/internal/errors"
-	"competition2026/product/datatransfer/internal/security"
-	gopcua "github.com/gopcua/opcua"
-	"github.com/gopcua/opcua/ua"
 	"google.golang.org/protobuf/proto"
 )
 
@@ -45,6 +41,9 @@ type Connector struct {
 	devices       []*dtv1.DeviceInfo
 	deviceConfigs map[string]config.DeviceConfig
 	startedAt     time.Time
+	cancel        context.CancelFunc
+	done          chan struct{}
+	factor        atomic.Int64
 }
 
 func init() {
@@ -86,14 +85,30 @@ func (c *Connector) Init(cfg config.ConnectorConfig) error {
 	return nil
 }
 
-func (c *Connector) Start(ctx context.Context, upstream chan<- *dtv1.DeviceMessage) error {
+func (c *Connector) Start(parent context.Context, upstream chan<- *dtv1.DeviceMessage) error {
+	ctx, cancel := context.WithCancel(parent)
+	done := make(chan struct{})
+	c.mu.Lock()
+	c.cancel, c.done = cancel, done
+	c.mu.Unlock()
+	defer close(done)
+	defer cancel()
 	client, err := c.clientFactory(c.snapshotConfig())
 	if err != nil {
 		c.markError(err)
 		return err
 	}
+	defer func() {
+		closeCtx, closeCancel := context.WithTimeout(context.Background(), 3*time.Second)
+		defer closeCancel()
+		_ = client.Close(closeCtx)
+		c.mu.Lock()
+		c.client = nil
+		c.mu.Unlock()
+	}()
 	if err := client.Connect(ctx); err != nil {
 		c.markError(err)
+		c.failedTelemetry(ctx, err, upstream)
 		return err
 	}
 	c.mu.Lock()
@@ -101,44 +116,70 @@ func (c *Connector) Start(ctx context.Context, upstream chan<- *dtv1.DeviceMessa
 	c.startedAt = time.Now()
 	c.mu.Unlock()
 	c.setState(connector.StateRunning, "")
-
+	subErr := make(chan error, 1)
 	nodes := c.subscriptionNodes()
-	if len(nodes) > 0 {
+	pollMode := c.snapshotConfig().Polling.Mode == "poll"
+	if len(nodes) > 0 && !pollMode {
 		go func() {
-			err := client.Subscribe(ctx, nodes, func(nodeID string, value any) {
+			subErr <- client.Subscribe(ctx, nodes, func(nodeID string, value any) {
 				if msg, buildErr := c.messageForNode(nodeID, value); buildErr == nil && msg != nil {
 					select {
 					case upstream <- msg:
+						c.markDevice(msg.GetDevice().GetDeviceId(), dtv1.DeviceState_ONLINE)
 						c.addMessageIn()
 					case <-ctx.Done():
 					}
 				}
 			})
-			if err != nil && ctx.Err() == nil {
-				c.markError(err)
-			}
 		}()
+		defer func() { cancel(); <-subErr }()
 	}
-
 	interval := time.Duration(c.snapshotConfig().Polling.IntervalMillis) * time.Millisecond
-	if interval <= 0 {
-		<-ctx.Done()
-	} else {
+	var ticks <-chan time.Time
+	if pollMode && interval > 0 {
 		ticker := time.NewTicker(interval)
 		defer ticker.Stop()
-		for {
-			select {
-			case <-ctx.Done():
-				_ = client.Close(context.Background())
-				c.setState(connector.StateStopped, "")
+		ticks = ticker.C
+	}
+	ticksSeen := int64(0)
+	for {
+		select {
+		case <-ctx.Done():
+			c.setState(connector.StateStopped, "")
+			return nil
+		case err := <-subErr:
+			// Return the subscription failure to Manager so it recreates the session.
+			subErr <- err
+			if ctx.Err() != nil {
 				return nil
-			case <-ticker.C:
-				c.poll(ctx, upstream)
 			}
+			if err == nil {
+				err = fmt.Errorf("opcua subscription ended unexpectedly")
+			}
+			c.markError(err)
+			c.failedTelemetry(ctx, err, upstream)
+			return err
+		case <-ticks:
+			ticksSeen++
+			factor := c.factor.Load()
+			if factor > 1 && ticksSeen%factor != 0 {
+				continue
+			}
+			c.poll(ctx, upstream)
 		}
 	}
-	_ = client.Close(context.Background())
-	c.setState(connector.StateStopped, "")
+}
+func (c *Connector) SetCollectionFactor(factor int64) error {
+	if factor < 1 || factor > 100 {
+		return fmt.Errorf("collection factor outside 1..100")
+	}
+	c.factor.Store(factor)
+	c.mu.RLock()
+	client := c.client
+	c.mu.RUnlock()
+	if v, ok := client.(interface{ SetCollectionFactor(int64) error }); ok {
+		return v.SetCollectionFactor(factor)
+	}
 	return nil
 }
 
@@ -170,6 +211,12 @@ func (c *Connector) SendCommand(ctx context.Context, cmd *dtv1.DeviceMessage) (*
 			if err != nil {
 				return nil, err
 			}
+			if sample, ok := value.(Observation); ok {
+				if sample.Quality != dtv1.DataQuality_GOOD {
+					return nil, fmt.Errorf("opcua query %s: %s", dp.NodeID, sample.Reason)
+				}
+				value = sample.Value
+			}
 			result[dp.Key] = fmt.Sprint(value)
 		}
 		c.addMessageOut()
@@ -193,7 +240,18 @@ func (c *Connector) SendCommand(ctx context.Context, cmd *dtv1.DeviceMessage) (*
 		}
 		switch strings.ToLower(mapping.Type) {
 		case "call":
-			_, err := client.Call(ctx, mapping.NodeID, mapping.MethodID, paramsToArgs(cmd.GetControl().GetParams()))
+			args := paramsToArgs(cmd.GetControl().GetParams())
+			if len(mapping.Inputs) > 0 {
+				args = []any{}
+				for _, input := range mapping.Inputs {
+					v, e := conversion.Scalar(cmd.GetControl().GetParams()[input.Param], input.DataType)
+					if e != nil {
+						return rejectedResponse(cmd, dterrors.CodeCommandInvalid, e.Error()), nil
+					}
+					args = append(args, v)
+				}
+			}
+			_, err := client.Call(ctx, mapping.NodeID, mapping.MethodID, args)
 			if err != nil {
 				return nil, err
 			}
@@ -202,7 +260,15 @@ func (c *Connector) SendCommand(ctx context.Context, cmd *dtv1.DeviceMessage) (*
 			if mapping.Param != "" {
 				value = cmd.GetControl().GetParams()[mapping.Param]
 			}
-			if err := client.Write(ctx, mapping.NodeID, value); err != nil {
+			var scalar any = value
+			if mapping.DataType != "" {
+				var err error
+				scalar, err = conversion.Scalar(value, mapping.DataType)
+				if err != nil {
+					return rejectedResponse(cmd, dterrors.CodeCommandInvalid, err.Error()), nil
+				}
+			}
+			if err := client.Write(ctx, mapping.NodeID, scalar); err != nil {
 				return nil, err
 			}
 		}
@@ -214,15 +280,19 @@ func (c *Connector) SendCommand(ctx context.Context, cmd *dtv1.DeviceMessage) (*
 }
 
 func (c *Connector) Stop() error {
-	c.mu.Lock()
-	client := c.client
-	c.client = nil
-	c.setStateLocked(connector.StateStopped, "")
-	c.mu.Unlock()
-	if client != nil {
-		return client.Close(context.Background())
+	c.mu.RLock()
+	cancel, done := c.cancel, c.done
+	c.mu.RUnlock()
+	if cancel == nil {
+		return nil
 	}
-	return nil
+	cancel()
+	select {
+	case <-done:
+		return nil
+	case <-time.After(5 * time.Second):
+		return fmt.Errorf("opcua connector shutdown timed out")
+	}
 }
 
 func (c *Connector) Status() connector.Status {
@@ -262,13 +332,15 @@ func (c *Connector) poll(ctx context.Context, upstream chan<- *dtv1.DeviceMessag
 	}
 	for _, device := range devices {
 		datapoints := make([]*dtv1.Datapoint, 0, len(device.Datapoints))
+		failed := false
 		for _, dp := range device.Datapoints {
 			value, err := client.Read(ctx, dp.NodeID)
 			if err != nil {
 				c.markError(err)
-				continue
+				failed = true
+				value = Observation{Quality: dtv1.DataQuality_BAD, Reason: err.Error(), Timestamp: time.Now(), TimeSource: "collector"}
 			}
-			datapoints = append(datapoints, &dtv1.Datapoint{Key: dp.Key, Value: dataValue(value, dp), Timestamp: time.Now().UnixMilli(), Quality: qualityFromString(dp.Quality), Unit: dp.Unit})
+			datapoints = append(datapoints, makeDatapoint(value, dp))
 		}
 		if len(datapoints) == 0 {
 			continue
@@ -276,10 +348,31 @@ func (c *Connector) poll(ctx context.Context, upstream chan<- *dtv1.DeviceMessag
 		msg := telemetryMessage(c.snapshotConfig(), device, datapoints)
 		select {
 		case upstream <- msg:
-			c.markDevice(device.DeviceID, dtv1.DeviceState_ONLINE)
+			state := dtv1.DeviceState_ONLINE
+			if failed {
+				state = dtv1.DeviceState_ERROR
+			}
+			c.markDevice(device.DeviceID, state)
 			c.addMessageIn()
 		case <-ctx.Done():
 			return
+		}
+	}
+}
+
+func (c *Connector) failedTelemetry(ctx context.Context, err error, upstream chan<- *dtv1.DeviceMessage) {
+	cfg := c.snapshotConfig()
+	for _, device := range cfg.Devices {
+		points := []*dtv1.Datapoint{}
+		for _, dp := range device.Datapoints {
+			points = append(points, makeDatapoint(Observation{Quality: dtv1.DataQuality_BAD, Reason: err.Error(), Timestamp: time.Now(), TimeSource: "collector"}, dp))
+		}
+		if len(points) > 0 {
+			select {
+			case upstream <- telemetryMessage(cfg, device, points):
+			case <-ctx.Done():
+				return
+			}
 		}
 	}
 }
@@ -289,7 +382,7 @@ func (c *Connector) messageForNode(nodeID string, value any) (*dtv1.DeviceMessag
 	for _, device := range cfg.Devices {
 		for _, dp := range device.Datapoints {
 			if dp.NodeID == nodeID {
-				return telemetryMessage(cfg, device, []*dtv1.Datapoint{{Key: dp.Key, Value: dataValue(value, dp), Timestamp: time.Now().UnixMilli(), Quality: qualityFromString(dp.Quality), Unit: dp.Unit}}), nil
+				return telemetryMessage(cfg, device, []*dtv1.Datapoint{makeDatapoint(value, dp)}), nil
 			}
 		}
 	}
@@ -325,97 +418,6 @@ func (c *Connector) actionMapping(device config.DeviceConfig, action string) (co
 	return mapping, ok
 }
 
-type nativeClient struct {
-	endpoint string
-	client   *gopcua.Client
-}
-
-func nativeClientFactory(cfg config.ConnectorConfig) (Client, error) {
-	if cfg.Connection.TLS.Enabled {
-		if _, err := security.TLSConfig(cfg.Connection.TLS); err != nil {
-			return nil, err
-		}
-	}
-	return &nativeClient{endpoint: cfg.Connection.URL}, nil
-}
-
-func (c *nativeClient) Connect(ctx context.Context) error {
-	client, err := gopcua.NewClient(c.endpoint, gopcua.SecurityMode(ua.MessageSecurityModeNone), gopcua.SecurityPolicy(ua.SecurityPolicyURINone), gopcua.AuthAnonymous())
-	if err != nil {
-		return err
-	}
-	c.client = client
-	return c.client.Connect(ctx)
-}
-
-func (c *nativeClient) Close(ctx context.Context) error {
-	if c.client == nil {
-		return nil
-	}
-	return c.client.Close(ctx)
-}
-
-func (c *nativeClient) Read(ctx context.Context, nodeID string) (any, error) {
-	id, err := ua.ParseNodeID(nodeID)
-	if err != nil {
-		return nil, err
-	}
-	resp, err := c.client.Read(ctx, &ua.ReadRequest{NodesToRead: []*ua.ReadValueID{{NodeID: id, AttributeID: ua.AttributeIDValue}}, TimestampsToReturn: ua.TimestampsToReturnBoth})
-	if err != nil {
-		return nil, err
-	}
-	if len(resp.Results) == 0 || resp.Results[0].Value == nil {
-		return nil, fmt.Errorf("%s: opcua read returned no value", dterrors.CodeConnectorTimeout)
-	}
-	return resp.Results[0].Value.Value(), nil
-}
-
-func (c *nativeClient) Write(ctx context.Context, nodeID string, value any) error {
-	id, err := ua.ParseNodeID(nodeID)
-	if err != nil {
-		return err
-	}
-	variant, err := ua.NewVariant(value)
-	if err != nil {
-		return err
-	}
-	_, err = c.client.Write(ctx, &ua.WriteRequest{NodesToWrite: []*ua.WriteValue{{NodeID: id, AttributeID: ua.AttributeIDValue, Value: &ua.DataValue{Value: variant}}}})
-	return err
-}
-
-func (c *nativeClient) Call(ctx context.Context, objectID string, methodID string, args []any) ([]any, error) {
-	object, err := ua.ParseNodeID(objectID)
-	if err != nil {
-		return nil, err
-	}
-	method, err := ua.ParseNodeID(methodID)
-	if err != nil {
-		return nil, err
-	}
-	variants := make([]*ua.Variant, 0, len(args))
-	for _, arg := range args {
-		variant, err := ua.NewVariant(arg)
-		if err != nil {
-			return nil, err
-		}
-		variants = append(variants, variant)
-	}
-	result, err := c.client.Call(ctx, &ua.CallMethodRequest{ObjectID: object, MethodID: method, InputArguments: variants})
-	if err != nil {
-		return nil, err
-	}
-	out := make([]any, 0, len(result.OutputArguments))
-	for _, value := range result.OutputArguments {
-		out = append(out, value.Value())
-	}
-	return out, nil
-}
-
-func (c *nativeClient) Subscribe(ctx context.Context, nodes []string, emit func(nodeID string, value any)) error {
-	<-ctx.Done()
-	return ctx.Err()
-}
-
 func telemetryMessage(cfg config.ConnectorConfig, device config.DeviceConfig, datapoints []*dtv1.Datapoint) *dtv1.DeviceMessage {
 	return &dtv1.DeviceMessage{
 		MessageId: fmt.Sprintf("opcua-%s-%d", device.DeviceID, time.Now().UnixNano()),
@@ -429,46 +431,8 @@ func telemetryMessage(cfg config.ConnectorConfig, device config.DeviceConfig, da
 }
 
 func dataValue(value any, dp config.DatapointConfig) *dtv1.DataValue {
-	switch typed := value.(type) {
-	case bool:
-		return &dtv1.DataValue{Kind: &dtv1.DataValue_BoolValue{BoolValue: typed}}
-	case int:
-		return numericValue(float64(typed), dp, true)
-	case int16:
-		return numericValue(float64(typed), dp, true)
-	case int32:
-		return numericValue(float64(typed), dp, true)
-	case int64:
-		return numericValue(float64(typed), dp, true)
-	case uint16:
-		return numericValue(float64(typed), dp, true)
-	case uint32:
-		return numericValue(float64(typed), dp, true)
-	case float32:
-		return numericValue(float64(typed), dp, false)
-	case float64:
-		return numericValue(typed, dp, false)
-	case string:
-		if strings.HasPrefix(strings.ToLower(dp.DataType), "int") {
-			parsed, _ := strconv.ParseFloat(typed, 64)
-			return numericValue(parsed, dp, true)
-		}
-		return &dtv1.DataValue{Kind: &dtv1.DataValue_StringValue{StringValue: typed}}
-	default:
-		return &dtv1.DataValue{Kind: &dtv1.DataValue_StringValue{StringValue: fmt.Sprint(value)}}
-	}
-}
-
-func numericValue(raw float64, dp config.DatapointConfig, integral bool) *dtv1.DataValue {
-	scale := 1.0
-	if dp.Scale != nil {
-		scale = *dp.Scale
-	}
-	value := raw*scale + dp.Offset
-	if integral && scale == 1 && dp.Offset == 0 {
-		return &dtv1.DataValue{Kind: &dtv1.DataValue_IntValue{IntValue: int64(value)}}
-	}
-	return &dtv1.DataValue{Kind: &dtv1.DataValue_DoubleValue{DoubleValue: value}}
+	out, _ := conversion.Value(value, dp)
+	return out
 }
 
 func dataValueToAny(value *dtv1.DataValue) any {
@@ -477,6 +441,8 @@ func dataValueToAny(value *dtv1.DataValue) any {
 		return typed.BoolValue
 	case *dtv1.DataValue_DoubleValue:
 		return typed.DoubleValue
+	case *dtv1.DataValue_UintValue:
+		return typed.UintValue
 	case *dtv1.DataValue_IntValue:
 		return typed.IntValue
 	case *dtv1.DataValue_StringValue:

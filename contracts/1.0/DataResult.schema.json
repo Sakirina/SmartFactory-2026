@@ -1,0 +1,336 @@
+{
+  "$defs": {
+    "DataGap": {
+      "additionalProperties": false,
+      "properties": {
+        "device_id": {
+          "type": "string"
+        },
+        "from_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "id": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "missing": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "scope": {
+          "type": "string"
+        },
+        "to_ms": {
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "device_id",
+        "key",
+        "from_ms",
+        "to_ms",
+        "missing",
+        "scope",
+        "reason"
+      ],
+      "type": "object"
+    },
+    "DataResult": {
+      "additionalProperties": false,
+      "properties": {
+        "data_version": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "gaps": {
+          "items": {
+            "$ref": "#/$defs/DataGap"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "latest": {
+          "items": {
+            "$ref": "#/$defs/Observation"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "points": {
+          "items": {
+            "$ref": "#/$defs/Observation"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "quality": {
+          "$ref": "#/$defs/QualitySummary"
+        },
+        "revisions": {
+          "items": {
+            "$ref": "#/$defs/Revision"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "sources": {
+          "items": {
+            "$ref": "#/$defs/SourceState"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "truncated": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "points",
+        "quality",
+        "sources",
+        "revisions",
+        "data_version",
+        "truncated",
+        "gaps"
+      ],
+      "type": "object"
+    },
+    "Observation": {
+      "additionalProperties": false,
+      "properties": {
+        "asset_version": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "definition_id": {
+          "type": "string"
+        },
+        "device_id": {
+          "type": "string"
+        },
+        "entity_revision": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "id": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "late": {
+          "type": "boolean"
+        },
+        "message_id": {
+          "type": "string"
+        },
+        "observed_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "origin_id": {
+          "type": "string"
+        },
+        "quality": {
+          "enum": [
+            "GOOD",
+            "BAD",
+            "UNCERTAIN"
+          ],
+          "type": "string"
+        },
+        "quality_reason": {
+          "type": "string"
+        },
+        "received_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "revision": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "rule_version": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "source_id": {
+          "type": "string"
+        },
+        "source_sequence": {
+          "format": "uint64",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "time_source": {
+          "type": "string"
+        },
+        "unit": {
+          "type": "string"
+        },
+        "value": {
+          "description": "Lossless JSON value. Clients must preserve integers outside the JavaScript safe integer range."
+        }
+      },
+      "required": [
+        "id",
+        "message_id",
+        "source_id",
+        "source_sequence",
+        "device_id",
+        "key",
+        "value",
+        "observed_ms",
+        "received_ms",
+        "quality",
+        "time_source",
+        "entity_revision",
+        "asset_version",
+        "late",
+        "revision"
+      ],
+      "type": "object"
+    },
+    "QualitySummary": {
+      "additionalProperties": false,
+      "properties": {
+        "bad": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "completeness": {
+          "enum": [
+            "unknown",
+            "complete",
+            "incomplete"
+          ],
+          "type": "string"
+        },
+        "excluded": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "good": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "missing": {
+          "anyOf": [
+            {
+              "format": "int64",
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "uncertain": {
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "good",
+        "bad",
+        "uncertain",
+        "excluded",
+        "missing",
+        "completeness"
+      ],
+      "type": "object"
+    },
+    "Revision": {
+      "additionalProperties": false,
+      "properties": {
+        "after": {},
+        "at_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "before": {},
+        "device_id": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "job_id": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "version": {
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "job_id",
+        "device_id",
+        "key",
+        "at_ms",
+        "before",
+        "after",
+        "reason",
+        "version"
+      ],
+      "type": "object"
+    },
+    "SourceState": {
+      "additionalProperties": false,
+      "properties": {
+        "backfill": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "last_seen_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "last_seen_ms",
+        "status",
+        "backfill"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/DataResult.schema.json",
+  "$ref": "#/$defs/DataResult",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DataResult"
+}

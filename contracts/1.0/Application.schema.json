@@ -1,0 +1,33 @@
+{
+  "$defs": {
+    "Application": {
+      "additionalProperties": false,
+      "properties": {
+        "at_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "version": {
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "version",
+        "state",
+        "at_ms"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/Application.schema.json",
+  "$ref": "#/$defs/Application",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Application"
+}

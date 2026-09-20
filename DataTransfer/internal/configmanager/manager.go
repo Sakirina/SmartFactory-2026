@@ -4,6 +4,7 @@
 package configmanager
 
 import (
+	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -14,6 +15,7 @@ import (
 	"competition2026/product/datatransfer/internal/config"
 	"competition2026/product/datatransfer/internal/connector"
 	dterrors "competition2026/product/datatransfer/internal/errors"
+	"competition2026/product/datatransfer/internal/state"
 	"google.golang.org/protobuf/proto"
 )
 
@@ -30,10 +32,13 @@ type Manager struct {
 	// 配置推送是低频操作,串行化的代价可以接受;若拆开锁,
 	// 两个并发推送可能同时通过 revision 检查,导致旧配置后到覆盖新配置,
 	// 使 FR-S-029a 乱序保护失效。
-	mu        sync.Mutex
-	updates   map[string]*dtv1.ConfigUpdateResponse
-	revisions map[string]int64
-	global    GlobalApplier
+	mu           sync.Mutex
+	updates      map[string]*dtv1.ConfigUpdateResponse
+	revisions    map[string]int64
+	global       GlobalApplier
+	journal      *state.Store
+	requests     map[string]*dtv1.DeviceConfigUpdate
+	globalConfig *dtv1.GlobalConfigPayload
 }
 
 func New(connectors *connector.Manager, logger *slog.Logger) *Manager {
@@ -44,6 +49,7 @@ func New(connectors *connector.Manager, logger *slog.Logger) *Manager {
 		connectors: connectors,
 		logger:     logger,
 		updates:    make(map[string]*dtv1.ConfigUpdateResponse),
+		requests:   make(map[string]*dtv1.DeviceConfigUpdate),
 		revisions:  make(map[string]int64),
 	}
 }
@@ -64,7 +70,19 @@ func (m *Manager) Apply(update *dtv1.DeviceConfigUpdate) *dtv1.ConfigUpdateRespo
 	if update.GetUpdateId() == "" {
 		return failure("", "update_id is required")
 	}
+	if m.journal != nil {
+		existing, found, err := m.journal.Configuration(context.Background(), update)
+		if err != nil {
+			return failure(update.UpdateId, err.Error())
+		}
+		if found {
+			return existing
+		}
+	}
 	if existing, ok := m.updates[update.GetUpdateId()]; ok {
+		if !proto.Equal(m.requests[update.UpdateId], update) {
+			return failure(update.UpdateId, state.ErrConflict.Error())
+		}
 		return cloneResponse(existing)
 	}
 	entityKey, err := entityRevisionKey(update)
@@ -78,12 +96,35 @@ func (m *Manager) Apply(update *dtv1.DeviceConfigUpdate) *dtv1.ConfigUpdateRespo
 		return m.record(update, success(update.GetUpdateId(), "stale configuration update ignored"), entityKey, false)
 	}
 
+	if m.connectors == nil {
+		return failure(update.UpdateId, "connector manager is not attached")
+	}
+	before := m.snapshot()
 	applyErr := m.apply(update)
 	if applyErr != nil {
 		m.logger.Error("configuration update rejected",
 			"code", dterrors.CodeConfigRejected,
 			"update_id", update.GetUpdateId(), "entity", entityKey, "error", applyErr.Error())
 		return m.record(update, failure(update.GetUpdateId(), applyErr.Error()), entityKey, false)
+	}
+	if update.Action == dtv1.DeviceConfigUpdate_UPDATE_GLOBAL {
+		m.globalConfig = proto.Clone(update.GetGlobalConfig()).(*dtv1.GlobalConfigPayload)
+	}
+	if m.journal != nil {
+		next := m.snapshot()
+		next.Revisions[entityKey] = update.EntityRevision
+		data, err := json.Marshal(next)
+		if err == nil {
+			response := success(update.UpdateId, "")
+			response.AppliedEntityRevision = update.EntityRevision
+			err = m.journal.SaveConfiguration(context.Background(), update, response, data)
+		}
+		if err != nil {
+			if restoreErr := m.restore(before); restoreErr != nil {
+				err = errors.Join(err, fmt.Errorf("restore previous configuration: %w", restoreErr))
+			}
+			return failure(update.UpdateId, "configuration persistence failed: "+err.Error())
+		}
 	}
 	m.logger.Info("configuration update applied",
 		"code", dterrors.CodeConfigApplied,
@@ -94,7 +135,17 @@ func (m *Manager) Apply(update *dtv1.DeviceConfigUpdate) *dtv1.ConfigUpdateRespo
 
 // record 登记响应与版本号(须在持有 m.mu 时调用),并返回响应副本。
 func (m *Manager) record(update *dtv1.DeviceConfigUpdate, response *dtv1.ConfigUpdateResponse, entityKey string, applied bool) *dtv1.ConfigUpdateResponse {
+	response.AppliedEntityRevision = m.revisions[entityKey]
+	if applied {
+		response.AppliedEntityRevision = update.EntityRevision
+	}
+	if m.journal != nil && !applied {
+		if err := m.journal.SaveConfiguration(context.Background(), update, response, nil); err != nil {
+			return failure(update.UpdateId, err.Error())
+		}
+	}
 	m.updates[update.GetUpdateId()] = response
+	m.requests[update.UpdateId] = proto.Clone(update).(*dtv1.DeviceConfigUpdate)
 	if applied && entityKey != "" {
 		m.revisions[entityKey] = update.GetEntityRevision()
 	}

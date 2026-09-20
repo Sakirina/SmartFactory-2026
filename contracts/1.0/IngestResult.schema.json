@@ -1,0 +1,38 @@
+{
+  "$defs": {
+    "IngestResult": {
+      "additionalProperties": false,
+      "properties": {
+        "committed": {
+          "type": "boolean"
+        },
+        "count": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "duplicate": {
+          "type": "boolean"
+        },
+        "late": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "message_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "message_id",
+        "duplicate",
+        "committed",
+        "count",
+        "late"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/IngestResult.schema.json",
+  "$ref": "#/$defs/IngestResult",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "IngestResult"
+}

@@ -11,6 +11,7 @@ import (
 	"strconv"
 	"strings"
 	"sync"
+	"sync/atomic"
 	"time"
 
 	dtv1 "competition2026/product/datatransfer/gen/datatransfer/v1"
@@ -51,6 +52,7 @@ type Connector struct {
 	devices       []*dtv1.DeviceInfo
 	deviceConfigs map[string]config.DeviceConfig
 	startedAt     time.Time
+	factor        atomic.Int64
 }
 
 func init() {
@@ -102,8 +104,9 @@ func (c *Connector) Start(ctx context.Context, upstream chan<- *dtv1.DeviceMessa
 	if interval <= 0 {
 		interval = time.Second
 	}
-	ticker := time.NewTicker(interval)
-	defer ticker.Stop()
+	timer := time.NewTicker(interval)
+	defer timer.Stop()
+	currentFactor := int64(1)
 
 	c.poll(ctx, upstream)
 	for {
@@ -111,10 +114,25 @@ func (c *Connector) Start(ctx context.Context, upstream chan<- *dtv1.DeviceMessa
 		case <-ctx.Done():
 			c.setState(connector.StateStopped, "")
 			return nil
-		case <-ticker.C:
+		case <-timer.C:
 			c.poll(ctx, upstream)
+			factor := c.factor.Load()
+			if factor < 1 {
+				factor = 1
+			}
+			if factor != currentFactor {
+				timer.Reset(interval * time.Duration(factor))
+				currentFactor = factor
+			}
 		}
 	}
+}
+func (c *Connector) SetCollectionFactor(factor int64) error {
+	if factor < 1 || factor > 100 {
+		return fmt.Errorf("collection factor outside 1..100")
+	}
+	c.factor.Store(factor)
+	return nil
 }
 
 func (c *Connector) SendCommand(ctx context.Context, cmd *dtv1.DeviceMessage) (*dtv1.CommandResponsePayload, error) {
@@ -187,54 +205,37 @@ func (c *Connector) poll(ctx context.Context, upstream chan<- *dtv1.DeviceMessag
 		return
 	}
 	c.opMu.Lock()
-	defer c.opMu.Unlock()
-	if err := c.ensureClient(); err != nil {
+	err := c.ensureClient()
+	c.opMu.Unlock()
+	if err != nil {
 		c.markError(err)
 		c.markAllDevices(ctx, dtv1.DeviceState_OFFLINE, upstream)
+		for _, device := range c.snapshotDeviceConfigs() {
+			c.failedTelemetry(ctx, device, err, upstream)
+		}
 		return
 	}
+	var cycleError error
 	for _, device := range c.snapshotDeviceConfigs() {
-		if err := c.setUnit(device); err != nil {
-			c.markError(err)
-			_ = c.closeClientLocked()
-			c.markDeviceState(ctx, device.DeviceID, dtv1.DeviceState_ERROR, upstream)
-			continue
+		if ctx.Err() != nil {
+			return
 		}
-		readings := make([]Reading, 0, len(device.Datapoints))
-		readFailed := false
-		for _, datapoint := range device.Datapoints {
-			raw, err := c.readDatapoint(datapoint)
-			if err != nil {
-				c.markError(err)
-				_ = c.closeClientLocked()
-				c.markDeviceState(ctx, device.DeviceID, dtv1.DeviceState_ERROR, upstream)
-				readFailed = true
-				break
-			}
-			readings = append(readings, Reading{
-				Datapoint: datapoint,
-				Raw:       raw,
-				Timestamp: time.Now().UnixMilli(),
-			})
-		}
-		if readFailed {
-			continue
-		}
-		if len(readings) == 0 {
-			continue
-		}
-		msg, skipped, err := c.converter.BuildTelemetry(device, readings)
-		for range skipped {
-			c.addError()
-		}
+		msg, readError, err := c.pollDevice(device)
 		if err != nil {
 			c.markError(err)
+			cycleError = err
 			continue
 		}
+		state := dtv1.DeviceState_ONLINE
+		if readError != nil {
+			c.markError(readError)
+			cycleError = readError
+			state = dtv1.DeviceState_ERROR
+		}
+		c.markDeviceState(ctx, device.DeviceID, state, upstream)
 		if msg == nil {
 			continue
 		}
-		c.markDeviceState(ctx, device.DeviceID, dtv1.DeviceState_ONLINE, upstream)
 		c.addMessageIn()
 		select {
 		case upstream <- msg:
@@ -242,7 +243,56 @@ func (c *Connector) poll(ctx context.Context, upstream chan<- *dtv1.DeviceMessag
 			return
 		}
 	}
-	c.setState(connector.StateRunning, "")
+	if cycleError == nil {
+		c.setState(connector.StateRunning, "")
+	}
+}
+
+// A unit selection and its register reads are one bus operation. Releasing the
+// bus between devices allows commands to proceed during a large polling cycle.
+func (c *Connector) pollDevice(device config.DeviceConfig) (*dtv1.DeviceMessage, error, error) {
+	c.opMu.Lock()
+	defer c.opMu.Unlock()
+	readError := c.ensureClient()
+	if readError == nil {
+		readError = c.setUnit(device)
+	}
+	readings := make([]Reading, 0, len(device.Datapoints))
+	for _, point := range device.Datapoints {
+		var raw any
+		if readError == nil {
+			raw, readError = c.readDatapoint(point)
+		}
+		readings = append(readings, Reading{Datapoint: point, Raw: raw, Timestamp: time.Now().UnixMilli(), Error: readError})
+	}
+	if readError != nil {
+		_ = c.closeClientLocked()
+	}
+	if len(readings) == 0 {
+		return nil, readError, nil
+	}
+	msg, skipped, err := c.converter.BuildTelemetry(device, readings)
+	for range skipped {
+		c.addError()
+	}
+	return msg, readError, err
+}
+
+func (c *Connector) failedTelemetry(ctx context.Context, device config.DeviceConfig, err error, upstream chan<- *dtv1.DeviceMessage) {
+	readings := make([]Reading, 0, len(device.Datapoints))
+	for _, point := range device.Datapoints {
+		readings = append(readings, Reading{Datapoint: point, Timestamp: time.Now().UnixMilli(), Error: err})
+	}
+	c.mu.RLock()
+	converter := c.converter
+	c.mu.RUnlock()
+	message, _, buildErr := converter.BuildTelemetry(device, readings)
+	if buildErr == nil && message != nil {
+		select {
+		case upstream <- message:
+		case <-ctx.Done():
+		}
+	}
 }
 
 func (c *Connector) addError() {
@@ -355,9 +405,12 @@ func (c *Connector) executeMapping(mapping config.ActionMapping, rawValue string
 		}
 		return c.client.WriteCoils(mapping.Address, values)
 	case "write_single_register":
-		values, err := encodeRegisterValues(rawValue, mapping.DataType)
+		values, err := encodeMapped(rawValue, mapping)
 		if err != nil {
 			return err
+		}
+		if len(values) != 1 {
+			return fmt.Errorf("single register action requires one register")
 		}
 		return c.client.WriteRegister(mapping.Address, values[0])
 	case "write_registers":
@@ -563,11 +616,11 @@ func parseBoolValues(raw string, configured []string) ([]bool, error) {
 
 func parseRegisterValues(raw string, mapping config.ActionMapping) ([]uint16, error) {
 	if len(mapping.Values) == 0 {
-		return encodeRegisterValues(raw, mapping.DataType)
+		return encodeMapped(raw, mapping)
 	}
 	values := make([]uint16, 0, len(mapping.Values))
 	for _, item := range mapping.Values {
-		encoded, err := encodeRegisterValues(strings.TrimSpace(item), mapping.DataType)
+		encoded, err := encodeMapped(strings.TrimSpace(item), mapping)
 		if err != nil {
 			return nil, err
 		}

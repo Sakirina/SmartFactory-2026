@@ -1,0 +1,1958 @@
+{
+  "definitions": [
+    {
+      "id": "climate-average",
+      "name": "车间温度一分钟平均值",
+      "kind": "analysis",
+      "schema_version": "1.0",
+      "version": 0,
+      "status": "draft",
+      "effective_ms": 0,
+      "group_id": "factory",
+      "nodes": [
+        {
+          "id": "source",
+          "type": "input",
+          "label": "温度读数",
+          "params": null
+        },
+        {
+          "id": "average",
+          "type": "aggregate",
+          "label": "一分钟平均值",
+          "params": {
+            "function": "avg"
+          }
+        },
+        {
+          "id": "output",
+          "type": "output",
+          "label": "保存计算结果",
+          "params": null
+        }
+      ],
+      "connections": [
+        {
+          "from": "source",
+          "from_port": "",
+          "to": "average",
+          "to_port": ""
+        },
+        {
+          "from": "average",
+          "from_port": "",
+          "to": "output",
+          "to_port": ""
+        }
+      ],
+      "outputs": [
+        {
+          "key": "temperature",
+          "type": "number",
+          "unit": "°C",
+          "node_id": "output",
+          "description": "只使用 GOOD 数据计算的窗口平均温度"
+        }
+      ],
+      "dependencies": null,
+      "selector": {
+        "device_ids": [
+          "climate-1"
+        ],
+        "keys": [
+          "temperature"
+        ],
+        "window_ms": 60000
+      },
+      "policy": {}
+    },
+    {
+      "id": "climate-alarm",
+      "name": "温度超限与回差恢复",
+      "kind": "alarm",
+      "schema_version": "1.0",
+      "version": 0,
+      "status": "draft",
+      "effective_ms": 0,
+      "group_id": "factory",
+      "nodes": [
+        {
+          "id": "source",
+          "type": "input",
+          "label": "温度读数",
+          "params": null
+        },
+        {
+          "id": "threshold",
+          "type": "hysteresis",
+          "label": "超过 30°C，低于 27°C 恢复",
+          "params": {
+            "high": 30,
+            "low": 27
+          }
+        },
+        {
+          "id": "alarm",
+          "type": "alarm",
+          "label": "通知现场人员",
+          "params": {
+            "severity": "WARNING"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "source",
+          "from_port": "",
+          "to": "threshold",
+          "to_port": ""
+        },
+        {
+          "from": "threshold",
+          "from_port": "",
+          "to": "alarm",
+          "to_port": ""
+        }
+      ],
+      "outputs": null,
+      "dependencies": null,
+      "selector": {
+        "device_ids": [
+          "climate-1"
+        ],
+        "keys": [
+          "temperature"
+        ]
+      },
+      "policy": {
+        "channels": [
+          "in_app"
+        ],
+        "recipients": [
+          "site"
+        ],
+        "late_notification": "in_app"
+      }
+    },
+    {
+      "id": "ventilation-plan",
+      "name": "车间通风调节预案",
+      "kind": "strategy",
+      "schema_version": "1.0",
+      "version": 0,
+      "status": "draft",
+      "effective_ms": 0,
+      "group_id": "factory",
+      "nodes": [
+        {
+          "id": "source",
+          "type": "input",
+          "label": "现场温度",
+          "params": null
+        },
+        {
+          "id": "threshold",
+          "type": "threshold",
+          "label": "温度超过 30°C",
+          "params": {
+            "operator": "\u003e",
+            "value": 30
+          }
+        },
+        {
+          "id": "action",
+          "type": "action",
+          "label": "启用通风",
+          "params": null
+        }
+      ],
+      "connections": [
+        {
+          "from": "source",
+          "from_port": "",
+          "to": "threshold",
+          "to_port": ""
+        },
+        {
+          "from": "threshold",
+          "from_port": "",
+          "to": "action",
+          "to_port": ""
+        }
+      ],
+      "outputs": null,
+      "dependencies": null,
+      "selector": {
+        "device_ids": [
+          "climate-1"
+        ],
+        "keys": [
+          "temperature"
+        ]
+      },
+      "policy": {
+        "edge_ids": [
+          "edge-a"
+        ],
+        "steps": [
+          {
+            "id": "fan-on",
+            "edge_id": "edge-a",
+            "device_id": "climate-1",
+            "action": "set_fan",
+            "params": {
+              "value": "true"
+            },
+            "idempotent": true,
+            "timeout_ms": 5000
+          }
+        ],
+        "conditions": [
+          {
+            "device_id": "climate-1",
+            "key": "interlock",
+            "operator": "==",
+            "value": false,
+            "max_age_ms": 5000,
+            "interlock": true
+          }
+        ],
+        "risk_category": "business",
+        "risk_level": 2,
+        "safety_user_id": "safety"
+      }
+    },
+    {
+      "id": "goods-count",
+      "name": "货物有效计数",
+      "kind": "analysis",
+      "schema_version": "1.0",
+      "version": 0,
+      "status": "draft",
+      "effective_ms": 0,
+      "group_id": "factory",
+      "nodes": [
+        {
+          "id": "input",
+          "type": "input",
+          "label": "光电事件",
+          "params": null
+        },
+        {
+          "id": "count",
+          "type": "counter",
+          "label": "累计有效事件",
+          "params": {
+            "mode": "delta"
+          }
+        },
+        {
+          "id": "output",
+          "type": "output",
+          "label": "保存累计值",
+          "params": null
+        }
+      ],
+      "connections": [
+        {
+          "from": "input",
+          "from_port": "",
+          "to": "count",
+          "to_port": ""
+        },
+        {
+          "from": "count",
+          "from_port": "",
+          "to": "output",
+          "to_port": ""
+        }
+      ],
+      "outputs": [
+        {
+          "key": "total",
+          "type": "integer",
+          "unit": "件",
+          "node_id": "output"
+        }
+      ],
+      "dependencies": null,
+      "selector": {
+        "device_ids": [
+          "counter-1"
+        ],
+        "keys": [
+          "pulse"
+        ]
+      },
+      "policy": {}
+    },
+    {
+      "id": "climate-low",
+      "name": "温度下限与回差恢复",
+      "kind": "alarm",
+      "schema_version": "1.0",
+      "version": 0,
+      "status": "draft",
+      "effective_ms": 0,
+      "group_id": "factory",
+      "nodes": [
+        {
+          "id": "input",
+          "type": "input",
+          "label": "现场读数",
+          "params": null
+        },
+        {
+          "id": "range",
+          "type": "hysteresis",
+          "label": "阈值与恢复回差",
+          "params": {
+            "direction": "below",
+            "high": 20,
+            "low": 18
+          }
+        },
+        {
+          "id": "alarm",
+          "type": "alarm",
+          "label": "异常通知",
+          "params": {
+            "severity": "WARNING"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "input",
+          "from_port": "",
+          "to": "range",
+          "to_port": ""
+        },
+        {
+          "from": "range",
+          "from_port": "",
+          "to": "alarm",
+          "to_port": ""
+        }
+      ],
+      "outputs": null,
+      "dependencies": null,
+      "selector": {
+        "device_ids": [
+          "climate-1"
+        ],
+        "keys": [
+          "temperature"
+        ]
+      },
+      "policy": {
+        "channels": [
+          "in_app"
+        ],
+        "recipients": [
+          "site"
+        ],
+        "late_notification": "in_app"
+      }
+    },
+    {
+      "id": "humidity-high",
+      "name": "湿度上限与回差恢复",
+      "kind": "alarm",
+      "schema_version": "1.0",
+      "version": 0,
+      "status": "draft",
+      "effective_ms": 0,
+      "group_id": "factory",
+      "nodes": [
+        {
+          "id": "input",
+          "type": "input",
+          "label": "现场读数",
+          "params": null
+        },
+        {
+          "id": "range",
+          "type": "hysteresis",
+          "label": "阈值与恢复回差",
+          "params": {
+            "high": 70,
+            "low": 65
+          }
+        },
+        {
+          "id": "alarm",
+          "type": "alarm",
+          "label": "异常通知",
+          "params": {
+            "severity": "WARNING"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "input",
+          "from_port": "",
+          "to": "range",
+          "to_port": ""
+        },
+        {
+          "from": "range",
+          "from_port": "",
+          "to": "alarm",
+          "to_port": ""
+        }
+      ],
+      "outputs": null,
+      "dependencies": null,
+      "selector": {
+        "device_ids": [
+          "climate-1"
+        ],
+        "keys": [
+          "humidity"
+        ]
+      },
+      "policy": {
+        "channels": [
+          "in_app"
+        ],
+        "recipients": [
+          "site"
+        ],
+        "late_notification": "in_app"
+      }
+    },
+    {
+      "id": "humidity-low",
+      "name": "湿度下限与回差恢复",
+      "kind": "alarm",
+      "schema_version": "1.0",
+      "version": 0,
+      "status": "draft",
+      "effective_ms": 0,
+      "group_id": "factory",
+      "nodes": [
+        {
+          "id": "input",
+          "type": "input",
+          "label": "现场读数",
+          "params": null
+        },
+        {
+          "id": "range",
+          "type": "hysteresis",
+          "label": "阈值与恢复回差",
+          "params": {
+            "direction": "below",
+            "high": 35,
+            "low": 30
+          }
+        },
+        {
+          "id": "alarm",
+          "type": "alarm",
+          "label": "异常通知",
+          "params": {
+            "severity": "WARNING"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "input",
+          "from_port": "",
+          "to": "range",
+          "to_port": ""
+        },
+        {
+          "from": "range",
+          "from_port": "",
+          "to": "alarm",
+          "to_port": ""
+        }
+      ],
+      "outputs": null,
+      "dependencies": null,
+      "selector": {
+        "device_ids": [
+          "climate-1"
+        ],
+        "keys": [
+          "humidity"
+        ]
+      },
+      "policy": {
+        "channels": [
+          "in_app"
+        ],
+        "recipients": [
+          "site"
+        ],
+        "late_notification": "in_app"
+      }
+    },
+    {
+      "id": "ventilation-off",
+      "name": "温度恢复后关闭通风",
+      "kind": "strategy",
+      "schema_version": "1.0",
+      "version": 0,
+      "status": "draft",
+      "effective_ms": 0,
+      "group_id": "factory",
+      "nodes": [
+        {
+          "id": "input",
+          "type": "input",
+          "label": "现场读数",
+          "params": null
+        },
+        {
+          "id": "condition",
+          "type": "expression",
+          "label": "现场判断",
+          "params": {
+            "code": "good \u0026\u0026 fresh \u0026\u0026 value \u003c= 27"
+          }
+        },
+        {
+          "id": "action",
+          "type": "action",
+          "label": "执行设备动作",
+          "params": null
+        }
+      ],
+      "connections": [
+        {
+          "from": "input",
+          "from_port": "",
+          "to": "condition",
+          "to_port": ""
+        },
+        {
+          "from": "condition",
+          "from_port": "",
+          "to": "action",
+          "to_port": ""
+        }
+      ],
+      "outputs": null,
+      "dependencies": null,
+      "selector": {
+        "device_ids": [
+          "climate-1"
+        ],
+        "keys": [
+          "temperature"
+        ]
+      },
+      "policy": {
+        "edge_ids": [
+          "edge-a"
+        ],
+        "steps": [
+          {
+            "id": "set_fan",
+            "edge_id": "edge-a",
+            "device_id": "climate-1",
+            "action": "set_fan",
+            "params": {
+              "value": "false"
+            },
+            "idempotent": true,
+            "timeout_ms": 5000
+          }
+        ],
+        "conditions": [
+          {
+            "device_id": "climate-1",
+            "key": "interlock",
+            "operator": "==",
+            "value": false,
+            "max_age_ms": 5000,
+            "interlock": true
+          }
+        ],
+        "risk_category": "business",
+        "risk_level": 1,
+        "safety_user_id": "safety"
+      }
+    },
+    {
+      "id": "heating-on",
+      "name": "低温加热",
+      "kind": "strategy",
+      "schema_version": "1.0",
+      "version": 0,
+      "status": "draft",
+      "effective_ms": 0,
+      "group_id": "factory",
+      "nodes": [
+        {
+          "id": "input",
+          "type": "input",
+          "label": "现场读数",
+          "params": null
+        },
+        {
+          "id": "condition",
+          "type": "expression",
+          "label": "现场判断",
+          "params": {
+            "code": "good \u0026\u0026 fresh \u0026\u0026 value \u003c= 18"
+          }
+        },
+        {
+          "id": "action",
+          "type": "action",
+          "label": "执行设备动作",
+          "params": null
+        }
+      ],
+      "connections": [
+        {
+          "from": "input",
+          "from_port": "",
+          "to": "condition",
+          "to_port": ""
+        },
+        {
+          "from": "condition",
+          "from_port": "",
+          "to": "action",
+          "to_port": ""
+        }
+      ],
+      "outputs": null,
+      "dependencies": null,
+      "selector": {
+        "device_ids": [
+          "climate-1"
+        ],
+        "keys": [
+          "temperature"
+        ]
+      },
+      "policy": {
+        "edge_ids": [
+          "edge-a"
+        ],
+        "steps": [
+          {
+            "id": "set_heater",
+            "edge_id": "edge-a",
+            "device_id": "climate-1",
+            "action": "set_heater",
+            "params": {
+              "value": "true"
+            },
+            "idempotent": true,
+            "timeout_ms": 5000
+          }
+        ],
+        "conditions": [
+          {
+            "device_id": "climate-1",
+            "key": "interlock",
+            "operator": "==",
+            "value": false,
+            "max_age_ms": 5000,
+            "interlock": true
+          }
+        ],
+        "risk_category": "business",
+        "risk_level": 1,
+        "safety_user_id": "safety"
+      }
+    },
+    {
+      "id": "heating-off",
+      "name": "温度恢复后关闭加热",
+      "kind": "strategy",
+      "schema_version": "1.0",
+      "version": 0,
+      "status": "draft",
+      "effective_ms": 0,
+      "group_id": "factory",
+      "nodes": [
+        {
+          "id": "input",
+          "type": "input",
+          "label": "现场读数",
+          "params": null
+        },
+        {
+          "id": "condition",
+          "type": "expression",
+          "label": "现场判断",
+          "params": {
+            "code": "good \u0026\u0026 fresh \u0026\u0026 value \u003e= 20"
+          }
+        },
+        {
+          "id": "action",
+          "type": "action",
+          "label": "执行设备动作",
+          "params": null
+        }
+      ],
+      "connections": [
+        {
+          "from": "input",
+          "from_port": "",
+          "to": "condition",
+          "to_port": ""
+        },
+        {
+          "from": "condition",
+          "from_port": "",
+          "to": "action",
+          "to_port": ""
+        }
+      ],
+      "outputs": null,
+      "dependencies": null,
+      "selector": {
+        "device_ids": [
+          "climate-1"
+        ],
+        "keys": [
+          "temperature"
+        ]
+      },
+      "policy": {
+        "edge_ids": [
+          "edge-a"
+        ],
+        "steps": [
+          {
+            "id": "set_heater",
+            "edge_id": "edge-a",
+            "device_id": "climate-1",
+            "action": "set_heater",
+            "params": {
+              "value": "false"
+            },
+            "idempotent": true,
+            "timeout_ms": 5000
+          }
+        ],
+        "conditions": [
+          {
+            "device_id": "climate-1",
+            "key": "interlock",
+            "operator": "==",
+            "value": false,
+            "max_age_ms": 5000,
+            "interlock": true
+          }
+        ],
+        "risk_category": "business",
+        "risk_level": 1,
+        "safety_user_id": "safety"
+      }
+    },
+    {
+      "id": "humidifier-on",
+      "name": "低湿加湿",
+      "kind": "strategy",
+      "schema_version": "1.0",
+      "version": 0,
+      "status": "draft",
+      "effective_ms": 0,
+      "group_id": "factory",
+      "nodes": [
+        {
+          "id": "input",
+          "type": "input",
+          "label": "现场读数",
+          "params": null
+        },
+        {
+          "id": "condition",
+          "type": "expression",
+          "label": "现场判断",
+          "params": {
+            "code": "good \u0026\u0026 fresh \u0026\u0026 value \u003c= 30"
+          }
+        },
+        {
+          "id": "action",
+          "type": "action",
+          "label": "执行设备动作",
+          "params": null
+        }
+      ],
+      "connections": [
+        {
+          "from": "input",
+          "from_port": "",
+          "to": "condition",
+          "to_port": ""
+        },
+        {
+          "from": "condition",
+          "from_port": "",
+          "to": "action",
+          "to_port": ""
+        }
+      ],
+      "outputs": null,
+      "dependencies": null,
+      "selector": {
+        "device_ids": [
+          "climate-1"
+        ],
+        "keys": [
+          "humidity"
+        ]
+      },
+      "policy": {
+        "edge_ids": [
+          "edge-a"
+        ],
+        "steps": [
+          {
+            "id": "set_humidifier",
+            "edge_id": "edge-a",
+            "device_id": "climate-1",
+            "action": "set_humidifier",
+            "params": {
+              "value": "true"
+            },
+            "idempotent": true,
+            "timeout_ms": 5000
+          }
+        ],
+        "conditions": [
+          {
+            "device_id": "climate-1",
+            "key": "interlock",
+            "operator": "==",
+            "value": false,
+            "max_age_ms": 5000,
+            "interlock": true
+          }
+        ],
+        "risk_category": "business",
+        "risk_level": 1,
+        "safety_user_id": "safety"
+      }
+    },
+    {
+      "id": "humidifier-off",
+      "name": "湿度恢复后关闭加湿",
+      "kind": "strategy",
+      "schema_version": "1.0",
+      "version": 0,
+      "status": "draft",
+      "effective_ms": 0,
+      "group_id": "factory",
+      "nodes": [
+        {
+          "id": "input",
+          "type": "input",
+          "label": "现场读数",
+          "params": null
+        },
+        {
+          "id": "condition",
+          "type": "expression",
+          "label": "现场判断",
+          "params": {
+            "code": "good \u0026\u0026 fresh \u0026\u0026 value \u003e= 35"
+          }
+        },
+        {
+          "id": "action",
+          "type": "action",
+          "label": "执行设备动作",
+          "params": null
+        }
+      ],
+      "connections": [
+        {
+          "from": "input",
+          "from_port": "",
+          "to": "condition",
+          "to_port": ""
+        },
+        {
+          "from": "condition",
+          "from_port": "",
+          "to": "action",
+          "to_port": ""
+        }
+      ],
+      "outputs": null,
+      "dependencies": null,
+      "selector": {
+        "device_ids": [
+          "climate-1"
+        ],
+        "keys": [
+          "humidity"
+        ]
+      },
+      "policy": {
+        "edge_ids": [
+          "edge-a"
+        ],
+        "steps": [
+          {
+            "id": "set_humidifier",
+            "edge_id": "edge-a",
+            "device_id": "climate-1",
+            "action": "set_humidifier",
+            "params": {
+              "value": "false"
+            },
+            "idempotent": true,
+            "timeout_ms": 5000
+          }
+        ],
+        "conditions": [
+          {
+            "device_id": "climate-1",
+            "key": "interlock",
+            "operator": "==",
+            "value": false,
+            "max_age_ms": 5000,
+            "interlock": true
+          }
+        ],
+        "risk_category": "business",
+        "risk_level": 1,
+        "safety_user_id": "safety"
+      }
+    },
+    {
+      "id": "dehumidifier-on",
+      "name": "高湿除湿",
+      "kind": "strategy",
+      "schema_version": "1.0",
+      "version": 0,
+      "status": "draft",
+      "effective_ms": 0,
+      "group_id": "factory",
+      "nodes": [
+        {
+          "id": "input",
+          "type": "input",
+          "label": "现场读数",
+          "params": null
+        },
+        {
+          "id": "condition",
+          "type": "expression",
+          "label": "现场判断",
+          "params": {
+            "code": "good \u0026\u0026 fresh \u0026\u0026 value \u003e= 70"
+          }
+        },
+        {
+          "id": "action",
+          "type": "action",
+          "label": "执行设备动作",
+          "params": null
+        }
+      ],
+      "connections": [
+        {
+          "from": "input",
+          "from_port": "",
+          "to": "condition",
+          "to_port": ""
+        },
+        {
+          "from": "condition",
+          "from_port": "",
+          "to": "action",
+          "to_port": ""
+        }
+      ],
+      "outputs": null,
+      "dependencies": null,
+      "selector": {
+        "device_ids": [
+          "climate-1"
+        ],
+        "keys": [
+          "humidity"
+        ]
+      },
+      "policy": {
+        "edge_ids": [
+          "edge-a"
+        ],
+        "steps": [
+          {
+            "id": "set_dehumidifier",
+            "edge_id": "edge-a",
+            "device_id": "climate-1",
+            "action": "set_dehumidifier",
+            "params": {
+              "value": "true"
+            },
+            "idempotent": true,
+            "timeout_ms": 5000
+          }
+        ],
+        "conditions": [
+          {
+            "device_id": "climate-1",
+            "key": "interlock",
+            "operator": "==",
+            "value": false,
+            "max_age_ms": 5000,
+            "interlock": true
+          }
+        ],
+        "risk_category": "business",
+        "risk_level": 1,
+        "safety_user_id": "safety"
+      }
+    },
+    {
+      "id": "dehumidifier-off",
+      "name": "湿度恢复后关闭除湿",
+      "kind": "strategy",
+      "schema_version": "1.0",
+      "version": 0,
+      "status": "draft",
+      "effective_ms": 0,
+      "group_id": "factory",
+      "nodes": [
+        {
+          "id": "input",
+          "type": "input",
+          "label": "现场读数",
+          "params": null
+        },
+        {
+          "id": "condition",
+          "type": "expression",
+          "label": "现场判断",
+          "params": {
+            "code": "good \u0026\u0026 fresh \u0026\u0026 value \u003c= 65"
+          }
+        },
+        {
+          "id": "action",
+          "type": "action",
+          "label": "执行设备动作",
+          "params": null
+        }
+      ],
+      "connections": [
+        {
+          "from": "input",
+          "from_port": "",
+          "to": "condition",
+          "to_port": ""
+        },
+        {
+          "from": "condition",
+          "from_port": "",
+          "to": "action",
+          "to_port": ""
+        }
+      ],
+      "outputs": null,
+      "dependencies": null,
+      "selector": {
+        "device_ids": [
+          "climate-1"
+        ],
+        "keys": [
+          "humidity"
+        ]
+      },
+      "policy": {
+        "edge_ids": [
+          "edge-a"
+        ],
+        "steps": [
+          {
+            "id": "set_dehumidifier",
+            "edge_id": "edge-a",
+            "device_id": "climate-1",
+            "action": "set_dehumidifier",
+            "params": {
+              "value": "false"
+            },
+            "idempotent": true,
+            "timeout_ms": 5000
+          }
+        ],
+        "conditions": [
+          {
+            "device_id": "climate-1",
+            "key": "interlock",
+            "operator": "==",
+            "value": false,
+            "max_age_ms": 5000,
+            "interlock": true
+          }
+        ],
+        "risk_category": "business",
+        "risk_level": 1,
+        "safety_user_id": "safety"
+      }
+    },
+    {
+      "id": "light-on",
+      "name": "有人时点亮照明",
+      "kind": "strategy",
+      "schema_version": "1.0",
+      "version": 0,
+      "status": "draft",
+      "effective_ms": 0,
+      "group_id": "factory",
+      "nodes": [
+        {
+          "id": "input",
+          "type": "input",
+          "label": "现场读数",
+          "params": null
+        },
+        {
+          "id": "condition",
+          "type": "expression",
+          "label": "现场判断",
+          "params": {
+            "code": "good \u0026\u0026 fresh \u0026\u0026 value"
+          }
+        },
+        {
+          "id": "delay",
+          "type": "debounce",
+          "label": "持续时间确认",
+          "params": {
+            "duration_ms": 100,
+            "mode": "activation"
+          }
+        },
+        {
+          "id": "action",
+          "type": "action",
+          "label": "执行设备动作",
+          "params": null
+        }
+      ],
+      "connections": [
+        {
+          "from": "input",
+          "from_port": "",
+          "to": "condition",
+          "to_port": ""
+        },
+        {
+          "from": "condition",
+          "from_port": "",
+          "to": "delay",
+          "to_port": ""
+        },
+        {
+          "from": "delay",
+          "from_port": "",
+          "to": "action",
+          "to_port": ""
+        }
+      ],
+      "outputs": null,
+      "dependencies": null,
+      "selector": {
+        "device_ids": [
+          "light-1"
+        ],
+        "keys": [
+          "presence"
+        ]
+      },
+      "policy": {
+        "edge_ids": [
+          "edge-a"
+        ],
+        "steps": [
+          {
+            "id": "set_light",
+            "edge_id": "edge-a",
+            "device_id": "light-1",
+            "action": "set_light",
+            "params": {
+              "value": "true"
+            },
+            "idempotent": true,
+            "timeout_ms": 5000
+          }
+        ],
+        "conditions": [
+          {
+            "device_id": "light-1",
+            "key": "interlock",
+            "operator": "==",
+            "value": false,
+            "max_age_ms": 5000,
+            "interlock": true
+          }
+        ],
+        "risk_category": "business",
+        "risk_level": 1,
+        "safety_user_id": "safety"
+      }
+    },
+    {
+      "id": "light-off",
+      "name": "无人持续两秒关闭照明",
+      "kind": "strategy",
+      "schema_version": "1.0",
+      "version": 0,
+      "status": "draft",
+      "effective_ms": 0,
+      "group_id": "factory",
+      "nodes": [
+        {
+          "id": "input",
+          "type": "input",
+          "label": "现场读数",
+          "params": null
+        },
+        {
+          "id": "condition",
+          "type": "expression",
+          "label": "现场判断",
+          "params": {
+            "code": "good \u0026\u0026 fresh \u0026\u0026 !value"
+          }
+        },
+        {
+          "id": "delay",
+          "type": "debounce",
+          "label": "持续时间确认",
+          "params": {
+            "duration_ms": 2000,
+            "mode": "activation"
+          }
+        },
+        {
+          "id": "action",
+          "type": "action",
+          "label": "执行设备动作",
+          "params": null
+        }
+      ],
+      "connections": [
+        {
+          "from": "input",
+          "from_port": "",
+          "to": "condition",
+          "to_port": ""
+        },
+        {
+          "from": "condition",
+          "from_port": "",
+          "to": "delay",
+          "to_port": ""
+        },
+        {
+          "from": "delay",
+          "from_port": "",
+          "to": "action",
+          "to_port": ""
+        }
+      ],
+      "outputs": null,
+      "dependencies": null,
+      "selector": {
+        "device_ids": [
+          "light-1"
+        ],
+        "keys": [
+          "presence"
+        ]
+      },
+      "policy": {
+        "edge_ids": [
+          "edge-a"
+        ],
+        "steps": [
+          {
+            "id": "set_light",
+            "edge_id": "edge-a",
+            "device_id": "light-1",
+            "action": "set_light",
+            "params": {
+              "value": "false"
+            },
+            "idempotent": true,
+            "timeout_ms": 5000
+          }
+        ],
+        "conditions": [
+          {
+            "device_id": "light-1",
+            "key": "interlock",
+            "operator": "==",
+            "value": false,
+            "max_age_ms": 5000,
+            "interlock": true
+          }
+        ],
+        "risk_category": "business",
+        "risk_level": 1,
+        "safety_user_id": "safety"
+      }
+    },
+    {
+      "id": "agv-stop",
+      "name": "障碍、过期或无效距离触发停车",
+      "kind": "strategy",
+      "schema_version": "1.0",
+      "version": 0,
+      "status": "draft",
+      "effective_ms": 0,
+      "group_id": "factory",
+      "nodes": [
+        {
+          "id": "input",
+          "type": "input",
+          "label": "现场读数",
+          "params": null
+        },
+        {
+          "id": "condition",
+          "type": "expression",
+          "label": "现场判断",
+          "params": {
+            "code": "!good || !fresh || value \u003c= 50"
+          }
+        },
+        {
+          "id": "action",
+          "type": "action",
+          "label": "执行设备动作",
+          "params": null
+        }
+      ],
+      "connections": [
+        {
+          "from": "input",
+          "from_port": "",
+          "to": "condition",
+          "to_port": ""
+        },
+        {
+          "from": "condition",
+          "from_port": "",
+          "to": "action",
+          "to_port": ""
+        }
+      ],
+      "outputs": null,
+      "dependencies": null,
+      "selector": {
+        "device_ids": [
+          "agv-1"
+        ],
+        "keys": [
+          "distance"
+        ]
+      },
+      "policy": {
+        "edge_ids": [
+          "edge-a"
+        ],
+        "steps": [
+          {
+            "id": "stop",
+            "edge_id": "edge-a",
+            "device_id": "agv-1",
+            "action": "stop",
+            "params": {
+              "value": "true"
+            },
+            "idempotent": true,
+            "timeout_ms": 5000
+          }
+        ],
+        "conditions": [
+          {
+            "device_id": "agv-1",
+            "key": "interlock",
+            "operator": "==",
+            "value": false,
+            "max_age_ms": 5000,
+            "interlock": true
+          }
+        ],
+        "risk_category": "safety",
+        "risk_level": 3,
+        "safety_user_id": "safety",
+        "watchdog": true
+      }
+    },
+    {
+      "id": "agv-resume",
+      "name": "距离恢复后允许继续行驶",
+      "kind": "strategy",
+      "schema_version": "1.0",
+      "version": 0,
+      "status": "draft",
+      "effective_ms": 0,
+      "group_id": "factory",
+      "nodes": [
+        {
+          "id": "input",
+          "type": "input",
+          "label": "现场读数",
+          "params": null
+        },
+        {
+          "id": "condition",
+          "type": "expression",
+          "label": "现场判断",
+          "params": {
+            "code": "false"
+          }
+        },
+        {
+          "id": "action",
+          "type": "action",
+          "label": "执行设备动作",
+          "params": null
+        }
+      ],
+      "connections": [
+        {
+          "from": "input",
+          "from_port": "",
+          "to": "condition",
+          "to_port": ""
+        },
+        {
+          "from": "condition",
+          "from_port": "",
+          "to": "action",
+          "to_port": ""
+        }
+      ],
+      "outputs": null,
+      "dependencies": null,
+      "selector": {
+        "device_ids": [
+          "agv-1"
+        ],
+        "keys": [
+          "distance"
+        ]
+      },
+      "policy": {
+        "edge_ids": [
+          "edge-a"
+        ],
+        "steps": [
+          {
+            "id": "resume",
+            "edge_id": "edge-a",
+            "device_id": "agv-1",
+            "action": "resume",
+            "params": {
+              "value": "false"
+            },
+            "idempotent": true,
+            "timeout_ms": 5000
+          }
+        ],
+        "conditions": [
+          {
+            "device_id": "agv-1",
+            "key": "interlock",
+            "operator": "==",
+            "value": false,
+            "max_age_ms": 5000,
+            "interlock": true
+          },
+          {
+            "device_id": "agv-1",
+            "key": "distance",
+            "operator": "\u003e=",
+            "value": 80,
+            "max_age_ms": 5000,
+            "interlock": false
+          }
+        ],
+        "risk_category": "business",
+        "risk_level": 1,
+        "safety_user_id": "safety"
+      }
+    },
+    {
+      "id": "gas-smoke-alarm",
+      "name": "烟雾超限与恢复",
+      "kind": "alarm",
+      "schema_version": "1.0",
+      "version": 0,
+      "status": "draft",
+      "effective_ms": 0,
+      "group_id": "factory",
+      "nodes": [
+        {
+          "id": "input",
+          "type": "input",
+          "label": "现场读数",
+          "params": null
+        },
+        {
+          "id": "range",
+          "type": "hysteresis",
+          "label": "阈值与恢复回差",
+          "params": {
+            "high": 5,
+            "low": 2
+          }
+        },
+        {
+          "id": "alarm",
+          "type": "alarm",
+          "label": "异常通知",
+          "params": {
+            "severity": "CRITICAL"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "input",
+          "from_port": "",
+          "to": "range",
+          "to_port": ""
+        },
+        {
+          "from": "range",
+          "from_port": "",
+          "to": "alarm",
+          "to_port": ""
+        }
+      ],
+      "outputs": null,
+      "dependencies": null,
+      "selector": {
+        "device_ids": [
+          "gas-1"
+        ],
+        "keys": [
+          "smoke"
+        ]
+      },
+      "policy": {
+        "channels": [
+          "in_app"
+        ],
+        "recipients": [
+          "site"
+        ],
+        "late_notification": "in_app"
+      }
+    },
+    {
+      "id": "gas-smoke-response",
+      "name": "烟雾排风处置",
+      "kind": "strategy",
+      "schema_version": "1.0",
+      "version": 0,
+      "status": "draft",
+      "effective_ms": 0,
+      "group_id": "factory",
+      "nodes": [
+        {
+          "id": "input",
+          "type": "input",
+          "label": "现场读数",
+          "params": null
+        },
+        {
+          "id": "condition",
+          "type": "expression",
+          "label": "现场判断",
+          "params": {
+            "code": "good \u0026\u0026 fresh \u0026\u0026 value \u003e= 5"
+          }
+        },
+        {
+          "id": "action",
+          "type": "action",
+          "label": "执行设备动作",
+          "params": null
+        }
+      ],
+      "connections": [
+        {
+          "from": "input",
+          "from_port": "",
+          "to": "condition",
+          "to_port": ""
+        },
+        {
+          "from": "condition",
+          "from_port": "",
+          "to": "action",
+          "to_port": ""
+        }
+      ],
+      "outputs": null,
+      "dependencies": null,
+      "selector": {
+        "device_ids": [
+          "gas-1"
+        ],
+        "keys": [
+          "smoke"
+        ]
+      },
+      "policy": {
+        "edge_ids": [
+          "edge-a"
+        ],
+        "steps": [
+          {
+            "id": "set_extractor",
+            "edge_id": "edge-a",
+            "device_id": "gas-1",
+            "action": "set_extractor",
+            "params": {
+              "value": "true"
+            },
+            "idempotent": true,
+            "timeout_ms": 5000
+          }
+        ],
+        "conditions": [
+          {
+            "device_id": "gas-1",
+            "key": "interlock",
+            "operator": "==",
+            "value": false,
+            "max_age_ms": 5000,
+            "interlock": true
+          }
+        ],
+        "risk_category": "safety",
+        "risk_level": 3,
+        "safety_user_id": "safety"
+      }
+    },
+    {
+      "id": "gas-combustible-alarm",
+      "name": "可燃气超限与恢复",
+      "kind": "alarm",
+      "schema_version": "1.0",
+      "version": 0,
+      "status": "draft",
+      "effective_ms": 0,
+      "group_id": "factory",
+      "nodes": [
+        {
+          "id": "input",
+          "type": "input",
+          "label": "现场读数",
+          "params": null
+        },
+        {
+          "id": "range",
+          "type": "hysteresis",
+          "label": "阈值与恢复回差",
+          "params": {
+            "high": 20,
+            "low": 10
+          }
+        },
+        {
+          "id": "alarm",
+          "type": "alarm",
+          "label": "异常通知",
+          "params": {
+            "severity": "CRITICAL"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "input",
+          "from_port": "",
+          "to": "range",
+          "to_port": ""
+        },
+        {
+          "from": "range",
+          "from_port": "",
+          "to": "alarm",
+          "to_port": ""
+        }
+      ],
+      "outputs": null,
+      "dependencies": null,
+      "selector": {
+        "device_ids": [
+          "gas-1"
+        ],
+        "keys": [
+          "combustible"
+        ]
+      },
+      "policy": {
+        "channels": [
+          "in_app"
+        ],
+        "recipients": [
+          "site"
+        ],
+        "late_notification": "in_app"
+      }
+    },
+    {
+      "id": "gas-combustible-response",
+      "name": "可燃气排风处置",
+      "kind": "strategy",
+      "schema_version": "1.0",
+      "version": 0,
+      "status": "draft",
+      "effective_ms": 0,
+      "group_id": "factory",
+      "nodes": [
+        {
+          "id": "input",
+          "type": "input",
+          "label": "现场读数",
+          "params": null
+        },
+        {
+          "id": "condition",
+          "type": "expression",
+          "label": "现场判断",
+          "params": {
+            "code": "good \u0026\u0026 fresh \u0026\u0026 value \u003e= 20"
+          }
+        },
+        {
+          "id": "action",
+          "type": "action",
+          "label": "执行设备动作",
+          "params": null
+        }
+      ],
+      "connections": [
+        {
+          "from": "input",
+          "from_port": "",
+          "to": "condition",
+          "to_port": ""
+        },
+        {
+          "from": "condition",
+          "from_port": "",
+          "to": "action",
+          "to_port": ""
+        }
+      ],
+      "outputs": null,
+      "dependencies": null,
+      "selector": {
+        "device_ids": [
+          "gas-1"
+        ],
+        "keys": [
+          "combustible"
+        ]
+      },
+      "policy": {
+        "edge_ids": [
+          "edge-a"
+        ],
+        "steps": [
+          {
+            "id": "set_extractor",
+            "edge_id": "edge-a",
+            "device_id": "gas-1",
+            "action": "set_extractor",
+            "params": {
+              "value": "true"
+            },
+            "idempotent": true,
+            "timeout_ms": 5000
+          }
+        ],
+        "conditions": [
+          {
+            "device_id": "gas-1",
+            "key": "interlock",
+            "operator": "==",
+            "value": false,
+            "max_age_ms": 5000,
+            "interlock": true
+          }
+        ],
+        "risk_category": "safety",
+        "risk_level": 3,
+        "safety_user_id": "safety"
+      }
+    },
+    {
+      "id": "gas-co-alarm",
+      "name": "一氧化碳超限与恢复",
+      "kind": "alarm",
+      "schema_version": "1.0",
+      "version": 0,
+      "status": "draft",
+      "effective_ms": 0,
+      "group_id": "factory",
+      "nodes": [
+        {
+          "id": "input",
+          "type": "input",
+          "label": "现场读数",
+          "params": null
+        },
+        {
+          "id": "range",
+          "type": "hysteresis",
+          "label": "阈值与恢复回差",
+          "params": {
+            "high": 30,
+            "low": 15
+          }
+        },
+        {
+          "id": "alarm",
+          "type": "alarm",
+          "label": "异常通知",
+          "params": {
+            "severity": "CRITICAL"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "input",
+          "from_port": "",
+          "to": "range",
+          "to_port": ""
+        },
+        {
+          "from": "range",
+          "from_port": "",
+          "to": "alarm",
+          "to_port": ""
+        }
+      ],
+      "outputs": null,
+      "dependencies": null,
+      "selector": {
+        "device_ids": [
+          "gas-1"
+        ],
+        "keys": [
+          "co"
+        ]
+      },
+      "policy": {
+        "channels": [
+          "in_app"
+        ],
+        "recipients": [
+          "site"
+        ],
+        "late_notification": "in_app"
+      }
+    },
+    {
+      "id": "gas-co-response",
+      "name": "一氧化碳排风处置",
+      "kind": "strategy",
+      "schema_version": "1.0",
+      "version": 0,
+      "status": "draft",
+      "effective_ms": 0,
+      "group_id": "factory",
+      "nodes": [
+        {
+          "id": "input",
+          "type": "input",
+          "label": "现场读数",
+          "params": null
+        },
+        {
+          "id": "condition",
+          "type": "expression",
+          "label": "现场判断",
+          "params": {
+            "code": "good \u0026\u0026 fresh \u0026\u0026 value \u003e= 30"
+          }
+        },
+        {
+          "id": "action",
+          "type": "action",
+          "label": "执行设备动作",
+          "params": null
+        }
+      ],
+      "connections": [
+        {
+          "from": "input",
+          "from_port": "",
+          "to": "condition",
+          "to_port": ""
+        },
+        {
+          "from": "condition",
+          "from_port": "",
+          "to": "action",
+          "to_port": ""
+        }
+      ],
+      "outputs": null,
+      "dependencies": null,
+      "selector": {
+        "device_ids": [
+          "gas-1"
+        ],
+        "keys": [
+          "co"
+        ]
+      },
+      "policy": {
+        "edge_ids": [
+          "edge-a"
+        ],
+        "steps": [
+          {
+            "id": "set_extractor",
+            "edge_id": "edge-a",
+            "device_id": "gas-1",
+            "action": "set_extractor",
+            "params": {
+              "value": "true"
+            },
+            "idempotent": true,
+            "timeout_ms": 5000
+          }
+        ],
+        "conditions": [
+          {
+            "device_id": "gas-1",
+            "key": "interlock",
+            "operator": "==",
+            "value": false,
+            "max_age_ms": 5000,
+            "interlock": true
+          }
+        ],
+        "risk_category": "safety",
+        "risk_level": 3,
+        "safety_user_id": "safety"
+      }
+    }
+  ],
+  "schema_version": "1.0"
+}

@@ -1,0 +1,42 @@
+{
+  "$defs": {
+    "StepResult": {
+      "additionalProperties": false,
+      "properties": {
+        "command_id": {
+          "type": "string"
+        },
+        "finished_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "message": {
+          "type": "string"
+        },
+        "started_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "status": {
+          "type": "string"
+        },
+        "step_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "step_id",
+        "command_id",
+        "status",
+        "message",
+        "started_ms",
+        "finished_ms"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/StepResult.schema.json",
+  "$ref": "#/$defs/StepResult",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "StepResult"
+}

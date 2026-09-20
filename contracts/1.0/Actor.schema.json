@@ -1,0 +1,50 @@
+{
+  "$defs": {
+    "Actor": {
+      "additionalProperties": false,
+      "properties": {
+        "ai": {
+          "type": "boolean"
+        },
+        "department_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "roles": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "session_id": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "user_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "user_id",
+        "name",
+        "department_id",
+        "roles",
+        "source",
+        "session_id",
+        "ai"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/Actor.schema.json",
+  "$ref": "#/$defs/Actor",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Actor"
+}

@@ -1,0 +1,32 @@
+{
+  "$defs": {
+    "Department": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "manager_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "parent_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "parent_id",
+        "manager_id"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/Department.schema.json",
+  "$ref": "#/$defs/Department",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Department"
+}

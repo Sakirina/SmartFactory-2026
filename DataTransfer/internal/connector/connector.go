@@ -37,6 +37,11 @@ type Factory func() Connector
 type Publisher interface {
 	Publish(msg *dtv1.DeviceMessage) error
 }
+type RateController interface{ SetCollectionFactor(int64) error }
+type CommitObserver interface{ Committed(*dtv1.DeviceMessage) }
+type GapRecorder interface {
+	RecordGap(*dtv1.DeviceMessage, string, string) error
+}
 
 type Status struct {
 	ConnectorID  string

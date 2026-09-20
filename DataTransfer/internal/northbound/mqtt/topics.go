@@ -33,6 +33,10 @@ func (t Topics) DownConfig() string {
 	return fmt.Sprintf("dt/v1/down/%s/config", t.GatewayID)
 }
 
+func (t Topics) DownAcknowledgement() string {
+	return fmt.Sprintf("dt/v1/down/%s/ack", t.GatewayID)
+}
+
 func (t Topics) MetaMetrics() string {
 	return fmt.Sprintf("dt/v1/meta/%s/metrics", t.GatewayID)
 }

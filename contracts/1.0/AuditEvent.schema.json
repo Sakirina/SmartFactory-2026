@@ -1,0 +1,108 @@
+{
+  "$defs": {
+    "Actor": {
+      "additionalProperties": false,
+      "properties": {
+        "ai": {
+          "type": "boolean"
+        },
+        "department_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "roles": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "session_id": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "user_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "user_id",
+        "name",
+        "department_id",
+        "roles",
+        "source",
+        "session_id",
+        "ai"
+      ],
+      "type": "object"
+    },
+    "AuditEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "type": "string"
+        },
+        "actor": {
+          "$ref": "#/$defs/Actor"
+        },
+        "config_version": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "hash": {
+          "type": "string"
+        },
+        "occurred_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "previous_hash": {
+          "type": "string"
+        },
+        "received_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "request_id": {
+          "type": "string"
+        },
+        "resource": {
+          "type": "string"
+        },
+        "sequence": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "snapshot": {},
+        "source_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "source_id",
+        "sequence",
+        "occurred_ms",
+        "received_ms",
+        "actor",
+        "action",
+        "resource",
+        "request_id",
+        "config_version",
+        "snapshot",
+        "previous_hash",
+        "hash"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/AuditEvent.schema.json",
+  "$ref": "#/$defs/AuditEvent",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AuditEvent"
+}

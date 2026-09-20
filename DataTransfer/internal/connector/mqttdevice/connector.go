@@ -6,6 +6,7 @@ package mqttdevice
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"log/slog"
 	"strings"
@@ -15,8 +16,11 @@ import (
 	dtv1 "competition2026/product/datatransfer/gen/datatransfer/v1"
 	"competition2026/product/datatransfer/internal/config"
 	"competition2026/product/datatransfer/internal/connector"
+	"competition2026/product/datatransfer/internal/conversion"
 	dterrors "competition2026/product/datatransfer/internal/errors"
 	"competition2026/product/datatransfer/internal/security"
+	"github.com/eclipse/paho.golang/autopaho"
+	paho5 "github.com/eclipse/paho.golang/paho"
 	paho "github.com/eclipse/paho.mqtt.golang"
 	"github.com/tidwall/gjson"
 	"google.golang.org/protobuf/proto"
@@ -38,15 +42,25 @@ type topicRoute struct {
 }
 
 type Connector struct {
-	mu            sync.RWMutex
-	cfg           config.ConnectorConfig
-	client        paho.Client
-	status        connector.Status
-	devices       []*dtv1.DeviceInfo
-	deviceConfigs map[string]config.DeviceConfig
-	startedAt     time.Time
-	upstream      chan<- *dtv1.DeviceMessage
-	subscribed    []string
+	mu               sync.RWMutex
+	cfg              config.ConnectorConfig
+	client           paho.Client
+	status           connector.Status
+	devices          []*dtv1.DeviceInfo
+	deviceConfigs    map[string]config.DeviceConfig
+	startedAt        time.Time
+	upstream         chan<- *dtv1.DeviceMessage
+	subscribed       []string
+	v5               *autopaho.ConnectionManager
+	ctx              context.Context
+	cancel           context.CancelFunc
+	pending          map[string]pendingCommand
+	acknowledgements chan *dtv1.DeviceMessage
+}
+
+type pendingCommand struct {
+	device   string
+	response chan *dtv1.CommandResponsePayload
 }
 
 func init() {
@@ -63,12 +77,17 @@ func (c *Connector) Init(cfg config.ConnectorConfig) error {
 	if strings.ToLower(cfg.Protocol) != Protocol {
 		return fmt.Errorf("%s: unsupported protocol %q", dterrors.CodeConnectorInvalid, cfg.Protocol)
 	}
+	if cfg.Connection.MQTTVersion != "" && cfg.Connection.MQTTVersion != "3.1.1" && cfg.Connection.MQTTVersion != "5.0" {
+		return errors.New("mqtt_version must be 3.1.1 or 5.0")
+	}
 	if cfg.Connection.URL == "" {
 		return fmt.Errorf("%s: mqtt_device connection.url is required", dterrors.CodeConnectorInvalid)
 	}
 	c.mu.Lock()
 	defer c.mu.Unlock()
 	c.cfg = cfg
+	c.pending = make(map[string]pendingCommand)
+	c.acknowledgements = make(chan *dtv1.DeviceMessage, 256)
 	c.status = connector.NewStatus(cfg.ConnectorID, cfg.Protocol)
 	c.status.DeviceCount = len(cfg.Devices)
 	c.devices = make([]*dtv1.DeviceInfo, 0, len(cfg.Devices))
@@ -81,58 +100,93 @@ func (c *Connector) Init(cfg config.ConnectorConfig) error {
 	return nil
 }
 
-func (c *Connector) Start(ctx context.Context, upstream chan<- *dtv1.DeviceMessage) error {
+func (c *Connector) Start(parent context.Context, upstream chan<- *dtv1.DeviceMessage) error {
+	ctx, cancel := context.WithCancel(parent)
+	defer cancel()
+	defer c.Stop()
 	c.mu.Lock()
 	c.startedAt = time.Now()
 	c.upstream = upstream
+	c.ctx, c.cancel = ctx, cancel
 	c.mu.Unlock()
-	if err := c.connect(); err != nil {
+	if err := c.connectProtocol(ctx); err != nil {
 		c.setState(connector.StateError, err.Error())
 		return err
 	}
 	c.setState(connector.StateRunning, "")
+	done := make(chan struct{})
+	go func() { defer close(done); c.publishAcknowledgements(ctx) }()
 	<-ctx.Done()
+	<-done
 	return c.Stop()
 }
 
 func (c *Connector) SendCommand(ctx context.Context, cmd *dtv1.DeviceMessage) (*dtv1.CommandResponsePayload, error) {
 	deviceID := cmd.GetDevice().GetDeviceId()
 	c.mu.RLock()
-	client := c.client
+	client, v5 := c.client, c.v5
 	device, ok := c.deviceConfigs[deviceID]
 	cfg := c.cfg
 	c.mu.RUnlock()
 	if !ok {
 		return rejectedResponse(cmd, dterrors.CodeCommandNoRoute, "device is not managed by this connector"), nil
 	}
-	if client == nil || !client.IsConnected() {
-		return nil, fmt.Errorf("%s: mqtt device client is not connected", dterrors.CodeConnectorConnectFailed)
+	if v5 == nil && (client == nil || !client.IsConnected()) {
+		return nil, errors.New("mqtt device client is not connected")
 	}
 	payload, err := commandPayload(cmd)
 	if err != nil {
 		return rejectedResponse(cmd, dterrors.CodeCommandInvalid, err.Error()), nil
 	}
+	timeout := 5 * time.Second
+	if ms := cmd.GetControl().GetOptions().GetTimeoutMs(); ms > 0 {
+		timeout = time.Duration(ms) * time.Millisecond
+	}
+	ctx, cancel := context.WithTimeout(ctx, timeout)
+	defer cancel()
+	pending := pendingCommand{device: deviceID, response: make(chan *dtv1.CommandResponsePayload, 1)}
+	c.mu.Lock()
+	if _, exists := c.pending[cmd.GetCommandId()]; exists {
+		c.mu.Unlock()
+		return nil, errors.New("command is already in flight")
+	}
+	c.pending[cmd.GetCommandId()] = pending
+	c.mu.Unlock()
+	defer func() { c.mu.Lock(); delete(c.pending, cmd.GetCommandId()); c.mu.Unlock() }()
 	topic := commandTopic(cfg, device, cmd)
-	token := client.Publish(topic, 1, false, payload)
-	if err := waitToken(ctx, token); err != nil {
+	if v5 != nil {
+		_, err = v5.Publish(ctx, &paho5.Publish{Topic: topic, QoS: 1, Payload: payload})
+	} else {
+		err = waitToken(ctx, client.Publish(topic, 1, false, payload))
+	}
+	if err != nil {
 		return nil, err
 	}
 	c.addMessageOut()
-	return &dtv1.CommandResponsePayload{
-		CommandId: cmd.GetCommandId(),
-		Status:    dtv1.CommandStatus_SUCCESS,
-		Message:   "command published to mqtt device",
-		Result:    map[string]string{"topic": topic},
-	}, nil
+	select {
+	case result := <-pending.response:
+		return result, nil
+	case <-ctx.Done():
+		return &dtv1.CommandResponsePayload{CommandId: cmd.GetCommandId(), Status: dtv1.CommandStatus_RESULT_UNKNOWN, Message: "device business acknowledgement was not received"}, nil
+	}
 }
 
 func (c *Connector) Stop() error {
 	c.mu.Lock()
 	client := c.client
+	v5, cancel := c.v5, c.cancel
+	c.v5, c.cancel = nil, nil
 	c.client = nil
 	c.setStateLocked(connector.StateStopped, "")
 	c.mu.Unlock()
-	// Disconnect 可能阻塞至 250ms,放在锁外执行以免阻塞 Status()/Devices()。
+	if cancel != nil {
+		cancel()
+	}
+	if v5 != nil {
+		ctx, done := context.WithTimeout(context.Background(), time.Second)
+		defer done()
+		_ = v5.Disconnect(ctx)
+	}
 	if client != nil && client.IsConnected() {
 		client.Disconnect(250)
 	}
@@ -199,13 +253,22 @@ func (c *Connector) connect() error {
 	opts.SetConnectionLostHandler(func(_ paho.Client, err error) {
 		c.setState(connector.StateError, err.Error())
 	})
+	ready := make(chan error, 1)
 	opts.SetOnConnectHandler(func(client paho.Client) {
 		if err := c.subscribe(client); err != nil {
 			slog.Warn("mqtt device subscribe failed", "connector_id", cfg.ConnectorID, "error", err)
 			c.setState(connector.StateError, err.Error())
+			select {
+			case ready <- err:
+			default:
+			}
 			return
 		}
 		c.setState(connector.StateRunning, "")
+		select {
+		case ready <- nil:
+		default:
+		}
 	})
 	client := paho.NewClient(opts)
 	c.mu.Lock()
@@ -215,7 +278,15 @@ func (c *Connector) connect() error {
 	if !token.WaitTimeout(time.Duration(timeoutMillis(cfg.Connection.TimeoutMillis)) * time.Millisecond) {
 		return fmt.Errorf("%s: mqtt device connect timeout", dterrors.CodeConnectorConnectFailed)
 	}
-	return token.Error()
+	if err := token.Error(); err != nil {
+		return err
+	}
+	select {
+	case err := <-ready:
+		return err
+	case <-time.After(5 * time.Second):
+		return errors.New("mqtt subscriptions timed out")
+	}
 }
 
 // topicRoutes 返回四类上行消息的 topic 模板(可被连接配置覆盖,默认 devices/{device_id}/<kind>)。
@@ -270,14 +341,22 @@ func (c *Connector) subscribe(client paho.Client) error {
 }
 
 func (c *Connector) routeMessage(_ paho.Client, msg paho.Message) {
+	c.routePayload(msg.Topic(), msg.Payload())
+}
+func (c *Connector) routePayload(topic string, payload []byte) {
+	if !json.Valid(payload) || len(payload) > 1<<20 {
+		c.markError(errors.New("invalid MQTT JSON payload"))
+		return
+	}
 	c.mu.RLock()
 	cfg := c.cfg
 	upstream := c.upstream
+	ctx := c.ctx
 	c.mu.RUnlock()
 	if upstream == nil {
 		return
 	}
-	kind, deviceID := matchRoute(topicRoutes(cfg), msg.Topic())
+	kind, deviceID := matchRoute(topicRoutes(cfg), topic)
 	if kind == "" || deviceID == "" {
 		return
 	}
@@ -291,13 +370,13 @@ func (c *Connector) routeMessage(_ paho.Client, msg paho.Message) {
 	var err error
 	switch kind {
 	case kindTelemetry:
-		out, err = c.telemetryMessage(cfg, device, msg.Payload())
+		out, err = c.telemetryMessage(cfg, device, payload)
 	case kindStatus:
-		out = c.statusMessage(cfg, device, msg.Payload())
+		out = c.statusMessage(cfg, device, payload)
 	case kindEvent:
-		out = c.eventMessage(cfg, device, msg.Payload())
+		out = c.eventMessage(cfg, device, payload)
 	case kindCommandResponse:
-		out = c.commandResponseMessage(cfg, device, msg.Payload())
+		out = c.commandResponseMessage(cfg, device, payload)
 	}
 	if err != nil {
 		c.markError(err)
@@ -306,33 +385,93 @@ func (c *Connector) routeMessage(_ paho.Client, msg paho.Message) {
 	if out == nil {
 		return
 	}
-	c.markDevice(device.DeviceID, dtv1.DeviceState_ONLINE)
+	sourceID := gjson.GetBytes(payload, "message_id").String()
+	if out.Metadata == nil {
+		out.Metadata = map[string]string{}
+	}
+	out.Metadata["mqtt_message_id"] = sourceID
+	if sourceID != "" {
+		out.MessageId = cfg.ConnectorID + ":" + device.DeviceID + ":" + sourceID
+		out.Timestamp = gjson.GetBytes(payload, "timestamp").Int()
+		if out.Timestamp <= 0 {
+			c.markError(errors.New("identified messages require timestamp"))
+			return
+		}
+		if out.GetStatus() != nil {
+			out.GetStatus().LastSeen = out.Timestamp
+		}
+	}
+	out.SourceSequence = gjson.GetBytes(payload, "source_sequence").Uint()
+	out.TimeSource = "collector"
+	if out.Timestamp > 0 && gjson.GetBytes(payload, "timestamp").Exists() {
+		out.TimeSource = "device"
+	}
+	state := dtv1.DeviceState_ONLINE
+	if out.GetStatus() != nil {
+		state = out.GetStatus().GetState()
+	}
+	c.markDevice(device.DeviceID, state)
+	if response := out.GetCmdResponse(); response != nil {
+		c.mu.RLock()
+		pending, found := c.pending[response.CommandId]
+		c.mu.RUnlock()
+		if found && pending.device == device.DeviceID {
+			select {
+			case pending.response <- proto.Clone(response).(*dtv1.CommandResponsePayload):
+			default:
+			}
+		}
+	}
 	c.addMessageIn()
+	if ctx == nil {
+		ctx = context.Background()
+	}
 	select {
 	case upstream <- out:
-	default:
-		// 通道已满即背压:丢弃并计数,不阻塞 MQTT 回调线程(FR-S-039 通过指标可见)。
-		c.markError(fmt.Errorf("%s: upstream channel is full, message dropped", dterrors.CodeBackpressureOn))
+	case <-ctx.Done():
 	}
 }
 
 func (c *Connector) telemetryMessage(cfg config.ConnectorConfig, device config.DeviceConfig, payload []byte) (*dtv1.DeviceMessage, error) {
+	timestamp := gjson.GetBytes(payload, "timestamp").Int()
+	source := "device"
+	if timestamp <= 0 {
+		timestamp = time.Now().UnixMilli()
+		source = "collector"
+	}
+	if gjson.GetBytes(payload, "message_id").String() != "" && source == "collector" {
+		return nil, errors.New("identified telemetry requires a device timestamp")
+	}
 	datapoints := make([]*dtv1.Datapoint, 0, len(device.Datapoints))
 	for _, dp := range device.Datapoints {
 		result := gjson.GetBytes(payload, dp.Source)
+		point := &dtv1.Datapoint{Key: dp.Key, Timestamp: timestamp, TimeSource: source, Quality: qualityFromString(dp.Quality), Unit: dp.Unit}
 		if !result.Exists() {
-			continue
+			point.Quality = dtv1.DataQuality_BAD
+			point.QualityReason = "configured source field is missing"
+		} else {
+			value, err := jsonValue(result, dp)
+			if err != nil {
+				point.Quality = dtv1.DataQuality_BAD
+				point.QualityReason = err.Error()
+			} else {
+				point.Value = value
+			}
 		}
-		value, err := jsonValue(result, dp)
-		if err != nil {
-			return nil, err
+		quality := gjson.GetBytes(payload, "quality."+dp.Key)
+		if quality.Exists() {
+			point.Quality = qualityFromString(quality.String())
+			point.QualityReason = gjson.GetBytes(payload, "quality_reason."+dp.Key).String()
 		}
-		datapoints = append(datapoints, &dtv1.Datapoint{Key: dp.Key, Value: value, Timestamp: time.Now().UnixMilli(), Quality: qualityFromString(dp.Quality), Unit: dp.Unit})
+		datapoints = append(datapoints, point)
 	}
 	if len(datapoints) == 0 {
 		return nil, nil
 	}
-	return message(cfg, device, dtv1.MessageType_TELEMETRY, &dtv1.DeviceMessage_Telemetry{Telemetry: &dtv1.TelemetryPayload{Datapoints: datapoints}}), nil
+	out := message(cfg, device, dtv1.MessageType_TELEMETRY, &dtv1.DeviceMessage_Telemetry{Telemetry: &dtv1.TelemetryPayload{Datapoints: datapoints}})
+	out.Timestamp = timestamp
+	out.TimeSource = source
+	return out, nil
 }
 
 func (c *Connector) statusMessage(cfg config.ConnectorConfig, device config.DeviceConfig, payload []byte) *dtv1.DeviceMessage {
@@ -398,7 +537,7 @@ func message(cfg config.ConnectorConfig, device config.DeviceConfig, typ dtv1.Me
 func commandPayload(cmd *dtv1.DeviceMessage) ([]byte, error) {
 	switch cmd.GetType() {
 	case dtv1.MessageType_CONTROL:
-		return json.Marshal(map[string]any{"command_id": cmd.GetCommandId(), "type": "control", "action": cmd.GetControl().GetAction(), "params": cmd.GetControl().GetParams()})
+		return json.Marshal(map[string]any{"command_id": cmd.GetCommandId(), "type": "control", "action": cmd.GetControl().GetAction(), "params": cmd.GetControl().GetParams(), "start_deadline_ms": cmd.GetControl().GetOptions().GetStartDeadlineMs(), "idempotent": cmd.GetControl().GetOptions().GetIdempotent()})
 	case dtv1.MessageType_PARAM_UPDATE:
 		params := map[string]any{}
 		for _, param := range cmd.GetParamUpdate().GetParams() {
@@ -431,33 +570,20 @@ func actionMapping(cfg config.ConnectorConfig, device config.DeviceConfig, actio
 }
 
 func jsonValue(result gjson.Result, dp config.DatapointConfig) (*dtv1.DataValue, error) {
-	switch strings.ToLower(dp.DataType) {
-	case "bool":
-		return &dtv1.DataValue{Kind: &dtv1.DataValue_BoolValue{BoolValue: result.Bool()}}, nil
-	case "int", "int16", "int32", "int64", "uint16", "uint32":
-		return numericValue(float64(result.Int()), dp, true), nil
-	case "float", "float32", "float64", "double":
-		return numericValue(result.Float(), dp, false), nil
-	case "string":
-		return &dtv1.DataValue{Kind: &dtv1.DataValue_StringValue{StringValue: result.String()}}, nil
+	var raw any
+	switch result.Type {
+	case gjson.Number:
+		raw = json.Number(result.Raw)
+	case gjson.True:
+		raw = true
+	case gjson.False:
+		raw = false
+	case gjson.String:
+		raw = result.Str
 	default:
-		if result.Type == gjson.Number {
-			return numericValue(result.Float(), dp, false), nil
-		}
-		return &dtv1.DataValue{Kind: &dtv1.DataValue_StringValue{StringValue: result.String()}}, nil
+		return nil, errors.New("scalar JSON value required")
 	}
-}
-
-func numericValue(raw float64, dp config.DatapointConfig, integral bool) *dtv1.DataValue {
-	scale := 1.0
-	if dp.Scale != nil {
-		scale = *dp.Scale
-	}
-	value := raw*scale + dp.Offset
-	if integral && scale == 1 && dp.Offset == 0 {
-		return &dtv1.DataValue{Kind: &dtv1.DataValue_IntValue{IntValue: int64(value)}}
-	}
-	return &dtv1.DataValue{Kind: &dtv1.DataValue_DoubleValue{DoubleValue: value}}
+	return conversion.Value(raw, dp)
 }
 
 func identity(cfg config.ConnectorConfig, device config.DeviceConfig) *dtv1.DeviceIdentity {
@@ -547,6 +673,8 @@ func dataValueToAny(value *dtv1.DataValue) any {
 		return typed.BoolValue
 	case *dtv1.DataValue_DoubleValue:
 		return typed.DoubleValue
+	case *dtv1.DataValue_UintValue:
+		return typed.UintValue
 	case *dtv1.DataValue_IntValue:
 		return typed.IntValue
 	case *dtv1.DataValue_StringValue:
