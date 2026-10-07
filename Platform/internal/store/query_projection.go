@@ -167,7 +167,13 @@ func (t *Tx) currentQueryRecord(kind, id string) (queryRecord, error) {
 	r := queryRecord{Kind: kind, ID: id}
 	var raw []byte
 	var deleted int
-	err := t.QueryRowContext(t.Ctx, "SELECT version,sort_ms,resource_id,parent_id,name,status,entity_kind,definition_id,metric_key,resolution,assignee_id,handling_status,active,acknowledged,deleted,data FROM sf_query_rows WHERE kind=$1 AND id=$2 AND valid_to=0", kind, id).Scan(&r.Version, &r.SortMS, &r.Resource, &r.Parent, &r.Name, &r.Status, &r.EntityKind, &r.Definition, &r.Key, &r.Resolution, &r.Assignee, &r.Handling, &r.Active, &r.Acknowledged, &deleted, &raw)
+	identity := "kind=$1 AND id=$2"
+	if t.Store.Driver == "sqlite" {
+		// Resolve the identity through its primary key before filtering validity;
+		// the current-row index otherwise scans other identities of the same kind.
+		identity = "rowid IN (SELECT rowid FROM sf_query_rows WHERE kind=$1 AND id=$2)"
+	}
+	err := t.QueryRowContext(t.Ctx, "SELECT version,sort_ms,resource_id,parent_id,name,status,entity_kind,definition_id,metric_key,resolution,assignee_id,handling_status,active,acknowledged,deleted,data FROM sf_query_rows WHERE "+identity+" AND valid_to=0", kind, id).Scan(&r.Version, &r.SortMS, &r.Resource, &r.Parent, &r.Name, &r.Status, &r.EntityKind, &r.Definition, &r.Key, &r.Resolution, &r.Assignee, &r.Handling, &r.Active, &r.Acknowledged, &deleted, &raw)
 	if errors.Is(err, sql.ErrNoRows) {
 		return r, ErrNotFound
 	}
@@ -220,7 +226,11 @@ func (t *Tx) writeQueryRecord(r queryRecord, seq int64) (bool, error) {
 	if err != nil {
 		return false, err
 	}
-	if _, err = t.ExecContext(t.Ctx, "UPDATE sf_query_rows SET valid_to=$1 WHERE kind=$2 AND id=$3 AND valid_to=0 AND valid_from<>$1", seq, r.Kind, r.ID); err != nil {
+	identity := "kind=$2 AND id=$3"
+	if t.Store.Driver == "sqlite" {
+		identity = "rowid IN (SELECT rowid FROM sf_query_rows WHERE kind=$2 AND id=$3)"
+	}
+	if _, err = t.ExecContext(t.Ctx, "UPDATE sf_query_rows SET valid_to=$1 WHERE "+identity+" AND valid_to=0 AND valid_from<>$1", seq, r.Kind, r.ID); err != nil {
 		return false, err
 	}
 	deleted := 0

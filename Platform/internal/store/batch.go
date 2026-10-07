@@ -28,7 +28,12 @@ func (t *Tx) insertRows(table, columns, conflict string, rows [][]any) error {
 					query.WriteByte(',')
 				}
 				args = append(args, value)
-				fmt.Fprintf(&query, "$%d", len(args))
+				if t.Store.Driver == "sqlite" {
+					// Anonymous parameters avoid the SQLite driver's numbered-name lookup.
+					query.WriteByte('?')
+				} else {
+					fmt.Fprintf(&query, "$%d", len(args))
+				}
 			}
 			query.WriteByte(')')
 		}

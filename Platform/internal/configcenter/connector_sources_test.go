@@ -99,8 +99,10 @@ func newRegistrationFixture(t *testing.T) *registrationFixture {
 	if err != nil {
 		t.Fatal(err)
 	}
-	db.DB.SetMaxOpenConns(3)
-	db.DB.SetMaxIdleConns(1)
+	if db.Driver == "pgx" {
+		db.DB.SetMaxOpenConns(3)
+		db.DB.SetMaxIdleConns(1)
+	}
 	t.Cleanup(func() {
 		if err := db.Close(); err != nil {
 			t.Error(err)
@@ -193,6 +195,7 @@ func (f *registrationFixture) concurrent(t *testing.T, kind, id string, a, b []m
 	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
 	defer cancel()
 	var blocker *sql.Tx
+	var sqliteWaitBaseline int64
 	if f.admin != nil {
 		var err error
 		blocker, err = f.admin.BeginTx(ctx, nil)
@@ -203,10 +206,37 @@ func (f *registrationFixture) concurrent(t *testing.T, kind, id string, a, b []m
 		if _, err = blocker.ExecContext(ctx, "SELECT pg_advisory_xact_lock($1)", registrationLockKey(kind, id)); err != nil {
 			t.Fatal(err)
 		}
+	} else {
+		stats := f.service.Store.DB.Stats()
+		if stats.MaxOpenConnections != 1 {
+			t.Fatal("SQLite fixture must retain the formal single-connection policy", stats.MaxOpenConnections)
+		}
+		sqliteWaitBaseline = stats.WaitCount
+		var err error
+		blocker, err = f.service.Store.DB.BeginTx(ctx, nil)
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer blocker.Rollback()
+	}
+	waitForSQLite := func(requests int64) {
+		deadline := time.Now().Add(8 * time.Second)
+		for time.Now().Before(deadline) {
+			stats := f.service.Store.DB.Stats()
+			if stats.WaitCount-sqliteWaitBaseline >= requests && stats.InUse == 1 {
+				return
+			}
+			select {
+			case <-ctx.Done():
+				t.Fatal(ctx.Err())
+			case <-time.After(5 * time.Millisecond):
+			}
+		}
+		t.Fatal("actual SQLite registration calls did not enter the connection wait queue", f.service.Store.DB.Stats())
 	}
 	done := make(chan error, 2)
 	go func() { done <- f.service.EnsureConnectorVersions(ctx, a) }()
-	if blocker != nil {
+	if f.admin != nil {
 		deadline := time.Now().Add(8 * time.Second)
 		var waiting int
 		for waiting < 1 && time.Now().Before(deadline) {
@@ -223,9 +253,11 @@ func (f *registrationFixture) concurrent(t *testing.T, kind, id string, a, b []m
 		if waiting != 1 {
 			t.Fatal("first actual registration transaction did not reach its document lock", waiting)
 		}
+	} else {
+		waitForSQLite(1)
 	}
 	go func() { done <- f.service.EnsureConnectorVersions(ctx, b) }()
-	if blocker != nil {
+	if f.admin != nil {
 		deadline := time.Now().Add(8 * time.Second)
 		var waiting int
 		for waiting < 2 && time.Now().Before(deadline) {
@@ -266,6 +298,13 @@ func (f *registrationFixture) concurrent(t *testing.T, kind, id string, a, b []m
 		raw, _ := json.Marshal(locks)
 		t.Logf("actual PostgreSQL document blocker kind=%s id=%s key=%d waiting=%d locks=%s", kind, id, registrationLockKey(kind, id), waiting, raw)
 		if err = blocker.Commit(); err != nil {
+			t.Fatal(err)
+		}
+	} else {
+		waitForSQLite(2)
+		stats := f.service.Store.DB.Stats()
+		t.Logf("two actual SQLite Ensure calls waiting=%d max_open=%d in_use=%d", stats.WaitCount-sqliteWaitBaseline, stats.MaxOpenConnections, stats.InUse)
+		if err := blocker.Commit(); err != nil {
 			t.Fatal(err)
 		}
 	}
