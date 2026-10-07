@@ -6,6 +6,7 @@ import (
 	"testing"
 	"time"
 
+	"competition2026/product/platform/internal/rulecore"
 	"competition2026/product/platform/internal/store"
 	"competition2026/product/platform/pkg/model"
 )
@@ -65,6 +66,7 @@ func TestReplayUsesMoreThanOneDayAndRestoresLiveCounter(t *testing.T) {
 	if _, e := s.Store.Put(ctx, "definition", d.ID, 0, d); e != nil {
 		t.Fatal(e)
 	}
+	prepareLegacyFixture(t, s)
 	record(t, s, "first", base.UnixMilli(), 1, true)
 	clock = base.Add(48 * time.Hour)
 	record(t, s, "second", clock.UnixMilli(), 2, true)
@@ -76,7 +78,13 @@ func TestReplayUsesMoreThanOneDayAndRestoresLiveCounter(t *testing.T) {
 	}
 	clock = clock.Add(time.Second)
 	record(t, s, "late", base.Add(24*time.Hour).UnixMilli(), 4, false)
+	beforeReplay := rulecore.SnapshotStatistics()
 	runBackfill(t, s)
+	afterReplay := rulecore.SnapshotStatistics()
+	t.Logf("recomputation: compilations=%d expression_parses=%d executions=%d", afterReplay.Compilations-beforeReplay.Compilations, afterReplay.ExpressionParses-beforeReplay.ExpressionParses, afterReplay.Executions-beforeReplay.Executions)
+	if afterReplay.Compilations != beforeReplay.Compilations || afterReplay.ExpressionParses != beforeReplay.ExpressionParses || afterReplay.Executions == beforeReplay.Executions {
+		t.Fatal("recomputation recompiled plans", beforeReplay, afterReplay)
+	}
 	p, e := s.Store.Latest(ctx, "device", "counter.mean")
 	if e != nil || fmt.Sprint(p.Value) != "7" {
 		t.Fatalf("replay: %+v %v", p, e)
@@ -87,6 +95,7 @@ func TestReplayUsesMoreThanOneDayAndRestoresLiveCounter(t *testing.T) {
 	if e != nil || fmt.Sprint(p.Value) != "8" {
 		t.Fatalf("live state: %+v %v", p, e)
 	}
+	t.Log("counter after recomputation=7, after next live input=8")
 	q, e := s.Store.Query(ctx, store.Query{FromMS: base.UnixMilli(), ToMS: clock.UnixMilli(), IncludeRevisions: true, Limit: 100})
 	if e != nil || len(q.Revisions) == 0 {
 		t.Fatal("no before/after revision", e)
@@ -111,6 +120,7 @@ func TestHistoricalAlarmKeepsAcknowledgementAndCurrentEpisode(t *testing.T) {
 	if _, e := s.Store.Put(ctx, "definition", d.ID, 0, d); e != nil {
 		t.Fatal(e)
 	}
+	prepareLegacyFixture(t, s)
 	record(t, s, "high", start, 35, true)
 	doc, e := s.Store.Get(ctx, "active_alarm", "alarm:device")
 	if e != nil {
@@ -170,6 +180,7 @@ func TestHistoricalAlarmKeepsAcknowledgementAndCurrentEpisode(t *testing.T) {
 	if historicalNotifications != 1 {
 		t.Fatal("historical notice count", historicalNotifications)
 	}
+	t.Logf("historical alarm acknowledged=%t active=%t; current episode active=%t at_ms=%d", first.Acknowledged, first.Active, current.Active, current.StartedMS)
 }
 func TestExpressionErrorUsesOnlyTheErrorBranch(t *testing.T) {
 	s := engineFixture(t)

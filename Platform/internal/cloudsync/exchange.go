@@ -13,8 +13,11 @@ import (
 	"strings"
 	"time"
 
+	"competition2026/product/platform/internal/compiledplan"
+	"competition2026/product/platform/internal/control"
 	"competition2026/product/platform/internal/identity"
 	"competition2026/product/platform/internal/store"
+	"competition2026/product/platform/pkg/compatibility"
 	"competition2026/product/platform/pkg/model"
 )
 
@@ -23,6 +26,7 @@ type Server struct {
 	Identity *identity.Manager
 }
 type Request struct {
+	Compatibility     *compatibility.Peer   `json:"compatibility,omitempty"`
 	Changes           []store.Change        `json:"changes"`
 	UploadCursor      int64                 `json:"upload_cursor"`
 	DownloadCursor    int64                 `json:"download_cursor"`
@@ -32,6 +36,7 @@ type Request struct {
 	DownlinkAcks      []string              `json:"downlink_acks"`
 }
 type Response struct {
+	Compatibility  *compatibility.Peer        `json:"compatibility,omitempty"`
 	Committed      []string                   `json:"committed"`
 	Failures       map[string]string          `json:"failures"`
 	UploadCursor   int64                      `json:"upload_cursor"`
@@ -70,7 +75,10 @@ func (s *Server) Handler() http.Handler {
 	return mux
 }
 func (s *Server) Exchange(ctx context.Context, node string, registration Registration, r Request) (Response, error) {
-	result := Response{Failures: map[string]string{}, Committed: []string{}, Changes: []store.Change{}, Downlinks: []store.Delivery{}}
+	result := Response{Compatibility: compatibility.CurrentPeer("cloud"), Failures: map[string]string{}, Committed: []string{}, Changes: []store.Change{}, Downlinks: []store.Delivery{}}
+	if err := compatibility.CheckPeer(r.Compatibility, "cloud-edge-v1", "edge"); err != nil {
+		return result, err
+	}
 	if len(r.Deliveries) > 2000 || len(r.Changes) > 1000 || len(r.Audit) > 1000 || len(r.DownlinkAcks) > 1000 {
 		return result, errors.New("sync batch exceeds limits")
 	}
@@ -127,7 +135,7 @@ func (s *Server) Exchange(ctx context.Context, node string, registration Registr
 	if len(r.DownlinkAcks) > 0 {
 		if err := s.Store.Write(ctx, func(t *store.Tx) error {
 			for _, id := range r.DownlinkAcks {
-				if _, err := t.ExecContext(ctx, "DELETE FROM outbox WHERE id=$1 AND kind='edge_downlink' AND destination=$2", id, node); err != nil {
+				if _, err := t.ExecContext(ctx, "DELETE FROM outbox WHERE id=$1 AND kind IN ('edge_downlink','edge_control_operation') AND destination=$2", id, node); err != nil {
 					return err
 				}
 			}
@@ -151,6 +159,15 @@ func (s *Server) Exchange(ctx context.Context, node string, registration Registr
 	result.DownloadCursor = r.DownloadCursor
 	for _, change := range changes {
 		result.DownloadCursor = change.Sequence
+		if businessKind(change.Document.Kind) {
+			allowed, err := s.businessDestination(ctx, node, change.Document)
+			if err != nil {
+				return result, err
+			}
+			if !allowed {
+				continue
+			}
+		}
 		if change.Document.Kind == "entity" {
 			entity, e := store.Decode[model.Entity](change.Document)
 			if e != nil {
@@ -210,13 +227,15 @@ func (s *Server) Exchange(ctx context.Context, node string, registration Registr
 	if r.PermissionVersion < bundle.Version {
 		result.Permissions = &bundle
 	}
-	items, e := s.Store.Deliveries(ctx, "edge_downlink", 1000)
-	if e != nil {
-		return result, e
-	}
-	for _, item := range items {
-		if item.Destination == node {
-			result.Downlinks = append(result.Downlinks, item)
+	for _, kind := range []string{"edge_downlink", "edge_control_operation"} {
+		items, e := s.Store.Deliveries(ctx, kind, 1000)
+		if e != nil {
+			return result, e
+		}
+		for _, item := range items {
+			if item.Destination == node {
+				result.Downlinks = append(result.Downlinks, item)
+			}
 		}
 	}
 	if e = s.heartbeat(ctx, node); e != nil {
@@ -281,59 +300,21 @@ func (s *Server) receive(ctx context.Context, node string, d store.Delivery) err
 		_, err = s.Store.Ingest(ctx, batch)
 		return err
 	case "cloud_receipt":
-		var receipt model.Execution
-		if e := store.DecodeJSON(d.Payload, &receipt); e != nil {
-			return e
+		return s.receiveExecutionReceipt(ctx, node, d)
+	case "cloud_operation_receipt":
+		var receipt model.ControlOperation
+		if err := store.DecodeJSON(d.Payload, &receipt); err != nil {
+			return err
 		}
-		defDoc, e := s.Store.Get(ctx, "definition", receipt.DefinitionID)
-		if e != nil {
-			return e
+		if d.ID != fmt.Sprintf("control-operation-receipt:%s:%d", receipt.ID, receipt.Version) {
+			return errors.New("invalid operation receipt identity")
 		}
-		def, e := store.Decode[model.Definition](defDoc)
-		if e != nil {
-			return e
-		}
-		owned := false
-		for _, edge := range def.Policy.EdgeIDs {
-			owned = owned || edge == node
-		}
-		if !owned {
-			return errors.New("execution does not belong to this node")
-		}
-		return s.Store.Write(ctx, func(t *store.Tx) error {
-			duplicate, e := t.Inbox("sync-receipt:"+d.ID, store.Hash(d.Payload), node)
-			if e != nil || duplicate {
-				return e
+		return s.Store.Write(ctx, func(tx *store.Tx) error {
+			duplicate, err := tx.Inbox("sync-operation-receipt:"+d.ID, store.Hash(d.Payload), node)
+			if err != nil || duplicate {
+				return err
 			}
-			old, e := t.Get("execution", receipt.DownlinkID)
-			if e != nil && !errors.Is(e, store.ErrNotFound) {
-				return e
-			}
-			if e == nil {
-				previous, e := store.Decode[model.Execution](old)
-				if e != nil {
-					return e
-				}
-				if previous.Binding != receipt.Binding || previous.DefinitionVersion != receipt.DefinitionVersion {
-					return store.ErrConflict
-				}
-			}
-			cursorID := node + ":" + receipt.DownlinkID
-			if current, e := t.Get("receipt_cursor", cursorID); e == nil {
-				v, e := store.Decode[int64](current)
-				if e != nil {
-					return e
-				}
-				if v >= receipt.Version {
-					return nil
-				}
-			}
-			sourceVersion := receipt.Version
-			receipt.Version = old.Version + 1
-			if _, e = t.Put("execution", receipt.DownlinkID, old.Version, receipt); e != nil {
-				return e
-			}
-			return t.SetEphemeral("receipt_cursor", cursorID, sourceVersion)
+			return control.ReceiveOperationReceipt(tx, node, receipt)
 		})
 	default:
 		return fmt.Errorf("unsupported uplink kind %s", d.Kind)
@@ -344,8 +325,16 @@ func (s *Server) importChanges(ctx context.Context, node string, changes []store
 		return nil
 	}
 	return s.Store.Write(ctx, func(t *store.Tx) error {
+		definitions := []model.Definition{}
+		nativeDefinitions := map[string]store.Document{}
 		for _, change := range changes {
 			d := change.Document
+			if businessKind(d.Kind) {
+				if err := s.importBusiness(t, node, d, fromEdge); err != nil {
+					return err
+				}
+				continue
+			}
 			if fromEdge {
 				if d.Kind != "entity" && d.Kind != "asset_proposal" {
 					return errors.New("edge cannot publish cloud definitions")
@@ -391,6 +380,18 @@ func (s *Server) importChanges(ctx context.Context, node string, changes []store
 					return errors.New("unsupported cloud document")
 				}
 			}
+			if d.Kind == "definition" {
+				definition, err := store.Decode[model.Definition](d)
+				if err != nil {
+					return err
+				}
+				if definition.ID != d.ID || definition.Version != d.Version {
+					return errors.New("synchronized definition identity does not match its document")
+				}
+				if definition.Status == "published" {
+					definitions = append(definitions, definition)
+				}
+			}
 			applied, e := t.ImportDocument(d)
 			if e != nil {
 				return e
@@ -405,6 +406,14 @@ func (s *Server) importChanges(ctx context.Context, node string, changes []store
 			}
 			kind := "tb_entity"
 			if d.Kind == "definition" {
+				definition, err := store.Decode[model.Definition](d)
+				if err != nil {
+					return err
+				}
+				if definition.Status == "published" {
+					nativeDefinitions[fmt.Sprintf("%s:%d", d.ID, d.Version)] = d
+					continue
+				}
 				kind = "tb_definition"
 			} else if d.Kind != "entity" {
 				continue
@@ -413,7 +422,20 @@ func (s *Server) importChanges(ctx context.Context, node string, changes []store
 				return e
 			}
 		}
-		return nil
+		// All source histories are visible in this transaction before dependency
+		// resolution, including a dependency that followed its consumer on wire.
+		for _, definition := range definitions {
+			_, issue, err := compiledplan.Prepare(t, definition, true)
+			if err != nil {
+				return err
+			}
+			if document, ok := nativeDefinitions[fmt.Sprintf("%s:%d", definition.ID, definition.Version)]; ok && issue == nil {
+				if err := t.Enqueue(fmt.Sprintf("sync-native:definition:%s:%d", document.ID, document.Version), "tb_definition", document.ID, document.Data); err != nil {
+					return err
+				}
+			}
+		}
+		return compiledplan.RetryIssues(t)
 	})
 }
 

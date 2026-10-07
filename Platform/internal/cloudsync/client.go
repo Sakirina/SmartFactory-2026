@@ -13,6 +13,7 @@ import (
 
 	"competition2026/product/platform/internal/identity"
 	"competition2026/product/platform/internal/store"
+	"competition2026/product/platform/pkg/compatibility"
 	"competition2026/product/platform/pkg/model"
 )
 
@@ -42,13 +43,23 @@ func (c *Client) Exchange(ctx context.Context) error {
 	} else if !errors.Is(e, store.ErrNotFound) {
 		return e
 	}
-	request := Request{UploadCursor: cursor.Upload, DownloadCursor: cursor.Download}
+	request := Request{Compatibility: compatibility.CurrentPeer("edge"), UploadCursor: cursor.Upload, DownloadCursor: cursor.Download}
 	changes, e := c.Store.Changes(ctx, cursor.Upload, 500)
 	if e != nil {
 		return e
 	}
 	for _, change := range changes {
 		request.UploadCursor = change.Sequence
+		if businessKind(change.Document.Kind) {
+			allowed, err := businessUpload(c.Store.NodeID, change.Document)
+			if err != nil {
+				return err
+			}
+			if allowed {
+				request.Changes = append(request.Changes, change)
+			}
+			continue
+		}
 		if change.Document.Kind == "entity" {
 			entity, e := store.Decode[model.Entity](change.Document)
 			if e != nil {
@@ -68,8 +79,12 @@ func (c *Client) Exchange(ctx context.Context) error {
 			}
 		}
 	}
-	for _, kind := range []string{"cloud_observation", "cloud_receipt"} {
-		items, e := c.Store.Deliveries(ctx, kind, 1000)
+	for _, kind := range []string{"cloud_operation_receipt", "cloud_receipt", "cloud_observation"} {
+		remaining := 2000 - len(request.Deliveries)
+		if remaining <= 0 {
+			break
+		}
+		items, e := c.Store.Deliveries(ctx, kind, min(1000, remaining))
 		if e != nil {
 			return e
 		}
@@ -115,17 +130,20 @@ func (c *Client) Exchange(ctx context.Context) error {
 	if e = store.DecodeJSONReader(io.LimitReader(response.Body, 16<<20), &result); e != nil {
 		return e
 	}
+	if e = compatibility.CheckPeer(result.Compatibility, "cloud-edge-v1", "cloud"); e != nil {
+		return e
+	}
 	if result.UploadCursor != request.UploadCursor || result.DownloadCursor < cursor.Download || result.AuditSequence < cursor.Audit {
 		return errors.New("invalid synchronization acknowledgement cursor")
-	}
-	importer := &Server{Store: c.Store, Identity: c.Identity}
-	if e = importer.importChanges(ctx, c.Store.NodeID, result.Changes, false); e != nil {
-		return e
 	}
 	if result.Permissions != nil {
 		if e = c.Identity.ApplyBundle(ctx, *result.Permissions, c.CloudSigningKey); e != nil {
 			return e
 		}
+	}
+	importer := &Server{Store: c.Store, Identity: c.Identity}
+	if e = importer.importChanges(ctx, c.Store.NodeID, result.Changes, false); e != nil {
+		return e
 	}
 	offered := map[string]bool{}
 	for _, d := range request.Deliveries {
@@ -165,22 +183,35 @@ func (c *Client) Exchange(ctx context.Context) error {
 				}
 			}
 			for _, delivery := range result.Downlinks {
-				if delivery.Kind != "edge_downlink" || delivery.Destination != c.Store.NodeID {
+				if (delivery.Kind != "edge_downlink" && delivery.Kind != "edge_control_operation") || delivery.Destination != c.Store.NodeID {
 					return errors.New("downlink destination mismatch")
 				}
-				var execution model.Execution
-				if e := store.DecodeJSON(delivery.Payload, &execution); e != nil {
-					return e
-				}
-				if execution.DownlinkID == "" || delivery.ID != "downlink:"+execution.DownlinkID {
-					return errors.New("invalid execution identifier")
+				var payload any
+				if delivery.Kind == "edge_control_operation" {
+					var envelope model.ControlOperationEnvelope
+					if err := store.DecodeJSON(delivery.Payload, &envelope); err != nil {
+						return err
+					}
+					if envelope.Operation.ID == "" || delivery.ID != "control-op:"+envelope.Operation.ID || envelope.Operation.TargetNodeID != c.Store.NodeID || envelope.Operation.ExecutionID != envelope.Execution.DownlinkID {
+						return errors.New("invalid control operation identifier")
+					}
+					payload = envelope
+				} else {
+					var execution model.Execution
+					if e := store.DecodeJSON(delivery.Payload, &execution); e != nil {
+						return e
+					}
+					if execution.DownlinkID == "" || delivery.ID != "downlink:"+execution.DownlinkID {
+						return errors.New("invalid execution identifier")
+					}
+					payload = execution
 				}
 				duplicate, e := t.Inbox("cloud-downlink:"+delivery.ID, store.Hash(delivery.Payload), "cloud")
 				if e != nil {
 					return e
 				}
 				if !duplicate {
-					if e = t.Enqueue(delivery.ID, "edge_downlink", c.Store.NodeID, execution); e != nil {
+					if e = t.Enqueue(delivery.ID, delivery.Kind, c.Store.NodeID, payload); e != nil {
 						return e
 					}
 				}

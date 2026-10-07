@@ -1,4 +1,4 @@
-// sf-contracts exports schema, editable example definitions and source-derived API routes.
+// sf-contracts exports wire schemas, typed operations and remaining legacy routes.
 package main
 
 import (
@@ -15,11 +15,14 @@ import (
 	"strconv"
 	"strings"
 
+	"competition2026/product/platform/internal/api"
 	"competition2026/product/platform/internal/app"
+	"competition2026/product/platform/internal/application"
 	"competition2026/product/platform/internal/configcenter"
 	"competition2026/product/platform/internal/identity"
 	"competition2026/product/platform/internal/plugins"
 	"competition2026/product/platform/internal/store"
+	"competition2026/product/platform/pkg/compatibility"
 	"competition2026/product/platform/pkg/contracts"
 	"competition2026/product/platform/pkg/model"
 )
@@ -38,9 +41,38 @@ func main() {
 }
 func run(out, apiDir, examples string) error {
 	r := contracts.New()
-	for _, value := range []any{configcenter.Parameter{}, plugins.OrganizationSync{}, plugins.Spec{}, plugins.Status{}, identity.Grant{}, store.IngestBatch{}, store.IngestResult{}, store.AuditEvent{}, store.Aggregate{}} {
+	for _, value := range []any{configcenter.Parameter{}, plugins.OrganizationSync{}, plugins.Spec{}, plugins.Status{}, identity.Grant{}, store.IngestBatch{}, store.IngestResult{}, store.AuditEvent{}, store.Aggregate{}, application.SaveDraftInput{}, api.DraftRevisionRequest{}, api.ContractError{}, api.CompatibilityStatus{}} {
 		r.Add(value)
 	}
+	for _, value := range api.TaskContractTypes() {
+		r.Add(value)
+	}
+	for _, value := range api.RuleContractTypes() {
+		r.Add(value)
+	}
+	for _, value := range api.HistoryContractTypes() {
+		r.Add(value)
+	}
+	for _, value := range api.BusinessContractTypes() {
+		r.Add(value)
+	}
+	for _, value := range api.QueryContractTypes() {
+		r.Add(value)
+	}
+	for _, value := range api.ControlContractTypes() {
+		r.Add(value)
+	}
+	for _, value := range api.InvestigationContractTypes() {
+		r.Add(value)
+	}
+	for _, value := range api.NodeConfigurationContractTypes() {
+		r.Add(value)
+	}
+	api.RefineNodeConfigurationContracts(r)
+	for _, value := range api.ReleaseContractTypes() {
+		r.Add(value)
+	}
+	api.RefineReleaseContracts(r)
 	for _, name := range r.Names() {
 		schema, _ := r.Schema(name)
 		if e := writeJSON(filepath.Join(out, name+".schema.json"), schema); e != nil {
@@ -54,6 +86,9 @@ func run(out, apiDir, examples string) error {
 	if e = writeJSON(filepath.Join(out, "openapi.json"), spec); e != nil {
 		return e
 	}
+	if e = writeJSON(filepath.Join(out, "..", "compatibility.json"), compatibility.Current()); e != nil {
+		return e
+	}
 	defs := app.ExampleDefinitions()
 	for i := range defs {
 		defs[i].SchemaVersion = model.ContractVersion
@@ -63,7 +98,7 @@ func run(out, apiDir, examples string) error {
 	if e = writeJSON(examples, S{"schema_version": model.ContractVersion, "definitions": defs}); e != nil {
 		return e
 	}
-	fmt.Printf("Exported %d schema types, OpenAPI routes and %d editable definitions\n", len(r.Names()), len(defs))
+	fmt.Printf("Exported %d schema types, OpenAPI routes, compatibility manifest and %d editable definitions\n", len(r.Names()), len(defs))
 	return nil
 }
 func writeJSON(path string, v any) error {
@@ -164,7 +199,7 @@ func openAPI(dir string, r *contracts.Registry) (S, error) {
 		}
 	}
 	paths := S{}
-	responseTypes := map[string]string{"entities": "[]Entity", "assetProposals": "[]AssetProposal", "decideAssetProposal": "AssetProposal", "putEntity": "Entity", "data": "DataResult", "definitions": "[]Definition", "definitionVersions": "[]Definition", "drafts": "[]Draft", "saveDraft": "Draft", "validateDraft": "Validation", "publishDraft": "Definition", "deactivate": "Definition", "rollback": "Draft", "executions": "[]Execution", "createExecution": "Execution", "approve": "Execution", "dispatch": "Execution", "alarms": "[]Alarm", "ackAlarm": "Alarm", "jobs": "[]Job", "createJob": "Job", "retryJob": "Job", "putUser": "User", "putGrant": "Grant", "listConfig": "[]Parameter", "putConfig": "Parameter", "putPlugin": "Spec", "ingest": "IngestResult", "dashboards": "[]Dashboard", "putDashboard": "Dashboard"}
+	responseTypes := map[string]string{"entities": "[]Entity", "assetProposals": "[]AssetProposal", "decideAssetProposal": "AssetProposal", "putEntity": "Entity", "data": "DataResult", "definitions": "[]Definition", "definitionVersions": "[]Definition", "drafts": "[]Draft", "deactivate": "Definition", "rollback": "Draft", "executions": "[]Execution", "createExecution": "Execution", "approve": "Execution", "dispatch": "Execution", "alarms": "[]Alarm", "ackAlarm": "Alarm", "jobs": "[]Job", "createJob": "Job", "retryJob": "Job", "putUser": "User", "putGrant": "Grant", "listConfig": "[]Parameter", "putConfig": "Parameter", "putPlugin": "Spec", "ingest": "IngestResult", "dashboards": "[]Dashboard", "putDashboard": "Dashboard"}
 	add := func(pattern, action, name string) {
 		parts := strings.SplitN(pattern, " ", 2)
 		if len(parts) != 2 || !strings.HasPrefix(parts[1], "/api/sf/v1/") {
@@ -180,6 +215,10 @@ func openAPI(dir string, r *contracts.Registry) (S, error) {
 			}
 		}
 		responses := S{"200": S{"description": "Request completed", "content": S{"application/json": S{"schema": responseSchema}}}}
+		if name == "createJob" || name == "retryJob" {
+			delete(responses, "200")
+			responses["202"] = S{"description": "Recomputation accepted", "content": S{"application/json": S{"schema": responseSchema}}}
+		}
 		if name == "events" {
 			responses["200"] = S{"description": "Server-sent data snapshots; each data event contains DataResult", "content": S{"text/event-stream": S{"schema": S{"type": "string"}}}}
 		}
@@ -189,7 +228,7 @@ func openAPI(dir string, r *contracts.Registry) (S, error) {
 		for _, status := range []string{"400", "401", "403", "404", "409", "504"} {
 			responses[status] = S{"description": map[string]string{"400": "Invalid input or business condition", "401": "Authentication expired or invalid", "403": "Action or resource not permitted", "404": "Object unavailable", "409": "Version or content conflict", "504": "Operation timed out"}[status], "content": S{"application/json": S{"schema": S{"type": "object", "required": []string{"error"}, "properties": S{"error": S{"type": "string"}}}}}}
 		}
-		op := S{"operationId": method + "_" + strings.NewReplacer("/", "_", "{", "", "}", "", "-", "_").Replace(strings.TrimPrefix(path, "/")), "summary": name, "x-permission-action": action, "responses": responses}
+		op := S{"operationId": method + "_" + strings.NewReplacer("/", "_", "{", "", "}", "", "-", "_").Replace(strings.TrimPrefix(path, "/")), "summary": name, "x-permission-action": action, "x-contract-source": "legacy-source", "responses": responses}
 		if action == "anonymous" {
 			op["security"] = []any{}
 		}
@@ -247,9 +286,33 @@ func openAPI(dir string, r *contracts.Registry) (S, error) {
 	}
 	add("POST /api/sf/v1/login", "anonymous", "login")
 	defsRaw, _ := json.Marshal(r.Definitions)
-	var definitions any
+	var definitions S
 	if e = json.Unmarshal([]byte(strings.ReplaceAll(string(defsRaw), "#/$defs/", "#/components/schemas/")), &definitions); e != nil {
 		return nil, e
+	}
+	// These operations come from the same generic registrations used by the
+	// live server, including body, success, failure and path parameter types.
+	typedJSON, e := json.Marshal(api.DefinitionOpenAPI())
+	if e != nil {
+		return nil, e
+	}
+	var typed S
+	if e = json.Unmarshal(typedJSON, &typed); e != nil {
+		return nil, e
+	}
+	for path, operations := range typed["paths"].(S) {
+		shortPath := strings.TrimPrefix(path, "/api/sf/v1")
+		pathItem, _ := paths[shortPath].(S)
+		if pathItem == nil {
+			pathItem = S{}
+			paths[shortPath] = pathItem
+		}
+		for method, operation := range operations.(S) {
+			pathItem[method] = operation
+		}
+	}
+	for name, schema := range typed["components"].(S)["schemas"].(S) {
+		definitions[name] = schema
 	}
 	return S{"openapi": "3.1.0", "jsonSchemaDialect": contracts.Dialect, "info": S{"title": "SmartFactory business API", "version": model.ContractVersion, "description": "Cloud and edge use the same versioned API. Token roles and every referenced resource are checked on the server. AI tokens can query and edit drafts. Native ThingsBoard, synchronization and configuration-service internal routes have separate credentials."}, "servers": []any{S{"url": "/api/sf/v1"}}, "security": []any{S{"bearerAuth": []string{}}}, "paths": paths, "components": S{"securitySchemes": S{"bearerAuth": S{"type": "http", "scheme": "bearer"}}, "schemas": definitions}}, nil
 }

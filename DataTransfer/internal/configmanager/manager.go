@@ -32,13 +32,14 @@ type Manager struct {
 	// 配置推送是低频操作,串行化的代价可以接受;若拆开锁,
 	// 两个并发推送可能同时通过 revision 检查,导致旧配置后到覆盖新配置,
 	// 使 FR-S-029a 乱序保护失效。
-	mu           sync.Mutex
-	updates      map[string]*dtv1.ConfigUpdateResponse
-	revisions    map[string]int64
-	global       GlobalApplier
-	journal      *state.Store
-	requests     map[string]*dtv1.DeviceConfigUpdate
-	globalConfig *dtv1.GlobalConfigPayload
+	mu             sync.Mutex
+	updates        map[string]*dtv1.ConfigUpdateResponse
+	revisions      map[string]int64
+	appliedUpdates map[string]string
+	global         GlobalApplier
+	journal        *state.Store
+	requests       map[string]*dtv1.DeviceConfigUpdate
+	globalConfig   *dtv1.GlobalConfigPayload
 }
 
 func New(connectors *connector.Manager, logger *slog.Logger) *Manager {
@@ -46,11 +47,12 @@ func New(connectors *connector.Manager, logger *slog.Logger) *Manager {
 		logger = slog.Default()
 	}
 	return &Manager{
-		connectors: connectors,
-		logger:     logger,
-		updates:    make(map[string]*dtv1.ConfigUpdateResponse),
-		requests:   make(map[string]*dtv1.DeviceConfigUpdate),
-		revisions:  make(map[string]int64),
+		connectors:     connectors,
+		logger:         logger,
+		updates:        make(map[string]*dtv1.ConfigUpdateResponse),
+		requests:       make(map[string]*dtv1.DeviceConfigUpdate),
+		revisions:      make(map[string]int64),
+		appliedUpdates: make(map[string]string),
 	}
 }
 
@@ -113,6 +115,7 @@ func (m *Manager) Apply(update *dtv1.DeviceConfigUpdate) *dtv1.ConfigUpdateRespo
 	if m.journal != nil {
 		next := m.snapshot()
 		next.Revisions[entityKey] = update.EntityRevision
+		next.AppliedUpdates[entityKey] = update.UpdateId
 		data, err := json.Marshal(next)
 		if err == nil {
 			response := success(update.UpdateId, "")
@@ -148,6 +151,7 @@ func (m *Manager) record(update *dtv1.DeviceConfigUpdate, response *dtv1.ConfigU
 	m.requests[update.UpdateId] = proto.Clone(update).(*dtv1.DeviceConfigUpdate)
 	if applied && entityKey != "" {
 		m.revisions[entityKey] = update.GetEntityRevision()
+		m.appliedUpdates[entityKey] = update.GetUpdateId()
 	}
 	return cloneResponse(response)
 }

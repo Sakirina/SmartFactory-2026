@@ -175,6 +175,16 @@
           "format": "int64",
           "type": "integer"
         },
+        "execution_plan": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ExecutionPlan"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
         "group_id": {
           "minLength": 1,
           "type": "string"
@@ -290,8 +300,625 @@
       ],
       "type": "object"
     },
+    "ExecutionNode": {
+      "additionalProperties": false,
+      "properties": {
+        "error_output": {
+          "type": "boolean"
+        },
+        "expression": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ExpressionTree"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "id": {
+          "type": "string"
+        },
+        "inputs": {
+          "items": {
+            "$ref": "#/$defs/Connection"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "params": {
+          "$ref": "#/$defs/NodeParameters"
+        },
+        "type": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "inputs",
+        "params",
+        "error_output"
+      ],
+      "type": "object"
+    },
+    "ExecutionPlan": {
+      "additionalProperties": false,
+      "properties": {
+        "content_sha256": {
+          "type": "string"
+        },
+        "definition_id": {
+          "type": "string"
+        },
+        "definition_version": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "dependencies": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "format": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "nodes": {
+          "items": {
+            "$ref": "#/$defs/ExecutionNode"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "outputs": {
+          "items": {
+            "$ref": "#/$defs/Output"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "policy": {
+          "$ref": "#/$defs/Policy"
+        },
+        "selector": {
+          "$ref": "#/$defs/Selector"
+        },
+        "sha256": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "format",
+        "definition_id",
+        "definition_version",
+        "content_sha256",
+        "sha256",
+        "kind",
+        "selector",
+        "outputs",
+        "policy",
+        "dependencies",
+        "nodes"
+      ],
+      "type": "object"
+    },
+    "ExpressionTree": {
+      "additionalProperties": false,
+      "properties": {
+        "args": {
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/ExpressionTree"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "name": {
+          "type": "string"
+        },
+        "op": {
+          "type": "string"
+        },
+        "value": {}
+      },
+      "required": [
+        "op"
+      ],
+      "type": "object"
+    },
     "Node": {
       "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "input"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "additionalProperties": true,
+                "properties": {
+                  "key": {
+                    "description": "留空时使用当前观测，指定字段时使用同设备在观测时刻之前的最新值",
+                    "title": "输入字段",
+                    "type": "string"
+                  }
+                },
+                "required": [],
+                "type": [
+                  "object",
+                  "null"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "aggregate"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "additionalProperties": true,
+                "properties": {
+                  "function": {
+                    "description": "对窗口中质量为 GOOD 的数值进行聚合",
+                    "enum": [
+                      "max",
+                      "min",
+                      "sum",
+                      "count",
+                      "avg"
+                    ],
+                    "minLength": 1,
+                    "title": "聚合函数",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "function"
+                ],
+                "type": "object"
+              }
+            },
+            "required": [
+              "params"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "expression"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "additionalProperties": true,
+                "properties": {
+                  "code": {
+                    "description": "允许算术、比较、逻辑判断以及 min、max、abs、round、choose，最多 4096 字节",
+                    "minLength": 1,
+                    "title": "表达式",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "code"
+                ],
+                "type": "object"
+              }
+            },
+            "required": [
+              "params"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "threshold"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "additionalProperties": true,
+                "properties": {
+                  "operator": {
+                    "default": "\u003e=",
+                    "description": "按照指定运算符比较输入值与判断值",
+                    "enum": [
+                      "==",
+                      "!=",
+                      "\u003e",
+                      "\u003e=",
+                      "\u003c",
+                      "\u003c=",
+                      ""
+                    ],
+                    "title": "比较运算符",
+                    "type": "string"
+                  },
+                  "value": {
+                    "description": "等值比较保留 JSON 值类型，大小比较使用数值",
+                    "title": "判断值"
+                  }
+                },
+                "required": [
+                  "value"
+                ],
+                "type": "object"
+              }
+            },
+            "required": [
+              "params"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "hysteresis"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "additionalProperties": true,
+                "properties": {
+                  "direction": {
+                    "default": "above",
+                    "description": "above 在上限激活，below 在下限激活",
+                    "enum": [
+                      "above",
+                      "below",
+                      ""
+                    ],
+                    "title": "激活方向",
+                    "type": "string"
+                  },
+                  "high": {
+                    "description": "达到上限时切换状态",
+                    "title": "上限",
+                    "type": "number"
+                  },
+                  "low": {
+                    "description": "达到下限时恢复状态，下限不得大于上限",
+                    "title": "下限",
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "high",
+                  "low"
+                ],
+                "type": "object"
+              }
+            },
+            "required": [
+              "params"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "debounce"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "additionalProperties": true,
+                "properties": {
+                  "duration_ms": {
+                    "description": "候选状态持续达到指定时间后切换",
+                    "maximum": 86400000,
+                    "minimum": 1,
+                    "title": "等待时间",
+                    "type": "integer",
+                    "x-unit": "ms"
+                  },
+                  "mode": {
+                    "default": "both",
+                    "description": "both 对两个方向延时，activation 在取消激活时立即恢复",
+                    "enum": [
+                      "both",
+                      "activation",
+                      ""
+                    ],
+                    "title": "延时模式",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "duration_ms"
+                ],
+                "type": "object"
+              }
+            },
+            "required": [
+              "params"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "counter"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "additionalProperties": true,
+                "properties": {
+                  "mode": {
+                    "default": "count",
+                    "description": "count 每条有效观测加一，delta 累加输入整数，rising 统计布尔值上升沿",
+                    "enum": [
+                      "count",
+                      "delta",
+                      "rising",
+                      ""
+                    ],
+                    "title": "计数方式",
+                    "type": "string"
+                  }
+                },
+                "required": [],
+                "type": [
+                  "object",
+                  "null"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "output"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "additionalProperties": true,
+                "properties": {},
+                "required": [],
+                "type": [
+                  "object",
+                  "null"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "alarm"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "additionalProperties": true,
+                "properties": {
+                  "severity": {
+                    "default": "WARNING",
+                    "description": "告警记录使用的级别",
+                    "title": "告警级别",
+                    "type": "string"
+                  }
+                },
+                "required": [],
+                "type": [
+                  "object",
+                  "null"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "condition"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "additionalProperties": true,
+                "properties": {
+                  "operator": {
+                    "default": "\u003e=",
+                    "description": "按照指定运算符比较输入值与判断值",
+                    "enum": [
+                      "==",
+                      "!=",
+                      "\u003e",
+                      "\u003e=",
+                      "\u003c",
+                      "\u003c=",
+                      ""
+                    ],
+                    "title": "比较运算符",
+                    "type": "string"
+                  },
+                  "value": {
+                    "description": "等值比较保留 JSON 值类型，大小比较使用数值",
+                    "title": "判断值"
+                  }
+                },
+                "required": [
+                  "value"
+                ],
+                "type": "object"
+              }
+            },
+            "required": [
+              "params"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "action"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "additionalProperties": true,
+                "properties": {},
+                "required": [],
+                "type": [
+                  "object",
+                  "null"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "branch"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "additionalProperties": true,
+                "properties": {
+                  "operator": {
+                    "default": "\u003e=",
+                    "description": "按照指定运算符比较输入值与判断值",
+                    "enum": [
+                      "==",
+                      "!=",
+                      "\u003e",
+                      "\u003e=",
+                      "\u003c",
+                      "\u003c=",
+                      ""
+                    ],
+                    "title": "比较运算符",
+                    "type": "string"
+                  },
+                  "value": {
+                    "description": "等值比较保留 JSON 值类型，大小比较使用数值",
+                    "title": "判断值"
+                  }
+                },
+                "required": [
+                  "value"
+                ],
+                "type": "object"
+              }
+            },
+            "required": [
+              "params"
+            ]
+          }
+        }
+      ],
       "properties": {
         "id": {
           "type": "string"
@@ -334,6 +961,20 @@
           ]
         },
         "type": {
+          "enum": [
+            "input",
+            "aggregate",
+            "expression",
+            "threshold",
+            "hysteresis",
+            "debounce",
+            "counter",
+            "output",
+            "alarm",
+            "condition",
+            "action",
+            "branch"
+          ],
           "type": "string"
         }
       },
@@ -342,6 +983,38 @@
         "type",
         "params"
       ],
+      "type": "object"
+    },
+    "NodeParameters": {
+      "additionalProperties": false,
+      "properties": {
+        "direction": {
+          "type": "string"
+        },
+        "duration_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "function": {
+          "type": "string"
+        },
+        "high": {},
+        "key": {
+          "type": "string"
+        },
+        "low": {},
+        "mode": {
+          "type": "string"
+        },
+        "operator": {
+          "type": "string"
+        },
+        "severity": {
+          "type": "string"
+        },
+        "value": {}
+      },
+      "required": [],
       "type": "object"
     },
     "Output": {

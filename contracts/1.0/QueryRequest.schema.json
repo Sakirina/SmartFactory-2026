@@ -1,0 +1,89 @@
+{
+  "$defs": {
+    "QueryRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "acknowledged": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "active": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "assignee_id": {
+          "type": "string"
+        },
+        "definition_id": {
+          "type": "string"
+        },
+        "entity_kind": {
+          "type": "string"
+        },
+        "from_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "handling_status": {
+          "type": "string"
+        },
+        "keys": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "limit": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "page_token": {
+          "type": "string"
+        },
+        "resolution": {
+          "type": "string"
+        },
+        "resource_ids": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "search": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "to_ms": {
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/QueryRequest.schema.json",
+  "$ref": "#/$defs/QueryRequest",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "QueryRequest"
+}

@@ -1,0 +1,40 @@
+{
+  "$defs": {
+    "ExpressionTree": {
+      "additionalProperties": false,
+      "properties": {
+        "args": {
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/ExpressionTree"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "name": {
+          "type": "string"
+        },
+        "op": {
+          "type": "string"
+        },
+        "value": {}
+      },
+      "required": [
+        "op"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/ExpressionTree.schema.json",
+  "$ref": "#/$defs/ExpressionTree",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ExpressionTree"
+}

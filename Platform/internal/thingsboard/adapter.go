@@ -29,6 +29,8 @@ type Adapter struct {
 	CallbackURL, ServiceToken string
 	Edge                      bool
 	mu                        sync.Mutex
+	alarmMu                   sync.Mutex
+	alarmPollMu               sync.Mutex
 }
 
 func (a *Adapter) EnsureEntity(ctx context.Context, e model.Entity) (Mapping, error) {

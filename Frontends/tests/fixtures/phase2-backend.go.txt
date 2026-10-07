@@ -1,0 +1,50 @@
+// Isolated browser acceptance fixture; copied beneath Platform/.local to use
+// internal application interfaces. The HTTP handler and workers are production.
+package main
+import (
+ "context"
+ "encoding/json"
+ "fmt"
+ "os"
+ "os/signal"
+ "syscall"
+ "time"
+ "competition2026/product/platform/internal/app"
+ "competition2026/product/platform/internal/store"
+ "competition2026/product/platform/pkg/model"
+)
+func main() {
+ ctx, cancel := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM); defer cancel()
+ mode := os.Getenv("SF_FIXTURE_MODE"); if mode == "" { mode = "cloud" }
+ command := os.Getenv("SF_FIXTURE_COMMAND")
+ jobID := os.Getenv("SF_FIXTURE_JOB_ID"); if jobID == "" { jobID = "frontend:retry/with-identity" }
+ application, err := app.Open(ctx, app.Options{Mode:mode, NodeID:"frontend-phase2-"+mode, Address:os.Getenv("SF_FIXTURE_LISTEN"), DSN:os.Getenv("SF_FIXTURE_DSN"), KeyFile:os.Getenv("SF_FIXTURE_KEY"), StaticDir:os.Getenv("SF_FIXTURE_STATIC"), BootstrapPassword:os.Getenv("SF_FIXTURE_PASSWORD"), Seed:command=="run"})
+ if err != nil { panic(err) }; defer application.Close()
+ if application.Store.Driver == "pgx" { application.Store.DB.SetMaxOpenConns(3); application.Store.DB.SetMaxIdleConns(1) }
+ if command == "repair" {
+  doc, err := application.Store.Get(ctx, "job", jobID); if err != nil { panic(err) }
+  job, err := store.Decode[model.Job](doc); if err != nil { panic(err) }
+  job.FromMS = 1800000000000; job.ToMS = 1800000002000
+  job.Status = "failed"
+  job.Version = doc.Version+1
+  _, err = application.Store.Put(ctx, "job", job.ID, doc.Version, job); if err != nil { panic(err) }
+  fmt.Println("repaired range; original task identity retained"); return
+ }
+ if command == "inspect" {
+  snapshot := map[string]any{}
+  for _, kind := range []string{"job","definition","draft","state","alarm","audit"} {
+   docs, err := application.Store.List(ctx,kind); if err != nil { panic(err) }; snapshot[kind] = docs
+  }
+  if err := json.NewEncoder(os.Stdout).Encode(snapshot); err != nil { panic(err) }; return
+ }
+ if command == "enqueue" {
+  _, err := application.Store.Ingest(ctx, store.IngestBatch{MessageID:"frontend-retry-history", SourceID:"frontend-fixture", Critical:true, Event:map[string]any{"kind":"browser-acceptance"}, Points:[]model.Observation{{ID:"frontend-retry-point",DeviceID:"counter-1",Key:"pulse",Value:1,ObservedMS:1800000001000,Quality:"GOOD",TimeSource:"simulation",Unit:"piece"}}}); if err != nil { panic(err) }
+  job := model.Job{ID:jobID, TaskID:"recompute:"+jobID+":1", Kind:"recompute", Status:"pending", FromMS:0, ToMS:1800000002000, DeviceID:"counter-1", DefinitionID:"goods-count", Reason:"frontend browser retry acceptance", Version:1}
+  _, err = application.Store.Put(ctx,"job",job.ID,0,job); if err != nil { panic(err) }
+  fmt.Println("queued invalid-range job through production Store.Put"); return
+ }
+ if command != "run" { panic("unknown fixture command") }
+ policy := application.Store.Policy(); policy.Archive.Enabled=false; application.Store.SetPolicy(policy)
+ _ = time.Now()
+ if err := application.Run(ctx); err != nil { panic(err) }
+}

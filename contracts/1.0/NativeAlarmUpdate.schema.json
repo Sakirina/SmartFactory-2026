@@ -1,0 +1,52 @@
+{
+  "$defs": {
+    "NativeAlarmUpdate": {
+      "additionalProperties": false,
+      "properties": {
+        "acknowledged": {
+          "type": "boolean"
+        },
+        "acknowledged_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "cleared": {
+          "type": "boolean"
+        },
+        "cleared_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "native_id": {
+          "type": "string"
+        },
+        "source_id": {
+          "type": "string"
+        },
+        "source_version": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "started_ms": {
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "source_id",
+        "native_id",
+        "source_version",
+        "started_ms",
+        "acknowledged_ms",
+        "cleared_ms",
+        "acknowledged",
+        "cleared"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/NativeAlarmUpdate.schema.json",
+  "$ref": "#/$defs/NativeAlarmUpdate",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NativeAlarmUpdate"
+}

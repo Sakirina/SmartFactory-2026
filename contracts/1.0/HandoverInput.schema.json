@@ -1,0 +1,83 @@
+{
+  "$defs": {
+    "HandoverEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "action_version": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "version": {
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "kind",
+        "id",
+        "version"
+      ],
+      "type": "object"
+    },
+    "HandoverInput": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/HandoverEvidence"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "expected_version": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "from_user_id": {
+          "type": "string"
+        },
+        "pending_items": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "reason": {
+          "type": "string"
+        },
+        "request_id": {
+          "type": "string"
+        },
+        "to_user_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "request_id",
+        "expected_version",
+        "from_user_id",
+        "to_user_id",
+        "pending_items",
+        "reason"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/HandoverInput.schema.json",
+  "$ref": "#/$defs/HandoverInput",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "HandoverInput"
+}

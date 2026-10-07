@@ -1,0 +1,40 @@
+{
+  "$defs": {
+    "Protocol": {
+      "additionalProperties": false,
+      "properties": {
+        "current": {
+          "type": "string"
+        },
+        "read": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "write": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "current",
+        "read",
+        "write"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/Protocol.schema.json",
+  "$ref": "#/$defs/Protocol",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Protocol"
+}

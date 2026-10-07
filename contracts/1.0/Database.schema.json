@@ -1,0 +1,26 @@
+{
+  "$defs": {
+    "Database": {
+      "additionalProperties": false,
+      "properties": {
+        "migration_maximum": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "migration_minimum": {
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "migration_minimum",
+        "migration_maximum"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/Database.schema.json",
+  "$ref": "#/$defs/Database",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Database"
+}

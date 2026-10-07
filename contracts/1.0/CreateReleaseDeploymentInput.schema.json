@@ -1,0 +1,54 @@
+{
+  "$defs": {
+    "CreateReleaseDeploymentInput": {
+      "additionalProperties": false,
+      "properties": {
+        "batches": {
+          "items": {
+            "items": {
+              "type": "string"
+            },
+            "type": [
+              "array",
+              "null"
+            ]
+          },
+          "maxItems": 20,
+          "minItems": 1,
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "group_id": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "release_id": {
+          "type": "string"
+        },
+        "request_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "request_id",
+        "release_id",
+        "group_id",
+        "batches",
+        "reason"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/CreateReleaseDeploymentInput.schema.json",
+  "$ref": "#/$defs/CreateReleaseDeploymentInput",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CreateReleaseDeploymentInput"
+}

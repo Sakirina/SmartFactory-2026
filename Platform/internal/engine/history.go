@@ -107,40 +107,33 @@ func (s *Service) affected(ctx context.Context, job model.Job) (map[string]bool,
 func (s *Service) rawRange(ctx context.Context, ids []string) (int64, int64, error) {
 	return s.Store.ObservationRange(ctx, ids, true)
 }
-func (s *Service) Recompute(ctx context.Context, job model.Job) error {
+func (s *Service) Recompute(ctx context.Context, job model.Job) (err error) {
+	defer func() {
+		if errors.Is(err, errReplayInterrupted) {
+			err = nil
+		}
+	}()
 	if job.FromMS <= 0 || job.ToMS < job.FromMS {
 		return errors.New("invalid recomputation range")
 	}
-	selected, ids, err := s.affected(ctx, job)
+	if job.Status == "cancelled" {
+		return nil
+	}
+	if job.ReplayPhase == "rollups" {
+		return s.finishReplayRollups(ctx, job)
+	}
+	job, run, version, err := s.prepareReplay(ctx, job)
 	if err != nil {
 		return err
 	}
-	start, end, err := s.rawRange(ctx, ids)
-	if err != nil {
-		return err
-	}
-	cutoff := s.Store.Now().AddDate(0, 0, -s.Store.Policy().Retention.RawDays).UnixMilli()
-	if start < cutoff {
-		start = cutoff
-	}
-	if job.FromMS < cutoff {
-		job.Error = "raw history before retention is unavailable"
-	}
-	if end < job.ToMS {
-		end = job.ToMS
-	}
-	job.Status = "running"
-	job.Progress = 0
-	doc, err := s.Store.Put(ctx, "job", job.ID, job.Version, job)
-	if err != nil {
-		return err
-	}
-	version := doc.Version
-	runID := fmt.Sprintf("%s:%d", job.ID, version)
+	start, end, selected, ids := run.StartMS, run.EndMS, run.Selected, run.Devices
+	runID := job.ReplayID
 	ctx = context.WithValue(ctx, replayStartKey{}, start)
 	ctx = context.WithValue(ctx, replayFilterKey{}, selected)
+	ctx = context.WithValue(ctx, replayInitialKey{}, runID)
+	ctx = context.WithValue(ctx, replayGuardKey{}, replayGuard{JobID: job.ID, RunID: runID})
 	if start > 0 {
-		for cursor := start; cursor <= end; {
+		for cursor := max(start, job.CursorMS+1); cursor <= end; {
 			last := cursor + int64(10*time.Minute/time.Millisecond) - 1
 			if last > end {
 				last = end
@@ -177,7 +170,8 @@ func (s *Service) Recompute(ctx context.Context, job model.Job) error {
 			cursor = last + 1
 			job.CursorMS = last
 			job.Progress = float64(last-start+1) / float64(end-start+1)
-			doc, err = s.Store.Put(ctx, "job", job.ID, version, job)
+			job.Version = version + 1
+			doc, err := s.Store.Put(ctx, "job", job.ID, version, job)
 			if errors.Is(err, store.ErrConflict) {
 				return nil
 			}
@@ -214,6 +208,7 @@ func (s *Service) Recompute(ctx context.Context, job model.Job) error {
 	job.ToMS = end
 	job.CursorMS = end
 	job.Status = "completed"
+	job.ReplayPhase = "rollups"
 	job.Progress = 1
 	job.Version = version + 1
 	err = s.finishReplay(ctx, job, version, runID, start, selected)
@@ -223,17 +218,43 @@ func (s *Service) Recompute(ctx context.Context, job model.Job) error {
 	if err != nil {
 		return err
 	}
-	for from := job.FromMS / 60000 * 60000; from <= end; {
-		to := from + int64(24*time.Hour/time.Millisecond)
-		if to > end+1 {
-			to = end + 1
+	return s.finishReplayRollups(ctx, job)
+}
+
+func (s *Service) finishReplayRollups(ctx context.Context, job model.Job) error {
+	for from := job.FromMS / 60000 * 60000; from <= job.ToMS; {
+		current, err := s.Store.Get(ctx, "job", job.ID)
+		if err != nil {
+			return err
 		}
-		if err = s.Store.BuildRollups(ctx, from, to); err != nil {
+		if current.Version != job.Version {
+			return nil
+		}
+		to := from + int64(24*time.Hour/time.Millisecond)
+		if to > job.ToMS+1 {
+			to = job.ToMS + 1
+		}
+		if err := s.Store.BuildRollupsGuarded(ctx, from, to, func(tx *store.Tx) error {
+			current, err := tx.Read("job", job.ID)
+			if err != nil {
+				return err
+			}
+			if current.Version != job.Version {
+				return errReplayInterrupted
+			}
+			return nil
+		}); err != nil {
 			return err
 		}
 		from = to
 	}
-	return nil
+	expected := job.Version
+	job.Status, job.ReplayPhase, job.Version = "completed", "completed", expected+1
+	_, err := s.Store.Put(ctx, "job", job.ID, expected, job)
+	if errors.Is(err, store.ErrConflict) {
+		return nil
+	}
+	return err
 }
 func sortReplay(points []model.Observation) {
 	sort.SliceStable(points, func(i, j int) bool {

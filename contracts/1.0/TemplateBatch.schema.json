@@ -1,0 +1,1577 @@
+{
+  "$defs": {
+    "Actor": {
+      "additionalProperties": false,
+      "properties": {
+        "ai": {
+          "type": "boolean"
+        },
+        "department_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "roles": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "session_id": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "user_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "user_id",
+        "name",
+        "department_id",
+        "roles",
+        "source",
+        "session_id",
+        "ai"
+      ],
+      "type": "object"
+    },
+    "Condition": {
+      "additionalProperties": false,
+      "properties": {
+        "device_id": {
+          "type": "string"
+        },
+        "interlock": {
+          "type": "boolean"
+        },
+        "key": {
+          "type": "string"
+        },
+        "max_age_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "operator": {
+          "type": "string"
+        },
+        "value": {}
+      },
+      "required": [
+        "device_id",
+        "key",
+        "operator",
+        "value",
+        "max_age_ms",
+        "interlock"
+      ],
+      "type": "object"
+    },
+    "Connection": {
+      "additionalProperties": false,
+      "properties": {
+        "from": {
+          "type": "string"
+        },
+        "from_port": {
+          "type": "string"
+        },
+        "to": {
+          "type": "string"
+        },
+        "to_port": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "from",
+        "from_port",
+        "to",
+        "to_port"
+      ],
+      "type": "object"
+    },
+    "Definition": {
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "analysis"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "nodes": {
+                "items": {
+                  "properties": {
+                    "type": {
+                      "enum": [
+                        "aggregate",
+                        "branch",
+                        "counter",
+                        "expression",
+                        "input",
+                        "output"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "alarm"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "nodes": {
+                "items": {
+                  "properties": {
+                    "type": {
+                      "enum": [
+                        "aggregate",
+                        "alarm",
+                        "branch",
+                        "debounce",
+                        "expression",
+                        "hysteresis",
+                        "input",
+                        "threshold"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "strategy"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "nodes": {
+                "items": {
+                  "properties": {
+                    "type": {
+                      "enum": [
+                        "action",
+                        "branch",
+                        "condition",
+                        "debounce",
+                        "expression",
+                        "hysteresis",
+                        "input",
+                        "threshold"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "description": "Versioned analysis, alarm or strategy graph. POST draft validate additionally checks references, dependencies, expression limits and control failure branches.",
+      "properties": {
+        "connections": {
+          "items": {
+            "$ref": "#/$defs/Connection"
+          },
+          "maxItems": 512,
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "dependencies": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "effective_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "execution_plan": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ExecutionPlan"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "group_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "analysis",
+            "alarm",
+            "strategy"
+          ],
+          "type": "string"
+        },
+        "name": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "nodes": {
+          "items": {
+            "$ref": "#/$defs/Node"
+          },
+          "maxItems": 128,
+          "minItems": 1,
+          "type": "array"
+        },
+        "outputs": {
+          "items": {
+            "$ref": "#/$defs/Output"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "policy": {
+          "$ref": "#/$defs/Policy"
+        },
+        "schema_version": {
+          "const": "1.0",
+          "type": "string"
+        },
+        "selector": {
+          "$ref": "#/$defs/Selector"
+        },
+        "status": {
+          "enum": [
+            "",
+            "draft",
+            "published",
+            "inactive"
+          ],
+          "type": "string"
+        },
+        "version": {
+          "format": "int64",
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "kind",
+        "schema_version",
+        "version",
+        "status",
+        "effective_ms",
+        "group_id",
+        "nodes",
+        "connections",
+        "outputs",
+        "dependencies",
+        "selector",
+        "policy"
+      ],
+      "type": "object"
+    },
+    "Draft": {
+      "additionalProperties": false,
+      "properties": {
+        "author_id": {
+          "type": "string"
+        },
+        "base_version": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "definition": {
+          "$ref": "#/$defs/Definition"
+        },
+        "id": {
+          "type": "string"
+        },
+        "updated_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "version": {
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "definition",
+        "base_version",
+        "author_id",
+        "version",
+        "updated_ms"
+      ],
+      "type": "object"
+    },
+    "ExecutionNode": {
+      "additionalProperties": false,
+      "properties": {
+        "error_output": {
+          "type": "boolean"
+        },
+        "expression": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ExpressionTree"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "id": {
+          "type": "string"
+        },
+        "inputs": {
+          "items": {
+            "$ref": "#/$defs/Connection"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "params": {
+          "$ref": "#/$defs/NodeParameters"
+        },
+        "type": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "inputs",
+        "params",
+        "error_output"
+      ],
+      "type": "object"
+    },
+    "ExecutionPlan": {
+      "additionalProperties": false,
+      "properties": {
+        "content_sha256": {
+          "type": "string"
+        },
+        "definition_id": {
+          "type": "string"
+        },
+        "definition_version": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "dependencies": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "format": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "nodes": {
+          "items": {
+            "$ref": "#/$defs/ExecutionNode"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "outputs": {
+          "items": {
+            "$ref": "#/$defs/Output"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "policy": {
+          "$ref": "#/$defs/Policy"
+        },
+        "selector": {
+          "$ref": "#/$defs/Selector"
+        },
+        "sha256": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "format",
+        "definition_id",
+        "definition_version",
+        "content_sha256",
+        "sha256",
+        "kind",
+        "selector",
+        "outputs",
+        "policy",
+        "dependencies",
+        "nodes"
+      ],
+      "type": "object"
+    },
+    "ExpressionTree": {
+      "additionalProperties": false,
+      "properties": {
+        "args": {
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/ExpressionTree"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "name": {
+          "type": "string"
+        },
+        "op": {
+          "type": "string"
+        },
+        "value": {}
+      },
+      "required": [
+        "op"
+      ],
+      "type": "object"
+    },
+    "Node": {
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "input"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "additionalProperties": true,
+                "properties": {
+                  "key": {
+                    "description": "留空时使用当前观测，指定字段时使用同设备在观测时刻之前的最新值",
+                    "title": "输入字段",
+                    "type": "string"
+                  }
+                },
+                "required": [],
+                "type": [
+                  "object",
+                  "null"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "aggregate"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "additionalProperties": true,
+                "properties": {
+                  "function": {
+                    "description": "对窗口中质量为 GOOD 的数值进行聚合",
+                    "enum": [
+                      "max",
+                      "min",
+                      "sum",
+                      "count",
+                      "avg"
+                    ],
+                    "minLength": 1,
+                    "title": "聚合函数",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "function"
+                ],
+                "type": "object"
+              }
+            },
+            "required": [
+              "params"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "expression"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "additionalProperties": true,
+                "properties": {
+                  "code": {
+                    "description": "允许算术、比较、逻辑判断以及 min、max、abs、round、choose，最多 4096 字节",
+                    "minLength": 1,
+                    "title": "表达式",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "code"
+                ],
+                "type": "object"
+              }
+            },
+            "required": [
+              "params"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "threshold"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "additionalProperties": true,
+                "properties": {
+                  "operator": {
+                    "default": "\u003e=",
+                    "description": "按照指定运算符比较输入值与判断值",
+                    "enum": [
+                      "==",
+                      "!=",
+                      "\u003e",
+                      "\u003e=",
+                      "\u003c",
+                      "\u003c=",
+                      ""
+                    ],
+                    "title": "比较运算符",
+                    "type": "string"
+                  },
+                  "value": {
+                    "description": "等值比较保留 JSON 值类型，大小比较使用数值",
+                    "title": "判断值"
+                  }
+                },
+                "required": [
+                  "value"
+                ],
+                "type": "object"
+              }
+            },
+            "required": [
+              "params"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "hysteresis"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "additionalProperties": true,
+                "properties": {
+                  "direction": {
+                    "default": "above",
+                    "description": "above 在上限激活，below 在下限激活",
+                    "enum": [
+                      "above",
+                      "below",
+                      ""
+                    ],
+                    "title": "激活方向",
+                    "type": "string"
+                  },
+                  "high": {
+                    "description": "达到上限时切换状态",
+                    "title": "上限",
+                    "type": "number"
+                  },
+                  "low": {
+                    "description": "达到下限时恢复状态，下限不得大于上限",
+                    "title": "下限",
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "high",
+                  "low"
+                ],
+                "type": "object"
+              }
+            },
+            "required": [
+              "params"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "debounce"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "additionalProperties": true,
+                "properties": {
+                  "duration_ms": {
+                    "description": "候选状态持续达到指定时间后切换",
+                    "maximum": 86400000,
+                    "minimum": 1,
+                    "title": "等待时间",
+                    "type": "integer",
+                    "x-unit": "ms"
+                  },
+                  "mode": {
+                    "default": "both",
+                    "description": "both 对两个方向延时，activation 在取消激活时立即恢复",
+                    "enum": [
+                      "both",
+                      "activation",
+                      ""
+                    ],
+                    "title": "延时模式",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "duration_ms"
+                ],
+                "type": "object"
+              }
+            },
+            "required": [
+              "params"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "counter"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "additionalProperties": true,
+                "properties": {
+                  "mode": {
+                    "default": "count",
+                    "description": "count 每条有效观测加一，delta 累加输入整数，rising 统计布尔值上升沿",
+                    "enum": [
+                      "count",
+                      "delta",
+                      "rising",
+                      ""
+                    ],
+                    "title": "计数方式",
+                    "type": "string"
+                  }
+                },
+                "required": [],
+                "type": [
+                  "object",
+                  "null"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "output"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "additionalProperties": true,
+                "properties": {},
+                "required": [],
+                "type": [
+                  "object",
+                  "null"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "alarm"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "additionalProperties": true,
+                "properties": {
+                  "severity": {
+                    "default": "WARNING",
+                    "description": "告警记录使用的级别",
+                    "title": "告警级别",
+                    "type": "string"
+                  }
+                },
+                "required": [],
+                "type": [
+                  "object",
+                  "null"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "condition"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "additionalProperties": true,
+                "properties": {
+                  "operator": {
+                    "default": "\u003e=",
+                    "description": "按照指定运算符比较输入值与判断值",
+                    "enum": [
+                      "==",
+                      "!=",
+                      "\u003e",
+                      "\u003e=",
+                      "\u003c",
+                      "\u003c=",
+                      ""
+                    ],
+                    "title": "比较运算符",
+                    "type": "string"
+                  },
+                  "value": {
+                    "description": "等值比较保留 JSON 值类型，大小比较使用数值",
+                    "title": "判断值"
+                  }
+                },
+                "required": [
+                  "value"
+                ],
+                "type": "object"
+              }
+            },
+            "required": [
+              "params"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "action"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "additionalProperties": true,
+                "properties": {},
+                "required": [],
+                "type": [
+                  "object",
+                  "null"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "branch"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "additionalProperties": true,
+                "properties": {
+                  "operator": {
+                    "default": "\u003e=",
+                    "description": "按照指定运算符比较输入值与判断值",
+                    "enum": [
+                      "==",
+                      "!=",
+                      "\u003e",
+                      "\u003e=",
+                      "\u003c",
+                      "\u003c=",
+                      ""
+                    ],
+                    "title": "比较运算符",
+                    "type": "string"
+                  },
+                  "value": {
+                    "description": "等值比较保留 JSON 值类型，大小比较使用数值",
+                    "title": "判断值"
+                  }
+                },
+                "required": [
+                  "value"
+                ],
+                "type": "object"
+              }
+            },
+            "required": [
+              "params"
+            ]
+          }
+        }
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "inputs": {
+          "items": {
+            "$ref": "#/$defs/Port"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "label": {
+          "type": "string"
+        },
+        "outputs": {
+          "items": {
+            "$ref": "#/$defs/Port"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "params": {
+          "additionalProperties": {},
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "position": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "type": {
+          "enum": [
+            "input",
+            "aggregate",
+            "expression",
+            "threshold",
+            "hysteresis",
+            "debounce",
+            "counter",
+            "output",
+            "alarm",
+            "condition",
+            "action",
+            "branch"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "params"
+      ],
+      "type": "object"
+    },
+    "NodeParameters": {
+      "additionalProperties": false,
+      "properties": {
+        "direction": {
+          "type": "string"
+        },
+        "duration_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "function": {
+          "type": "string"
+        },
+        "high": {},
+        "key": {
+          "type": "string"
+        },
+        "low": {},
+        "mode": {
+          "type": "string"
+        },
+        "operator": {
+          "type": "string"
+        },
+        "severity": {
+          "type": "string"
+        },
+        "value": {}
+      },
+      "required": [],
+      "type": "object"
+    },
+    "Output": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "node_id": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "unit": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "key",
+        "type",
+        "node_id"
+      ],
+      "type": "object"
+    },
+    "Policy": {
+      "additionalProperties": false,
+      "properties": {
+        "channels": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "conditions": {
+          "items": {
+            "$ref": "#/$defs/Condition"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "degraded": {
+          "items": {
+            "$ref": "#/$defs/Step"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "edge_ids": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "freshness_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "late_notification": {
+          "type": "string"
+        },
+        "memory_bytes": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "recipients": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "risk_category": {
+          "type": "string"
+        },
+        "risk_level": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "safety_user_id": {
+          "type": "string"
+        },
+        "schedule": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Schedule"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "steps": {
+          "items": {
+            "$ref": "#/$defs/Step"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "timeout_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "watchdog": {
+          "type": "boolean"
+        }
+      },
+      "required": [],
+      "type": "object"
+    },
+    "Port": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "type"
+      ],
+      "type": "object"
+    },
+    "Schedule": {
+      "additionalProperties": false,
+      "properties": {
+        "every_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "next_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "timezone": {
+          "type": "string"
+        },
+        "window_ms": {
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "every_ms",
+        "next_ms",
+        "window_ms",
+        "timezone"
+      ],
+      "type": "object"
+    },
+    "Selector": {
+      "additionalProperties": false,
+      "properties": {
+        "asset_id": {
+          "type": "string"
+        },
+        "device_ids": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "keys": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "window_ms": {
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "device_ids",
+        "keys"
+      ],
+      "type": "object"
+    },
+    "Step": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "type": "string"
+        },
+        "device_id": {
+          "type": "string"
+        },
+        "edge_id": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "idempotent": {
+          "type": "boolean"
+        },
+        "params": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "timeout_ms": {
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "edge_id",
+        "device_id",
+        "action",
+        "params",
+        "idempotent",
+        "timeout_ms"
+      ],
+      "type": "object"
+    },
+    "TemplateBatch": {
+      "additionalProperties": false,
+      "properties": {
+        "attempts": {
+          "items": {
+            "$ref": "#/$defs/TemplateBatchAttempt"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "bindings": {
+          "items": {
+            "$ref": "#/$defs/TemplateBinding"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "created_by": {
+          "type": "string"
+        },
+        "created_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "drafts": {
+          "items": {
+            "$ref": "#/$defs/Draft"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "failures": {
+          "items": {
+            "$ref": "#/$defs/TemplateFailure"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "group_id": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "input": {
+          "$ref": "#/$defs/TemplateBatchInput"
+        },
+        "request_hash": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "updated_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "version": {
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "group_id",
+        "status",
+        "version",
+        "created_ms",
+        "updated_ms",
+        "created_by",
+        "input",
+        "request_hash",
+        "drafts",
+        "bindings",
+        "failures",
+        "attempts"
+      ],
+      "type": "object"
+    },
+    "TemplateBatchAttempt": {
+      "additionalProperties": false,
+      "properties": {
+        "actor": {
+          "$ref": "#/$defs/Actor"
+        },
+        "at_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "failures": {
+          "items": {
+            "$ref": "#/$defs/TemplateFailure"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "status": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "at_ms",
+        "actor",
+        "status",
+        "failures"
+      ],
+      "type": "object"
+    },
+    "TemplateBatchInput": {
+      "additionalProperties": false,
+      "properties": {
+        "group_id": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "instances": {
+          "items": {
+            "$ref": "#/$defs/TemplateInstance"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "request_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "request_id",
+        "group_id",
+        "instances"
+      ],
+      "type": "object"
+    },
+    "TemplateBinding": {
+      "additionalProperties": false,
+      "properties": {
+        "application_status": {
+          "type": "string"
+        },
+        "applied_version": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "configuration_id": {
+          "type": "string"
+        },
+        "configuration_version": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "device_id": {
+          "type": "string"
+        },
+        "device_version": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "instance_id": {
+          "type": "string"
+        },
+        "source_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "instance_id",
+        "device_id",
+        "device_version",
+        "configuration_id",
+        "configuration_version",
+        "applied_version",
+        "application_status",
+        "source_id"
+      ],
+      "type": "object"
+    },
+    "TemplateFailure": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "instance_id": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "instance_id",
+        "code",
+        "message"
+      ],
+      "type": "object"
+    },
+    "TemplateInstance": {
+      "additionalProperties": false,
+      "properties": {
+        "configuration_id": {
+          "type": "string"
+        },
+        "configuration_version": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "device_id": {
+          "type": "string"
+        },
+        "device_version": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "parameters": {
+          "additionalProperties": {},
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "safety_user_id": {
+          "type": "string"
+        },
+        "template_id": {
+          "type": "string"
+        },
+        "template_version": {
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "template_id",
+        "template_version",
+        "device_id",
+        "device_version",
+        "configuration_id",
+        "configuration_version"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/TemplateBatch.schema.json",
+  "$ref": "#/$defs/TemplateBatch",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TemplateBatch"
+}

@@ -45,15 +45,18 @@ jobs:
               exit 1
             fi
             version="$REF_NAME"
+            application_version="${REF_NAME#v}"
           else
             version="snapshot-${COMMIT:0:12}"
+            application_version="1.1.0-dev+${COMMIT:0:12}"
           fi
           echo "artifact-name=smartfactory-${version}-linux-amd64" >> "$GITHUB_OUTPUT"
+          echo "application-version=$application_version" >> "$GITHUB_OUTPUT"
 
       - name: Set up Go
         uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
         with:
-          go-version-file: Platform/go.mod
+          go-version-file: deploy/go-version
           cache-dependency-path: |
             DataTransfer/go.sum
             Platform/go.sum
@@ -61,7 +64,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
-          node-version: '22'
+          node-version-file: deploy/node-version
           cache: npm
           cache-dependency-path: Frontends/package-lock.json
 
@@ -74,10 +77,13 @@ jobs:
 
       - name: Install build and validation dependencies
         run: |
+          python scripts/check-toolchains.py
           npm ci --prefix Frontends --no-audit --no-fund
           python -m pip install -r tests/fixtures/requirements-contracts.txt
 
       - name: Test Go services
+        env:
+          GOTOOLCHAIN: local
         run: |
           go -C DataTransfer test ./...
           go -C Platform test ./...
@@ -87,12 +93,20 @@ jobs:
           python scripts/check-contracts.py
           python -m unittest discover -s tests -p 'test_*.py' -v
 
+      - name: Verify generated frontend contracts and compiler compatibility
+        run: |
+          go -C Platform run ./cmd/sf-contracts
+          npm --prefix Frontends run check:api
+          npm --prefix Frontends run test:unit
+          npm --prefix Frontends run typecheck:compat
+
       - name: Build and verify deployment bundle
         env:
           BUNDLE_NAME: ${{ steps.metadata.outputs.artifact-name }}
+          APPLICATION_VERSION: ${{ steps.metadata.outputs.application-version }}
         run: |
           python scripts/build-release.py \
-            --output "$RUNNER_TEMP/$BUNDLE_NAME" --os linux --arch amd64
+            --output "$RUNNER_TEMP/$BUNDLE_NAME" --os linux --arch amd64 --version "$APPLICATION_VERSION"
           python scripts/verify-release.py "$RUNNER_TEMP/$BUNDLE_NAME"
           mkdir -p "$RUNNER_TEMP/release-assets"
           tar -C "$RUNNER_TEMP" -czf "$RUNNER_TEMP/release-assets/$BUNDLE_NAME.tar.gz" "$BUNDLE_NAME"

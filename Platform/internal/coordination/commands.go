@@ -64,6 +64,11 @@ func (d *Dispatcher) Send(ctx context.Context, step model.Step, id string, deadl
 	return control.DispatchResult{Status: response.Result.Status, Message: response.Result.Message}, nil
 }
 func (c *Coordinator) ServeCommands(ctx context.Context, service *control.Service) error {
+	results, e := c.serveResults(ctx, service)
+	if e != nil {
+		return e
+	}
+	defer results.Unsubscribe()
 	subscription, e := c.Connection.Subscribe(c.Prefix+".control."+key(c.Store.NodeID), func(message *nats.Msg) {
 		var request StepRequest
 		response := StepResponse{}

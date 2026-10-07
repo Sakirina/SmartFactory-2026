@@ -1,0 +1,124 @@
+{
+  "$defs": {
+    "Actor": {
+      "additionalProperties": false,
+      "properties": {
+        "ai": {
+          "type": "boolean"
+        },
+        "department_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "roles": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "session_id": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "user_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "user_id",
+        "name",
+        "department_id",
+        "roles",
+        "source",
+        "session_id",
+        "ai"
+      ],
+      "type": "object"
+    },
+    "CommandEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "actor": {
+          "$ref": "#/$defs/Actor"
+        },
+        "collected_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "command_id": {
+          "type": "string"
+        },
+        "content_hash": {
+          "type": "string"
+        },
+        "device_id": {
+          "type": "string"
+        },
+        "execution_id": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "observed_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "payload_hash": {
+          "type": "string"
+        },
+        "rejection": {
+          "type": "string"
+        },
+        "request_hash": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "step_id": {
+          "type": "string"
+        },
+        "trace_id": {
+          "type": "string"
+        },
+        "trusted": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "execution_id",
+        "command_id",
+        "device_id",
+        "step_id",
+        "source",
+        "observed_ms",
+        "collected_ms",
+        "payload_hash",
+        "content_hash",
+        "status",
+        "trusted",
+        "actor"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/CommandEvidence.schema.json",
+  "$ref": "#/$defs/CommandEvidence",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CommandEvidence"
+}

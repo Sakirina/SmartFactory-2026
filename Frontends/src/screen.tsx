@@ -1,6 +1,8 @@
+import { legacyScope, queryAllPages } from './query';
+import { stringifyExactJSON } from './precision';
 import { useCallback, useMemo, useState } from 'react';
 import { Alert, App, Button, Descriptions, Drawer, Form, Input, Modal, Select, Space, Switch, Table, Tag } from 'antd';
-import { post, shortTime, timestamp, useResource } from './api';
+import { post, json, shortTime, timestamp, useResource } from './api';
 import { Trend } from './chart';
 import { Metric, Quality, RevisionModal, StateTag } from './views';
 import type { Alarm, Dashboard, DataResult, Entity, Point, Revision, Source, User } from './types';
@@ -53,18 +55,19 @@ export function Screen({ user, refreshMS, mode, onLogout }: { user: User; refres
     } catch (error) { void message.error(error instanceof Error ? error.message : '请检查配置内容'); }
     finally { setSaving(false); }
   };
+  const exportData = async () => { try { const scope=legacyScope('/data?'+query).scope; const page=await queryAllPages('trend',scope); const url=URL.createObjectURL(new Blob([stringifyExactJSON(page,2)],{type:'application/json'})); const link=document.createElement('a');link.href=url;link.download='smartfactory-screen-exact.json';link.click();URL.revokeObjectURL(url); } catch(error) {void message.error(error instanceof Error?error.message:String(error));} };
   const refresh = () => { void data.reload(); void overview.reload(); void alarms.reload(); };
   return <div className="screen-page">
     <header className="screen-header"><div><span className="screen-kicker">SMARTFACTORY / OPERATIONS</span><h1>{dashboard.title}</h1></div><Space wrap>
       <span>{timestamp(overview.updatedAt)} · v{dashboard.version}</span>
       {(saved.data?.length ?? 0) > 1 && <Select aria-label="选择运行大屏" value={dashboard.id} style={{ minWidth: 180 }} options={saved.data!.map(d => ({ value: d.id, label: d.title }))} onChange={id => { setSelectedID(id); localStorage.setItem('sf.screen.selected', id); }} />}
-      <Button ghost onClick={refresh}>更新数据</Button>
+      <Button ghost onClick={refresh}>更新数据</Button><Button ghost onClick={() => void exportData()}>导出精确大屏数据</Button>
       {canEdit && <Button ghost onClick={() => openEditor()}>配置大屏</Button>}
       <Button ghost onClick={() => void onLogout()}>退出</Button>
     </Space></header>
     {(saved.error || data.error || overview.error) && <Alert type="warning" showIcon title="数据更新暂时中断，当前画面保留最近一次结果" description={saved.error || data.error || overview.error} />}
     <div className="metric-grid"><Metric title="设备与资产" value={overview.data?.entities ?? 0} note="当前账号可访问范围" /><Metric title="持续异常" value={overview.data?.active_alarms ?? 0} note="按规则、实体与异常周期合并" tone="amber" /><Metric title="有效观测" value={data.data?.quality.good ?? 0} note="当前趋势查询范围" /><Metric title="在线数据来源" value={(overview.data?.sources ?? []).filter(s => s.status === 'online').length} note={`${overview.data?.sources?.length ?? 0} 个已报告来源`} tone="green" /></div>
-    <div className="screen-main"><section className="screen-panel"><div className="screen-panel-title">生产过程趋势<span>实时观测 / 质量与修订标记</span></div><Trend data={data.data} height={440} dark onRevision={revise} /><Quality data={data.data} /></section>
+    <div className="screen-main"><section className="screen-panel"><div className="screen-panel-title">生产过程趋势<span>实时观测 / 质量与修订标记</span></div><Trend data={data.data} height={440} dark onRevision={revise} alarms={(alarms.data??[]).filter(alarm=>alarm.active)} /><Quality data={data.data} /></section>
       <section className="screen-panel"><div className="screen-panel-title">现场指标<span>选择指标查看记录</span></div><div className="live-indicators">{metrics.map(metric => {
         const point = latest.get(metric.device_id + '/' + metric.key);
         const value = point?.value;
@@ -87,7 +90,7 @@ export function Screen({ user, refreshMS, mode, onLogout }: { user: User; refres
     <Drawer title={detail?.kind === 'point' ? detail.label : detail?.kind === 'source' ? '来源与补传详情' : '告警详情'} open={!!detail} width={Math.min(900, window.innerWidth)} onClose={() => setDetail(null)}>
       {detail?.kind === 'point' && <PointDetail device={detail.device} field={detail.key} refreshMS={interval} onRevision={revise} />}
       {detail?.kind === 'source' && <Descriptions column={1} items={[{ key: 'id', label: '来源', children: detail.source.id }, { key: 'status', label: '状态', children: <StateTag status={detail.source.status} /> }, { key: 'seen', label: '最近通信', children: timestamp(detail.source.last_seen_ms) }, { key: 'backfill', label: '补传状态', children: detail.source.backfill }, { key: 'reason', label: '原因', children: detail.source.reason || '暂无异常说明' }]} />}
-      {detail?.kind === 'alarm' && <Descriptions column={1} items={[{ key: 'rule', label: '规则', children: detail.alarm.definition_id }, { key: 'entity', label: '设备或资产', children: detail.alarm.entity_id }, { key: 'level', label: '级别', children: detail.alarm.severity }, { key: 'status', label: '状态', children: detail.alarm.active ? '异常持续' : '已恢复' }, { key: 'ack', label: '人员确认', children: detail.alarm.acknowledged ? '已确认' : '等待确认' }, { key: 'start', label: '发生时间', children: timestamp(detail.alarm.started_ms) }, { key: 'last', label: '最近发生', children: timestamp(detail.alarm.updated_ms) }, { key: 'value', label: '触发值', children: JSON.stringify(detail.alarm.value) }, { key: 'version', label: '数据版本', children: detail.alarm.version }]} />}
+      {detail?.kind === 'alarm' && <Descriptions column={1} items={[{ key: 'rule', label: '规则', children: detail.alarm.definition_id }, { key: 'entity', label: '设备或资产', children: detail.alarm.entity_id }, { key: 'level', label: '级别', children: detail.alarm.severity }, { key: 'status', label: '状态', children: detail.alarm.active ? '异常持续' : '已恢复' }, { key: 'ack', label: '人员确认', children: detail.alarm.acknowledged ? '已确认' : '等待确认' }, { key: 'start', label: '发生时间', children: timestamp(detail.alarm.started_ms) }, { key: 'last', label: '最近发生', children: timestamp(detail.alarm.updated_ms) }, { key: 'value', label: '触发值', children: json(detail.alarm.value) }, { key: 'version', label: '数据版本', children: detail.alarm.version }]} />}
     </Drawer><RevisionModal revision={revision} onClose={() => setRevision(null)} />
   </div>;
 }
@@ -95,5 +98,5 @@ export function Screen({ user, refreshMS, mode, onLogout }: { user: User; refres
 function PointDetail({ device, field, refreshMS, onRevision }: { device: string; field: string; refreshMS: number; onRevision: (r: Revision) => void }) {
   const params = new URLSearchParams({ device_ids: device, keys: field, limit: '2000', window_ms: '3600000' });
   const result = useResource<DataResult>('/data?' + params, refreshMS);
-  return <>{result.error && <Alert type="error" title="数据查询未完成" description={result.error} />}<p>{device} / {field} · 最近 1 小时</p><Trend data={result.data} onRevision={onRevision} /><Quality data={result.data} /><Table size="small" rowKey="id" dataSource={result.data?.points ?? []} pagination={{ pageSize: 8 }} columns={[{ title: '观测时间', dataIndex: 'observed_ms', render: timestamp }, { title: '值', dataIndex: 'value', render: value => typeof value === 'object' ? JSON.stringify(value) : String(value) }, { title: '质量', dataIndex: 'quality', render: value => <StateTag status={value} /> }, { title: '原因', dataIndex: 'quality_reason' }]} /></>;
+  return <>{result.error && <Alert type="error" title="数据查询未完成" description={result.error} />}<p>{device} / {field} · 最近 1 小时</p><Trend data={result.data} onRevision={onRevision} /><Quality data={result.data} /><Table size="small" rowKey="id" dataSource={result.data?.points ?? []} pagination={{ pageSize: 8 }} columns={[{ title: '观测时间', dataIndex: 'observed_ms', render: timestamp }, { title: '值', dataIndex: 'value', render: value => typeof value === 'object' ? json(value) : String(value) }, { title: '质量', dataIndex: 'quality', render: value => <StateTag status={value} /> }, { title: '原因', dataIndex: 'quality_reason' }]} /></>;
 }

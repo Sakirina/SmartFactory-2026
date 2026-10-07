@@ -1,0 +1,155 @@
+{
+  "schema_version": 1,
+  "tools": {
+    "go": {
+      "minimum": "1.27.0",
+      "locked": "1.27.1",
+      "target": "1.27.1",
+      "toolchain": "go1.27.1",
+      "version_file": "deploy/go-version",
+      "validation": "installed; DataTransfer go test ./... and Linux amd64 build passed; Platform selected packages and cmd Linux builds passed"
+    },
+    "node": {
+      "locked": "24.21.0",
+      "target": "24.21.0",
+      "version_file": "deploy/node-version",
+      "validation": "installed_sha256_verified; frontend_typecheck_and_production_build_passed"
+    },
+    "python": {
+      "minimum": "3.12",
+      "ci": "3.12"
+    }
+  },
+  "go_modules": [
+    "Platform/go.mod",
+    "DataTransfer/go.mod"
+  ],
+  "frontend_dependencies": {
+    "@xyflow/react": "12.11.6",
+    "antd": "6.6.4",
+    "echarts": "6.1.0",
+    "react": "19.2.5",
+    "react-dom": "19.2.5",
+    "@tanstack/react-query": "5.104.1",
+    "@playwright/test": "1.63.0",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "@vitejs/plugin-react": "6.1.1",
+    "@typescript/native": "npm:typescript@7.0.2",
+    "typescript": "npm:@typescript/typescript6@6.0.2",
+    "openapi-typescript": "7.13.0",
+    "vite": "8.1.5"
+  },
+  "runtime": {
+    "thingsboard": {
+      "locked": "thingsboard/tb-node:4.3.1.6",
+      "target": "thingsboard/tb-node:4.3.1.6",
+      "validation": "image_digest_pulled; package_version_verified; actual_native_callback_duplicate_telemetry_and_audit_passed; bounded_resource_repair_passed",
+      "phase": 1
+    },
+    "thingsboard_edge": {
+      "locked": "thingsboard/tb-edge:4.3.1.6EDGE",
+      "target": "thingsboard/tb-edge:4.3.1.6EDGE",
+      "validation": "image_digest_pulled; package_version_verified; actual_native_callback_duplicate_telemetry_and_audit_passed; bounded_resource_repair_passed",
+      "phase": 1
+    },
+    "postgres": {
+      "locked": "postgres:18.6",
+      "target": "postgres:18.6",
+      "validation": "official_18.6_digest_verified; controlled_16.15_dump_restore_exact_rows_passed; numbered_goose4_river8_migration_passed; read_write_archive_audit_pending_task_adoption_passed",
+      "phase": 2
+    },
+    "kafka": {
+      "locked": "apache/kafka:4.3.1",
+      "target": "apache/kafka:4.3.1",
+      "validation": "actual_4.0.0_KRaft_persistent_messages_and_consumer_offsets_migrated_to_4.3.1; metadata4.0-IV3_binary_rollback_passed; metadata4.3-IV0_restart_and_independent_cold_copy_restore_passed; broker_API_readiness_passed",
+      "phase": 2
+    },
+    "nats": {
+      "locked": "nats:2.14.7-alpine",
+      "target": "nats:2.14.7-alpine",
+      "validation": "actual_2.11.9_to_2.12.15_to_2.14.7_per_node_R3_mtls_roll_passed; signed_KV_checkpoint_and_fence_preserved; stale_owner_rejected; single_and_all_node_restart_passed; current_code_three_replica_coordination_quorum_fault_passed",
+      "phase": 2
+    },
+    "envoy": {
+      "locked": "envoyproxy/envoy:v1.39.1",
+      "target": "envoyproxy/envoy:v1.39.1",
+      "validation": "image_digest_pulled; binary_version_verified; actual_tls_mtls_rejection_application_route_and_unbuffered_sse_passed",
+      "phase": 1
+    },
+    "go_builder": {
+      "locked": "golang:1.27.1-alpine",
+      "target": "golang:1.27.1-alpine",
+      "validation": "image_digest_pulled; compiler_version_verified",
+      "phase": 1
+    },
+    "node_builder": {
+      "locked": "node:24.21.0-alpine",
+      "target": "node:24.21.0-alpine",
+      "validation": "image_digest_pulled; runtime_version_verified",
+      "phase": 1
+    },
+    "runtime": {
+      "locked": "alpine:3.22",
+      "target": "alpine:3.22",
+      "validation": "existing_image_cached; unchanged_digest_verified",
+      "phase": 1
+    },
+    "nats_upgrade_intermediate": {
+      "locked": "nats:2.12.15-alpine",
+      "target": "nats:2.12.15-alpine",
+      "validation": "official_digest_pulled; actual_server_v2.12.15_verified; per_node_intermediate_R3_roll_passed",
+      "phase": 5,
+      "purpose": "offline_2.11.9_to_2.14.7_migration_only"
+    }
+  },
+  "planned_frontend": {
+    "vite": "8.1.5_verified_phase2",
+    "typescript": "7.0.2_cli_with_6.0.2_api_verified_phase2",
+    "echarts": "6.1.0_verified_phase4"
+  },
+  "compatibility": [
+    {
+      "component": "go.opentelemetry.io/otel v1.47.0",
+      "requires": "Go >= 1.26.0",
+      "source": "https://proxy.golang.org/go.opentelemetry.io/otel/@v/v1.47.0.mod"
+    },
+    {
+      "component": "PostgreSQL 18",
+      "requires": "new data directory layout and a versioned migration from 16",
+      "source": "https://hub.docker.com/_/postgres"
+    },
+    {
+      "component": "Vite 8.1.5 and @vitejs/plugin-react 6.1.1",
+      "requires": "Node ^20.19.0 or >=22.12.0; selected Node 24.21.0; Rolldown build options",
+      "source": "https://vite.dev/guide/migration"
+    },
+    {
+      "component": "TypeScript 7.0.2 CLI with @typescript/typescript6 6.0.2 API",
+      "requires": "npm aliases with explicit executable paths; wrapper @typescript/old pinned to npm:typescript@6.0.2",
+      "source": "https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/"
+    },
+    {
+      "component": "openapi-typescript 7.13.0",
+      "requires": "upstream peer typescript ^5.x; this project uses a scoped override to the API-compatible TypeScript6.0.2 and verifies actual generation, repeated output, and full generated types",
+      "source": "https://openapi-ts.dev/node"
+    }
+  ],
+  "frontend_sources": {
+    "echarts": {
+      "version": "6.1.0",
+      "source": "https://github.com/apache/echarts/releases/tag/6.1.0",
+      "security_source": "https://github.com/advisories/GHSA-fgmj-fm8m-jvvx"
+    },
+    "@tanstack/react-query": {
+      "version": "5.104.1",
+      "source": "https://tanstack.com/query/latest/docs/framework/react/guides/query-keys"
+    }
+  },
+  "frontend_lock": {
+    "file": "Frontends/package-lock.json",
+    "sha256": "1c17fa03827d77b304e91e42046e87928edbb1d834366ebd04f41a929367d2d6",
+    "package_file": "Frontends/package.json",
+    "package_sha256": "0b4e619e7435c6e285632ab2c38d16fc45e4d72c568f4eb0dda9dbb10104786a"
+  }
+}

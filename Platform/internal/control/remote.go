@@ -11,6 +11,11 @@ import (
 // ExecuteRemoteStep validates the published plan and local interlocks before
 // reserving a device action in the target owner's durable journal.
 func (s *Service) ExecuteRemoteStep(ctx context.Context, req model.Execution, step model.Step, commandID string) (model.StepResult, error) {
+	release, err := s.Store.AcquireControl(ctx)
+	if err != nil {
+		return model.StepResult{}, err
+	}
+	defer release()
 	if !s.Edge || step.EdgeID != s.NodeID || req.Fence == 0 || req.CoordinatorID == "" || req.Status != "running" {
 		return model.StepResult{}, errors.New("invalid coordinated device step")
 	}
@@ -81,9 +86,37 @@ func (s *Service) ExecuteRemoteStep(ctx context.Context, req model.Execution, st
 	if check.Interlocked || !check.Allowed && !req.Override {
 		return model.StepResult{StepID: step.ID, CommandID: commandID, Status: "REJECTED", Message: strings.Join(check.Reasons, "; ")}, nil
 	}
-	result, e := s.runStep(ctx, req, step, commandID)
-	if e == nil {
-		e = s.Store.Audit(ctx, req.Actor, "control.remote_step", step.DeviceID, req.DownlinkID, map[string]any{"execution": req, "step": step, "result": result, "snapshot": check.Snapshot})
+	if e = s.importRemoteExecution(ctx, &req); e != nil {
+		return model.StepResult{}, e
 	}
-	return result, e
+	return s.runStep(ctx, &req, step, commandID)
+}
+
+func (s *Service) importRemoteExecution(ctx context.Context, req *model.Execution) error {
+	next := *req
+	err := s.Store.Write(ctx, func(tx *store.Tx) error {
+		old, err := tx.Get("execution", req.DownlinkID)
+		if errors.Is(err, store.ErrNotFound) {
+			return ApplyTransition(tx, &next, 0, "remote_accept", TransitionOptions{Actor: req.Actor, Source: "remote_step"})
+		}
+		if err != nil {
+			return err
+		}
+		previous, err := store.Decode[model.Execution](old)
+		if err != nil {
+			return err
+		}
+		if !sameRequest(previous, *req) || previous.Fence > req.Fence {
+			return store.ErrConflict
+		}
+		if !isRunning(previous.Status) && previous.Fence == req.Fence {
+			return ErrTransition
+		}
+		next.Version = old.Version
+		return ApplyTransition(tx, &next, old.Version, "checkpoint_recovered", TransitionOptions{Actor: req.Actor, Source: "remote_step", SourceVersion: req.Version})
+	})
+	if err == nil {
+		*req = next
+	}
+	return err
 }

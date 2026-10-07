@@ -1,0 +1,121 @@
+{
+  "$defs": {
+    "ConfigurationReference": {
+      "additionalProperties": false,
+      "properties": {
+        "digest": {
+          "maxLength": 64,
+          "minLength": 64,
+          "type": "string"
+        },
+        "id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "parameter",
+            "connector"
+          ],
+          "type": "string"
+        },
+        "version": {
+          "format": "int64",
+          "minimum": 1,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "kind",
+        "id",
+        "version",
+        "digest"
+      ],
+      "type": "object"
+    },
+    "EvolveTemplateBatchInput": {
+      "additionalProperties": false,
+      "properties": {
+        "configurations": {
+          "items": {
+            "$ref": "#/$defs/ConfigurationReference"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "expected_version": {
+          "format": "int64",
+          "minimum": 1,
+          "type": "integer"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "program_sha256": {
+          "type": "string"
+        },
+        "release_id": {
+          "type": "string"
+        },
+        "request_id": {
+          "type": "string"
+        },
+        "targets": {
+          "items": {
+            "$ref": "#/$defs/TemplateEvolutionTarget"
+          },
+          "maxItems": 20,
+          "minItems": 1,
+          "type": [
+            "array",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "request_id",
+        "expected_version",
+        "release_id",
+        "name",
+        "program_sha256",
+        "targets"
+      ],
+      "type": "object"
+    },
+    "TemplateEvolutionTarget": {
+      "additionalProperties": false,
+      "properties": {
+        "instance_id": {
+          "type": "string"
+        },
+        "parameters": {
+          "additionalProperties": {},
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "template_version": {
+          "format": "int64",
+          "minimum": 1,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "instance_id",
+        "template_version"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/EvolveTemplateBatchInput.schema.json",
+  "$ref": "#/$defs/EvolveTemplateBatchInput",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EvolveTemplateBatchInput"
+}

@@ -1,0 +1,59 @@
+{
+  "$defs": {
+    "ContractError": {
+      "additionalProperties": false,
+      "properties": {
+        "clear": {
+          "type": "boolean"
+        },
+        "code": {
+          "type": "string"
+        },
+        "details": {
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/ErrorDetail"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "error": {
+          "type": "string"
+        },
+        "retryable": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "error"
+      ],
+      "type": "object"
+    },
+    "ErrorDetail": {
+      "additionalProperties": false,
+      "properties": {
+        "location": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "value": {}
+      },
+      "required": [],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/ContractError.schema.json",
+  "$ref": "#/$defs/ContractError",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ContractError"
+}

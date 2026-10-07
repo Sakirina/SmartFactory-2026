@@ -241,6 +241,23 @@ message CommandAccepted {
   int64 accepted_at = 2;
 }
 
+message CommandResultRequest { string command_id = 1; }
+// A read-only journal observation. An absent command has found=false; legacy
+// rows without request metadata retain their result with binding_known=false.
+message CommandResult {
+  bool found = 1;
+  string command_id = 2;
+  string device_id = 3;
+  string phase = 4;
+  int64 recorded_at_ms = 5;
+  string source = 6;
+  bytes request_sha256 = 7;
+  CommandResponsePayload response = 8;
+  string action = 9;
+  map<string, string> params = 10;
+  bool binding_known = 11;
+}
+
 message ListDevicesRequest {
   string connector_id = 1;
   DeviceState state = 2;
@@ -327,6 +344,21 @@ message ConfigUpdateResponse {
 
 message MetricsRequest {}
 
+// Read-only observation of the current ConfigManager consumer. Secret values
+// are excluded from public_configuration_sha256.
+message ConnectorConfigurationRequest {
+  string connector_id = 1;
+  ConnectorConfigPayload expected_configuration = 2;
+}
+message ConnectorConfigurationState {
+  bool found = 1;
+  string connector_id = 2;
+  int64 applied_entity_revision = 3;
+  string public_configuration_sha256 = 4;
+  string applied_update_id = 5;
+  bool matches_expected = 6;
+}
+
 message MetricsResponse {
   int64 timestamp = 1;
   int32 connected_devices = 2;
@@ -366,4 +398,6 @@ service DataTransferService {
   rpc PushDeviceConfig(DeviceConfigUpdate) returns (ConfigUpdateResponse);
   rpc ListDevices(ListDevicesRequest) returns (ListDevicesResponse);
   rpc GetMetrics(MetricsRequest) returns (MetricsResponse);
+  rpc GetConnectorConfiguration(ConnectorConfigurationRequest) returns (ConnectorConfigurationState);
+  rpc GetCommandResult(CommandResultRequest) returns (CommandResult);
 }

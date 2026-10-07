@@ -1,0 +1,31 @@
+{
+  "$defs": {
+    "ApprovalBody": {
+      "additionalProperties": false,
+      "properties": {
+        "expected_version": {
+          "anyOf": [
+            {
+              "format": "int64",
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "role": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "role"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/ApprovalBody.schema.json",
+  "$ref": "#/$defs/ApprovalBody",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ApprovalBody"
+}

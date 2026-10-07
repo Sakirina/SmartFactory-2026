@@ -1,0 +1,21 @@
+import { readFile } from 'node:fs/promises';
+import { test, expect, login, route, get, capture, snapshot } from './phase5-support';
+test('release hash navigation follows each batch and retains input only for the current operation basis', async ({ page }) => {
+  test.skip(process.env.SF_PHASE5_CASES !== 'navigation');
+  const fixture = JSON.parse(await readFile('/private/tmp/smartfactory-release-restore-recovery-20261005/frontend-fixture.json', 'utf8'));
+  await login(page); const first = fixture.deployment.id, second = 'recovery-r02-original-program-failure-fourth';
+  const title = page.getByTestId('release-detail').locator('.ant-card-head-title');
+  await route(page, 'releases?deployment=' + first); await expect(title).toContainText(first);
+  await page.getByLabel('发布处理原因', { exact: true }).fill('当前批次尚未提交的处理说明');
+  await route(page, 'workload-identities'); await expect(page.getByRole('heading', { name: '节点身份与配置报告' })).toBeVisible();
+  await route(page, 'releases?deployment=' + first); await expect(title).toContainText(first);
+  await expect(page.getByLabel('发布处理原因', { exact: true })).toHaveValue('当前批次尚未提交的处理说明');
+  await snapshot('navigation-current-input-retained', { first, state: await get(page, '/release-deployments/' + first) }); await capture(page, 'navigation-current-input-retained');
+  await route(page, 'releases?deployment=' + second); await expect(title).toContainText(second);
+  await expect(page.getByLabel('发布处理原因', { exact: true })).toHaveValue('');
+  await page.getByLabel('发布处理原因', { exact: true }).fill('另一批次独立的操作说明');
+  await snapshot('navigation-other-batch', { second, state: await get(page, '/release-deployments/' + second) }); await capture(page, 'navigation-other-batch');
+  await page.evaluate(() => history.back()); await expect(title).toContainText(first); await expect(page.getByLabel('发布处理原因', { exact: true })).toHaveValue('');
+  await page.evaluate(() => history.forward()); await expect(title).toContainText(second); await expect(page.getByLabel('发布处理原因', { exact: true })).toHaveValue('');
+  await route(page, 'releases'); await expect(page.getByTestId('release-detail')).toHaveCount(0); await capture(page, 'navigation-cleared-parameter');
+});

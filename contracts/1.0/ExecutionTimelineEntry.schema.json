@@ -1,0 +1,342 @@
+{
+  "$defs": {
+    "Actor": {
+      "additionalProperties": false,
+      "properties": {
+        "ai": {
+          "type": "boolean"
+        },
+        "department_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "roles": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "session_id": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "user_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "user_id",
+        "name",
+        "department_id",
+        "roles",
+        "source",
+        "session_id",
+        "ai"
+      ],
+      "type": "object"
+    },
+    "Approval": {
+      "additionalProperties": false,
+      "properties": {
+        "actor": {
+          "$ref": "#/$defs/Actor"
+        },
+        "at_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "binding": {
+          "type": "string"
+        },
+        "local": {
+          "type": "boolean"
+        },
+        "role": {
+          "type": "string"
+        },
+        "step_up": {
+          "type": "boolean"
+        },
+        "user_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "user_id",
+        "role",
+        "at_ms",
+        "binding",
+        "local",
+        "step_up",
+        "actor"
+      ],
+      "type": "object"
+    },
+    "CommandEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "actor": {
+          "$ref": "#/$defs/Actor"
+        },
+        "collected_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "command_id": {
+          "type": "string"
+        },
+        "content_hash": {
+          "type": "string"
+        },
+        "device_id": {
+          "type": "string"
+        },
+        "execution_id": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "observed_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "payload_hash": {
+          "type": "string"
+        },
+        "rejection": {
+          "type": "string"
+        },
+        "request_hash": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "step_id": {
+          "type": "string"
+        },
+        "trace_id": {
+          "type": "string"
+        },
+        "trusted": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "execution_id",
+        "command_id",
+        "device_id",
+        "step_id",
+        "source",
+        "observed_ms",
+        "collected_ms",
+        "payload_hash",
+        "content_hash",
+        "status",
+        "trusted",
+        "actor"
+      ],
+      "type": "object"
+    },
+    "ExecutionTimelineEntry": {
+      "additionalProperties": false,
+      "properties": {
+        "actor": {
+          "$ref": "#/$defs/Actor"
+        },
+        "approval": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Approval"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "at_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "evidence": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CommandEvidence"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "step": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/StepResult"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "trace_id": {
+          "type": "string"
+        },
+        "transition": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ExecutionTransition"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "source",
+        "at_ms",
+        "actor"
+      ],
+      "type": "object"
+    },
+    "ExecutionTransition": {
+      "additionalProperties": false,
+      "properties": {
+        "actor": {
+          "$ref": "#/$defs/Actor"
+        },
+        "at_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "command_id": {
+          "type": "string"
+        },
+        "event": {
+          "type": "string"
+        },
+        "evidence_ids": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "execution_id": {
+          "type": "string"
+        },
+        "from": {
+          "type": "string"
+        },
+        "previous_version": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "source_version": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "to": {
+          "type": "string"
+        },
+        "trace_id": {
+          "type": "string"
+        },
+        "version": {
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "execution_id",
+        "version",
+        "previous_version",
+        "event",
+        "from",
+        "to",
+        "at_ms",
+        "source",
+        "actor"
+      ],
+      "type": "object"
+    },
+    "StepResult": {
+      "additionalProperties": false,
+      "properties": {
+        "command_id": {
+          "type": "string"
+        },
+        "evidence_id": {
+          "type": "string"
+        },
+        "finished_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "message": {
+          "type": "string"
+        },
+        "started_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "status": {
+          "type": "string"
+        },
+        "step_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "step_id",
+        "command_id",
+        "status",
+        "message",
+        "started_ms",
+        "finished_ms"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/ExecutionTimelineEntry.schema.json",
+  "$ref": "#/$defs/ExecutionTimelineEntry",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ExecutionTimelineEntry"
+}

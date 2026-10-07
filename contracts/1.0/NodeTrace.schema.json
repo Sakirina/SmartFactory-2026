@@ -1,0 +1,76 @@
+{
+  "$defs": {
+    "NodeTrace": {
+      "additionalProperties": false,
+      "properties": {
+        "after": {
+          "$ref": "#/$defs/RuntimeState"
+        },
+        "before": {
+          "$ref": "#/$defs/RuntimeState"
+        },
+        "error": {
+          "type": "string"
+        },
+        "input": {},
+        "node_id": {
+          "type": "string"
+        },
+        "output": {},
+        "skipped": {
+          "type": "boolean"
+        },
+        "type": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "node_id",
+        "type",
+        "input",
+        "output",
+        "before",
+        "after",
+        "skipped"
+      ],
+      "type": "object"
+    },
+    "RuntimeState": {
+      "additionalProperties": false,
+      "properties": {
+        "active": {
+          "type": "boolean"
+        },
+        "candidate": {
+          "type": "boolean"
+        },
+        "count": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "last_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "previous": {},
+        "since_ms": {
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "active",
+        "candidate",
+        "since_ms",
+        "count",
+        "previous",
+        "last_ms"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/NodeTrace.schema.json",
+  "$ref": "#/$defs/NodeTrace",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NodeTrace"
+}

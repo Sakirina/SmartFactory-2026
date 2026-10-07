@@ -1,0 +1,203 @@
+{
+  "$defs": {
+    "ConfigurationReference": {
+      "additionalProperties": false,
+      "properties": {
+        "digest": {
+          "maxLength": 64,
+          "minLength": 64,
+          "type": "string"
+        },
+        "id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "parameter",
+            "connector"
+          ],
+          "type": "string"
+        },
+        "version": {
+          "format": "int64",
+          "minimum": 1,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "kind",
+        "id",
+        "version",
+        "digest"
+      ],
+      "type": "object"
+    },
+    "ProgramBuild": {
+      "additionalProperties": false,
+      "properties": {
+        "configuration_formats": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "goarch": {
+          "type": "string"
+        },
+        "goos": {
+          "type": "string"
+        },
+        "migration_maximum": {
+          "format": "int64",
+          "minimum": 1,
+          "type": "integer"
+        },
+        "migration_minimum": {
+          "format": "int64",
+          "minimum": 1,
+          "type": "integer"
+        },
+        "program": {
+          "type": "string"
+        },
+        "rule_formats": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "source_sha256": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "program",
+        "version",
+        "goos",
+        "goarch",
+        "migration_minimum",
+        "migration_maximum",
+        "rule_formats",
+        "configuration_formats"
+      ],
+      "type": "object"
+    },
+    "ReleaseComponent": {
+      "additionalProperties": false,
+      "properties": {
+        "build": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ProgramBuild"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "configuration": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ConfigurationReference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "content": {},
+        "depends_on": {
+          "items": {
+            "$ref": "#/$defs/ReleaseDependency"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "format": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "program",
+            "rule",
+            "configuration"
+          ],
+          "type": "string"
+        },
+        "required_capabilities": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "sha256": {
+          "type": "string"
+        },
+        "target_node_ids": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "version",
+        "sha256",
+        "format",
+        "depends_on",
+        "required_capabilities"
+      ],
+      "type": "object"
+    },
+    "ReleaseDependency": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "sha256": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "version",
+        "sha256"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/ReleaseComponent.schema.json",
+  "$ref": "#/$defs/ReleaseComponent",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ReleaseComponent"
+}

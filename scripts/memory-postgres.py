@@ -40,7 +40,7 @@ def main():
     environment["POSTGRES_PASSWORD"] = password
     subprocess.run(["docker", "run", "--detach", "--rm", "--pull", "never", "--name", NAME,
                     "--label", LABEL, "--memory", "1g", "--memory-swap", "1g", "--shm-size", "128m",
-                    "--tmpfs", "/var/lib/postgresql/data:rw,size=512m", "--tmpfs", "/tmp:rw,size=64m",
+                    "--tmpfs", "/var/lib/postgresql:rw,size=512m", "--tmpfs", "/tmp:rw,size=64m",
                     "--publish", "127.0.0.1:54322:5432", "--env", "POSTGRES_PASSWORD",
                     "--env", "POSTGRES_USER=smartfactory", "--env", "POSTGRES_DB=fixture",
                     "--log-driver", "none", image, "postgres", "-c", "shared_buffers=64MB",

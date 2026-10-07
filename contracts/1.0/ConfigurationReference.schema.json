@@ -1,0 +1,41 @@
+{
+  "$defs": {
+    "ConfigurationReference": {
+      "additionalProperties": false,
+      "properties": {
+        "digest": {
+          "maxLength": 64,
+          "minLength": 64,
+          "type": "string"
+        },
+        "id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "parameter",
+            "connector"
+          ],
+          "type": "string"
+        },
+        "version": {
+          "format": "int64",
+          "minimum": 1,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "kind",
+        "id",
+        "version",
+        "digest"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/ConfigurationReference.schema.json",
+  "$ref": "#/$defs/ConfigurationReference",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ConfigurationReference"
+}

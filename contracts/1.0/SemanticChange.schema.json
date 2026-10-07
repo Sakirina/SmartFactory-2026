@@ -1,0 +1,41 @@
+{
+  "$defs": {
+    "SemanticChange": {
+      "additionalProperties": false,
+      "properties": {
+        "after": {},
+        "after_type": {
+          "type": "string"
+        },
+        "before": {},
+        "before_type": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string"
+        },
+        "change": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "unit": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "category",
+        "path",
+        "change",
+        "before_type",
+        "after_type"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/SemanticChange.schema.json",
+  "$ref": "#/$defs/SemanticChange",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SemanticChange"
+}

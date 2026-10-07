@@ -86,8 +86,8 @@ def main():
         databases={'cloud-db':['smartfactory','thingsboard','sf_config'],**{node+'-db':['smartfactory','tb_edge'] for node in nodes}}
         for service,names in databases.items():
             container=containers[service]['Id']
-            result['storage'][service]=command(['docker','exec',container,'du','-sk','/var/lib/postgresql/data'])
-            result['storage'][service+'-free']=command(['docker','exec',container,'df','-Pk','/var/lib/postgresql/data'])
+            result['storage'][service]=command(['docker','exec',container,'du','-sk','/var/lib/postgresql'])
+            result['storage'][service+'-free']=command(['docker','exec',container,'df','-Pk','/var/lib/postgresql'])
             free=int(result['storage'][service+'-free'].splitlines()[-1].split()[3])*1024
             if full and free<5*1024**3:raise RuntimeError('Test stopped with less than 5 GiB available at '+service)
             for database in names:

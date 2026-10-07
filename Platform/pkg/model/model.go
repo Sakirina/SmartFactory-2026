@@ -151,20 +151,21 @@ type Output struct {
 	Description string `json:"description,omitempty"`
 }
 type Definition struct {
-	ID            string       `json:"id"`
-	Name          string       `json:"name"`
-	Kind          string       `json:"kind"`
-	SchemaVersion string       `json:"schema_version"`
-	Version       int64        `json:"version"`
-	Status        string       `json:"status"`
-	EffectiveMS   int64        `json:"effective_ms"`
-	GroupID       string       `json:"group_id"`
-	Nodes         []Node       `json:"nodes"`
-	Connections   []Connection `json:"connections"`
-	Outputs       []Output     `json:"outputs"`
-	Dependencies  []string     `json:"dependencies"`
-	Selector      Selector     `json:"selector"`
-	Policy        Policy       `json:"policy"`
+	ID            string         `json:"id"`
+	Name          string         `json:"name"`
+	Kind          string         `json:"kind"`
+	SchemaVersion string         `json:"schema_version"`
+	Version       int64          `json:"version"`
+	Status        string         `json:"status"`
+	EffectiveMS   int64          `json:"effective_ms"`
+	GroupID       string         `json:"group_id"`
+	Nodes         []Node         `json:"nodes"`
+	Connections   []Connection   `json:"connections"`
+	Outputs       []Output       `json:"outputs"`
+	Dependencies  []string       `json:"dependencies"`
+	Selector      Selector       `json:"selector"`
+	Policy        Policy         `json:"policy"`
+	ExecutionPlan *ExecutionPlan `json:"execution_plan,omitempty"`
 }
 type Selector struct {
 	DeviceIDs []string `json:"device_ids"`
@@ -284,6 +285,15 @@ type Execution struct {
 	Fence             uint64            `json:"fence"`
 	CoordinatorID     string            `json:"coordinator_id,omitempty"`
 	Version           int64             `json:"version"`
+	Mode              string            `json:"mode,omitempty"`
+	Branch            string            `json:"branch,omitempty"`
+	ActiveCommandID   string            `json:"active_command_id,omitempty"`
+	CancelRequestedMS int64             `json:"cancel_requested_ms,omitempty"`
+	CancelActor       *Actor            `json:"cancel_actor,omitempty"`
+	CancelReason      string            `json:"cancel_reason,omitempty"`
+	ResumeActor       *Actor            `json:"resume_actor,omitempty"`
+	ReconciledMS      int64             `json:"reconciled_ms,omitempty"`
+	ResourceBinding   string            `json:"resource_binding,omitempty"`
 }
 type StepResult struct {
 	StepID     string `json:"step_id"`
@@ -292,6 +302,7 @@ type StepResult struct {
 	Message    string `json:"message"`
 	StartedMS  int64  `json:"started_ms"`
 	FinishedMS int64  `json:"finished_ms"`
+	EvidenceID string `json:"evidence_id,omitempty"`
 }
 type Alarm struct {
 	ID                string `json:"id"`
@@ -312,16 +323,21 @@ type Alarm struct {
 	RevisionReason    string `json:"revision_reason,omitempty"`
 }
 type Job struct {
-	ID           string  `json:"id"`
-	Kind         string  `json:"kind"`
-	Status       string  `json:"status"`
-	FromMS       int64   `json:"from_ms"`
-	ToMS         int64   `json:"to_ms"`
-	CursorMS     int64   `json:"cursor_ms"`
-	DeviceID     string  `json:"device_id"`
-	DefinitionID string  `json:"definition_id,omitempty"`
-	Progress     float64 `json:"progress"`
-	Error        string  `json:"error,omitempty"`
-	Reason       string  `json:"reason"`
-	Version      int64   `json:"version"`
+	TaskID        string  `json:"task_id,omitempty"`
+	ReplayID      string  `json:"replay_id,omitempty"`
+	ReplayPhase   string  `json:"replay_phase,omitempty"`
+	ReplayStartMS int64   `json:"replay_start_ms,omitempty"`
+	ReplayEndMS   int64   `json:"replay_end_ms,omitempty"`
+	ID            string  `json:"id"`
+	Kind          string  `json:"kind"`
+	Status        string  `json:"status"`
+	FromMS        int64   `json:"from_ms"`
+	ToMS          int64   `json:"to_ms"`
+	CursorMS      int64   `json:"cursor_ms"`
+	DeviceID      string  `json:"device_id"`
+	DefinitionID  string  `json:"definition_id,omitempty"`
+	Progress      float64 `json:"progress"`
+	Error         string  `json:"error,omitempty"`
+	Reason        string  `json:"reason"`
+	Version       int64   `json:"version"`
 }

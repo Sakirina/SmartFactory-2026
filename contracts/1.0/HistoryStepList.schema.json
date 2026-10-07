@@ -1,0 +1,593 @@
+{
+  "$defs": {
+    "AssetVersion": {
+      "additionalProperties": false,
+      "properties": {
+        "effective_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "id": {
+          "type": "string"
+        },
+        "parent_id": {
+          "type": "string"
+        },
+        "sampling_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "version": {
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "version",
+        "effective_ms",
+        "parent_id",
+        "sampling_ms"
+      ],
+      "type": "object"
+    },
+    "Evaluation": {
+      "additionalProperties": false,
+      "properties": {
+        "alarm": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "asset_versions": {
+          "items": {
+            "$ref": "#/$defs/AssetVersion"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "at_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "definition_id": {
+          "type": "string"
+        },
+        "entity_id": {
+          "type": "string"
+        },
+        "historical": {
+          "type": "boolean"
+        },
+        "input_ids": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "plan_id": {
+          "type": "string"
+        },
+        "plan_sha256": {
+          "type": "string"
+        },
+        "quality": {
+          "$ref": "#/$defs/QualitySummary"
+        },
+        "run_id": {
+          "type": "string"
+        },
+        "severity": {
+          "type": "string"
+        },
+        "states": {
+          "additionalProperties": {
+            "$ref": "#/$defs/RuntimeState"
+          },
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "trace": {
+          "items": {
+            "$ref": "#/$defs/NodeTrace"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "trigger": {
+          "type": "boolean"
+        },
+        "values": {
+          "additionalProperties": {},
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "version": {
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "definition_id",
+        "version",
+        "plan_id",
+        "plan_sha256",
+        "entity_id",
+        "at_ms",
+        "values",
+        "states",
+        "trigger",
+        "severity",
+        "quality",
+        "historical",
+        "input_ids",
+        "asset_versions",
+        "trace"
+      ],
+      "type": "object"
+    },
+    "HistoryDifference": {
+      "additionalProperties": false,
+      "properties": {
+        "alarm": {
+          "type": "boolean"
+        },
+        "changed": {
+          "type": "boolean"
+        },
+        "path": {
+          "type": "boolean"
+        },
+        "quality": {
+          "type": "boolean"
+        },
+        "state": {
+          "type": "boolean"
+        },
+        "trigger": {
+          "type": "boolean"
+        },
+        "values": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "changed",
+        "values",
+        "quality",
+        "alarm",
+        "state",
+        "path",
+        "trigger"
+      ],
+      "type": "object"
+    },
+    "HistoryLane": {
+      "additionalProperties": false,
+      "properties": {
+        "action_intents": {
+          "items": {
+            "$ref": "#/$defs/Step"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "definition_version": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "effective_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "evaluation": {
+          "$ref": "#/$defs/Evaluation"
+        },
+        "plan_id": {
+          "type": "string"
+        },
+        "plan_sha256": {
+          "type": "string"
+        },
+        "side": {
+          "type": "string"
+        },
+        "skipped": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "side",
+        "definition_version",
+        "effective_ms",
+        "evaluation",
+        "action_intents"
+      ],
+      "type": "object"
+    },
+    "HistoryStep": {
+      "additionalProperties": false,
+      "properties": {
+        "clock_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "difference": {
+          "$ref": "#/$defs/HistoryDifference"
+        },
+        "formal_difference": {
+          "$ref": "#/$defs/HistoryDifference"
+        },
+        "formal_evaluation": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Evaluation"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "formal_input_id": {
+          "type": "string"
+        },
+        "formal_outputs": {
+          "items": {
+            "$ref": "#/$defs/Observation"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "formal_status": {
+          "type": "string"
+        },
+        "freshness_at_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "id": {
+          "type": "string"
+        },
+        "input_index": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "input_sha256": {
+          "type": "string"
+        },
+        "lanes": {
+          "items": {
+            "$ref": "#/$defs/HistoryLane"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "point": {
+          "$ref": "#/$defs/Observation"
+        },
+        "run_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "run_id",
+        "input_index",
+        "input_sha256",
+        "point",
+        "clock_ms",
+        "freshness_at_ms",
+        "lanes",
+        "difference",
+        "formal_outputs",
+        "formal_difference"
+      ],
+      "type": "object"
+    },
+    "HistoryStepList": {
+      "additionalProperties": false,
+      "properties": {
+        "items": {
+          "items": {
+            "$ref": "#/$defs/HistoryStep"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "next": {
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "items",
+        "next"
+      ],
+      "type": "object"
+    },
+    "NodeTrace": {
+      "additionalProperties": false,
+      "properties": {
+        "after": {
+          "$ref": "#/$defs/RuntimeState"
+        },
+        "before": {
+          "$ref": "#/$defs/RuntimeState"
+        },
+        "error": {
+          "type": "string"
+        },
+        "input": {},
+        "node_id": {
+          "type": "string"
+        },
+        "output": {},
+        "skipped": {
+          "type": "boolean"
+        },
+        "type": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "node_id",
+        "type",
+        "input",
+        "output",
+        "before",
+        "after",
+        "skipped"
+      ],
+      "type": "object"
+    },
+    "Observation": {
+      "additionalProperties": false,
+      "properties": {
+        "asset_version": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "definition_id": {
+          "type": "string"
+        },
+        "device_id": {
+          "type": "string"
+        },
+        "entity_revision": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "id": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "late": {
+          "type": "boolean"
+        },
+        "message_id": {
+          "type": "string"
+        },
+        "observed_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "origin_id": {
+          "type": "string"
+        },
+        "quality": {
+          "enum": [
+            "GOOD",
+            "BAD",
+            "UNCERTAIN"
+          ],
+          "type": "string"
+        },
+        "quality_reason": {
+          "type": "string"
+        },
+        "received_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "revision": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "rule_version": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "source_id": {
+          "type": "string"
+        },
+        "source_sequence": {
+          "format": "uint64",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "time_source": {
+          "type": "string"
+        },
+        "unit": {
+          "type": "string"
+        },
+        "value": {
+          "description": "Lossless JSON value. Clients must preserve integers outside the JavaScript safe integer range."
+        }
+      },
+      "required": [
+        "id",
+        "message_id",
+        "source_id",
+        "source_sequence",
+        "device_id",
+        "key",
+        "value",
+        "observed_ms",
+        "received_ms",
+        "quality",
+        "time_source",
+        "entity_revision",
+        "asset_version",
+        "late",
+        "revision"
+      ],
+      "type": "object"
+    },
+    "QualitySummary": {
+      "additionalProperties": false,
+      "properties": {
+        "bad": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "completeness": {
+          "enum": [
+            "unknown",
+            "complete",
+            "incomplete"
+          ],
+          "type": "string"
+        },
+        "excluded": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "good": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "missing": {
+          "anyOf": [
+            {
+              "format": "int64",
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "uncertain": {
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "good",
+        "bad",
+        "uncertain",
+        "excluded",
+        "missing",
+        "completeness"
+      ],
+      "type": "object"
+    },
+    "RuntimeState": {
+      "additionalProperties": false,
+      "properties": {
+        "active": {
+          "type": "boolean"
+        },
+        "candidate": {
+          "type": "boolean"
+        },
+        "count": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "last_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "previous": {},
+        "since_ms": {
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "active",
+        "candidate",
+        "since_ms",
+        "count",
+        "previous",
+        "last_ms"
+      ],
+      "type": "object"
+    },
+    "Step": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "type": "string"
+        },
+        "device_id": {
+          "type": "string"
+        },
+        "edge_id": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "idempotent": {
+          "type": "boolean"
+        },
+        "params": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "timeout_ms": {
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "edge_id",
+        "device_id",
+        "action",
+        "params",
+        "idempotent",
+        "timeout_ms"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/HistoryStepList.schema.json",
+  "$ref": "#/$defs/HistoryStepList",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "HistoryStepList"
+}

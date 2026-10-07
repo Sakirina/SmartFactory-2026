@@ -20,6 +20,7 @@ func TestStrategyContinuesWhileHistoricalMergeOwnsCalculationLock(t *testing.T) 
 	if _, err := s.Store.Put(ctx, "definition", d.ID, 0, d); err != nil {
 		t.Fatal(err)
 	}
+	prepareLegacyFixture(t, s)
 	p := record(t, s, "fresh-control", time.Now().UnixMilli(), 35, false)
 	s.mu.Lock()
 	defer s.mu.Unlock()

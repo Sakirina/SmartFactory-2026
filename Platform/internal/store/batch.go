@@ -115,5 +115,13 @@ func (t *Tx) insertIngestPoints(points []model.Observation) error {
 	if err := t.insertRows("latest", "device_id,key,observed_ms,received_ms,data", " ON CONFLICT(device_id,key) DO UPDATE SET observed_ms=excluded.observed_ms,received_ms=excluded.received_ms,data=excluded.data WHERE excluded.observed_ms>latest.observed_ms OR (excluded.observed_ms=latest.observed_ms AND excluded.received_ms>=latest.received_ms)", latestRows); err != nil {
 		return err
 	}
-	return t.insertRows("outbox", "id,kind,destination,payload,created_ms,attempts,next_ms,last_error", " ON CONFLICT(id) DO NOTHING", deliveries)
+	if err := t.insertRows("outbox", "id,kind,destination,payload,created_ms,attempts,next_ms,last_error", " ON CONFLICT(id) DO NOTHING", deliveries); err != nil {
+		return err
+	}
+	for _, point := range points {
+		if err := t.markQueryPoint(point, "raw"); err != nil {
+			return err
+		}
+	}
+	return t.enqueueTelemetry(points)
 }

@@ -1,0 +1,35 @@
+{
+  "$defs": {
+    "EvidenceResource": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "revision": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "version": {
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "kind",
+        "id",
+        "version"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/EvidenceResource.schema.json",
+  "$ref": "#/$defs/EvidenceResource",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EvidenceResource"
+}

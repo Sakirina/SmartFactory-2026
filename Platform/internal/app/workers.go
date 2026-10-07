@@ -8,10 +8,10 @@ import (
 	"log/slog"
 	"time"
 
-	"competition2026/product/platform/internal/configcenter"
 	"competition2026/product/platform/internal/notifications"
 	"competition2026/product/platform/internal/plugins"
 	"competition2026/product/platform/internal/store"
+	"competition2026/product/platform/internal/tasks"
 	"competition2026/product/platform/pkg/model"
 )
 
@@ -44,9 +44,29 @@ func (a *Application) worker(ctx context.Context, interval time.Duration, fn fun
 		}
 	}()
 }
-func (a *Application) startWorkers(ctx context.Context) {
+func (a *Application) startWorkers(ctx context.Context) error {
+	a.startReleaseCoordinator(ctx)
 	if a.Options.Mode == "config" {
-		return
+		return nil
+	}
+	if a.Native != nil {
+		if err := a.Store.Write(ctx, func(tx *store.Tx) error {
+			return tx.Enqueue(fmt.Sprintf("native-reconcile:%s:%d", a.Options.NodeID, time.Now().UnixNano()), "tb_reconcile", a.Options.NodeID, map[string]string{"node_id": a.Options.NodeID})
+		}); err != nil {
+			return err
+		}
+	}
+	handlers := tasks.Handlers{Recompute: a.Server.Engine.Recompute, Archive: a.Store.ArchiveObservations, Analysis: a.Server.HistoryApplication().Execute}
+	if a.Native != nil {
+		handlers.Projection = a.projectDelivery
+	}
+	scheduler, err := tasks.New(a.Store, handlers)
+	if err != nil {
+		return err
+	}
+	a.Tasks = scheduler
+	if err = scheduler.Start(ctx); err != nil {
+		return err
 	}
 	if a.Options.Mode == "cloud" {
 		manager := &plugins.Manager{Store: a.Store, Config: a.Server.Config}
@@ -68,9 +88,9 @@ func (a *Application) startWorkers(ctx context.Context) {
 		a.worker(ctx, 2*time.Second, a.SyncServer.CompleteMetadata)
 	}
 	if a.Options.ConfigURL != "" {
-		subscriber := &configcenter.Subscriber{URL: a.Options.ConfigURL, Token: a.Options.ServiceToken, NodeID: a.Options.NodeID, Local: a.Server.Config, OnApply: a.applyPolicy}
-		a.wg.Add(1)
-		go func() { defer a.wg.Done(); _ = subscriber.Run(ctx) }()
+		if err = a.StartNodeConfiguration(ctx); err != nil {
+			return err
+		}
 	} else {
 		a.worker(ctx, time.Second, func(ctx context.Context) error {
 			if err := a.applyPolicy(ctx); err != nil {
@@ -90,12 +110,19 @@ func (a *Application) startWorkers(ctx context.Context) {
 			return nil
 		})
 	}
+	a.startBusinessWorkers(ctx)
 	a.worker(ctx, time.Hour, a.retention)
-	a.worker(ctx, 5*time.Second, func(ctx context.Context) error {
-		_, err := a.Store.ArchiveObservations(ctx)
-		return err
-	})
+	a.worker(ctx, time.Minute, func(ctx context.Context) error { return a.Store.CompactQueryHistory(ctx, store.QueryHistoryCommits) })
 	if a.Options.Mode == "edge" {
+		a.worker(ctx, 100*time.Millisecond, func(ctx context.Context) error {
+			return a.consume(ctx, "edge_control_operation", 20, func(d store.Delivery) error {
+				var envelope model.ControlOperationEnvelope
+				if err := store.DecodeJSON(d.Payload, &envelope); err != nil {
+					return err
+				}
+				return a.Server.Control.ProcessOperation(ctx, envelope)
+			})
+		})
 		a.worker(ctx, 100*time.Millisecond, a.Server.Engine.Tick)
 	}
 	if a.Bridge != nil {
@@ -111,80 +138,7 @@ func (a *Application) startWorkers(ctx context.Context) {
 			})
 		})
 	}
-	if a.Native != nil {
-		a.worker(ctx, time.Second, func(ctx context.Context) error {
-			return a.consume(ctx, "tb_alarm", 100, func(item store.Delivery) error {
-				var alarm model.Alarm
-				if err := store.DecodeJSON(item.Payload, &alarm); err != nil {
-					return err
-				}
-				return a.Native.Alarm(ctx, alarm)
-			})
-		})
-		ready := false
-		a.worker(ctx, 100*time.Millisecond, func(ctx context.Context) error {
-			if !ready {
-				if err := a.Native.ReconcileDefinitions(ctx); err != nil {
-					return err
-				}
-				if err := a.Native.InstallRoot(ctx); err != nil {
-					return err
-				}
-				ready = true
-			}
-			if err := a.consume(ctx, "tb_entity", 100, func(d store.Delivery) error {
-				var e model.Entity
-				if err := store.DecodeJSON(d.Payload, &e); err != nil {
-					return err
-				}
-				_, err := a.Native.EnsureEntity(ctx, e)
-				return err
-			}); err != nil {
-				return err
-			}
-			definitionsChanged := false
-			if err := a.consume(ctx, "tb_definition", 100, func(d store.Delivery) error {
-				definitionsChanged = true
-				var definition model.Definition
-				if err := store.DecodeJSON(d.Payload, &definition); err != nil {
-					return err
-				}
-				return a.Native.Definition(ctx, definition)
-			}); err != nil {
-				return err
-			}
-			if definitionsChanged {
-				if err := a.Native.InstallRoot(ctx); err != nil {
-					ready = false
-					return err
-				}
-			}
-			items, err := a.Store.Deliveries(ctx, "tb_telemetry", 256)
-			if err != nil || len(items) == 0 {
-				return err
-			}
-			points := make([]model.Observation, 0, len(items))
-			for _, item := range items {
-				var point model.Observation
-				if err = store.DecodeJSON(item.Payload, &point); err != nil {
-					return err
-				}
-				points = append(points, point)
-			}
-			if err = a.Native.Project(ctx, points); err != nil {
-				failed := map[string]error{}
-				for _, item := range items {
-					failed[item.ID] = err
-				}
-				return errors.Join(err, a.Store.CompleteDeliveries(ctx, nil, failed))
-			}
-			completed := make([]string, 0, len(items))
-			for _, item := range items {
-				completed = append(completed, item.ID)
-			}
-			return a.Store.CompleteDeliveries(ctx, completed, nil)
-		})
-	}
+
 	a.worker(ctx, 20*time.Millisecond, func(ctx context.Context) error {
 		return a.consume(ctx, "strategy", 256, func(d store.Delivery) error {
 			var p model.Observation
@@ -210,40 +164,7 @@ func (a *Application) startWorkers(ctx context.Context) {
 			return notifier.Deliver(ctx, d.Payload)
 		})
 	})
-	a.worker(ctx, 2*time.Second, func(ctx context.Context) error {
-		docs, e := a.Store.List(ctx, "job")
-		if e != nil {
-			return e
-		}
-		for _, doc := range docs {
-			job, e := store.Decode[model.Job](doc)
-			if e != nil {
-				return e
-			}
-			if job.Kind == "recompute" && (job.Status == "pending" || job.Status == "running") {
-				if job.Status == "pending" && a.Store.Now().UnixMilli()-doc.UpdatedMS < 2000 {
-					continue
-				}
-				job.Version = doc.Version
-				if e = a.Server.Engine.Recompute(ctx, job); e != nil {
-					current, readErr := a.Store.Get(ctx, "job", job.ID)
-					if readErr != nil {
-						return readErr
-					}
-					latest, readErr := store.Decode[model.Job](current)
-					if readErr != nil {
-						return readErr
-					}
-					latest.Status = "failed"
-					latest.Error = e.Error()
-					_, _ = a.Store.Put(ctx, "job", job.ID, current.Version, latest)
-					return e
-				}
-				break
-			}
-		}
-		return nil
-	})
+
 	if a.Options.Mode == "edge" {
 		a.worker(ctx, 100*time.Millisecond, func(ctx context.Context) error {
 			return a.consume(ctx, "edge_downlink", 20, func(d store.Delivery) error {
@@ -264,7 +185,7 @@ func (a *Application) startWorkers(ctx context.Context) {
 				if e := store.DecodeJSON(d.Payload, &trigger); e != nil {
 					return e
 				}
-				req := model.Execution{DownlinkID: d.ID, DefinitionID: trigger.DefinitionID, DefinitionVersion: trigger.Version, Status: "queued", StartDeadlineMS: d.CreatedMS + a.Store.Policy().StartTTLMS, Actor: model.Actor{UserID: "published-policy", Source: a.Options.NodeID}, Steps: []model.StepResult{}, Approvals: []model.Approval{}, Params: map[string]string{}}
+				req := model.Execution{DownlinkID: d.ID, DefinitionID: trigger.DefinitionID, DefinitionVersion: trigger.Version, Status: "queued", Mode: "automatic", StartDeadlineMS: d.CreatedMS + a.Store.Policy().StartTTLMS, Actor: model.Actor{UserID: "published-policy", Source: a.Options.NodeID}, Steps: []model.StepResult{}, Approvals: []model.Approval{}, Params: map[string]string{}}
 				_, e := a.Server.Control.Run(ctx, req, true)
 				return e
 			})
@@ -281,6 +202,7 @@ func (a *Application) startWorkers(ctx context.Context) {
 			})
 		})
 	}
+	return nil
 }
 func (a *Application) consume(ctx context.Context, kind string, limit int, fn func(store.Delivery) error) error {
 	items, e := a.Store.Deliveries(ctx, kind, limit)
@@ -336,7 +258,7 @@ func (a *Application) schedule(ctx context.Context) error {
 		}
 		due := next
 		next += ((now-next)/sc.EveryMS + 1) * sc.EveryMS
-		req := model.Execution{DownlinkID: fmt.Sprintf("schedule:%s:%d:%d", d.ID, d.Version, due), DefinitionID: d.ID, DefinitionVersion: d.Version, Status: "queued", StartDeadlineMS: due + sc.WindowMS, Actor: model.Actor{UserID: "published-policy", Source: a.Options.NodeID}, Params: map[string]string{}, Steps: []model.StepResult{}, Approvals: []model.Approval{}}
+		req := model.Execution{DownlinkID: fmt.Sprintf("schedule:%s:%d:%d", d.ID, d.Version, due), DefinitionID: d.ID, DefinitionVersion: d.Version, Status: "queued", Mode: "scheduled", StartDeadlineMS: due + sc.WindowMS, Actor: model.Actor{UserID: "published-policy", Source: a.Options.NodeID}, Params: map[string]string{}, Steps: []model.StepResult{}, Approvals: []model.Approval{}}
 		e = a.Store.Write(ctx, func(t *store.Tx) error {
 			if e := t.SetEphemeral("schedule", stateID, map[string]any{"next_ms": next}); e != nil {
 				return e
@@ -351,4 +273,55 @@ func (a *Application) schedule(ctx context.Context) error {
 		}
 	}
 	return nil
+}
+
+// River owns external projection acquisition and retry. Adapter calls retain
+// the original outbox identity and authoritative business payload.
+func (a *Application) projectDelivery(ctx context.Context, item store.Delivery) error {
+	a.projectionMu.Lock()
+	if !a.projectionReady {
+		if err := a.Native.ReconcileDefinitions(ctx); err != nil {
+			a.projectionMu.Unlock()
+			return err
+		}
+		if err := a.Native.InstallRoot(ctx); err != nil {
+			a.projectionMu.Unlock()
+			return err
+		}
+		a.projectionReady = true
+	}
+	a.projectionMu.Unlock()
+	switch item.Kind {
+	case "tb_reconcile":
+		return nil
+	case "tb_alarm":
+		var alarm model.Alarm
+		if err := store.DecodeJSON(item.Payload, &alarm); err != nil {
+			return err
+		}
+		return a.Native.Alarm(ctx, alarm)
+	case "tb_entity":
+		var entity model.Entity
+		if err := store.DecodeJSON(item.Payload, &entity); err != nil {
+			return err
+		}
+		_, err := a.Native.EnsureEntity(ctx, entity)
+		return err
+	case "tb_definition":
+		var definition model.Definition
+		if err := store.DecodeJSON(item.Payload, &definition); err != nil {
+			return err
+		}
+		if err := a.Native.Definition(ctx, definition); err != nil {
+			return err
+		}
+		return a.Native.InstallRoot(ctx)
+	case "tb_telemetry":
+		var point model.Observation
+		if err := store.DecodeJSON(item.Payload, &point); err != nil {
+			return err
+		}
+		return a.Native.Project(ctx, []model.Observation{point})
+	}
+	return fmt.Errorf("unsupported projection kind %s", item.Kind)
 }

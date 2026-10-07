@@ -1,0 +1,366 @@
+{
+  "$defs": {
+    "DataGap": {
+      "additionalProperties": false,
+      "properties": {
+        "device_id": {
+          "type": "string"
+        },
+        "from_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "id": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "missing": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "scope": {
+          "type": "string"
+        },
+        "to_ms": {
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "device_id",
+        "key",
+        "from_ms",
+        "to_ms",
+        "missing",
+        "scope",
+        "reason"
+      ],
+      "type": "object"
+    },
+    "QualitySummary": {
+      "additionalProperties": false,
+      "properties": {
+        "bad": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "completeness": {
+          "enum": [
+            "unknown",
+            "complete",
+            "incomplete"
+          ],
+          "type": "string"
+        },
+        "excluded": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "good": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "missing": {
+          "anyOf": [
+            {
+              "format": "int64",
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "uncertain": {
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "good",
+        "bad",
+        "uncertain",
+        "excluded",
+        "missing",
+        "completeness"
+      ],
+      "type": "object"
+    },
+    "QueryMetadata": {
+      "additionalProperties": false,
+      "properties": {
+        "gaps": {
+          "items": {
+            "$ref": "#/$defs/DataGap"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "quality": {
+          "$ref": "#/$defs/QualitySummary"
+        },
+        "quality_scope": {
+          "type": "string"
+        },
+        "revisions": {
+          "items": {
+            "$ref": "#/$defs/Revision"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "sources": {
+          "items": {
+            "$ref": "#/$defs/SourceState"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "quality",
+        "quality_scope",
+        "sources",
+        "revisions",
+        "gaps"
+      ],
+      "type": "object"
+    },
+    "QueryPage": {
+      "additionalProperties": false,
+      "properties": {
+        "has_more": {
+          "type": "boolean"
+        },
+        "items": {
+          "items": {
+            "$ref": "#/$defs/QueryRow"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "metadata": {
+          "$ref": "#/$defs/QueryMetadata"
+        },
+        "next_page_token": {
+          "type": "string"
+        },
+        "scope": {
+          "$ref": "#/$defs/QueryRequest"
+        },
+        "snapshot_cursor": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "items",
+        "snapshot_cursor",
+        "has_more",
+        "scope",
+        "metadata"
+      ],
+      "type": "object"
+    },
+    "QueryRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "acknowledged": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "active": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "assignee_id": {
+          "type": "string"
+        },
+        "definition_id": {
+          "type": "string"
+        },
+        "entity_kind": {
+          "type": "string"
+        },
+        "from_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "handling_status": {
+          "type": "string"
+        },
+        "keys": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "limit": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "page_token": {
+          "type": "string"
+        },
+        "resolution": {
+          "type": "string"
+        },
+        "resource_ids": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "search": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "to_ms": {
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [],
+      "type": "object"
+    },
+    "QueryRow": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {},
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "revision": {
+          "type": "string"
+        },
+        "sort_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "version": {
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "kind",
+        "id",
+        "revision",
+        "version",
+        "sort_ms",
+        "data"
+      ],
+      "type": "object"
+    },
+    "Revision": {
+      "additionalProperties": false,
+      "properties": {
+        "after": {},
+        "at_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "before": {},
+        "device_id": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "job_id": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "version": {
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "job_id",
+        "device_id",
+        "key",
+        "at_ms",
+        "before",
+        "after",
+        "reason",
+        "version"
+      ],
+      "type": "object"
+    },
+    "SourceState": {
+      "additionalProperties": false,
+      "properties": {
+        "backfill": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "last_seen_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "last_seen_ms",
+        "status",
+        "backfill"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/QueryPage.schema.json",
+  "$ref": "#/$defs/QueryPage",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "QueryPage"
+}

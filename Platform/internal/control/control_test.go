@@ -22,9 +22,9 @@ type dispatchStub struct {
 func TestUpdatedConfirmationCountsApplyBeforeDispatch(t *testing.T) {
 	s, users, dispatch := fixture(t)
 	req := approvals(t, s, users, "changed-counts", false)
-	policy := s.Store.Policy()
+	policy := s.Identity.Store.Policy()
 	policy.Confirmations.Engineers = 2
-	s.Store.SetPolicy(policy)
+	s.Identity.Store.SetPolicy(policy)
 	if _, err := s.Dispatch(context.Background(), users["engineer"], req.DownlinkID); err == nil {
 		t.Fatal("old approval count bypassed current policy")
 	}
@@ -50,7 +50,7 @@ func TestOrganizationMoveInvalidatesLeaderApproval(t *testing.T) {
 	req := approvals(t, s, users, "organization-moved", false)
 	leader := users["leader"].User
 	leader.DepartmentID = "unrelated"
-	if _, err := s.Store.Put(ctx, "user", leader.ID, 1, leader); err != nil {
+	if _, err := s.Identity.Store.Put(ctx, "user", leader.ID, 1, leader); err != nil {
 		t.Fatal(err)
 	}
 	if _, err := s.Dispatch(ctx, users["engineer"], req.DownlinkID); err == nil {
@@ -69,7 +69,7 @@ func TestOrganizationMoveInvalidatesLeaderApproval(t *testing.T) {
 func TestInterlockIsRecheckedBetweenDeviceSteps(t *testing.T) {
 	s, users, dispatch := fixture(t)
 	ctx := context.Background()
-	doc, err := s.Store.Get(ctx, "definition", "plan")
+	doc, err := s.Identity.Store.Get(ctx, "definition", "plan")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -79,7 +79,7 @@ func TestInterlockIsRecheckedBetweenDeviceSteps(t *testing.T) {
 	}
 	d.Version++
 	d.Policy.Steps = append(d.Policy.Steps, model.Step{ID: "step-b", DeviceID: "device", EdgeID: "edge-a", Action: "actuate", TimeoutMS: 1000})
-	if _, err = s.Store.Put(ctx, "definition", d.ID, doc.Version, d); err != nil {
+	if _, err = s.Identity.Store.Put(ctx, "definition", d.ID, doc.Version, d); err != nil {
 		t.Fatal(err)
 	}
 	req := approvals(t, s, users, "interlock-between-steps", false)
@@ -89,7 +89,7 @@ func TestInterlockIsRecheckedBetweenDeviceSteps(t *testing.T) {
 	}
 	dispatch.after = func() {
 		if dispatch.calls == 1 {
-			if _, e := s.Store.Ingest(ctx, store.IngestBatch{MessageID: "trip-between", SourceID: "edge-a", Points: []model.Observation{{DeviceID: "device", Key: "interlock", Value: true, Quality: "GOOD", ObservedMS: s.Store.Now().UnixMilli() + 1}}}); e != nil {
+			if _, e := s.Identity.Store.Ingest(ctx, store.IngestBatch{MessageID: "trip-between", SourceID: "edge-a", Points: []model.Observation{{DeviceID: "device", Key: "interlock", Value: true, Quality: "GOOD", ObservedMS: s.Identity.Store.Now().UnixMilli() + 1}}}); e != nil {
 				t.Fatal(e)
 			}
 		}
@@ -110,6 +110,12 @@ func fixture(t *testing.T) (*Service, map[string]identity.Principal, *dispatchSt
 		t.Fatal(e)
 	}
 	t.Cleanup(func() { s.Close() })
+	return controlFixture(t, s)
+}
+func controlFixture(t *testing.T, s *store.Store) (*Service, map[string]identity.Principal, *dispatchStub) {
+	t.Helper()
+	ctx := context.Background()
+	var e error
 	now := time.Date(2026, 9, 20, 0, 0, 0, 0, time.UTC)
 	s.Now = func() time.Time { return now }
 	auth := &identity.Manager{Store: s, Master: make([]byte, 32)}
@@ -182,7 +188,7 @@ func TestApprovalExecutionAndRestartDeduplication(t *testing.T) {
 	if e != nil || dispatch.calls != 1 {
 		t.Fatal("duplicate physical action after service restart", e, dispatch.calls)
 	}
-	events, e := s.Store.AuditList(ctx, r.DownlinkID, 100)
+	events, e := s.Identity.Store.AuditList(ctx, r.DownlinkID, 100)
 	if e != nil || len(events) < 6 {
 		t.Fatal("responsibility records missing", len(events), e)
 	}
@@ -215,19 +221,19 @@ func TestExpiredAndRevokedApprovalsAndInterlock(t *testing.T) {
 			r := approvals(t, s, users, scenario, false)
 			switch scenario {
 			case "expired":
-				now := s.Store.Now().Add(6 * time.Minute)
-				s.Store.Now = func() time.Time { return now }
+				now := s.Identity.Store.Now().Add(6 * time.Minute)
+				s.Identity.Store.Now = func() time.Time { return now }
 			case "revoked":
 				u := users["leader"].User
 				u.Active = false
-				s.Store.Put(ctx, "user", u.ID, 1, u)
+				s.Identity.Store.Put(ctx, "user", u.ID, 1, u)
 			case "interlocked":
-				s.Store.Ingest(ctx, store.IngestBatch{MessageID: "trip", SourceID: "edge-a", Points: []model.Observation{{DeviceID: "device", Key: "interlock", Value: true, ObservedMS: s.Store.Now().UnixMilli(), Quality: "GOOD"}}})
+				s.Identity.Store.Ingest(ctx, store.IngestBatch{MessageID: "trip", SourceID: "edge-a", Points: []model.Observation{{DeviceID: "device", Key: "interlock", Value: true, ObservedMS: s.Identity.Store.Now().UnixMilli(), Quality: "GOOD"}}})
 			case "old-version":
-				doc, _ := s.Store.Get(ctx, "definition", "plan")
+				doc, _ := s.Identity.Store.Get(ctx, "definition", "plan")
 				d, _ := store.Decode[model.Definition](doc)
 				d.Version++
-				s.Store.Put(ctx, "definition", "plan", doc.Version, d)
+				s.Identity.Store.Put(ctx, "definition", "plan", doc.Version, d)
 			}
 			result, e := s.Dispatch(ctx, users["engineer"], r.DownlinkID)
 			if e == nil && result.Status != "rejected" {
@@ -242,11 +248,11 @@ func TestExpiredAndRevokedApprovalsAndInterlock(t *testing.T) {
 func TestSafetyOverrideRequiresDesignatedLocalSecondFactor(t *testing.T) {
 	s, users, _ := fixture(t)
 	ctx := context.Background()
-	doc, _ := s.Store.Get(ctx, "definition", "plan")
+	doc, _ := s.Identity.Store.Get(ctx, "definition", "plan")
 	d, _ := store.Decode[model.Definition](doc)
 	d.Policy.RiskCategory = "safety"
 	d.Version = 2
-	s.Store.Put(ctx, "definition", "plan", 1, d)
+	s.Identity.Store.Put(ctx, "definition", "plan", 1, d)
 	r := approvals(t, s, users, "safety-request", true)
 	if r.Status == "approved" {
 		t.Fatal("safety approval bypassed")

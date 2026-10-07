@@ -1,0 +1,40 @@
+{
+  "$defs": {
+    "ReleaseDeploymentActionInput": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "enum": [
+            "pause",
+            "resume",
+            "retry",
+            "cancel"
+          ],
+          "type": "string"
+        },
+        "expected_version": {
+          "format": "int64",
+          "minimum": 1,
+          "type": "integer"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "request_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "request_id",
+        "expected_version",
+        "action",
+        "reason"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/ReleaseDeploymentActionInput.schema.json",
+  "$ref": "#/$defs/ReleaseDeploymentActionInput",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ReleaseDeploymentActionInput"
+}

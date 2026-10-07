@@ -11,10 +11,19 @@ root = Path(__file__).resolve().parents[1]
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--state-directory', type=Path, default=root / '.local')
 parser.add_argument('--output', type=Path, default=root / '.local/evidence/native-roundtrip.json')
+parser.add_argument('--profiles', choices=['cloud', 'edge', 'both'], default='both')
+parser.add_argument('--cloud-url', default='http://127.0.0.1:8090')
+parser.add_argument('--edge-url', default='http://127.0.0.1:8091')
+parser.add_argument('--tb-cloud-url', default='http://127.0.0.1:18080')
+parser.add_argument('--tb-edge-url', default='http://127.0.0.1:18081')
 args = parser.parse_args()
 private = json.loads((args.state_directory / "development-credentials.json").read_text())
 native = json.loads((args.state_directory / "tb-bootstrap.json").read_text())
-evidence = {"check": "native_cloud_edge_roundtrip", "started_ms": int(time.time()*1000), "ce_version": "4.3.1.5", "edge_version": "4.3.1.1EDGE", "profiles": []}
+dependencies = json.loads((root / "deploy/dependencies.json").read_text())
+evidence = {"check": "native_cloud_edge_roundtrip", "started_ms": int(time.time()*1000),
+            "ce_version": dependencies["images"]["thingsboard"].rsplit(":", 1)[1],
+            "edge_version": dependencies["images"]["thingsboard_edge"].rsplit(":", 1)[1],
+            "sources": dependencies["sources"], "profiles": []}
 
 def req(base, method, path, token, value=None, tb=False):
     headers = {"Content-Type": "application/json", ("X-Authorization" if tb else "Authorization"): "Bearer " + token}
@@ -23,8 +32,10 @@ def req(base, method, path, token, value=None, tb=False):
         raw = res.read()
         return json.loads(raw) if raw else None
 
-for name, port, tb_port in [("cloud", 8090, 18080), ("edge", 8091, 18081)]:
-    base, tb = f"http://127.0.0.1:{port}", f"http://127.0.0.1:{tb_port}"
+profiles = [("cloud", args.cloud_url, args.tb_cloud_url), ("edge", args.edge_url, args.tb_edge_url)]
+for name, base, tb in profiles:
+    if args.profiles not in ['both', name]:
+        continue
     user = req(base, "POST", "/api/sf/v1/login", "", {"login":"admin", "password":private["password"]})["token"]
     tb_token = req(tb, "POST", "/api/auth/login", "", {"username":native["username"], "password":native["password"]}, True)["token"]
     now = int(time.time()*1000)

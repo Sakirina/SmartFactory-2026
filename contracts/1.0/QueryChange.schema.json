@@ -1,0 +1,74 @@
+{
+  "$defs": {
+    "QueryChange": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "item": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/QueryRow"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "kind": {
+          "type": "string"
+        },
+        "operation": {
+          "type": "string"
+        },
+        "revision": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "operation",
+        "kind",
+        "id",
+        "revision"
+      ],
+      "type": "object"
+    },
+    "QueryRow": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {},
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "revision": {
+          "type": "string"
+        },
+        "sort_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "version": {
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "kind",
+        "id",
+        "revision",
+        "version",
+        "sort_ms",
+        "data"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/QueryChange.schema.json",
+  "$ref": "#/$defs/QueryChange",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "QueryChange"
+}

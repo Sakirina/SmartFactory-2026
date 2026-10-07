@@ -102,6 +102,7 @@ type record struct {
 	status    string
 	request   *dtv1.DeviceMessage
 	expiresAt time.Time
+	updatedAt time.Time
 }
 
 func NewService(ttl time.Duration) *Service {
@@ -222,7 +223,7 @@ func (s *Service) reserve(ctx context.Context, msg *dtv1.DeviceMessage, internal
 		}
 		return true, proto.Clone(existing.response).(*dtv1.CommandResponsePayload), nil
 	}
-	s.records[msg.CommandId] = record{request: proto.Clone(msg).(*dtv1.DeviceMessage), response: &dtv1.CommandResponsePayload{CommandId: msg.CommandId, Status: dtv1.CommandStatus_RESULT_UNKNOWN, Message: internalStatus}, status: internalStatus, expiresAt: time.Now().Add(s.ttl)}
+	s.records[msg.CommandId] = record{request: proto.Clone(msg).(*dtv1.DeviceMessage), response: &dtv1.CommandResponsePayload{CommandId: msg.CommandId, Status: dtv1.CommandStatus_RESULT_UNKNOWN, Message: internalStatus}, status: internalStatus, expiresAt: time.Now().Add(s.ttl), updatedAt: time.Now()}
 	return false, nil, nil
 }
 
@@ -323,6 +324,7 @@ func (s *Service) complete(commandID string, response *dtv1.CommandResponsePaylo
 	entry.response = proto.Clone(response).(*dtv1.CommandResponsePayload)
 	entry.status = response.Status.String()
 	entry.expiresAt = time.Now().Add(s.ttl)
+	entry.updatedAt = time.Now()
 	s.records[commandID] = entry
 	return nil
 }

@@ -1,0 +1,116 @@
+{
+  "$defs": {
+    "ConfigurationReport": {
+      "additionalProperties": false,
+      "properties": {
+        "applied": {
+          "$ref": "#/$defs/ConfigurationVersion"
+        },
+        "at_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "desired": {
+          "$ref": "#/$defs/ConfigurationVersion"
+        },
+        "effective_value": {},
+        "generation": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "id": {
+          "type": "string"
+        },
+        "identity_id": {
+          "type": "string"
+        },
+        "instance_epoch": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "instance_id": {
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "parameter",
+            "connector"
+          ],
+          "type": "string"
+        },
+        "node_id": {
+          "type": "string"
+        },
+        "prepared": {
+          "$ref": "#/$defs/ConfigurationVersion"
+        },
+        "program": {
+          "type": "string"
+        },
+        "purpose": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "running": {
+          "$ref": "#/$defs/ConfigurationVersion"
+        },
+        "sequence": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "state": {
+          "enum": [
+            "prepared",
+            "running",
+            "failed",
+            "restart_required"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "identity_id",
+        "node_id",
+        "program",
+        "purpose",
+        "instance_id",
+        "instance_epoch",
+        "generation",
+        "sequence",
+        "kind",
+        "id",
+        "desired",
+        "prepared",
+        "applied",
+        "running",
+        "state",
+        "at_ms"
+      ],
+      "type": "object"
+    },
+    "ConfigurationVersion": {
+      "additionalProperties": false,
+      "properties": {
+        "digest": {
+          "type": "string"
+        },
+        "version": {
+          "format": "int64",
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "version",
+        "digest"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/ConfigurationReport.schema.json",
+  "$ref": "#/$defs/ConfigurationReport",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ConfigurationReport"
+}

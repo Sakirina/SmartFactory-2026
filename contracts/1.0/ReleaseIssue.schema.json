@@ -1,0 +1,38 @@
+{
+  "$defs": {
+    "ReleaseIssue": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "component_id": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "recovery": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "component_id",
+        "code",
+        "message",
+        "recovery"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/ReleaseIssue.schema.json",
+  "$ref": "#/$defs/ReleaseIssue",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ReleaseIssue"
+}

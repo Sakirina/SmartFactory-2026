@@ -11,18 +11,47 @@ from urllib.request import Request,urlopen
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action',choices=['install','start','stop','status'])
+    parser.add_argument('action',choices=['install','start','stop','status','prepare-release','enable-release'])
     parser.add_argument('--directory',type=Path,required=True)
+    parser.add_argument('--nodes',help='comma-separated prepared nodes for release conversion; default is all nodes')
     args=parser.parse_args()
     work=args.directory.resolve();profile=json.loads((work/'profile.json').read_text());bundle=Path(profile['bundle'])
     command=['docker','compose','-f',str(work/'compose.json')]
     def compose(*parts):subprocess.run([*command,*parts],check=True)
-    if args.action=='status':compose('--profile','native-edge','ps');return
-    if args.action=='stop':compose('--profile','native-edge','stop');return
+    if args.action=='status':compose('--profile','native-edge','--profile','release','ps');return
+    if args.action=='stop':compose('--profile','native-edge','--profile','release','stop');return
     marker=work/'installed.json'
+    if args.action in ['prepare-release','enable-release']:
+        if not marker.exists():raise SystemExit('Run install for the prepared deployment first')
+        nodes=args.nodes.split(',') if args.nodes else profile['nodes']
+        if not nodes or any(node not in profile['nodes'] for node in nodes):parser.error('nodes must belong to this prepared deployment')
+        config=json.loads((work/'compose.json').read_text())
+        managed=set(profile.get('release_managed_nodes',[]))
+        selected=[node for node in nodes if node not in managed]
+        for node in selected:
+            service=node+'-release-agent'
+            compose('--profile','release','run','--rm','--no-deps',service,*config['services'][service]['command'],'--prepare-only')
+        if args.action=='prepare-release':
+            print('Prepared current assigned releases while the original node services remain online: '+', '.join(selected));return
+        for node in selected:compose('--profile','release','stop',node)
+        for node in selected:
+            service=node+'-release-agent'
+            config['services'][node]['profiles']=['direct-runtime']
+            for specification in config['services'].values():
+                dependencies=specification.get('depends_on',{})
+                if node in dependencies:dependencies[service]=dependencies.pop(node)
+            managed.add(node)
+        (work/'compose.json').write_text(json.dumps(config,ensure_ascii=False,indent=2)+'\n')
+        profile['release_managed_nodes']=sorted(managed)
+        (work/'profile.json').write_text(json.dumps(profile,ensure_ascii=False,indent=2)+'\n')
+        if selected:compose('--profile','release','up','-d','--no-deps','--pull','never',*[node+'-release-agent' for node in selected])
+        print('Release agents now manage the prepared nodes using their original databases and master keys: '+', '.join(nodes));return
     if args.action=='start':
         if not marker.exists():raise SystemExit('Run install for the prepared deployment first')
-        compose('--profile','native-edge','up','-d','--pull','never');return
+        config=json.loads((work/'compose.json').read_text())
+        managed={node+'-release-agent' for node in profile.get('release_managed_nodes',[])}
+        selected=[name for name,value in config['services'].items() if not set(value.get('profiles',[]))&{'install','direct-runtime'} and ('release' not in value.get('profiles',[]) or name in managed)]
+        compose('--profile','native-edge','--profile','release','up','-d','--pull','never',*selected);return
     if marker.exists():raise SystemExit('Installation already recorded; use start')
     credentials=json.loads((work/'deployment-credentials.json').read_text())
     def request(base,path,value=None,token=''):

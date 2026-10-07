@@ -1,0 +1,61 @@
+{
+  "$defs": {
+    "ConfigurationReference": {
+      "additionalProperties": false,
+      "properties": {
+        "digest": {
+          "maxLength": 64,
+          "minLength": 64,
+          "type": "string"
+        },
+        "id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "parameter",
+            "connector"
+          ],
+          "type": "string"
+        },
+        "version": {
+          "format": "int64",
+          "minimum": 1,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "kind",
+        "id",
+        "version",
+        "digest"
+      ],
+      "type": "object"
+    },
+    "RuntimeConfiguration": {
+      "additionalProperties": false,
+      "properties": {
+        "apply_generation": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "consumer_digest": {
+          "type": "string"
+        },
+        "effective_value": {},
+        "reference": {
+          "$ref": "#/$defs/ConfigurationReference"
+        }
+      },
+      "required": [
+        "reference"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/RuntimeConfiguration.schema.json",
+  "$ref": "#/$defs/RuntimeConfiguration",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RuntimeConfiguration"
+}

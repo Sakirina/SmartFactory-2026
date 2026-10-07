@@ -1,0 +1,231 @@
+{
+  "$defs": {
+    "ProgramBuild": {
+      "additionalProperties": false,
+      "properties": {
+        "configuration_formats": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "goarch": {
+          "type": "string"
+        },
+        "goos": {
+          "type": "string"
+        },
+        "migration_maximum": {
+          "format": "int64",
+          "minimum": 1,
+          "type": "integer"
+        },
+        "migration_minimum": {
+          "format": "int64",
+          "minimum": 1,
+          "type": "integer"
+        },
+        "program": {
+          "type": "string"
+        },
+        "rule_formats": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "source_sha256": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "program",
+        "version",
+        "goos",
+        "goarch",
+        "migration_minimum",
+        "migration_maximum",
+        "rule_formats",
+        "configuration_formats"
+      ],
+      "type": "object"
+    },
+    "ReleaseNodeReport": {
+      "additionalProperties": false,
+      "properties": {
+        "component_id": {
+          "type": "string"
+        },
+        "deployment_id": {
+          "type": "string"
+        },
+        "generation": {
+          "format": "int64",
+          "minimum": 1,
+          "type": "integer"
+        },
+        "identity_id": {
+          "type": "string"
+        },
+        "node_id": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "release_sha256": {
+          "type": "string"
+        },
+        "runtime": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ReleaseRuntime"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sequence": {
+          "format": "int64",
+          "minimum": 1,
+          "type": "integer"
+        },
+        "state": {
+          "enum": [
+            "prepared",
+            "applied",
+            "running",
+            "failed"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "deployment_id",
+        "identity_id",
+        "node_id",
+        "generation",
+        "sequence",
+        "release_sha256",
+        "state"
+      ],
+      "type": "object"
+    },
+    "ReleaseRuntime": {
+      "additionalProperties": false,
+      "properties": {
+        "build": {
+          "$ref": "#/$defs/ProgramBuild"
+        },
+        "components": {
+          "items": {
+            "$ref": "#/$defs/ReleaseRuntimeComponent"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "healthy": {
+          "type": "boolean"
+        },
+        "migration_version": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "node_id": {
+          "type": "string"
+        },
+        "pid": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "policy_sha256": {
+          "type": "string"
+        },
+        "process_instance_id": {
+          "type": "string"
+        },
+        "program": {
+          "type": "string"
+        },
+        "program_sha256": {
+          "type": "string"
+        },
+        "release_id": {
+          "type": "string"
+        },
+        "release_sha256": {
+          "type": "string"
+        },
+        "started_ms": {
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "node_id",
+        "program",
+        "process_instance_id",
+        "pid",
+        "started_ms",
+        "program_sha256",
+        "build",
+        "release_id",
+        "release_sha256",
+        "migration_version",
+        "components",
+        "policy_sha256",
+        "healthy"
+      ],
+      "type": "object"
+    },
+    "ReleaseRuntimeComponent": {
+      "additionalProperties": false,
+      "properties": {
+        "applied_sha256": {
+          "type": "string"
+        },
+        "applied_version": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "sha256": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "version",
+        "sha256",
+        "applied_sha256",
+        "applied_version"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/ReleaseNodeReport.schema.json",
+  "$ref": "#/$defs/ReleaseNodeReport",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ReleaseNodeReport"
+}

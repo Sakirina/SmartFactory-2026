@@ -1,0 +1,33 @@
+{
+  "$defs": {
+    "TemplateEvolutionTarget": {
+      "additionalProperties": false,
+      "properties": {
+        "instance_id": {
+          "type": "string"
+        },
+        "parameters": {
+          "additionalProperties": {},
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "template_version": {
+          "format": "int64",
+          "minimum": 1,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "instance_id",
+        "template_version"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/TemplateEvolutionTarget.schema.json",
+  "$ref": "#/$defs/TemplateEvolutionTarget",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TemplateEvolutionTarget"
+}

@@ -2,25 +2,85 @@
   "schema_version": 1,
   "platform": "linux/amd64",
   "images": {
-    "thingsboard": "thingsboard/tb-node:4.3.1.5",
-    "thingsboard_edge": "thingsboard/tb-edge:4.3.1.1EDGE",
-    "postgres": "postgres:16",
-    "kafka": "apache/kafka:4.0.0",
-    "nats": "nats:2.11.9-alpine",
-    "envoy": "envoyproxy/envoy:v1.35.5",
-    "go_builder": "golang:1.25-alpine",
-    "node_builder": "node:22-alpine",
-    "runtime": "alpine:3.22"
+    "thingsboard": "thingsboard/tb-node:4.3.1.6",
+    "thingsboard_edge": "thingsboard/tb-edge:4.3.1.6EDGE",
+    "postgres": "postgres:18.6",
+    "kafka": "apache/kafka:4.3.1",
+    "nats": "nats:2.14.7-alpine",
+    "envoy": "envoyproxy/envoy:v1.39.1",
+    "go_builder": "golang:1.27.1-alpine",
+    "node_builder": "node:24.21.0-alpine",
+    "runtime": "alpine:3.22",
+    "nats_upgrade_intermediate": "nats:2.12.15-alpine"
   },
   "sources": {
     "thingsboard": {
-      "tag": "v4.3.1.5",
-      "commit": "2cd31ac359214f94b945546830da503ddf80070f"
+      "tag": "v4.3.1.6",
+      "commit": "c77335f4a524bb9fe0209806672c6ec7aea76141"
     },
     "thingsboard_edge": {
-      "version": "4.3.1.1EDGE",
-      "docker_tag": "4.3.1.1EDGE",
-      "commit": "04d9daf4a557a13483de2310e35b6493aff751fc"
+      "version": "4.3.1.6EDGE",
+      "docker_tag": "4.3.1.6EDGE",
+      "tag": "v4.3.1.6",
+      "commit": "634b1852d2479983e2eb9aafcfaecbc164220f63"
+    },
+    "nats": {
+      "tag": "v2.14.7",
+      "commit": "8d8b69a8c46a46a150eabb7f312607c4d9c58faf",
+      "source": "https://api.github.com/repos/nats-io/nats-server/git/ref/tags/v2.14.7"
+    },
+    "kafka": {
+      "tag": "4.3.1",
+      "commit": "26b251a451ce941d3d7a55e6487bcb7f16b5ad48",
+      "source": "https://api.github.com/repos/apache/kafka/git/ref/tags/4.3.1"
+    },
+    "nats_upgrade_intermediate": {
+      "tag": "v2.12.15",
+      "commit": "8460a428cf3b27c8627595d630f1ccad55786d13",
+      "source": "https://api.github.com/repos/nats-io/nats-server/git/ref/tags/v2.12.15",
+      "purpose": "Offline NATS 2.11.9 to 2.12.15 to 2.14.7 rolling migration"
+    },
+    "postgres": {
+      "repository": "https://github.com/postgres/postgres",
+      "tag": "REL_18_6",
+      "commit": "724edf9bde9d356724ad384a2e196edc3c9f80f7",
+      "tag_reference_url": "https://api.github.com/repos/postgres/postgres/git/ref/tags/REL_18_6",
+      "observed_program_version": "postgres (PostgreSQL) 18.6 (Debian 18.6-1.pgdg13+2)",
+      "license_scope": "primary upstream program and any notices explicitly included in its LICENSE; operating-system and other image packages keep their individual publisher licenses"
+    },
+    "envoy": {
+      "repository": "https://github.com/envoyproxy/envoy",
+      "tag": "v1.39.1",
+      "commit": "b579d07d3ad7ee11d32b105e91a5a39ad24718d7",
+      "tag_reference_url": "https://api.github.com/repos/envoyproxy/envoy/git/ref/tags/v1.39.1",
+      "observed_program_version": "/usr/local/bin/envoy  version: b579d07d3ad7ee11d32b105e91a5a39ad24718d7/1.39.1/Clean/RELEASE/BoringSSL",
+      "license_scope": "primary upstream program and any notices explicitly included in its LICENSE; operating-system and other image packages keep their individual publisher licenses"
+    },
+    "go_builder": {
+      "repository": "https://github.com/golang/go",
+      "tag": "go1.27.1",
+      "commit": "862c888e612ac346c7c4d99c9392bdfd265f33b0",
+      "tag_reference_url": "https://api.github.com/repos/golang/go/git/ref/tags/go1.27.1",
+      "observed_program_version": "go version go1.27.1 linux/amd64",
+      "license_scope": "primary upstream program and any notices explicitly included in its LICENSE; operating-system and other image packages keep their individual publisher licenses"
+    },
+    "node_builder": {
+      "repository": "https://github.com/nodejs/node",
+      "tag": "v24.21.0",
+      "commit": "955266bfdd854cd280dffd47548673914484e4c0",
+      "tag_reference_url": "https://api.github.com/repos/nodejs/node/git/ref/tags/v24.21.0",
+      "observed_program_version": "v24.21.0",
+      "license_scope": "primary upstream program and any notices explicitly included in its LICENSE; operating-system and other image packages keep their individual publisher licenses"
+    },
+    "runtime": {
+      "version": "3.22.6",
+      "repository": "https://github.com/alpinelinux/docker-alpine",
+      "branch": "v3.22",
+      "commit": "32cb3f1f45f4fee15882936c06a264eb9e5130fe",
+      "source": "https://raw.githubusercontent.com/alpinelinux/docker-alpine/32cb3f1f45f4fee15882936c06a264eb9e5130fe/x86_64/Dockerfile",
+      "observed_program_version": "3.22.6",
+      "package_inventory": "deploy/licenses/runtime/packages.json",
+      "license_scope": "sixteen packages observed in the locked linux/amd64 Alpine 3.22.6 image; individual APK license expressions, exact aports commits, available upstream license texts and source recipes are recorded separately"
     }
   },
   "notes": "镜像标签与源码版本分别记录；resolve-images.py 查询清单与尺寸，pull-images.py 仅执行明确选择的已锁定镜像。"

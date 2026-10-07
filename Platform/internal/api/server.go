@@ -15,31 +15,36 @@ import (
 	"sync"
 	"time"
 
+	"competition2026/product/platform/internal/application"
 	"competition2026/product/platform/internal/configcenter"
 	"competition2026/product/platform/internal/control"
 	"competition2026/product/platform/internal/engine"
 	"competition2026/product/platform/internal/identity"
 	"competition2026/product/platform/internal/plugins"
+	"competition2026/product/platform/internal/releaseruntime"
 	"competition2026/product/platform/internal/store"
 	"competition2026/product/platform/pkg/model"
 )
 
 type Server struct {
-	Store         *store.Store
-	Identity      *identity.Manager
-	Engine        *engine.Service
-	Control       *control.Service
-	Config        *configcenter.Service
-	Mode          string
-	NodeID        string
-	ServiceToken  string
-	StaticDir     string
-	ConfigURL     string
-	HTTPClient    *http.Client
-	MCP           http.Handler
-	Chat          http.Handler
-	mu            sync.Mutex
-	loginAttempts map[string]attempt
+	ReleaseArtifactRoot string
+	ReleaseRuntime      *releaseruntime.Runtime
+	Store               *store.Store
+	Identity            *identity.Manager
+	Engine              *engine.Service
+	Control             *control.Service
+	Config              *configcenter.Service
+	Mode                string
+	NodeID              string
+	ServiceToken        string
+	StaticDir           string
+	ConfigURL           string
+	HTTPClient          *http.Client
+	MCP                 http.Handler
+	Chat                http.Handler
+	mu                  sync.Mutex
+	loginAttempts       map[string]attempt
+	queries             *application.Queries
 }
 type attempt struct {
 	Count int
@@ -54,8 +59,13 @@ type APIError struct {
 func (e APIError) Error() string { return e.Message }
 func (s *Server) Handler() http.Handler {
 	m := http.NewServeMux()
+	s.registerReleaseInternal(m)
+	s.registerConfigurationAuthority(m)
 	if s.Mode == "config" && s.Config != nil {
 		s.Config.RegisterInternal(m, s.ServiceToken)
+	}
+	if s.Mode == "edge" && s.Config != nil {
+		s.Config.RegisterConnectorSource(m)
 	}
 	m.HandleFunc("GET /health", func(w http.ResponseWriter, r *http.Request) {
 		if e := s.Store.DB.PingContext(r.Context()); e != nil {
@@ -66,6 +76,7 @@ func (s *Server) Handler() http.Handler {
 	})
 	m.HandleFunc("POST /api/sf/v1/login", s.login)
 	m.HandleFunc("POST /internal/native/evaluate", s.nativeEvaluate)
+	m.HandleFunc("POST /internal/native/alarms/{id}", s.nativeAlarmUpdate)
 	s.route(m, "POST /api/sf/v1/logout", "read", func(w http.ResponseWriter, r *http.Request, p identity.Principal) error {
 		e := s.Identity.Logout(r.Context(), bearer(r))
 		if e == nil {
@@ -93,17 +104,11 @@ func (s *Server) Handler() http.Handler {
 	s.route(m, "GET /api/sf/v1/definitions", "read", s.definitions)
 	s.route(m, "GET /api/sf/v1/definitions/{id}/versions", "read", s.definitionVersions)
 	s.route(m, "GET /api/sf/v1/drafts", "draft", s.drafts)
-	s.route(m, "POST /api/sf/v1/drafts", "draft", s.saveDraft)
-	s.route(m, "POST /api/sf/v1/drafts/{id}/validate", "draft", s.validateDraft)
+	s.registerDefinitionRoutes(m)
 	s.route(m, "GET /api/sf/v1/drafts/{id}/diff", "read", s.draftDiff)
-	s.route(m, "POST /api/sf/v1/drafts/{id}/simulate", "draft", s.simulateDraft)
-	s.route(m, "POST /api/sf/v1/drafts/{id}/publish", "publish", s.publishDraft)
 	s.route(m, "POST /api/sf/v1/definitions/{id}/deactivate", "publish", s.deactivate)
 	s.route(m, "POST /api/sf/v1/definitions/{id}/rollback", "draft", s.rollback)
 	s.route(m, "GET /api/sf/v1/executions", "read", s.executions)
-	s.route(m, "POST /api/sf/v1/executions", "control", s.createExecution)
-	s.route(m, "POST /api/sf/v1/executions/{id}/approve", "approve", s.approve)
-	s.route(m, "POST /api/sf/v1/executions/{id}/dispatch", "control", s.dispatch)
 	s.route(m, "GET /api/sf/v1/alarms", "read", s.alarms)
 	s.route(m, "POST /api/sf/v1/alarms/{id}/acknowledge", "approve", s.ackAlarm)
 	s.route(m, "GET /api/sf/v1/jobs", "read", s.jobs)
@@ -184,6 +189,9 @@ func bearer(r *http.Request) string {
 }
 func (s *Server) Authenticate(r *http.Request) (identity.Principal, error) {
 	token := bearer(r)
+	if s.Mode == "config" && s.NodeIdentities().AuthorityURL != "" {
+		return s.NodeIdentities().AuthorizeUser(r.Context(), token, "read", nil)
+	}
 	if s.ServiceToken != "" && subtle.ConstantTimeCompare([]byte(token), []byte(s.ServiceToken)) == 1 {
 		p := identity.Principal{User: model.User{ID: "service:" + s.NodeID, Name: "Platform service", Active: true, Roles: []string{"gateway"}, Resources: []string{"*"}}, Actor: model.Actor{UserID: "service:" + s.NodeID, Source: "service"}}
 		if s.Mode == "config" {
@@ -222,7 +230,7 @@ func respond(w http.ResponseWriter, status int, v any) {
 	w.WriteHeader(status)
 	_ = json.NewEncoder(w).Encode(v)
 }
-func fail(w http.ResponseWriter, e error) {
+func errorStatus(e error) int {
 	code := 400
 	var apiErr APIError
 	switch {
@@ -234,12 +242,21 @@ func fail(w http.ResponseWriter, e error) {
 		code = 403
 	case errors.Is(e, store.ErrNotFound):
 		code = 404
+	case errors.Is(e, store.ErrQueryExpired):
+		code = 410
+	case errors.Is(e, store.ErrQueryReset), errors.Is(e, store.ErrQueryAuthorization), errors.Is(e, store.ErrQueryChanged):
+		code = 409
+	case errors.Is(e, store.ErrQueryBudget):
+		code = 413
 	case errors.Is(e, store.ErrConflict):
 		code = 409
 	case errors.Is(e, context.DeadlineExceeded):
 		code = 504
 	}
-	respond(w, code, map[string]string{"error": e.Error()})
+	return code
+}
+func fail(w http.ResponseWriter, e error) {
+	respond(w, errorStatus(e), map[string]string{"error": e.Error()})
 }
 func (s *Server) login(w http.ResponseWriter, r *http.Request) {
 	var req struct {
@@ -572,42 +589,5 @@ func (s *Server) ingest(w http.ResponseWriter, r *http.Request, p identity.Princ
 	return e
 }
 func (s *Server) events(w http.ResponseWriter, r *http.Request, p identity.Principal) error {
-	if _, e := s.query(r, p); e != nil {
-		return e
-	}
-	flusher, ok := w.(http.Flusher)
-	if !ok {
-		return errors.New("streaming is unavailable")
-	}
-	w.Header().Set("Content-Type", "text/event-stream")
-	w.Header().Set("X-Accel-Buffering", "no")
-	ticker := time.NewTicker(time.Second)
-	defer ticker.Stop()
-	for {
-		result, e := s.query(r, p)
-		if e != nil {
-			b, _ := json.Marshal(map[string]string{"error": e.Error()})
-			fmt.Fprintf(w, "event: error\ndata: %s\n\n", b)
-			flusher.Flush()
-			return nil
-		}
-		b, e := json.Marshal(result)
-		if e != nil {
-			return e
-		}
-		if _, e = fmt.Fprintf(w, "event: data\ndata: %s\n\n", b); e != nil {
-			return nil
-		}
-		flusher.Flush()
-		select {
-		case <-r.Context().Done():
-			return nil
-		case <-ticker.C:
-			current, e := s.Identity.Authenticate(r.Context(), bearer(r))
-			if e != nil {
-				return nil
-			}
-			p = current
-		}
-	}
+	return s.queryEventsLegacy(w, r, p)
 }

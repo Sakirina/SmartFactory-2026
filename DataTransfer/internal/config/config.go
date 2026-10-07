@@ -78,11 +78,11 @@ type MQTTConfig struct {
 }
 
 type TLSConfig struct {
-	Enabled            bool   `yaml:"enabled"`
-	InsecureSkipVerify bool   `yaml:"insecure_skip_verify"`
-	CertFile           string `yaml:"cert_file"`
-	KeyFile            string `yaml:"key_file"`
-	CAFile             string `yaml:"ca_file"`
+	Enabled            bool   `yaml:"enabled" json:"enabled"`
+	InsecureSkipVerify bool   `yaml:"insecure_skip_verify" json:"insecure_skip_verify"`
+	CertFile           string `yaml:"cert_file" json:"cert_file"`
+	KeyFile            string `yaml:"key_file" json:"key_file"`
+	CAFile             string `yaml:"ca_file" json:"ca_file"`
 }
 
 type RuntimeConfig struct {

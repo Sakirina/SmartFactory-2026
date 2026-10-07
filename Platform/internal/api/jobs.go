@@ -41,29 +41,7 @@ func (s *Server) createJob(w http.ResponseWriter, r *http.Request, p identity.Pr
 	return e
 }
 func (s *Server) retryJob(w http.ResponseWriter, r *http.Request, p identity.Principal) error {
-	doc, e := s.Store.Get(r.Context(), "job", r.PathValue("id"))
-	if e != nil {
-		return e
-	}
-	job, e := store.Decode[model.Job](doc)
-	if e != nil {
-		return e
-	}
-	if e = s.allow(r, p, "register", job.DeviceID); e != nil {
-		return e
-	}
-	if job.Kind != "recompute" || job.Status != "failed" {
-		return errors.New("only failed recomputation tasks can be retried")
-	}
-	job.Status = "pending"
-	job.Error = ""
-	job.Version = doc.Version + 1
-	e = s.Store.Write(r.Context(), func(t *store.Tx) error {
-		if _, e := t.Put("job", job.ID, doc.Version, job); e != nil {
-			return e
-		}
-		return t.Audit(p.Actor, "recompute.retry", job.DeviceID, job.ID, job)
-	})
+	job, e := s.TaskApplication().RetryJob(r.Context(), p, r.PathValue("id"))
 	if e == nil {
 		respond(w, 202, job)
 	}

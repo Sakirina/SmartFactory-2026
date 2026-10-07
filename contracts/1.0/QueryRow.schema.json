@@ -1,0 +1,40 @@
+{
+  "$defs": {
+    "QueryRow": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {},
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "revision": {
+          "type": "string"
+        },
+        "sort_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "version": {
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "kind",
+        "id",
+        "revision",
+        "version",
+        "sort_ms",
+        "data"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/QueryRow.schema.json",
+  "$ref": "#/$defs/QueryRow",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "QueryRow"
+}

@@ -1,0 +1,18 @@
+import { expect, type Page } from '@playwright/test';
+import { readFile, mkdir, writeFile } from 'node:fs/promises';
+import path from 'node:path';
+import { parseExactJSON, stringifyExactJSON } from '../src/precision';
+export const root = process.env.SF_PHASE4_RUNTIME || '/private/tmp/smartfactory-frontend-phase4-20261005';
+export const evidence = process.env.SF_PHASE4_EVIDENCE || path.join(root,'browser-first');
+export const cloud = process.env.SF_PHASE4_CLOUD || 'http://127.0.0.1:19410';
+export const edge = process.env.SF_PHASE4_EDGE || 'http://127.0.0.1:19411';
+export const aiURL = process.env.SF_PHASE4_AI || 'http://127.0.0.1:19412';
+export const precisionCloud = process.env.SF_PHASE4_PRECISION_CLOUD || 'http://127.0.0.1:19413';
+export const phase = process.env.SF_PHASE4_CASES || 'business';
+const records = new Map<Page,{requests:unknown[];console:unknown[];errors:string[]}>();
+export const clean=(value:unknown):unknown => { if(Array.isArray(value))return value.map(clean); if(value && typeof value==='object')return Object.fromEntries(Object.entries(value).map(([key,item])=>[key,/password|token|secret|authorization|api_key/i.test(key)?'[redacted]':clean(item)]));return value; };
+export async function instrument(page:Page){await mkdir(evidence,{recursive:true});const r={requests:[] as unknown[],console:[] as unknown[],errors:[] as string[]};records.set(page,r);page.on('pageerror',error=>r.errors.push(error.message));page.on('console',message=>{if(['warning','error'].includes(message.type()))r.console.push({type:message.type(),text:message.text()});});page.on('response',async response=>{const url=response.url();if(!url.includes('/api/sf/')||/\/login|\/logout|\/me/.test(url))return;const request=response.request();let body;try{body=clean(JSON.parse(request.postData()||'null'));}catch{body='non-json';}let body_raw: string | undefined;try{body_raw=stringifyExactJSON(clean(parseExactJSON(request.postData()||'null')));}catch{}r.requests.push({method:request.method(),url,status:response.status(),body,body_raw});});}
+export async function login(page:Page,kind='cloud',surface='index.html',user='operator-a'){await instrument(page);const credentials=JSON.parse(await readFile(path.join(root,kind==='ai'?(process.env.SF_PHASE4_AI_DIR||'ai-first'):kind+'-'+(process.env.SF_PHASE4_DATA_SUFFIX||'first'),'private-credentials.json'),'utf8'));const base=kind==='edge'?edge:kind==='ai'?aiURL:cloud;await page.goto(base+'/'+surface);await page.getByLabel('账号',{exact:true}).fill(user);await page.getByLabel('密码',{exact:true}).fill(credentials.password);await page.getByRole('button',{name:'登录',exact:true}).click();await expect(page.getByRole('button',{name:'退出',exact:true})).toBeVisible();}
+export async function capture(page:Page,name:string){const r=records.get(page)!;await page.screenshot({path:path.join(evidence,name+'.png'),fullPage:true});await writeFile(path.join(evidence,name+'.json'),JSON.stringify({url:page.url(),viewport:page.viewportSize(),...r},null,2));expect(r.errors).toEqual([]);}
+export async function route(page:Page,hash:string){await page.evaluate(hash=>{location.hash=hash;},hash);}
+export async function jsonAPI(page:Page,resource:string,body?:unknown){return page.evaluate(async({resource,body})=>{const token=sessionStorage.getItem('smartfactory.session.'+location.host);const response=await fetch('/api/sf/v1'+resource,{method:body===undefined?'GET':'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+token},body:body===undefined?undefined:JSON.stringify(body)});return {status:response.status,text:await response.text()};},{resource,body});}

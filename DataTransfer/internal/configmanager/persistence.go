@@ -12,16 +12,20 @@ import (
 )
 
 type persistedSnapshot struct {
-	Version    int                       `json:"version"`
-	Connectors []config.ConnectorConfig  `json:"connectors"`
-	Revisions  map[string]int64          `json:"revisions"`
-	Global     *dtv1.GlobalConfigPayload `json:"global,omitempty"`
+	Version        int                       `json:"version"`
+	Connectors     []config.ConnectorConfig  `json:"connectors"`
+	Revisions      map[string]int64          `json:"revisions"`
+	AppliedUpdates map[string]string         `json:"applied_updates,omitempty"`
+	Global         *dtv1.GlobalConfigPayload `json:"global,omitempty"`
 }
 
 func (m *Manager) snapshot() persistedSnapshot {
-	snapshot := persistedSnapshot{Version: 1, Connectors: m.connectors.ConnectorConfigs(), Revisions: make(map[string]int64, len(m.revisions))}
+	snapshot := persistedSnapshot{Version: 1, Connectors: m.connectors.ConnectorConfigs(), Revisions: make(map[string]int64, len(m.revisions)), AppliedUpdates: make(map[string]string, len(m.appliedUpdates))}
 	for key, value := range m.revisions {
 		snapshot.Revisions[key] = value
+	}
+	for key, value := range m.appliedUpdates {
+		snapshot.AppliedUpdates[key] = value
 	}
 	if m.globalConfig != nil {
 		snapshot.Global = proto.Clone(m.globalConfig).(*dtv1.GlobalConfigPayload)
@@ -80,6 +84,10 @@ func (m *Manager) restore(snapshot persistedSnapshot) error {
 	}
 	m.globalConfig = snapshot.Global
 	m.revisions = snapshot.Revisions
+	m.appliedUpdates = snapshot.AppliedUpdates
+	if m.appliedUpdates == nil {
+		m.appliedUpdates = map[string]string{}
+	}
 	if m.revisions == nil {
 		m.revisions = map[string]int64{}
 	}

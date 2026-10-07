@@ -5,23 +5,24 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"sort"
-	"strings"
 	"sync"
 	"time"
 
+	"competition2026/product/platform/internal/application/definitioncommit"
+	"competition2026/product/platform/internal/compiledplan"
+	"competition2026/product/platform/internal/rulecore"
 	"competition2026/product/platform/internal/store"
 	"competition2026/product/platform/pkg/model"
 )
 
 type Service struct {
-	Store          *store.Store
-	ControlEnabled bool
-	mu             sync.Mutex
-	strategyMu     sync.Mutex
+	Store           *store.Store
+	ControlEnabled  bool
+	ObserveAnalysis func(context.Context, model.Observation) error
+	mu              sync.Mutex
+	strategyMu      sync.Mutex
+	plans           sync.Map
 }
-
-var nodeKinds = model.NodeKinds()
 
 func has(list []string, s string) bool {
 	for _, v := range list {
@@ -32,181 +33,36 @@ func has(list []string, s string) bool {
 	return false
 }
 func (s *Service) Validate(ctx context.Context, d model.Definition) model.Validation {
-	v := model.Validation{Valid: true, Errors: []string{}, Order: []string{}}
-	add := func(msg string) { v.Valid = false; v.Errors = append(v.Errors, msg) }
-	if d.ID == "" || d.Name == "" {
-		add("id and name are required")
+	_, result := rulecore.Compile(ctx, d)
+	for _, issue := range s.dependencyIssues(ctx, d) {
+		result.Valid = false
+		result.Errors = append(result.Errors, issue)
 	}
-	if !has([]string{"analysis", "alarm", "strategy"}, d.Kind) {
-		add("kind must be analysis, alarm or strategy")
+	result.NativePlan = CompileNative(d)
+	return result
+}
+
+func (s *Service) dependencyIssues(ctx context.Context, d model.Definition) []string {
+	at, _ := ctx.Value(historicalAtKey{}).(int64)
+	if err := compiledplan.CheckDependencies(ctx, d, at, func(ctx context.Context, id string, at int64) (model.Definition, error) {
+		other, err := s.Published(ctx, id, at)
+		if err != nil {
+			return other, err
+		}
+		if _, err := compiledplan.Load(ctx, s.Store, other); err == nil {
+			return other, nil
+		} else if !errors.Is(err, store.ErrNotFound) {
+			return other, err
+		}
+		if other.ExecutionPlan != nil {
+			return other, rulecore.Verify(other.ExecutionPlan, other)
+		}
+		_, err = compiledplan.Compile(ctx, other)
+		return other, err
+	}); err != nil {
+		return []string{err.Error()}
 	}
-	if d.SchemaVersion != model.ContractVersion {
-		add("unsupported schema_version")
-	}
-	if d.GroupID == "" {
-		add("group_id is required")
-	}
-	if len(d.Nodes) == 0 || len(d.Nodes) > 128 {
-		add("definition must have 1 to 128 nodes")
-	}
-	if len(d.Connections) > 512 {
-		add("definition exceeds 512 connections")
-	}
-	nodes := map[string]model.Node{}
-	incoming := map[string]int{}
-	outgoing := map[string][]string{}
-	for _, n := range d.Nodes {
-		if n.ID == "" {
-			add("node id is required")
-		}
-		if _, ok := nodes[n.ID]; ok {
-			add("duplicate node " + n.ID)
-		}
-		nodes[n.ID] = n
-		if !has(nodeKinds[n.Type], d.Kind) {
-			add("node " + n.ID + " is not allowed in " + d.Kind)
-		}
-		if n.Type == "expression" {
-			code, _ := n.Params["code"].(string)
-			if code == "" {
-				add("expression code is required")
-			}
-			var expressionError error
-			for _, value := range []any{1, false, "sample"} {
-				_, expressionError = Expression(ctx, code, map[string]any{"value": value, "sum": 1, "count": 1, "min": 1, "max": 1, "avg": 1, "previous": value, "active": false, "good": true, "quality": "GOOD", "fresh": true})
-				if expressionError == nil || strings.Contains(expressionError.Error(), "division by zero") {
-					expressionError = nil
-					break
-				}
-			}
-			if e := expressionError; e != nil {
-				add("expression " + n.ID + ": " + e.Error())
-			}
-		}
-		if n.Type == "aggregate" {
-			fn, _ := n.Params["function"].(string)
-			if !has([]string{"max", "min", "sum", "count", "avg"}, fn) {
-				add("unsupported aggregate function")
-			}
-		}
-		if n.Type == "debounce" {
-			mode, _ := n.Params["mode"].(string)
-			if mode != "" && mode != "both" && mode != "activation" {
-				add("debounce mode must be both or activation")
-			}
-			delay := integer(n.Params["duration_ms"], 0)
-			if delay < 1 || delay > 86400000 {
-				add("debounce duration_ms must be 1..86400000")
-			}
-		}
-	}
-	for _, c := range d.Connections {
-		from, ok1 := nodes[c.From]
-		to, ok2 := nodes[c.To]
-		if !ok1 || !ok2 {
-			add("connection references a missing node")
-			continue
-		}
-		ft, tt := "any", "any"
-		foundF, foundT := len(from.Outputs) == 0, len(to.Inputs) == 0
-		for _, p := range from.Outputs {
-			if p.Name == c.FromPort {
-				ft = p.Type
-				foundF = true
-			}
-		}
-		for _, p := range to.Inputs {
-			if p.Name == c.ToPort {
-				tt = p.Type
-				foundT = true
-			}
-		}
-		if !foundF || !foundT {
-			add("connection references a missing port")
-		}
-		if ft != "any" && tt != "any" && ft != tt {
-			add("port type mismatch " + c.From + " -> " + c.To)
-		}
-		incoming[c.To]++
-		outgoing[c.From] = append(outgoing[c.From], c.To)
-	}
-	ready := []string{}
-	for id := range nodes {
-		if incoming[id] == 0 {
-			ready = append(ready, id)
-		}
-	}
-	sort.Strings(ready)
-	for len(ready) > 0 {
-		id := ready[0]
-		ready = ready[1:]
-		v.Order = append(v.Order, id)
-		for _, next := range outgoing[id] {
-			incoming[next]--
-			if incoming[next] == 0 {
-				ready = append(ready, next)
-				sort.Strings(ready)
-			}
-		}
-	}
-	if len(v.Order) != len(nodes) {
-		add("graph contains a cycle")
-	}
-	for _, o := range d.Outputs {
-		if _, ok := nodes[o.NodeID]; !ok {
-			add("output references a missing node")
-		}
-		if o.Key == "" {
-			add("output key is required")
-		}
-	}
-	for _, dependency := range d.Dependencies {
-		if dependency == d.ID {
-			add("definition cannot depend on itself")
-			continue
-		}
-		at, _ := ctx.Value(historicalAtKey{}).(int64)
-		other, e := s.Published(ctx, dependency, at)
-		if e != nil || other.Status != "published" {
-			add("dependency is unavailable: " + dependency)
-		} else if has(other.Dependencies, d.ID) {
-			add("dependency cycle: " + dependency)
-		}
-	}
-	if d.Kind == "strategy" {
-		if d.Policy.FreshnessMS < 0 || d.Policy.FreshnessMS > 86400000 {
-			add("freshness_ms must be 0..86400000")
-		}
-		if d.Policy.Watchdog && (len(d.Selector.DeviceIDs) == 0 || len(d.Selector.Keys) == 0) {
-			add("watchdog requires explicit device and field selectors")
-		}
-		if len(d.Policy.Steps) == 0 {
-			add("strategy requires at least one device step")
-		}
-		if len(d.Policy.EdgeIDs) > 1 && len(d.Policy.Degraded) == 0 {
-			add("cross-edge strategy requires degraded steps")
-		}
-		steps := map[string]bool{}
-		for _, step := range append(append([]model.Step{}, d.Policy.Steps...), d.Policy.Degraded...) {
-			if step.ID == "" || step.DeviceID == "" || step.Action == "" || step.EdgeID == "" {
-				add("step requires id, edge_id, device_id and action")
-			}
-			if steps[step.ID] {
-				add("step IDs must be unique")
-			}
-			steps[step.ID] = true
-		}
-		if sc := d.Policy.Schedule; sc != nil {
-			if sc.EveryMS < 1000 || sc.WindowMS <= 0 || sc.Timezone != "Asia/Shanghai" {
-				add("schedule requires interval >= 1000 ms, execution window and Asia/Shanghai timezone")
-			}
-		}
-	}
-	if d.Policy.TimeoutMS > 1000 || d.Policy.TimeoutMS < 0 {
-		add("script timeout must be 1..1000 ms")
-	}
-	v.NativePlan = CompileNative(d)
-	return v
+	return nil
 }
 func (s *Service) Published(ctx context.Context, id string, at int64) (model.Definition, error) {
 	docs, e := s.Store.Versions(ctx, "definition", id)
@@ -272,46 +128,11 @@ func (s *Service) Publish(ctx context.Context, actor model.Actor, draftID string
 	if e != nil {
 		return model.Definition{}, e
 	}
-	d := draft.Definition
-	v := s.Validate(ctx, d)
-	if !v.Valid {
-		return d, fmt.Errorf("definition validation: %s", strings.Join(v.Errors, "; "))
-	}
-	d.Status = "published"
-	d.Version = draft.BaseVersion + 1
-	d.EffectiveMS = s.Store.Now().UnixMilli()
-	e = s.Store.Write(ctx, func(t *store.Tx) error {
-		current, e := t.Get("draft", draftID)
-		if e != nil {
-			return e
-		}
-		if current.Version != doc.Version {
-			return store.ErrConflict
-		}
-		if _, e = t.Put("definition", d.ID, draft.BaseVersion, d); e != nil {
-			return e
-		}
-		for _, o := range d.Outputs {
-			if _, e = t.Put("catalogue", d.ID+"."+o.Key, -1, map[string]any{"id": d.ID + "." + o.Key, "definition_id": d.ID, "version": d.Version, "name": d.Name, "kind": d.Kind, "field": o, "selector": d.Selector, "group_id": d.GroupID, "status": "active", "query_path": "/api/sf/v1/data"}); e != nil {
-				return e
-			}
-		}
-		draft.Definition = d
-		draft.BaseVersion = d.Version
-		draft.Version = doc.Version + 1
-		if _, e = t.Put("draft", draftID, doc.Version, draft); e != nil {
-			return e
-		}
-		if e = t.Enqueue(fmt.Sprintf("tb-definition:%s:%d", d.ID, d.Version), "tb_definition", d.ID, d); e != nil {
-			return e
-		}
-		if e = t.Enqueue(fmt.Sprintf("definition-sync:%s:%d", d.ID, d.Version), "edge_definition", d.ID, d); e != nil {
-			return e
-		}
-		return t.Audit(actor, "definition.publish", d.ID, draftID, map[string]any{"definition": d, "validation": v})
+	return definitioncommit.Commit(ctx, s.Store, actor, definitioncommit.Prepared{
+		Draft: draft, DraftVersion: doc.Version, Validation: s.Validate(ctx, draft.Definition),
 	})
-	return d, e
 }
+
 func (s *Service) Deactivate(ctx context.Context, actor model.Actor, id string, expected int64) (model.Definition, error) {
 	d, e := s.Published(ctx, id, 0)
 	if e != nil {
@@ -331,6 +152,7 @@ func (s *Service) Deactivate(ctx context.Context, actor model.Actor, id string, 
 		}
 	}
 	d.Status = "inactive"
+	d.ExecutionPlan = nil
 	d.Version = expected + 1
 	d.EffectiveMS = s.Store.Now().UnixMilli()
 	e = s.Store.Write(ctx, func(t *store.Tx) error {

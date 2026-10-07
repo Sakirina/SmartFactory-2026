@@ -1,0 +1,145 @@
+{
+  "$defs": {
+    "Combination": {
+      "additionalProperties": false,
+      "properties": {
+        "legacy_omission": {
+          "type": "boolean"
+        },
+        "name": {
+          "type": "string"
+        },
+        "protocols": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "roles": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "roles",
+        "protocols",
+        "legacy_omission"
+      ],
+      "type": "object"
+    },
+    "Database": {
+      "additionalProperties": false,
+      "properties": {
+        "migration_maximum": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "migration_minimum": {
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "migration_minimum",
+        "migration_maximum"
+      ],
+      "type": "object"
+    },
+    "Manifest": {
+      "additionalProperties": false,
+      "properties": {
+        "application_version": {
+          "type": "string"
+        },
+        "combinations": {
+          "items": {
+            "$ref": "#/$defs/Combination"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "contract_version": {
+          "type": "string"
+        },
+        "databases": {
+          "additionalProperties": {
+            "$ref": "#/$defs/Database"
+          },
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "protocols": {
+          "additionalProperties": {
+            "$ref": "#/$defs/Protocol"
+          },
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "schema_version": {
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "schema_version",
+        "application_version",
+        "contract_version",
+        "protocols",
+        "databases",
+        "combinations"
+      ],
+      "type": "object"
+    },
+    "Protocol": {
+      "additionalProperties": false,
+      "properties": {
+        "current": {
+          "type": "string"
+        },
+        "read": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "write": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "current",
+        "read",
+        "write"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/Manifest.schema.json",
+  "$ref": "#/$defs/Manifest",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Manifest"
+}

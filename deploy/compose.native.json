@@ -2,7 +2,7 @@
   "name": "smartfactory-native",
   "services": {
     "cloud-db": {
-      "image": "library/postgres@sha256:a85daf0dbd5e79586e850e3fe4b21b796799828ad015ce2166aeb98cc24da61c",
+      "image": "library/postgres@sha256:0377e72c5289ed2f98cf61b1a9c2db9eb9d300317fe14244492fbc94343b3d04",
       "platform": "linux/amd64",
       "pull_policy": "never",
       "logging": {
@@ -21,7 +21,7 @@
         "127.0.0.1:54320:5432"
       ],
       "volumes": [
-        "cloud-db:/var/lib/postgresql/data"
+        "cloud-db-pg18:/var/lib/postgresql"
       ],
       "healthcheck": {
         "test": [
@@ -34,7 +34,7 @@
       }
     },
     "edge-db": {
-      "image": "library/postgres@sha256:a85daf0dbd5e79586e850e3fe4b21b796799828ad015ce2166aeb98cc24da61c",
+      "image": "library/postgres@sha256:0377e72c5289ed2f98cf61b1a9c2db9eb9d300317fe14244492fbc94343b3d04",
       "platform": "linux/amd64",
       "pull_policy": "never",
       "logging": {
@@ -53,7 +53,7 @@
         "127.0.0.1:54321:5432"
       ],
       "volumes": [
-        "edge-db:/var/lib/postgresql/data"
+        "edge-db-pg18:/var/lib/postgresql"
       ],
       "healthcheck": {
         "test": [
@@ -66,7 +66,7 @@
       }
     },
     "kafka": {
-      "image": "apache/kafka@sha256:01b9a4030e54c6068e66eb3ba4cb82c0d89238629ef1c30d79b86036bf89b1b7",
+      "image": "apache/kafka@sha256:ccd1314e47ec76909e01f86308b4dcf2064f19f7c89759234322314b0e319e26",
       "platform": "linux/amd64",
       "pull_policy": "never",
       "logging": {
@@ -98,11 +98,12 @@
       "healthcheck": {
         "test": [
           "CMD-SHELL",
-          "/opt/kafka/bin/kafka-broker-api-versions.sh --bootstrap-server localhost:9092 >/dev/null 2>&1"
+          "KAFKA_HEAP_OPTS='-Xms32m -Xmx96m' /opt/kafka/bin/kafka-broker-api-versions.sh --bootstrap-server 127.0.0.1:9092 > /dev/null 2>&1"
         ],
-        "interval": "10s",
-        "timeout": "10s",
-        "retries": 30
+        "interval": "15s",
+        "timeout": "20s",
+        "retries": 30,
+        "start_period": "30s"
       },
       "depends_on": {
         "kafka-storage-init": {
@@ -132,7 +133,7 @@
       ]
     },
     "tb-install": {
-      "image": "thingsboard/tb-node@sha256:dc5a3cdf4b267f5fac036946051e4f4c2515ed31f911fe2921920df3ae5cd61f",
+      "image": "thingsboard/tb-node@sha256:20636ba63175d4b680d4f00882c604723745006b8382770f373f546ff94f6254",
       "platform": "linux/amd64",
       "pull_policy": "never",
       "logging": {
@@ -169,7 +170,7 @@
       }
     },
     "thingsboard": {
-      "image": "thingsboard/tb-node@sha256:dc5a3cdf4b267f5fac036946051e4f4c2515ed31f911fe2921920df3ae5cd61f",
+      "image": "thingsboard/tb-node@sha256:20636ba63175d4b680d4f00882c604723745006b8382770f373f546ff94f6254",
       "platform": "linux/amd64",
       "pull_policy": "never",
       "logging": {
@@ -210,10 +211,11 @@
       },
       "volumes": [
         "tb-logs:/var/log/thingsboard"
-      ]
+      ],
+      "stop_grace_period": "60s"
     },
     "thingsboard-edge": {
-      "image": "thingsboard/tb-edge@sha256:5f38bb644cb219f341ad59f7357d3f6efa4bf4b84d43adf2cadd2e3a2113e3a1",
+      "image": "thingsboard/tb-edge@sha256:21d75ce523240bce0eef86ec3eabe289c09e3843059606bef9d24529fc0444f3",
       "platform": "linux/amd64",
       "pull_policy": "never",
       "logging": {
@@ -227,6 +229,12 @@
         "edge"
       ],
       "restart": "unless-stopped",
+      "entrypoint": [
+        "/bin/bash",
+        "-c",
+        "exec /bin/bash -c \"$(sed -E 's/^([[:space:]]*)java([[:space:]])/\\1exec java\\2/' /usr/bin/start-tb-edge.sh)\""
+      ],
+      "stop_grace_period": "60s",
       "environment": {
         "SPRING_DATASOURCE_URL": "jdbc:postgresql://edge-db:5432/tb_edge",
         "SPRING_DATASOURCE_USERNAME": "postgres",
@@ -261,8 +269,8 @@
     }
   },
   "volumes": {
-    "cloud-db": {},
-    "edge-db": {},
+    "cloud-db-pg18": {},
+    "edge-db-pg18": {},
     "kafka": {},
     "tb-logs": {},
     "tb-edge-data": {},

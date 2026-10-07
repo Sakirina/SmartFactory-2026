@@ -22,6 +22,7 @@ func TestQueuedRealtimeObservationCreatesRecomputationBeforeAcknowledgement(t *t
 	if _, e := s.Store.Put(ctx, "definition", d.ID, 0, d); e != nil {
 		t.Fatal(e)
 	}
+	prepareLegacyFixture(t, s)
 	p := record(t, s, "queued", clock.UnixMilli(), 7, false)
 	if p.Late {
 		t.Fatal("fixture ingress should initially be timely")

@@ -1,0 +1,272 @@
+{
+  "$defs": {
+    "ProgramBuild": {
+      "additionalProperties": false,
+      "properties": {
+        "configuration_formats": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "goarch": {
+          "type": "string"
+        },
+        "goos": {
+          "type": "string"
+        },
+        "migration_maximum": {
+          "format": "int64",
+          "minimum": 1,
+          "type": "integer"
+        },
+        "migration_minimum": {
+          "format": "int64",
+          "minimum": 1,
+          "type": "integer"
+        },
+        "program": {
+          "type": "string"
+        },
+        "rule_formats": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "source_sha256": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "program",
+        "version",
+        "goos",
+        "goarch",
+        "migration_minimum",
+        "migration_maximum",
+        "rule_formats",
+        "configuration_formats"
+      ],
+      "type": "object"
+    },
+    "ReleaseRuntime": {
+      "additionalProperties": false,
+      "properties": {
+        "build": {
+          "$ref": "#/$defs/ProgramBuild"
+        },
+        "components": {
+          "items": {
+            "$ref": "#/$defs/ReleaseRuntimeComponent"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "healthy": {
+          "type": "boolean"
+        },
+        "migration_version": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "node_id": {
+          "type": "string"
+        },
+        "pid": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "policy_sha256": {
+          "type": "string"
+        },
+        "process_instance_id": {
+          "type": "string"
+        },
+        "program": {
+          "type": "string"
+        },
+        "program_sha256": {
+          "type": "string"
+        },
+        "release_id": {
+          "type": "string"
+        },
+        "release_sha256": {
+          "type": "string"
+        },
+        "started_ms": {
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "node_id",
+        "program",
+        "process_instance_id",
+        "pid",
+        "started_ms",
+        "program_sha256",
+        "build",
+        "release_id",
+        "release_sha256",
+        "migration_version",
+        "components",
+        "policy_sha256",
+        "healthy"
+      ],
+      "type": "object"
+    },
+    "ReleaseRuntimeComponent": {
+      "additionalProperties": false,
+      "properties": {
+        "applied_sha256": {
+          "type": "string"
+        },
+        "applied_version": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "sha256": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "version",
+        "sha256",
+        "applied_sha256",
+        "applied_version"
+      ],
+      "type": "object"
+    },
+    "ReleaseTarget": {
+      "additionalProperties": false,
+      "properties": {
+        "agent_instance_epoch": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "agent_instance_id": {
+          "type": "string"
+        },
+        "applied_sha256": {
+          "type": "string"
+        },
+        "batch": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "desired_sha256": {
+          "type": "string"
+        },
+        "failure_component": {
+          "type": "string"
+        },
+        "generation": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "identity_id": {
+          "type": "string"
+        },
+        "last_report_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "last_report_sha256": {
+          "type": "string"
+        },
+        "last_seen_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "last_sequence": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "node_id": {
+          "type": "string"
+        },
+        "prepared_sha256": {
+          "type": "string"
+        },
+        "program": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "report_age_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "report_fresh": {
+          "type": "boolean"
+        },
+        "running_sha256": {
+          "type": "string"
+        },
+        "runtime": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ReleaseRuntime"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "state": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "identity_id",
+        "node_id",
+        "program",
+        "batch",
+        "generation",
+        "state",
+        "desired_sha256",
+        "prepared_sha256",
+        "applied_sha256",
+        "running_sha256",
+        "agent_instance_id",
+        "agent_instance_epoch",
+        "last_sequence",
+        "last_report_sha256",
+        "last_seen_ms",
+        "last_report_ms",
+        "report_age_ms",
+        "report_fresh"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/ReleaseTarget.schema.json",
+  "$ref": "#/$defs/ReleaseTarget",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ReleaseTarget"
+}

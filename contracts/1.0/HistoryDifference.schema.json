@@ -1,0 +1,44 @@
+{
+  "$defs": {
+    "HistoryDifference": {
+      "additionalProperties": false,
+      "properties": {
+        "alarm": {
+          "type": "boolean"
+        },
+        "changed": {
+          "type": "boolean"
+        },
+        "path": {
+          "type": "boolean"
+        },
+        "quality": {
+          "type": "boolean"
+        },
+        "state": {
+          "type": "boolean"
+        },
+        "trigger": {
+          "type": "boolean"
+        },
+        "values": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "changed",
+        "values",
+        "quality",
+        "alarm",
+        "state",
+        "path",
+        "trigger"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/HistoryDifference.schema.json",
+  "$ref": "#/$defs/HistoryDifference",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "HistoryDifference"
+}

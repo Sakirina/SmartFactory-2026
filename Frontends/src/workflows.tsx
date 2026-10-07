@@ -1,3 +1,4 @@
+import { parseExactJSON } from './precision';
 import { useState } from 'react';
 import { Alert, App, Button, Card, Descriptions, Drawer, Form, Input, InputNumber, Modal, Progress, Select, Space, Switch, Table, Tag } from 'antd';
 import { json, post, timestamp, useResource } from './api';
@@ -11,7 +12,7 @@ function Status({ value }: { value: string }) { return <Tag color={['failed', 'r
 function Heading({ title, children, actions }: { title: string; children: React.ReactNode; actions?: React.ReactNode }) { return <div className="page-heading"><div><h1>{title}</h1><p>{children}</p></div><div className="heading-actions">{actions}</div></div>; }
 function Failure({ error }: { error: string }) { return error ? <Alert type="error" showIcon title="本次更新未完成" description={error} className="error-notice" /> : null; }
 
-interface Job { id: string; device_id: string; status: string; progress: number; from_ms: number; to_ms: number; reason: string; error?: string }
+interface Job { task_id?: string; id: string; device_id: string; status: string; progress: number; from_ms: number; to_ms: number; reason: string; error?: string }
 export function Jobs({ user, refreshMS }: { user: User; refreshMS: number }) {
   const jobs = useResource<Job[]>('/jobs', refreshMS);
   const devices = useResource<Entity[]>('/entities');
@@ -28,12 +29,12 @@ export function Jobs({ user, refreshMS }: { user: User; refreshMS: number }) {
     } catch (error) { void message.error(errorText(error)); } finally { setBusy(false); }
   };
   const retry = async (job: Job) => { try { await post(`/jobs/${encodeURIComponent(job.id)}/retry`); await jobs.reload(); } catch (error) { void message.error(errorText(error)); } };
-  return <><Heading title="历史补算" actions={<Space><Button onClick={() => void jobs.reload()}>更新任务</Button><Button type="primary" disabled={!canManage(user)} onClick={() => { form.setFieldsValue({ from: localDateTime(Date.now() - 3600000), to: localDateTime(Date.now()), reason: '' }); setOpen(true); }}>创建补算任务</Button></Space>}>查看补传影响的时间范围、计算进度与失败原因，完成后可在数据监控中查看修订。</Heading><Failure error={jobs.error || devices.error} /><Card><Table rowKey="id" dataSource={jobs.data ?? []} loading={jobs.loading} scroll={{ x: 850 }} columns={[
+  return <><Heading title="历史补算" actions={<Space><Button onClick={() => void jobs.reload()}>更新任务</Button><Button onClick={() => { location.hash = 'tasks'; }}>查看后台任务</Button><Button type="primary" disabled={!canManage(user)} onClick={() => { form.setFieldsValue({ from: localDateTime(Date.now() - 3600000), to: localDateTime(Date.now()), reason: '' }); setOpen(true); }}>创建补算任务</Button></Space>}>查看补传影响的时间范围、计算进度与失败原因，完成后可在数据监控中查看修订。</Heading><Failure error={jobs.error || devices.error} /><Card><Table rowKey="id" dataSource={jobs.data ?? []} loading={jobs.loading} scroll={{ x: 850 }} columns={[
     { title: '设备', dataIndex: 'device_id' }, { title: '状态', dataIndex: 'status', render: value => <Status value={value} /> },
     { title: '进度', dataIndex: 'progress', width: 150, render: (value, job) => <Progress percent={Math.round(Number(value || 0) * 100)} status={job.status === 'failed' ? 'exception' : undefined} size="small" /> },
     { title: '影响范围', render: (_, job) => <div>{timestamp(job.from_ms)}<small className="table-subtext">至 {timestamp(job.to_ms)}</small></div> },
     { title: '原因与错误', render: (_, job) => job.error || job.reason },
-    { title: '操作', render: (_, job) => <Space><Button type="link" onClick={() => { location.hash = 'data'; }}>查看数据</Button>{job.status === 'failed' && <Button disabled={!canManage(user)} onClick={() => void retry(job)}>重新计算</Button>}</Space> },
+    { title: '操作', render: (_, job) => <Space><Button type="link" onClick={() => { location.hash = 'data'; }}>查看数据</Button>{job.task_id && <Button onClick={() => { location.hash = 'tasks?task=' + encodeURIComponent(job.task_id!); }}>任务详情</Button>}{job.status === 'failed' && <Button disabled={!canManage(user)} onClick={() => void retry(job)}>重新计算</Button>}</Space> },
   ]} /></Card><Modal title="创建历史补算任务" open={open} onCancel={() => setOpen(false)} onOk={() => void submit()} confirmLoading={busy} okText="开始补算"><Form form={form} layout="vertical"><Form.Item label="设备" name="device_id" rules={[{ required: true }]}><Select options={(devices.data ?? []).filter(device => device.kind === 'device').map(device => ({ value: device.id, label: device.name }))} /></Form.Item><Form.Item label="开始时间" name="from" rules={[{ required: true }]}><Input type="datetime-local" /></Form.Item><Form.Item label="结束时间" name="to" rules={[{ required: true }]}><Input type="datetime-local" /></Form.Item><Form.Item label="补算原因" name="reason" rules={[{ required: true }]}><Input.TextArea rows={3} /></Form.Item></Form></Modal></>;
 }
 
@@ -72,7 +73,7 @@ export function Plugins() {
   const [form] = Form.useForm();
   const { message } = App.useApp();
   const open = (spec?: PluginSpec) => { const value = spec ?? { id: '', name: '', kind: 'organization', executable: '', args: [], poll_ms: 60000, enabled: false, config: {}, version: 0 }; setEditing(value); form.setFieldsValue({ ...value, args_json: json(value.args), config_json: json(value.config) }); };
-  const save = async () => { if (!editing) return; try { const { args_json, config_json, ...values } = await form.validateFields(); const plugin = { ...editing, ...values, args: JSON.parse(args_json), config: JSON.parse(config_json) }; await post('/plugins', { plugin, expected_version: editing.version }); setEditing(null); await data.reload(); void message.success('插件配置已保存'); } catch (error) { void message.error(errorText(error)); } };
+  const save = async () => { if (!editing) return; try { const { args_json, config_json, ...values } = await form.validateFields(); const plugin = { ...editing, ...values, args: parseExactJSON(args_json), config: parseExactJSON(config_json) }; await post('/plugins', { plugin, expected_version: editing.version }); setEditing(null); await data.reload(); void message.success('插件配置已保存'); } catch (error) { void message.error(errorText(error)); } };
   return <><Heading title="同步插件" actions={<Button type="primary" onClick={() => open()}>登记同步插件</Button>}>组织插件通过独立进程运行，以推送处理变更，并按设定周期查询遗漏记录。</Heading><Failure error={data.error} /><Card><Table rowKey={entry => entry.spec.id} dataSource={data.data ?? []} scroll={{ x: 800 }} columns={[
     { title: '插件', render: (_, entry) => <div>{entry.spec.name}<small className="table-subtext">{entry.spec.id}</small></div> }, { title: '启用状态', render: (_, entry) => <Tag>{entry.spec.enabled ? '已启用' : '已停用'}</Tag> }, { title: '运行状态', render: (_, entry) => <Status value={entry.status.state} /> },
     { title: '最后运行', render: (_, entry) => timestamp(entry.status.last_ms) }, { title: '已同步序号', render: (_, entry) => entry.status.sequence || 0 }, { title: '失败原因', render: (_, entry) => entry.status.error }, { title: '操作', render: (_, entry) => <Button type="link" onClick={() => open(entry.spec)}>配置</Button> },

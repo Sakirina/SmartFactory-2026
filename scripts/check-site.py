@@ -118,7 +118,7 @@ def main():
         environment=dict(os.environ, POSTGRES_PASSWORD=password)
         subprocess.run(['docker','run','--detach','--rm','--pull','never','--platform','linux/amd64','--name',pg_name,
                         '--label','smartfactory.fixture=site-memory','--memory',str(args.postgres_data_mib+256)+'m','--memory-swap',str(args.postgres_data_mib+256)+'m',
-                        '--tmpfs','/var/lib/postgresql/data:rw,size='+str(args.postgres_data_mib)+'m','--shm-size','64m',
+                        '--tmpfs','/var/lib/postgresql:rw,size='+str(args.postgres_data_mib)+'m','--shm-size','64m',
                         '--publish','127.0.0.1:54323:5432','--env','POSTGRES_PASSWORD','--env','POSTGRES_USER=smartfactory',
                         '--log-driver','none',image,'postgres','-c','shared_buffers=48MB','-c','max_wal_size=96MB','-c','min_wal_size=32MB'],
                        env=environment,check=True,stdout=subprocess.DEVNULL)
@@ -216,7 +216,7 @@ def main():
                                     'coordinator_id':value.get('coordinator_id'),'fence':value.get('fence'),
                                     'physical_actions':counts,'elapsed_ms':round((time.monotonic()-started)*1000)})
             if (trial+1)%4==0:
-                raw=subprocess.check_output(['docker','exec',pg_name,'df','-Pk','/var/lib/postgresql/data'],text=True)
+                raw=subprocess.check_output(['docker','exec',pg_name,'df','-Pk','/var/lib/postgresql'],text=True)
                 fields=raw.splitlines()[-1].split()
                 report['storage_samples'].append({'trial':trial+1,'total_kib':int(fields[1]),'used_kib':int(fields[2]),'available_kib':int(fields[3])})
             print(f"{trial+1}/{args.faults} {kind}: {value['status']} actions={counts}",flush=True)

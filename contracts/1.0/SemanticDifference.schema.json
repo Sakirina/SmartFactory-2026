@@ -1,0 +1,101 @@
+{
+  "$defs": {
+    "SemanticChange": {
+      "additionalProperties": false,
+      "properties": {
+        "after": {},
+        "after_type": {
+          "type": "string"
+        },
+        "before": {},
+        "before_type": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string"
+        },
+        "change": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "unit": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "category",
+        "path",
+        "change",
+        "before_type",
+        "after_type"
+      ],
+      "type": "object"
+    },
+    "SemanticDifference": {
+      "additionalProperties": false,
+      "properties": {
+        "changes": {
+          "items": {
+            "$ref": "#/$defs/SemanticChange"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "draft": {
+          "$ref": "#/$defs/SemanticIdentity"
+        },
+        "equivalent": {
+          "type": "boolean"
+        },
+        "published": {
+          "$ref": "#/$defs/SemanticIdentity"
+        }
+      },
+      "required": [
+        "draft",
+        "published",
+        "changes",
+        "equivalent"
+      ],
+      "type": "object"
+    },
+    "SemanticIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "content_hash": {
+          "type": "string"
+        },
+        "definition_id": {
+          "type": "string"
+        },
+        "definition_version": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "id": {
+          "type": "string"
+        },
+        "version": {
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "version",
+        "definition_id",
+        "definition_version",
+        "content_hash"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/SemanticDifference.schema.json",
+  "$ref": "#/$defs/SemanticDifference",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SemanticDifference"
+}

@@ -14,8 +14,13 @@ type Change struct {
 
 func (t *Tx) RecordChange(d Document) error {
 	switch d.Kind {
-	case "entity", "definition", "department", "asset_proposal", "dashboard":
+	case "entity", "definition", "department", "asset_proposal", "dashboard", "alarm_operation", "connector_configuration", "connector_configuration_receipt":
 	default:
+		return nil
+	}
+	if t.managed {
+		d.Data = append(json.RawMessage(nil), d.Data...)
+		t.changes = append(t.changes, d)
 		return nil
 	}
 	_, e := t.ExecContext(t.Ctx, "INSERT INTO sync_changes(sequence,kind,id,version,updated_ms,data) SELECT COALESCE(MAX(sequence),0)+1,$1,$2,$3,$4,$5 FROM sync_changes", d.Kind, d.ID, d.Version, d.UpdatedMS, string(d.Data))
@@ -49,6 +54,12 @@ func (t *Tx) ImportDocument(d Document) (bool, error) {
 	if d.Version < 1 || d.ID == "" || !json.Valid(d.Data) {
 		return false, errors.New("invalid synchronized document")
 	}
+	if err := t.lockDocument(d.Kind, d.ID); err != nil {
+		return false, err
+	}
+	if err := t.lockInsertion(d.Kind, d.ID); err != nil {
+		return false, err
+	}
 	previous, e := scanDocument(t.QueryRowContext(t.Ctx, "SELECT kind,id,version,updated_ms,data FROM document_versions WHERE kind=$1 AND id=$2 AND version=$3", d.Kind, d.ID, d.Version))
 	if e == nil {
 		var a, b any
@@ -68,5 +79,8 @@ func (t *Tx) ImportDocument(d Document) (bool, error) {
 		return false, e
 	}
 	count, e := result.RowsAffected()
+	if e == nil && count > 0 {
+		t.markQueryDocument(d.Kind, d.ID)
+	}
 	return count > 0, e
 }

@@ -82,6 +82,9 @@
     "Execution": {
       "additionalProperties": false,
       "properties": {
+        "active_command_id": {
+          "type": "string"
+        },
         "actor": {
           "$ref": "#/$defs/Actor"
         },
@@ -100,6 +103,26 @@
         },
         "binding": {
           "type": "string"
+        },
+        "branch": {
+          "type": "string"
+        },
+        "cancel_actor": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Actor"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "cancel_reason": {
+          "type": "string"
+        },
+        "cancel_requested_ms": {
+          "format": "int64",
+          "type": "integer"
         },
         "coordinator_id": {
           "type": "string"
@@ -123,6 +146,9 @@
           "minimum": 0,
           "type": "integer"
         },
+        "mode": {
+          "type": "string"
+        },
         "override": {
           "type": "boolean"
         },
@@ -137,6 +163,23 @@
         },
         "reason": {
           "type": "string"
+        },
+        "reconciled_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "resource_binding": {
+          "type": "string"
+        },
+        "resume_actor": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Actor"
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
         "risk_category": {
           "type": "string"
@@ -297,6 +340,9 @@
       "additionalProperties": false,
       "properties": {
         "command_id": {
+          "type": "string"
+        },
+        "evidence_id": {
           "type": "string"
         },
         "finished_ms": {

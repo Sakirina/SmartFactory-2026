@@ -19,6 +19,7 @@ import (
 )
 
 type Registration struct {
+	ConfigurationURL    string `json:"configuration_url,omitempty"`
 	CertificateSHA256   string `json:"certificate_sha256"`
 	AuditPublicKey      string `json:"audit_public_key"`
 	EncryptionPublicKey string `json:"encryption_public_key"`

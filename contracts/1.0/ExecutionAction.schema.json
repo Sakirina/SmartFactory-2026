@@ -1,0 +1,43 @@
+{
+  "$defs": {
+    "ExecutionAction": {
+      "additionalProperties": false,
+      "properties": {
+        "deadline_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "expected_source_version": {
+          "anyOf": [
+            {
+              "format": "int64",
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "expected_version": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "operation_id": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "expected_version",
+        "reason"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/ExecutionAction.schema.json",
+  "$ref": "#/$defs/ExecutionAction",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ExecutionAction"
+}

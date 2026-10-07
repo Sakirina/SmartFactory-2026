@@ -1,0 +1,112 @@
+{
+  "$defs": {
+    "SaveWorkloadIdentityInput": {
+      "additionalProperties": false,
+      "properties": {
+        "expected_version": {
+          "format": "int64",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "identity": {
+          "$ref": "#/$defs/WorkloadIdentity"
+        }
+      },
+      "required": [
+        "identity",
+        "expected_version"
+      ],
+      "type": "object"
+    },
+    "WorkloadIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "capabilities": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "connector_ids": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "generation": {
+          "format": "int64",
+          "readOnly": true,
+          "type": "integer"
+        },
+        "id": {
+          "type": "string"
+        },
+        "instance_epoch": {
+          "format": "int64",
+          "readOnly": true,
+          "type": "integer"
+        },
+        "instance_id": {
+          "readOnly": true,
+          "type": "string"
+        },
+        "node_id": {
+          "type": "string"
+        },
+        "parameter_ids": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "program": {
+          "type": "string"
+        },
+        "purpose": {
+          "type": "string"
+        },
+        "updated_ms": {
+          "format": "int64",
+          "readOnly": true,
+          "type": "integer"
+        },
+        "version": {
+          "format": "int64",
+          "readOnly": true,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "node_id",
+        "program",
+        "purpose",
+        "enabled",
+        "capabilities",
+        "parameter_ids",
+        "connector_ids",
+        "generation",
+        "version",
+        "instance_epoch",
+        "updated_ms"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/SaveWorkloadIdentityInput.schema.json",
+  "$ref": "#/$defs/SaveWorkloadIdentityInput",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SaveWorkloadIdentityInput"
+}

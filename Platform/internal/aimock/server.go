@@ -99,18 +99,20 @@ func (Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
-	if match := regexp.MustCompile(`修改草稿\s+([A-Za-z0-9_.:-]+)\s+名称=(.+)`).FindStringSubmatch(user); len(match) == 3 {
+	if match := regexp.MustCompile(`修改草稿\s+(\S+)\s+名称=(.+)`).FindStringSubmatch(user); len(match) == 3 {
 		draftID, name := match[1], strings.TrimSpace(match[2])
 		switch len(outputs) {
 		case 0:
 			call("list_drafts", map[string]any{})
 		case 1:
-			var drafts []model.Draft
-			if store.DecodeJSON(outputs[0], &drafts) != nil {
+			var page struct {
+				Items []model.Draft `json:"items"`
+			}
+			if store.DecodeJSON(outputs[0], &page) != nil {
 				text("草稿列表读取失败。")
 				return
 			}
-			for _, draft := range drafts {
+			for _, draft := range page.Items {
 				if draft.ID == draftID {
 					draft.Definition.Name = name
 					call("save_draft", map[string]any{"draft": draft, "expected_version": draft.Version})
@@ -141,12 +143,14 @@ func (Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		case 0:
 			call("list_definitions", map[string]string{"kind": kind})
 		case 1:
-			var defs []model.Definition
-			if store.DecodeJSON(outputs[0], &defs) != nil || len(defs) == 0 {
+			var page struct {
+				Items []model.Definition `json:"items"`
+			}
+			if store.DecodeJSON(outputs[0], &page) != nil || len(page.Items) == 0 {
 				text("当前授权范围没有可供模拟使用的同类定义。")
 				return
 			}
-			call("get_definition", map[string]string{"id": defs[0].ID})
+			call("get_definition", map[string]string{"id": page.Items[0].ID})
 		case 2:
 			var d model.Definition
 			if store.DecodeJSON(outputs[1], &d) != nil || d.ID == "" {
@@ -173,15 +177,15 @@ func (Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		call("discover_catalogue", map[string]any{})
 	case 1:
 		var catalogue struct {
-			Entries []struct {
+			Items []struct {
 				ID string `json:"id"`
-			} `json:"entries"`
+			} `json:"items"`
 		}
-		if store.DecodeJSON(outputs[0], &catalogue) != nil || len(catalogue.Entries) == 0 {
+		if store.DecodeJSON(outputs[0], &catalogue) != nil || len(catalogue.Items) == 0 {
 			text("当前授权范围没有已发布的数据输出。")
 			return
 		}
-		call("describe_output", map[string]string{"id": catalogue.Entries[0].ID})
+		call("describe_output", map[string]string{"id": catalogue.Items[0].ID})
 	case 2:
 		var description struct {
 			ID       string         `json:"id"`
@@ -197,11 +201,11 @@ func (Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		}
 		call("query_data", map[string]any{"device_ids": strings.Join(ids, ","), "keys": description.ID, "from_ms": time.Now().Add(-time.Hour).UnixMilli(), "to_ms": time.Now().UnixMilli(), "limit": 100})
 	default:
-		var result model.DataResult
+		var result model.QueryPage
 		if store.DecodeJSON(outputs[len(outputs)-1], &result) != nil {
 			text("模拟查询返回错误。")
 			return
 		}
-		text(fmt.Sprintf("模拟查询完成：取得 %d 条观测，GOOD 数据 %d 条，排除 %d 条；完整程度为 %s。具体来源状态与修订记录可在数据监控页面查看。", len(result.Points), result.Quality.Good, result.Quality.Excluded, result.Quality.Completeness))
+		text(fmt.Sprintf("模拟查询完成：取得 %d 条观测，GOOD 数据 %d 条，排除 %d 条；完整程度为 %s。具体来源状态与修订记录可在数据监控页面查看。", len(result.Items), result.Metadata.Quality.Good, result.Metadata.Quality.Excluded, result.Metadata.Quality.Completeness))
 	}
 }

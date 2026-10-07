@@ -45,51 +45,65 @@ func (s *Store) ImportAudit(ctx context.Context, source string, public ed25519.P
 		err := s.DB.QueryRowContext(ctx, "SELECT COALESCE(MAX(sequence),0) FROM audit WHERE source_id=$1", source).Scan(&last)
 		return last, err
 	}
-	e := s.Write(ctx, func(t *Tx) error {
-		var previous string
-		e := t.QueryRowContext(ctx, "SELECT sequence,hash FROM audit WHERE source_id=$1 ORDER BY sequence DESC LIMIT 1", source).Scan(&last, &previous)
-		if e != nil && !errors.Is(e, sql.ErrNoRows) {
-			return e
+	verified := make([]AuditEvent, len(records))
+	copied := make([]AuditTransfer, len(records))
+	for index, record := range records {
+		record.Record = append([]byte(nil), record.Record...)
+		copied[index] = record
+		var event AuditEvent
+		if err := DecodeJSON(record.Record, &event); err != nil {
+			return 0, err
 		}
-		for _, x := range records {
-			var a AuditEvent
-			if e = DecodeJSON(x.Record, &a); e != nil {
-				return e
-			}
-			if a.SourceID != source {
-				return errors.New("audit source differs from certificate identity")
-			}
-			suffix := `,"hash":"` + a.Hash + `"}`
-			if !strings.HasSuffix(string(x.Record), suffix) {
-				return errors.New("audit serialization changed")
-			}
-			hash := sha256.Sum256([]byte(strings.TrimSuffix(string(x.Record), suffix) + `,"hash":""}`))
-			sig, err := base64.StdEncoding.DecodeString(x.Signature)
-			if err != nil || len(public) != ed25519.PublicKeySize || hex.EncodeToString(hash[:]) != a.Hash || !ed25519.Verify(public, []byte(checkpointText(source, a.Sequence, a.Hash)), sig) {
-				return fmt.Errorf("untrusted audit checkpoint at sequence %d", a.Sequence)
-			}
-			if a.Sequence <= last {
-				var existing string
-				if e = t.QueryRowContext(ctx, "SELECT hash FROM audit WHERE source_id=$1 AND sequence=$2", source, a.Sequence).Scan(&existing); e != nil {
-					return e
-				}
-				if existing != a.Hash {
-					return ErrConflict
-				}
-				continue
-			}
-			if a.Sequence != last+1 || a.PreviousHash != previous {
-				return fmt.Errorf("audit sequence gap after %d", last)
-			}
-			if _, e = t.ExecContext(ctx, "INSERT INTO audit(source_id,sequence,occurred_ms,received_ms,request_id,previous_hash,hash,data) VALUES($1,$2,$3,$4,$5,$6,$7,$8)", source, a.Sequence, a.OccurredMS, a.ReceivedMS, a.RequestID, a.PreviousHash, a.Hash, string(x.Record)); e != nil {
-				return e
-			}
-			if _, e = t.ExecContext(ctx, "INSERT INTO audit_checkpoints(source_id,sequence,hash,signature,public_key) VALUES($1,$2,$3,$4,$5)", source, a.Sequence, a.Hash, x.Signature, base64.StdEncoding.EncodeToString(public)); e != nil {
-				return e
-			}
-			last, previous = a.Sequence, a.Hash
+		if event.SourceID != source {
+			return 0, errors.New("audit source differs from certificate identity")
 		}
-		return t.SetEphemeral("audit_trust", source, map[string]string{"public_key": base64.StdEncoding.EncodeToString(public)})
+		suffix := `,"hash":"` + event.Hash + `"}`
+		if !strings.HasSuffix(string(record.Record), suffix) {
+			return 0, errors.New("audit serialization changed")
+		}
+		hash := sha256.Sum256([]byte(strings.TrimSuffix(string(record.Record), suffix) + `,"hash":""}`))
+		signature, err := base64.StdEncoding.DecodeString(record.Signature)
+		if err != nil || len(public) != ed25519.PublicKeySize || hex.EncodeToString(hash[:]) != event.Hash || !ed25519.Verify(public, []byte(checkpointText(source, event.Sequence, event.Hash)), signature) {
+			return 0, fmt.Errorf("untrusted audit checkpoint at sequence %d", event.Sequence)
+		}
+		verified[index] = event
+	}
+	public = append(ed25519.PublicKey(nil), public...)
+	err := s.Write(ctx, func(t *Tx) error {
+		if err := t.SetEphemeral("audit_trust", source, map[string]string{"public_key": base64.StdEncoding.EncodeToString(public)}); err != nil {
+			return err
+		}
+		t.auditFinalizers = append(t.auditFinalizers, func() error {
+			var previous string
+			err := t.QueryRowContext(ctx, "SELECT sequence,hash FROM audit WHERE source_id=$1 ORDER BY sequence DESC LIMIT 1", source).Scan(&last, &previous)
+			if err != nil && !errors.Is(err, sql.ErrNoRows) {
+				return err
+			}
+			for index, event := range verified {
+				if event.Sequence <= last {
+					var existing string
+					if err := t.QueryRowContext(ctx, "SELECT hash FROM audit WHERE source_id=$1 AND sequence=$2", source, event.Sequence).Scan(&existing); err != nil {
+						return err
+					}
+					if existing != event.Hash {
+						return ErrConflict
+					}
+					continue
+				}
+				if event.Sequence != last+1 || event.PreviousHash != previous {
+					return fmt.Errorf("audit sequence gap after %d", last)
+				}
+				if _, err := t.ExecContext(ctx, "INSERT INTO audit(source_id,sequence,occurred_ms,received_ms,request_id,previous_hash,hash,data) VALUES($1,$2,$3,$4,$5,$6,$7,$8)", source, event.Sequence, event.OccurredMS, event.ReceivedMS, event.RequestID, event.PreviousHash, event.Hash, string(copied[index].Record)); err != nil {
+					return err
+				}
+				if _, err := t.ExecContext(ctx, "INSERT INTO audit_checkpoints(source_id,sequence,hash,signature,public_key) VALUES($1,$2,$3,$4,$5)", source, event.Sequence, event.Hash, copied[index].Signature, base64.StdEncoding.EncodeToString(public)); err != nil {
+					return err
+				}
+				last, previous = event.Sequence, event.Hash
+			}
+			return nil
+		})
+		return nil
 	})
-	return last, e
+	return last, err
 }

@@ -1,0 +1,35 @@
+{
+  "$defs": {
+    "HandoverEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "action_version": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "version": {
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "kind",
+        "id",
+        "version"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/HandoverEvidence.schema.json",
+  "$ref": "#/$defs/HandoverEvidence",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "HandoverEvidence"
+}

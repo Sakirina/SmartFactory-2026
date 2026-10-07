@@ -21,20 +21,46 @@ import (
 	"competition2026/product/platform/internal/cloudsync"
 	"competition2026/product/platform/internal/control"
 	"competition2026/product/platform/internal/engine"
+	"competition2026/product/platform/internal/identity"
 	"competition2026/product/platform/internal/store"
 	"competition2026/product/platform/pkg/model"
 )
 
 type deviceRecorder struct {
-	mu       sync.Mutex
-	commands map[string]int
+	mu            sync.Mutex
+	commands      map[string]int
+	results       map[string]control.CommandFeedback
+	loseResponse  bool
+	lookupEntered chan string
+	lookupRelease chan struct{}
 }
 
 func (d *deviceRecorder) Send(ctx context.Context, step model.Step, id string, deadline int64) (control.DispatchResult, error) {
 	d.mu.Lock()
 	defer d.mu.Unlock()
 	d.commands[id]++
+	if d.results == nil {
+		d.results = map[string]control.CommandFeedback{}
+	}
+	d.results[id] = control.CommandFeedback{CommandID: id, DeviceID: step.DeviceID, PayloadHash: store.Hash(step), RequestHash: store.Hash(step), Source: "simulated-device:" + step.EdgeID, ObservedMS: time.Now().UnixMilli(), Found: true, Bound: true, Status: "SUCCESS", ContentHash: store.Hash([]any{id, step, "SUCCESS"})}
+	if d.loseResponse {
+		return control.DispatchResult{}, errors.New("injected feedback loss after device action")
+	}
 	return control.DispatchResult{Status: "SUCCESS", Message: "simulated device applied"}, nil
+}
+func (d *deviceRecorder) LookupCommand(ctx context.Context, _ model.Step, id string) (control.CommandFeedback, error) {
+	d.mu.Lock()
+	result := d.results[id]
+	d.mu.Unlock()
+	if d.lookupEntered != nil {
+		d.lookupEntered <- id
+		select {
+		case <-ctx.Done():
+			return control.CommandFeedback{}, ctx.Err()
+		case <-d.lookupRelease:
+		}
+	}
+	return result, nil
 }
 func (d *deviceRecorder) count(id string) int {
 	d.mu.Lock()
@@ -99,7 +125,7 @@ func realSite(t *testing.T) *siteFixture {
 			for name := range js.StreamNames() {
 				if strings.HasPrefix(name, "KV_test_") {
 					if err = js.DeleteStream(name); err != nil {
-						t.Fatal(err)
+						t.Fatalf("delete earlier isolated test bucket %s: %v", name, err)
 					}
 				}
 			}
@@ -107,11 +133,14 @@ func realSite(t *testing.T) *siteFixture {
 		}
 		c, e := Open(ctx, s, Options{URL: "tls://127.0.0.1:14222,tls://127.0.0.1:14223,tls://127.0.0.1:14224", Token: auth.Token, Prefix: prefix, TLS: client.Transport.(*http.Transport).TLSClientConfig, LeaseTTL: 2 * time.Second})
 		if e != nil {
-			t.Fatal(e)
+			t.Fatalf("open coordinator %s: %v", node, e)
 		}
 		f.nodes = append(f.nodes, c)
+		t.Logf("coordinator connected: %s", node)
 	}
-	f.definition = model.Definition{ID: "gas-plan", Kind: "strategy", Name: "Site gas response", Status: "published", Version: 1, Policy: model.Policy{EdgeIDs: []string{"edge-a", "edge-b", "edge-c"}, RiskCategory: "business", RiskLevel: 1}}
+	f.definition = model.Definition{ID: "gas-plan", Kind: "strategy", Name: "Site gas response", SchemaVersion: model.ContractVersion, GroupID: "site-fixture", Status: "published", Version: 1,
+		Nodes: []model.Node{{ID: "input", Type: "input"}, {ID: "action", Type: "action"}}, Connections: []model.Connection{{From: "input", To: "action"}},
+		Policy: model.Policy{EdgeIDs: []string{"edge-a", "edge-b", "edge-c"}, RiskCategory: "business", RiskLevel: 1}}
 	for _, node := range f.nodes {
 		f.definition.Policy.Steps = append(f.definition.Policy.Steps, model.Step{ID: "extract-" + node.Store.NodeID, DeviceID: "device-" + node.Store.NodeID, EdgeID: node.Store.NodeID, Action: "extract", Idempotent: true, TimeoutMS: 2000})
 		f.definition.Policy.Degraded = append(f.definition.Policy.Degraded, model.Step{ID: "stop-" + node.Store.NodeID, DeviceID: "device-" + node.Store.NodeID, EdgeID: node.Store.NodeID, Action: "stop", Idempotent: true, TimeoutMS: 2000})
@@ -130,14 +159,18 @@ func realSite(t *testing.T) *siteFixture {
 		}
 		devices := &deviceRecorder{commands: map[string]int{}}
 		f.devices = append(f.devices, devices)
-		service := &control.Service{Store: c.Store, Definitions: &engine.Service{Store: c.Store}, NodeID: c.Store.NodeID, Edge: true, Coordinator: c, Dispatcher: &Dispatcher{Coordinator: c, Local: devices}}
+		service := &control.Service{Store: c.Store, Identity: &identity.Manager{Store: c.Store, Master: bytes.Repeat([]byte{byte(i + 1)}, 32)}, Definitions: &engine.Service{Store: c.Store}, NodeID: c.Store.NodeID, Edge: true, Coordinator: c, Dispatcher: &Dispatcher{Coordinator: c, Local: devices}}
+		if e = service.Definitions.PrepareDefinition(ctx, f.definition); e != nil {
+			t.Fatalf("prepare published plan on %s: %v", c.Store.NodeID, e)
+		}
 		f.services = append(f.services, service)
 		done := make(chan error, 1)
 		f.commandDone = append(f.commandDone, done)
 		go func() { done <- c.ServeCommands(ctx, service) }()
 		if e = c.PublishState(ctx); e != nil {
-			t.Fatal(e)
+			t.Fatalf("publish node state on %s: %v", c.Store.NodeID, e)
 		}
+		t.Logf("published plan and node state prepared: %s", c.Store.NodeID)
 		_ = i
 	}
 	t.Cleanup(func() {

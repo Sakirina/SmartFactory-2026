@@ -1,0 +1,37 @@
+{
+  "$defs": {
+    "CreateExecutionBody": {
+      "additionalProperties": false,
+      "properties": {
+        "definition_id": {
+          "type": "string"
+        },
+        "downlink_id": {
+          "type": "string"
+        },
+        "override": {
+          "type": "boolean"
+        },
+        "params": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": [
+            "object",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "definition_id",
+        "params",
+        "override"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/CreateExecutionBody.schema.json",
+  "$ref": "#/$defs/CreateExecutionBody",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CreateExecutionBody"
+}

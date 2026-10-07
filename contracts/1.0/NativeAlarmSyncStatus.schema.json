@@ -1,0 +1,69 @@
+{
+  "$defs": {
+    "NativeAlarmSyncStatus": {
+      "additionalProperties": false,
+      "properties": {
+        "attempt_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "batch_limit": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "cursor": {
+          "type": "string"
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "failed_mappings": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "failures": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "interval_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "source_id": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "success_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "timeout_ms": {
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "source_id",
+        "enabled",
+        "interval_ms",
+        "batch_limit",
+        "timeout_ms",
+        "failed_mappings",
+        "attempt_ms",
+        "success_ms",
+        "failures",
+        "status"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/NativeAlarmSyncStatus.schema.json",
+  "$ref": "#/$defs/NativeAlarmSyncStatus",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NativeAlarmSyncStatus"
+}

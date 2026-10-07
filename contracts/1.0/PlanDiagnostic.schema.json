@@ -1,0 +1,94 @@
+{
+  "$defs": {
+    "PlanDiagnostic": {
+      "additionalProperties": false,
+      "properties": {
+        "content_sha256": {
+          "type": "string"
+        },
+        "definition_id": {
+          "type": "string"
+        },
+        "definition_version": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "issue": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PlanIssue"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "plan_id": {
+          "type": "string"
+        },
+        "plan_sha256": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "definition_id",
+        "definition_version",
+        "plan_id",
+        "content_sha256",
+        "status"
+      ],
+      "type": "object"
+    },
+    "PlanIssue": {
+      "additionalProperties": false,
+      "properties": {
+        "at_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "code": {
+          "type": "string"
+        },
+        "content_sha256": {
+          "type": "string"
+        },
+        "definition_id": {
+          "type": "string"
+        },
+        "definition_version": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "errors": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "definition_id",
+        "definition_version",
+        "content_sha256",
+        "code",
+        "errors",
+        "at_ms"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/PlanDiagnostic.schema.json",
+  "$ref": "#/$defs/PlanDiagnostic",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PlanDiagnostic"
+}

@@ -2,15 +2,14 @@ package api
 
 import (
 	"bytes"
-	"encoding/base64"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"io"
 	"net/http"
 	"strings"
 	"time"
 
+	"competition2026/product/platform/internal/application"
 	"competition2026/product/platform/internal/configcenter"
 	"competition2026/product/platform/internal/engine"
 	"competition2026/product/platform/internal/identity"
@@ -104,103 +103,13 @@ func (s *Server) drafts(w http.ResponseWriter, r *http.Request, p identity.Princ
 	}
 	return e
 }
-func (s *Server) saveDraft(w http.ResponseWriter, r *http.Request, p identity.Principal) error {
-	var req struct {
-		Draft           model.Draft `json:"draft"`
-		ExpectedVersion int64       `json:"expected_version"`
-	}
-	if e := decode(r, &req); e != nil {
-		return e
-	}
-	if e := s.definitionAccess(r, p, req.Draft.Definition, "draft"); e != nil {
-		return e
-	}
-	if req.ExpectedVersion < 0 || req.Draft.BaseVersion < 0 {
-		return APIError{400, "nonnegative versions are required"}
-	}
-	if req.Draft.ID == "" {
-		req.Draft.ID = req.Draft.Definition.ID
-	}
-	if current, e := s.Engine.Published(r.Context(), req.Draft.Definition.ID, 0); e == nil {
-		if e = s.allow(r, p, "draft", current.GroupID); e != nil {
-			return e
-		}
-	} else if !errors.Is(e, store.ErrNotFound) {
-		return e
-	}
-	if d, e := s.Store.Get(r.Context(), "draft", req.Draft.ID); e == nil {
-		old, e := store.Decode[model.Draft](d)
-		if e != nil {
-			return e
-		}
-		if e = s.allow(r, p, "draft", old.Definition.GroupID); e != nil {
-			return e
-		}
-	}
-	draft, e := s.Engine.SaveDraft(r.Context(), p.Actor, req.Draft, req.ExpectedVersion)
-	if e == nil {
-		respond(w, 200, draft)
-	}
-	return e
+
+// DefinitionApplication is shared with authenticated adapters such as MCP.
+func (s *Server) DefinitionApplication() *application.Definitions {
+	return &application.Definitions{Store: s.Store, Identity: s.Identity, Engine: s.Engine, Mode: s.Mode}
 }
 func (s *Server) draft(r *http.Request, p identity.Principal, action string) (model.Draft, error) {
-	doc, e := s.Store.Get(r.Context(), "draft", r.PathValue("id"))
-	if e != nil {
-		return model.Draft{}, e
-	}
-	draft, e := store.Decode[model.Draft](doc)
-	if e != nil {
-		return draft, e
-	}
-	e = s.definitionAccess(r, p, draft.Definition, action)
-	return draft, e
-}
-func (s *Server) definitionAccess(r *http.Request, p identity.Principal, d model.Definition, action string) error {
-	if d.GroupID == "" {
-		return identity.ErrDenied
-	}
-	if e := s.allow(r, p, action, d.GroupID); e != nil {
-		return e
-	}
-	if len(d.Selector.DeviceIDs) == 0 && d.Selector.AssetID == "" {
-		return APIError{400, "select at least one device or an asset hierarchy"}
-	}
-	resources := append([]string{}, d.Selector.DeviceIDs...)
-	if d.Selector.AssetID != "" {
-		resources = append(resources, d.Selector.AssetID)
-	}
-	for _, c := range d.Policy.Conditions {
-		resources = append(resources, c.DeviceID)
-	}
-	for _, step := range append(append([]model.Step{}, d.Policy.Steps...), d.Policy.Degraded...) {
-		resources = append(resources, step.DeviceID)
-	}
-	for _, id := range resources {
-		if id == "" {
-			return identity.ErrDenied
-		}
-		if e := s.allow(r, p, "read", id); e != nil {
-			return e
-		}
-	}
-	for _, id := range d.Dependencies {
-		other, e := s.Engine.Published(r.Context(), id, 0)
-		if e != nil {
-			return e
-		}
-		if e = s.allow(r, p, "read", other.GroupID); e != nil {
-			return e
-		}
-	}
-	return nil
-}
-func (s *Server) validateDraft(w http.ResponseWriter, r *http.Request, p identity.Principal) error {
-	draft, e := s.draft(r, p, "draft")
-	if e != nil {
-		return e
-	}
-	respond(w, 200, s.Engine.Validate(r.Context(), draft.Definition))
-	return nil
+	return s.DefinitionApplication().LoadDraft(r.Context(), p, application.DraftInput{ID: r.PathValue("id")}, action)
 }
 func (s *Server) draftDiff(w http.ResponseWriter, r *http.Request, p identity.Principal) error {
 	draft, e := s.draft(r, p, "read")
@@ -213,40 +122,6 @@ func (s *Server) draftDiff(w http.ResponseWriter, r *http.Request, p identity.Pr
 	}
 	respond(w, 200, engine.Diff(previous, draft.Definition))
 	return nil
-}
-func (s *Server) simulateDraft(w http.ResponseWriter, r *http.Request, p identity.Principal) error {
-	draft, e := s.draft(r, p, "draft")
-	if e != nil {
-		return e
-	}
-	var req struct {
-		Point model.Observation `json:"point"`
-	}
-	if e = decode(r, &req); e != nil {
-		return e
-	}
-	if e = s.allow(r, p, "read", req.Point.DeviceID); e != nil {
-		return e
-	}
-	result, e := s.Engine.Simulate(r.Context(), draft.Definition, req.Point)
-	if e == nil {
-		respond(w, 200, result)
-	}
-	return e
-}
-func (s *Server) publishDraft(w http.ResponseWriter, r *http.Request, p identity.Principal) error {
-	if s.Mode == "edge" {
-		return errors.New("new definitions are published in the cloud")
-	}
-	draft, e := s.draft(r, p, "publish")
-	if e != nil {
-		return e
-	}
-	definition, e := s.Engine.Publish(r.Context(), p.Actor, draft.ID)
-	if e == nil {
-		respond(w, 200, definition)
-	}
-	return e
 }
 func (s *Server) deactivate(w http.ResponseWriter, r *http.Request, p identity.Principal) error {
 	if s.Mode == "edge" {
@@ -305,11 +180,20 @@ func (s *Server) rollback(w http.ResponseWriter, r *http.Request, p identity.Pri
 	return store.ErrNotFound
 }
 func (s *Server) executions(w http.ResponseWriter, r *http.Request, p identity.Principal) error {
-	docs, e := s.visibleDocuments(r, p, "execution")
-	if e == nil {
-		outputDocuments(w, docs)
+	docs, e := s.Store.List(r.Context(), "execution")
+	if e != nil {
+		return e
 	}
-	return e
+	visible := []store.Document{}
+	for _, doc := range docs {
+		if _, err := s.Control.Detail(r.Context(), p, doc.ID); err == nil {
+			visible = append(visible, doc)
+		} else if !errors.Is(err, identity.ErrDenied) {
+			return err
+		}
+	}
+	outputDocuments(w, visible)
+	return nil
 }
 func (s *Server) createExecution(w http.ResponseWriter, r *http.Request, p identity.Principal) error {
 	var req struct {
@@ -355,47 +239,23 @@ func (s *Server) alarms(w http.ResponseWriter, r *http.Request, p identity.Princ
 	return e
 }
 func (s *Server) ackAlarm(w http.ResponseWriter, r *http.Request, p identity.Principal) error {
-	doc, e := s.Store.Get(r.Context(), "alarm", r.PathValue("id"))
-	if e != nil {
-		return e
+	var input application.AlarmActionInput
+	if err := decode(r, &input); err != nil {
+		return err
 	}
-	alarm, e := store.Decode[model.Alarm](doc)
-	if e != nil {
-		return e
+	if input.Action == "" {
+		input.Action = "acknowledge"
 	}
-	if e = s.allow(r, p, "approve", alarm.EntityID); e != nil {
-		return e
+	if input.Action != "acknowledge" {
+		return errors.New("acknowledge route requires the acknowledge action")
 	}
-	alarm.Acknowledged = true
-	alarm.Version++
-	e = s.Store.Write(r.Context(), func(t *store.Tx) error {
-		if _, e := t.Put("alarm", alarm.ID, doc.Version, alarm); e != nil {
-			return e
-		}
-		activeID := alarm.DefinitionID + ":" + alarm.EntityID
-		if current, err := t.Get("active_alarm", activeID); err == nil {
-			active, err := store.Decode[model.Alarm](current)
-			if err != nil {
-				return err
-			}
-			if active.ID == alarm.ID {
-				if _, err = t.Put("active_alarm", activeID, current.Version, alarm); err != nil {
-					return err
-				}
-			}
-		} else if !errors.Is(err, store.ErrNotFound) {
-			return err
-		}
-		if e := t.Enqueue(fmt.Sprintf("tb-alarm:%s:%d", alarm.ID, alarm.Version), "tb_alarm", alarm.EntityID, alarm); e != nil {
-			return e
-		}
-		return t.Audit(p.Actor, "alarm.acknowledge", alarm.EntityID, alarm.ID, alarm)
-	})
-	if e == nil {
-		respond(w, 200, alarm)
+	out, err := s.BusinessApplication().ActOnAlarm(r.Context(), p, r.PathValue("id"), input)
+	if err == nil {
+		respond(w, 200, out)
 	}
-	return e
+	return err
 }
+
 func (s *Server) jobs(w http.ResponseWriter, r *http.Request, p identity.Principal) error {
 	docs, e := s.visibleDocuments(r, p, "job")
 	if e == nil {
@@ -487,9 +347,7 @@ func (s *Server) proxyConfig(w http.ResponseWriter, r *http.Request, p identity.
 		return e
 	}
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Authorization", "Bearer "+s.ServiceToken)
-	actor, _ := json.Marshal(p.Actor)
-	req.Header.Set("X-SF-Actor", base64.StdEncoding.EncodeToString(actor))
+	req.Header.Set("Authorization", "Bearer "+bearer(r))
 	client := s.HTTPClient
 	if client == nil {
 		client = &http.Client{Timeout: 10 * time.Second}
@@ -525,7 +383,7 @@ func (s *Server) putConfig(w http.ResponseWriter, r *http.Request, p identity.Pr
 	if e := decode(r, &req); e != nil {
 		return e
 	}
-	out, e := s.Config.Put(r.Context(), p.Actor, req.Parameter, req.ExpectedVersion)
+	out, e := s.Config.PutAsUser(r.Context(), bearer(r), p.Actor, req.Parameter, req.ExpectedVersion)
 	if e == nil {
 		respond(w, 200, out)
 	}

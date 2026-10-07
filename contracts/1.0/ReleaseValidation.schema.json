@@ -1,0 +1,74 @@
+{
+  "$defs": {
+    "ReleaseIssue": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "component_id": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "recovery": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "component_id",
+        "code",
+        "message",
+        "recovery"
+      ],
+      "type": "object"
+    },
+    "ReleaseValidation": {
+      "additionalProperties": false,
+      "properties": {
+        "issues": {
+          "items": {
+            "$ref": "#/$defs/ReleaseIssue"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "order": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "sha256": {
+          "type": "string"
+        },
+        "valid": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "valid",
+        "sha256",
+        "order",
+        "issues"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/ReleaseValidation.schema.json",
+  "$ref": "#/$defs/ReleaseValidation",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ReleaseValidation"
+}

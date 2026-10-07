@@ -31,6 +31,7 @@ import (
 	"competition2026/product/datatransfer/internal/security"
 	"competition2026/product/datatransfer/internal/state"
 	"competition2026/product/datatransfer/internal/storage"
+	telemetry "competition2026/product/datatransfer/observability"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/reflection"
@@ -48,6 +49,24 @@ func (a App) Run(ctx context.Context) (runErr error) {
 		return err
 	}
 	logger := newLogger(cfg.Log.Level)
+	telemetryConfig, err := telemetry.ConfigFromEnv("datatransfer")
+	if err != nil {
+		return err
+	}
+	telemetryConfig.NodeID = cfg.MQTT.GatewayID
+	telemetryConfig.Environment = cfg.Environment
+	telemetryRuntime, err := telemetry.New(ctx, telemetryConfig)
+	if err != nil {
+		return err
+	}
+	telemetryRuntime.Install()
+	defer func() {
+		shutdown, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		defer cancel()
+		if err := telemetryRuntime.Shutdown(shutdown); err != nil {
+			logger.Warn("telemetry shutdown failed", "error", err)
+		}
+	}()
 	rt := dtruntime.New(cfg)
 	defer rt.Close()
 	connectorManager, err := connector.NewManager(cfg.Connectors, rt, logger)
@@ -112,11 +131,11 @@ func (a App) Run(ctx context.Context) (runErr error) {
 	}
 
 	errCh := make(chan error, 5)
-	var workers sync.WaitGroup
-	start := func(fn func() error) {
-		workers.Add(1)
+	var workers, servers sync.WaitGroup
+	start := func(group *sync.WaitGroup, fn func() error) {
+		group.Add(1)
 		go func() {
-			defer workers.Done()
+			defer group.Done()
 			if err := fn(); err != nil && !errors.Is(err, context.Canceled) && !errors.Is(err, http.ErrServerClosed) && !errors.Is(err, grpc.ErrServerStopped) {
 				errCh <- err
 			}
@@ -125,13 +144,19 @@ func (a App) Run(ctx context.Context) (runErr error) {
 	connections := &httpConnections{states: make(map[net.Conn]http.ConnState)}
 	httpServer := &http.Server{
 		Addr:              cfg.Management.Addr,
-		Handler:           observability.Handler(rt),
+		Handler:           telemetry.HTTPContext(observability.Handler(rt)),
 		ReadHeaderTimeout: 5 * time.Second,
 		BaseContext:       func(net.Listener) context.Context { return ctx },
 		ConnState:         connections.track,
 	}
 	defer func() {
 		cancelRun()
+		workersDone := make(chan struct{})
+		go func() { workers.Wait(); close(workersDone) }()
+		// Shutdown/Stop close the listeners and release the serving goroutines.
+		// Their completion follows service shutdown, while application workers
+		// finish concurrently in response to cancellation.
+		defer servers.Wait()
 		runErr = errors.Join(runErr, rt.Close())
 		rt.SetGRPCServing(false)
 		connections.stopAcceptingRequests()
@@ -154,25 +179,22 @@ func (a App) Run(ctx context.Context) (runErr error) {
 			if grpcServer != nil {
 				grpcServer.Stop()
 			}
+			<-stopped
 		}
-		workersDone := make(chan struct{})
-		go func() { workers.Wait(); close(workersDone) }()
-		select {
-		case <-workersDone:
-		case <-shutdownCtx.Done():
-			runErr = errors.Join(runErr, fmt.Errorf("worker shutdown: %w", shutdownCtx.Err()))
+		if err := waitForWorkers(shutdownCtx, workersDone); err != nil {
+			runErr = errors.Join(runErr, fmt.Errorf("worker shutdown: %w", err))
 		}
 	}()
-	start(func() error {
+	start(&servers, func() error {
 		logger.Info("management server starting", "addr", cfg.Management.Addr)
 		return httpServer.Serve(httpListener)
 	})
 
-	start(func() error {
+	start(&workers, func() error {
 		logger.Info("connector manager starting", "connectors", len(cfg.Connectors))
 		return connectorManager.Start(ctx)
 	})
-	start(func() error {
+	start(&workers, func() error {
 		timer := time.NewTicker(time.Minute)
 		defer timer.Stop()
 		for {
@@ -189,7 +211,7 @@ func (a App) Run(ctx context.Context) (runErr error) {
 
 	if grpcServer != nil {
 		rt.SetGRPCServing(true)
-		start(func() error {
+		start(&servers, func() error {
 			logger.Info("grpc server starting", "addr", cfg.GRPC.Addr, "tls", cfg.GRPC.TLS.Enabled, "reflection", reflectionEnabled(cfg))
 			return grpcServer.Serve(grpcListener)
 		})
@@ -205,7 +227,7 @@ func (a App) Run(ctx context.Context) (runErr error) {
 			adapter = mqttadapter.New(cfg.MQTT, rt, logger)
 			rt.AttachUpstreamSink(adapter)
 		}
-		start(func() error {
+		start(&workers, func() error {
 			logger.Info("mqtt adapter starting", "broker", cfg.MQTT.Broker, "gateway_id", cfg.MQTT.GatewayID)
 			return adapter.Start(ctx)
 		})
@@ -218,6 +240,21 @@ func (a App) Run(ctx context.Context) (runErr error) {
 	}
 
 	return nil
+}
+
+func waitForWorkers(ctx context.Context, done <-chan struct{}) error {
+	select {
+	case <-done:
+		return nil
+	case <-ctx.Done():
+		// Service shutdown may have used the deadline after workers completed.
+		select {
+		case <-done:
+			return nil
+		default:
+			return ctx.Err()
+		}
+	}
 }
 
 // net/http waits for new connections to become idle before shutting down. A client
@@ -261,7 +298,7 @@ func (c *httpConnections) stopAcceptingRequests() {
 // 以及仅限开发环境的 Server Reflection(默认关闭;生产配置已被 Validate 拒绝,
 // 此处再按 environment 判断一次作为纵深防御)。
 func buildGRPCServer(cfg config.Config, rt *dtruntime.Runtime, logger *slog.Logger) (*grpc.Server, error) {
-	var opts []grpc.ServerOption
+	var opts = []grpc.ServerOption{grpc.ChainUnaryInterceptor(telemetry.UnaryServerInterceptor)}
 	if cfg.GRPC.TLS.Enabled {
 		tlsCfg, err := security.ServerTLSConfig(cfg.GRPC.TLS)
 		if err != nil {

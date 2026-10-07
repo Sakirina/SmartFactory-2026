@@ -1,0 +1,37 @@
+{
+  "$defs": {
+    "ImpactReference": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "location": {
+          "type": "string"
+        },
+        "version": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "via": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "id",
+        "version",
+        "via",
+        "location"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/ImpactReference.schema.json",
+  "$ref": "#/$defs/ImpactReference",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ImpactReference"
+}

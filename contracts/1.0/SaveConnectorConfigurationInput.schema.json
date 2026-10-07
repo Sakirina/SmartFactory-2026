@@ -1,0 +1,136 @@
+{
+  "$defs": {
+    "Parameters": {
+      "additionalProperties": false,
+      "properties": {
+        "address": {
+          "additionalProperties": {},
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "connection": {
+          "additionalProperties": {},
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "connector_id": {
+          "type": "string"
+        },
+        "converter": {
+          "additionalProperties": {},
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "datapoints": {
+          "items": {
+            "additionalProperties": {},
+            "type": [
+              "object",
+              "null"
+            ]
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "device_id": {
+          "type": "string"
+        },
+        "device_name": {
+          "type": "string"
+        },
+        "device_type": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "polling": {
+          "additionalProperties": {},
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "report_strategy": {
+          "additionalProperties": {},
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "strategy_overrides": {
+          "items": {
+            "additionalProperties": {},
+            "type": [
+              "object",
+              "null"
+            ]
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "tags": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": [
+            "object",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "kind",
+        "connector_id"
+      ],
+      "type": "object"
+    },
+    "SaveConnectorConfigurationInput": {
+      "additionalProperties": false,
+      "properties": {
+        "edge_id": {
+          "type": "string"
+        },
+        "expected_version": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "group_id": {
+          "type": "string"
+        },
+        "parameters": {
+          "$ref": "#/$defs/Parameters"
+        },
+        "protocol": {
+          "type": "string"
+        },
+        "request_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "request_id",
+        "expected_version",
+        "group_id",
+        "edge_id",
+        "protocol",
+        "parameters"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/SaveConnectorConfigurationInput.schema.json",
+  "$ref": "#/$defs/SaveConnectorConfigurationInput",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SaveConnectorConfigurationInput"
+}

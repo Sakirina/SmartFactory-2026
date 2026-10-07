@@ -1,0 +1,158 @@
+{
+  "$defs": {
+    "ConfigurationReference": {
+      "additionalProperties": false,
+      "properties": {
+        "digest": {
+          "maxLength": 64,
+          "minLength": 64,
+          "type": "string"
+        },
+        "id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "parameter",
+            "connector"
+          ],
+          "type": "string"
+        },
+        "version": {
+          "format": "int64",
+          "minimum": 1,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "kind",
+        "id",
+        "version",
+        "digest"
+      ],
+      "type": "object"
+    },
+    "ReleaseConfigurationTargetProof": {
+      "additionalProperties": false,
+      "properties": {
+        "deployment_id": {
+          "type": "string"
+        },
+        "generation": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "identity": {
+          "$ref": "#/$defs/WorkloadIdentity"
+        },
+        "references": {
+          "items": {
+            "$ref": "#/$defs/ConfigurationReference"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "identity",
+        "deployment_id",
+        "generation",
+        "references"
+      ],
+      "type": "object"
+    },
+    "WorkloadIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "capabilities": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "connector_ids": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "generation": {
+          "format": "int64",
+          "readOnly": true,
+          "type": "integer"
+        },
+        "id": {
+          "type": "string"
+        },
+        "instance_epoch": {
+          "format": "int64",
+          "readOnly": true,
+          "type": "integer"
+        },
+        "instance_id": {
+          "readOnly": true,
+          "type": "string"
+        },
+        "node_id": {
+          "type": "string"
+        },
+        "parameter_ids": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "program": {
+          "type": "string"
+        },
+        "purpose": {
+          "type": "string"
+        },
+        "updated_ms": {
+          "format": "int64",
+          "readOnly": true,
+          "type": "integer"
+        },
+        "version": {
+          "format": "int64",
+          "readOnly": true,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "node_id",
+        "program",
+        "purpose",
+        "enabled",
+        "capabilities",
+        "parameter_ids",
+        "connector_ids",
+        "generation",
+        "version",
+        "instance_epoch",
+        "updated_ms"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/ReleaseConfigurationTargetProof.schema.json",
+  "$ref": "#/$defs/ReleaseConfigurationTargetProof",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ReleaseConfigurationTargetProof"
+}

@@ -36,7 +36,20 @@ type AuditIssue struct {
 }
 
 func (t *Tx) Audit(actor model.Actor, action, resource, request string, snapshot any) error {
+	raw, err := json.Marshal(snapshot)
+	if err != nil {
+		return err
+	}
+	snapshot = json.RawMessage(raw)
 	e := AuditEvent{SourceID: t.Store.NodeID, OccurredMS: t.Store.Now().UnixMilli(), ReceivedMS: t.Store.Now().UnixMilli(), Actor: actor, Action: action, Resource: resource, RequestID: request, Snapshot: snapshot}
+	if t.managed {
+		t.auditFinalizers = append(t.auditFinalizers, func() error { return t.appendAudit(e) })
+		return nil
+	}
+	return t.appendAudit(e)
+}
+
+func (t *Tx) appendAudit(e AuditEvent) error {
 	err := t.QueryRowContext(t.Ctx, "SELECT sequence,hash FROM audit WHERE source_id=$1 ORDER BY sequence DESC LIMIT 1", e.SourceID).Scan(&e.Sequence, &e.PreviousHash)
 	if err != nil && !errors.Is(err, sql.ErrNoRows) {
 		return err

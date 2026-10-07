@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"bytes"
 	"competition2026/product/platform/internal/store"
+	"competition2026/product/platform/pkg/model"
 	"context"
 	"crypto/subtle"
 	"encoding/json"
@@ -16,8 +17,13 @@ import (
 )
 
 func (s *Service) RegisterInternal(mux *http.ServeMux, token string) {
+	s.RegisterWorkloads(mux)
 	authenticated := func(handler http.HandlerFunc) http.HandlerFunc {
 		return func(w http.ResponseWriter, r *http.Request) {
+			if e := s.CheckLegacySubscription(r.Context()); e != nil {
+				http.Error(w, "legacy configuration subscription is disabled", 403)
+				return
+			}
 			supplied := strings.TrimPrefix(r.Header.Get("Authorization"), "Bearer ")
 			if token == "" || subtle.ConstantTimeCompare([]byte(supplied), []byte(token)) != 1 {
 				http.Error(w, "service authentication required", 401)
@@ -116,6 +122,12 @@ type Subscriber struct {
 	OnApply            func(context.Context) error
 	seen               map[string]int64
 	started            bool
+	WorkloadToken      string
+	InstanceID         string
+	Workload           model.WorkloadIdentity
+	ApplyConnector     func(context.Context, model.ConnectorConfiguration, json.RawMessage) error
+	ReadEffective      func(context.Context, model.ConfigurationEnvelope) (any, error)
+	sequences          map[string]int64
 }
 
 func (c *Subscriber) client() *http.Client {
@@ -214,8 +226,7 @@ func (c *Subscriber) Apply(ctx context.Context, params []Parameter) error {
 					if previousErr == nil {
 						return tx.SetEphemeral("parameter", p.ID, previous.Data)
 					}
-					_, err := tx.ExecContext(ctx, "DELETE FROM documents WHERE kind='parameter' AND id=$1", p.ID)
-					return err
+					return tx.Delete("parameter", p.ID)
 				}); restoreErr != nil {
 					return restoreErr
 				}
@@ -258,6 +269,9 @@ func (c *Subscriber) ack(ctx context.Context, id string, version int64, applied 
 	return nil
 }
 func (c *Subscriber) Run(ctx context.Context) error {
+	if c.WorkloadToken != "" {
+		return c.RunWorkload(ctx)
+	}
 	for {
 		e := c.listen(ctx)
 		if ctx.Err() != nil {

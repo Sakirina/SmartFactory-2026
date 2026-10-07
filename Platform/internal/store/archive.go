@@ -15,6 +15,7 @@ import (
 	"strings"
 	"time"
 
+	"competition2026/product/platform/internal/observability"
 	"competition2026/product/platform/pkg/model"
 )
 
@@ -166,8 +167,227 @@ func (t *Tx) saveArchive(b archiveBlock) error {
 	return err
 }
 
-// ArchiveObservations commits the verified compressed block and retirement of
-// its exact hot-table prefix atomically. A failed insert leaves every hot row.
+type archiveHotRow struct {
+	ID         string
+	ObservedMS int64
+	Data       string
+}
+type archiveCandidate struct {
+	Rows     []archiveHotRow
+	Block    archiveBlock
+	Previous *archiveBlock
+}
+
+// prepareArchive performs all reads, encoding and full verification before the
+// retirement transaction. The injected encoder keeps failure tests independent
+// of filesystem or compressor implementation details.
+func (s *Store) prepareArchive(ctx context.Context, cut int64, p ArchivePolicy, encode func([]model.Observation) (archiveBlock, error)) (prepared *archiveCandidate, err error) {
+	ctx, finish := observability.StartOperation(ctx, "archive.prepare", observability.Identity{})
+	defer func() { finish(err) }()
+	var device, key string
+	err = s.DB.QueryRowContext(ctx, "SELECT device_id,key FROM observations WHERE observed_ms<$1 ORDER BY observed_ms,id LIMIT 1", cut).Scan(&device, &key)
+	if errors.Is(err, sql.ErrNoRows) {
+		return nil, nil
+	}
+	if err != nil {
+		return nil, err
+	}
+	ctx = observability.WithIdentity(ctx, observability.Identity{EntityID: device})
+	rows, err := s.DB.QueryContext(ctx, "SELECT id,observed_ms,data FROM observations WHERE device_id=$1 AND key=$2 AND observed_ms<$3 ORDER BY observed_ms,id LIMIT $4", device, key, cut, p.BlockPoints)
+	if err != nil {
+		return nil, err
+	}
+	candidate := &archiveCandidate{}
+	points := []model.Observation{}
+	plainBytes := 0
+	for rows.Next() {
+		var row archiveHotRow
+		if err = rows.Scan(&row.ID, &row.ObservedMS, &row.Data); err != nil {
+			rows.Close()
+			return nil, err
+		}
+		if plainBytes+len(row.Data)+1 > archivePlainLimit {
+			break
+		}
+		var point model.Observation
+		if err = DecodeJSON([]byte(row.Data), &point); err != nil {
+			rows.Close()
+			return nil, err
+		}
+		if point.ID != row.ID || point.ObservedMS != row.ObservedMS || point.DeviceID != device || point.Key != key {
+			rows.Close()
+			return nil, errors.New("observation identity differs from stored content")
+		}
+		candidate.Rows = append(candidate.Rows, row)
+		points = append(points, point)
+		plainBytes += len(row.Data) + 1
+	}
+	err = rows.Err()
+	rows.Close()
+	if err != nil {
+		return nil, err
+	}
+	if len(points) == 0 {
+		return nil, errors.New("single observation exceeds archive block budget")
+	}
+	if err = ctx.Err(); err != nil {
+		return nil, err
+	}
+	candidate.Block, err = encode(points)
+	if err != nil {
+		return nil, err
+	}
+	decoded, err := decodeArchive(candidate.Block)
+	if err != nil {
+		return nil, err
+	}
+	if Hash(points) != Hash(decoded) {
+		return nil, errors.New("archive roundtrip changed observation content")
+	}
+	previous, err := scanArchive(s.DB.QueryRowContext(ctx, "SELECT "+archiveColumns+" FROM observation_archives WHERE id=$1", candidate.Block.ID))
+	if err == nil {
+		candidate.Previous = &previous
+	} else if !errors.Is(err, sql.ErrNoRows) {
+		return nil, err
+	}
+	return candidate, ctx.Err()
+}
+
+func (t *Tx) checkArchive(previous *archiveBlock, id string) error {
+	if err := t.lock("archive", id, false); err != nil {
+		return err
+	}
+	query := "SELECT " + archiveColumns + " FROM observation_archives WHERE id=$1"
+	if t.Store.Driver == "pgx" {
+		query += " FOR UPDATE"
+	}
+	actual, err := scanArchive(t.QueryRowContext(t.Ctx, query, id))
+	if previous == nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil
+		}
+		if err != nil {
+			return err
+		}
+		return ErrConflict
+	}
+	if errors.Is(err, sql.ErrNoRows) {
+		return ErrConflict
+	}
+	if err != nil {
+		return err
+	}
+	if Hash(actual) != Hash(*previous) {
+		return ErrConflict
+	}
+	return nil
+}
+
+func (s *Store) commitArchive(ctx context.Context, candidate *archiveCandidate) (err error) {
+	ctx, finish := observability.StartOperation(ctx, "archive.commit", observability.Identity{EntityID: candidate.Block.Device})
+	defer func() { finish(err) }()
+	return s.Write(ctx, func(tx *Tx) error {
+		// Acquiring partition guards before querying rows follows ingestion's order.
+		days := map[string]bool{}
+		for _, row := range candidate.Rows {
+			days[time.UnixMilli(row.ObservedMS).UTC().Format("20060102")] = true
+		}
+		names := []string{}
+		for day := range days {
+			names = append(names, "observations_"+day)
+		}
+		sort.Strings(names)
+		for _, name := range names {
+			if err := tx.lock("partition", name, true); err != nil {
+				return err
+			}
+		}
+		if err := tx.checkArchive(candidate.Previous, candidate.Block.ID); err != nil {
+			return err
+		}
+		// Row locks plus exact byte comparisons protect against updates made while
+		// compression was running; later arrivals are deliberately absent here.
+		for start := 0; start < len(candidate.Rows); start += 250 {
+			expected := map[string]string{}
+			var query strings.Builder
+			query.WriteString("SELECT id,observed_ms,data FROM observations WHERE ")
+			args := []any{}
+			for i, row := range candidate.Rows[start:min(start+250, len(candidate.Rows))] {
+				if i > 0 {
+					query.WriteString(" OR ")
+				}
+				n := len(args)
+				fmt.Fprintf(&query, "(id=$%d AND observed_ms=$%d)", n+1, n+2)
+				args = append(args, row.ID, row.ObservedMS)
+				expected[fmt.Sprint(row.ObservedMS)+"/"+row.ID] = row.Data
+			}
+			query.WriteString(" ORDER BY observed_ms,id")
+			if s.Driver == "pgx" {
+				query.WriteString(" FOR UPDATE")
+			}
+			rows, err := tx.QueryContext(ctx, query.String(), args...)
+			if err != nil {
+				return err
+			}
+			seen := 0
+			for rows.Next() {
+				var row archiveHotRow
+				if err = rows.Scan(&row.ID, &row.ObservedMS, &row.Data); err != nil {
+					rows.Close()
+					return err
+				}
+				if raw, ok := expected[fmt.Sprint(row.ObservedMS)+"/"+row.ID]; !ok || raw != row.Data {
+					rows.Close()
+					return ErrConflict
+				}
+				seen++
+			}
+			err = rows.Err()
+			rows.Close()
+			if err != nil {
+				return err
+			}
+			if seen != len(expected) {
+				return ErrConflict
+			}
+		}
+		if candidate.Previous == nil {
+			if err := tx.saveArchive(candidate.Block); err != nil {
+				return err
+			}
+		} else if Hash(*candidate.Previous) != Hash(candidate.Block) {
+			return ErrConflict
+		}
+		for start := 0; start < len(candidate.Rows); start += 250 {
+			var query strings.Builder
+			query.WriteString("DELETE FROM observations WHERE ")
+			args := []any{}
+			for i, row := range candidate.Rows[start:min(start+250, len(candidate.Rows))] {
+				if i > 0 {
+					query.WriteString(" OR ")
+				}
+				n := len(args)
+				fmt.Fprintf(&query, "(id=$%d AND observed_ms=$%d AND data=$%d)", n+1, n+2, n+3)
+				args = append(args, row.ID, row.ObservedMS, row.Data)
+			}
+			result, err := tx.ExecContext(ctx, query.String(), args...)
+			if err != nil {
+				return err
+			}
+			count, err := result.RowsAffected()
+			if err != nil {
+				return err
+			}
+			if count != int64(min(250, len(candidate.Rows)-start)) {
+				return ErrConflict
+			}
+		}
+		return nil
+	})
+}
+
+// ArchiveObservations retires bounded, independently verified blocks. Already
+// committed blocks stay available when a later block exhausts the time budget.
 func (s *Store) ArchiveObservations(ctx context.Context) (ArchiveStats, error) {
 	stats := ArchiveStats{}
 	p := s.Policy().Archive
@@ -177,81 +397,24 @@ func (s *Store) ArchiveObservations(ctx context.Context) (ArchiveStats, error) {
 	if p.HotHours < 1 || p.BlockPoints < 128 || p.BlockPoints > 4096 || p.BlocksPerRun < 1 || p.BlocksPerRun > 64 {
 		return stats, errors.New("invalid archive policy")
 	}
+	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
+	defer cancel()
 	cut := s.Now().Add(-time.Duration(p.HotHours) * time.Hour).UnixMilli()
 	for n := 0; n < p.BlocksPerRun; n++ {
-		var committed archiveBlock
-		err := s.Write(ctx, func(tx *Tx) error {
-			var device, key string
-			err := tx.QueryRowContext(ctx, "SELECT device_id,key FROM observations WHERE observed_ms<$1 ORDER BY observed_ms LIMIT 1", cut).Scan(&device, &key)
-			if errors.Is(err, sql.ErrNoRows) {
-				return nil
-			}
-			if err != nil {
-				return err
-			}
-			rows, err := tx.QueryContext(ctx, fmt.Sprintf("SELECT data FROM observations WHERE device_id=$1 AND key=$2 AND observed_ms<$3 ORDER BY observed_ms,id LIMIT %d", p.BlockPoints), device, key, cut)
-			if err != nil {
-				return err
-			}
-			points := []model.Observation{}
-			plainBytes := 0
-			for rows.Next() {
-				var raw string
-				if err = rows.Scan(&raw); err != nil {
-					rows.Close()
-					return err
-				}
-				if plainBytes+len(raw)+1 > archivePlainLimit {
-					break
-				}
-				var point model.Observation
-				if err = DecodeJSON([]byte(raw), &point); err != nil {
-					rows.Close()
-					return err
-				}
-				points = append(points, point)
-				plainBytes += len(raw) + 1
-			}
-			err = rows.Err()
-			rows.Close()
-			if err != nil {
-				return err
-			}
-			if len(points) == 0 {
-				return errors.New("single observation exceeds archive block budget")
-			}
-			block, err := encodeArchive(points)
-			if err != nil {
-				return err
-			}
-			if _, err = decodeArchive(block); err != nil {
-				return err
-			}
-			if err = tx.saveArchive(block); err != nil {
-				return err
-			}
-			last := points[len(points)-1]
-			result, err := tx.ExecContext(ctx, "DELETE FROM observations WHERE device_id=$1 AND key=$2 AND (observed_ms<$3 OR (observed_ms=$3 AND id<=$4))", device, key, last.ObservedMS, last.ID)
-			if err != nil {
-				return err
-			}
-			count, err := result.RowsAffected()
-			if err != nil || count != int64(len(points)) {
-				return errors.New("archive retirement count mismatch")
-			}
-			committed = block
-			return nil
-		})
+		candidate, err := s.prepareArchive(ctx, cut, p, encodeArchive)
 		if err != nil {
 			return stats, err
 		}
-		if committed.Count == 0 {
+		if candidate == nil {
 			break
 		}
+		if err = s.commitArchive(ctx, candidate); err != nil {
+			return stats, err
+		}
 		stats.Blocks++
-		stats.Points += committed.Count
-		stats.PlainBytes += committed.PlainBytes
-		stats.CompressedBytes += int64(len(committed.Payload))
+		stats.Points += candidate.Block.Count
+		stats.PlainBytes += candidate.Block.PlainBytes
+		stats.CompressedBytes += int64(len(candidate.Block.Payload))
 	}
 	if stats.Points > 0 && s.Driver == "pgx" {
 		if err := s.retireEmptyArchivedDays(ctx, cut); err != nil {
@@ -287,6 +450,16 @@ func (s *Store) retireEmptyArchivedDays(ctx context.Context, cut int64) error {
 			return err
 		}
 		for _, name := range names {
+			if err := tx.retirePartition(name); err != nil {
+				return err
+			}
+			var present bool
+			if err = tx.QueryRowContext(ctx, "SELECT EXISTS(SELECT 1 FROM pg_tables WHERE schemaname=current_schema() AND tablename=$1)", name).Scan(&present); err != nil {
+				return err
+			}
+			if !present {
+				continue
+			}
 			var exists bool
 			if err = tx.QueryRowContext(ctx, "SELECT EXISTS(SELECT 1 FROM "+name+" LIMIT 1)").Scan(&exists); err != nil {
 				return err
@@ -295,7 +468,8 @@ func (s *Store) retireEmptyArchivedDays(ctx context.Context, cut int64) error {
 				if _, err = tx.ExecContext(ctx, "DROP TABLE "+name); err != nil {
 					return err
 				}
-				delete(s.partitions, name)
+			} else {
+				delete(tx.retiredPartitions, name)
 			}
 		}
 		return nil
@@ -490,44 +664,77 @@ func (s *Store) walkSeries(ctx context.Context, pair [2]string, from, to int64, 
 	return nil
 }
 
-func (t *Tx) expireArchives(cut int64) (int64, error) {
+// expireArchives prepares replacement blocks outside their short CAS commit.
+// Each block is independent, so an interrupted retention run continues safely.
+func (s *Store) expireArchives(ctx context.Context, cut int64) (int64, error) {
 	var removed int64
-	for {
-		b, err := scanArchive(t.QueryRowContext(t.Ctx, "SELECT "+archiveColumns+" FROM observation_archives WHERE first_ms<$1 AND last_ms>=$1 ORDER BY first_ms,id LIMIT 1", cut))
+	for n := 0; n < 64; n++ {
+		previous, err := scanArchive(s.DB.QueryRowContext(ctx, "SELECT "+archiveColumns+" FROM observation_archives WHERE first_ms<$1 ORDER BY first_ms,id LIMIT 1", cut))
 		if errors.Is(err, sql.ErrNoRows) {
-			break
+			return removed, nil
 		}
 		if err != nil {
-			return 0, err
+			return removed, err
 		}
-		points, err := decodeArchive(b)
+		points, err := decodeArchive(previous)
 		if err != nil {
-			return 0, err
+			return removed, err
 		}
-		keep := points[:0]
+		keep := make([]model.Observation, 0, len(points))
 		for _, p := range points {
 			if p.ObservedMS >= cut {
 				keep = append(keep, p)
-			} else {
-				removed++
 			}
 		}
-		next, err := encodeArchive(keep)
+		var next *archiveBlock
+		if len(keep) > 0 {
+			encoded, err := encodeArchive(keep)
+			if err != nil {
+				return removed, err
+			}
+			decoded, err := decodeArchive(encoded)
+			if err != nil {
+				return removed, err
+			}
+			if Hash(keep) != Hash(decoded) {
+				return removed, errors.New("retention archive roundtrip mismatch")
+			}
+			next = &encoded
+		}
+		err = s.Write(ctx, func(tx *Tx) error {
+			if err := tx.checkArchive(&previous, previous.ID); err != nil {
+				return err
+			}
+			if next != nil {
+				if err := tx.checkArchive(nil, next.ID); err != nil {
+					return err
+				}
+				if err := tx.saveArchive(*next); err != nil {
+					return err
+				}
+			}
+			result, err := tx.ExecContext(ctx, "DELETE FROM observation_archives WHERE id=$1 AND sha256=$2", previous.ID, previous.Hash)
+			if err != nil {
+				return err
+			}
+			count, err := result.RowsAffected()
+			if err != nil {
+				return err
+			}
+			if count != 1 {
+				return ErrConflict
+			}
+			for _, point := range points {
+				if point.ObservedMS < cut {
+					tx.removeQueryRow("trend", queryPointIdentity(point, "raw"))
+				}
+			}
+			return nil
+		})
 		if err != nil {
-			return 0, err
+			return removed, err
 		}
-		if err = t.saveArchive(next); err != nil {
-			return 0, err
-		}
-		if _, err = t.ExecContext(t.Ctx, "DELETE FROM observation_archives WHERE id=$1", b.ID); err != nil {
-			return 0, err
-		}
+		removed += int64(len(points) - len(keep))
 	}
-
-	var whole int64
-	if err := t.QueryRowContext(t.Ctx, "SELECT COALESCE(sum(point_count),0) FROM observation_archives WHERE last_ms<$1", cut).Scan(&whole); err != nil {
-		return 0, err
-	}
-	_, err := t.ExecContext(t.Ctx, "DELETE FROM observation_archives WHERE last_ms<$1", cut)
-	return removed + whole, err
+	return removed, nil
 }

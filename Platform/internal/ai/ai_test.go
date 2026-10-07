@@ -66,6 +66,15 @@ func TestMCPAndChatThreeDraftKindsAndAuthorization(t *testing.T) {
 	rpc := func(path, method string, params any) *httptest.ResponseRecorder {
 		return call(aiToken, "POST", path, map[string]any{"jsonrpc": "2.0", "id": 1, "method": method, "params": params})
 	}
+	rpcSucceeded := func(response *httptest.ResponseRecorder) bool {
+		var value struct {
+			Error  json.RawMessage `json:"error"`
+			Result *struct {
+				IsError bool `json:"isError"`
+			} `json:"result"`
+		}
+		return response.Code == 200 && json.Unmarshal(response.Body.Bytes(), &value) == nil && len(value.Error) == 0 && value.Result != nil && !value.Result.IsError
+	}
 	w := rpc("/mcp/read", "initialize", map[string]any{"protocolVersion": "2025-03-26"})
 	if w.Code != 200 || !strings.Contains(w.Body.String(), `"protocolVersion":"2025-03-26"`) {
 		t.Fatal(w.Code, w.Body.String())
@@ -88,7 +97,7 @@ func TestMCPAndChatThreeDraftKindsAndAuthorization(t *testing.T) {
 		d.Name = "MCP " + kind
 		args := map[string]any{"draft": model.Draft{ID: d.ID, Definition: d}, "expected_version": 0}
 		w = rpc("/mcp/read", "tools/call", map[string]any{"name": "save_draft", "arguments": args})
-		if !strings.Contains(w.Body.String(), `"isError":true`) {
+		if rpcSucceeded(w) {
 			t.Fatal("readonly MCP saved draft", w.Body.String())
 		}
 		for _, tool := range []string{"save_draft", "validate_draft", "diff_draft"} {
@@ -97,7 +106,7 @@ func TestMCPAndChatThreeDraftKindsAndAuthorization(t *testing.T) {
 				input = args
 			}
 			w = rpc("/mcp/draft", "tools/call", map[string]any{"name": tool, "arguments": input})
-			if w.Code != 200 || !strings.Contains(w.Body.String(), `"isError":false`) {
+			if !rpcSucceeded(w) {
 				t.Fatalf("%s %s: %d %s", kind, tool, w.Code, w.Body.String())
 			}
 		}
@@ -112,7 +121,7 @@ func TestMCPAndChatThreeDraftKindsAndAuthorization(t *testing.T) {
 		}
 		draft.Definition.Name = "MCP modified " + kind
 		w = rpc("/mcp/draft", "tools/call", map[string]any{"name": "save_draft", "arguments": map[string]any{"draft": draft, "expected_version": draft.Version}})
-		if !strings.Contains(w.Body.String(), `"isError":false`) {
+		if !rpcSucceeded(w) {
 			t.Fatal(w.Body.String())
 		}
 		w = call(humanToken, "POST", "/api/sf/v1/assistant", map[string]any{"messages": []any{map[string]string{"role": "user", "content": "修改草稿 " + d.ID + " 名称=页面助手修改 " + kind}}})

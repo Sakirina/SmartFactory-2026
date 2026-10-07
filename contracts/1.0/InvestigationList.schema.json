@@ -1,0 +1,271 @@
+{
+  "$defs": {
+    "EvidenceReference": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "status"
+      ],
+      "type": "object"
+    },
+    "EvidenceResource": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "revision": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "version": {
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "kind",
+        "id",
+        "version"
+      ],
+      "type": "object"
+    },
+    "Investigation": {
+      "additionalProperties": false,
+      "properties": {
+        "answer": {
+          "type": "string"
+        },
+        "api": {
+          "type": "string"
+        },
+        "created_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "error": {
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/InvestigationEvidence"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "evidence_status": {
+          "type": "string"
+        },
+        "expires_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "id": {
+          "type": "string"
+        },
+        "messages": {
+          "items": {
+            "$ref": "#/$defs/InvestigationMessage"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "model": {
+          "type": "string"
+        },
+        "provider": {
+          "type": "string"
+        },
+        "references": {
+          "items": {
+            "$ref": "#/$defs/EvidenceReference"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "status": {
+          "type": "string"
+        },
+        "updated_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "user_id": {
+          "type": "string"
+        },
+        "version": {
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "user_id",
+        "version",
+        "provider",
+        "api",
+        "model",
+        "messages",
+        "status",
+        "created_ms",
+        "updated_ms",
+        "expires_ms",
+        "evidence_status",
+        "references",
+        "evidence"
+      ],
+      "type": "object"
+    },
+    "InvestigationEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "access_status": {
+          "type": "string"
+        },
+        "arguments": {},
+        "budget_bytes": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "created_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "delivery": {
+          "type": "string"
+        },
+        "expires_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "id": {
+          "type": "string"
+        },
+        "investigation_id": {
+          "type": "string"
+        },
+        "ordinal": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "original_bytes": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "resources": {
+          "items": {
+            "$ref": "#/$defs/EvidenceResource"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "status": {
+          "type": "string"
+        },
+        "tool_call_id": {
+          "type": "string"
+        },
+        "tool_name": {
+          "type": "string"
+        },
+        "visible_bytes": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "visible_content": {
+          "type": "string"
+        },
+        "visible_sha256": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "investigation_id",
+        "ordinal",
+        "tool_call_id",
+        "tool_name",
+        "arguments",
+        "status",
+        "delivery",
+        "created_ms",
+        "expires_ms",
+        "original_bytes",
+        "visible_bytes",
+        "budget_bytes",
+        "visible_sha256",
+        "resources"
+      ],
+      "type": "object"
+    },
+    "InvestigationList": {
+      "additionalProperties": false,
+      "properties": {
+        "has_more": {
+          "type": "boolean"
+        },
+        "items": {
+          "items": {
+            "$ref": "#/$defs/Investigation"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "next_after": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "items",
+        "has_more"
+      ],
+      "type": "object"
+    },
+    "InvestigationMessage": {
+      "additionalProperties": false,
+      "properties": {
+        "content": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "role",
+        "content"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/InvestigationList.schema.json",
+  "$ref": "#/$defs/InvestigationList",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "InvestigationList"
+}

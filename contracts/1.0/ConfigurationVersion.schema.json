@@ -1,0 +1,26 @@
+{
+  "$defs": {
+    "ConfigurationVersion": {
+      "additionalProperties": false,
+      "properties": {
+        "digest": {
+          "type": "string"
+        },
+        "version": {
+          "format": "int64",
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "version",
+        "digest"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/ConfigurationVersion.schema.json",
+  "$ref": "#/$defs/ConfigurationVersion",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ConfigurationVersion"
+}

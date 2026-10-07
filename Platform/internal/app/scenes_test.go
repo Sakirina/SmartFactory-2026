@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"competition2026/product/platform/internal/engine"
+	"competition2026/product/platform/internal/rulecore"
 	"competition2026/product/platform/internal/store"
 	"competition2026/product/platform/pkg/model"
 )
@@ -41,6 +42,10 @@ func TestSceneTimersQualityHysteresisAndRecovery(t *testing.T) {
 			t.Fatal(err)
 		}
 	}
+	if prepared, err := e.PreparePublishedPlans(ctx); err != nil || len(prepared.Isolated) != 0 {
+		t.Fatalf("legacy preparation: %+v %v", prepared, err)
+	}
+	beforeExecution := rulecore.SnapshotStatistics()
 	sequence := 0
 	ingest := func(device, key string, value any, quality string) {
 		t.Helper()
@@ -164,5 +169,10 @@ func TestSceneTimersQualityHysteresisAndRecovery(t *testing.T) {
 		if alarm.Active {
 			t.Fatal(p.alarm, "did not recover")
 		}
+	}
+	afterExecution := rulecore.SnapshotStatistics()
+	t.Logf("live/timer scene: compilations=%d expression_parses=%d executions=%d", afterExecution.Compilations-beforeExecution.Compilations, afterExecution.ExpressionParses-beforeExecution.ExpressionParses, afterExecution.Executions-beforeExecution.Executions)
+	if afterExecution.Compilations != beforeExecution.Compilations || afterExecution.ExpressionParses != beforeExecution.ExpressionParses || afterExecution.Executions == beforeExecution.Executions {
+		t.Fatal("scene hot path recompiled plans", beforeExecution, afterExecution)
 	}
 }

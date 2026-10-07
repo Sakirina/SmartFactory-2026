@@ -5,14 +5,12 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"math"
 	"math/big"
-	"regexp"
-	"strconv"
 	"strings"
 	"time"
 
 	"competition2026/product/platform/pkg/model"
+	"competition2026/product/platform/pkg/precise"
 )
 
 type Retention struct {
@@ -26,128 +24,19 @@ type Retention struct {
 
 func DefaultRetention() Retention { return Retention{30, 90, 365, 1095, 1095, 7} }
 
-type Aggregate struct {
-	Count    int64       `json:"count"`
-	Excluded int64       `json:"excluded"`
-	Sum      json.Number `json:"sum"`
-	Min      json.Number `json:"min"`
-	Max      json.Number `json:"max"`
-	Average  *float64    `json:"average"`
-	Complete string      `json:"complete"`
-}
+type Aggregate = precise.Aggregate
 
-var decimalNumber = regexp.MustCompile(`^-?(?:0|[1-9][0-9]*)(?:\.[0-9]+)?(?:[eE]([+-]?[0-9]+))?$`)
+func Number(value any) (*big.Rat, bool)                    { return precise.Number(value) }
+func AggregatePoints(points []model.Observation) Aggregate { return precise.AggregatePoints(points) }
+func MergeAggregate(a, b Aggregate) Aggregate              { return precise.MergeAggregate(a, b) }
 
-// Bound decimal expansion before big.Rat allocates powers of ten.
-func Number(v any) (*big.Rat, bool) {
-	var text string
-	switch x := v.(type) {
-	case json.Number:
-		text = x.String()
-	case float64:
-		if math.IsNaN(x) || math.IsInf(x, 0) {
-			return nil, false
-		}
-		text = strconv.FormatFloat(x, 'g', -1, 64)
-	case float32:
-		text = strconv.FormatFloat(float64(x), 'g', -1, 32)
-	case int64:
-		text = strconv.FormatInt(x, 10)
-	case uint64:
-		text = strconv.FormatUint(x, 10)
-	case int:
-		text = strconv.Itoa(x)
-	default:
-		return nil, false
-	}
-	if len(text) > 768 {
-		return nil, false
-	}
-	parts := decimalNumber.FindStringSubmatch(text)
-	if parts == nil {
-		return nil, false
-	}
-	if parts[1] != "" {
-		exponent, err := strconv.Atoi(parts[1])
-		if err != nil || exponent < -308 || exponent > 308 {
-			return nil, false
-		}
-	}
-	r, ok := new(big.Rat).SetString(text)
-	if ok && (r.Num().BitLen() > 4096 || r.Denom().BitLen() > 4096) {
-		return nil, false
-	}
-	return r, ok
-}
-func ratNumber(n *big.Rat) json.Number {
-	if n == nil {
-		return "0"
-	}
-	if n.IsInt() {
-		return json.Number(n.Num().String())
-	}
-	f, _ := n.Float64()
-	return json.Number(strconv.FormatFloat(f, 'g', -1, 64))
-}
-func AggregatePoints(points []model.Observation) Aggregate {
-	a := Aggregate{Sum: "0", Min: "0", Max: "0", Complete: "unknown"}
-	sum := new(big.Rat)
-	var min, max *big.Rat
-	for _, p := range points {
-		n, ok := Number(p.Value)
-		if p.Quality != "GOOD" || !ok {
-			a.Excluded++
-			continue
-		}
-		a.Count++
-		sum.Add(sum, n)
-		if min == nil || n.Cmp(min) < 0 {
-			min = new(big.Rat).Set(n)
-		}
-		if max == nil || n.Cmp(max) > 0 {
-			max = new(big.Rat).Set(n)
-		}
-	}
-	a.Sum = ratNumber(sum)
-	a.Min = ratNumber(min)
-	a.Max = ratNumber(max)
-	if a.Count > 0 {
-		mean, _ := new(big.Rat).Quo(sum, new(big.Rat).SetInt64(a.Count)).Float64()
-		a.Average = &mean
-	}
-	return a
-}
-func MergeAggregate(a, b Aggregate) Aggregate {
-	sum, _ := Number(a.Sum)
-	other, _ := Number(b.Sum)
-	if sum == nil {
-		sum = new(big.Rat)
-	}
-	if other != nil {
-		sum.Add(sum, other)
-	}
-	a.Sum = ratNumber(sum)
-	if b.Count > 0 {
-		lo, _ := Number(a.Min)
-		blo, _ := Number(b.Min)
-		hi, _ := Number(a.Max)
-		bhi, _ := Number(b.Max)
-		if a.Count == 0 || lo.Cmp(blo) > 0 {
-			a.Min = b.Min
-		}
-		if a.Count == 0 || hi.Cmp(bhi) < 0 {
-			a.Max = b.Max
-		}
-	}
-	a.Count += b.Count
-	a.Excluded += b.Excluded
-	if a.Count > 0 {
-		f, _ := new(big.Rat).Quo(sum, new(big.Rat).SetInt64(a.Count)).Float64()
-		a.Average = &f
-	}
-	return a
-}
 func (s *Store) BuildRollups(ctx context.Context, from, to int64) error {
+	return s.BuildRollupsGuarded(ctx, from, to, nil)
+}
+
+// BuildRollupsGuarded applies the caller's generation check in every write
+// transaction. Previously committed buckets remain available after a stop.
+func (s *Store) BuildRollupsGuarded(ctx context.Context, from, to int64, guard func(*Tx) error) error {
 	if to <= from || to-from > int64(24*time.Hour/time.Millisecond) {
 		return errors.New("rollup job must cover at most one day")
 	}
@@ -186,9 +75,17 @@ func (s *Store) BuildRollups(ctx context.Context, from, to int64) error {
 			}
 		}
 		e = s.Write(ctx, func(t *Tx) error {
+			if guard != nil {
+				if err := guard(t); err != nil {
+					return err
+				}
+			}
 			for _, r := range buckets {
 				data, _ := json.Marshal(map[string]any{"aggregate": r.state, "unit": r.unit})
 				if _, e := t.ExecContext(ctx, "INSERT INTO rollups(device_id,key,granularity,bucket_ms,data) VALUES($1,$2,'minute',$3,$4) ON CONFLICT(device_id,key,granularity,bucket_ms) DO UPDATE SET data=excluded.data", r.device, r.key, r.bucket, string(data)); e != nil {
+					return e
+				}
+				if e := t.markQueryRollup(r.device, r.key, "minute", r.bucket, string(data)); e != nil {
 					return e
 				}
 			}
@@ -198,9 +95,9 @@ func (s *Store) BuildRollups(ctx context.Context, from, to int64) error {
 			return e
 		}
 	}
-	return s.combineRollups(ctx, from, to)
+	return s.combineRollups(ctx, from, to, guard)
 }
-func (s *Store) combineRollups(ctx context.Context, from, to int64) error {
+func (s *Store) combineRollups(ctx context.Context, from, to int64, guard func(*Tx) error) error {
 	for _, pair := range []struct {
 		source, target string
 		duration       int64
@@ -248,9 +145,17 @@ func (s *Store) combineRollups(ctx context.Context, from, to int64) error {
 			return e
 		}
 		e = s.Write(ctx, func(t *Tx) error {
+			if guard != nil {
+				if err := guard(t); err != nil {
+					return err
+				}
+			}
 			for _, r := range group {
 				data, _ := json.Marshal(map[string]any{"aggregate": r.state, "unit": r.unit})
 				if _, e := t.ExecContext(ctx, "INSERT INTO rollups(device_id,key,granularity,bucket_ms,data) VALUES($1,$2,$3,$4,$5) ON CONFLICT(device_id,key,granularity,bucket_ms) DO UPDATE SET data=excluded.data", r.device, r.key, pair.target, r.bucket, string(data)); e != nil {
+					return e
+				}
+				if e := t.markQueryRollup(r.device, r.key, pair.target, r.bucket, string(data)); e != nil {
 					return e
 				}
 			}
@@ -323,13 +228,21 @@ func (s *Store) ApplyRetention(ctx context.Context, p Retention) (map[string]int
 		return nil, errors.New("invalid retention periods")
 	}
 	counts := map[string]int64{}
-	err := s.Write(ctx, func(t *Tx) error {
-		rawCut := s.Now().AddDate(0, 0, -p.RawDays).UnixMilli()
-		archived, err := t.expireArchives(rawCut)
-		if err != nil {
-			return err
+	rawCut := s.Now().AddDate(0, 0, -p.RawDays).UnixMilli()
+	archived, err := s.expireArchives(ctx, rawCut)
+	counts["archived_raw"] = archived
+	if err != nil {
+		return counts, err
+	}
+	err = s.Write(ctx, func(t *Tx) error {
+		for _, cutoff := range []struct {
+			resolution string
+			days       int
+		}{{"raw", p.RawDays}, {"minute", p.MinuteDays}, {"hour", p.HourDays}, {"day", p.DayDays}} {
+			if e := t.expireQueryRows(cutoff.resolution, s.Now().AddDate(0, 0, -cutoff.days).UnixMilli()); e != nil {
+				return e
+			}
 		}
-		counts["archived_raw"] = archived
 		if s.Driver == "pgx" {
 			rows, e := t.QueryContext(ctx, "SELECT tablename FROM pg_tables WHERE schemaname=current_schema() AND tablename LIKE 'observations_%'")
 			if e != nil {
@@ -353,10 +266,12 @@ func (s *Store) ApplyRetention(ctx context.Context, p Retention) (map[string]int
 				return e
 			}
 			for _, name := range names {
-				if _, e = t.ExecContext(ctx, "DROP TABLE "+name); e != nil {
+				if e = t.retirePartition(name); e != nil {
 					return e
 				}
-				delete(s.partitions, name)
+				if _, e = t.ExecContext(ctx, "DROP TABLE IF EXISTS "+name); e != nil {
+					return e
+				}
 			}
 			counts["partitions"] = int64(len(names))
 		}
@@ -423,7 +338,17 @@ func (s *Store) ApplyRetention(ctx context.Context, p Retention) (map[string]int
 		}
 		rows.Close()
 		for _, d := range remove {
-			if _, e = t.ExecContext(ctx, "DELETE FROM documents WHERE kind=$1 AND id=$2", d.Kind, d.ID); e != nil {
+			current, err := t.Get(d.Kind, d.ID)
+			if errors.Is(err, ErrNotFound) {
+				continue
+			}
+			if err != nil {
+				return err
+			}
+			if current.Version != d.Version || string(current.Data) != string(d.Data) {
+				continue
+			}
+			if e = t.Delete(d.Kind, d.ID); e != nil {
 				return e
 			}
 			if _, e = t.ExecContext(ctx, "DELETE FROM document_versions WHERE kind=$1 AND id=$2", d.Kind, d.ID); e != nil {

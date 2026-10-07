@@ -1,0 +1,93 @@
+{
+  "$defs": {
+    "ProgramBuild": {
+      "additionalProperties": false,
+      "properties": {
+        "configuration_formats": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "goarch": {
+          "type": "string"
+        },
+        "goos": {
+          "type": "string"
+        },
+        "migration_maximum": {
+          "format": "int64",
+          "minimum": 1,
+          "type": "integer"
+        },
+        "migration_minimum": {
+          "format": "int64",
+          "minimum": 1,
+          "type": "integer"
+        },
+        "program": {
+          "type": "string"
+        },
+        "rule_formats": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "source_sha256": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "program",
+        "version",
+        "goos",
+        "goarch",
+        "migration_minimum",
+        "migration_maximum",
+        "rule_formats",
+        "configuration_formats"
+      ],
+      "type": "object"
+    },
+    "ReleaseArtifact": {
+      "additionalProperties": false,
+      "properties": {
+        "build": {
+          "$ref": "#/$defs/ProgramBuild"
+        },
+        "created_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "sha256": {
+          "type": "string"
+        },
+        "size": {
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "sha256",
+        "size",
+        "build",
+        "created_ms"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/ReleaseArtifact.schema.json",
+  "$ref": "#/$defs/ReleaseArtifact",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ReleaseArtifact"
+}

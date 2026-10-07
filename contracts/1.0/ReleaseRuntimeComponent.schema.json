@@ -1,0 +1,41 @@
+{
+  "$defs": {
+    "ReleaseRuntimeComponent": {
+      "additionalProperties": false,
+      "properties": {
+        "applied_sha256": {
+          "type": "string"
+        },
+        "applied_version": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "sha256": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "version",
+        "sha256",
+        "applied_sha256",
+        "applied_version"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/ReleaseRuntimeComponent.schema.json",
+  "$ref": "#/$defs/ReleaseRuntimeComponent",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ReleaseRuntimeComponent"
+}

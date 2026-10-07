@@ -11,7 +11,7 @@ import (
 func TestPublicationWaitsForCommittedNodeCursor(t *testing.T) {
 	f := setup(t)
 	ctx := context.Background()
-	d := model.Definition{ID: "published", Kind: "analysis", Status: "published", Version: 1}
+	d := model.Definition{ID: "published", Name: "Published", Kind: "analysis", SchemaVersion: model.ContractVersion, GroupID: "factory", Status: "published", Version: 1, Nodes: []model.Node{{ID: "input", Type: "input"}}}
 	if err := f.cloud.Write(ctx, func(tx *store.Tx) error {
 		if _, e := tx.Put("definition", d.ID, 0, d); e != nil {
 			return e

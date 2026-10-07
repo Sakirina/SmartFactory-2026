@@ -2,7 +2,7 @@
   "name": "smartfactory-site",
   "services": {
     "nats-1": {
-      "image": "library/nats@sha256:383e95bac92d099fa612f6bbe5c4c83ae15af22e409a89fecd2e3c5092a8b2dc",
+      "image": "library/nats@sha256:b2301863d84fda2cf8260d308203708f5231b2db34d821cc518d5c4c3c79780a",
       "platform": "linux/amd64",
       "pull_policy": "never",
       "restart": "unless-stopped",
@@ -27,10 +27,16 @@
           "max-size": "10m",
           "max-file": "3"
         }
+      },
+      "mem_limit": "256m",
+      "memswap_limit": "256m",
+      "environment": {
+        "GOMEMLIMIT": "192MiB",
+        "GOMAXPROCS": "2"
       }
     },
     "nats-2": {
-      "image": "library/nats@sha256:383e95bac92d099fa612f6bbe5c4c83ae15af22e409a89fecd2e3c5092a8b2dc",
+      "image": "library/nats@sha256:b2301863d84fda2cf8260d308203708f5231b2db34d821cc518d5c4c3c79780a",
       "platform": "linux/amd64",
       "pull_policy": "never",
       "restart": "unless-stopped",
@@ -55,10 +61,16 @@
           "max-size": "10m",
           "max-file": "3"
         }
+      },
+      "mem_limit": "256m",
+      "memswap_limit": "256m",
+      "environment": {
+        "GOMEMLIMIT": "192MiB",
+        "GOMAXPROCS": "2"
       }
     },
     "nats-3": {
-      "image": "library/nats@sha256:383e95bac92d099fa612f6bbe5c4c83ae15af22e409a89fecd2e3c5092a8b2dc",
+      "image": "library/nats@sha256:b2301863d84fda2cf8260d308203708f5231b2db34d821cc518d5c4c3c79780a",
       "platform": "linux/amd64",
       "pull_policy": "never",
       "restart": "unless-stopped",
@@ -83,6 +95,12 @@
           "max-size": "10m",
           "max-file": "3"
         }
+      },
+      "mem_limit": "256m",
+      "memswap_limit": "256m",
+      "environment": {
+        "GOMEMLIMIT": "192MiB",
+        "GOMAXPROCS": "2"
       }
     }
   },

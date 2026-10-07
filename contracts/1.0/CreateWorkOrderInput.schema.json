@@ -1,0 +1,61 @@
+{
+  "$defs": {
+    "CreateWorkOrderInput": {
+      "additionalProperties": false,
+      "properties": {
+        "alarm_ids": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "assignee_id": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "execution_ids": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "group_id": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "request_id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "request_id",
+        "id",
+        "title",
+        "group_id",
+        "assignee_id",
+        "reason"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/CreateWorkOrderInput.schema.json",
+  "$ref": "#/$defs/CreateWorkOrderInput",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CreateWorkOrderInput"
+}

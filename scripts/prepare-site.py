@@ -12,10 +12,13 @@ from datetime import datetime, timezone
 parser = argparse.ArgumentParser()
 parser.add_argument("--binary-dir", default="/private/tmp/smartfactory-build/bin")
 parser.add_argument("--memory", action="store_true", help="prepare separate, disposable NATS stores in bounded tmpfs")
+parser.add_argument("--root", type=Path, help="workspace containing deploy/images.lock.json; use a separate root for isolated validation")
+parser.add_argument("--project", help="explicit Compose project name for isolated persistent stores")
 args = parser.parse_args()
-root = Path(__file__).resolve().parents[1]
+root = args.root.resolve() if args.root else Path(__file__).resolve().parents[1]
 site = root / (".local/site-memory" if args.memory else ".local/site")
-project = "smartfactory-site-memory" if args.memory else "smartfactory-site"
+project = args.project or ("smartfactory-site-memory" if args.memory else "smartfactory-site")
+compose = site / "compose.json" if args.memory else root / "deploy/compose.site.json"
 client_port = 15221 if args.memory else 14221
 monitor_port = 19221 if args.memory else 18221
 pki = site / "pki"
@@ -64,16 +67,16 @@ for index in range(1, 4):
         "image": images["nats"]["pinned"], "platform": "linux/amd64", "pull_policy": "never",
         "restart": "unless-stopped", "command": ["-c", "/config/nats.conf"],
         "ports": [f"127.0.0.1:{client_port+index}:4222", f"127.0.0.1:{monitor_port+index}:8222"],
-        "volumes": [f"{site}/{name}.conf:/config/nats.conf:ro", f"{pki}/{name}.pem:/certs/{name}.pem:ro", f"{pki}/{name}.key:/certs/{name}.key:ro", f"{pki}/ca.pem:/certs/ca.pem:ro"],
+        "volumes": [f"{os.path.relpath(site / (name+'.conf'), compose.parent)}:/config/nats.conf:ro", f"{os.path.relpath(pki / (name+'.pem'), compose.parent)}:/certs/{name}.pem:ro", f"{os.path.relpath(pki / (name+'.key'), compose.parent)}:/certs/{name}.key:ro", f"{os.path.relpath(pki / 'ca.pem', compose.parent)}:/certs/ca.pem:ro"],
         "logging": {"driver": "json-file", "options": {"max-size": "10m", "max-file": "3"}},
     }
     if args.memory:
         services[name].update({"tmpfs": ["/data:rw,size=128m"], "mem_limit": "192m", "memswap_limit": "192m", "logging": {"driver": "none"}, "restart": "no"})
     else:
         services[name]["volumes"].append(f"{name}:/data")
+        services[name].update({"mem_limit": "256m", "memswap_limit": "256m", "environment": {"GOMEMLIMIT": "192MiB", "GOMAXPROCS": "2"}})
 for node in ["edge-a", "edge-b", "edge-c"]:
     subprocess.run([binary, "--dir", str(pki), "--node", node, "--client"], check=True)
-compose = site / "compose.json" if args.memory else root / "deploy/compose.site.json"
 content = {"name": project, "services": services}
 if not args.memory:
     content["volumes"] = {f"nats-{index}": {} for index in range(1, 4)}

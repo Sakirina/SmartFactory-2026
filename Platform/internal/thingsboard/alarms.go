@@ -12,6 +12,19 @@ import (
 )
 
 func (a *Adapter) Alarm(ctx context.Context, alarm model.Alarm) error {
+	a.alarmMu.Lock()
+	defer a.alarmMu.Unlock()
+	if current, err := a.Store.Get(ctx, "alarm", alarm.ID); err == nil {
+		latest, err := store.Decode[model.Alarm](current)
+		if err != nil {
+			return err
+		}
+		if latest.Version > alarm.Version {
+			alarm = latest
+		}
+	} else if !errors.Is(err, store.ErrNotFound) {
+		return err
+	}
 	doc, err := a.Store.Get(ctx, "entity", alarm.EntityID)
 	if err != nil {
 		return err
@@ -57,14 +70,30 @@ func (a *Adapter) Alarm(ctx context.Context, alarm model.Alarm) error {
 	}
 	if native == nil {
 		native = map[string]any{"originator": mapped.Native, "type": typ}
+	} else {
+		raw, _ := json.Marshal(native["id"])
+		var id EntityID
+		if err = json.Unmarshal(raw, &id); err != nil {
+			return err
+		}
+		if id.ID == "" {
+			return errors.New("native alarm id missing")
+		}
+		if err = a.Client.Do(ctx, "GET", "/api/alarm/"+url.PathEscape(id.ID), nil, &native); err != nil {
+			return err
+		}
 	}
 	native["severity"] = alarm.Severity
 	native["startTs"] = alarm.StartedMS
 	native["endTs"] = alarm.UpdatedMS
 	native["details"] = map[string]any{"sf_alarm_id": alarm.ID, "sf_definition_id": alarm.DefinitionID, "sf_version": alarm.Version, "sf_count": alarm.Count, "sf_historical": alarm.Historical, "sf_revision_status": alarm.RevisionStatus, "sf_value": alarm.Value}
-	native["acknowledged"] = alarm.Acknowledged
-	native["cleared"] = !alarm.Active
-	native["clearTs"] = alarm.ClearedMS
+	acknowledged, _ := native["acknowledged"].(bool)
+	cleared, _ := native["cleared"].(bool)
+	native["acknowledged"] = acknowledged || alarm.Acknowledged
+	native["cleared"] = cleared || !alarm.Active
+	if !cleared {
+		native["clearTs"] = alarm.ClearedMS
+	}
 	if err = a.Client.Do(ctx, "POST", "/api/alarm", native, &native); err != nil {
 		return err
 	}

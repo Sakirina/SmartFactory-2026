@@ -1,0 +1,25 @@
+{
+  "$defs": {
+    "RetryTemplateBatchInput": {
+      "additionalProperties": false,
+      "properties": {
+        "expected_version": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "request_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "request_id",
+        "expected_version"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/RetryTemplateBatchInput.schema.json",
+  "$ref": "#/$defs/RetryTemplateBatchInput",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RetryTemplateBatchInput"
+}

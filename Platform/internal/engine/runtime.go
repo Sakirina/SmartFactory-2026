@@ -8,48 +8,23 @@ import (
 	"fmt"
 	"strconv"
 
+	"competition2026/product/platform/internal/rulecore"
 	"competition2026/product/platform/internal/store"
 	"competition2026/product/platform/pkg/model"
 )
 
-type RuntimeState struct {
-	Active    bool  `json:"active"`
-	Candidate bool  `json:"candidate"`
-	SinceMS   int64 `json:"since_ms"`
-	Count     int64 `json:"count"`
-	Previous  any   `json:"previous"`
-	LastMS    int64 `json:"last_ms"`
-}
-type Evaluation struct {
-	DefinitionID string                  `json:"definition_id"`
-	Version      int64                   `json:"version"`
-	EntityID     string                  `json:"entity_id"`
-	AtMS         int64                   `json:"at_ms"`
-	Values       map[string]any          `json:"values"`
-	States       map[string]RuntimeState `json:"states"`
-	Trigger      bool                    `json:"trigger"`
-	Alarm        *bool                   `json:"alarm,omitempty"`
-	Severity     string                  `json:"severity"`
-	Quality      model.QualitySummary    `json:"quality"`
-	Historical   bool                    `json:"historical"`
-	RunID        string                  `json:"run_id,omitempty"`
-}
+type RuntimeState = rulecore.RuntimeState
+type Evaluation = rulecore.Evaluation
 
 type simulationSampleKey struct{}
 type evaluationKindKey struct{}
 
 func (s *Service) Simulate(ctx context.Context, d model.Definition, p model.Observation) (Evaluation, error) {
-	if p.DeviceID == "" || p.Key == "" || p.ObservedMS <= 0 || !has([]string{"GOOD", "BAD", "UNCERTAIN"}, p.Quality) {
-		return Evaluation{}, errors.New("simulation sample requires device, key, positive timestamp and valid quality")
-	}
-	matched, err := s.scope(ctx, d, p)
+	result, err := s.SimulateSequence(ctx, d, SimulationRequest{Point: &p})
 	if err != nil {
 		return Evaluation{}, err
 	}
-	if !matched {
-		return Evaluation{}, errors.New("simulation sample is outside the definition selector")
-	}
-	return s.Evaluate(context.WithValue(ctx, simulationSampleKey{}, true), d, p, true, nil)
+	return result.Results[0].Evaluation, nil
 }
 
 func (s *Service) scope(ctx context.Context, d model.Definition, p model.Observation) (bool, error) {
@@ -116,248 +91,33 @@ func (s *Service) window(ctx context.Context, d model.Definition, p model.Observ
 	}
 	return out, nil
 }
+
+// Evaluate prepares a one-shot diagnostic calculation. Runtime workers load
+// their published plan and call evaluatePrepared directly.
 func (s *Service) Evaluate(ctx context.Context, d model.Definition, p model.Observation, historical bool, states map[string]RuntimeState) (Evaluation, error) {
-	result := Evaluation{DefinitionID: d.ID, Version: d.Version, EntityID: p.DeviceID, AtMS: p.ObservedMS, Values: map[string]any{}, States: map[string]RuntimeState{}, Historical: historical, Severity: "WARNING", Quality: model.QualitySummary{Completeness: "unknown"}}
-	clockMS := p.ObservedMS
-	if at, ok := ctx.Value(timerAtKey{}).(int64); ok {
-		clockMS, result.AtMS = at, at
-	}
-	freshness, err := s.freshness(ctx, d, p.DeviceID)
+	plan, err := s.prepareDraft(ctx, d)
 	if err != nil {
-		return result, err
+		return Evaluation{}, err
 	}
-	if d.Selector.AssetID != "" {
-		result.EntityID = d.Selector.AssetID
-	}
-	if states == nil {
-		states = map[string]RuntimeState{}
-	}
-	for id, state := range states {
-		result.States[id] = state
-	}
-	v := s.Validate(ctx, d)
-	if !v.Valid {
-		return result, fmt.Errorf("invalid definition: %v", v.Errors)
-	}
-	points, e := s.window(ctx, d, p)
-	if e != nil {
-		return result, e
-	}
-	agg := store.AggregatePoints(points)
-	for _, point := range points {
-		if point.Quality == "GOOD" {
-			result.Quality.Good++
-		} else if point.Quality == "BAD" {
-			result.Quality.Bad++
-			result.Quality.Excluded++
-		} else if point.Quality == "UNCERTAIN" {
-			result.Quality.Uncertain++
-			result.Quality.Excluded++
-		}
-	}
-	nodes := map[string]model.Node{}
-	for _, n := range d.Nodes {
-		nodes[n.ID] = n
-	}
-	for _, id := range v.Order {
-		if e = ctx.Err(); e != nil {
-			return result, e
-		}
-		n := nodes[id]
-		var value any = p.Value
-		enabled := true
-		for _, c := range d.Connections {
-			if c.To == id {
-				outputKey := c.From
-				if c.FromPort == "error" {
-					outputKey += ".error"
-				}
-				up, exists := result.Values[outputKey]
-				if !exists {
-					enabled = false
-					break
-				}
-				if c.FromPort == "true" && !truth(up) {
-					enabled = false
-					break
-				}
-				if c.FromPort == "false" && truth(up) {
-					enabled = false
-					break
-				}
-				value = up
-			}
-		}
-		if !enabled {
-			continue
-		}
-		state := states[id]
-		before := state
-		vars := map[string]any{"value": value, "sum": agg.Sum, "count": agg.Count, "min": agg.Min, "max": agg.Max, "avg": nil, "previous": state.Previous, "active": state.Active, "good": p.Quality == "GOOD", "quality": p.Quality, "fresh": historical || s.Store.Now().UnixMilli()-p.ObservedMS <= freshness}
-		if agg.Average != nil {
-			vars["avg"] = *agg.Average
-		}
-		if vars["previous"] == nil {
-			vars["previous"] = 0
-		}
-		switch n.Type {
-		case "input":
-			if key, ok := n.Params["key"].(string); ok && key != "" {
-				if key != p.Key {
-					obs, e := s.Store.Query(ctx, store.Query{DeviceIDs: []string{p.DeviceID}, Keys: []string{key}, FromMS: 0, ToMS: p.ObservedMS, Limit: 1})
-					if e != nil {
-						return result, e
-					}
-					if len(obs.Points) == 0 {
-						return result, fmt.Errorf("input %s is missing", key)
-					}
-					value = obs.Points[0].Value
-				}
-			}
-		case "aggregate":
-			fn, _ := n.Params["function"].(string)
-			if agg.Count == 0 {
-				value = nil
-			} else {
-				switch fn {
-				case "sum":
-					value = agg.Sum
-				case "count":
-					value = agg.Count
-				case "min":
-					value = agg.Min
-				case "max":
-					value = agg.Max
-				case "avg":
-					value = *agg.Average
-				}
-			}
-		case "expression":
-			if d.Kind == "analysis" && result.Quality.Good == 0 {
-				value = nil
-				break
-			}
-			code, _ := n.Params["code"].(string)
-			scriptContext, cancel := context.WithTimeout(ctx, timeout(d))
-			value, e = Expression(scriptContext, code, vars)
-			cancel()
-			if e != nil {
-				if !hasErrorBranch(d, id) {
-					return result, fmt.Errorf("expression %s: %w", id, e)
-				}
-				result.Values[id+".error"] = e.Error()
-				continue
-			}
-		case "threshold", "condition", "branch":
-			operator, _ := n.Params["operator"].(string)
-			if operator == "" {
-				operator = ">="
-			}
-			value, e = compare(value, n.Params["value"], operator)
-			if e != nil {
-				return result, e
-			}
-			if p.Quality != "GOOD" {
-				value = false
-			}
-		case "hysteresis":
-			if p.Quality != "GOOD" {
-				value = state.Active
-				break
-			}
-			hi, lo := n.Params["high"], n.Params["low"]
-			high, e := compare(value, hi, ">=")
-			if e != nil {
-				return result, e
-			}
-			low, e := compare(value, lo, "<=")
-			if e != nil {
-				return result, e
-			}
-			below, _ := n.Params["direction"].(string)
-			if below == "below" && low {
-				state.Active = true
-			} else if below == "below" && high {
-				state.Active = false
-			} else if below == "below" {
-			} else if high {
-				state.Active = true
-			} else if low {
-				state.Active = false
-			}
-			value = state.Active
-		case "debounce":
-			candidate := truth(value)
-			mode, _ := n.Params["mode"].(string)
-			if mode == "activation" && !candidate {
-				state.Candidate, state.Active, state.SinceMS = false, false, 0
-				value = false
-				break
-			}
-			if state.SinceMS == 0 || candidate != state.Candidate {
-				state.Candidate = candidate
-				state.SinceMS = clockMS
-			}
-			duration := integer(n.Params["duration_ms"], 1000)
-			if clockMS-state.SinceMS >= duration {
-				state.Active = candidate
-			}
-			value = state.Active
-		case "counter":
-			if p.Quality == "GOOD" {
-				mode, _ := n.Params["mode"].(string)
-				increment := int64(1)
-				if mode == "delta" {
-					increment = integer(value, 0)
-				}
-				if mode != "rising" || truth(value) && !truth(state.Previous) {
-					state.Count += increment
-				}
-				state.Previous = value
-			}
-			value = state.Count
-		case "alarm":
-			if p.Quality != "GOOD" {
-				continue
-			}
-			active := truth(value)
-			result.Alarm = &active
-			severity, _ := n.Params["severity"].(string)
-			if severity != "" {
-				result.Severity = severity
-			}
-		case "action":
-			result.Trigger = result.Trigger || truth(value) && !state.Active
-			state.Active = truth(value)
-		case "output":
-		}
-		state.LastMS = clockMS
-		if n.Type != "counter" {
-			state.Previous = value
-		}
-		result.States[id] = state
-		result.Values[id] = value
-		_ = before
-	}
-	return result, nil
+	return s.evaluatePrepared(ctx, d, plan, p, historical, states)
 }
-func hasErrorBranch(d model.Definition, id string) bool {
-	for _, c := range d.Connections {
-		if c.From == id && c.FromPort == "error" {
-			return true
-		}
+
+func (s *Service) evaluatePrepared(ctx context.Context, d model.Definition, plan *model.ExecutionPlan, point model.Observation, historical bool, states map[string]RuntimeState) (Evaluation, error) {
+	frame, err := s.prepareFrame(ctx, d, plan, point, historical, states)
+	if err != nil {
+		return Evaluation{}, err
 	}
-	return false
+	execution, cancel := context.WithTimeout(ctx, timeout(d))
+	defer cancel()
+	return rulecore.Execute(execution, plan, frame)
 }
-func compare(a, b any, op string) (bool, error) {
-	valid := map[string]bool{"==": true, "!=": true, ">": true, ">=": true, "<": true, "<=": true}
-	if !valid[op] {
-		return false, errors.New("invalid comparison operator")
-	}
-	value, e := Expression(context.Background(), "value "+op+" threshold", map[string]any{"value": a, "threshold": b})
-	return truth(value), e
-}
+
 func (s *Service) Process(ctx context.Context, p model.Observation, historical bool, runID string) error {
+	if runID == "" && s.ObserveAnalysis != nil {
+		if err := s.ObserveAnalysis(ctx, p); err != nil {
+			return err
+		}
+	}
 	if historical && runID == "" {
 		if p.Late {
 			return nil
@@ -394,6 +154,11 @@ func (s *Service) Process(ctx context.Context, p model.Observation, historical b
 }
 
 func (s *Service) ProcessStrategies(ctx context.Context, p model.Observation) error {
+	if s.ObserveAnalysis != nil {
+		if err := s.ObserveAnalysis(ctx, p); err != nil {
+			return err
+		}
+	}
 	if p.Late || s.Store.Now().UnixMilli()-p.ObservedMS > 15000 {
 		return nil
 	}
@@ -466,6 +231,16 @@ func (s *Service) processLocked(ctx context.Context, p model.Observation, histor
 		key := "evaluation:" + d.ID + ":" + strconv.FormatInt(d.Version, 10) + ":" + inputID
 		if historical {
 			key = runID + ":" + key
+			if saved, err := s.Store.Get(ctx, "recompute_outputs", key); err == nil {
+				outputs, err := decodeReplayOutputs(saved, p)
+				if err != nil {
+					return nil, err
+				}
+				derived = append(derived, outputs...)
+				continue
+			} else if !errors.Is(err, store.ErrNotFound) {
+				return nil, err
+			}
 		} else {
 			var savedHash string
 			err := s.Store.DB.QueryRowContext(ctx, "SELECT payload_hash FROM inbox WHERE id=$1", key).Scan(&savedHash)
@@ -498,7 +273,15 @@ func (s *Service) processLocked(ctx context.Context, p model.Observation, histor
 		} else if !errors.Is(e, store.ErrNotFound) {
 			return nil, e
 		} else if historical {
-			if start, ok := ctx.Value(replayStartKey{}).(int64); ok {
+			if initialRun, ok := ctx.Value(replayInitialKey{}).(string); ok {
+				if saved, err := s.Store.Get(ctx, "recompute_initial", initialRun+":"+liveStateID); err == nil {
+					if err = store.DecodeJSON(saved.Data, &states); err != nil {
+						return nil, err
+					}
+				} else if !errors.Is(err, store.ErrNotFound) {
+					return nil, err
+				}
+			} else if start, ok := ctx.Value(replayStartKey{}).(int64); ok {
 				var raw string
 				err := s.Store.DB.QueryRowContext(ctx, "SELECT data FROM engine_checkpoints WHERE state_id=$1 AND at_ms<$2 ORDER BY at_ms DESC LIMIT 1", liveStateID, start).Scan(&raw)
 				if err == nil {
@@ -513,7 +296,14 @@ func (s *Service) processLocked(ctx context.Context, p model.Observation, histor
 		if historical {
 			ctx = context.WithValue(ctx, historicalAtKey{}, p.ObservedMS)
 		}
-		result, e := s.Evaluate(ctx, d, p, historical, states)
+		plan, e := s.loadPlan(ctx, d)
+		if errors.Is(e, ErrPlanIsolated) {
+			continue
+		}
+		if e != nil {
+			return nil, e
+		}
+		result, e := s.evaluatePrepared(ctx, d, plan, p, historical, states)
 		if e != nil {
 			return nil, e
 		}
@@ -540,12 +330,33 @@ func (s *Service) commitEvaluation(ctx context.Context, key, stateKind, stateID 
 		}
 	}
 	err := s.Store.Write(ctx, func(t *store.Tx) error {
+		if guard, ok := ctx.Value(replayGuardKey{}).(replayGuard); ok {
+			document, err := t.Read("job", guard.JobID)
+			if err != nil {
+				return err
+			}
+			job, err := store.Decode[model.Job](document)
+			if err != nil {
+				return err
+			}
+			if job.Status != "running" || job.ReplayID != guard.RunID {
+				return errReplayInterrupted
+			}
+		}
 		expires := s.Store.Now().AddDate(0, 0, max(s.Store.Policy().Retention.RawDays, int(s.Store.Policy().AutoBackfillDays))).UnixMilli()
 		duplicate, e := t.InboxUntil(key, store.Hash(input), s.Store.NodeID, expires)
 		if e != nil {
 			return e
 		}
 		if duplicate {
+			if r.Historical {
+				saved, err := t.Read("recompute_outputs", key)
+				if err != nil {
+					return err
+				}
+				outputs, err = decodeReplayOutputs(saved, input)
+				return err
+			}
 			return nil
 		}
 		if e = t.SetEphemeral(stateKind, stateID, r.States); e != nil {
@@ -556,6 +367,9 @@ func (s *Service) commitEvaluation(ctx context.Context, key, stateKind, stateID 
 			if e = t.SetEphemeral("recompute_state_info", stateID, info); e != nil {
 				return e
 			}
+		}
+		if err := t.RecordAnalysisFormal(d, input, r); err != nil {
+			return err
 		}
 		if !r.Historical {
 			raw, e := json.Marshal(r.States)
@@ -611,6 +425,11 @@ func (s *Service) commitEvaluation(ctx context.Context, key, stateKind, stateID 
 				return e
 			}
 		}
+		if r.Historical {
+			if e = t.SetEphemeral("recompute_outputs", key, replayEvaluation{InputHash: store.Hash(input), Outputs: outputs}); e != nil {
+				return e
+			}
+		}
 		if r.Trigger && !r.Historical && s.ControlEnabled {
 			if e = t.Enqueue("strategy:"+key, "strategy_trigger", r.EntityID, map[string]any{"definition_id": d.ID, "version": d.Version, "input": input, "evaluation": r}); e != nil {
 				return e
@@ -657,6 +476,17 @@ func (s *Service) updateAlarm(t *store.Tx, d model.Definition, input model.Obser
 		return nil
 	}
 	alarm.Version++
+	if !r.Historical && !alarm.Acknowledged {
+		if doc, e := t.Get("alarm_case", alarm.ID); e == nil {
+			c, e := store.Decode[model.AlarmCase](doc)
+			if e != nil {
+				return e
+			}
+			alarm.Acknowledged = c.Acknowledged
+		} else if !errors.Is(e, store.ErrNotFound) {
+			return e
+		}
+	}
 	alarmID := alarm.ID
 	if r.Historical {
 		alarmID = r.RunID + ":" + alarmID

@@ -1,0 +1,39 @@
+{
+  "$defs": {
+    "AssetVersion": {
+      "additionalProperties": false,
+      "properties": {
+        "effective_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "id": {
+          "type": "string"
+        },
+        "parent_id": {
+          "type": "string"
+        },
+        "sampling_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "version": {
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "version",
+        "effective_ms",
+        "parent_id",
+        "sampling_ms"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/AssetVersion.schema.json",
+  "$ref": "#/$defs/AssetVersion",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AssetVersion"
+}

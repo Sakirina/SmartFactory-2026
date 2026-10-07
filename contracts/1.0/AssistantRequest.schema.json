@@ -1,0 +1,41 @@
+{
+  "$defs": {
+    "AssistantMessage": {
+      "additionalProperties": false,
+      "properties": {
+        "content": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "role"
+      ],
+      "type": "object"
+    },
+    "AssistantRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "messages": {
+          "items": {
+            "$ref": "#/$defs/AssistantMessage"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "messages"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/AssistantRequest.schema.json",
+  "$ref": "#/$defs/AssistantRequest",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AssistantRequest"
+}

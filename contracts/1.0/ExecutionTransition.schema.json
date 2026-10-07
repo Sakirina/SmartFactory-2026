@@ -1,0 +1,119 @@
+{
+  "$defs": {
+    "Actor": {
+      "additionalProperties": false,
+      "properties": {
+        "ai": {
+          "type": "boolean"
+        },
+        "department_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "roles": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "session_id": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "user_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "user_id",
+        "name",
+        "department_id",
+        "roles",
+        "source",
+        "session_id",
+        "ai"
+      ],
+      "type": "object"
+    },
+    "ExecutionTransition": {
+      "additionalProperties": false,
+      "properties": {
+        "actor": {
+          "$ref": "#/$defs/Actor"
+        },
+        "at_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "command_id": {
+          "type": "string"
+        },
+        "event": {
+          "type": "string"
+        },
+        "evidence_ids": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "execution_id": {
+          "type": "string"
+        },
+        "from": {
+          "type": "string"
+        },
+        "previous_version": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "source_version": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "to": {
+          "type": "string"
+        },
+        "trace_id": {
+          "type": "string"
+        },
+        "version": {
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "execution_id",
+        "version",
+        "previous_version",
+        "event",
+        "from",
+        "to",
+        "at_ms",
+        "source",
+        "actor"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/ExecutionTransition.schema.json",
+  "$ref": "#/$defs/ExecutionTransition",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ExecutionTransition"
+}

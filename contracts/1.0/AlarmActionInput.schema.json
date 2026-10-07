@@ -1,0 +1,40 @@
+{
+  "$defs": {
+    "AlarmActionInput": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "type": "string"
+        },
+        "assignee_id": {
+          "type": "string"
+        },
+        "expected_action_version": {
+          "type": "string"
+        },
+        "expected_version": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "request_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "request_id",
+        "expected_version",
+        "expected_action_version",
+        "action",
+        "reason"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/AlarmActionInput.schema.json",
+  "$ref": "#/$defs/AlarmActionInput",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AlarmActionInput"
+}

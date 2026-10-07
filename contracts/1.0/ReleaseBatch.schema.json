@@ -1,0 +1,49 @@
+{
+  "$defs": {
+    "ReleaseBatch": {
+      "additionalProperties": false,
+      "properties": {
+        "completed_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "entered_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "entry_condition": {
+          "type": "string"
+        },
+        "identity_ids": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "index": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "state": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "index",
+        "identity_ids",
+        "state",
+        "entered_ms",
+        "completed_ms",
+        "entry_condition"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/ReleaseBatch.schema.json",
+  "$ref": "#/$defs/ReleaseBatch",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ReleaseBatch"
+}

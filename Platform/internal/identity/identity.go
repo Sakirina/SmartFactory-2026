@@ -35,11 +35,13 @@ type Manager struct {
 	Edge   bool
 }
 type Principal struct {
-	User          model.User
-	Actor         model.Actor
-	SessionID     string
-	Local         bool
-	StepUpUntilMS int64
+	SessionDocument string `json:"-"`
+	SessionVersion  int64  `json:"-"`
+	User            model.User
+	Actor           model.Actor
+	SessionID       string
+	Local           bool
+	StepUpUntilMS   int64
 }
 type Session struct {
 	ID            string `json:"id"`
@@ -238,6 +240,8 @@ func (m *Manager) Authenticate(ctx context.Context, token string) (Principal, er
 	if e != nil {
 		return p, ErrAuthentication
 	}
+	p.SessionDocument = tokenHash(token)
+	p.SessionVersion = d.Version
 	s, e := store.Decode[Session](d)
 	if e != nil || s.ExpiresMS <= m.Store.Now().UnixMilli() {
 		return p, ErrAuthentication
@@ -278,8 +282,7 @@ func (m *Manager) DelegateAI(ctx context.Context, p Principal) (string, error) {
 	return token, e
 }
 func (m *Manager) Logout(ctx context.Context, token string) error {
-	_, e := m.Store.DB.ExecContext(ctx, "DELETE FROM documents WHERE kind='session' AND id=$1", tokenHash(token))
-	return e
+	return m.Store.Write(ctx, func(tx *store.Tx) error { return tx.Delete("session", tokenHash(token)) })
 }
 func (m *Manager) Permit(ctx context.Context, p Principal, action, resource string) error {
 	if !p.User.Active {
@@ -406,6 +409,12 @@ func (m *Manager) ApplyBundle(ctx context.Context, b PermissionBundle, pub ed255
 		return e
 	}
 	return m.Store.Write(ctx, func(t *store.Tx) error {
+		if err := t.LockCollection("grant"); err != nil {
+			return err
+		}
+		if err := t.LockCollection("user"); err != nil {
+			return err
+		}
 		if d, e := t.Get("permission_bundle", "active"); e == nil {
 			old, e := store.Decode[PermissionBundle](d)
 			if e != nil {
@@ -462,7 +471,7 @@ func (m *Manager) ApplyBundle(ctx context.Context, b PermissionBundle, pub ed255
 				return e
 			}
 		}
-		if _, e := t.ExecContext(ctx, "DELETE FROM documents WHERE kind='grant'"); e != nil {
+		if e := t.DeleteCollection("grant"); e != nil {
 			return e
 		}
 		for _, u := range b.Users {

@@ -1,6 +1,7 @@
 package store
 
 import (
+	"bytes"
 	"context"
 	"database/sql"
 	"encoding/json"
@@ -61,6 +62,14 @@ func (s *Store) Ingest(ctx context.Context, batch IngestBatch) (IngestResult, er
 // IngestMessages preserves each message identity while committing the complete
 // received batch atomically. No result is committed when any message fails.
 func (s *Store) IngestMessages(ctx context.Context, batches []IngestBatch) ([]IngestResult, error) {
+	ctx, cancel := context.WithTimeout(ctx, 30*time.Second)
+	defer cancel()
+	select {
+	case s.ingestSlots <- struct{}{}:
+		defer func() { <-s.ingestSlots }()
+	case <-ctx.Done():
+		return nil, ctx.Err()
+	}
 	if len(batches) > 1000 {
 		return nil, errors.New("batch exceeds 1000 messages")
 	}
@@ -107,6 +116,22 @@ func (t *Tx) ingestMessage(batch IngestBatch, hash string, r *IngestResult, jobs
 	r.Duplicate = dup
 	if dup {
 		return nil
+	}
+	// Preserve late-arrival classification for overlapping series while
+	// unrelated sources and devices continue concurrently.
+	series := map[string]bool{}
+	for _, p := range batch.Points {
+		series[p.DeviceID+"\x00"+p.Key] = true
+	}
+	ordered := []string{}
+	for key := range series {
+		ordered = append(ordered, key)
+	}
+	sort.Strings(ordered)
+	for _, key := range ordered {
+		if e := t.lock("observation_series", key, false); e != nil {
+			return e
+		}
 	}
 	previous, e := t.latestTimes(batch.Points)
 	if e != nil {
@@ -177,6 +202,9 @@ func (t *Tx) ingestMessage(batch IngestBatch, hash string, r *IngestResult, jobs
 		if _, e = t.ExecContext(t.Ctx, "INSERT INTO data_gaps(id,device_id,key,from_ms,to_ms,data) VALUES($1,$2,$3,$4,$5,$6)", gap.ID, gap.DeviceID, gap.Key, gap.FromMS, gap.ToMS, string(raw)); e != nil {
 			return e
 		}
+		if e = t.markQueryGap(gap); e != nil {
+			return e
+		}
 	}
 	if s.ForwardObservations && batch.SourceID == s.NodeID {
 		if e = t.Enqueue("upstream:"+batch.MessageID, "cloud_observation", batch.SourceID, batch); e != nil {
@@ -212,11 +240,30 @@ func (t *Tx) mergeBackfillJobs(jobs map[string]model.Job) error {
 	return nil
 }
 func (t *Tx) SetEphemeral(kind, id string, v any) error {
+	d, e := t.Get(kind, id)
+	if errors.Is(e, ErrNotFound) {
+		if e = t.lock("membership", kind, false); e != nil {
+			return e
+		}
+	} else if e != nil {
+		return e
+	}
 	b, e := json.Marshal(v)
 	if e != nil {
 		return e
 	}
-	_, e = t.ExecContext(t.Ctx, "INSERT INTO documents(kind,id,version,updated_ms,data) VALUES($1,$2,1,$3,$4) ON CONFLICT(kind,id) DO UPDATE SET version=documents.version+1,updated_ms=excluded.updated_ms,data=excluded.data WHERE documents.data<>excluded.data", kind, id, t.Store.Now().UnixMilli(), string(b))
+	if bytes.Equal(d.Data, b) {
+		t.markQueryDocument(kind, id)
+		return nil
+	}
+	version, e := t.nextDocumentVersion(kind, id, d.Version)
+	if e != nil {
+		return e
+	}
+	_, e = t.ExecContext(t.Ctx, "INSERT INTO documents(kind,id,version,updated_ms,data) VALUES($1,$2,$3,$4,$5) ON CONFLICT(kind,id) DO UPDATE SET version=excluded.version,updated_ms=excluded.updated_ms,data=excluded.data", kind, id, version, t.Store.Now().UnixMilli(), string(b))
+	if e == nil {
+		t.markQueryDocument(kind, id)
+	}
 	return e
 }
 func (t *Tx) InsertPoint(p model.Observation) error {
@@ -232,6 +279,9 @@ func (t *Tx) InsertPoint(p model.Observation) error {
 		return e
 	}
 	_, e = t.ExecContext(t.Ctx, "INSERT INTO latest(device_id,key,observed_ms,received_ms,data) VALUES($1,$2,$3,$4,$5) ON CONFLICT(device_id,key) DO UPDATE SET observed_ms=excluded.observed_ms,received_ms=excluded.received_ms,data=excluded.data WHERE excluded.observed_ms>latest.observed_ms OR (excluded.observed_ms=latest.observed_ms AND excluded.received_ms>=latest.received_ms)", p.DeviceID, p.Key, p.ObservedMS, p.ReceivedMS, string(b))
+	if e == nil {
+		e = t.markQueryPoint(p, "raw")
+	}
 	return e
 }
 func (s *Store) Latest(ctx context.Context, device, key string) (model.Observation, error) {

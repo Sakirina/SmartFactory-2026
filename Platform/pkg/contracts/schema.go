@@ -21,7 +21,7 @@ type Registry struct {
 
 func New() *Registry {
 	r := &Registry{Definitions: map[string]Schema{}, types: map[reflect.Type]string{}}
-	for _, value := range []any{model.Entity{}, model.Observation{}, model.DataResult{}, model.Definition{}, model.Draft{}, model.Validation{}, model.Execution{}, model.Alarm{}, model.Job{}, model.User{}, model.AssetProposal{}, model.Dashboard{}} {
+	for _, value := range []any{model.Entity{}, model.Observation{}, model.DataResult{}, model.Definition{}, model.Draft{}, model.Validation{}, model.Execution{}, model.Alarm{}, model.Job{}, model.User{}, model.AssetProposal{}, model.Dashboard{}, model.NodeMetadata{}} {
 		r.Add(value)
 	}
 	r.refine()
@@ -153,6 +153,20 @@ func (r *Registry) refine() {
 	r.property("Definition", "nodes")["maxItems"] = 128
 	r.property("Definition", "connections")["maxItems"] = 512
 	r.property("Definition", "version")["minimum"] = 0
+	nodeTypes, nodeConditions := []string{}, []any{}
+	for _, node := range model.NodeCatalog() {
+		nodeTypes = append(nodeTypes, node.Type)
+		then := Schema{"properties": Schema{"params": node.ParameterSchema}}
+		for _, parameter := range node.Parameters {
+			if parameter.Required {
+				then["required"] = []string{"params"}
+				break
+			}
+		}
+		nodeConditions = append(nodeConditions, Schema{"if": Schema{"properties": Schema{"type": Schema{"const": node.Type}}, "required": []string{"type"}}, "then": then})
+	}
+	r.property("Node", "type")["enum"] = nodeTypes
+	r.Definitions["Node"]["allOf"] = nodeConditions
 	r.property("Observation", "quality")["enum"] = []string{"GOOD", "BAD", "UNCERTAIN"}
 	r.property("QualitySummary", "completeness")["enum"] = []string{"unknown", "complete", "incomplete"}
 	var conditions []any

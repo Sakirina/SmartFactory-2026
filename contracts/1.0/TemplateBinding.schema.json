@@ -1,0 +1,51 @@
+{
+  "$defs": {
+    "TemplateBinding": {
+      "additionalProperties": false,
+      "properties": {
+        "application_status": {
+          "type": "string"
+        },
+        "applied_version": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "configuration_id": {
+          "type": "string"
+        },
+        "configuration_version": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "device_id": {
+          "type": "string"
+        },
+        "device_version": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "instance_id": {
+          "type": "string"
+        },
+        "source_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "instance_id",
+        "device_id",
+        "device_version",
+        "configuration_id",
+        "configuration_version",
+        "applied_version",
+        "application_status",
+        "source_id"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/TemplateBinding.schema.json",
+  "$ref": "#/$defs/TemplateBinding",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TemplateBinding"
+}

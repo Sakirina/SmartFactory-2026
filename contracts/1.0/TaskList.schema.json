@@ -1,0 +1,151 @@
+{
+  "$defs": {
+    "Task": {
+      "additionalProperties": false,
+      "properties": {
+        "allowed_actions": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "attempt": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "business_id": {
+          "type": "string"
+        },
+        "business_state": {
+          "type": "string"
+        },
+        "business_version": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "cancel_requested_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "created_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "cursor_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "error": {
+          "type": "string"
+        },
+        "finished_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "max_attempts": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "next_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "outbox_id": {
+          "type": "string"
+        },
+        "phase": {
+          "type": "string"
+        },
+        "progress": {
+          "type": "number"
+        },
+        "queue": {
+          "type": "string"
+        },
+        "replay_id": {
+          "type": "string"
+        },
+        "resources": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "river_id": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "started_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "state": {
+          "type": "string"
+        },
+        "superseded": {
+          "type": "boolean"
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "superseded",
+        "id",
+        "kind",
+        "business_id",
+        "business_version",
+        "river_id",
+        "queue",
+        "resources",
+        "state",
+        "attempt",
+        "max_attempts",
+        "next_ms",
+        "created_ms",
+        "progress",
+        "version",
+        "allowed_actions"
+      ],
+      "type": "object"
+    },
+    "TaskList": {
+      "additionalProperties": false,
+      "properties": {
+        "items": {
+          "items": {
+            "$ref": "#/$defs/Task"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "next": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "items",
+        "next"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/TaskList.schema.json",
+  "$ref": "#/$defs/TaskList",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TaskList"
+}

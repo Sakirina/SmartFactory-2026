@@ -112,6 +112,6 @@ func AdditionalDefaults() []Parameter {
 		{ID: "notification.sms", Program: "cloud", Category: "notification", Description: "短信服务 HTTP 地址、凭据与确认超时", Schema: channelSchema, Value: map[string]any{"enabled": false, "timeout_ms": 10000}, Dynamic: true, Secret: true},
 		{ID: "storage.retention", Program: "platform", Category: "storage", Description: "原始观测、汇总、告警和超期补传的保留天数", Schema: retentionSchema, Value: store.DefaultRetention(), Dynamic: true},
 		{ID: "queue.capacity", Program: "gateway", Category: "reliability", Description: "运行队列水位计算容量", Schema: integer(1000, 100000000), Value: 200000, Dynamic: true},
-		{ID: "ai.model", Program: "cloud", Category: "assistant", Description: "页面助手的模型端点、名称、凭据和调用超时", Schema: map[string]any{"type": "object", "required": []string{"endpoint", "model", "api_key", "timeout_ms"}, "additionalProperties": false, "properties": map[string]any{"endpoint": map[string]any{"type": "string", "maxLength": 2048}, "model": map[string]any{"type": "string", "maxLength": 200}, "api_key": map[string]any{"type": "string", "maxLength": 16384}, "timeout_ms": integer(1000, 300000)}}, Value: map[string]any{"endpoint": "", "model": "", "api_key": "", "timeout_ms": 60000}, Secret: true, Dynamic: true},
+		{ID: "ai.model", Program: "cloud", Category: "assistant", Description: "页面助手的模型供应商、API、流式方式、端点、名称、凭据和调用超时", Schema: modelSchema(), Value: map[string]any{"provider": "openai-compatible", "api": "chat_completions", "stream": true, "endpoint": "", "model": "", "api_key": "", "timeout_ms": 60000}, Secret: true, Dynamic: true},
 	}
 }

@@ -7,25 +7,30 @@ import (
 	"fmt"
 	"regexp"
 	"sort"
+	"sync"
 
 	"competition2026/product/platform/internal/identity"
+	"competition2026/product/platform/internal/nodeidentity"
 	"competition2026/product/platform/internal/store"
 	"competition2026/product/platform/pkg/model"
 )
 
 type Parameter struct {
-	ID           string                 `json:"id"`
-	Program      string                 `json:"program"`
-	Category     string                 `json:"category"`
-	Description  string                 `json:"description"`
-	Schema       map[string]any         `json:"schema"`
-	Value        any                    `json:"value"`
-	Dynamic      bool                   `json:"dynamic"`
-	Secret       bool                   `json:"secret"`
-	Version      int64                  `json:"version"`
-	Effective    map[string]int64       `json:"effective"`
-	State        string                 `json:"state"`
-	Applications map[string]Application `json:"applications,omitempty"`
+	ID            string                 `json:"id"`
+	Program       string                 `json:"program"`
+	Category      string                 `json:"category"`
+	Description   string                 `json:"description"`
+	Schema        map[string]any         `json:"schema"`
+	Value         any                    `json:"value"`
+	Dynamic       bool                   `json:"dynamic"`
+	Secret        bool                   `json:"secret"`
+	Version       int64                  `json:"version"`
+	Effective     map[string]int64       `json:"effective"`
+	State         string                 `json:"state"`
+	Applications  map[string]Application `json:"applications,omitempty"`
+	TargetNodeIDs []string               `json:"target_node_ids,omitempty"`
+	CredentialRef string                 `json:"credential_ref,omitempty"`
+	ContentDigest string                 `json:"content_digest,omitempty"`
 }
 type Application struct {
 	Version int64  `json:"version"`
@@ -34,8 +39,16 @@ type Application struct {
 	AtMS    int64  `json:"at_ms"`
 }
 type Service struct {
-	Store    *store.Store
-	Identity *identity.Manager
+	Store                  *store.Store
+	Identity               *identity.Manager
+	Workloads              *nodeidentity.Service
+	LegacySubscription     bool
+	runtimeMu              sync.RWMutex
+	runtimeValues          map[string]any
+	AuthorizeWrite         func(context.Context) error
+	OwnedNodeID            string
+	ReadConnectorRuntime   func(context.Context, model.ConfigurationReference) (int64, string, error)
+	RemoveConnectorRuntime func(context.Context, model.ConfigurationReference) error
 }
 
 func Validate(schema map[string]any, value any) error {
@@ -177,6 +190,11 @@ func (s *Service) Put(ctx context.Context, actor model.Actor, p Parameter, expec
 		return p, e
 	}
 	p.Version = expected + 1
+	p.CredentialRef = ""
+	if p.Secret {
+		p.CredentialRef = "parameter:" + p.ID + ":" + fmt.Sprint(p.Version)
+	}
+	p.ContentDigest = ParameterDigest(p)
 	p.Effective = map[string]int64{}
 	p.State = "pending"
 	if !p.Dynamic {
@@ -194,6 +212,11 @@ func (s *Service) Put(ctx context.Context, actor model.Actor, p Parameter, expec
 		p.Value = map[string]any{"ciphertext": encrypted}
 	}
 	e := s.Store.Write(ctx, func(t *store.Tx) error {
+		if s.AuthorizeWrite != nil {
+			if e := s.AuthorizeWrite(ctx); e != nil {
+				return e
+			}
+		}
 		currentVersion := int64(0)
 		doc, e := t.Get("parameter", p.ID)
 		if e == nil {
@@ -213,6 +236,9 @@ func (s *Service) Put(ctx context.Context, actor model.Actor, p Parameter, expec
 			return store.ErrConflict
 		}
 		if _, e := t.Put("parameter", p.ID, currentVersion, p); e != nil {
+			return e
+		}
+		if _, e := t.Put("parameter_version", fmt.Sprintf("%s:%d", p.ID, p.Version), 0, p); e != nil {
 			return e
 		}
 		public := p

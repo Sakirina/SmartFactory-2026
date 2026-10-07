@@ -1,0 +1,173 @@
+{
+  "schema_version": 1,
+  "application_version": "1.1.0-dev",
+  "contract_version": "1.0",
+  "protocols": {
+    "business_contract": {
+      "current": "1.0",
+      "read": [
+        "1.0"
+      ],
+      "write": [
+        "1.0"
+      ]
+    },
+    "config_subscription": {
+      "current": "v1",
+      "read": [
+        "v1"
+      ],
+      "write": [
+        "v1"
+      ]
+    },
+    "datatransfer_grpc": {
+      "current": "v1",
+      "read": [
+        "v1"
+      ],
+      "write": [
+        "v1"
+      ]
+    },
+    "definition": {
+      "current": "1.0",
+      "read": [
+        "1.0"
+      ],
+      "write": [
+        "1.0"
+      ]
+    },
+    "http_api": {
+      "current": "v1",
+      "read": [
+        "v1"
+      ],
+      "write": [
+        "v1"
+      ]
+    },
+    "mcp": {
+      "current": "2026-07-28",
+      "read": [
+        "2026-07-28",
+        "2025-11-25",
+        "2025-06-18",
+        "2025-03-26",
+        "2024-11-05"
+      ],
+      "write": [
+        "2026-07-28",
+        "2025-11-25",
+        "2025-06-18",
+        "2025-03-26",
+        "2024-11-05"
+      ]
+    },
+    "model_api": {
+      "current": "responses",
+      "read": [
+        "responses",
+        "chat_completions"
+      ],
+      "write": [
+        "responses",
+        "chat_completions"
+      ]
+    },
+    "release_manifest": {
+      "current": "smartfactory-release-v1",
+      "read": [
+        "smartfactory-release-v1"
+      ],
+      "write": [
+        "smartfactory-release-v1"
+      ]
+    },
+    "sync": {
+      "current": "v1",
+      "read": [
+        "v1"
+      ],
+      "write": [
+        "v1"
+      ]
+    }
+  },
+  "databases": {
+    "postgres": {
+      "migration_minimum": 11,
+      "migration_maximum": 11
+    },
+    "sqlite": {
+      "migration_minimum": 11,
+      "migration_maximum": 11
+    }
+  },
+  "combinations": [
+    {
+      "name": "cloud-edge-v1",
+      "roles": [
+        "cloud",
+        "edge"
+      ],
+      "protocols": [
+        "sync",
+        "business_contract",
+        "definition"
+      ],
+      "legacy_omission": true
+    },
+    {
+      "name": "browser-api-v1",
+      "roles": [
+        "browser",
+        "cloud",
+        "edge"
+      ],
+      "protocols": [
+        "http_api",
+        "business_contract",
+        "definition"
+      ],
+      "legacy_omission": true
+    },
+    {
+      "name": "config-program-v1",
+      "roles": [
+        "config",
+        "cloud",
+        "edge"
+      ],
+      "protocols": [
+        "config_subscription"
+      ],
+      "legacy_omission": true
+    },
+    {
+      "name": "gateway-platform-v1",
+      "roles": [
+        "gateway",
+        "edge"
+      ],
+      "protocols": [
+        "datatransfer_grpc"
+      ],
+      "legacy_omission": true
+    },
+    {
+      "name": "ai-mcp-v1",
+      "roles": [
+        "ai",
+        "cloud",
+        "edge"
+      ],
+      "protocols": [
+        "mcp",
+        "business_contract"
+      ],
+      "legacy_omission": true
+    }
+  ]
+}

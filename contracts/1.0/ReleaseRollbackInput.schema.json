@@ -1,0 +1,38 @@
+{
+  "$defs": {
+    "ReleaseRollbackInput": {
+      "additionalProperties": false,
+      "properties": {
+        "expected_version": {
+          "format": "int64",
+          "minimum": 1,
+          "type": "integer"
+        },
+        "id": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "release_id": {
+          "type": "string"
+        },
+        "request_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "request_id",
+        "expected_version",
+        "id",
+        "release_id",
+        "reason"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/ReleaseRollbackInput.schema.json",
+  "$ref": "#/$defs/ReleaseRollbackInput",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ReleaseRollbackInput"
+}

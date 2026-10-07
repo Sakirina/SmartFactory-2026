@@ -111,7 +111,14 @@ func (s *Service) Tick(ctx context.Context) error {
 					continue
 				}
 				id := fmt.Sprintf("timer:%s:%d:%s:%d", d.ID, d.Version, input.ID, due)
-				result, err := s.Evaluate(context.WithValue(ctx, timerAtKey{}, now), d, input, false, states)
+				plan, err := s.loadPlan(ctx, d)
+				if errors.Is(err, ErrPlanIsolated) {
+					continue
+				}
+				if err != nil {
+					return err
+				}
+				result, err := s.evaluatePrepared(context.WithValue(ctx, timerAtKey{}, now), d, plan, input, false, states)
 				if err != nil {
 					return err
 				}

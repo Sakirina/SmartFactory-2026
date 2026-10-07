@@ -26,6 +26,7 @@ class ReleaseContentsTests(unittest.TestCase):
             'contracts/1.0/Definition.schema.json', 'deploy/licenses/NOTICE',
             'examples/factory/definitions.json', 'scripts/prepare-runtime.py',
             'tests/fixtures/requirements-contracts.txt', 'deploy/.env.example',
+            'Wiki/README.md', 'Wiki/guide.md',
         }
         self.private = {
             'Baseline/requirements.md', 'DataTransfer/docs/design.md',
@@ -52,6 +53,8 @@ class ReleaseContentsTests(unittest.TestCase):
         self.assertTrue((self.output / 'scripts/prepare-runtime.py').is_file())
         self.assertTrue((self.output / 'deploy/licenses/NOTICE').is_file())
         self.assertTrue((self.output / 'tests/fixtures/requirements-contracts.txt').is_file())
+        self.assertTrue((self.output / 'Wiki/README.md').is_file())
+        self.assertTrue((self.output / 'Wiki/guide.md').is_file())
         for name in self.private:
             self.assertFalse((self.output / name).exists(), name)
             self.assertFalse((self.output / 'source' / name).exists(), name)
@@ -76,6 +79,26 @@ class ReleaseContentsTests(unittest.TestCase):
         (output / 'old.py').write_text('old output\n')
         selected, _ = builder.source_snapshot(output)
         self.assertEqual({str(relative) for _, relative in selected}, self.public)
+
+    def test_wiki_links_work_in_bundle_and_source_snapshot(self):
+        readme = '[Wiki](Wiki/README.md)\n'
+        index = '[Guide](guide.md)\n'
+        guide = ('[Source](../Platform/go.mod#module)\n'
+                 '[Contract](../contracts/1.0/Definition.schema.json)\n'
+                 '[Online](https://example.invalid/docs)\n')
+        (self.root / 'README.md').write_text(readme)
+        (self.root / 'Wiki/README.md').write_text(index)
+        (self.root / 'Wiki/guide.md').write_text(guide)
+        builder.copy_release_sources(self.output)
+        builder.rewrite_document_links(self.output)
+        self.assertEqual((self.output / 'README.md').read_text(), readme)
+        self.assertEqual((self.output / 'Wiki/README.md').read_text(), index)
+        self.assertEqual((self.output / 'Wiki/guide.md').read_text(),
+                         guide.replace('../Platform/go.mod', '../source/Platform/go.mod'))
+        self.assertEqual((self.output / 'source/Wiki/guide.md').read_text(), guide)
+        builder.rewrite_document_links(self.output)
+        self.assertEqual((self.output / 'Wiki/guide.md').read_text(),
+                         guide.replace('../Platform/go.mod', '../source/Platform/go.mod'))
 
 
 if __name__ == '__main__':

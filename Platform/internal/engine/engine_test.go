@@ -21,6 +21,13 @@ func engineFixture(t *testing.T) *Service {
 	t.Cleanup(func() { s.Close() })
 	return &Service{Store: s}
 }
+func prepareLegacyFixture(t *testing.T, s *Service) {
+	t.Helper()
+	prepared, err := s.PreparePublishedPlans(context.Background())
+	if err != nil || len(prepared.Isolated) != 0 {
+		t.Fatalf("legacy preparation: %+v %v", prepared, err)
+	}
+}
 func definition() model.Definition {
 	return model.Definition{ID: "mean", Name: "Temperature mean", Kind: "analysis", SchemaVersion: "1.0", Status: "published", Version: 1, GroupID: "factory", Selector: model.Selector{DeviceIDs: []string{"device"}, Keys: []string{"temperature"}, WindowMS: 60000}, Nodes: []model.Node{{ID: "input", Type: "input"}, {ID: "sum", Type: "aggregate", Params: map[string]any{"function": "avg"}}, {ID: "result", Type: "output"}}, Connections: []model.Connection{{From: "input", To: "sum"}, {From: "sum", To: "result"}}, Outputs: []model.Output{{Key: "mean", Type: "number", NodeID: "result", Unit: "°C"}}}
 }
@@ -69,6 +76,7 @@ func TestTypedGraphAndDerivedRevision(t *testing.T) {
 	if _, e := s.Store.Put(ctx, "definition", d.ID, 0, d); e != nil {
 		t.Fatal(e)
 	}
+	prepareLegacyFixture(t, s)
 	for i, point := range []struct {
 		offset  int64
 		value   int
@@ -109,6 +117,7 @@ func TestCounterSurvivesDuplicateAndRestart(t *testing.T) {
 	if _, e := s.Store.Put(ctx, "definition", d.ID, 0, d); e != nil {
 		t.Fatal(e)
 	}
+	prepareLegacyFixture(t, s)
 	now := time.Now().UnixMilli()
 	for i := 0; i < 100; i++ {
 		p := model.Observation{ID: fmt.Sprint(i), DeviceID: "device", Key: "temperature", ObservedMS: now + int64(i), Value: 1, Quality: "GOOD"}

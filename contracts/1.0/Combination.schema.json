@@ -1,0 +1,44 @@
+{
+  "$defs": {
+    "Combination": {
+      "additionalProperties": false,
+      "properties": {
+        "legacy_omission": {
+          "type": "boolean"
+        },
+        "name": {
+          "type": "string"
+        },
+        "protocols": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "roles": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "roles",
+        "protocols",
+        "legacy_omission"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/Combination.schema.json",
+  "$ref": "#/$defs/Combination",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Combination"
+}

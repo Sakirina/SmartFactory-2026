@@ -16,6 +16,7 @@ import (
 	"time"
 
 	"competition2026/product/platform/internal/app"
+	"competition2026/product/platform/internal/compiledplan"
 	"competition2026/product/platform/internal/coordination"
 	"competition2026/product/platform/internal/plugins"
 	"competition2026/product/platform/internal/store"
@@ -206,7 +207,13 @@ func run(file, mode, id, execution string) error {
 				return err
 			}
 		} else {
-			if _, err = a.Store.Put(ctx, "definition", d.ID, 0, d); err != nil {
+			if err = a.Store.Write(ctx, func(tx *store.Tx) error {
+				if err := compiledplan.Import(tx, d); err != nil {
+					return err
+				}
+				_, err := tx.Put("definition", d.ID, 0, d)
+				return err
+			}); err != nil {
 				return err
 			}
 		}

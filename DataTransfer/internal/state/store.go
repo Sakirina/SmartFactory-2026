@@ -41,6 +41,9 @@ CREATE TABLE IF NOT EXISTS commands (
  command_id TEXT PRIMARY KEY, digest BLOB NOT NULL, response BLOB NOT NULL,
  phase TEXT NOT NULL, updated_at_ms INTEGER NOT NULL
 );
+CREATE TABLE IF NOT EXISTS command_requests (
+ command_id TEXT PRIMARY KEY, request BLOB NOT NULL
+);
 CREATE TABLE IF NOT EXISTS config_updates (
  update_id TEXT PRIMARY KEY, digest BLOB NOT NULL, response BLOB NOT NULL
 );
@@ -98,7 +101,12 @@ func (s *Store) Reserve(ctx context.Context, msg *dtv1.DeviceMessage) (*dtv1.Com
 	if err != nil {
 		return nil, false, err
 	}
-	result, err := s.db.ExecContext(ctx, `INSERT OR IGNORE INTO commands(command_id,digest,response,phase,updated_at_ms) VALUES(?,?,?,'running',?)`, msg.CommandId, hash, data, time.Now().UnixMilli())
+	tx, err := s.db.BeginTx(ctx, nil)
+	if err != nil {
+		return nil, false, err
+	}
+	defer tx.Rollback()
+	result, err := tx.ExecContext(ctx, `INSERT OR IGNORE INTO commands(command_id,digest,response,phase,updated_at_ms) VALUES(?,?,?,'running',?)`, msg.CommandId, hash, data, time.Now().UnixMilli())
 	if err != nil {
 		return nil, false, err
 	}
@@ -107,10 +115,17 @@ func (s *Store) Reserve(ctx context.Context, msg *dtv1.DeviceMessage) (*dtv1.Com
 		return nil, false, err
 	}
 	if n == 1 {
-		return nil, false, nil
+		request, err := proto.Marshal(msg)
+		if err != nil {
+			return nil, false, err
+		}
+		if _, err = tx.ExecContext(ctx, `INSERT INTO command_requests(command_id,request) VALUES(?,?)`, msg.CommandId, request); err != nil {
+			return nil, false, err
+		}
+		return nil, false, tx.Commit()
 	}
 	var storedHash, response []byte
-	if err := s.db.QueryRowContext(ctx, `SELECT digest,response FROM commands WHERE command_id=?`, msg.CommandId).Scan(&storedHash, &response); err != nil {
+	if err := tx.QueryRowContext(ctx, `SELECT digest,response FROM commands WHERE command_id=?`, msg.CommandId).Scan(&storedHash, &response); err != nil {
 		return nil, false, err
 	}
 	if !bytes.Equal(hash, storedHash) {
@@ -120,7 +135,7 @@ func (s *Store) Reserve(ctx context.Context, msg *dtv1.DeviceMessage) (*dtv1.Com
 	if err := proto.Unmarshal(response, &out); err != nil {
 		return nil, false, err
 	}
-	return &out, true, nil
+	return &out, true, tx.Commit()
 }
 
 func (s *Store) Complete(ctx context.Context, response *dtv1.CommandResponsePayload) error {

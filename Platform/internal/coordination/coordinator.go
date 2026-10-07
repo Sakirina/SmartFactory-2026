@@ -361,7 +361,7 @@ func (c *Coordinator) Recover(ctx context.Context, id string) (model.Execution, 
 	return execution, nil
 }
 func isTerminal(state string) bool {
-	return state == "completed" || state == "degraded_completed" || state == "rejected" || state == "failed" || state == "result_unknown"
+	return state == "completed" || state == "degraded_completed" || state == "rejected" || state == "failed" || state == "result_unknown" || state == "ready_to_resume" || state == "cancelled" || state == "cancelled_result_unknown"
 }
 func (c *Coordinator) Checkpoint(ctx context.Context, execution model.Execution) error {
 	if execution.CoordinatorID != c.Store.NodeID {
@@ -373,11 +373,6 @@ func (c *Coordinator) Checkpoint(ctx context.Context, execution model.Execution)
 	raw, e := c.pack(execution)
 	if e != nil {
 		return e
-	}
-	if !isTerminal(execution.Status) {
-		if _, e = c.Active.Put(key(execution.DownlinkID), raw); e != nil {
-			return e
-		}
 	}
 	for attempt := 0; attempt < 3; attempt++ {
 		old, err := c.get(ctx, c.Journal, key(execution.DownlinkID))
@@ -393,7 +388,7 @@ func (c *Coordinator) Checkpoint(ctx context.Context, execution model.Execution)
 			if prior.Fence > execution.Fence {
 				return errors.New("older coordinator attempted to replace journal")
 			}
-			if prior.Fence == execution.Fence && isTerminal(prior.Status) && store.Hash(prior) != store.Hash(execution) {
+			if !control.CheckpointProgress(prior, execution) {
 				return store.ErrConflict
 			}
 			_, e = c.Journal.Update(key(execution.DownlinkID), raw, old.Revision)
@@ -402,7 +397,8 @@ func (c *Coordinator) Checkpoint(ctx context.Context, execution model.Execution)
 			if isTerminal(execution.Status) {
 				return c.Active.Delete(key(execution.DownlinkID))
 			}
-			return nil
+			_, e = c.Active.Put(key(execution.DownlinkID), raw)
+			return e
 		}
 	}
 	return e

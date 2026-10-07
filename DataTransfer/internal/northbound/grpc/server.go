@@ -73,6 +73,14 @@ func (s *Server) SendCommandAsync(ctx context.Context, msg *dtv1.DeviceMessage) 
 	return accepted, nil
 }
 
+func (s *Server) GetCommandResult(ctx context.Context, req *dtv1.CommandResultRequest) (*dtv1.CommandResult, error) {
+	result, err := s.rt.CommandResult(ctx, req.GetCommandId())
+	if err != nil {
+		return nil, grpcError(err)
+	}
+	return result, nil
+}
+
 func (s *Server) PushDeviceConfig(_ context.Context, update *dtv1.DeviceConfigUpdate) (*dtv1.ConfigUpdateResponse, error) {
 	return s.rt.ApplyConfig(update), nil
 }
@@ -83,6 +91,10 @@ func (s *Server) ListDevices(_ context.Context, req *dtv1.ListDevicesRequest) (*
 
 func (s *Server) GetMetrics(context.Context, *dtv1.MetricsRequest) (*dtv1.MetricsResponse, error) {
 	return s.rt.MetricsResponse(), nil
+}
+
+func (s *Server) GetConnectorConfiguration(_ context.Context, req *dtv1.ConnectorConfigurationRequest) (*dtv1.ConnectorConfigurationState, error) {
+	return s.rt.ConnectorConfiguration(req.GetConnectorId(), req.GetExpectedConfiguration()), nil
 }
 
 func (s *Server) stream(ctx context.Context, filter dtruntime.Filter, consumer string, send func(*dtv1.DeviceMessage) error) error {

@@ -1,0 +1,82 @@
+{
+  "$defs": {
+    "ConfigurationMetadata": {
+      "additionalProperties": false,
+      "properties": {
+        "credential_ref": {
+          "type": "string"
+        },
+        "group_id": {
+          "type": "string"
+        },
+        "node_ids": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "program": {
+          "type": "string"
+        },
+        "reference": {
+          "$ref": "#/$defs/ConfigurationReference"
+        },
+        "required_capabilities": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "reference",
+        "program",
+        "node_ids"
+      ],
+      "type": "object"
+    },
+    "ConfigurationReference": {
+      "additionalProperties": false,
+      "properties": {
+        "digest": {
+          "maxLength": 64,
+          "minLength": 64,
+          "type": "string"
+        },
+        "id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "parameter",
+            "connector"
+          ],
+          "type": "string"
+        },
+        "version": {
+          "format": "int64",
+          "minimum": 1,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "kind",
+        "id",
+        "version",
+        "digest"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/ConfigurationMetadata.schema.json",
+  "$ref": "#/$defs/ConfigurationMetadata",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ConfigurationMetadata"
+}

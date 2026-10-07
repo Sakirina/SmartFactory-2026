@@ -1,0 +1,52 @@
+{
+  "$defs": {
+    "HistoryClock": {
+      "additionalProperties": false,
+      "properties": {
+        "at_ms": {
+          "anyOf": [
+            {
+              "format": "int64",
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "freshness_at_ms": {
+          "anyOf": [
+            {
+              "format": "int64",
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "freshness_ms": {
+          "anyOf": [
+            {
+              "format": "int64",
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "step_ms": {
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [],
+      "type": "object"
+    }
+  },
+  "$id": "https://smartfactory.local/contracts/1.0/HistoryClock.schema.json",
+  "$ref": "#/$defs/HistoryClock",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "HistoryClock"
+}
