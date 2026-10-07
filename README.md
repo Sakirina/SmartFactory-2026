@@ -1,89 +1,66 @@
 # SmartFactory
 
-工业设备采集、数据分析、现场联动与云端业务管理平台，采用 ThingsBoard CE 4.3.1.5、ThingsBoard Edge 4.3.1.1EDGE、DataTransfer 和自研 Go 业务服务。云端控制台、边缘现场页面与管理大屏使用 React 和 TypeScript 开发。
+SmartFactory 是面向工业现场的设备采集、数据分析与业务协作平台。设备观测通过 DataTransfer 进入边缘服务，现场执行已发布规则，云端汇集数据、定义和业务记录；使用者可以从同一设备继续追踪分析结果、告警处置、工单交接、控制命令和实际反馈。
 
-源码按职责组织：`DataTransfer` 实现 Modbus TCP、MQTT、OPC-UA 与独立进程采集插件；`Platform` 包含云端、边缘、配置中心和辅助命令；`Frontends` 提供三套业务页面。`contracts/1.0` 保存 JSON Schema 与 OpenAPI，`examples` 提供工厂定义和 MCP 客户端，`scripts` 提供构建、部署、备份与验证工具。
+1.1 系列提供云端控制台、现场工作台和管理大屏，包含连续草稿模拟、历史回放与版本比较、持久后台任务、AI 调查、节点身份及分批发布。入口、安装条件和首个完整流程见 [Wiki 首页](Wiki/README.md)，版本与验证范围见 [1.1 版本说明](Wiki/releases/1.1.md)。
 
-业务服务通过 `/api/sf/v1` 提供数据查询、实时订阅、定义草稿与发布、控制审批、配置和审计。云边连接使用 mTLS；页面助手与 MCP 使用相同资源权限，支持查询和草稿操作。
+## 开始使用
 
-## 构建与检查
+| 目标 | 入口 |
+| --- | --- |
+| 在本机体验完整示例流程 | [快速开始](Wiki/getting-started.md) |
+| 在 Linux x86_64 安装持久实例 | [安装部署](Wiki/installation.md) |
+| 连接实际设备、维护资产与规则 | [设备与资产](Wiki/user-guide/devices-assets.md)、[定义编排](Wiki/user-guide/definitions.md) |
+| 处理告警、交接与设备执行 | [业务工作台](Wiki/user-guide/business-workbench.md)、[审批与控制](Wiki/user-guide/control.md) |
+| 更新节点程序、规则及配置 | [节点配置与分批发布](Wiki/user-guide/node-releases.md) |
+| 对接接口或维护运行环境 | [API](Wiki/api/rest.md)、[配置](Wiki/reference/configuration.md)、[备份与恢复](Wiki/operations/backup-restore.md) |
+| 构建程序或开发扩展 | [源码构建](Wiki/development/build.md)、[扩展开发](Wiki/development/extensions.md) |
 
-构建需要 Go、Node.js、npm 和 Python 3。Go 模块及前端依赖版本分别由 `go.mod`、`go.sum` 和 `Frontends/package-lock.json` 固定；两个 Go 模块需要保留当前相邻目录结构。容器部署另外需要 Docker Compose。
-
-1. 安装前端依赖并检查代码：
-
-   ```sh
-   cd Frontends
-   npm ci
-   npm run build
-   cd ..
-   ```
-
-2. 执行两个 Go 模块的测试：
-
-   ```sh
-   go -C DataTransfer test ./...
-   go -C Platform test ./...
-   ```
-
-   外部协议与数据库测试通过各测试文件声明的环境变量启用。Python 契约和 OPC-UA 测试依赖位于 `tests/fixtures/requirements-contracts.txt` 与 `requirements-opcua.txt`，可安装到单独的虚拟环境。
-
-3. 构建 Linux x86_64 部署包并核对文件摘要：
-
-   ```sh
-   python3 scripts/build-release.py --output /tmp/smartfactory-release --os linux --arch amd64
-   python3 scripts/verify-release.py /tmp/smartfactory-release
-   ```
-
-   部署包包含可执行程序、前端静态文件、源码、契约、部署工具及组件许可证。源码快照也支持在没有 Git 元数据的目录中重新构建。
-
-## GitHub 自动构建与发布
-
-[Build and release](https://github.com/Sakirina/SmartFactory-2026/actions/workflows/build-release.yml) 工作流在推送 `main`、提交面向 `main` 的 Pull Request 或手动运行时执行两个 Go 模块的测试、契约检查、打包内容检查和前端构建，并生成 Linux x86_64 部署包。通过检查的产物保存在该次运行的 Artifacts 中，保留 14 天；手动构建可在 Actions 页面点击 **Run workflow**。
-
-发布版本时，为已经完成检查的提交创建版本标签并推送：
+[GitHub Releases](https://github.com/Sakirina/SmartFactory-2026/releases) 提供带版本标签的 Linux amd64 归档和 SHA-256 校验文件。取得部署包后，在同一目录执行校验与解包；下面以 `v1.1.0` 文件名说明命令形式，所选归档和校验文件使用同一版本。
 
 ```sh
-git tag -a v1.0.0 -m "SmartFactory v1.0.0"
-git push origin v1.0.0
+sha256sum -c smartfactory-v1.1.0-linux-amd64.tar.gz.sha256
+tar -xzf smartfactory-v1.1.0-linux-amd64.tar.gz
+cd smartfactory-v1.1.0-linux-amd64
+python3 scripts/verify-release.py .
+python3 scripts/run-memory-demo.py --binary-dir ./bin --duration 900
 ```
 
-将示例中的 `v1.0.0` 替换为本次版本号。工作流会重新执行检查和构建，成功后自动创建 GitHub Release，附上 `smartfactory-v1.0.0-linux-amd64.tar.gz` 与对应的 `.sha256` 文件；`v1.0.0-rc.1` 这类带后缀的版本会标记为预发布。上传完成后 Release 才会公开，已经发布的版本需要使用新标签更新。
+出现 `Memory demo ready` 后，云端、现场和大屏分别位于 `http://127.0.0.1:8090/`、`http://127.0.0.1:8091/edge`、`http://127.0.0.1:8090/screen`。初始密码由脚本生成，保存在运行目录的 `.local/development-credentials.json`；详细操作和演示的保存方式见[快速开始](Wiki/getting-started.md)。
 
-部署包包含 13 个 Go 可执行程序、三套前端页面、公开源码、契约、部署脚本和组件许可证，内部文档、赛事材料、缓存及本地凭据由打包器排除；GitHub 自动生成的源码包通过 `.gitattributes` 排除内部材料。容器镜像按 `deploy/images.lock.json` 在部署主机另行准备。发布步骤使用 GitHub 自动提供的 `GITHUB_TOKEN`，所需的 `contents: write` 权限已在工作流中声明。
+## 程序与部署
 
-下载部署包后，可以在 Linux 上核对摘要并解包：
+| 目录 | 职责 |
+| --- | --- |
+| `DataTransfer/` | Modbus TCP、MQTT、OPC UA 及独立进程采集插件，观测与命令确认 |
+| `Platform/` | 云端、边缘、配置中心、发布代理、业务计算与持久存储 |
+| `Frontends/` | React 与 TypeScript 页面及生成的 API 客户端 |
+| `contracts/1.0/` | OpenAPI 3.1 与 JSON Schema 2020-12 |
+| `examples/` | 工厂定义与 MCP 客户端 |
+| `scripts/` | 构建、部署准备、启停、备份和专项检查 |
+| `deploy/` | 工具链、镜像锁及来源和许可材料 |
+| `Wiki/` | 公开使用、运维与开发文档 |
+
+完整部署使用 ThingsBoard CE `4.3.1.6`、Edge `4.3.1.6EDGE`、PostgreSQL `18.6`、Kafka `4.3.1`、NATS `2.14.7` 和 Envoy `1.39.1`。程序归档包含前端、源码、契约、脚本和许可证，容器镜像按照 [images.lock.json](deploy/images.lock.json) 另行准备；部署工具生成独立私有目录、随机凭据、客户 CA 和节点身份。
+
+业务接口使用 `/api/sf/v1`。云边通信使用 mTLS，配置按工作负载身份分发，页面助手和 MCP 按人员资源权限调用工具。已确认的规则与配置可以在通信暂时中断时继续使用，恢复流程按持久游标、固定版本和原请求身份核对。
+
+## 构建与发布
+
+本仓库锁定 Go `1.27.1`、Node.js `24.21.0`，Python 要求 `3.12` 及以上版本。两个 Go 模块保留相邻目录结构，前端依赖由 `Frontends/package-lock.json` 固定；完整检查、跨平台构建和依赖准备见[构建指南](Wiki/development/build.md)。
 
 ```sh
-sha256sum -c smartfactory-v1.0.0-linux-amd64.tar.gz.sha256
-tar -xzf smartfactory-v1.0.0-linux-amd64.tar.gz
-python3 smartfactory-v1.0.0-linux-amd64/scripts/verify-release.py smartfactory-v1.0.0-linux-amd64
+python3 scripts/check-toolchains.py
+npm ci --prefix Frontends
+npm run build --prefix Frontends
+go -C DataTransfer test ./...
+go -C Platform test ./...
+python3 scripts/build-release.py --output /tmp/smartfactory-release --os linux --arch amd64 --version 1.1.0
+python3 scripts/verify-release.py /tmp/smartfactory-release
 ```
 
-## 部署流程
+[Build and release](https://github.com/Sakirina/SmartFactory-2026/actions/workflows/build-release.yml) 在推送 `main`、面向 `main` 的 Pull Request 和手动运行时生成快照产物，版本标签触发 GitHub Release。正式版本使用 `v1.1.0` 这类标签，带 `-rc.1` 后缀的标签标记为预发布；发布包中的清单记录实际应用版本、目标平台、源码和逐文件摘要。
 
-ThingsBoard、PostgreSQL、Kafka、NATS 与其他镜像的内容摘要保存在 `deploy/images.lock.json`。运行 `python3 scripts/pull-images.py` 查看所需镜像和传输规模，确认后添加 `--execute` 获取镜像。
+1.1 功能验收覆盖实际数据库、协议、独立程序及浏览器组合，Linux 包入口检查涵盖首次代理转换、规则和配置往返、缓存启动及保留数据再次启动。完整 UOS 安装恢复、单节点与三节点连续断云 24 小时、受限链路补传补算及实际 24 小时容量测量按目标环境专项执行，环境和检查条件见[版本说明](Wiki/releases/1.1.md)。
 
-1. 在 Linux x86_64 主机准备部署包与所需镜像，再生成独立的私有状态目录：
-
-   ```sh
-   python3 scripts/prepare-runtime.py --bundle /tmp/smartfactory-release --directory .local/customer --profile capacity --hosting self --simulation scenes
-   ```
-
-   `capacity` 使用一个边缘节点，`site` 使用三个边缘节点；`hosting` 可选 `self` 或 `hosted`。三节点使用默认的 `fleet` 模拟模式。
-
-2. 初始化数据库、原生平台、云边身份与模拟设备：
-
-   ```sh
-   python3 scripts/bootstrap-runtime.py install --directory .local/customer
-   ```
-
-   生成的私有目录保存初始凭据、客户 CA、节点证书和密钥。云端 HTTPS 默认使用 8443，边缘入口从 8444 开始，完整地址保存在该目录的 `profile.json`。
-
-3. 使用 `bootstrap-runtime.py status` 查看状态，使用 `stop` 和 `start` 操作已安装实例；这些命令同样需要 `--directory` 指定私有状态目录。
-
-`scripts/run-memory-demo.py` 提供有时限的本机业务演示，通过 `--binary-dir` 指定当前操作系统的可执行程序。备份与恢复由 `scripts/backup-state.py` 提供，各工具可通过 `--help` 查看参数。
-
-## 上游版本与许可证
-
-ThingsBoard CE 固定为 `v4.3.1.5`，Edge 固定为 `4.3.1.1EDGE`；源码提交记录在 `deploy/dependencies.json`。上游许可证及来源摘要位于 [deploy/licenses](deploy/licenses)，构建器另外为 Go 与 npm 依赖生成组件清单和许可证目录。
+组件来源及许可保存在 [deploy/licenses](deploy/licenses/README.md)，构建器另外生成 Go、npm 和运行时组件清单。历史发布内容见[1.0 系列版本说明](Wiki/releases/1.0.md)。
