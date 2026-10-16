@@ -1,0 +1,278 @@
+{
+  "schema_version": 1,
+  "updated_at": "2026-10-05T11:16:11.326971+00:00",
+  "kind": "acceptance_watchpoints_not_confirmed_product_findings",
+  "coordination": "docs/evolution/phase5-coordination.md",
+  "watchpoints": [
+    {
+      "id": "P5-I01",
+      "requirements": [
+        "E5-02",
+        "E5-03",
+        "E5-04"
+      ],
+      "subject": "Independent cloud and configuration authority",
+      "decision": "cloud owns current users, sessions, grants, resources, workload identities and releases; config keeps its original parameter, secret, key and audit store and checks authority online over mTLS",
+      "verification": "Independent cloud/config/two-edge processes and databases; valid operation, revoked user/workload, rotated credential, callback failure, local cached startup, no cloud-write/config-callback self-lock; recovery assertions identify the newly started process instance/epoch and post-recovery report timestamp or sequence",
+      "status": "final_specialist_and_coordinator_verified_frontend_or_independent_review_pending",
+      "interim_evidence": ".local/evolution/phase5-node-process-seventh-root-review.json",
+      "final_evidence": [
+        ".local/evolution/node-configuration-verified.json",
+        ".local/evolution/phase5-node-process-final-root-review.json",
+        ".local/evolution/phase5-final-backend-combination-root-review.json"
+      ]
+    },
+    {
+      "id": "P5-I02",
+      "requirements": [
+        "E5-02",
+        "E5-03",
+        "E5-04"
+      ],
+      "subject": "Pinned configuration target and ordinary subscriptions",
+      "decision": "Version reads are side-effect free; explicit release target changes carry assignment generation and fixed references; the established stream respects the target",
+      "verification": "Concurrent current-version subscription, old fixed-version read, explicit rollback, stale target request and digest mismatch",
+      "status": "final_specialist_and_coordinator_verified_frontend_or_independent_review_pending",
+      "interim_evidence": [
+        ".local/evolution/phase5-node-final-checks-root-review.json",
+        ".local/evolution/phase5-coordinator-findings.json"
+      ],
+      "final_evidence": [
+        ".local/evolution/node-configuration-verified.json",
+        ".local/evolution/phase5-node-process-final-root-review.json",
+        ".local/evolution/phase5-final-backend-combination-root-review.json"
+      ]
+    },
+    {
+      "id": "P5-I03",
+      "requirements": [
+        "E5-03",
+        "E5-04",
+        "E5-05"
+      ],
+      "subject": "Human action business version",
+      "decision": "Ordinary heartbeats and identical runtime reports preserve action version; changes to state, batch conditions, target or failure advance it",
+      "verification": "Read once, let normal reports continue, pause/cancel succeeds; material business change produces a conflict",
+      "status": "final_specialist_and_coordinator_verified_frontend_or_independent_review_pending",
+      "interim_evidence": ".local/evolution/phase5-release-process-fourth-root-review.json",
+      "final_evidence": [
+        ".local/evolution/release-coordination-verified.json",
+        ".local/evolution/phase5-release-process-tenth-root-review.json",
+        ".local/evolution/phase5-release-a01-root-review.json"
+      ]
+    },
+    {
+      "id": "P5-I04",
+      "requirements": [
+        "E5-02",
+        "E5-03"
+      ],
+      "subject": "Static and dynamic actual consumers",
+      "decision": "Reports are checked against actual runtime consumer values; a static value remains old before process restart",
+      "verification": "Known runtime policy consumer dynamic success, partial failure rollback and retry; real process static preparation and new process consumption",
+      "status": "final_specialist_and_coordinator_verified_frontend_or_independent_review_pending",
+      "interim_evidence": ".local/evolution/phase5-node-process-seventh-root-review.json",
+      "final_evidence": [
+        ".local/evolution/node-configuration-verified.json",
+        ".local/evolution/phase5-node-process-final-root-review.json",
+        ".local/evolution/phase5-final-backend-combination-root-review.json"
+      ]
+    },
+    {
+      "id": "P5-I05",
+      "requirements": [
+        "E5-02",
+        "E5-06"
+      ],
+      "subject": "Prepared deployment transport",
+      "decision": "Generated deployment uses TLS1.3, trusted client certificates, per-program workload credential files and disabled legacy shared-token subscription",
+      "verification": "Generated URL/listener/trust match; actual independent-container or independent-process connection; wrong certificate and revoked credential cases",
+      "status": "24_generated_transport_checks_verified_final_prepared_deployment_assigned_to_delivery",
+      "final_evidence": [
+        ".local/evolution/phase5-node-handoff-root-review.json"
+      ],
+      "next_owner": "phase5_final_delivery"
+    },
+    {
+      "id": "P5-I06",
+      "requirements": [
+        "E5-03",
+        "E5-04"
+      ],
+      "subject": "Agent epoch change without desired-version change",
+      "decision": "A restored agent authenticates a new instance epoch while preserving the verified running program",
+      "verification": "Keep same active release and program, restart agent, refresh the authorized config target for the new epoch, resume valid reports, reject old-agent reports",
+      "status": "final_specialist_and_coordinator_verified_frontend_or_independent_review_pending",
+      "interim_evidence": ".local/evolution/phase5-release-process-fourth-root-review.json",
+      "final_evidence": [
+        ".local/evolution/release-coordination-verified.json",
+        ".local/evolution/phase5-release-process-tenth-root-review.json",
+        ".local/evolution/phase5-release-a01-root-review.json"
+      ]
+    },
+    {
+      "id": "P5-I07",
+      "requirements": [
+        "E5-03",
+        "E5-04"
+      ],
+      "subject": "Permanent preparation failure and interrupted switch",
+      "decision": "Transient connectivity waits and established component failures have distinct durable node results; recovery can relate persisted switch intent to the actual process",
+      "verification": "Preparation checksum/compatibility/config failures show the responsible component and stop later batches; interrupt after new process is ready but before active-state persistence and verify recovery or an actionable durable intervention state",
+      "status": "final_specialist_and_coordinator_verified_frontend_or_independent_review_pending",
+      "interim_evidence": ".local/evolution/phase5-release-process-fourth-root-review.json",
+      "final_evidence": [
+        ".local/evolution/release-coordination-verified.json",
+        ".local/evolution/phase5-release-process-tenth-root-review.json",
+        ".local/evolution/phase5-release-a01-root-review.json"
+      ]
+    },
+    {
+      "id": "P5-I08",
+      "requirements": [
+        "E5-01",
+        "E5-02",
+        "E5-04"
+      ],
+      "subject": "Encrypted private release cache",
+      "decision": "A persistent staged release retains encrypted secret payloads or secure keystore references, consistent with the existing configuration credential storage requirement",
+      "verification": "Inspect release cache and public outputs for injected fixture secret values; perform authorized startup and offline restoration from the protected cached payload",
+      "status": "final_specialist_and_coordinator_verified_frontend_or_independent_review_pending",
+      "implementation_plan": "Encrypt the entire staged payload with the existing node master key and identity.Manager AES-GCM; decrypt at actual program startup",
+      "coordinator_source_observation": "Current releaseruntime.Seal/Unseal protects the entire staged payload using the existing node master key with node and release identity in authenticated data",
+      "interim_evidence": ".local/evolution/phase5-release-process-fourth-root-review.json",
+      "final_evidence": [
+        ".local/evolution/release-coordination-verified.json",
+        ".local/evolution/phase5-release-process-tenth-root-review.json",
+        ".local/evolution/phase5-release-a01-root-review.json"
+      ]
+    },
+    {
+      "id": "P5-I09",
+      "requirements": [
+        "E5-01",
+        "E5-02",
+        "E5-04",
+        "E5-05"
+      ],
+      "subject": "Formal connector version and owned secret resolution",
+      "decision": "Register verifiable public fixed connector versions; original secrets and encryption keys remain at the owning Edge and are resolved under current workload identity, purpose, scope and applicable release target",
+      "verification": "Start with formal Edge Business save and public cloud synchronization/registration; validate fixed ID/version/digest, trusted source endpoint and node ownership; complete template release and actual consumer configuration; reject cross-node unauthorized references; actual newer connector adoption and explicit older-content rollback with application-generation tracking; late ordinary tasks retain existing anti-reordering protections; ordinary save versus pinned release desired state is explicit and runtime reports read the actual consumer; consumer success followed by local persistence failure then retry or different content at the same candidate generation; confirm expected application identity and normalized public content, including secret-only fixed-version changes",
+      "status": "final_formal_connector_process_and_consumer_checks_verified_frontend_and_independent_pending",
+      "owner_progress": "Final node process and full release process use formal owning-Edge Business saves, authenticated public synchronization, fixed references, actual ConfigManager consumers and supported old-content rollback. Saved focused checks cover application generation, secret-only change, delayed task and persistence-failure retry.",
+      "final_evidence": [
+        ".local/evolution/node-configuration-verified.json",
+        ".local/evolution/phase5-node-process-final-root-review.json",
+        ".local/evolution/release-coordination-verified.json",
+        ".local/evolution/phase5-release-process-tenth-root-review.json",
+        ".local/evolution/phase5-release-a01-root-review.json",
+        ".local/evolution/phase5-node-final-checks-root-review.json"
+      ]
+    },
+    {
+      "id": "P5-I10",
+      "requirements": [
+        "E5-04",
+        "E5-06"
+      ],
+      "subject": "Production release-agent deployment integration",
+      "decision": "Release-managed startup preserves the node existing database, key and supported cloud synchronization, NATS, native platform and gateway options",
+      "verification": "Review release-deployment-contract.md; build final Linux package and exercise its prepared deployment entry with persistent state and the actual startup options; first conversion pre-stages the verified fixed release while the owning Edge secret source is online, then stops the original service and starts the managed program from the protected cache; current assignment is checked again when available",
+      "status": "actual_prepare_only_conversion_and_assignment_recheck_verified_final_package_integration_assigned_to_delivery",
+      "coordinator_source_observation": "Current agent RuntimeOptions preserves database, master_key_file, static_directory and explicitly supplied SF_/OTEL_ application settings",
+      "final_evidence": [
+        ".local/evolution/release-coordination-verified.json",
+        ".local/evolution/phase5-release-process-tenth-root-review.json",
+        ".local/evolution/phase5-release-a01-root-review.json"
+      ],
+      "next_owner": "phase5_final_delivery",
+      "handoff": "build-release explicit program inventory and prepare-runtime direct startup require final integration; delivery owner acknowledged"
+    },
+    {
+      "id": "P5-I11",
+      "requirements": [
+        "E5-03",
+        "E5-04",
+        "E5-05"
+      ],
+      "subject": "Actual runtime report freshness and historical deployment completion",
+      "decision": "Keep historical batch completion; distinguish last agent contact from the last actual runtime report. Detail responses expose last_report_ms, report_age_ms and report_fresh using a 15-second threshold; batch progression uses the actual runtime report timestamp",
+      "verification": "Keep the agent polling desired state while its child is stopped or its runtime check fails; report becomes stale and cannot advance the next batch; completed history stays available with timestamp and freshness; valid restored reports refresh runtime status",
+      "status": "final_specialist_and_coordinator_verified_frontend_or_independent_review_pending",
+      "interim_evidence": ".local/evolution/phase5-release-process-fourth-root-review.json",
+      "final_evidence": [
+        ".local/evolution/release-coordination-verified.json",
+        ".local/evolution/phase5-release-process-tenth-root-review.json",
+        ".local/evolution/phase5-release-a01-root-review.json"
+      ]
+    },
+    {
+      "id": "P5-I12",
+      "requirements": [
+        "E5-01",
+        "E5-05",
+        "E5-06"
+      ],
+      "subject": "First fixed release before release history exists",
+      "decision": "The release interface task requires selecting formal program, rule and configuration objects and completing an actual release; verify the initial path with an empty release catalog or the actual prepared deployment entry that provides its first fixed manifest",
+      "verification": "Use a browser with registered program artifacts and formal rule/configuration records but no prior release, or document and exercise the supported package bootstrap entry. Existing-release cloning alone requires an explicit tested prerequisite and page guidance",
+      "status": "complete_empty_catalog_browser_case_specialist_and_coordinator_verified_final_package_and_independent_review_pending",
+      "coordinator_source_observation": "Current Releases composer initializes manifest only from a prior release; component options also derive from the current release catalog",
+      "next_owner": "phase4_frontend",
+      "owner_response": "Existing formal generated APIs expose program artifacts, published rules, parameter content_digest/credential_ref and connector versions; owner is adding first-manifest creation and direct component selection, preserving the initial empty-catalog behavior and matching browser verification",
+      "evidence": [
+        ".local/evolution/phase5-first-release-flow-root-review.json",
+        "/private/tmp/smartfactory-release-interface-20261005/browser-first-isolated/results.json"
+      ],
+      "result": "空目录下正式程序、规则、参数及连接器四组件完成校验、登记及按ID读取，均为200；现已登记P5-F01修正，最终固定页面与正式包入口继续交叉验证。"
+    },
+    {
+      "id": "P5-I13",
+      "requirements": [
+        "E5-04",
+        "E5-05",
+        "E5-06"
+      ],
+      "subject": "DataTransfer configuration consumer coverage and actual shutdown lifecycle",
+      "decision": "Five-template node validation requires isolated configuration consumers for MQTT, Modbus and OPC UA; the full Linux gateway must also complete its actual shutdown and release persistent state",
+      "verification": "Preserve the current MQTT-only fixture limitation and node failed/program record, extend the isolated configuration consumer through production ConfigManager/Manager/gRPC and verify actual fixed content. Classify the Linux gateway worker shutdown deadline from raw logs and reproduce with the original production stop path before any implementation correction",
+      "status": "three_protocol_consumer_and_P5_D01_correction_verified_final_template_and_packaged_combination_pending",
+      "next_owner": "phase5_datatransfer_runtime",
+      "evidence": [
+        "/private/tmp/smartfactory-release-interface-20261005/five-template-prerequisites.json",
+        "/private/tmp/smartfactory-release-interface-20261005/browser-templates-second/template-current-deployment.state.json",
+        "/private/tmp/smartfactory-delivery-linux-preflight-runtime-source-diagnostic-20261005/verification.json",
+        ".local/evolution/phase5-datatransfer-shutdown-baseline-root-review.json",
+        ".local/evolution/phase5-release-interface-checkpoint-root-review.json",
+        ".local/evolution/phase5-datatransfer-runtime-root-review.json"
+      ]
+    },
+    {
+      "id": "P5-I14",
+      "requirements": [
+        "E5-03",
+        "E5-04",
+        "E5-06"
+      ],
+      "subject": "Recovery through a newly registered release after the validated cached program fails at startup",
+      "decision": "Keep the original failed program, cache and database evidence. Validate the same data with corrected code, then restore the fixture through newly registered immutable artifacts and a formal Desired target",
+      "verification": "A verified cached child startup failure can be reported while the agent obtains the new target. Identity, process or digest verification failures retain rejection. Cached credentials are reusable only for an identical fixed envelope after online checks of the current target identity, node, program, purpose, credential generation and authorization; changed references and explicit permission denials are rejected. The new target is applied and reported through actual processes After a verified startup failure, repeated polling of the same deployment, generation and release keeps the failure pending; an explicitly authorized new assignment or retry generation permits a new attempt. Verify this behavior across agent restarts.",
+      "status": "original_copy_and_live_formal_recovery_passed_same_generation_loop_followup_pending",
+      "next_owner": "phase5_release_coordination",
+      "evidence": [
+        ".local/evolution/release-restore-followup-verified.json",
+        ".local/evolution/phase5-release-restore-diagnosis-root-review.json"
+      ],
+      "provisional_evidence": [
+        "/private/tmp/smartfactory-release-restore-recovery-20261005/process-isolated-third/result.json",
+        "/private/tmp/smartfactory-release-restore-recovery-20261005/process-live-first-first/result.json"
+      ],
+      "verification_result": "正式恢复、同代失败等待和代理重启均完成工程师及主协调核对；当前正式代次27、实例代次19，实际程序及二十九组件一致，完整加密载荷与原密钥引用保留。最终页面、Linux组合和独立审查继续核对。",
+      "recovery_evidence": [
+        ".local/evolution/release-restore-recovery-verified.json",
+        ".local/evolution/phase5-release-recovery-root-review.json",
+        ".local/evolution/phase5-release-recovered-database-root-review.json"
+      ]
+    }
+  ]
+}

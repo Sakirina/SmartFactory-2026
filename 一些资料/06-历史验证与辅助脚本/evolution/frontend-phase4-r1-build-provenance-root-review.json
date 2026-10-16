@@ -1,0 +1,35 @@
+{
+  "created_at": "2026-10-05T04:13:32.375278+00:00",
+  "status": "passed",
+  "scope": "Complete R1 and predecessor preserved build inputs and outputs, current R1 source; only CSS source changed",
+  "base_manifest": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/frontend-phase4/final-inputs.json",
+    "sha256": "bb13eac761da19129837353b4ecf3ba0504d797d4c065083b267677038aca1ba"
+  },
+  "r1_manifest": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/frontend-phase4/final-inputs-r1.json",
+    "sha256": "acdab3ec47f97a2b2db1308d2d48ad5ccf6e98380e34705696d2cb874cc56361"
+  },
+  "prior_root_review": "/path/to/SmartFactory-2026/.local/evolution/frontend-phase4-build-provenance-root-review.json",
+  "input_count_each": 30863,
+  "output_count_each": 15,
+  "source_count": 227,
+  "hash_checks": 61998,
+  "unique_preserved_files": 31120,
+  "preserved_bytes": 477562089,
+  "source_added": [],
+  "source_removed": [],
+  "source_changed": [
+    "workspace/Frontends/src/style.css"
+  ],
+  "source_diff": "--- base/style.css\n+++ r1/style.css\n@@ -10,4 +10,4 @@\n .analysis-form-grid, .analysis-lanes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 20px; }\n .analysis-value { white-space: pre-wrap; overflow-wrap: anywhere; margin: 6px 0; max-width: 420px; max-height: 240px; overflow: auto; font: 12px/1.6 ui-monospace, SFMono-Regular, monospace; }\n @media (max-width: 650px) { .analysis-form-grid, .analysis-lanes { grid-template-columns: minmax(0, 1fr); } }\n-.metadata-fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:0 20px;margin-top:18px}.metadata-fields .ant-form-item{min-width:0}.metadata-fields small{display:block;padding-top:5px}.parameter-block{margin:18px 0;padding:16px;border:1px solid #dbe2e8;border-radius:7px}.template-bindings{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0 20px}.chart-precision-note{display:block;margin:8px 0;color:#63758a;font-size:11px}.screen-page .chart-precision-note{color:#a4b7ca}.investigation-item{display:block;width:100%;padding:12px;border:0;border-bottom:1px solid #e1e7ed;background:transparent;text-align:left;cursor:pointer}.investigation-item strong,.investigation-item small{display:block;overflow-wrap:anywhere}.reviewed-version code{overflow-wrap:anywhere}.protocol-tabs .ant-tabs-nav-wrap{overflow:auto}.json-view,pre{overflow-wrap:anywhere;white-space:pre-wrap}.investigation-tools{color:#63758a;font-size:12px}.ant-descriptions-item-content{overflow-wrap:anywhere}@media(max-width:760px){.metadata-fields{grid-template-columns:1fr}.template-bindings{grid-template-columns:1fr}.heading-actions{width:100%}.query-toolbar{width:100%}.query-toolbar .ant-input{max-width:100%}.editor-meta{flex-wrap:wrap}.editor-layout{display:flex;flex-wrap:wrap}.node-palette{flex-basis:100%}.flow-canvas{height:450px;min-width:100%;flex-basis:100%}.node-properties{flex-basis:100%;max-width:100%}.assistant-layout{display:flex;flex-direction:column}.ant-drawer-header .ant-space{flex-wrap:wrap}.topbar .ant-space{flex-wrap:wrap}.screen-header{gap:12px}.screen-main{grid-template-columns:1fr}.screen-header h1{font-size:22px}}\n+.metadata-fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:0 20px;margin-top:18px}.metadata-fields .ant-form-item{min-width:0}.metadata-fields small{display:block;padding-top:5px}.parameter-block{margin:18px 0;padding:16px;border:1px solid #dbe2e8;border-radius:7px}.template-bindings{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0 20px}.chart-precision-note{display:block;margin:8px 0;color:#63758a;font-size:11px}.screen-page .chart-precision-note{color:#a4b7ca}.investigation-item{display:block;width:100%;padding:12px;border:0;border-bottom:1px solid #e1e7ed;background:transparent;text-align:left;cursor:pointer}.investigation-item strong,.investigation-item small{display:block;overflow-wrap:anywhere}.reviewed-version code{overflow-wrap:anywhere}.protocol-tabs .ant-tabs-nav-wrap{overflow:auto}.json-view,pre{overflow-wrap:anywhere;white-space:pre-wrap}.investigation-tools{color:#63758a;font-size:12px}.ant-descriptions-item-content{overflow-wrap:anywhere}@media(max-width:760px){.metadata-fields{grid-template-columns:1fr}.template-bindings{grid-template-columns:1fr}.page-heading{flex-wrap:wrap}.heading-actions{width:auto;max-width:100%}.query-toolbar{width:100%}.query-toolbar .ant-input{max-width:100%}.editor-meta{flex-wrap:wrap}.editor-layout{display:flex;flex-wrap:wrap}.node-palette{flex-basis:100%}.flow-canvas{height:450px;min-width:100%;flex-basis:100%}.node-properties{flex-basis:100%;max-width:100%}.assistant-layout{display:flex;flex-direction:column}.ant-drawer-header .ant-space{flex-wrap:wrap}.topbar .ant-space{flex-wrap:wrap}.screen-header{gap:12px}.screen-main{grid-template-columns:1fr}.screen-header h1{font-size:22px}}\n",
+  "source_sha256": "1e481ea83be42dd86eb719ffcf5561123172a98adfd5126237df6c79ed5ca07b",
+  "all_inputs_sha256": "6aaa972048a64d5d965b54a5b82a598b2cc2faf3f2d640ced7cebee11ae27f5c",
+  "output_sha256": "264f50c2d3c6ece82fa5555c8a70e01ad7918d56c9b6b1523408fe155ee91b03",
+  "live_dist_status": "passed",
+  "root_check_diagnostic": "First verification stopped on missing expected R1 live dist file; preserved input/output and source comparisons had no mismatches. Live dist will be checked after specialist publication.",
+  "errors": [],
+  "live_dist_checks": 15,
+  "live_dist_checked_at": "2026-10-05T04:16:18.449977+00:00",
+  "live_dist_errors": []
+}

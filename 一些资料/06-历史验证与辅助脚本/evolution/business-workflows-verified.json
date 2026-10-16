@@ -1,0 +1,2102 @@
+{
+  "phase": 4,
+  "role": "business_workflows",
+  "status": "verified",
+  "generated_at": "2026-10-05T01:22:15.384172+00:00",
+  "scope": [
+    "E4-04",
+    "E4-05",
+    "E4-06",
+    "E4-08",
+    "E4-09"
+  ],
+  "all_checks_passed": true,
+  "remaining_role_work": [],
+  "implementation": {
+    "E4-04": {
+      "result": "Three protocol catalogs drive validation, precision-preserving configuration round trips and extension preservation; formal versioned connector configuration and public application receipts synchronize through mTLS; encrypted credentials use per-version references",
+      "evidence_tests": [
+        "TestConfigurationMetadataRoundTripAndValidation",
+        "TestTLSJSONLegacyNamesAndCanonicalRoundTrip",
+        "TestBusinessConnectorVersionPayloadAndDelayedOldTask",
+        "TestConfigurationAndRevisionRestoreAcrossRestart",
+        "TestBusinessConnectorSecretsAreFixedByVersion",
+        "TestBusinessConnectorPublicConfigurationMTLSSynchronization"
+      ]
+    },
+    "E4-05": {
+      "result": "Draft and published revisions produce identity-bearing semantic changes with exact numeric values, explicit null/missing values and duplicate connection multiplicity; impact traversals detect cycles, missing/restricted references and exhausted budgets while retaining current resource authorization",
+      "evidence_tests": [
+        "TestBusinessTemplateBatchesAndSemanticChanges",
+        "TestBusinessSemanticPermissionsAndDuplicateConnections",
+        "TestBusinessHTTPProtocolTemplatesSemanticAndHandover"
+      ]
+    },
+    "E4-06": {
+      "result": "Manual alarm actions use semantic action versions, atomic audit/idempotency records and immutable causal source operations; continuous samples preserve a reviewed action; cloud/edge conflicts converge; actual native acknowledgement and clearance retain manual handling and the local rule condition",
+      "evidence_tests": [
+        "TestBusinessWorkflowSQLite",
+        "TestBusinessWorkflowPostgres",
+        "TestBusinessConcurrentAlarmSQLite",
+        "TestBusinessConcurrentAlarmPostgres",
+        "TestBusinessHTTPContinuousAlarmReviewAndNativeCallback",
+        "TestBusinessAlarmMTLSConcurrentAssignmentConverges",
+        "TestBusinessAlarmSyncRejectsIdentityAndRevokedActor",
+        "TestBusinessNativeCEAlarmLifecycle",
+        "TestBusinessNativePollFairnessRotationAndRecovery",
+        "TestBusinessNativePollDeadlineResumesAfterSlowMapping",
+        "TestBusinessNativeWorkerImmediatePeriodicAndFailureRecovery"
+      ]
+    },
+    "E4-08": {
+      "result": "Work orders and handovers validate the current member, department, associated alarms and all execution evidence devices; responsibility changes, reviewed evidence, audit and request identity commit atomically; concurrent handovers produce one success and one conflict",
+      "evidence_tests": [
+        "TestBusinessWorkOrderChecksExecutionEvidenceAndRevokedMember",
+        "TestBusinessWorkOrderRejectsEvidenceAddedAfterAuthorization",
+        "TestBusinessConcurrentHandoverSQLite",
+        "TestBusinessConcurrentHandoverPostgres",
+        "TestBusinessHandoverReviewedAlarmDuringContinuousSampling",
+        "TestBusinessHTTPProtocolTemplatesSemanticAndHandover"
+      ]
+    },
+    "E4-09": {
+      "result": "Five versioned templates prepare 25 independently validated drafts, bind reviewed device/configuration versions and actual connector action mappings, preserve failed batch attempts, reject stale or private inputs and historical identity collisions, and support explicit idempotent retries",
+      "templates": {
+        "climate-ventilation": 14,
+        "infrared-lighting": 2,
+        "hazardous-gas": 6,
+        "agv-obstacle": 2,
+        "goods-counting": 1
+      },
+      "evidence_tests": [
+        "TestBusinessTemplateBatchesAndSemanticChanges",
+        "TestBusinessTemplateValidationRecoveryAndPinnedInputs",
+        "TestBusinessHTTPRequiredInputFieldsAndDefaults"
+      ]
+    }
+  },
+  "source_provenance": {
+    "final_snapshot": "/private/tmp/smartfactory-business-final-20261005-085650-v3",
+    "source_file_count": 403,
+    "actual_compiler_input_count": 3453,
+    "local_compiler_input_count": 275,
+    "source_manifest": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-source-copy-v3-manifest.json",
+      "sha256": "c9c183417a0ac51fcea4aa6801d691781fe214a7e5a05fa36fc2c3877697df60",
+      "bytes": 51662
+    },
+    "actual_inputs": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-v3-actual-inputs.json",
+      "sha256": "57fd6d9152948e34c7e31eda2fc7f15dfb36bf4df7a4772f2cfd04188ae8a281",
+      "bytes": 1076117
+    },
+    "source_mismatches_after_verification": [],
+    "local_input_mismatches_after_verification": [],
+    "v2_snapshot": "/private/tmp/smartfactory-business-final-20261005-085650-v2",
+    "v2_source_manifest": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-source-copy-manifest.json",
+      "sha256": "a2308aabe2d657e2fba6e7d2f0f49af0f4e2fac4c0d9766103ce1dfabfc9ceea",
+      "bytes": 49575
+    },
+    "v2_actual_inputs": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-actual-inputs.json",
+      "sha256": "740b7e2ed1cdac974410f86a30caec41aee187e013488b112a3521ec39b65146",
+      "bytes": 1075745
+    },
+    "v2_to_v3_diff": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/v2-to-v3-business-input-contract.diff",
+      "sha256": "7e5e73aad3c428dd13f3f48cb2796ff39cd026a99ffc0d797727c5dd75446e09",
+      "bytes": 22115
+    },
+    "v2_to_v3_production_changes_are_struct_tags_only": {
+      "Platform/pkg/model/templates.go": true,
+      "Platform/pkg/model/business.go": true,
+      "Platform/internal/application/business.go": true,
+      "Platform/internal/application/workorders.go": true,
+      "Platform/internal/application/semantic.go": true,
+      "Platform/internal/application/deviceconfiguration.go": true,
+      "Platform/internal/application/templates.go": true,
+      "Platform/internal/deviceconfig/configuration.go": true
+    },
+    "go_version": "go version go1.27.1 darwin/arm64",
+    "module_locks": {
+      "Platform/go.mod": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/Platform/go.mod",
+        "sha256": "2f7d5d4dc739448b70c153035faefda74d64338e1060592cf605b93660d17d1c",
+        "bytes": 3597
+      },
+      "Platform/go.sum": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/Platform/go.sum",
+        "sha256": "36634757a1cfc78a1897afdc5d091a56401eba9c7268d34a63704f0902e7387f",
+        "bytes": 17326
+      },
+      "DataTransfer/go.mod": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/DataTransfer/go.mod",
+        "sha256": "053c9834395a76c358e7e9ad2fc55e4c36af75f8a2447fb4f2c1f13d3ee72ef1",
+        "bytes": 2258
+      },
+      "DataTransfer/go.sum": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/DataTransfer/go.sum",
+        "sha256": "de149d0a44e71f8b948e111e5d65efebf316af1d574e72ed51b9ae7462956af2",
+        "bytes": 12871
+      }
+    },
+    "phase3_baseline": {
+      "path": "/private/tmp/smartfactory-phase3-accepted-final-20261005/manifest.json",
+      "sha256": "899cb11406b8a6f29db68a96d79f9069ef53cd410e8602cdb678b2edec16a268",
+      "bytes": 106060
+    },
+    "migrations_1_through_6_unchanged": [
+      {
+        "path": "Platform/internal/store/migration00002.go",
+        "baseline_sha256": "d41f217a598789ec94a29fdcf9db03547eb5bc79cb1671bdc2211891ccc1b626",
+        "final_sha256": "d41f217a598789ec94a29fdcf9db03547eb5bc79cb1671bdc2211891ccc1b626"
+      },
+      {
+        "path": "Platform/internal/store/migration00003.go",
+        "baseline_sha256": "5b5c043c4d830ba6e77057b54654585e83fec0b0fb9e8e9b75e87e65bba9cfd4",
+        "final_sha256": "5b5c043c4d830ba6e77057b54654585e83fec0b0fb9e8e9b75e87e65bba9cfd4"
+      },
+      {
+        "path": "Platform/internal/store/migration00004.go",
+        "baseline_sha256": "1a69098a1f06a9659d5b6d2f0d967b88a1e29a7a677bbf3014714ab2856bf854",
+        "final_sha256": "1a69098a1f06a9659d5b6d2f0d967b88a1e29a7a677bbf3014714ab2856bf854"
+      },
+      {
+        "path": "Platform/internal/store/migration00005.go",
+        "baseline_sha256": "ef7dbe90ee1e57d318b600b2f7ff62416384f833031ba196fd238b45e8df16ac",
+        "final_sha256": "ef7dbe90ee1e57d318b600b2f7ff62416384f833031ba196fd238b45e8df16ac"
+      },
+      {
+        "path": "Platform/internal/store/migration00006.go",
+        "baseline_sha256": "cfc2e96ad04880f7081db6b62a179ed52f37269ac0e46fd60c84fc40aafc15aa",
+        "final_sha256": "cfc2e96ad04880f7081db6b62a179ed52f37269ac0e46fd60c84fc40aafc15aa"
+      },
+      {
+        "path": "Platform/internal/store/migrations/postgres/00001_baseline.sql",
+        "baseline_sha256": "b4f13649f266050f7b87cf9f0c7509b98af1fb40fd606666d1de5a91e02a7f62",
+        "final_sha256": "b4f13649f266050f7b87cf9f0c7509b98af1fb40fd606666d1de5a91e02a7f62"
+      },
+      {
+        "path": "Platform/internal/store/migrations/sqlite/00001_baseline.sql",
+        "baseline_sha256": "8f8b3ff25cd9a9f55e99ab3abd851f20e8075d15242bec0e52ee4e2695a15631",
+        "final_sha256": "8f8b3ff25cd9a9f55e99ab3abd851f20e8075d15242bec0e52ee4e2695a15631"
+      }
+    ],
+    "registered_business_migration": 8,
+    "scope_exclusions": [
+      {
+        "path": "Platform/pkg/model/investigation.go",
+        "reason": "unregistered unfinished AI investigation draft, intentionally excluded from this specialist snapshot by coordinator; original worktree file preserved",
+        "worktree_sha256": "9fb0849a192b4a7c968045e17a1aa4510263d0760d21bad47068f2d14ea548ea"
+      },
+      {
+        "path": "Platform/internal/store/investigations.go",
+        "reason": "unregistered unfinished AI investigation draft, intentionally excluded from this specialist snapshot by coordinator; original worktree file preserved",
+        "worktree_sha256": "4c320afadf2ef9efa7d162587dbfc6f80390bd0ef40897b01a187a946e39d221"
+      },
+      {
+        "path": "Platform/internal/store/migration00009.go",
+        "reason": "unregistered unfinished AI investigation draft, intentionally excluded from this specialist snapshot by coordinator; original worktree file preserved",
+        "worktree_sha256": "a56772048222088f233e0e139e411c606b58d2261a7b49234299148816523b7d"
+      },
+      {
+        "path": "Platform/internal/application/investigations.go",
+        "reason": "unregistered unfinished AI investigation draft, intentionally excluded from this specialist snapshot by coordinator; original worktree file preserved",
+        "worktree_sha256": "c676a222d0d2cfd4e3a4f35bc13cd13b44c3fec73aa4a57cc703d2bfba8c4f82"
+      }
+    ]
+  },
+  "verification": {
+    "v2_normal_postgres_race_builds": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-verification-runs.json",
+      "sha256": "e7afce3e22b1cfa68a5aa3ccd32fffe2dd466691148ec403136e9a6da3df3723",
+      "bytes": 30478
+    },
+    "v3_application_http_contract_builds": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-v3-verification-runs.json",
+      "sha256": "4a475721a71d9d9a20e39ac451a0ead2d3d2abf3b9795e642146834f98798bfd",
+      "bytes": 10162
+    },
+    "v2_command_count": 25,
+    "v3_command_count": 9,
+    "test_suites": [
+      {
+        "snapshot_group": "v2_normal_and_race",
+        "run": "final-application",
+        "log": {
+          "path": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-application.log",
+          "sha256": "f12f88e96bd2f8f3b6cfce126085cdfe8675c5eb3562f266c2c530749b479d18",
+          "bytes": 22701
+        },
+        "top_level_tests": 13,
+        "tests": [
+          {
+            "name": "TestBusinessSemanticPermissionsAndDuplicateConnections",
+            "status": "pass",
+            "elapsed_seconds": 0.21
+          },
+          {
+            "name": "TestBusinessTemplateValidationRecoveryAndPinnedInputs/wrong-protocol",
+            "status": "pass",
+            "elapsed_seconds": 0
+          },
+          {
+            "name": "TestBusinessTemplateValidationRecoveryAndPinnedInputs/private-binding",
+            "status": "pass",
+            "elapsed_seconds": 0
+          },
+          {
+            "name": "TestBusinessTemplateValidationRecoveryAndPinnedInputs/stale-device",
+            "status": "pass",
+            "elapsed_seconds": 0
+          },
+          {
+            "name": "TestBusinessTemplateValidationRecoveryAndPinnedInputs/stale-connector",
+            "status": "pass",
+            "elapsed_seconds": 0
+          },
+          {
+            "name": "TestBusinessTemplateValidationRecoveryAndPinnedInputs/invalid-parameter",
+            "status": "pass",
+            "elapsed_seconds": 0
+          },
+          {
+            "name": "TestBusinessTemplateValidationRecoveryAndPinnedInputs",
+            "status": "pass",
+            "elapsed_seconds": 0.21
+          },
+          {
+            "name": "TestBusinessHandoverReviewedAlarmDuringContinuousSampling",
+            "status": "pass",
+            "elapsed_seconds": 0.21
+          },
+          {
+            "name": "TestBusinessConcurrentHandoverSQLite",
+            "status": "pass",
+            "elapsed_seconds": 0.21
+          },
+          {
+            "name": "TestBusinessConcurrentHandoverPostgres",
+            "status": "pass",
+            "elapsed_seconds": 0.89
+          },
+          {
+            "name": "TestBusinessWorkflowSQLite",
+            "status": "pass",
+            "elapsed_seconds": 0.23
+          },
+          {
+            "name": "TestBusinessWorkflowPostgres",
+            "status": "pass",
+            "elapsed_seconds": 1.24
+          },
+          {
+            "name": "TestBusinessTemplateBatchesAndSemanticChanges",
+            "status": "pass",
+            "elapsed_seconds": 0.23
+          },
+          {
+            "name": "TestBusinessConnectorSecretsAreFixedByVersion",
+            "status": "pass",
+            "elapsed_seconds": 0.21
+          },
+          {
+            "name": "TestBusinessWorkOrderChecksExecutionEvidenceAndRevokedMember",
+            "status": "pass",
+            "elapsed_seconds": 0.21
+          },
+          {
+            "name": "TestBusinessWorkOrderRejectsEvidenceAddedAfterAuthorization",
+            "status": "pass",
+            "elapsed_seconds": 0.21
+          },
+          {
+            "name": "TestBusinessConcurrentAlarmSQLite",
+            "status": "pass",
+            "elapsed_seconds": 0.21
+          },
+          {
+            "name": "TestBusinessConcurrentAlarmPostgres",
+            "status": "pass",
+            "elapsed_seconds": 0.84
+          }
+        ]
+      },
+      {
+        "snapshot_group": "v2_normal_and_race",
+        "run": "final-api",
+        "log": {
+          "path": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-api.log",
+          "sha256": "8b15a5c3b6279128c05c51b7242f02354d5a7af02172484a655fd1d17abca150",
+          "bytes": 3093
+        },
+        "top_level_tests": 2,
+        "tests": [
+          {
+            "name": "TestBusinessHTTPContinuousAlarmReviewAndNativeCallback",
+            "status": "pass",
+            "elapsed_seconds": 2.35
+          },
+          {
+            "name": "TestBusinessHTTPProtocolTemplatesSemanticAndHandover",
+            "status": "pass",
+            "elapsed_seconds": 0.24
+          }
+        ]
+      },
+      {
+        "snapshot_group": "v2_normal_and_race",
+        "run": "final-cloudsync",
+        "log": {
+          "path": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-cloudsync.log",
+          "sha256": "d0c8248aa21e473d6a61466c7e57ccba811a14d1640183f004fe4d74bc323f84",
+          "bytes": 4522
+        },
+        "top_level_tests": 3,
+        "tests": [
+          {
+            "name": "TestBusinessAlarmMTLSConcurrentAssignmentConverges",
+            "status": "pass",
+            "elapsed_seconds": 0.22
+          },
+          {
+            "name": "TestBusinessAlarmSyncRejectsIdentityAndRevokedActor",
+            "status": "pass",
+            "elapsed_seconds": 0.21
+          },
+          {
+            "name": "TestBusinessConnectorPublicConfigurationMTLSSynchronization",
+            "status": "pass",
+            "elapsed_seconds": 0.21
+          }
+        ]
+      },
+      {
+        "snapshot_group": "v2_normal_and_race",
+        "run": "final-deviceconfig",
+        "log": {
+          "path": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-deviceconfig.log",
+          "sha256": "cb5ca7ede7a0295edb851f11ebd636230de5869471610ae46863d71ae793c431",
+          "bytes": 8900
+        },
+        "top_level_tests": 1,
+        "tests": [
+          {
+            "name": "TestConfigurationMetadataRoundTripAndValidation/modbus_tcp",
+            "status": "pass",
+            "elapsed_seconds": 0
+          },
+          {
+            "name": "TestConfigurationMetadataRoundTripAndValidation/mqtt_device",
+            "status": "pass",
+            "elapsed_seconds": 0
+          },
+          {
+            "name": "TestConfigurationMetadataRoundTripAndValidation/opcua",
+            "status": "pass",
+            "elapsed_seconds": 0
+          },
+          {
+            "name": "TestConfigurationMetadataRoundTripAndValidation/modbus-width",
+            "status": "pass",
+            "elapsed_seconds": 0
+          },
+          {
+            "name": "TestConfigurationMetadataRoundTripAndValidation/mqtt-tls-type",
+            "status": "pass",
+            "elapsed_seconds": 0
+          },
+          {
+            "name": "TestConfigurationMetadataRoundTripAndValidation/opcua-password-security",
+            "status": "pass",
+            "elapsed_seconds": 0
+          },
+          {
+            "name": "TestConfigurationMetadataRoundTripAndValidation/action-type",
+            "status": "pass",
+            "elapsed_seconds": 0
+          },
+          {
+            "name": "TestConfigurationMetadataRoundTripAndValidation",
+            "status": "pass",
+            "elapsed_seconds": 0
+          }
+        ]
+      },
+      {
+        "snapshot_group": "v2_normal_and_race",
+        "run": "final-thingsboard",
+        "log": {
+          "path": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-thingsboard.log",
+          "sha256": "813094ebf19b4ba668451247895f27e677b0c1ad5efa616b4a18a3f5b8b898be",
+          "bytes": 3108
+        },
+        "top_level_tests": 2,
+        "tests": [
+          {
+            "name": "TestBusinessNativePollFairnessRotationAndRecovery",
+            "status": "pass",
+            "elapsed_seconds": 0.05
+          },
+          {
+            "name": "TestBusinessNativePollDeadlineResumesAfterSlowMapping",
+            "status": "pass",
+            "elapsed_seconds": 10.02
+          }
+        ]
+      },
+      {
+        "snapshot_group": "v2_normal_and_race",
+        "run": "final-app",
+        "log": {
+          "path": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-app.log",
+          "sha256": "f97d8cf9e0f9c41922771960982a610650a61b0c0d829134014a2f983c85b38f",
+          "bytes": 2088
+        },
+        "top_level_tests": 1,
+        "tests": [
+          {
+            "name": "TestBusinessNativeWorkerImmediatePeriodicAndFailureRecovery",
+            "status": "pass",
+            "elapsed_seconds": 5.22
+          }
+        ]
+      },
+      {
+        "snapshot_group": "v2_normal_and_race",
+        "run": "final-store",
+        "log": {
+          "path": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-store.log",
+          "sha256": "4145a34789770f1f92fc39ed5f6e1704c54322060153d2e71eae4c5a41ffa800",
+          "bytes": 1350
+        },
+        "top_level_tests": 1,
+        "tests": [
+          {
+            "name": "TestMigrationFailureRollsBackDDLVersionAndChecksum",
+            "status": "pass",
+            "elapsed_seconds": 0
+          }
+        ]
+      },
+      {
+        "snapshot_group": "v2_normal_and_race",
+        "run": "final-datatransfer-config",
+        "log": {
+          "path": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-datatransfer-config.log",
+          "sha256": "74b926151b0ca2cdda5018978bd5a8841939989bbe4003cc3b89faf6d6125216",
+          "bytes": 1342
+        },
+        "top_level_tests": 1,
+        "tests": [
+          {
+            "name": "TestTLSJSONLegacyNamesAndCanonicalRoundTrip",
+            "status": "pass",
+            "elapsed_seconds": 0
+          }
+        ]
+      },
+      {
+        "snapshot_group": "v2_normal_and_race",
+        "run": "final-datatransfer-configmanager",
+        "log": {
+          "path": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-datatransfer-configmanager.log",
+          "sha256": "b85ceed0ef23c84b39a3ae804113abfecc726d86ea4a4a2ca6ceacce77a12292",
+          "bytes": 4245
+        },
+        "top_level_tests": 2,
+        "tests": [
+          {
+            "name": "TestBusinessConnectorVersionPayloadAndDelayedOldTask",
+            "status": "pass",
+            "elapsed_seconds": 0
+          },
+          {
+            "name": "TestConfigurationAndRevisionRestoreAcrossRestart",
+            "status": "pass",
+            "elapsed_seconds": 0
+          }
+        ]
+      },
+      {
+        "snapshot_group": "v2_normal_and_race",
+        "run": "final-race-application",
+        "log": {
+          "path": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-race-application.log",
+          "sha256": "1371c322a0e9820fc497121b8efd9584e908ab53322d5e800e9307ea2f025514",
+          "bytes": 9484
+        },
+        "top_level_tests": 7,
+        "tests": [
+          {
+            "name": "TestBusinessHandoverReviewedAlarmDuringContinuousSampling",
+            "status": "pass",
+            "elapsed_seconds": 2.68
+          },
+          {
+            "name": "TestBusinessConcurrentHandoverSQLite",
+            "status": "pass",
+            "elapsed_seconds": 2.65
+          },
+          {
+            "name": "TestBusinessConcurrentHandoverPostgres",
+            "status": "pass",
+            "elapsed_seconds": 2.98
+          },
+          {
+            "name": "TestBusinessConnectorSecretsAreFixedByVersion",
+            "status": "pass",
+            "elapsed_seconds": 2.65
+          },
+          {
+            "name": "TestBusinessWorkOrderRejectsEvidenceAddedAfterAuthorization",
+            "status": "pass",
+            "elapsed_seconds": 2.61
+          },
+          {
+            "name": "TestBusinessConcurrentAlarmSQLite",
+            "status": "pass",
+            "elapsed_seconds": 2.75
+          },
+          {
+            "name": "TestBusinessConcurrentAlarmPostgres",
+            "status": "pass",
+            "elapsed_seconds": 2.9
+          }
+        ]
+      },
+      {
+        "snapshot_group": "v2_normal_and_race",
+        "run": "final-race-api",
+        "log": {
+          "path": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-race-api.log",
+          "sha256": "184f2a97a73f64a178780e2a747395b7b0330afb4982247be13c49b3a3ebcddd",
+          "bytes": 1774
+        },
+        "top_level_tests": 1,
+        "tests": [
+          {
+            "name": "TestBusinessHTTPContinuousAlarmReviewAndNativeCallback",
+            "status": "pass",
+            "elapsed_seconds": 5
+          }
+        ]
+      },
+      {
+        "snapshot_group": "v2_normal_and_race",
+        "run": "final-race-cloudsync",
+        "log": {
+          "path": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-race-cloudsync.log",
+          "sha256": "8b8b78b588baaf09e6967811cd66693f1a96af5d93e692bebd3123d3f7ddf693",
+          "bytes": 4525
+        },
+        "top_level_tests": 3,
+        "tests": [
+          {
+            "name": "TestBusinessAlarmMTLSConcurrentAssignmentConverges",
+            "status": "pass",
+            "elapsed_seconds": 3.31
+          },
+          {
+            "name": "TestBusinessAlarmSyncRejectsIdentityAndRevokedActor",
+            "status": "pass",
+            "elapsed_seconds": 2.99
+          },
+          {
+            "name": "TestBusinessConnectorPublicConfigurationMTLSSynchronization",
+            "status": "pass",
+            "elapsed_seconds": 3.01
+          }
+        ]
+      },
+      {
+        "snapshot_group": "v2_normal_and_race",
+        "run": "final-race-thingsboard",
+        "log": {
+          "path": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-race-thingsboard.log",
+          "sha256": "23817a650b3a33f31716de06e8d86f3ebcbe2e519f645658bec61ff6e21b4684",
+          "bytes": 3107
+        },
+        "top_level_tests": 2,
+        "tests": [
+          {
+            "name": "TestBusinessNativePollFairnessRotationAndRecovery",
+            "status": "pass",
+            "elapsed_seconds": 0.45
+          },
+          {
+            "name": "TestBusinessNativePollDeadlineResumesAfterSlowMapping",
+            "status": "pass",
+            "elapsed_seconds": 10.31
+          }
+        ]
+      },
+      {
+        "snapshot_group": "v2_normal_and_race",
+        "run": "final-race-app",
+        "log": {
+          "path": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-race-app.log",
+          "sha256": "d4c7e9fc99e0493dcd47dd25783e17415ec379aef5a2dab29d6a99ee82a8c68f",
+          "bytes": 2086
+        },
+        "top_level_tests": 1,
+        "tests": [
+          {
+            "name": "TestBusinessNativeWorkerImmediatePeriodicAndFailureRecovery",
+            "status": "pass",
+            "elapsed_seconds": 7.62
+          }
+        ]
+      },
+      {
+        "snapshot_group": "v2_normal_and_race",
+        "run": "final-race-datatransfer",
+        "log": {
+          "path": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-race-datatransfer.log",
+          "sha256": "bc1c5b8fd1a65baa636c83c12000ca387839a0ea7d816f2491150e4cf4b1ced7",
+          "bytes": 36415
+        },
+        "top_level_tests": 2,
+        "tests": [
+          {
+            "name": "TestBusinessConnectorVersionPayloadAndDelayedOldTask",
+            "status": "pass",
+            "elapsed_seconds": 0.02
+          },
+          {
+            "name": "TestConcurrentPushesKeepRevisionOrder",
+            "status": "pass",
+            "elapsed_seconds": 0
+          }
+        ]
+      },
+      {
+        "snapshot_group": "v3_request_contract_and_sqlite",
+        "run": "final-v3-application",
+        "log": {
+          "path": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-v3-application.log",
+          "sha256": "aa8d4d2c18250b32215c77323555137e7bcc40d1e1f82bff5dbc22d8ac4e7109",
+          "bytes": 18977
+        },
+        "top_level_tests": 10,
+        "tests": [
+          {
+            "name": "TestBusinessSemanticPermissionsAndDuplicateConnections",
+            "status": "pass",
+            "elapsed_seconds": 0.21
+          },
+          {
+            "name": "TestBusinessTemplateValidationRecoveryAndPinnedInputs/wrong-protocol",
+            "status": "pass",
+            "elapsed_seconds": 0
+          },
+          {
+            "name": "TestBusinessTemplateValidationRecoveryAndPinnedInputs/private-binding",
+            "status": "pass",
+            "elapsed_seconds": 0
+          },
+          {
+            "name": "TestBusinessTemplateValidationRecoveryAndPinnedInputs/stale-device",
+            "status": "pass",
+            "elapsed_seconds": 0
+          },
+          {
+            "name": "TestBusinessTemplateValidationRecoveryAndPinnedInputs/stale-connector",
+            "status": "pass",
+            "elapsed_seconds": 0
+          },
+          {
+            "name": "TestBusinessTemplateValidationRecoveryAndPinnedInputs/invalid-parameter",
+            "status": "pass",
+            "elapsed_seconds": 0
+          },
+          {
+            "name": "TestBusinessTemplateValidationRecoveryAndPinnedInputs",
+            "status": "pass",
+            "elapsed_seconds": 0.21
+          },
+          {
+            "name": "TestBusinessHandoverReviewedAlarmDuringContinuousSampling",
+            "status": "pass",
+            "elapsed_seconds": 0.21
+          },
+          {
+            "name": "TestBusinessConcurrentHandoverSQLite",
+            "status": "pass",
+            "elapsed_seconds": 0.21
+          },
+          {
+            "name": "TestBusinessWorkflowSQLite",
+            "status": "pass",
+            "elapsed_seconds": 0.22
+          },
+          {
+            "name": "TestBusinessTemplateBatchesAndSemanticChanges",
+            "status": "pass",
+            "elapsed_seconds": 0.22
+          },
+          {
+            "name": "TestBusinessConnectorSecretsAreFixedByVersion",
+            "status": "pass",
+            "elapsed_seconds": 0.21
+          },
+          {
+            "name": "TestBusinessWorkOrderChecksExecutionEvidenceAndRevokedMember",
+            "status": "pass",
+            "elapsed_seconds": 0.2
+          },
+          {
+            "name": "TestBusinessWorkOrderRejectsEvidenceAddedAfterAuthorization",
+            "status": "pass",
+            "elapsed_seconds": 0.2
+          },
+          {
+            "name": "TestBusinessConcurrentAlarmSQLite",
+            "status": "pass",
+            "elapsed_seconds": 0.2
+          }
+        ]
+      },
+      {
+        "snapshot_group": "v3_request_contract_and_sqlite",
+        "run": "final-v3-api",
+        "log": {
+          "path": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-v3-api.log",
+          "sha256": "5540f72442ac251dc332a799f3883b3e43cce05bde47ffcaf70418d306a9085e",
+          "bytes": 4460
+        },
+        "top_level_tests": 3,
+        "tests": [
+          {
+            "name": "TestBusinessHTTPRequiredInputFieldsAndDefaults",
+            "status": "pass",
+            "elapsed_seconds": 0.36
+          },
+          {
+            "name": "TestBusinessHTTPContinuousAlarmReviewAndNativeCallback",
+            "status": "pass",
+            "elapsed_seconds": 2.33
+          },
+          {
+            "name": "TestBusinessHTTPProtocolTemplatesSemanticAndHandover",
+            "status": "pass",
+            "elapsed_seconds": 0.24
+          }
+        ]
+      }
+    ],
+    "v2_binaries": {
+      "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/application.test": {
+        "sha256": "e968a4f35605db450325f6169311a091539d06c437efa65c27143f6588ab01fe",
+        "bytes": 39653442,
+        "role": "normal business test binary",
+        "recorded_at": "2026-10-05T01:00:56.827822+00:00"
+      },
+      "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/api.test": {
+        "sha256": "1406bc92b62e24a7198820ece51268913a08830af5d9f434fd1900bf09405583",
+        "bytes": 47187986,
+        "role": "normal business test binary",
+        "recorded_at": "2026-10-05T01:01:02.034774+00:00"
+      },
+      "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/cloudsync.test": {
+        "sha256": "4656735355fe3e95f128f6b9c5506be71eb7ab9974f0b38e220dc3938ea7f370",
+        "bytes": 40274194,
+        "role": "normal business test binary",
+        "recorded_at": "2026-10-05T01:01:04.721767+00:00"
+      },
+      "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/deviceconfig.test": {
+        "sha256": "9c4ca8848d9228680e473036e79fade6861c8d7dcfed8d1518f3fb165307a592",
+        "bytes": 17558002,
+        "role": "normal business test binary",
+        "recorded_at": "2026-10-05T01:01:05.445578+00:00"
+      },
+      "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/thingsboard.test": {
+        "sha256": "6c871466dcc4ddfefa8ef51125920f5122082ea90cfab254ca388c70bdcb2d2b",
+        "bytes": 38534754,
+        "role": "normal business test binary",
+        "recorded_at": "2026-10-05T01:01:05.522740+00:00"
+      },
+      "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/app.test": {
+        "sha256": "5d33718ca174e691d8b6ea84017fe78898a05b8f5cf427938fe8f6a512ca610b",
+        "bytes": 54073410,
+        "role": "normal business test binary",
+        "recorded_at": "2026-10-05T01:01:15.719549+00:00"
+      },
+      "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/store.test": {
+        "sha256": "6bfb15a7178ebae27184e244520b35a7c7a2154bd2fc8cecb00385daed98b7b6",
+        "bytes": 37505042,
+        "role": "normal business test binary",
+        "recorded_at": "2026-10-05T01:01:21.068098+00:00"
+      },
+      "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/datatransfer/config.test": {
+        "sha256": "5a6ecec4670b4a2266c012d4dfc83f147f5c11dc2f901c13d8d2993de6e0dce1",
+        "bytes": 5785842,
+        "role": "configuration wire and effective manager test binary",
+        "recorded_at": "2026-10-05T01:01:27.918286+00:00"
+      },
+      "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/datatransfer/configmanager.test": {
+        "sha256": "894aa8fc7f3e51446f7f87c5bf224aaee60d8b14e519908b9dad4b5d19321d73",
+        "bytes": 24102946,
+        "role": "configuration wire and effective manager test binary",
+        "recorded_at": "2026-10-05T01:01:27.981354+00:00"
+      },
+      "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/sf-cloud": {
+        "sha256": "6ee000051dc1c64d2dde69167c640849ef25e19a9a965685a049939d0e27b552",
+        "bytes": 52906194,
+        "role": "application binary",
+        "recorded_at": "2026-10-05T01:01:30.071553+00:00"
+      },
+      "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/sf-edge": {
+        "sha256": "231450cedfd49f05d53c6a825bc2ef91b8db5badf1450cb4840bb1bece16e6aa",
+        "bytes": 52906194,
+        "role": "application binary",
+        "recorded_at": "2026-10-05T01:01:30.988828+00:00"
+      },
+      "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/sf-contracts": {
+        "sha256": "508bfcb80ecb28b6ba867214011f8708a395c1b0ed3def073f604a5fb40a15d9",
+        "bytes": 45389202,
+        "role": "application binary",
+        "recorded_at": "2026-10-05T01:01:31.890143+00:00"
+      },
+      "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/sf-business-fixture": {
+        "sha256": "1536707f96d94e18e82638c743ead537fe6e7594b527f872501ad24d0665a80b",
+        "bytes": 43264818,
+        "role": "application binary",
+        "recorded_at": "2026-10-05T01:01:32.833480+00:00"
+      },
+      "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/race/application.test": {
+        "sha256": "e0254cebaad1e68b0102c128cd28f8c0f6f9595907c7f0d7158deb364bb51e1e",
+        "bytes": 52255106,
+        "role": "race business test binary",
+        "recorded_at": "2026-10-05T01:02:21.817955+00:00"
+      },
+      "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/race/api.test": {
+        "sha256": "417b649bffefb6dccd2fb373a956b6540494260042762d87fd0b5be989919328",
+        "bytes": 61588978,
+        "role": "race business test binary",
+        "recorded_at": "2026-10-05T01:02:42.216855+00:00"
+      },
+      "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/race/cloudsync.test": {
+        "sha256": "0d2035c1eb5773d588b06b63c5fc4762139e98b56d33eaaa7a5fdc0b3b6b6517",
+        "bytes": 52843250,
+        "role": "race business test binary",
+        "recorded_at": "2026-10-05T01:02:48.367869+00:00"
+      },
+      "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/race/thingsboard.test": {
+        "sha256": "644697cf72274db6dd0535e121c8a87670e282803c0619310a27ed4c8b920964",
+        "bytes": 50610274,
+        "role": "race business test binary",
+        "recorded_at": "2026-10-05T01:02:58.837188+00:00"
+      },
+      "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/race/app.test": {
+        "sha256": "98a9a7a465505232a2be1db356eef22813c0a3e57ef12d54862d55ca901c6a47",
+        "bytes": 69909426,
+        "role": "race business test binary",
+        "recorded_at": "2026-10-05T01:03:10.769397+00:00"
+      },
+      "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/race/datatransfer/configmanager.test": {
+        "sha256": "d59a3bb6d441c1a0b832281ea0253ff3200ae08c01d03ce2873a4b06ff8e43ba",
+        "bytes": 33389138,
+        "role": "race effective configuration manager test binary",
+        "recorded_at": "2026-10-05T01:03:29.604035+00:00"
+      }
+    },
+    "v3_binaries": {
+      "/private/tmp/smartfactory-business-final-20261005-085650-v3/binaries/application.test": {
+        "sha256": "41338d2c096fdd0d532efc667e46d3ba8abdce05990efdc60638c03778b702d5",
+        "bytes": 39653474,
+        "recorded_at": "2026-10-05T01:13:50.165706+00:00"
+      },
+      "/private/tmp/smartfactory-business-final-20261005-085650-v3/binaries/api.test": {
+        "sha256": "78856711a264875681f6478c25aa33c4a0b781de2a95001560469625d630b4f7",
+        "bytes": 47221842,
+        "recorded_at": "2026-10-05T01:13:52.377106+00:00"
+      },
+      "/private/tmp/smartfactory-business-final-20261005-085650-v3/binaries/sf-cloud": {
+        "sha256": "7779510677a427c87a4b3436dd70714b5df29500651df5a83aac5019670b26c1",
+        "bytes": 52906194,
+        "recorded_at": "2026-10-05T01:13:58.498800+00:00"
+      },
+      "/private/tmp/smartfactory-business-final-20261005-085650-v3/binaries/sf-edge": {
+        "sha256": "7905902a1cc18f124ed999797cf6557124e32ec7a367c5317a6cbac65cc44d40",
+        "bytes": 52906194,
+        "recorded_at": "2026-10-05T01:13:59.485708+00:00"
+      },
+      "/private/tmp/smartfactory-business-final-20261005-085650-v3/binaries/sf-contracts": {
+        "sha256": "91d398f081f0b6914c6332bc2faa5659627193c58a5fc85ef2c613f01c237c57",
+        "bytes": 45389202,
+        "recorded_at": "2026-10-05T01:14:00.388924+00:00"
+      },
+      "/private/tmp/smartfactory-business-final-20261005-085650-v3/binaries/sf-business-fixture": {
+        "sha256": "68fb6d5ad7698514b1fd3cdc59e88d8092ab99722a96a4c26b3ab554e97b5969",
+        "bytes": 43264866,
+        "recorded_at": "2026-10-05T01:14:01.311932+00:00"
+      }
+    },
+    "postgres": {
+      "version": "18.6",
+      "application_max_open": 3,
+      "application_max_idle": 1,
+      "management_max_open": 1,
+      "isolated_schema_prefix": "sf_business_",
+      "package_parallelism": 1
+    },
+    "request_contracts": {
+      "schemas": {
+        "AlarmActionInput": [
+          "action",
+          "expected_action_version",
+          "expected_version",
+          "reason",
+          "request_id"
+        ],
+        "CreateWorkOrderInput": [
+          "assignee_id",
+          "group_id",
+          "id",
+          "reason",
+          "request_id",
+          "title"
+        ],
+        "WorkOrderActionInput": [
+          "action",
+          "expected_version",
+          "reason",
+          "request_id"
+        ],
+        "HandoverInput": [
+          "expected_version",
+          "from_user_id",
+          "pending_items",
+          "reason",
+          "request_id",
+          "to_user_id"
+        ],
+        "HandoverEvidence": [
+          "id",
+          "kind",
+          "version"
+        ],
+        "SemanticInput": [
+          "expected_version"
+        ],
+        "ImpactInput": [
+          "expected_version"
+        ],
+        "SaveDeviceConfigurationInput": [
+          "expected_version",
+          "id",
+          "parameters",
+          "request_id"
+        ],
+        "SaveConnectorConfigurationInput": [
+          "edge_id",
+          "expected_version",
+          "group_id",
+          "parameters",
+          "protocol",
+          "request_id"
+        ],
+        "RetryTemplateBatchInput": [
+          "expected_version",
+          "request_id"
+        ],
+        "Parameters": [
+          "connector_id",
+          "kind"
+        ],
+        "Request": [
+          "protocol"
+        ],
+        "TemplateInstance": [
+          "configuration_id",
+          "configuration_version",
+          "device_id",
+          "device_version",
+          "id",
+          "name",
+          "template_id",
+          "template_version"
+        ],
+        "TemplateBatchInput": [
+          "group_id",
+          "id",
+          "instances",
+          "request_id"
+        ]
+      },
+      "missing_required_http_422_cases": 53,
+      "legal_zero_and_optional_defaults_verified": true
+    }
+  },
+  "contracts": {
+    "root": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0",
+    "business_operation_count": 19,
+    "business_operation_ids": [
+      "get_alarms_id",
+      "post_alarms_id_actions",
+      "get_work_orders",
+      "get_work_orders_id",
+      "post_work_orders",
+      "post_work_orders_id_actions",
+      "post_work_orders_id_handovers",
+      "post_drafts_id_semantic_diff",
+      "post_drafts_id_impact",
+      "get_device_protocols",
+      "post_device_configurations_validate",
+      "get_devices_id_configuration",
+      "post_device_configurations",
+      "get_connector_configurations",
+      "post_connector_configurations",
+      "get_scene_templates",
+      "post_template_batches",
+      "get_template_batches_id",
+      "post_template_batches_id_retry"
+    ],
+    "schema_validation_passed": true,
+    "files": {
+      "contracts/1.0/Actor.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/Actor.schema.json",
+        "sha256": "7a0da059299e9cc9b35708d008d88cc403af675f176ddff7b4f860ef39882fad",
+        "bytes": 990
+      },
+      "contracts/1.0/Aggregate.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/Aggregate.schema.json",
+        "sha256": "0e2b712c30535af5de568bea33b2e483fef7b2b3f797fce6f24605dc31de3420",
+        "bytes": 1060
+      },
+      "contracts/1.0/Alarm.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/Alarm.schema.json",
+        "sha256": "cd70976125a307151da0d9bceae23b9642fefe224317a2a627eca2aa0f2409ed",
+        "bytes": 1766
+      },
+      "contracts/1.0/AlarmActionInput.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/AlarmActionInput.schema.json",
+        "sha256": "6fc42bf41981473ac52695b00c1ec745182d6747e7c1777dbb7e20aa12a41fab",
+        "bytes": 918
+      },
+      "contracts/1.0/AlarmCase.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/AlarmCase.schema.json",
+        "sha256": "5f3a8420341c980ce78820350d3867bbceb1ec0219c55d0cda9042bc931dcfa9",
+        "bytes": 4489
+      },
+      "contracts/1.0/AlarmDetail.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/AlarmDetail.schema.json",
+        "sha256": "046a78c6eb4803c0bcf84b347c00f6c37e1d408100ae88135eb93be629020fe2",
+        "bytes": 10187
+      },
+      "contracts/1.0/AlarmOperation.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/AlarmOperation.schema.json",
+        "sha256": "66f8b65160d72350ae2a41357cf4cd0ef0970e8498aae8fded2ba3ea7e913edd",
+        "bytes": 2724
+      },
+      "contracts/1.0/Application.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/Application.schema.json",
+        "sha256": "76b955e4b652e7417200491851d7951c122ddf59809247126f5dde5b83bc0022",
+        "bytes": 707
+      },
+      "contracts/1.0/Approval.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/Approval.schema.json",
+        "sha256": "3426b3b23b010c0364f6ace5fe99ff6aba25b0fefb67ee483d06a80510655f6c",
+        "bytes": 1709
+      },
+      "contracts/1.0/ApprovalBody.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/ApprovalBody.schema.json",
+        "sha256": "daaee42427215d8afcf22c41bce030494ccfc8d9504f3ab917d30d115fed92c7",
+        "bytes": 664
+      },
+      "contracts/1.0/AssetProposal.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/AssetProposal.schema.json",
+        "sha256": "61255c86ac06a841ec5d20f3315f4ca8054240203e128bd60c81b28e4d589132",
+        "bytes": 3229
+      },
+      "contracts/1.0/AssetVersion.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/AssetVersion.schema.json",
+        "sha256": "890c393fefb2be9cc6ed6135958386ee9f65cfc951a7d89040d608f3ee37930d",
+        "bytes": 859
+      },
+      "contracts/1.0/AuditEvent.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/AuditEvent.schema.json",
+        "sha256": "e4b81c4c193d583d528a52051806dd55dbf020f0ef2ca9d96eff2bee435d44e6",
+        "bytes": 2223
+      },
+      "contracts/1.0/BusinessAction.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/BusinessAction.schema.json",
+        "sha256": "ab583e1ebe0334ce1e557c6fc3ebb66d15efd59ec9b4f65ed8fb32e4e1581676",
+        "bytes": 588
+      },
+      "contracts/1.0/BusinessEntry.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/BusinessEntry.schema.json",
+        "sha256": "276b44cd4375eb97f4fe58ec941dc2743f92f2d9a129cc7bb32bd60c5edee1f2",
+        "bytes": 1797
+      },
+      "contracts/1.0/Combination.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/Combination.schema.json",
+        "sha256": "57edcdd4b09df9344f154f7118fb21a719bfb66f95026493a4c7f9cfc3a5f47e",
+        "bytes": 902
+      },
+      "contracts/1.0/CommandEvidence.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/CommandEvidence.schema.json",
+        "sha256": "94903a2fdfe60eef00d26276e5b9c432a5b026a3ff468373ecb8b6e446d78e42",
+        "bytes": 2536
+      },
+      "contracts/1.0/CompatibilityStatus.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/CompatibilityStatus.schema.json",
+        "sha256": "7ce5fb5fe223ab50934ba2a25bfcd1da4fa9300af7742ce337ac17b025dde4b5",
+        "bytes": 4061
+      },
+      "contracts/1.0/Condition.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/Condition.schema.json",
+        "sha256": "e95cd5556543c10533b5c76883403aab919b6d42bf1587ec545b41cf1f33ef12",
+        "bytes": 822
+      },
+      "contracts/1.0/Connection.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/Connection.schema.json",
+        "sha256": "8a184e654b91241d01f50fc8526d2e2af0b63d8510898489ece2aca63bb8d32b",
+        "bytes": 659
+      },
+      "contracts/1.0/ConnectorConfiguration.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/ConnectorConfiguration.schema.json",
+        "sha256": "e18c5e42c72191c2f0e5176c86aa26a1dad1568fb7dcace9495d36c414714916",
+        "bytes": 2001
+      },
+      "contracts/1.0/ConnectorConfigurationDetail.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/ConnectorConfigurationDetail.schema.json",
+        "sha256": "d0327c0ebd6d55f0e4e7c9b4dbf7143f37bb9b8f0e843c8c88381ba40c8d0170",
+        "bytes": 3877
+      },
+      "contracts/1.0/ConnectorConfigurationReceipt.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/ConnectorConfigurationReceipt.schema.json",
+        "sha256": "9c428965db1b01ee17adeb8110ca78af9996a3e3a24d664ce4536455e6bc2a13",
+        "bytes": 1163
+      },
+      "contracts/1.0/ContractError.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/ContractError.schema.json",
+        "sha256": "6c761b31e24c31e6ba47c0e152cb4e4fc994b58c6a0faab206193361047f9643",
+        "bytes": 1218
+      },
+      "contracts/1.0/ControlOperation.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/ControlOperation.schema.json",
+        "sha256": "0e36760aaeb0bf841d591a64fb5642022b2683e00b6912f2334c94246b4dea6c",
+        "bytes": 10085
+      },
+      "contracts/1.0/CreateExecutionBody.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/CreateExecutionBody.schema.json",
+        "sha256": "c221e60608f7d8bb741736cdd93589d8862efdda4b1430988dd2477907a0ad60",
+        "bytes": 829
+      },
+      "contracts/1.0/CreateWorkOrderInput.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/CreateWorkOrderInput.schema.json",
+        "sha256": "bf99760a5509a59278c2a66c30afebc2699fb082e15544b0ef65eef2d480d13e",
+        "bytes": 1272
+      },
+      "contracts/1.0/Dashboard.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/Dashboard.schema.json",
+        "sha256": "4a89a4bd85bebe4d99a5a9797d0c16f7f09b45c3e4704ab99d6d050a2a3ccb57",
+        "bytes": 2090
+      },
+      "contracts/1.0/DashboardMetric.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/DashboardMetric.schema.json",
+        "sha256": "709dc71183ab16de408012dee0b848b01c6cca8a38277bd9176402c30c3b7288",
+        "bytes": 605
+      },
+      "contracts/1.0/DataGap.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/DataGap.schema.json",
+        "sha256": "58c9d0e39cc1bfeb6d6020329d83546e2f59ac1f0766c165ba30264997fc5143",
+        "bytes": 1037
+      },
+      "contracts/1.0/DataResult.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/DataResult.schema.json",
+        "sha256": "2fddfd83a9a891efe972eb795f00a6c3d2246621b32abc2090daae20db0d1357",
+        "bytes": 6913
+      },
+      "contracts/1.0/Database.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/Database.schema.json",
+        "sha256": "d5ed060d1ab6205ec9c7fa6a8eb0064cec8fa0866335ef15fd5100222dd18c7e",
+        "bytes": 607
+      },
+      "contracts/1.0/Definition.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/Definition.schema.json",
+        "sha256": "cff73213655b54497264bc6e669b4076679bb8b5451a1a534ee066f4ae5252d2",
+        "bytes": 28557
+      },
+      "contracts/1.0/Department.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/Department.schema.json",
+        "sha256": "9834efeee0ac478667d0298fc157cc04ef1e0c75de6530ff3cedb727f683e5e1",
+        "bytes": 665
+      },
+      "contracts/1.0/DeviceConfigurationDetail.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/DeviceConfigurationDetail.schema.json",
+        "sha256": "1f7ac8dcf27804c71f4bca239db227d434e2a07361b603d17ec227c6c684e961",
+        "bytes": 5167
+      },
+      "contracts/1.0/Draft.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/Draft.schema.json",
+        "sha256": "393fbeffdb0168a0e0ae12118a71f14bb7e6c7b0bb3759e8ffc490f823e4dcd2",
+        "bytes": 29268
+      },
+      "contracts/1.0/DraftRevisionRequest.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/DraftRevisionRequest.schema.json",
+        "sha256": "258e6c1af3520a8fee70df516269288fc156c48e9f9e77e3c95b663d5e101c61",
+        "bytes": 618
+      },
+      "contracts/1.0/Entity.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/Entity.schema.json",
+        "sha256": "9745e0458514fb49c691008f40b79ade583cb30ef31c7e3f970757412882e96f",
+        "bytes": 1271
+      },
+      "contracts/1.0/ErrorDetail.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/ErrorDetail.schema.json",
+        "sha256": "f9407f70b41b2295111f8a5089557787adebc88c21de5382870333b858612ce6",
+        "bytes": 497
+      },
+      "contracts/1.0/Evaluation.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/Evaluation.schema.json",
+        "sha256": "92a8eb7ec8da76ec5101542c2136d84e47a7d7e806df2adb832dee349ce7002b",
+        "bytes": 5454
+      },
+      "contracts/1.0/Execution.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/Execution.schema.json",
+        "sha256": "8ffc8e203d746f54c993c78c1970f2b4b15ca9659ae7e953c96c1243c9ab2906",
+        "bytes": 7977
+      },
+      "contracts/1.0/ExecutionAction.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/ExecutionAction.schema.json",
+        "sha256": "7fcfa76dd5107016e256ee04a7f7cec454683fd5fad86912f813e7131ed6fe19",
+        "bytes": 970
+      },
+      "contracts/1.0/ExecutionAllowedAction.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/ExecutionAllowedAction.schema.json",
+        "sha256": "07964fbcb4bce30438aa35b0da8160800b41d2c746543d130676db732e6124c0",
+        "bytes": 620
+      },
+      "contracts/1.0/ExecutionDetail.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/ExecutionDetail.schema.json",
+        "sha256": "73fcab906d9d14170ac7a2abb46fea73bf39c7ce59c6c6b34d5be902e8585a66",
+        "bytes": 16144
+      },
+      "contracts/1.0/ExecutionNode.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/ExecutionNode.schema.json",
+        "sha256": "65e7b9da718b6c1fe02e8eb556c3e670b329d66f85dcf7014c0c55faf33703d4",
+        "bytes": 2793
+      },
+      "contracts/1.0/ExecutionPlan.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/ExecutionPlan.schema.json",
+        "sha256": "208f78f890a3ea8b818b619a9669adf4b2266f5ddb7b0b4e4bd1316aec8c419a",
+        "bytes": 9451
+      },
+      "contracts/1.0/ExecutionRevisionBody.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/ExecutionRevisionBody.schema.json",
+        "sha256": "454fa22d426aeb910af9f7172448c44b52f36b753e93bec62b165f7a0727c830",
+        "bytes": 622
+      },
+      "contracts/1.0/ExecutionTimelineEntry.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/ExecutionTimelineEntry.schema.json",
+        "sha256": "11597cab498fc47f5649a8240d34ce5b29d2c55e4531614c668f35fdf557b3a4",
+        "bytes": 6887
+      },
+      "contracts/1.0/ExecutionTransition.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/ExecutionTransition.schema.json",
+        "sha256": "bb2b655845933478816339345bcf0e2e65c4cec9076cca0718800a490db55978",
+        "bytes": 2431
+      },
+      "contracts/1.0/ExpressionTree.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/ExpressionTree.schema.json",
+        "sha256": "4524558b2fec48d5c6350315009d2d218cf2db1003797af722a868b9d9bf5758",
+        "bytes": 837
+      },
+      "contracts/1.0/Field.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/Field.schema.json",
+        "sha256": "69312348cbbcf534ebb234f27d74084f8b936ad1e47753d51b3b99c0a7a44476",
+        "bytes": 1728
+      },
+      "contracts/1.0/Grant.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/Grant.schema.json",
+        "sha256": "98e459c3eb2788a3745c0473e848a2636401525fdc4824549aed404ce109edfc",
+        "bytes": 941
+      },
+      "contracts/1.0/Handover.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/Handover.schema.json",
+        "sha256": "02484fbff746d83a2709050edf415e4703ce3cdbacbc7ae789eb1c85812eef72",
+        "bytes": 3179
+      },
+      "contracts/1.0/HandoverEvidence.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/HandoverEvidence.schema.json",
+        "sha256": "33943706bde8e27516f6dcfc62265ebf85839e6e6bcd90e098c600945a19a2e6",
+        "bytes": 760
+      },
+      "contracts/1.0/HandoverInput.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/HandoverInput.schema.json",
+        "sha256": "870745eb7b1d62c58c7b1a59b5a2b8c09b4e087a08b28fca068d107e82c57e01",
+        "bytes": 1741
+      },
+      "contracts/1.0/HistoryClock.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/HistoryClock.schema.json",
+        "sha256": "aee3259b305d209bc94d9fffe6bea5e458e4a7b86b2c2f82e2a7a9bfbf9946f2",
+        "bytes": 1109
+      },
+      "contracts/1.0/HistoryDifference.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/HistoryDifference.schema.json",
+        "sha256": "c95fa38748ff72c18b83c0944a08afbd4bde9c9a2ed2376970acb224ffd46505",
+        "bytes": 924
+      },
+      "contracts/1.0/HistoryLane.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/HistoryLane.schema.json",
+        "sha256": "e4d5971b9425bd9ae648297ffa8ba726d837afb6c1847512325f86e305505f35",
+        "bytes": 7248
+      },
+      "contracts/1.0/HistoryRequest.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/HistoryRequest.schema.json",
+        "sha256": "7dad9321ac0784f3682e08d631308ae503ecbaed3692bfd53ab526864a87e7d0",
+        "bytes": 6652
+      },
+      "contracts/1.0/HistoryRule.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/HistoryRule.schema.json",
+        "sha256": "862d2226c2e2c7c271033adfd730421f80be72cd998a1756173721f874728b6f",
+        "bytes": 28996
+      },
+      "contracts/1.0/HistoryRun.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/HistoryRun.schema.json",
+        "sha256": "1327f939c6c800b7e264a5dc86c9811f7547f589499ff056b900429039dcd1d8",
+        "bytes": 3793
+      },
+      "contracts/1.0/HistoryRunList.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/HistoryRunList.schema.json",
+        "sha256": "45767068998a75ff4a4a579bc79f435ba3802cfab150ce79bbd3c31b3d97ba0b",
+        "bytes": 4220
+      },
+      "contracts/1.0/HistorySnapshot.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/HistorySnapshot.schema.json",
+        "sha256": "e6c8854034f6eb618991d475e41c8af433ea27af44b05e49be7eb87541d7f10e",
+        "bytes": 37132
+      },
+      "contracts/1.0/HistoryStep.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/HistoryStep.schema.json",
+        "sha256": "65bbbebb58f03dd348ee1e9621f52e4603d8cce373dda9385d56849368657027",
+        "bytes": 11827
+      },
+      "contracts/1.0/HistoryStepList.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/HistoryStepList.schema.json",
+        "sha256": "7d5d34845e90c6a53aa3d769e147e42dfeb31b8e935f887a848574759e2e3f4c",
+        "bytes": 12286
+      },
+      "contracts/1.0/ImpactAnalysis.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/ImpactAnalysis.schema.json",
+        "sha256": "140c27291c1565cffcef44300e3fd843a6b0c6e7bc9e9ce0537701dd4585784c",
+        "bytes": 2789
+      },
+      "contracts/1.0/ImpactInput.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/ImpactInput.schema.json",
+        "sha256": "0e7ab37a899bf5005c298e3d75b1b79e39218cb575d51b7198c4c942d19cdb34",
+        "bytes": 577
+      },
+      "contracts/1.0/ImpactIssue.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/ImpactIssue.schema.json",
+        "sha256": "62ba19d95c0db2892f861740150058ca20d9680028f2eb40958227e729791f87",
+        "bytes": 655
+      },
+      "contracts/1.0/ImpactReference.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/ImpactReference.schema.json",
+        "sha256": "92968863debb437602d288dce115c008f6c92440d2121afe5e96091eefff8808",
+        "bytes": 777
+      },
+      "contracts/1.0/IngestBatch.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/IngestBatch.schema.json",
+        "sha256": "89ce280c72ecea46100506a7e239794645039f9b37865fafa1dd2c121a76d4c1",
+        "bytes": 4032
+      },
+      "contracts/1.0/IngestResult.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/IngestResult.schema.json",
+        "sha256": "530eb674e1d7c06c0e80f70804b2143876fb8e117542d811732014e231097401",
+        "bytes": 823
+      },
+      "contracts/1.0/Issue.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/Issue.schema.json",
+        "sha256": "b84031e329cd6e3fab5b5ef9de3e186b69165a62736306819ea8b0b2a270a031",
+        "bytes": 561
+      },
+      "contracts/1.0/Job.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/Job.schema.json",
+        "sha256": "9240dfa1d47f569dd83a4766a0602cf8bff38d7c5ee2269c6739745a2aabff9e",
+        "bytes": 1715
+      },
+      "contracts/1.0/Manifest.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/Manifest.schema.json",
+        "sha256": "292cab0d3d1e87353a109b0ae94d587318000f903342a7c174017dfec80bef00",
+        "bytes": 2979
+      },
+      "contracts/1.0/Member.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/Member.schema.json",
+        "sha256": "e220d918bd30ea813adad71829366e9bc789ef101edbad1630cf2b9b3a80cbbd",
+        "bytes": 1030
+      },
+      "contracts/1.0/MigrationRecord.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/MigrationRecord.schema.json",
+        "sha256": "0c20195b375fab3994a0a21e5f23a71b3e9c01a2c6bab350e2591333dc383d93",
+        "bytes": 749
+      },
+      "contracts/1.0/NativeAlarmState.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/NativeAlarmState.schema.json",
+        "sha256": "46d066673dcb449970707167d7cd634c2a8d19030e81ec2ae68a62d436590095",
+        "bytes": 1750
+      },
+      "contracts/1.0/NativeAlarmSyncStatus.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/NativeAlarmSyncStatus.schema.json",
+        "sha256": "fbc60ca25a75c6ea018a8f1d15b7f51a0ac74db51902367ac7aae41f97714573",
+        "bytes": 1564
+      },
+      "contracts/1.0/NativeAlarmUpdate.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/NativeAlarmUpdate.schema.json",
+        "sha256": "066526f2a4ce7fa4ace1c4ec029165f911dd1ef43d031078764e5072eaef5f12",
+        "bytes": 1193
+      },
+      "contracts/1.0/Node.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/Node.schema.json",
+        "sha256": "bbb6457497492b53dd2027693c199f2c4353d808a11537b6221b21e8a60d62c7",
+        "bytes": 14476
+      },
+      "contracts/1.0/NodeMetadata.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/NodeMetadata.schema.json",
+        "sha256": "35677d115e4ba82706788c0951e683e1102063260662a0fec3786a1a1178cece",
+        "bytes": 3128
+      },
+      "contracts/1.0/NodeParameters.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/NodeParameters.schema.json",
+        "sha256": "c6bcd2de9f35864cc93f76a6bf3120f1f21727f9885448b381ec99444811f12c",
+        "bytes": 874
+      },
+      "contracts/1.0/NodeTrace.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/NodeTrace.schema.json",
+        "sha256": "6cc1e08461e2aea9f864d2199c44ac6114fe4513665c5003ee8eaf464aed2013",
+        "bytes": 1570
+      },
+      "contracts/1.0/Observation.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/Observation.schema.json",
+        "sha256": "0ec968fb4b03698f21b4481899da838992fe38fff3eb3da8b0f613dbcbd3efe7",
+        "bytes": 2328
+      },
+      "contracts/1.0/OrganizationSync.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/OrganizationSync.schema.json",
+        "sha256": "0d718a5ec55bd00039ca250ca82d8db80fab69a4084192c0911b0c94dedd46af",
+        "bytes": 2389
+      },
+      "contracts/1.0/Output.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/Output.schema.json",
+        "sha256": "cf751cd95a75198459381dcee2e4893084eb4c0570a9ecb2356faf77a2f26e40",
+        "bytes": 682
+      },
+      "contracts/1.0/Parameter.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/Parameter.schema.json",
+        "sha256": "66d7021b4265e514ce3fccf55e3923c921feacba10a9b71f9f7a4a2e3d187b93",
+        "bytes": 2132
+      },
+      "contracts/1.0/ParameterMetadata.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/ParameterMetadata.schema.json",
+        "sha256": "b086f8cbff0ff380ccf8ffc3f5f5bf9f890e0f3246462f9be47dbd1ad3ef4264",
+        "bytes": 1445
+      },
+      "contracts/1.0/Parameters.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/Parameters.schema.json",
+        "sha256": "eb59399936532103109ccfdd404b6b7e919729a7c3764b5b74542fc6b2caf61a",
+        "bytes": 2146
+      },
+      "contracts/1.0/PlanDiagnostic.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/PlanDiagnostic.schema.json",
+        "sha256": "5b6d1ace51de0b463fb72a3492f2208bb41216f118e7d1daf6739dd61ddfd4b0",
+        "bytes": 1979
+      },
+      "contracts/1.0/PlanIssue.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/PlanIssue.schema.json",
+        "sha256": "25c3d26e5bb46f8d17fec4a718c082ec04af924e73855a375e7445a6aab348e4",
+        "bytes": 1095
+      },
+      "contracts/1.0/Policy.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/Policy.schema.json",
+        "sha256": "1bfd19002401ff4cc85f13a76ee46f56feeb11ffa82128ae2639f244b7083856",
+        "bytes": 4201
+      },
+      "contracts/1.0/Port.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/Port.schema.json",
+        "sha256": "6eb9a41778761f015741402fbd13a2f712d7aa4bd2af052eb6b84d7a0bbbcbc3",
+        "bytes": 479
+      },
+      "contracts/1.0/Protocol.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/Protocol.schema.json",
+        "sha256": "a6fb6b9d46ff925313a6ef000d41a18ab1e213f87e99fbc0f1e66089e8803cd2",
+        "bytes": 791
+      },
+      "contracts/1.0/ProtocolMetadata.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/ProtocolMetadata.schema.json",
+        "sha256": "14e65d5affbb99e15713dfd43aa9ca184ffa250cb64d60ee3c3745514911f970",
+        "bytes": 3290
+      },
+      "contracts/1.0/QualitySummary.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/QualitySummary.schema.json",
+        "sha256": "08f0b761410e2b011b14ea864828b5c1e23ab0dac04083f6bc4052afafa8e2d5",
+        "bytes": 1227
+      },
+      "contracts/1.0/QueryChange.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/QueryChange.schema.json",
+        "sha256": "ab9676ee789aa26575cb234e5da7140fc75deec4fb34df7eff80855c2a8325fd",
+        "bytes": 1469
+      },
+      "contracts/1.0/QueryEvent.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/QueryEvent.schema.json",
+        "sha256": "49e141efe9b2f2ec0961a2d6986b51564cfb2518815a1206a1c5dc9f195c65ea",
+        "bytes": 9079
+      },
+      "contracts/1.0/QueryMetadata.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/QueryMetadata.schema.json",
+        "sha256": "d5f7a72f6c7c5d0f9aeb648bfd7636d6faeaac25b7fa03bd7d7b265ddc4fa21a",
+        "bytes": 4327
+      },
+      "contracts/1.0/QueryPage.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/QueryPage.schema.json",
+        "sha256": "b9d6e172d62297b73d5af8992e80ce6339935d84eccf885e18f78766040598b7",
+        "bytes": 7299
+      },
+      "contracts/1.0/QueryRequest.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/QueryRequest.schema.json",
+        "sha256": "bdeb8c9a38a91930e31a932cb640ddce89353f279beebf0faaeffdfa422bc3a5",
+        "bytes": 1828
+      },
+      "contracts/1.0/QueryRow.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/QueryRow.schema.json",
+        "sha256": "d82a501c29da0063b9aeeaff61f3ed44981c9ce4608b363220ca95c9e6726309",
+        "bytes": 823
+      },
+      "contracts/1.0/QueueBudget.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/QueueBudget.schema.json",
+        "sha256": "c0190202fbf33dc7dafdae77b2a63acd195890fdda9f937dd0e3cebf411b558c",
+        "bytes": 1209
+      },
+      "contracts/1.0/Request.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/Request.schema.json",
+        "sha256": "fe89e0e4a9c416ba64f23ba19b9c722f1359bbce22d56a30ee8cbf57b8de44e1",
+        "bytes": 2639
+      },
+      "contracts/1.0/Result.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/Result.schema.json",
+        "sha256": "cd84d03f5d8b0c62eb760febb533b64813b5d01d747f2726e9125029b0eec64e",
+        "bytes": 3119
+      },
+      "contracts/1.0/RetryTemplateBatchInput.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/RetryTemplateBatchInput.schema.json",
+        "sha256": "617612886412249ede041ea1016e3dbeabe5a02f2fcbd29c17f13bae9a0a9fd3",
+        "bytes": 621
+      },
+      "contracts/1.0/Revision.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/Revision.schema.json",
+        "sha256": "55787ffac4f4e9649d91a93ccaeab1b1c7ded83330021514c35e171c234ac86e",
+        "bytes": 1013
+      },
+      "contracts/1.0/RuntimeState.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/RuntimeState.schema.json",
+        "sha256": "2223cf34fb4f1dc860767ea5e8acd80f237c1f33ae1a399a1ffe394a25613576",
+        "bytes": 893
+      },
+      "contracts/1.0/SaveConnectorConfigurationInput.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/SaveConnectorConfigurationInput.schema.json",
+        "sha256": "81d447a9e2a7d40509ccadf32924cab28f810ba5d72567574a5cbca61769a336",
+        "bytes": 2919
+      },
+      "contracts/1.0/SaveDeviceConfigurationInput.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/SaveDeviceConfigurationInput.schema.json",
+        "sha256": "21e66155af8362e37db2fdad2846dde88e1f868a3ce9f0efdb4ac67c414151ce",
+        "bytes": 2737
+      },
+      "contracts/1.0/SaveDraftInput.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/SaveDraftInput.schema.json",
+        "sha256": "1f9bd3019fadc355f2236bfe9555041bc2ea2bcacad2ea64266f85e8c75a94d5",
+        "bytes": 29651
+      },
+      "contracts/1.0/Schedule.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/Schedule.schema.json",
+        "sha256": "4e8e8a90c0bf1ab0033760bcf56f8472b083fe820d5f542ce3db23d44338d365",
+        "bytes": 761
+      },
+      "contracts/1.0/Section.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/Section.schema.json",
+        "sha256": "589027493bb8655f5bec58fd22d6daa49ffc8e749a2b2720315f903e08cd9fa2",
+        "bytes": 2381
+      },
+      "contracts/1.0/Selector.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/Selector.schema.json",
+        "sha256": "9510b470912676233f75999c5824275589c08fde4779ee096a645d96c4a85c88",
+        "bytes": 874
+      },
+      "contracts/1.0/SemanticChange.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/SemanticChange.schema.json",
+        "sha256": "8fee8ef69cc3d64cf64a637c51f5e5ba14084b24f1a9acf531d087b451df965e",
+        "bytes": 872
+      },
+      "contracts/1.0/SemanticDifference.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/SemanticDifference.schema.json",
+        "sha256": "2e8ca230d6b264fb77b3997f1ca5c18bddb4082d67a594517149a0d6d480d13b",
+        "bytes": 2151
+      },
+      "contracts/1.0/SemanticIdentity.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/SemanticIdentity.schema.json",
+        "sha256": "bb19d6e4cf447c749418a9e565820b52d4e1a4adfa5003414957c9690cbce716",
+        "bytes": 867
+      },
+      "contracts/1.0/SemanticInput.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/SemanticInput.schema.json",
+        "sha256": "2da0e46654fef8600cf6cdcde28724fabd4ec2441930b0202096d7099779080e",
+        "bytes": 596
+      },
+      "contracts/1.0/ShadowCandidate.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/ShadowCandidate.schema.json",
+        "sha256": "a73383305d13e747bf537977aa9f7ddfd38f6783cf2421a00cec104a27e43033",
+        "bytes": 39614
+      },
+      "contracts/1.0/ShadowCandidateAction.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/ShadowCandidateAction.schema.json",
+        "sha256": "902e9ec3da3edba8193f0efbd66c97275a2c768b7f59c482255a04e07687c1c7",
+        "bytes": 529
+      },
+      "contracts/1.0/ShadowCandidateList.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/ShadowCandidateList.schema.json",
+        "sha256": "025d39b400c03b529eb697bd5b106a147f5d2887ece6671f63454fe9c8b9103d",
+        "bytes": 39979
+      },
+      "contracts/1.0/ShadowRequest.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/ShadowRequest.schema.json",
+        "sha256": "bf9a6bf85024ee643c5ba7a55eb4b5f29fd65a03da6e2e44b0efc5572159a3da",
+        "bytes": 2081
+      },
+      "contracts/1.0/SimulationClock.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/SimulationClock.schema.json",
+        "sha256": "2a6df86729eb2b52584222bb087fbbe7ccd510a5e965c5e6e2b2752e809466f2",
+        "bytes": 1121
+      },
+      "contracts/1.0/SimulationRequest.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/SimulationRequest.schema.json",
+        "sha256": "8a623b86cbe3fb0047320bdfbe039fa601ebb6e21dcc9a243d7a0910ef858492",
+        "bytes": 6223
+      },
+      "contracts/1.0/SimulationResult.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/SimulationResult.schema.json",
+        "sha256": "ac23d1c519f3d10a184a9aa2d4316c09b02b4b1df0ff527c4aaf2fe6b40fe482",
+        "bytes": 11330
+      },
+      "contracts/1.0/SimulationStep.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/SimulationStep.schema.json",
+        "sha256": "c616383eb293489d82067044e568eb24b3859c2e937b34beaa5ebf7939c24b98",
+        "bytes": 8377
+      },
+      "contracts/1.0/SourceState.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/SourceState.schema.json",
+        "sha256": "0415a8bbcf34d9c44967e6e9dacf888c8ed247ec46ab57694fe672ed8043939a",
+        "bytes": 763
+      },
+      "contracts/1.0/Spec.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/Spec.schema.json",
+        "sha256": "1a2937e0221d6faaeb2c79be5ed9ff0d446c24673814391619911dcda78df83c",
+        "bytes": 1401
+      },
+      "contracts/1.0/Status.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/Status.schema.json",
+        "sha256": "0413ce33fd53f044406a70f80ddf8a3aa6bc829ae56decc58fad02fc60cd481f",
+        "bytes": 868
+      },
+      "contracts/1.0/Step.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/Step.schema.json",
+        "sha256": "c572031eb0effd9e81810d41b58f117560ee9aaa4bfc43a553d8c5b81583feab",
+        "bytes": 1038
+      },
+      "contracts/1.0/StepResult.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/StepResult.schema.json",
+        "sha256": "b69d44ed70d9e48e6607259c0caa4b0da02a2ba827ae14041fdd366308d0a2d5",
+        "bytes": 968
+      },
+      "contracts/1.0/Task.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/Task.schema.json",
+        "sha256": "3f3471b43adebf19a1db9b438679f6f3df1a197e1f490937a9c1e6dd870b44ff",
+        "bytes": 2707
+      },
+      "contracts/1.0/TaskAction.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/TaskAction.schema.json",
+        "sha256": "591bffc9c7ca41fbb6745b42c643fa91d9a76bd1a351fb19f0e6cdc99cca412b",
+        "bytes": 455
+      },
+      "contracts/1.0/TaskList.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/TaskList.schema.json",
+        "sha256": "53649935010f7132bbed8fffa6d9254670a61ee2ecf2c0c42939dec103755bc8",
+        "bytes": 3122
+      },
+      "contracts/1.0/Template.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/Template.schema.json",
+        "sha256": "6b8b58311bd6f7fdbdd6df85fa0c7243bdbc7900707e430bcbf50484e402b388",
+        "bytes": 2628
+      },
+      "contracts/1.0/TemplateBatch.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/TemplateBatch.schema.json",
+        "sha256": "345512e2f361fbd65e68bb1d6d39692a41d0f88401bdb43756c748d8318af5e6",
+        "bytes": 35597
+      },
+      "contracts/1.0/TemplateBatchAttempt.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/TemplateBatchAttempt.schema.json",
+        "sha256": "46c828876d3192899102e57c30c47c368bf3093d6b07a1dc011d5eb0c7db0ead",
+        "bytes": 2042
+      },
+      "contracts/1.0/TemplateBatchInput.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/TemplateBatchInput.schema.json",
+        "sha256": "1eb5d0a06419757f0252f99f58a238038155ac67389d449c5b7f88e3431014e2",
+        "bytes": 1982
+      },
+      "contracts/1.0/TemplateBinding.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/TemplateBinding.schema.json",
+        "sha256": "0ceaee4e68a017e105e3f4407da2f9aca65117039e0abd4d2a36691c364f9162",
+        "bytes": 1207
+      },
+      "contracts/1.0/TemplateFailure.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/TemplateFailure.schema.json",
+        "sha256": "44cd6b58c0493270170dd02d418699739d326231fe328e4d161030bc8508e588",
+        "bytes": 615
+      },
+      "contracts/1.0/TemplateInstance.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/TemplateInstance.schema.json",
+        "sha256": "e86decfd43bc0f251ff7f420b2c352bd12d8d1d4f72f084445e0e2c8f1a46e65",
+        "bytes": 1383
+      },
+      "contracts/1.0/User.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/User.schema.json",
+        "sha256": "64f93db0ef376d8bae858f205d326496090f8c2d14f1c4542e1695db04a0d83b",
+        "bytes": 1680
+      },
+      "contracts/1.0/Validation.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/Validation.schema.json",
+        "sha256": "debf6dd71c04df5b932872b343511479a6a2facd862ed42e2c2b38c78a1ce64a",
+        "bytes": 827
+      },
+      "contracts/1.0/WorkOrder.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/WorkOrder.schema.json",
+        "sha256": "c7c51c187882876072f6dcb77e474ca6462f56edcb0c31ae8c4725d951084a33",
+        "bytes": 3736
+      },
+      "contracts/1.0/WorkOrderActionInput.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/WorkOrderActionInput.schema.json",
+        "sha256": "c857158389e34bfd1708a75996a09236a4469432231e403cee973ff9ce61f123",
+        "bytes": 1826
+      },
+      "contracts/1.0/WorkOrderDetail.schema.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/WorkOrderDetail.schema.json",
+        "sha256": "cb5baa5415491998064542a31c97761188921f49484be1ddbccb1f696db0e777",
+        "bytes": 7031
+      },
+      "contracts/1.0/openapi.json": {
+        "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/contracts/1.0/openapi.json",
+        "sha256": "440d6476763a90bd5c3710b3020115598a8440c285684bf5df92a9ceedb1b657",
+        "bytes": 462355
+      }
+    }
+  },
+  "native_validation": {
+    "report": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/business-native-verified.json",
+      "sha256": "6671e481af5227186a7cc64e1591990e504817a1c65d0897ce070e64eec8710f",
+      "bytes": 1531023
+    },
+    "binary": {
+      "path": "/private/tmp/smartfactory-business-native-20261005-retry/api-native.test",
+      "sha256": "84791b50e1d790a081d74b6ad1454c90acd5ac6edcfdd036aca11e07eb808976",
+      "bytes": 47286354
+    },
+    "build_started_at": "2026-10-05T00:43:30.651624+00:00",
+    "build_completed_at": "2026-10-05T00:43:32.339673+00:00",
+    "build_log": {
+      "path": "/private/tmp/smartfactory-business-native-20261005-retry/build.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "test_log": {
+      "path": "/private/tmp/smartfactory-business-native-20261005-retry/native-test.log",
+      "sha256": "bf62ebf067a6c3da0a4967760bcb5d1808edce998607d06679804c0e0d5aade3",
+      "bytes": 336
+    },
+    "test": "TestBusinessNativeCEAlarmLifecycle",
+    "image": "thingsboard/tb-node@sha256:20636ba63175d4b680d4f00882c604723745006b8382770f373f546ff94f6254",
+    "platform": "linux/amd64",
+    "architecture_emulation": true,
+    "budget": {
+      "container_mib": 3072,
+      "postgres_mib": 1024,
+      "heap_max_mib": 512,
+      "metaspace_max_mib": 256,
+      "direct_max_mib": 64,
+      "code_cache_max_mib": 64,
+      "cpu": 3,
+      "jdbc_max_connections": 3
+    },
+    "retained_source": {
+      "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/retained-source-integrity.json",
+      "sha256": "06e8c94e51fe4d05a71c1411ef03e8820ea8df547a8cbd4bd6c3f87820c25b44",
+      "bytes": 671
+    },
+    "actual_inputs": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/native-actual-inputs.json",
+      "sha256": "5f50ab092693f1ff3bceb87fc06f7fb7126a30142d89e57815f4513cd8b52aa9",
+      "bytes": 925596
+    },
+    "rebuild_comparison": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/native-rebuild-comparison.json",
+      "sha256": "d245d6dab1507d219b0c7927763f2bdb1f9336202ba05446cfa0da56b438702e",
+      "bytes": 4022
+    },
+    "original_binary_reproduced_byte_for_byte": true,
+    "source_scope": "Actual CE lifecycle uses the preserved original native build. B05 fair rotation and deadline changes use v2 normal/race HTTP and formal worker tests. B06 changes only request serialization/schema tags and uses v3 HTTP/application/contracts verification.",
+    "cleanup": {
+      "final_container_state": {
+        "Status": "exited",
+        "Running": false,
+        "OOMKilled": false,
+        "ExitCode": 143
+      },
+      "remove_exit_code": 0,
+      "database_removed": true
+    }
+  },
+  "frontend_delivery": {
+    "contract_document": {
+      "path": "/path/to/SmartFactory-2026/docs/evolution/business-frontend-contract.md",
+      "sha256": "bb04ce2992c63555fa8ef3a4c9d280ab219571f2c8268d94031f92fbf8b6847d",
+      "bytes": 13366
+    },
+    "fixture_source": {
+      "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/Platform/cmd/sf-business-fixture/main.go",
+      "sha256": "2cfaf35c3baea28f0effa309cd67c2585f34a3935696acef608e490cd7b90152",
+      "bytes": 6512
+    },
+    "fixture_binary": {
+      "path": "/private/tmp/smartfactory-business-final-20261005-085650-v3/binaries/sf-business-fixture",
+      "sha256": "68fb6d5ad7698514b1fd3cdc59e88d8092ab99722a96a4c26b3ab554e97b5969",
+      "bytes": 43264866
+    },
+    "v3_http_verification": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-v3-fixture-verification.json",
+      "sha256": "7f82a23e60cf8abd0bb52860e7ef46ab27f4debe6f6a8e96c5df8ea7c7b5375a",
+      "bytes": 4199
+    },
+    "v2_http_verification": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-fixture-verification.json",
+      "sha256": "94bdf564b7fb6e180a22fc1c28f64a4387a379dc6437463bc8f8c2ea8a656140",
+      "bytes": 4193
+    },
+    "v3_runs": [
+      {
+        "mode": "cloud",
+        "directory": "/private/tmp/smartfactory-business-final-ui-cloud-20261005-091424",
+        "command": [
+          "/private/tmp/smartfactory-business-final-20261005-085650-v3/binaries/sf-business-fixture",
+          "-dir",
+          "/private/tmp/smartfactory-business-final-ui-cloud-20261005-091424",
+          "-mode",
+          "cloud",
+          "-address",
+          "127.0.0.1:51649",
+          "-duration",
+          "60s"
+        ],
+        "started_at": "2026-10-05T01:14:24.905633+00:00",
+        "log": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-v3-fixture-cloud.log",
+        "checks": {
+          "actual_http_login": true,
+          "private_credentials_mode_0600": true,
+          "protocols": 3,
+          "templates": 5,
+          "continuous_sampling_one_review_confirmed": {
+            "count_before": 1,
+            "count_after": 3
+          },
+          "query_case_projected": {
+            "revision": "22",
+            "operations": 3
+          },
+          "handover_committed": 2,
+          "device_save_status": 403,
+          "prepared_drafts": 25
+        },
+        "artifacts": {
+          "manifest.json": {
+            "path": "/private/tmp/smartfactory-business-final-ui-cloud-20261005-091424/manifest.json",
+            "sha256": "10c4fef8b3079c1bcaecb407c51bd5a507fd2356347be27f8212a96ea6155b39",
+            "bytes": 588
+          },
+          "samples.json": {
+            "path": "/private/tmp/smartfactory-business-final-ui-cloud-20261005-091424/samples.json",
+            "sha256": "30521c05beba13adddb1f873a6eee0c522fb0b45a3b86c861878db8bc48388b4",
+            "bytes": 108026
+          }
+        },
+        "pid": 93981,
+        "passed": true,
+        "exit_code": 0,
+        "completed_at": "2026-10-05T01:14:27.496085+00:00",
+        "process_stopped": true,
+        "log_sha256": "1ae60ebba24b54849e2f7c9f5d541d5641bc1d301cdab765eed9a6e481a2fa83"
+      },
+      {
+        "mode": "edge",
+        "directory": "/private/tmp/smartfactory-business-final-ui-edge-20261005-091427",
+        "command": [
+          "/private/tmp/smartfactory-business-final-20261005-085650-v3/binaries/sf-business-fixture",
+          "-dir",
+          "/private/tmp/smartfactory-business-final-ui-edge-20261005-091427",
+          "-mode",
+          "edge",
+          "-address",
+          "127.0.0.1:51664",
+          "-duration",
+          "60s"
+        ],
+        "started_at": "2026-10-05T01:14:27.496730+00:00",
+        "log": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-v3-fixture-edge.log",
+        "checks": {
+          "actual_http_login": true,
+          "private_credentials_mode_0600": true,
+          "protocols": 3,
+          "templates": 5,
+          "continuous_sampling_one_review_confirmed": {
+            "count_before": 1,
+            "count_after": 3
+          },
+          "query_case_projected": {
+            "revision": "21",
+            "operations": 3
+          },
+          "handover_committed": 2,
+          "device_save_status": 200,
+          "device_version_advanced": 2
+        },
+        "artifacts": {
+          "manifest.json": {
+            "path": "/private/tmp/smartfactory-business-final-ui-edge-20261005-091427/manifest.json",
+            "sha256": "a85a772066851f34f97c9d436cebfbe2c04caf729463663fc52d61a3ebf5fd04",
+            "bytes": 587
+          },
+          "samples.json": {
+            "path": "/private/tmp/smartfactory-business-final-ui-edge-20261005-091427/samples.json",
+            "sha256": "a2cf1ee88c1fc5eff5cf06b5ee570de881cea4d039be88d30c73519a8016f005",
+            "bytes": 47833
+          }
+        },
+        "pid": 93982,
+        "passed": true,
+        "exit_code": 0,
+        "completed_at": "2026-10-05T01:14:30.075002+00:00",
+        "process_stopped": true,
+        "log_sha256": "08b00f8a5ecb204fe6b43e1fa5f36cf6aa3ceffb181334e1915265ea812dbf73"
+      }
+    ],
+    "credentials": "Each new fixture directory owns a random private-credentials.json with mode 0600; no credential values are included in this report"
+  },
+  "first_failures_and_repairs": [
+    {
+      "failure": "initial malformed business struct tags",
+      "evidence": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/query-evidence/first-shared-build-transcribed.log",
+        "sha256": "abe77c2d5d8b1fa7b3feee9260d6e80651cd3dffdc19cf7bfb733fa57541160d",
+        "bytes": 533
+      },
+      "repair": "Corrected the struct tags before compiling business implementations"
+    },
+    {
+      "failure": "shared registration retained an unused fmt import",
+      "evidence": {
+        "path": "/private/tmp/smartfactory-business-shared-registration-compile-first.log",
+        "sha256": "5754c2650839a4188f68c788993754c1e60e4a67328b6e25881791359d5b905a",
+        "bytes": 1001
+      },
+      "repair": "Shared owner removed the unused import; the retained file is explicitly transcribed tool output"
+    },
+    {
+      "failure": "test supplied pointers for scalar draft expected versions",
+      "evidence": {
+        "path": "/private/tmp/smartfactory-business-sqlite-first.log",
+        "sha256": "7d712e53751c4b84a1b7d8bd0363266c16797b0dbd4090ace9debeab5a91421f",
+        "bytes": 484
+      },
+      "repair": "Corrected test inputs to match the formal application input"
+    },
+    {
+      "failure": "signed-bundle user source version differed from the local document revision",
+      "evidence": {
+        "path": "/private/tmp/smartfactory-business-sync-first.log",
+        "sha256": "ab3064e43d7229cd8b3a6c43699e4ecc8e7960d95f55e70f5ac54bdb620ea9cc",
+        "bytes": 669
+      },
+      "repair": "Authorization now pins the actual local user document revision and canonical current identity"
+    },
+    {
+      "failure": "template recovery attempted to reuse a historically occupied draft identity",
+      "evidence": {
+        "path": "/private/tmp/smartfactory-business-additional-first.log",
+        "sha256": "7d8e1a25b8eca5f3d260376c78b10f5f7cc8f5dd565c455185db432a8dcb6852",
+        "bytes": 1919
+      },
+      "repair": "Template identity checks include historical versions; recovery uses the formal rename path and historical identity remains a recorded failure"
+    },
+    {
+      "failure": "native readiness login submitted the bootstrap wrapper",
+      "evidence": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/business-native-first-failure.json",
+        "sha256": "ef53af7a3a4bd487226dca5e0b045820320d7c574408e3dbe06d2393c2886d52",
+        "bytes": 7109
+      },
+      "repair": "Passed the actual username and password fields, then completed the actual CE lifecycle test"
+    },
+    {
+      "failure": "first final source copy omitted five DataTransfer observability inputs",
+      "evidence": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/first-snapshot-failure.json",
+        "sha256": "cb8eb43319ed0d8efd9965cc313799af99738691257ce90422da1867ea95b777",
+        "bytes": 441
+      },
+      "repair": "Preserved the first copy and failure, added the five inputs in v2, then captured actual compiler input lists"
+    },
+    {
+      "failure": "P4-B06 required input fields were optional in Huma OpenAPI",
+      "evidence": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/required-input-contract-before.json",
+        "sha256": "4f4a6b6d41fbce604771346fc3476c2dfdbea502a92ab3aa8a3351f67c782995",
+        "bytes": 3159
+      },
+      "repair": "Added explicit required tags and accurate optional serialization; all 14 schemas agree and 53 missing-field requests fail HTTP validation"
+    },
+    {
+      "failure": "sandbox process inventory was unavailable",
+      "evidence": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/cleanup-first-failure.json",
+        "sha256": "daa6d53ccc29240be36107b6c2919c5e681db9573e1dd1331eaa18fbd24f6aa6",
+        "bytes": 252
+      },
+      "repair": "Used retained subprocess wait results, completed tool sessions, closed loopback ports and Docker/PostgreSQL inventory"
+    }
+  ],
+  "cleanup": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-cleanup.json",
+    "sha256": "e0880ba498d19cf0a0b50ac22c3bb25614f7cf0eb3d80120ec9a0ab9c1c77290",
+    "bytes": 1482
+  },
+  "runtime_scope": {
+    "actual_completed": [
+      "SQLite and PostgreSQL application transactions",
+      "race detector on concurrent business and synchronization paths",
+      "mTLS cloud/edge replication",
+      "actual CE alarm lifecycle",
+      "formal polling worker immediate and periodic recovery",
+      "effective DataTransfer configuration persistence",
+      "isolated cloud and edge HTTP fixtures"
+    ],
+    "excluded_by_user_for_full_program": [
+      "complete UOS install/recovery",
+      "one-node and three-node continuous 24-hour disconnected operation",
+      "restricted-link campaign",
+      "actual 24-hour capacity and continuous runtime"
+    ],
+    "frontend_browser_review_owner": "frontend specialist",
+    "combined_working_tree_contract_generation_owner": "phase4_ai_evidence; final business DTOs and required tags have been handed off"
+  }
+}

@@ -1,0 +1,845 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-04T13:50:35.632662+00:00",
+  "scope": "Phase 1 architecture, authenticated definition use cases, typed API, generated client, numbered migrations",
+  "tools": {
+    "go": {
+      "path": "/opt/homebrew/bin/go",
+      "version": "go version go1.27.1 darwin/arm64"
+    },
+    "node": {
+      "path": "/path/to/SmartFactory-2026/.local/toolchains/node-v24.21.0-darwin-arm64/bin/node",
+      "version": "v24.21.0"
+    },
+    "npm": {
+      "path": "/path/to/SmartFactory-2026/.local/toolchains/node-v24.21.0-darwin-arm64/bin/npm",
+      "version": "11.19.0"
+    }
+  },
+  "checks": [
+    {
+      "name": "go-tests",
+      "command": [
+        "go",
+        "test",
+        "-count=1",
+        "-json",
+        "./internal/application/...",
+        "./internal/api",
+        "./internal/store",
+        "./internal/engine",
+        "./pkg/contracts",
+        "./cmd/sf-contracts",
+        "./internal/app"
+      ],
+      "cwd": "/path/to/SmartFactory-2026/Platform",
+      "exit_code": 0,
+      "elapsed_seconds": 2.205,
+      "stdout": ".local/evolution/architecture-go-tests.stdout.txt",
+      "stderr": ".local/evolution/architecture-go-tests.stderr.txt",
+      "test_results": [
+        {
+          "Package": "competition2026/product/platform/internal/application/definitioncommit",
+          "Action": "skip",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/application",
+          "Test": "TestDefinitionUseCaseSavesValidatesPublishesWithAuditAndOutbox",
+          "Action": "pass",
+          "Elapsed": 0.01
+        },
+        {
+          "Package": "competition2026/product/platform/internal/application",
+          "Test": "TestDefinitionUseCaseChecksResourcesWithoutHTTP/group",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/application",
+          "Test": "TestDefinitionUseCaseChecksResourcesWithoutHTTP/selector",
+          "Action": "pass",
+          "Elapsed": 0.01
+        },
+        {
+          "Package": "competition2026/product/platform/internal/application",
+          "Test": "TestDefinitionUseCaseChecksResourcesWithoutHTTP/asset",
+          "Action": "pass",
+          "Elapsed": 0.01
+        },
+        {
+          "Package": "competition2026/product/platform/internal/application",
+          "Test": "TestDefinitionUseCaseChecksResourcesWithoutHTTP/condition",
+          "Action": "pass",
+          "Elapsed": 0.01
+        },
+        {
+          "Package": "competition2026/product/platform/internal/application",
+          "Test": "TestDefinitionUseCaseChecksResourcesWithoutHTTP/step",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/application",
+          "Test": "TestDefinitionUseCaseChecksResourcesWithoutHTTP/degraded",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/application",
+          "Test": "TestDefinitionUseCaseChecksResourcesWithoutHTTP/dependency",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/application",
+          "Test": "TestDefinitionUseCaseChecksResourcesWithoutHTTP",
+          "Action": "pass",
+          "Elapsed": 0.04
+        },
+        {
+          "Package": "competition2026/product/platform/internal/application",
+          "Test": "TestDefinitionUseCaseGuardsAIAndExistingOwnership",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/application",
+          "Test": "TestPublicationDetectsChangesAfterAuthorization/draft",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/application",
+          "Test": "TestPublicationDetectsChangesAfterAuthorization/dependency",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/application",
+          "Test": "TestPublicationDetectsChangesAfterAuthorization/transitive_dependency",
+          "Action": "pass",
+          "Elapsed": 0.01
+        },
+        {
+          "Package": "competition2026/product/platform/internal/application",
+          "Test": "TestPublicationDetectsChangesAfterAuthorization",
+          "Action": "pass",
+          "Elapsed": 0.02
+        },
+        {
+          "Package": "competition2026/product/platform/internal/application",
+          "Test": "TestPublicationPinsAuthorizationInputs/resource-move",
+          "Action": "pass",
+          "Elapsed": 0.01
+        },
+        {
+          "Package": "competition2026/product/platform/internal/application",
+          "Test": "TestPublicationPinsAuthorizationInputs/ancestor-move",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/application",
+          "Test": "TestPublicationPinsAuthorizationInputs/grant-change",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/application",
+          "Test": "TestPublicationPinsAuthorizationInputs/grant-delete",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/application",
+          "Test": "TestPublicationPinsAuthorizationInputs/grant-create",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/application",
+          "Test": "TestPublicationPinsAuthorizationInputs/user-revoke",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/application",
+          "Test": "TestPublicationPinsAuthorizationInputs",
+          "Action": "pass",
+          "Elapsed": 0.03
+        },
+        {
+          "Package": "competition2026/product/platform/internal/application",
+          "Test": "TestTransitiveDependenciesRequireEveryGroupPermission",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/application",
+          "Test": "TestPublicationRollsBackAllWritesWhenAuditFails",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/application",
+          "Action": "pass",
+          "Elapsed": 0.121
+        },
+        {
+          "Package": "competition2026/product/platform/pkg/contracts",
+          "Action": "skip",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/store",
+          "Test": "TestPostgresArchiveCapacityAndLatePartitionRecovery",
+          "Action": "skip",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/engine",
+          "Test": "TestQueuedRealtimeObservationCreatesRecomputationBeforeAcknowledgement",
+          "Action": "pass",
+          "Elapsed": 0.01
+        },
+        {
+          "Package": "competition2026/product/platform/internal/engine",
+          "Test": "TestExpressionsResourceBudgetAndPrecision",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/engine",
+          "Test": "TestTypedGraphAndDerivedRevision",
+          "Action": "pass",
+          "Elapsed": 0.01
+        },
+        {
+          "Package": "competition2026/product/platform/cmd/sf-contracts",
+          "Test": "TestGeneratedContractsMatchLiveRegistration",
+          "Action": "pass",
+          "Elapsed": 0.02
+        },
+        {
+          "Package": "competition2026/product/platform/cmd/sf-contracts",
+          "Action": "pass",
+          "Elapsed": 0.041
+        },
+        {
+          "Package": "competition2026/product/platform/internal/api",
+          "Test": "TestAssetProposalNeedsCloudReviewAndPreservesCurrentVersion",
+          "Action": "pass",
+          "Elapsed": 0.11
+        },
+        {
+          "Package": "competition2026/product/platform/internal/engine",
+          "Test": "TestCounterSurvivesDuplicateAndRestart",
+          "Action": "pass",
+          "Elapsed": 0.04
+        },
+        {
+          "Package": "competition2026/product/platform/internal/engine",
+          "Test": "TestExpressionNumericBudgetAndExactRounding",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/engine",
+          "Test": "TestReplayUsesMoreThanOneDayAndRestoresLiveCounter",
+          "Action": "pass",
+          "Elapsed": 0.05
+        },
+        {
+          "Package": "competition2026/product/platform/internal/engine",
+          "Test": "TestHistoricalAlarmKeepsAcknowledgementAndCurrentEpisode",
+          "Action": "pass",
+          "Elapsed": 0.01
+        },
+        {
+          "Package": "competition2026/product/platform/internal/engine",
+          "Test": "TestExpressionErrorUsesOnlyTheErrorBranch",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/engine",
+          "Test": "TestDraftSimulationIncludesSampleWithoutChangingStoredData",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/engine",
+          "Test": "TestStrategyContinuesWhileHistoricalMergeOwnsCalculationLock",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/engine",
+          "Action": "pass",
+          "Elapsed": 0.146
+        },
+        {
+          "Package": "competition2026/product/platform/internal/app",
+          "Test": "TestApplicationHTTPDraftAndTransactionTrace",
+          "Action": "pass",
+          "Elapsed": 0.13
+        },
+        {
+          "Package": "competition2026/product/platform/internal/api",
+          "Test": "TestDraftAndQueriesEnforceEveryReferencedResource/selector",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/api",
+          "Test": "TestDraftAndQueriesEnforceEveryReferencedResource/condition",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/api",
+          "Test": "TestDraftAndQueriesEnforceEveryReferencedResource/step",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/api",
+          "Test": "TestDraftAndQueriesEnforceEveryReferencedResource/degraded",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/api",
+          "Test": "TestDraftAndQueriesEnforceEveryReferencedResource",
+          "Action": "pass",
+          "Elapsed": 0.11
+        },
+        {
+          "Package": "competition2026/product/platform/internal/api",
+          "Test": "TestAIIdentityCannotInvokePrivilegedRoutes",
+          "Action": "pass",
+          "Elapsed": 0.11
+        },
+        {
+          "Package": "competition2026/product/platform/internal/store",
+          "Test": "TestArchivePreservesFullObservationsRevisionsAndRollups",
+          "Action": "pass",
+          "Elapsed": 0.36
+        },
+        {
+          "Package": "competition2026/product/platform/internal/store",
+          "Test": "TestArchiveRollbackCorruptionAndRetention",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/api",
+          "Test": "TestDashboardPermissionsVersionsAndReplication",
+          "Action": "pass",
+          "Elapsed": 0.11
+        },
+        {
+          "Package": "competition2026/product/platform/internal/api",
+          "Test": "TestTypedDraftRoutesRunReviewedPublicationAndPreserveJSONNumbers",
+          "Action": "pass",
+          "Elapsed": 0.11
+        },
+        {
+          "Package": "competition2026/product/platform/internal/store",
+          "Test": "TestArchiveSurvivesBackupAndRestore",
+          "Action": "pass",
+          "Elapsed": 0.13
+        },
+        {
+          "Package": "competition2026/product/platform/internal/store",
+          "Test": "TestArchiveColumnFormatPreservesVariableTypesAndIdentifiers",
+          "Action": "pass",
+          "Elapsed": 0.02
+        },
+        {
+          "Package": "competition2026/product/platform/internal/api",
+          "Test": "TestTypedDraftRoutesAllowIncompleteGraphsAndRejectMalformedBodies",
+          "Action": "pass",
+          "Elapsed": 0.11
+        },
+        {
+          "Package": "competition2026/product/platform/internal/app",
+          "Test": "TestStateBackupRestoresVersionsCredentialsAuditAndControlDedup",
+          "Action": "pass",
+          "Elapsed": 0.5
+        },
+        {
+          "Package": "competition2026/product/platform/internal/app",
+          "Test": "TestSceneTimersQualityHysteresisAndRecovery",
+          "Action": "pass",
+          "Elapsed": 0.04
+        },
+        {
+          "Package": "competition2026/product/platform/internal/api",
+          "Test": "TestTypedDraftRoutesPropagateRemoteTraceAndBusinessIdentity",
+          "Action": "pass",
+          "Elapsed": 0.11
+        },
+        {
+          "Package": "competition2026/product/platform/internal/app",
+          "Test": "TestWorkerBacksOffRemoteFailureAndCancelsPromptly",
+          "Action": "pass",
+          "Elapsed": 0.1
+        },
+        {
+          "Package": "competition2026/product/platform/internal/app",
+          "Action": "pass",
+          "Elapsed": 0.789
+        },
+        {
+          "Package": "competition2026/product/platform/internal/api",
+          "Test": "TestTypedCompatibilityEndpointReportsAppliedMigrations",
+          "Action": "pass",
+          "Elapsed": 0.11
+        },
+        {
+          "Package": "competition2026/product/platform/internal/api",
+          "Test": "TestLatestIndicatorsSurviveTrendWindowAndKeepResourceScope",
+          "Action": "pass",
+          "Elapsed": 0.11
+        },
+        {
+          "Package": "competition2026/product/platform/internal/api",
+          "Test": "TestStaticAndAIHandlersCanCoexist",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/api",
+          "Action": "pass",
+          "Elapsed": 0.991
+        },
+        {
+          "Package": "competition2026/product/platform/internal/store",
+          "Test": "TestBatchIngestPreservesOrderDeduplicationAndAtomicFailure",
+          "Action": "pass",
+          "Elapsed": 0.44
+        },
+        {
+          "Package": "competition2026/product/platform/internal/store",
+          "Test": "TestLateMessagesShareOneBackfillRevisionPerDeviceAndCommit",
+          "Action": "pass",
+          "Elapsed": 0.01
+        },
+        {
+          "Package": "competition2026/product/platform/internal/store",
+          "Test": "TestDeliveryBatchCommitFailurePreservesAllResults",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/store",
+          "Test": "TestMultiMessageIngestFailureDoesNotAcknowledgeEarlierMessages",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/store",
+          "Test": "TestGapQueriesRespectTimeAndDeviceScopeAndReplay",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/store",
+          "Test": "TestTelemetryDedupExpiresWhileBusinessIdentityRemains",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/store",
+          "Test": "TestNumberedMigrationsAdoptLegacySQLiteAndPreserveHistory",
+          "Action": "pass",
+          "Elapsed": 0.01
+        },
+        {
+          "Package": "competition2026/product/platform/internal/store",
+          "Test": "TestNumberedMigrationsRejectChangedAndMissingChecksums/checksum_mismatch",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/store",
+          "Test": "TestNumberedMigrationsRejectChangedAndMissingChecksums/checksum_unavailable",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/store",
+          "Test": "TestNumberedMigrationsRejectChangedAndMissingChecksums/newer_than_this_binary",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/store",
+          "Test": "TestNumberedMigrationsRejectChangedAndMissingChecksums",
+          "Action": "pass",
+          "Elapsed": 0.01
+        },
+        {
+          "Package": "competition2026/product/platform/internal/store",
+          "Test": "TestMigrationFailureRollsBackDDLVersionAndChecksum",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/store",
+          "Test": "TestPostgresNumberedMigrationsPreserveExistingSchema",
+          "Action": "skip",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/store",
+          "Test": "TestPostgresRetentionDropsExpiredPartitionBeforeRowDeletion",
+          "Action": "skip",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/store",
+          "Test": "TestRecentQueryPreservesRawEventsAndLatestDerivedRevision",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/store",
+          "Test": "TestPartialMinuteRebuildPreservesUnchangedObservations",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/store",
+          "Test": "TestRetentionTiersQuarantineAndPermanentHistory",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/store",
+          "Test": "TestDurableInboxConflictRollbackAndRestart",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/store",
+          "Test": "TestAuditDetectsModificationDeletionInsertionAndReorder/UPDATE_audit_SET_data=replace(data,'change','tamper')_WHERE_sequence=2",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/store",
+          "Test": "TestAuditDetectsModificationDeletionInsertionAndReorder/DELETE_FROM_audit_WHERE_sequence=2",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/store",
+          "Test": "TestAuditDetectsModificationDeletionInsertionAndReorder/UPDATE_audit_SET_sequence=9_WHERE_sequence=2",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/store",
+          "Test": "TestAuditDetectsModificationDeletionInsertionAndReorder/UPDATE_audit_SET_previous_hash='altered'_WHERE_sequence=2",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/store",
+          "Test": "TestAuditDetectsModificationDeletionInsertionAndReorder/DELETE_FROM_audit_WHERE_sequence=3",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/store",
+          "Test": "TestAuditDetectsModificationDeletionInsertionAndReorder",
+          "Action": "pass",
+          "Elapsed": 0.01
+        },
+        {
+          "Package": "competition2026/product/platform/internal/store",
+          "Test": "TestAuditPreservesStructFieldOrderAndExactNumbers",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/store",
+          "Test": "TestLateQualityRollupAndRetention",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/store",
+          "Test": "TestDistinctEventsAtSameTimestampAreCounted",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/store",
+          "Action": "pass",
+          "Elapsed": 1.029
+        }
+      ],
+      "test_counts": {
+        "pass": 81,
+        "fail": 0,
+        "skip": 3
+      }
+    },
+    {
+      "name": "postgres-migrations",
+      "command": [
+        "go",
+        "test",
+        "-count=1",
+        "-json",
+        "./internal/store",
+        "-run",
+        "^TestPostgresNumberedMigrationsPreserveExistingSchema$"
+      ],
+      "cwd": "/path/to/SmartFactory-2026/Platform",
+      "exit_code": 0,
+      "elapsed_seconds": 0.984,
+      "stdout": ".local/evolution/architecture-postgres-migrations.stdout.txt",
+      "stderr": ".local/evolution/architecture-postgres-migrations.stderr.txt",
+      "test_results": [
+        {
+          "Package": "competition2026/product/platform/internal/store",
+          "Test": "TestPostgresNumberedMigrationsPreserveExistingSchema",
+          "Action": "pass",
+          "Elapsed": 0.3
+        },
+        {
+          "Package": "competition2026/product/platform/internal/store",
+          "Action": "pass",
+          "Elapsed": 0.311
+        }
+      ],
+      "test_counts": {
+        "pass": 1,
+        "fail": 0,
+        "skip": 0
+      },
+      "preservation_verified": [
+        "document_and_versions",
+        "big_integer_json_bytes",
+        "existing_sync_sequence_and_missing_version_backfill",
+        "pending_outbox_attempts_and_next_time",
+        "audit_chain_columns",
+        "existing_observation_partition",
+        "legacy_inbox_expiry",
+        "two_startups"
+      ]
+    },
+    {
+      "name": "generate-contracts",
+      "command": [
+        "go",
+        "run",
+        "./cmd/sf-contracts"
+      ],
+      "cwd": "/path/to/SmartFactory-2026/Platform",
+      "exit_code": 0,
+      "elapsed_seconds": 0.529,
+      "stdout": ".local/evolution/architecture-generate-contracts.stdout.txt",
+      "stderr": ".local/evolution/architecture-generate-contracts.stderr.txt"
+    },
+    {
+      "name": "schema-validation",
+      "command": [
+        "/private/tmp/smartfactory-evolution-python/bin/python",
+        "scripts/check-contracts.py"
+      ],
+      "cwd": "/path/to/SmartFactory-2026",
+      "exit_code": 0,
+      "elapsed_seconds": 0.254,
+      "stdout": ".local/evolution/architecture-schema-validation.stdout.txt",
+      "stderr": ".local/evolution/architecture-schema-validation.stderr.txt"
+    },
+    {
+      "name": "regenerate-contracts",
+      "command": [
+        "go",
+        "run",
+        "./cmd/sf-contracts"
+      ],
+      "cwd": "/path/to/SmartFactory-2026/Platform",
+      "exit_code": 0,
+      "elapsed_seconds": 0.174,
+      "stdout": ".local/evolution/architecture-regenerate-contracts.stdout.txt",
+      "stderr": ".local/evolution/architecture-regenerate-contracts.stderr.txt"
+    },
+    {
+      "name": "contract-generation-determinism",
+      "command": [
+        "sha256",
+        "contracts/**/*",
+        "examples/factory/definitions.json"
+      ],
+      "exit_code": 0,
+      "files_compared": 56,
+      "sha256": {
+        "contracts/.DS_Store": "2e6f1101006c3a07abb053ede53f4be34c2271294cb0e27bef5918f335a6be5a",
+        "contracts/1.0/Actor.schema.json": "7a0da059299e9cc9b35708d008d88cc403af675f176ddff7b4f860ef39882fad",
+        "contracts/1.0/Aggregate.schema.json": "0e2b712c30535af5de568bea33b2e483fef7b2b3f797fce6f24605dc31de3420",
+        "contracts/1.0/Alarm.schema.json": "cd70976125a307151da0d9bceae23b9642fefe224317a2a627eca2aa0f2409ed",
+        "contracts/1.0/Application.schema.json": "76b955e4b652e7417200491851d7951c122ddf59809247126f5dde5b83bc0022",
+        "contracts/1.0/Approval.schema.json": "3426b3b23b010c0364f6ace5fe99ff6aba25b0fefb67ee483d06a80510655f6c",
+        "contracts/1.0/AssetProposal.schema.json": "61255c86ac06a841ec5d20f3315f4ca8054240203e128bd60c81b28e4d589132",
+        "contracts/1.0/AuditEvent.schema.json": "e4b81c4c193d583d528a52051806dd55dbf020f0ef2ca9d96eff2bee435d44e6",
+        "contracts/1.0/Combination.schema.json": "57edcdd4b09df9344f154f7118fb21a719bfb66f95026493a4c7f9cfc3a5f47e",
+        "contracts/1.0/CompatibilityStatus.schema.json": "7ce5fb5fe223ab50934ba2a25bfcd1da4fa9300af7742ce337ac17b025dde4b5",
+        "contracts/1.0/Condition.schema.json": "e95cd5556543c10533b5c76883403aab919b6d42bf1587ec545b41cf1f33ef12",
+        "contracts/1.0/Connection.schema.json": "8a184e654b91241d01f50fc8526d2e2af0b63d8510898489ece2aca63bb8d32b",
+        "contracts/1.0/ContractError.schema.json": "91d7efc0a59cbcf086b9a11359547efa06842c92ca7366da6922344d8aa5bc0e",
+        "contracts/1.0/Dashboard.schema.json": "4a89a4bd85bebe4d99a5a9797d0c16f7f09b45c3e4704ab99d6d050a2a3ccb57",
+        "contracts/1.0/DashboardMetric.schema.json": "709dc71183ab16de408012dee0b848b01c6cca8a38277bd9176402c30c3b7288",
+        "contracts/1.0/DataGap.schema.json": "58c9d0e39cc1bfeb6d6020329d83546e2f59ac1f0766c165ba30264997fc5143",
+        "contracts/1.0/DataResult.schema.json": "2fddfd83a9a891efe972eb795f00a6c3d2246621b32abc2090daae20db0d1357",
+        "contracts/1.0/Database.schema.json": "d5ed060d1ab6205ec9c7fa6a8eb0064cec8fa0866335ef15fd5100222dd18c7e",
+        "contracts/1.0/Definition.schema.json": "e1bf791f4efb612f63c70ded9a8702bc154ae3aec2cff5bc594febcf57a257b8",
+        "contracts/1.0/Department.schema.json": "9834efeee0ac478667d0298fc157cc04ef1e0c75de6530ff3cedb727f683e5e1",
+        "contracts/1.0/Draft.schema.json": "1e3aa666935da075b1228677d09d8bcfa9b7a47d8a9c6bf2284d009ca78ae423",
+        "contracts/1.0/DraftRevisionRequest.schema.json": "258e6c1af3520a8fee70df516269288fc156c48e9f9e77e3c95b663d5e101c61",
+        "contracts/1.0/Entity.schema.json": "9745e0458514fb49c691008f40b79ade583cb30ef31c7e3f970757412882e96f",
+        "contracts/1.0/ErrorDetail.schema.json": "f9407f70b41b2295111f8a5089557787adebc88c21de5382870333b858612ce6",
+        "contracts/1.0/Execution.schema.json": "a98f1fe18e4292e7ec550947b549ffd81f0b96ff0e0aa7844dece0519bc940e5",
+        "contracts/1.0/Grant.schema.json": "98e459c3eb2788a3745c0473e848a2636401525fdc4824549aed404ce109edfc",
+        "contracts/1.0/IngestBatch.schema.json": "89ce280c72ecea46100506a7e239794645039f9b37865fafa1dd2c121a76d4c1",
+        "contracts/1.0/IngestResult.schema.json": "530eb674e1d7c06c0e80f70804b2143876fb8e117542d811732014e231097401",
+        "contracts/1.0/Job.schema.json": "1dfa251421b933d9fdaa89d4a63b2f073d68dd0104e85db9bdf8e6b81d238796",
+        "contracts/1.0/Manifest.schema.json": "292cab0d3d1e87353a109b0ae94d587318000f903342a7c174017dfec80bef00",
+        "contracts/1.0/Member.schema.json": "e220d918bd30ea813adad71829366e9bc789ef101edbad1630cf2b9b3a80cbbd",
+        "contracts/1.0/MigrationRecord.schema.json": "0c20195b375fab3994a0a21e5f23a71b3e9c01a2c6bab350e2591333dc383d93",
+        "contracts/1.0/Node.schema.json": "87cb1377f0eb16af8b6dee506f971a0cbcb28b2f0f55f46cd51fb3505352b765",
+        "contracts/1.0/Observation.schema.json": "0ec968fb4b03698f21b4481899da838992fe38fff3eb3da8b0f613dbcbd3efe7",
+        "contracts/1.0/OrganizationSync.schema.json": "0d718a5ec55bd00039ca250ca82d8db80fab69a4084192c0911b0c94dedd46af",
+        "contracts/1.0/Output.schema.json": "cf751cd95a75198459381dcee2e4893084eb4c0570a9ecb2356faf77a2f26e40",
+        "contracts/1.0/Parameter.schema.json": "66d7021b4265e514ce3fccf55e3923c921feacba10a9b71f9f7a4a2e3d187b93",
+        "contracts/1.0/Policy.schema.json": "1bfd19002401ff4cc85f13a76ee46f56feeb11ffa82128ae2639f244b7083856",
+        "contracts/1.0/Port.schema.json": "6eb9a41778761f015741402fbd13a2f712d7aa4bd2af052eb6b84d7a0bbbcbc3",
+        "contracts/1.0/Protocol.schema.json": "a6fb6b9d46ff925313a6ef000d41a18ab1e213f87e99fbc0f1e66089e8803cd2",
+        "contracts/1.0/QualitySummary.schema.json": "08f0b761410e2b011b14ea864828b5c1e23ab0dac04083f6bc4052afafa8e2d5",
+        "contracts/1.0/Revision.schema.json": "55787ffac4f4e9649d91a93ccaeab1b1c7ded83330021514c35e171c234ac86e",
+        "contracts/1.0/SaveDraftInput.schema.json": "89b72e97f4d5f60a6df0491f8b62388bcc2fbeed5fff1cdea2834787c6cf15b3",
+        "contracts/1.0/Schedule.schema.json": "4e8e8a90c0bf1ab0033760bcf56f8472b083fe820d5f542ce3db23d44338d365",
+        "contracts/1.0/Selector.schema.json": "9510b470912676233f75999c5824275589c08fde4779ee096a645d96c4a85c88",
+        "contracts/1.0/SourceState.schema.json": "0415a8bbcf34d9c44967e6e9dacf888c8ed247ec46ab57694fe672ed8043939a",
+        "contracts/1.0/Spec.schema.json": "1a2937e0221d6faaeb2c79be5ed9ff0d446c24673814391619911dcda78df83c",
+        "contracts/1.0/Status.schema.json": "0413ce33fd53f044406a70f80ddf8a3aa6bc829ae56decc58fad02fc60cd481f",
+        "contracts/1.0/Step.schema.json": "c572031eb0effd9e81810d41b58f117560ee9aaa4bfc43a553d8c5b81583feab",
+        "contracts/1.0/StepResult.schema.json": "359a96b068f148bd39820fb6c6453e417628d49a55f2b3cc41f6b8ab9ccb4928",
+        "contracts/1.0/User.schema.json": "64f93db0ef376d8bae858f205d326496090f8c2d14f1c4542e1695db04a0d83b",
+        "contracts/1.0/Validation.schema.json": "debf6dd71c04df5b932872b343511479a6a2facd862ed42e2c2b38c78a1ce64a",
+        "contracts/1.0/api-types.ts": "b977b323c55292bb5192703cb6c710d0c8abd21fd7a00b70c3ad848088ce08a0",
+        "contracts/1.0/openapi.json": "8cc87376d54fb3e691d687bd0e3302681e7da07ace600751e03b962a8795a83a",
+        "contracts/compatibility.json": "b045841b59405f6dd5087f6f9efd4baa94a49f40a05f656480286cf7bd8abf63",
+        "examples/factory/definitions.json": "f23b7a97e0f25199463f584b55d6f66a861769797053115b56db07befe15a8c9"
+      }
+    },
+    {
+      "name": "frontend-typecheck-node24",
+      "command": [
+        "npm",
+        "--prefix",
+        "Frontends",
+        "run",
+        "typecheck"
+      ],
+      "cwd": "/path/to/SmartFactory-2026",
+      "exit_code": 0,
+      "elapsed_seconds": 1.18,
+      "stdout": ".local/evolution/architecture-frontend-typecheck-node24.stdout.txt",
+      "stderr": ".local/evolution/architecture-frontend-typecheck-node24.stderr.txt"
+    },
+    {
+      "name": "frontend-build-node24",
+      "command": [
+        "npm",
+        "--prefix",
+        "Frontends",
+        "run",
+        "build"
+      ],
+      "cwd": "/path/to/SmartFactory-2026",
+      "exit_code": 0,
+      "elapsed_seconds": 4.049,
+      "stdout": ".local/evolution/architecture-frontend-build-node24.stdout.txt",
+      "stderr": ".local/evolution/architecture-frontend-build-node24.stderr.txt"
+    },
+    {
+      "name": "diff-check",
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "cwd": "/path/to/SmartFactory-2026",
+      "exit_code": 0,
+      "elapsed_seconds": 0.029,
+      "stdout": ".local/evolution/architecture-diff-check.stdout.txt",
+      "stderr": ".local/evolution/architecture-diff-check.stderr.txt"
+    }
+  ],
+  "all_checks_passed": true,
+  "contract_summary": {
+    "openapi": "3.1.0",
+    "operations": 49,
+    "typed_operations": [
+      {
+        "method": "get",
+        "path": "/compatibility",
+        "operation_id": "get_compatibility"
+      },
+      {
+        "method": "post",
+        "path": "/drafts",
+        "operation_id": "post_drafts"
+      },
+      {
+        "method": "post",
+        "path": "/drafts/{id}/publish",
+        "operation_id": "post_drafts_id_publish"
+      },
+      {
+        "method": "post",
+        "path": "/drafts/{id}/validate",
+        "operation_id": "post_drafts_id_validate"
+      }
+    ],
+    "schema_files": 51,
+    "components": 51
+  },
+  "remaining_acceptance": [
+    "Root-managed browser acceptance on a recompiled Pilot application"
+  ],
+  "source_sha256": {
+    "Platform/internal/application/authorization.go": "4c5c855cf267511b26645f1dab56907376fcc15f9ea80154b398f40b6b3d0b27",
+    "Platform/internal/application/definitioncommit/publish.go": "470ff5ac7a16c34e7cdcdc2c8d3bb11ae383f2304d36bca4b2c134badbcc4422",
+    "Platform/internal/application/definitions.go": "d61a072f6bec84d3d5ee5d4bb6a852b15db4c7c3c1f24f5a3359fb96011f36ac",
+    "Platform/internal/application/definitions_test.go": "88605d885c0ebc838469f051881bef05bbce3b7b6d8bd503bf015f0ba5696bfb",
+    "Platform/internal/store/migrations/postgres/00001_baseline.sql": "b4f13649f266050f7b87cf9f0c7509b98af1fb40fd606666d1de5a91e02a7f62",
+    "Platform/internal/store/migrations/sqlite/00001_baseline.sql": "8f8b3ff25cd9a9f55e99ab3abd851f20e8075d15242bec0e52ee4e2695a15631",
+    "Platform/internal/store/migrations.go": "a4c1410562582d1220e1b8cd8ab008f096c03f76c52b37322ba4cd525bad6e73",
+    "Platform/internal/store/migration00002.go": "d41f217a598789ec94a29fdcf9db03547eb5bc79cb1671bdc2211891ccc1b626",
+    "Platform/internal/store/migration00003.go": "5b5c043c4d830ba6e77057b54654585e83fec0b0fb9e8e9b75e87e65bba9cfd4",
+    "Platform/internal/store/migrations_test.go": "63bf38783651eaa356e842dda0998fb4fd9e309a4f36018f7d5bdeeec7e4dd87",
+    "Platform/internal/api/definition_routes.go": "f9eb22eba471bb9dd3fd2def4b22ac5117f4435e11c4655afb5b4585a9f41bee",
+    "Platform/internal/api/definition_routes_test.go": "8799baa3c617b04dd7e3adc775780fa3e31b8161b9a46a715a98691695f219f3",
+    "Platform/internal/api/business.go": "5073b005ea4f18d6c5470187ab7aa220d3632702c49b49c2c25cdf450ecc6661",
+    "Platform/internal/api/contracts.go": "54c97a6a3b9304646eaa5339a67e1a252635263fe34d3ab8dbd5bcc60dc93f69",
+    "Platform/internal/api/server.go": "99ff1dc5754554821debb49f00b60a8a42bba5634a2919da803b74a69996b67a",
+    "Platform/internal/engine/definitions.go": "9e1465a8af029cd7077354a333fa7c7374ae22985dd180093b93eb5dc4824fed",
+    "Platform/cmd/sf-contracts/main.go": "38c37f308e0e2ab41de40cef60d67356cf66a78595d6ddbc9a3daa466ae5d04d",
+    "Platform/cmd/sf-contracts/main_test.go": "1ea276f9911a76d2b83ce571d4840c491bf8a5e602514d2503349b254f528e94",
+    "Platform/pkg/contracts/typescript.go": "6f29f5ecc859a98503b1ca8473023760bd71044f22a05207b70b87002e77353d",
+    "Frontends/src/generated-client.ts": "369e4e74fcf35dd925528bf3f714eeab3fd19243dfed425598f87227218b713a",
+    "Frontends/src/definitions.tsx": "8d86582d558e34df481053c8e6671254a2edbd8e99618bebf8403ec29e3626cd",
+    "Platform/go.mod": "7918b3d6e53d0a909e6dbf24d9a230652e3b143a3d89b5a6b3f3d932f7c83a2d",
+    "Platform/go.sum": "47e1e83af76de4e6d416e764551d84699d2fd3d75a4fc835d80040c6cea3c3ff",
+    "docs/evolution/architecture-contracts.md": "f8c4e34e8749ec2d83a0f2a20a09daeae51bf95c11524aa9b740889eeb5245a4"
+  }
+}

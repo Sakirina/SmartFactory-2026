@@ -1,0 +1,473 @@
+{
+  "updated_at": "2026-10-05T04:34:46.721481+00:00",
+  "scope": "Fourth-phase coordinator and independent findings",
+  "items": [
+    {
+      "id": "P4-B01",
+      "owner": "phase4_business_workflows",
+      "status": "resolved_and_independently_verified",
+      "requirements": [
+        "E4-06",
+        "E4-03"
+      ],
+      "finding": "告警持续输入推进普通业务版本，首版人工动作严格比较该版本，确认期间的普通观测可能导致反复冲突",
+      "evidence": [
+        ".local/evolution/phase4-early-review/alarm-human-confirmation.json",
+        ".local/evolution/phase4-business-sqlite-interim-root-review.json",
+        ".local/evolution/phase4-business-runtime-interim-root-review.json",
+        ".local/evolution/business-workflows-verified.json",
+        ".local/evolution/business-workflows-root-review.json",
+        ".local/evolution/phase4-independent-review.json",
+        ".local/evolution/phase4-independent-root-review.json"
+      ],
+      "verification": "实际规则输入持续到达，单次读取后等待数秒再正常确认；计数和值变化允许操作，生命周期/严重程度/规则与资源权限变化仍按业务规则处理，前端不隐式刷新操作版本或自动重试",
+      "design_handoff": "采用detail.action_version字符串摘要与case.version分别约束告警业务条件和人工状态；普通Count、Value、UpdatedMS不影响操作摘要，事务内读取最新告警后验证；原始alarm.version继续展示及记入操作依据。Acknowledged等影响允许动作的字段需要由动作摘要或人工版本覆盖。",
+      "independent_conclusion": "普通测试、PG并发、race及持续采样页面操作通过，人工确认使用动作版本，后续人工状态冲突需要明确采用新的操作依据。"
+    },
+    {
+      "id": "P4-Q01",
+      "owner": "phase4_query_subscriptions",
+      "status": "resolved_and_independently_verified",
+      "requirements": [
+        "E4-02",
+        "E4-10"
+      ],
+      "finding": "订阅发送后保留3秒写入期限，HTTP/2空闲连接会在15秒心跳之前被结束",
+      "evidence": [
+        ".local/evolution/phase4-early-review/sse-idle-write-deadline.json",
+        ".local/evolution/query-evidence/application-api-first.jsonl",
+        ".local/evolution/phase4-query-http-interim-root-review.json",
+        ".local/evolution/query-subscriptions-verified.json",
+        ".local/evolution/query-subscriptions-root-review.json",
+        ".local/evolution/phase4-query-inputs-root-review.json",
+        ".local/evolution/phase4-independent-review.json",
+        ".local/evolution/phase4-independent-root-review.json"
+      ],
+      "verification": "实际HTTP/1.1及HTTP/2连接读到首个快照后，空闲经过至少一次15秒心跳，再提交业务变化并读取增量；同时验证慢速读取的写入预算与订阅取消释放",
+      "design_handoff": "查询负责人已在send内部通过defer清除写入期限，实际写入和Flush期间保留3秒预算；等待专项运行及独立审查",
+      "independent_conclusion": "实际HTTP/1.1、HTTP/2空闲15秒心跳及后续提交通过，慢客户端写入预算和其他订阅继续运行；独立页面心跳及恢复另行通过。"
+    },
+    {
+      "id": "P4-Q02",
+      "owner": "phase4_query_subscriptions",
+      "status": "resolved_and_independently_verified",
+      "requirements": [
+        "E4-02"
+      ],
+      "finding": "慢客户端队列清理以len判断后执行阻塞读取，与客户端恢复读取并发时可能永久等待并占用共同订阅锁",
+      "evidence": [
+        ".local/evolution/phase4-early-review/sse-slow-consumer-drain.json",
+        ".local/evolution/query-subscriptions-verified.json",
+        ".local/evolution/query-subscriptions-root-review.json",
+        ".local/evolution/phase4-query-inputs-root-review.json",
+        ".local/evolution/phase4-independent-review.json",
+        ".local/evolution/phase4-independent-root-review.json"
+      ],
+      "verification": "满队列清理与客户端继续读取并发发生；其他订阅继续取得增量，取消操作完成，最后一个订阅退出后轮询结束；有限并发及race验证",
+      "design_handoff": "将队列清理改为非阻塞读取；保留慢客户端重置信息和有界队列，修复与专项验证由查询专业完成",
+      "independent_conclusion": "队列清理与客户端继续读取并发测试及race通过，共享订阅锁释放，其他订阅和取消能够结束。"
+    },
+    {
+      "id": "P4-B02",
+      "owner": "phase4_business_workflows",
+      "status": "resolved_and_independently_verified",
+      "requirements": [
+        "E4-04",
+        "E4-09"
+      ],
+      "finding": "配置版本共用可覆盖的秘密引用，旧任务检查版本后可能读取新版完整载荷",
+      "evidence": [
+        ".local/evolution/phase4-early-review/connector-private-payload-version.json",
+        ".local/evolution/phase4-business-sqlite-interim-root-review.json",
+        ".local/evolution/phase4-business-runtime-interim-root-review.json",
+        ".local/evolution/business-workflows-verified.json",
+        ".local/evolution/business-workflows-root-review.json",
+        ".local/evolution/phase4-independent-review.json",
+        ".local/evolution/phase4-independent-root-review.json"
+      ],
+      "verification": "旧任务读取版本后暂停并保存新版、旧任务随后继续；新版先应用后旧版延迟执行；实际版本检查与秘密引用保存范围",
+      "design_handoff": "每个配置版本采用独立秘密引用，加密上下文绑定配置身份及版本，worker核对载荷所属版本及公开参数；秘密记录留在所属节点",
+      "independent_conclusion": "每版本秘密引用、延迟旧任务、新版并发保存和新版先应用的普通与race验证通过。"
+    },
+    {
+      "id": "P4-Q03",
+      "owner": "phase4_query_subscriptions",
+      "status": "resolved_and_independently_verified",
+      "requirements": [
+        "E4-01",
+        "E4-02"
+      ],
+      "finding": "PostgreSQL递归权限查询的根参数与实体id排序规则不同，实际查询返回SQLSTATE 42P21",
+      "evidence": [
+        ".local/evolution/phase4-early-review/postgres-recursive-collation.json",
+        ".local/evolution/query-evidence/postgres-first.jsonl",
+        ".local/evolution/phase4-query-postgres-interim-root-review.json",
+        ".local/evolution/query-evidence/postgres-second.jsonl",
+        ".local/evolution/query-evidence/rebuild-wire-first.jsonl",
+        ".local/evolution/query-subscriptions-verified.json",
+        ".local/evolution/query-subscriptions-root-review.json",
+        ".local/evolution/phase4-query-inputs-root-review.json",
+        ".local/evolution/phase4-independent-review.json",
+        ".local/evolution/phase4-independent-root-review.json"
+      ],
+      "verification": "实际PostgreSQL受限资源查询、分页与订阅；SQLite回归及迟提交测试使用有期限的独立更新夹具",
+      "design_handoff": "递归根参数与递归项采用一致排序规则；保持既有成员互斥规则并修正测试准备方式",
+      "independent_conclusion": "PostgreSQL受限权限查询、四类分页、订阅和两个独立对象迟提交测试通过，SQLite回归通过。"
+    },
+    {
+      "id": "P4-B03",
+      "owner": "phase4_business_workflows",
+      "supporting_owner": "phase4_query_subscriptions",
+      "status": "resolved_and_independently_verified",
+      "requirements": [
+        "E4-08"
+      ],
+      "finding": "工单执行引用授权遗漏命令证据DeviceID，与正式控制详情的完整资源范围不一致",
+      "evidence": [
+        ".local/evolution/phase4-early-review/work-order-execution-evidence-authorization.json",
+        ".local/evolution/phase4-business-sqlite-interim-root-review.json",
+        ".local/evolution/phase4-business-runtime-interim-root-review.json",
+        ".local/evolution/business-workflows-verified.json",
+        ".local/evolution/business-workflows-root-review.json",
+        ".local/evolution/phase4-independent-review.json",
+        ".local/evolution/phase4-independent-root-review.json"
+      ],
+      "verification": "跨资产命令证据、授权检查后并发新增证据、事务内集合摘要；原控制证据与云边回执及查询投影组合回归",
+      "design_handoff": "业务维护工单授权、revisions回调和最小证据集合互斥；查询维护投影同事务读取及公共组合验证，保持一致锁次序",
+      "independent_conclusion": "命令证据设备授权、撤销成员和检查后新增证据在正式事务中拒绝，普通与race测试通过。"
+    },
+    {
+      "id": "P4-B04",
+      "owner": "phase4_business_workflows",
+      "status": "resolved_and_independently_verified",
+      "requirements": [
+        "E4-04"
+      ],
+      "finding": "DataTransfer TLS结构只有YAML标签，正式连接器JSON中的下划线字段未映射到实际配置字段",
+      "evidence": [
+        ".local/evolution/phase4-early-review/connector-tls-json-fields.json",
+        ".local/evolution/phase4-business-runtime-interim-root-review.json",
+        ".local/evolution/business-workflows-verified.json",
+        ".local/evolution/business-workflows-root-review.json",
+        ".local/evolution/phase4-independent-review.json",
+        ".local/evolution/phase4-independent-root-review.json"
+      ],
+      "verification": "正式JSON经过实际ConfigManager应用与保存往返，覆盖旧Go字段名兼容读入、规范字段名以及延迟旧版本拒绝",
+      "design_handoff": "业务专业维护TLS字段解码与配置专项；当前工作树修正在查询固定快照之后，后续组合验证使用当前源码",
+      "independent_conclusion": "规范JSON字段和旧Go字段名兼容往返、实际ConfigManager配置应用及旧版本拒绝通过。"
+    },
+    {
+      "id": "P4-B05",
+      "owner": "phase4_business_workflows",
+      "status": "resolved_and_independently_verified",
+      "requirements": [
+        "E4-06"
+      ],
+      "finding": "原生状态轮询遇到持续失败的映射时保持旧游标并提前结束，后续有效告警可能长期无法同步",
+      "evidence": [
+        ".local/evolution/phase4-early-review/native-poll-starvation.json",
+        ".local/evolution/phase4-native-poll-interim-root-review.json",
+        ".local/evolution/business-workflows-verified.json",
+        ".local/evolution/business-workflows-root-review.json",
+        ".local/evolution/phase4-independent-review.json",
+        ".local/evolution/phase4-independent-root-review.json"
+      ],
+      "verification": "持续404或损坏映射之后的有效记录仍能同步；失败项保留状态及后续重试，超过64项能够轮转；从正式worker入口验证立即首轮、后续周期及失败恢复",
+      "design_handoff": "业务专业确认并实现逐项失败处理与游标推进规则，维持每轮64项预算，保留原生CE已完成生命周期证据",
+      "independent_conclusion": "404、损坏映射及慢映射后的有效告警继续同步，超过64项轮转和恢复通过；正式worker立即首轮及周期调用通过。"
+    },
+    {
+      "id": "P4-B06",
+      "owner": "phase4_business_workflows",
+      "supporting_owner": "phase4_ai_evidence",
+      "status": "resolved_and_independently_verified",
+      "requirements": [
+        "E4-04",
+        "E4-08",
+        "E4-09",
+        "E4-03"
+      ],
+      "finding": "共享Huma可选字段默认设置使新业务OpenAPI遗漏必填声明，与独立Schema及应用实际校验不一致",
+      "evidence": [
+        ".local/evolution/phase4-early-review/business-openapi-required-fields.json",
+        ".local/evolution/business-evidence/final-v3-verification-runs.json",
+        ".local/evolution/business-evidence/final-v3-fixture-verification.json",
+        ".local/evolution/phase4-business-v3-root-review.json",
+        ".local/evolution/business-workflows-verified.json",
+        ".local/evolution/business-workflows-root-review.json",
+        ".local/evolution/phase4-independent-review.json",
+        ".local/evolution/phase4-independent-root-review.json"
+      ],
+      "verification": "逐项比较业务正式请求的OpenAPI、独立Schema和HTTP缺失字段/合法零值/可选省略结果；前端使用最终公共契约",
+      "design_handoff": "业务 v3 已完成显式必填字段与可选默认值校验，14类请求/嵌套类型、53个缺失字段HTTP422及合法零值/省略情况通过；AI负责组合契约生成，前端使用该版本",
+      "independent_conclusion": "OpenAPI、独立Schema与实际HTTP必须字段、合法零值及省略默认参数一致，最终契约重新生成比较160项原文一致，17项发布部署检查通过。"
+    },
+    {
+      "id": "P4-A01",
+      "owner": "phase4_ai_evidence",
+      "status": "resolved_and_independently_verified",
+      "requirements": [
+        "E4-07"
+      ],
+      "finding": "仅授具体设备时，正式趋势查询成功；AI依据把SourceID来源节点加入权限对象后错误返回forbidden",
+      "evidence": [
+        ".local/evolution/phase4-early-review/ai-source-identifier-authorization.json",
+        ".local/evolution/ai-evidence/direct-device-source-reproduction.jsonl",
+        ".local/evolution/phase4-ai-authorization-interim-root-review.json",
+        ".local/evolution/ai-evidence/typed-resource-compiled.jsonl",
+        ".local/evolution/ai-evidence/typed-resource-compiled.metadata.json",
+        ".local/evolution/ai-evidence-verified.json",
+        ".local/evolution/ai-evidence-root-review.json",
+        ".local/evolution/phase4-independent-review.json",
+        ".local/evolution/phase4-independent-root-review.json"
+      ],
+      "verification": "用户仅获具体设备读权限，来源节点不在授权范围；正式趋势查询和依据引用均可访问，设备撤权后引用拒绝；检查各正式工具的资源提取语义",
+      "design_handoff": "AI按工具类型化返回结构提取正式授权对象，保留SourceID原文及定义/草稿原始授权资源，忽略扩展参数同名字段。直接设备授权、撤权、旧定义资源保留及固定源码普通/PG/race均已通过，等待当前组合独立复核",
+      "runtime_reproduction": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/ai-evidence/direct-device-source-reproduction.jsonl",
+        "sha256": "bf31b20a66f880e5b97ee048a674daa3666eb92cdcd5919cbba3e4a1eab4073f",
+        "bytes": 2069
+      },
+      "independent_conclusion": "只授权设备且未授权来源节点的趋势依据可读取，撤销设备权限后依据拒绝，普通及race验证通过。"
+    },
+    {
+      "id": "P4-A02",
+      "owner": "phase4_ai_evidence",
+      "status": "resolved_and_independently_verified",
+      "requirements": [
+        "E4-07"
+      ],
+      "finding": "原始依据引用的资源删除后，授权条目仍存在时继续返回valid及工具原文",
+      "evidence": [
+        ".local/evolution/phase4-review-evidence/independent_ai_review_test.go",
+        ".local/evolution/phase4-review-evidence/independent-ai-original-asset-deletion.metadata.json",
+        ".local/evolution/phase4-review-evidence/independent-ai-original-asset-deletion.stdout.log",
+        ".local/evolution/ai-evidence-a02-verified.json",
+        ".local/evolution/ai-evidence-a02-root-review.json",
+        ".local/evolution/phase4-ai-a02-build-provenance-root-review.json",
+        ".local/evolution/phase4-review-a02/summary.json",
+        ".local/evolution/phase4-independent-a02-root-review.json",
+        ".local/evolution/phase4-independent-review.json",
+        ".local/evolution/phase4-independent-root-review.json"
+      ],
+      "runtime_reproduction": [
+        {
+          "path": "/private/tmp/smartfactory-phase4-independent-20261005/overlays/independent-ai-build-v2/independent_ai_review_test.go",
+          "sha256": "381b8ba8eb2e7bda27f9b6b1e0f6c9b516db945df872b614d5d3d5f09ba0bed8",
+          "bytes": 1926,
+          "original_path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/independent_ai_review_test.go"
+        },
+        {
+          "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/independent-ai-original-asset-deletion.metadata.json",
+          "sha256": "5b694f61d53f2273a7bc795727578edc88e86ef3794278e05e3ef9b4c76f2770",
+          "bytes": 2596
+        },
+        {
+          "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/independent-ai-original-asset-deletion.stdout.log",
+          "sha256": "caf33a3d363f8490c7b943131ebc83015528384e439b1b02e6d93ac360e09c0f",
+          "bytes": 1966
+        }
+      ],
+      "verification": "正式模型保存原GroupID依据，定义改绑后删除原资源；当前依据读取与调查详情应按原始资源存在性和当前权限判定，失效状态清除相应内容；覆盖原资源仍存在及当前授权合法的对照",
+      "design_handoff": "独立实际HTTP复现原资源删除后200/access=valid/1859字节内容，原始resource分支只检查Permit；待运行名额释放后由AI原专业修正，独立审查继续其余检查",
+      "v3_detail_reproduction": {
+        "answer_bytes": 178,
+        "input_messages": 1,
+        "argument_bytes": 29,
+        "resource_references": 3,
+        "metadata": ".local/evolution/phase4-review-evidence/independent-ai-original-asset-deletion-v3.metadata.json",
+        "test_source": "/private/tmp/smartfactory-phase4-independent-20261005/overlays/independent-ai-build-v3/independent_ai_review_test.go"
+      },
+      "followup": ".local/evolution/phase4-ai-a02-followup.txt",
+      "specialist_result": "具体entity/resource先检查原实体存在性再核对当前授权；实际HTTP51次通过，原资源删除后引用404，调查deleted且答案、消息、参数、原文及资源引用清空。原v3仅null断言修正副本通过，历史原版失败保留。",
+      "independent_conclusion": "保留原v2/v3失败；独立核对最小JSON null断言修正后，以当前组合复验依据404、答案和消息清空、参数null及资源清空，普通119项、PG17项与race20项通过，页面删除失效及自动轮询隐藏通过。"
+    },
+    {
+      "id": "P4-F02",
+      "owner": "phase4_frontend",
+      "status": "resolved_and_independently_verified",
+      "requirements": [
+        "E4-04"
+      ],
+      "finding": "元数据字段错误在完整JSON修正和删除重复项后残留，分区同名字段的错误状态相互影响",
+      "evidence": [
+        ".local/evolution/phase4-early-review/frontend-state-review.json",
+        ".local/evolution/frontend-phase4/browser-results-state-unfixed-initial.json",
+        ".local/evolution/phase4-independent-review.json",
+        ".local/evolution/phase4-independent-root-review.json"
+      ],
+      "runtime_reproduction": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/frontend-phase4/browser-results-state-unfixed-initial.json",
+        "sha256": "4ddac32b8b1211fa0c2c0156c2c05a27167a3ed67ab087205f3a99a2db1bb4f1",
+        "bytes": 31654
+      },
+      "verification": "使用实际页面分别验证完整JSON修正无效字段、删除含无效字段的数据点、不同分区同名字段独立校验；有效输入可以预检和保存，仍无效的字段继续准确阻止提交",
+      "design_handoff": "前端已修正字段错误清理与section/path身份，原始三种页面失败保留，正在使用同组操作复验；独立审查在冻结组合验证",
+      "interim_retest": [
+        {
+          "path": "/path/to/SmartFactory-2026/.local/evolution/frontend-phase4/browser-state-fixed.log",
+          "sha256": "e4fdff4a1e7d0b536de191674e2e0d97f4f2c35d7f576fc68ac16efc666cca38",
+          "bytes": 710
+        },
+        {
+          "path": "/private/tmp/smartfactory-frontend-phase4-20261005/browser-state-fixed/F01-http-sse-snapshot-race.json",
+          "sha256": "d9b5cc4cb81154d48b64fab8efa2fdeb1f8214dde24c11808a7d81f948bc6940",
+          "bytes": 172341
+        }
+      ],
+      "independent_conclusion": "完整JSON修正、删除含无效字段数据点及不同分区同名字段三个原始场景全部通过。"
+    },
+    {
+      "id": "P4-F01",
+      "owner": "phase4_frontend",
+      "status": "resolved_and_independently_verified",
+      "requirements": [
+        "E4-02",
+        "E4-03"
+      ],
+      "finding": "较早发起、较晚返回的HTTP查询快照覆盖更新的SSE状态，恢复已移出窗口的行并丢失新值和新记录",
+      "evidence": [
+        ".local/evolution/phase4-early-review/frontend-state-review.json",
+        ".local/evolution/frontend-phase4/browser-state-unfixed-F01-window-real.log",
+        ".local/evolution/phase4-independent-review.json",
+        ".local/evolution/phase4-independent-root-review.json"
+      ],
+      "runtime_reproduction": [
+        {
+          "path": "/path/to/SmartFactory-2026/.local/evolution/frontend-phase4/browser-state-unfixed-F01-window-real.log",
+          "sha256": "a46cc12f8dc2937c792f8bccb896a08a4567f06eb09e657b654a2efe82818ae4",
+          "bytes": 3152
+        },
+        {
+          "path": "/private/tmp/smartfactory-frontend-phase4-20261005/browser-state-unfixed/F01-http-sse-snapshot-race.json",
+          "sha256": "3cdb116223390f477f3aa2b5d55187ea56e6649bec5d2d4ff1ffe08618cdc47d",
+          "bytes": 172338
+        },
+        {
+          "path": "/private/tmp/smartfactory-frontend-phase4-20261005/browser-state-unfixed/F01-after-delayed-http.png",
+          "sha256": "92ad35eefde4af86b6530c70cdc074356707271d1c618a9ed555f82f48a65f0c",
+          "bytes": 979648
+        }
+      ],
+      "verification": "真实Ingest构成100行窗口，延迟旧HTTP快照响应；SSE完成修改、新增与移除，再返回HTTP，核对数据和恢复游标沿有效更新次序保持一致；覆盖首次订阅和手动刷新",
+      "design_handoff": "修正前实际页面在收到9999/7777并移除81后，被延迟旧HTTP恢复280、丢失9999/7777并再次显示81；前端按请求开始与SSE提交次序处理同一Query key，保持不透明游标，随后同例和独立复验",
+      "interim_retest": [
+        {
+          "path": "/path/to/SmartFactory-2026/.local/evolution/frontend-phase4/browser-state-fixed.log",
+          "sha256": "e4fdff4a1e7d0b536de191674e2e0d97f4f2c35d7f576fc68ac16efc666cca38",
+          "bytes": 710
+        },
+        {
+          "path": "/private/tmp/smartfactory-frontend-phase4-20261005/browser-state-fixed/F01-http-sse-snapshot-race.json",
+          "sha256": "d9b5cc4cb81154d48b64fab8efa2fdeb1f8214dde24c11808a7d81f948bc6940",
+          "bytes": 172341
+        }
+      ],
+      "independent_conclusion": "真实Ingest和100行窗口先取得9999、7777并移出81，延迟旧HTTP返回后页面保留更新结果和当前恢复游标；首次查询与手动刷新验证通过。"
+    },
+    {
+      "id": "P4-F03",
+      "owner": "phase4_frontend",
+      "status": "resolved_and_independently_verified",
+      "requirements": [
+        "E4-04",
+        "E4-03"
+      ],
+      "finding": "定义编辑器按设备身份过滤多选搜索，输入页面显示的中文设备名称时原选项消失，无法按名称选择设备",
+      "evidence": [
+        ".local/evolution/frontend-phase4/browser-results-business-details-third.json",
+        ".local/evolution/frontend-phase4/frontend-sixth-inputs.json",
+        ".local/evolution/phase4-independent-review.json",
+        ".local/evolution/phase4-independent-root-review.json"
+      ],
+      "runtime_reproduction": [
+        {
+          "path": "/path/to/SmartFactory-2026/.local/evolution/frontend-phase4/browser-results-business-details-third.json",
+          "sha256": "0d392dc90430530a811a1739dd7c3654625c847e0e5bf36cea72caa00292b5ef",
+          "bytes": 9371
+        },
+        {
+          "path": "/private/tmp/smartfactory-frontend-phase4-20261005/snapshots/frontend-sixth/Frontends/src/definitions.tsx",
+          "sha256": "ca17db6d7b6991b903493787323e704c3b5b897bebde41978986efd05267304a",
+          "bytes": 17914
+        }
+      ],
+      "verification": "在定义编辑器的设备多选中输入完整中文设备名称，确认对应选项可见并可选择，选定设备身份正确保存于草稿",
+      "design_handoff": "前端将选择数据设备的搜索字段设为label；保持原中文输入操作复验，并由独立审查检查最终页面",
+      "independent_conclusion": "使用完整中文设备名称搜索、选择并保存，草稿中的设备身份正确。"
+    },
+    {
+      "id": "P4-F04",
+      "owner": "phase4_frontend",
+      "status": "resolved_and_independently_verified",
+      "requirements": [
+        "E4-07",
+        "E4-03"
+      ],
+      "finding": "原资源删除后依据读取404且调查轮询已显示deleted，已打开的依据抽屉仍渲染TanStack Query保留的上次成功正文",
+      "evidence": [
+        ".local/evolution/frontend-phase4/browser-results-ai-a02-first.json",
+        ".local/evolution/frontend-phase4/browser-ai-a02-first.log",
+        ".local/evolution/frontend-phase4/frontend-sixth-inputs.json",
+        ".local/evolution/phase4-independent-review.json",
+        ".local/evolution/phase4-independent-root-review.json"
+      ],
+      "runtime_reproduction": [
+        {
+          "path": "/path/to/SmartFactory-2026/.local/evolution/frontend-phase4/browser-results-ai-a02-first.json",
+          "sha256": "06d4d6b5e8dbe1dc92248254c83569613a10eaec09e93104e8a65cd08df4ae6b",
+          "bytes": 25647
+        },
+        {
+          "path": "/path/to/SmartFactory-2026/.local/evolution/frontend-phase4/browser-ai-a02-first.log",
+          "sha256": "2827f293b40fbdc172ad248e0f1779c282e11850b7bc9c8d290be5934059e3ce",
+          "bytes": 10312
+        },
+        {
+          "path": "/private/tmp/smartfactory-frontend-phase4-20261005/snapshots/frontend-sixth/Frontends/src/assistant.tsx",
+          "sha256": "e9e918e12a50ae362163ca8997bfbadff4c32d6d6df61a5863124ee3583d8727",
+          "bytes": 10918
+        }
+      ],
+      "verification": "依据抽屉已打开后删除原资源、撤销资源权限或使依据到期；正式404/410/403响应或调查轮询已明确标记失效时，旧原文、参数、资源与答案及时隐藏，并核对401会话过期和用户切换清理",
+      "design_handoff": "前端处理明确失效响应与调查中所选依据的当前状态，移除旧成功数据与临时显示；同一实际模型/后端夹具复验，独立审查验证最终页面",
+      "independent_conclusion": "原资源删除404、到期410、撤权403及会话401隐藏已打开的旧内容；补充场景在删除后没有再次请求依据，调查轮询仍在2376毫秒内清除原文、参数、链接和答案。"
+    },
+    {
+      "id": "P4-F05",
+      "owner": "phase4_frontend",
+      "status": "resolved_and_independently_verified",
+      "requirements": [
+        "E4-10"
+      ],
+      "finding": "390px数据监控空查询页面的标题操作区限制为125px，而导出按钮宽144px，按钮右缘到393px使整个文档横向溢出3px",
+      "evidence": [
+        ".local/evolution/phase4-review-browser/supplemental-v2.json",
+        ".local/evolution/phase4-review-browser/supplemental-original-retention.json",
+        ".local/evolution/phase4-independent-review.json",
+        ".local/evolution/phase4-independent-root-review.json"
+      ],
+      "runtime_reproduction": [
+        {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/browser-extra-diagnostic/empty-cloud-index.html-390x844-layout.json",
+          "sha256": "53c8214f452c7fbb41b0c044da05e463ac513e398b4ab690ea5669439d37f0f1",
+          "bytes": 9127
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/browser-extra-diagnostic/empty-cloud-index.html-390x844.png",
+          "sha256": "4469e8a45a0692ef310c39318a46a0ddcea08d733c0a9a4afe16e03a65b56e1e",
+          "bytes": 82833
+        },
+        {
+          "path": "/private/tmp/smartfactory-frontend-phase4-20261005/clean-build/Frontends/src/style.css",
+          "sha256": "f76f697d25ad47a999ff74acaeb033a44ea1657240df923ffc95182effb8335c",
+          "bytes": 19691
+        }
+      ],
+      "verification": "复验390×844的index.html#data?device=agv-1空查询，检查文档宽度与导出按钮可见范围；核对两套操作入口及原九种入口尺寸，保留表格和导航各自滚动行为",
+      "design_handoff": "前端仅调整手机标题和操作区CSS换行及可用宽度，保留bb13完整冻结版本，另建clean-build-r1、dist-frozen-r1与修订清单；专业和独立审查分别补验实际受影响布局",
+      "independent_conclusion": "保留原390px视口产生393px文档和3px水平滚动的九组合证据；R1只调整style.css，九种空数据及九种非空页面通过，手机导出按钮右缘160px且实际导出保留精确整数。"
+    }
+  ],
+  "all_findings_resolved": true
+}

@@ -1,0 +1,293 @@
+{
+  "before": {
+    "status": 200,
+    "body": {
+      "id": "frontend-shadow",
+      "definition_id": "history-derived",
+      "definition_version": 1,
+      "version": 1,
+      "epoch": 1,
+      "status": "active",
+      "device_ids": [
+        "history-device"
+      ],
+      "keys": [
+        "count"
+      ],
+      "resources": [
+        "history-device",
+        "history-factory"
+      ],
+      "started_ms": 1791149122618,
+      "generation": 0,
+      "completed_generation": 0,
+      "input_count": 0,
+      "context": [],
+      "base_snapshot": {
+        "id": "snapshot:e1ea8ff397eb1ad96b228252192f89470d10df6f4581c3fc153b54294f6fda64",
+        "sha256": "e1ea8ff397eb1ad96b228252192f89470d10df6f4581c3fc153b54294f6fda64",
+        "input_sha256": "",
+        "history_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "captured_ms": 1791149122618,
+        "from_ms": 1791149122618,
+        "to_ms": 1791149122618,
+        "source": "shadow_activation",
+        "data_version": 0,
+        "data_gaps": null,
+        "completeness": "",
+        "order": "event_time",
+        "clock": {},
+        "points": [],
+        "history": [],
+        "asset_versions": [],
+        "initial_state": {},
+        "initial_state_source": "provided",
+        "rules": [
+          {
+            "definition": {
+              "id": "history-derived",
+              "name": "history-derived",
+              "kind": "analysis",
+              "schema_version": "1.0",
+              "version": 1,
+              "status": "published",
+              "effective_ms": 1791147201798,
+              "group_id": "history-factory",
+              "nodes": [
+                {
+                  "id": "value",
+                  "type": "expression",
+                  "params": {
+                    "code": "value+1"
+                  }
+                }
+              ],
+              "connections": null,
+              "outputs": [
+                {
+                  "key": "result",
+                  "type": "number",
+                  "unit": "piece",
+                  "node_id": "value"
+                }
+              ],
+              "dependencies": [
+                "history-source"
+              ],
+              "selector": {
+                "device_ids": [
+                  "history-device"
+                ],
+                "keys": [
+                  "history-source.result"
+                ]
+              },
+              "policy": {}
+            },
+            "plan": {
+              "id": "history-derived:1:0f420e3d0688606139321dcc44754e19533be101aefdc22bc02e85821164e6b6",
+              "format": "smartfactory.rules/1",
+              "definition_id": "history-derived",
+              "definition_version": 1,
+              "content_sha256": "0f420e3d0688606139321dcc44754e19533be101aefdc22bc02e85821164e6b6",
+              "sha256": "e26a595a01759934016c554cb5930eafc85fad1ac1b432b5828b89a37b7ecc36",
+              "kind": "analysis",
+              "selector": {
+                "device_ids": [
+                  "history-device"
+                ],
+                "keys": [
+                  "history-source.result"
+                ]
+              },
+              "outputs": [
+                {
+                  "key": "result",
+                  "type": "number",
+                  "unit": "piece",
+                  "node_id": "value"
+                }
+              ],
+              "policy": {},
+              "dependencies": [
+                "history-source"
+              ],
+              "nodes": [
+                {
+                  "id": "value",
+                  "type": "expression",
+                  "inputs": [],
+                  "params": {},
+                  "expression": {
+                    "op": "+",
+                    "args": [
+                      {
+                        "op": "variable",
+                        "name": "value"
+                      },
+                      {
+                        "op": "literal",
+                        "value": 1
+                      }
+                    ]
+                  },
+                  "error_output": false
+                }
+              ]
+            }
+          }
+        ],
+        "resources": [
+          "history-device",
+          "history-factory"
+        ]
+      }
+    }
+  },
+  "stop": {
+    "status": 200,
+    "body": {
+      "id": "frontend-shadow",
+      "definition_id": "history-derived",
+      "definition_version": 1,
+      "version": 2,
+      "epoch": 1,
+      "status": "stopped",
+      "device_ids": [
+        "history-device"
+      ],
+      "keys": [
+        "count"
+      ],
+      "resources": [
+        "history-device",
+        "history-factory"
+      ],
+      "started_ms": 1791149122618,
+      "stopped_ms": 1791149155603,
+      "generation": 0,
+      "completed_generation": 0,
+      "input_count": 0,
+      "context": [],
+      "base_snapshot": {
+        "id": "snapshot:e1ea8ff397eb1ad96b228252192f89470d10df6f4581c3fc153b54294f6fda64",
+        "sha256": "e1ea8ff397eb1ad96b228252192f89470d10df6f4581c3fc153b54294f6fda64",
+        "input_sha256": "",
+        "history_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "captured_ms": 1791149122618,
+        "from_ms": 1791149122618,
+        "to_ms": 1791149122618,
+        "source": "shadow_activation",
+        "data_version": 0,
+        "data_gaps": null,
+        "completeness": "",
+        "order": "event_time",
+        "clock": {},
+        "points": [],
+        "history": [],
+        "asset_versions": [],
+        "initial_state": {},
+        "initial_state_source": "provided",
+        "rules": [
+          {
+            "definition": {
+              "id": "history-derived",
+              "name": "history-derived",
+              "kind": "analysis",
+              "schema_version": "1.0",
+              "version": 1,
+              "status": "published",
+              "effective_ms": 1791147201798,
+              "group_id": "history-factory",
+              "nodes": [
+                {
+                  "id": "value",
+                  "type": "expression",
+                  "params": {
+                    "code": "value+1"
+                  }
+                }
+              ],
+              "connections": null,
+              "outputs": [
+                {
+                  "key": "result",
+                  "type": "number",
+                  "unit": "piece",
+                  "node_id": "value"
+                }
+              ],
+              "dependencies": [
+                "history-source"
+              ],
+              "selector": {
+                "device_ids": [
+                  "history-device"
+                ],
+                "keys": [
+                  "history-source.result"
+                ]
+              },
+              "policy": {}
+            },
+            "plan": {
+              "id": "history-derived:1:0f420e3d0688606139321dcc44754e19533be101aefdc22bc02e85821164e6b6",
+              "format": "smartfactory.rules/1",
+              "definition_id": "history-derived",
+              "definition_version": 1,
+              "content_sha256": "0f420e3d0688606139321dcc44754e19533be101aefdc22bc02e85821164e6b6",
+              "sha256": "e26a595a01759934016c554cb5930eafc85fad1ac1b432b5828b89a37b7ecc36",
+              "kind": "analysis",
+              "selector": {
+                "device_ids": [
+                  "history-device"
+                ],
+                "keys": [
+                  "history-source.result"
+                ]
+              },
+              "outputs": [
+                {
+                  "key": "result",
+                  "type": "number",
+                  "unit": "piece",
+                  "node_id": "value"
+                }
+              ],
+              "policy": {},
+              "dependencies": [
+                "history-source"
+              ],
+              "nodes": [
+                {
+                  "id": "value",
+                  "type": "expression",
+                  "inputs": [],
+                  "params": {},
+                  "expression": {
+                    "op": "+",
+                    "args": [
+                      {
+                        "op": "variable",
+                        "name": "value"
+                      },
+                      {
+                        "op": "literal",
+                        "value": 1
+                      }
+                    ]
+                  },
+                  "error_output": false
+                }
+              ]
+            }
+          }
+        ],
+        "resources": [
+          "history-device",
+          "history-factory"
+        ]
+      }
+    }
+  }
+}

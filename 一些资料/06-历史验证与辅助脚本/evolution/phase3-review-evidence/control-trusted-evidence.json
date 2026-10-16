@@ -1,0 +1,31 @@
+{
+  "url": "http://127.0.0.1:59107/#executions?execution=recover-browser",
+  "text": "SF\nSmartFactory\n生产安全控制台\n示例工厂 / cloud\n运行概览\n设备与资产\n数据监控\n数据分析\n告警编排\n联动预案\n审批与执行\n通知记录\n历史补算\n后台任务\n历史分析\n运行状态\nAI 助手\n独立实例 · 云端运行\n规则版本与操作记录全程保存\n云端控制台\n/\n审批与执行\n每秒刷新\nengineer\n退出\n审批与执行\n\n核对会签、现场条件、设备动作和反馈，按照当前许可取消、核对或恢复剩余步骤。\n\n更新执行列表\n发起即时控制\n查看指定执行\n执行 / 预案版本\t执行状态\t风险依据\t已有会签\t请求时间\t操作\n\n执行 / 预案版本\n\t\n执行状态\n\t\n风险依据\n\t\n已有会签\n\t\n请求时间\n\t\n操作\n\n\ncancel-browser\ncontrol-fixture · v1\n\t会签要求已满足\tbusiness / 1级\t2人\t2026/10/5 04:56:39\t\n执行详情\n\n\nrecover-browser\ncontrol-fixture · v1\n\t正常步骤已完成\tbusiness / 1级\t2人\t2026/10/5 04:56:39\t\n执行详情\n1\nSmartFactory · cloud\n界面时间使用 Asia/Shanghai 时区\n控制执行详情\n更新执行详情\n人工操作已处理\n正常步骤已完成\n执行身份\trecover-browser\t预案版本\tcontrol-fixture · v1\n当前执行状态\t正常步骤已完成\t当前处理依据\t独立浏览器恢复剩余步骤\n当前应用版本\t14\t来源节点 / 边缘版本\tedge-a / 14\n执行分支\t正常步骤\t执行协调身份 / 执行权\t暂无协调身份 / 0\n当前原命令身份\t暂无等待中的命令\t会签有效期限\t2026/10/5 05:56:39\n执行开始期限\t2026/10/5 05:06:29\t取消请求时间\t暂无记录\n人工操作理由\n取消后续步骤\n核对原命令结果\n恢复剩余步骤\n取消后续步骤：operation is unavailable in the current execution state\n核对原命令结果：operation is unavailable in the current execution state\n恢复剩余步骤：operation is unavailable in the current execution state\n会签与设备步骤\n人工请求与回执\n原命令核对证据\n关联时间线\n\t证据 / 命令身份\t设备 / 步骤\t反馈来源\t设备观测 / 平台取得时间\t结果 / 信任判断\t回执说明\n\n \n\t\n证据 / 命令身份\n\t\n设备 / 步骤\n\t\n反馈来源\n\t\n设备观测 / 平台取得时间\n\t\n结果 / 信任判断\n\t\n回执说明\n\n\n暂无数据",
+  "capture": {
+    "requests": [
+      {
+        "path": "/api/sf/v1/executions/recover-browser/reconcile",
+        "method": "POST",
+        "body": "{\"expected_version\":8,\"expected_source_version\":8,\"operation_id\":\"ee8d22b6-1487-4e07-9e4a-c98027cebed2\",\"reason\":\"独立浏览器核对原命令持久日志\"}",
+        "status": 202,
+        "response": "{\"id\":\"ee8d22b6-1487-4e07-9e4a-c98027cebed2\",\"execution_id\":\"recover-browser\",\"action\":\"reconcile\",\"status\":\"pending\",\"origin_node_id\":\"cloud\",\"target_node_id\":\"edge-a\",\"expected_version\":8,\"expected_source_version\":8,\"requested_ms\":1791147820603,\"deadline_ms\":1791151420603,\"reason\":\"独立浏览器核对原命令持久日志\",\"actor\":{\"user_id\":\"engineer\",\"name\":\"engineer\",\"department_id\":\"engineering\",\"roles\":[\"engineer\"],\"source\":\"127.0.0.1:59184\",\"session_id\":\"5d7b9d231e456294b2efbbc3336b1efd\",\"ai\":false},\"request_hash\":\"323051e3b1f7d2ca93a4b7557b96a755945a60a97aef6b103ba1418f01dbea9d\",\"version\":1,\"trace_id\":\"1ff1a38b4eb2d91e259148fa3afb63ff\"}\n"
+      },
+      {
+        "path": "/api/sf/v1/executions/recover-browser/reconcile",
+        "method": "POST",
+        "body": "{\"expected_version\":8,\"expected_source_version\":8,\"operation_id\":\"ee8d22b6-1487-4e07-9e4a-c98027cebed2\",\"reason\":\"独立浏览器核对原命令持久日志\"}",
+        "status": 202,
+        "response": "{\"id\":\"ee8d22b6-1487-4e07-9e4a-c98027cebed2\",\"execution_id\":\"recover-browser\",\"action\":\"reconcile\",\"status\":\"pending\",\"origin_node_id\":\"cloud\",\"target_node_id\":\"edge-a\",\"expected_version\":8,\"expected_source_version\":8,\"requested_ms\":1791147820603,\"deadline_ms\":1791151420603,\"reason\":\"独立浏览器核对原命令持久日志\",\"actor\":{\"user_id\":\"engineer\",\"name\":\"engineer\",\"department_id\":\"engineering\",\"roles\":[\"engineer\"],\"source\":\"127.0.0.1:59184\",\"session_id\":\"5d7b9d231e456294b2efbbc3336b1efd\",\"ai\":false},\"request_hash\":\"323051e3b1f7d2ca93a4b7557b96a755945a60a97aef6b103ba1418f01dbea9d\",\"version\":1,\"trace_id\":\"1ff1a38b4eb2d91e259148fa3afb63ff\"}\n"
+      },
+      {
+        "path": "/api/sf/v1/executions/recover-browser/resume",
+        "method": "POST",
+        "body": "{\"expected_version\":9,\"expected_source_version\":9,\"operation_id\":\"a81ef499-0064-491a-b576-14fdabb9c3de\",\"reason\":\"独立浏览器恢复剩余步骤\"}",
+        "status": 202,
+        "response": "{\"id\":\"a81ef499-0064-491a-b576-14fdabb9c3de\",\"execution_id\":\"recover-browser\",\"action\":\"resume\",\"status\":\"pending\",\"origin_node_id\":\"cloud\",\"target_node_id\":\"edge-a\",\"expected_version\":9,\"expected_source_version\":9,\"requested_ms\":1791147979747,\"deadline_ms\":1791151579747,\"reason\":\"独立浏览器恢复剩余步骤\",\"actor\":{\"user_id\":\"engineer\",\"name\":\"engineer\",\"department_id\":\"engineering\",\"roles\":[\"engineer\"],\"source\":\"127.0.0.1:59184\",\"session_id\":\"5d7b9d231e456294b2efbbc3336b1efd\",\"ai\":false},\"request_hash\":\"2aeafcc2a8c784c34b5f9bf602be192822bbb1c41916c53a72c8acd05788da58\",\"version\":1,\"trace_id\":\"dedc425d9ca050543461bd70c4fee65d\"}\n"
+      }
+    ],
+    "errors": []
+  },
+  "recorded_at_ms": 1791148077427
+}

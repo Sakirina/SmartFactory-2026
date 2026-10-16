@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1680" height="1040" viewBox="0 0 1680 1040" role="img" aria-labelledby="t d">
+  <title id="t">传输层 · 单个传输节点的内部流水线</title>
+  <desc id="d">ThingsBoard 传输节点内部处理流程：协议编解码、会话维持、设备认证经 Transport API 往返 Core、上行编排投递规则引擎队列、下行投递把命令送回设备。</desc>
+  <defs>
+    <style>
+      .bg { fill:#f8fafc; }
+      .title { font:800 34px 'Inter',Arial,sans-serif; fill:#0f172a; }
+      .sub { font:400 16px 'Inter',Arial,sans-serif; fill:#475569; }
+      .ctag { font:800 18px 'Inter',Arial,sans-serif; fill:#0f172a; }
+      .bt { font:700 18px 'Inter',Arial,sans-serif; fill:#0f172a; }
+      .tx { font:400 14px 'Inter',Arial,sans-serif; fill:#334155; }
+      .ti { font:400 12.5px 'Inter',Arial,sans-serif; fill:#64748b; }
+      .cd { font:600 12.5px Menlo,Consolas,monospace; fill:#334155; }
+      .lbl { font:600 13px 'Inter',Arial,sans-serif; fill:#475569; }
+      .container { fill:#fffdf7; stroke:#d97706; stroke-width:2.2; }
+      .stage { fill:#ffffff; stroke:#fcd9a0; stroke-width:2; }
+      .stageHi { fill:#fffbeb; stroke:#d97706; stroke-width:2.4; }
+      .dev { fill:#fff7ed; stroke:#ea580c; stroke-width:2.2; }
+      .blue { fill:#eff6ff; stroke:#2563eb; stroke-width:2; }
+      .teal { fill:#ecfdf5; stroke:#059669; stroke-width:2; }
+      .cyan { fill:#ecfeff; stroke:#0891b2; stroke-width:2; }
+      .aAmber{fill:none;stroke:#d97706;stroke-width:2.6;marker-end:url(#ma);}
+      .aRose{fill:none;stroke:#e11d48;stroke-width:2.6;marker-end:url(#mr);}
+      .aBlue{fill:none;stroke:#2563eb;stroke-width:2.4;marker-end:url(#mb);}
+      .aTeal{fill:none;stroke:#0d9488;stroke-width:2.4;marker-end:url(#mt);}
+      .aCyan{fill:none;stroke:#0891b2;stroke-width:2.4;marker-end:url(#mc);}
+    </style>
+    <marker id="ma" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M2,2 L9,5.5 L2,9 Z" fill="#d97706"/></marker>
+    <marker id="mr" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M2,2 L9,5.5 L2,9 Z" fill="#e11d48"/></marker>
+    <marker id="mb" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M2,2 L9,5.5 L2,9 Z" fill="#2563eb"/></marker>
+    <marker id="mt" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M2,2 L9,5.5 L2,9 Z" fill="#0d9488"/></marker>
+    <marker id="mc" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M2,2 L9,5.5 L2,9 Z" fill="#0891b2"/></marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="1680" height="1040"/>
+
+  <text class="title" x="60" y="54">传输层 · 一个传输节点的内部流水线</text>
+  <text class="sub" x="62" y="84">从协议解码到认证、上行编排与下行投递，传输节点只做接入相关的事，不碰业务逻辑</text>
+
+  <!-- device -->
+  <rect class="dev" x="70" y="420" width="200" height="200" rx="14"/>
+  <text class="bt" x="170" y="500" text-anchor="middle">现场设备</text>
+  <text class="ti" x="170" y="526" text-anchor="middle">建立连接</text>
+  <text class="ti" x="170" y="546" text-anchor="middle">上报遥测 / 属性</text>
+  <text class="ti" x="170" y="566" text-anchor="middle">接收命令</text>
+
+  <!-- container -->
+  <rect class="container" x="360" y="150" width="560" height="820" rx="16"/>
+  <text class="ctag" x="386" y="186">传输节点 · Transport Node</text>
+  <text class="cd" x="386" y="208">common/transport · DefaultTransportService</text>
+
+  <!-- stages -->
+  <rect class="stage" x="386" y="224" width="508" height="92" rx="11"/>
+  <text class="bt" x="410" y="262">① 协议编解码 Codec</text>
+  <text class="ti" x="410" y="288">按各协议规则解码，还原成平台统一的传输消息</text>
+  <text class="ti" x="410" y="306">MQTT / CoAP / HTTP / LwM2M / SNMP 各有实现</text>
+
+  <rect class="stage" x="386" y="330" width="508" height="92" rx="11"/>
+  <text class="bt" x="410" y="368">② 会话注册 Session</text>
+  <text class="ti" x="410" y="394">为每个设备连接维持会话状态</text>
+  <text class="ti" x="410" y="412">记录在线、订阅关系、in-flight 消息</text>
+
+  <rect class="stageHi" x="386" y="436" width="508" height="92" rx="11"/>
+  <text class="bt" x="410" y="474">③ 设备认证 Authenticate</text>
+  <text class="ti" x="410" y="500">凭据校验经 Transport API 往返一次 Core</text>
+  <text class="ti" x="410" y="518">结果缓存复用，不必每条消息都校验</text>
+
+  <rect class="stageHi" x="386" y="542" width="508" height="92" rx="11"/>
+  <text class="bt" x="410" y="580">④ 上行编排 sendToRuleEngine</text>
+  <text class="ti" x="410" y="606">遥测 / 属性序列化为 ToRuleEngineMsg</text>
+  <text class="ti" x="410" y="624">投递到规则引擎队列，附带统计回调</text>
+
+  <rect class="stage" x="386" y="648" width="508" height="92" rx="11"/>
+  <text class="bt" x="410" y="686">⑤ 下行投递 Downlink</text>
+  <text class="ti" x="410" y="712">消费定向通知队列，按设备协议</text>
+  <text class="ti" x="410" y="730">把 RPC 命令、配置变更送回设备</text>
+
+  <rect x="386" y="756" width="508" height="190" rx="11" fill="#fffbeb" stroke="#fcd9a0" stroke-width="1.6"/>
+  <text class="bt" x="410" y="788">这个节点的设计取向</text>
+  <text class="tx" x="410" y="816">传输节点刻意保持轻量：只负责接入相关的</text>
+  <text class="tx" x="410" y="838">认证、翻译与转发，完全不参与业务处理。</text>
+  <text class="tx" x="410" y="862">规则执行、状态判定都留给后面的处理层。</text>
+  <text class="tx" x="410" y="886">这样协议种类增加、设备规模增长时，需要</text>
+  <text class="tx" x="410" y="908">横向扩展的只有这一层，处理逻辑无需改动。</text>
+  <text class="ti" x="410" y="934">设备连接是有状态的，固定在某个传输节点上</text>
+
+  <!-- device -> stage1 (uplink) -->
+  <polyline class="aAmber" points="272,470 320,470 320,260 384,260"/>
+  <text class="lbl" x="296" y="436" fill="#b45309">连接 · 上报</text>
+
+  <!-- stage5 -> device (downlink) -->
+  <polyline class="aRose" points="384,704 332,704 332,580 272,580"/>
+  <text class="lbl" x="284" y="640" fill="#be123c">命令下发</text>
+
+  <!-- right interaction boxes -->
+  <rect class="blue" x="1000" y="420" width="620" height="120" rx="12"/>
+  <text class="bt" x="1024" y="456">Transport API ↔ TB Core</text>
+  <text class="ti" x="1024" y="482">请求 / 响应队列往返，确认 deviceId · tenantId · 凭据有效性</text>
+  <text class="cd" x="1024" y="510">tb_transport.api.requests / responses</text>
+
+  <rect class="teal" x="1000" y="552" width="620" height="86" rx="12"/>
+  <text class="bt" x="1024" y="588">规则引擎队列</text>
+  <text class="ti" x="1024" y="612">上行遥测落点，后续由规则引擎按分区消费</text>
+  <text class="cd" x="1024" y="632">→ tb_rule_engine</text>
+
+  <rect class="cyan" x="1000" y="650" width="620" height="110" rx="12"/>
+  <text class="bt" x="1024" y="686">传输定向通知队列</text>
+  <text class="ti" x="1024" y="712">下行命令的来源，定向投递到设备所在的传输节点</text>
+  <text class="cd" x="1024" y="734">tb_transport.notifications</text>
+
+  <!-- stage3 <-> Transport API -->
+  <line class="aBlue" x1="894" y1="470" x2="996" y2="462"/>
+  <line class="aAmber" x1="996" y1="500" x2="894" y2="492"/>
+  <text class="lbl" x="906" y="446" fill="#1d4ed8">校验往返</text>
+
+  <!-- stage4 -> rule engine -->
+  <line class="aTeal" x1="894" y1="590" x2="996" y2="592"/>
+
+  <!-- notifications -> stage5 -->
+  <line class="aCyan" x1="996" y1="700" x2="894" y2="700"/>
+</svg>

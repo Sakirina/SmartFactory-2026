@@ -1,0 +1,2442 @@
+{
+  "schema_version": 1,
+  "reviewed_at": "2026-10-04T18:19:12.106925+00:00",
+  "status": "verified",
+  "specialist_report": {
+    "path": ".local/evolution/message-infrastructure-verified.json",
+    "sha256": "e186ba95d7c29ec1df031030d57f3b9bbb07d20ea8f70adb04ca514dccfa76aa"
+  },
+  "evidence_count": 334,
+  "evidence_errors": [],
+  "source_count": 19,
+  "source_changes": [],
+  "binaries": {
+    "coordination": {
+      "path": "/private/tmp/sf-message-nats-20261005-final/coordination.test",
+      "passed": true
+    },
+    "thingsboard": {
+      "path": "/private/tmp/sf-native-calculated-20261005.test",
+      "passed": true
+    }
+  },
+  "regression": [
+    {
+      "name": "message-deploy-tests",
+      "recorded": 4,
+      "actual": [
+        4
+      ],
+      "passed": true
+    },
+    {
+      "name": "message-release-tests",
+      "recorded": 4,
+      "actual": [
+        4
+      ],
+      "passed": true
+    },
+    {
+      "name": "message-toolchain-tests",
+      "recorded": 7,
+      "actual": [
+        7
+      ],
+      "passed": true
+    },
+    {
+      "name": "message-postgres-deploy-tests",
+      "recorded": 2,
+      "actual": [
+        2
+      ],
+      "passed": true
+    }
+  ],
+  "named_tests": {
+    "coordination": {
+      "pass_lines": [
+        "--- PASS: TestRealThreeReplicaCoordination (8.47s)",
+        "    --- PASS: TestRealThreeReplicaCoordination/single_owner_and_fencing (0.01s)",
+        "    --- PASS: TestRealThreeReplicaCoordination/all_devices_owned_locally_and_deduplicated (0.05s)",
+        "    --- PASS: TestRealThreeReplicaCoordination/version_agreement (0.00s)",
+        "    --- PASS: TestRealThreeReplicaCoordination/coordinator_process_loss_and_progress_recovery (1.24s)",
+        "    --- PASS: TestRealThreeReplicaCoordination/quorum_loss_uses_only_local_degraded_actions (0.53s)",
+        "PASS"
+      ],
+      "fail_lines": []
+    },
+    "thingsboard": {
+      "pass_lines": [
+        "--- PASS: TestNativeCalculatedFieldAlarmAndRetention (23.52s)",
+        "PASS"
+      ],
+      "fail_lines": []
+    }
+  },
+  "evidence": [
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/verification.json",
+      "exists": true,
+      "sha256": "6e674aa117e491f9c161ca4a39909046b931c531ee71757f9b2d4f6be5714912",
+      "bytes": 149056,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-001.txt",
+      "exists": true,
+      "sha256": "d8760763be63067f00789fcf42648cb7e89259b37690e733415676ec0b8b6596",
+      "bytes": 16,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-002.txt",
+      "exists": true,
+      "sha256": "a554440ee4b39911b1f8a2c2ec8df59c310879bb50868a8d8d67c9d1bd65dfd1",
+      "bytes": 81,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-003.txt",
+      "exists": true,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b",
+      "bytes": 33,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-004.txt",
+      "exists": true,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b",
+      "bytes": 33,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-005.txt",
+      "exists": true,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b",
+      "bytes": 33,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-006.txt",
+      "exists": true,
+      "sha256": "c1955799635c503c4fbdeb68c5fa67ceb24caaf2e49f0c50a6207a1a56d811c6",
+      "bytes": 32,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-007.txt",
+      "exists": true,
+      "sha256": "683490ab1cd4db6bac169004481954d38c12fc1c5f85f382a8951d658c1bc2d7",
+      "bytes": 11824,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-008.txt",
+      "exists": true,
+      "sha256": "7c06edf7695a3681cdea1d65b724748c91c84f8bd562eb92d49dda470f3fd58b",
+      "bytes": 52,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-009.txt",
+      "exists": true,
+      "sha256": "d8760763be63067f00789fcf42648cb7e89259b37690e733415676ec0b8b6596",
+      "bytes": 16,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-010.txt",
+      "exists": true,
+      "sha256": "77cec79641c24137064c137038b47bafbd0a4307ded2cd94a5475159619ecf4f",
+      "bytes": 190,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-011.txt",
+      "exists": true,
+      "sha256": "8bd820f6560f5693a6a8e0b96378a3dab3b6db697ba5f7ed0d398d4415bf94ea",
+      "bytes": 93,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-012.txt",
+      "exists": true,
+      "sha256": "dfe820d9b84e23e8ff08fa05f9602a530393d8342fb502da8a5cc928f8749d54",
+      "bytes": 564,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-013.txt",
+      "exists": true,
+      "sha256": "dc0acce676cadb85ba8305b23cd84facbd4352d0320fd08b5a75f26061249d39",
+      "bytes": 623,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-014.txt",
+      "exists": true,
+      "sha256": "5aa49d3c6ff577f33e48b4744089759dd0dd267d70149f04c00225cabb2e1a3c",
+      "bytes": 680,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-015.txt",
+      "exists": true,
+      "sha256": "df291ebc3bc79bb2d5320bf017b353da0e9c3bb567c48638f911ecb857bdb36b",
+      "bytes": 582,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-016.txt",
+      "exists": true,
+      "sha256": "59ded5981914f1b33d9f3a96843a5a8a911116903846510bc4c88f0457e69696",
+      "bytes": 622,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-017.txt",
+      "exists": true,
+      "sha256": "057f975240f1bc84f45b3b96da4541217bdea9777c3d2e3b0ce66863fd8d0931",
+      "bytes": 26,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-018.txt",
+      "exists": true,
+      "sha256": "68da4da632efe51204bc1d9eeb699c61aecb068de8559c1c8c41ea5b3095541b",
+      "bytes": 44,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-019.txt",
+      "exists": true,
+      "sha256": "0fd4eaac3f79f66d835e21a2aec393c48b02531350f25b8a890fff617f87befb",
+      "bytes": 11841,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-020.txt",
+      "exists": true,
+      "sha256": "bb4b143c7d116aa081dfbf28a30c9557bc755d083133d9bcf2b9733895970be5",
+      "bytes": 77217,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-021.txt",
+      "exists": true,
+      "sha256": "68da4da632efe51204bc1d9eeb699c61aecb068de8559c1c8c41ea5b3095541b",
+      "bytes": 44,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-022.txt",
+      "exists": true,
+      "sha256": "d8760763be63067f00789fcf42648cb7e89259b37690e733415676ec0b8b6596",
+      "bytes": 16,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-023.txt",
+      "exists": true,
+      "sha256": "22f9252bcaa0765c73284b4b99aadc5b2a5f739c80be22908b65f3f96dc4466c",
+      "bytes": 81,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-024.txt",
+      "exists": true,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b",
+      "bytes": 33,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-025.txt",
+      "exists": true,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b",
+      "bytes": 33,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-026.txt",
+      "exists": true,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b",
+      "bytes": 33,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-027.txt",
+      "exists": true,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b",
+      "bytes": 33,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-028.txt",
+      "exists": true,
+      "sha256": "c1955799635c503c4fbdeb68c5fa67ceb24caaf2e49f0c50a6207a1a56d811c6",
+      "bytes": 32,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-029.txt",
+      "exists": true,
+      "sha256": "65e73a922fa8d0ddc0f0b3790e44eacc2774a5409ed90221909461e7af7ed8f8",
+      "bytes": 11848,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-030.txt",
+      "exists": true,
+      "sha256": "8bd820f6560f5693a6a8e0b96378a3dab3b6db697ba5f7ed0d398d4415bf94ea",
+      "bytes": 93,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-031.txt",
+      "exists": true,
+      "sha256": "62134b6d557e7ca54bd21a85f2f0a0a5cf13fa8649d0879e1711d24cbefc6c89",
+      "bytes": 785,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-032.txt",
+      "exists": true,
+      "sha256": "63795f7a5c6941279b6ca8fe9b82ed4f728f5faaec11c1adae27472e13605f76",
+      "bytes": 844,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-033.txt",
+      "exists": true,
+      "sha256": "3a40dde1773f481cfce8181a763d68ee3e95ca95e79b0217f82beffb992a3ae6",
+      "bytes": 901,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-034.txt",
+      "exists": true,
+      "sha256": "c9c02ab9f1c44affc23a4e4c6d81a80d03b53afa5cce72c1daafc29e4712db72",
+      "bytes": 1262,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-035.txt",
+      "exists": true,
+      "sha256": "59ded5981914f1b33d9f3a96843a5a8a911116903846510bc4c88f0457e69696",
+      "bytes": 622,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-036.txt",
+      "exists": true,
+      "sha256": "e62388ebccbaf3c2a8e729decb3702da86180cc115b3a8cbefd6c4b15e51e2c3",
+      "bytes": 1396,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-037.txt",
+      "exists": true,
+      "sha256": "89fb87811750505ae7345c1eb11796c45c2451d9721c9f3e00c932937096df30",
+      "bytes": 122,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-038.txt",
+      "exists": true,
+      "sha256": "cfa05e393ebe62194ab6ad78fee1a48102d1a3c64663c022c3a96eca5361d7f7",
+      "bytes": 872,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-039.txt",
+      "exists": true,
+      "sha256": "966e4d34289827f7eccbda018eeddb645ce0c38352784cd14c83027dd2baa9cd",
+      "bytes": 94,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-040.txt",
+      "exists": true,
+      "sha256": "ba0fca19b041b9b5f15726ed8d7f38993bfa6323d117bb28f5feb88134e26d6e",
+      "bytes": 956,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-041.txt",
+      "exists": true,
+      "sha256": "517cc07afecd1a2323cd8134843f2bad7972fc7d222f14ba56f2ab4884a53e19",
+      "bytes": 1074,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-042.txt",
+      "exists": true,
+      "sha256": "5a57d185aaf82a23a50aa853437aab923cba6c2acd32b192e70641cdbb62e15a",
+      "bytes": 1188,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-043.txt",
+      "exists": true,
+      "sha256": "9cf0a1a19dfe00f0352431ab4cfa772084d5ca8eb863d62b9ffbce5894fddf4d",
+      "bytes": 1262,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-044.txt",
+      "exists": true,
+      "sha256": "5ba6672edde1887ad4cd3a73968c8e0098884be2b51220f0ffae6ed7159ba613",
+      "bytes": 622,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-045.txt",
+      "exists": true,
+      "sha256": "096b57f56d26980cbff9bb720e5abc32462ab6047d01f63ab16215d525f1d436",
+      "bytes": 26,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-046.txt",
+      "exists": true,
+      "sha256": "68da4da632efe51204bc1d9eeb699c61aecb068de8559c1c8c41ea5b3095541b",
+      "bytes": 44,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-047.txt",
+      "exists": true,
+      "sha256": "7de6fca464dbdd42052552fd905986584d8518a010bbed15f8cd14380d055966",
+      "bytes": 12373,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-048.txt",
+      "exists": true,
+      "sha256": "35baee0814a42f2bd17bad50a356e91538b49f2aa69173761ccad978b92eba75",
+      "bytes": 96441,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-049.txt",
+      "exists": true,
+      "sha256": "68da4da632efe51204bc1d9eeb699c61aecb068de8559c1c8c41ea5b3095541b",
+      "bytes": 44,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-050.txt",
+      "exists": true,
+      "sha256": "d8760763be63067f00789fcf42648cb7e89259b37690e733415676ec0b8b6596",
+      "bytes": 16,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-051.txt",
+      "exists": true,
+      "sha256": "a16f0fec440ddc99a667ae4b929d7c8e02d6b15e2fae95fbd240d313e552235f",
+      "bytes": 81,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-052.txt",
+      "exists": true,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b",
+      "bytes": 33,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-053.txt",
+      "exists": true,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b",
+      "bytes": 33,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-054.txt",
+      "exists": true,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b",
+      "bytes": 33,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-055.txt",
+      "exists": true,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b",
+      "bytes": 33,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-056.txt",
+      "exists": true,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b",
+      "bytes": 33,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-057.txt",
+      "exists": true,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b",
+      "bytes": 33,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-058.txt",
+      "exists": true,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b",
+      "bytes": 33,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-059.txt",
+      "exists": true,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b",
+      "bytes": 33,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-060.txt",
+      "exists": true,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b",
+      "bytes": 33,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-061.txt",
+      "exists": true,
+      "sha256": "c1955799635c503c4fbdeb68c5fa67ceb24caaf2e49f0c50a6207a1a56d811c6",
+      "bytes": 32,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-062.txt",
+      "exists": true,
+      "sha256": "1bb99127e9c9732a294c3b42844ffc40b6dd575559257aa0b2b480dd88ea0058",
+      "bytes": 12331,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-063.txt",
+      "exists": true,
+      "sha256": "966e4d34289827f7eccbda018eeddb645ce0c38352784cd14c83027dd2baa9cd",
+      "bytes": 94,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-064.txt",
+      "exists": true,
+      "sha256": "40ddd7f0ca604c68fe3f934d59b00bcfdebf89f7b941bb3448d2d2bf810a1f4d",
+      "bytes": 735,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-065.txt",
+      "exists": true,
+      "sha256": "59701dc34ac6872dcc9419face8a1a7dc605cb44dc259698fa95b660b16a36fa",
+      "bytes": 853,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-066.txt",
+      "exists": true,
+      "sha256": "17ec64ff6abded35d5be68f63d3b069e9aec599928c3d6168e20b130fd97861e",
+      "bytes": 967,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-067.txt",
+      "exists": true,
+      "sha256": "a31b9821ff8a0bbb5111dbd81778ea74ab22e0ec1d6b8cc7cba5f43883d8d434",
+      "bytes": 587,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-068.txt",
+      "exists": true,
+      "sha256": "5ba6672edde1887ad4cd3a73968c8e0098884be2b51220f0ffae6ed7159ba613",
+      "bytes": 622,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-069.txt",
+      "exists": true,
+      "sha256": "e4291abb81f0d3112585dadb72a5e2033a2d4bc12dbba459765584778e061e36",
+      "bytes": 26,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-070.txt",
+      "exists": true,
+      "sha256": "68da4da632efe51204bc1d9eeb699c61aecb068de8559c1c8c41ea5b3095541b",
+      "bytes": 44,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-071.txt",
+      "exists": true,
+      "sha256": "697380f1bc25661bbae5f942b8ed2b78578224f52f734e04a3a383852e927234",
+      "bytes": 12347,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-072.txt",
+      "exists": true,
+      "sha256": "eeb8a04070f59bd60236ada09cd5b31ec97374449139b64f44a2cf58c35981f2",
+      "bytes": 85049,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-073.txt",
+      "exists": true,
+      "sha256": "68da4da632efe51204bc1d9eeb699c61aecb068de8559c1c8c41ea5b3095541b",
+      "bytes": 44,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-074.txt",
+      "exists": true,
+      "sha256": "d8760763be63067f00789fcf42648cb7e89259b37690e733415676ec0b8b6596",
+      "bytes": 16,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-075.txt",
+      "exists": true,
+      "sha256": "459603504eb8ee51d63456d3ae780b1b126a7f9f3ad6f0eba74e733c012d7768",
+      "bytes": 81,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-076.txt",
+      "exists": true,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b",
+      "bytes": 33,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-077.txt",
+      "exists": true,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b",
+      "bytes": 33,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-078.txt",
+      "exists": true,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b",
+      "bytes": 33,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-079.txt",
+      "exists": true,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b",
+      "bytes": 33,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-080.txt",
+      "exists": true,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b",
+      "bytes": 33,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-081.txt",
+      "exists": true,
+      "sha256": "c1955799635c503c4fbdeb68c5fa67ceb24caaf2e49f0c50a6207a1a56d811c6",
+      "bytes": 32,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-082.txt",
+      "exists": true,
+      "sha256": "dc78af24592f86ec9d24a1ee26c8916545ff4e1fde43d5a21bbd8832df069282",
+      "bytes": 11847,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-083.txt",
+      "exists": true,
+      "sha256": "01a8c4c75d28a2cbbb04610f3956e7e9b6cdf978a0800e3e924db64e848b4cd6",
+      "bytes": 278,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-084.txt",
+      "exists": true,
+      "sha256": "966e4d34289827f7eccbda018eeddb645ce0c38352784cd14c83027dd2baa9cd",
+      "bytes": 94,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-085.txt",
+      "exists": true,
+      "sha256": "ba0fca19b041b9b5f15726ed8d7f38993bfa6323d117bb28f5feb88134e26d6e",
+      "bytes": 956,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-086.txt",
+      "exists": true,
+      "sha256": "517cc07afecd1a2323cd8134843f2bad7972fc7d222f14ba56f2ab4884a53e19",
+      "bytes": 1074,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-087.txt",
+      "exists": true,
+      "sha256": "5a57d185aaf82a23a50aa853437aab923cba6c2acd32b192e70641cdbb62e15a",
+      "bytes": 1188,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-088.txt",
+      "exists": true,
+      "sha256": "21935ce5c281c6ea6383dc7ec278b5f07898e534d6bdcbc2793c3972d5dea3b0",
+      "bytes": 1262,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-089.txt",
+      "exists": true,
+      "sha256": "5ba6672edde1887ad4cd3a73968c8e0098884be2b51220f0ffae6ed7159ba613",
+      "bytes": 622,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-090.txt",
+      "exists": true,
+      "sha256": "8b47f52ac0d2311dfbc26157d7ca2592d5951e82b43f97224ca7956a3c2909dd",
+      "bytes": 382,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-091.txt",
+      "exists": true,
+      "sha256": "89fb87811750505ae7345c1eb11796c45c2451d9721c9f3e00c932937096df30",
+      "bytes": 122,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-092.txt",
+      "exists": true,
+      "sha256": "27bfb368ddfa78892d8d8aa8b681c55ef1e12222fb63d24ee6b96b72a3d20ae8",
+      "bytes": 594,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-093.txt",
+      "exists": true,
+      "sha256": "05d9bb641bc9fc74424b591c6d36dcce565a84793d6af0207cd2d4947264542f",
+      "bytes": 94,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-094.txt",
+      "exists": true,
+      "sha256": "df926ae74bdfe8c8fdb58210f4a8ae82a3fa60ba3d08475c23a9c5bfa1769a6f",
+      "bytes": 1027,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-095.txt",
+      "exists": true,
+      "sha256": "4f4a26d196b84dc8cb026f9963d787a04b08e384719dd89e9e3c0cf8fe1fcfe2",
+      "bytes": 1145,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-096.txt",
+      "exists": true,
+      "sha256": "5770bfa47883da2de6802a2e81afccb8df895c189f97ccbd27882d4bcda5cab9",
+      "bytes": 1259,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-097.txt",
+      "exists": true,
+      "sha256": "000adcc05995bd7151f16ca1af926794496cc30b5292f08345d8300de8ac5f78",
+      "bytes": 1262,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-098.txt",
+      "exists": true,
+      "sha256": "fefb8a7af2159e20bdf298a294cf5e56f601f36a224083e0083c90de9417811b",
+      "bytes": 622,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-099.txt",
+      "exists": true,
+      "sha256": "51bb74cbf414f12f2cc9b439d0c474733bd3153201398e5ac60fccaefa17aa71",
+      "bytes": 26,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-100.txt",
+      "exists": true,
+      "sha256": "68da4da632efe51204bc1d9eeb699c61aecb068de8559c1c8c41ea5b3095541b",
+      "bytes": 44,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-101.txt",
+      "exists": true,
+      "sha256": "733a88b006040ebbc7da4e440a52408c58298ec9251ce9d98cdd274df1e5af47",
+      "bytes": 12624,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-102.txt",
+      "exists": true,
+      "sha256": "05fd9fdb45df301f0b23491e99750f0bcc00268af8fa206cfb5065559101a64c",
+      "bytes": 131815,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-103.txt",
+      "exists": true,
+      "sha256": "68da4da632efe51204bc1d9eeb699c61aecb068de8559c1c8c41ea5b3095541b",
+      "bytes": 44,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-104.txt",
+      "exists": true,
+      "sha256": "d8760763be63067f00789fcf42648cb7e89259b37690e733415676ec0b8b6596",
+      "bytes": 16,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-105.txt",
+      "exists": true,
+      "sha256": "cdf60cec3a3a76de57268524704d0629871c7db315925fd23a58fdc37853c960",
+      "bytes": 81,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-106.txt",
+      "exists": true,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b",
+      "bytes": 33,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-107.txt",
+      "exists": true,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b",
+      "bytes": 33,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-108.txt",
+      "exists": true,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b",
+      "bytes": 33,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-109.txt",
+      "exists": true,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b",
+      "bytes": 33,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-110.txt",
+      "exists": true,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b",
+      "bytes": 33,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-111.txt",
+      "exists": true,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b",
+      "bytes": 33,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-112.txt",
+      "exists": true,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b",
+      "bytes": 33,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-113.txt",
+      "exists": true,
+      "sha256": "c1955799635c503c4fbdeb68c5fa67ceb24caaf2e49f0c50a6207a1a56d811c6",
+      "bytes": 32,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-114.txt",
+      "exists": true,
+      "sha256": "41874391d7a02974e966e1820896e6fcd7bb6dba5b923dc20b6c4617ea0b8a1b",
+      "bytes": 12101,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-115.txt",
+      "exists": true,
+      "sha256": "05d9bb641bc9fc74424b591c6d36dcce565a84793d6af0207cd2d4947264542f",
+      "bytes": 94,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-116.txt",
+      "exists": true,
+      "sha256": "df926ae74bdfe8c8fdb58210f4a8ae82a3fa60ba3d08475c23a9c5bfa1769a6f",
+      "bytes": 1027,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-117.txt",
+      "exists": true,
+      "sha256": "4f4a26d196b84dc8cb026f9963d787a04b08e384719dd89e9e3c0cf8fe1fcfe2",
+      "bytes": 1145,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-118.txt",
+      "exists": true,
+      "sha256": "5770bfa47883da2de6802a2e81afccb8df895c189f97ccbd27882d4bcda5cab9",
+      "bytes": 1259,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-119.txt",
+      "exists": true,
+      "sha256": "6124cf0c095d32755fdd648184f0a28fc924a998a76589cd3a8b2aa772a85261",
+      "bytes": 1262,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-120.txt",
+      "exists": true,
+      "sha256": "fefb8a7af2159e20bdf298a294cf5e56f601f36a224083e0083c90de9417811b",
+      "bytes": 622,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-121.txt",
+      "exists": true,
+      "sha256": "159caa20d04e98a8e9488f4f89677db5e50feda214d08350ec9135763bdcb2db",
+      "bytes": 26,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-122.txt",
+      "exists": true,
+      "sha256": "68da4da632efe51204bc1d9eeb699c61aecb068de8559c1c8c41ea5b3095541b",
+      "bytes": 44,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-123.txt",
+      "exists": true,
+      "sha256": "0644baa6bf0fd29cea40809736b667953d12a054ea197bcb057405dda4ff4e7d",
+      "bytes": 12118,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-124.txt",
+      "exists": true,
+      "sha256": "89734bdc8b67bfbc29ea8e037aea244e17b9d58987d45be3f952763024de1f2b",
+      "bytes": 128206,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-125.txt",
+      "exists": true,
+      "sha256": "68da4da632efe51204bc1d9eeb699c61aecb068de8559c1c8c41ea5b3095541b",
+      "bytes": 44,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-126.txt",
+      "exists": true,
+      "sha256": "7021b4cae40a9d563e995b272355a45df20300befa981e13e4d3e73560a6c651",
+      "bytes": 5761,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-127.txt",
+      "exists": true,
+      "sha256": "d8760763be63067f00789fcf42648cb7e89259b37690e733415676ec0b8b6596",
+      "bytes": 16,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-128.txt",
+      "exists": true,
+      "sha256": "b8f4dc7b855b83a13499d4999fbcbf853497e3b48ea9bf525973da77ca50d918",
+      "bytes": 81,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-129.txt",
+      "exists": true,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b",
+      "bytes": 33,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-130.txt",
+      "exists": true,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b",
+      "bytes": 33,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-131.txt",
+      "exists": true,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b",
+      "bytes": 33,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-132.txt",
+      "exists": true,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b",
+      "bytes": 33,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-133.txt",
+      "exists": true,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b",
+      "bytes": 33,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-134.txt",
+      "exists": true,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b",
+      "bytes": 33,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-135.txt",
+      "exists": true,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b",
+      "bytes": 33,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-136.txt",
+      "exists": true,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b",
+      "bytes": 33,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-137.txt",
+      "exists": true,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b",
+      "bytes": 33,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-138.txt",
+      "exists": true,
+      "sha256": "c1955799635c503c4fbdeb68c5fa67ceb24caaf2e49f0c50a6207a1a56d811c6",
+      "bytes": 32,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-139.txt",
+      "exists": true,
+      "sha256": "67e950015e8eb2dc4a33b9dc13540c298fcb00cccd18c5ef8851e15fea549fee",
+      "bytes": 12347,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-140.txt",
+      "exists": true,
+      "sha256": "966e4d34289827f7eccbda018eeddb645ce0c38352784cd14c83027dd2baa9cd",
+      "bytes": 94,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-141.txt",
+      "exists": true,
+      "sha256": "40ddd7f0ca604c68fe3f934d59b00bcfdebf89f7b941bb3448d2d2bf810a1f4d",
+      "bytes": 735,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-142.txt",
+      "exists": true,
+      "sha256": "59701dc34ac6872dcc9419face8a1a7dc605cb44dc259698fa95b660b16a36fa",
+      "bytes": 853,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-143.txt",
+      "exists": true,
+      "sha256": "17ec64ff6abded35d5be68f63d3b069e9aec599928c3d6168e20b130fd97861e",
+      "bytes": 967,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-144.txt",
+      "exists": true,
+      "sha256": "53ee6be173c87030cc33821c13c67a51929840d089bfe6ca024619f955d355aa",
+      "bytes": 587,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-145.txt",
+      "exists": true,
+      "sha256": "5ba6672edde1887ad4cd3a73968c8e0098884be2b51220f0ffae6ed7159ba613",
+      "bytes": 622,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-146.txt",
+      "exists": true,
+      "sha256": "2de47827a9bed281842dbab577f94fae6ff389f0dc79369668efc4fe9bd3030f",
+      "bytes": 26,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-147.txt",
+      "exists": true,
+      "sha256": "68da4da632efe51204bc1d9eeb699c61aecb068de8559c1c8c41ea5b3095541b",
+      "bytes": 44,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-148.txt",
+      "exists": true,
+      "sha256": "0eaca215b8ac0c436cabfc774497173b83d82b0440f822df6329976f20a0eb45",
+      "bytes": 12363,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-149.txt",
+      "exists": true,
+      "sha256": "020e0884d4c6e6ea1c8a2f240f8bb20e42345b3a4cf9e0def2318d7182af6302",
+      "bytes": 80736,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/command-150.txt",
+      "exists": true,
+      "sha256": "68da4da632efe51204bc1d9eeb699c61aecb068de8559c1c8c41ea5b3095541b",
+      "bytes": 44,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/source-cold-backup-manifest.json",
+      "exists": true,
+      "sha256": "437643c704e8df12a73e47813541d4745d28801fa63fd60abf5bc4f9d7f18866",
+      "bytes": 7967,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/source-cold-backup",
+      "exists": true,
+      "type": "directory",
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/pre-finalization-cold-backup-manifest.json",
+      "exists": true,
+      "sha256": "aef2a75dd4fd3118e9c8fe2f0fab72e57348bfbdf9bdb7ddaa8b2df85b60401b",
+      "bytes": 8151,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-final/pre-finalization-cold-backup",
+      "exists": true,
+      "type": "directory",
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/verification.json",
+      "exists": true,
+      "sha256": "840f18cb219a672264c89826e29d7e8a4101b31553c579962c10588b87f96165",
+      "bytes": 36408,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-001.txt",
+      "exists": true,
+      "sha256": "1c17f765aee86bc19dad34bd5e6a05d6c2100614b14dcb3af732bdc77e1f0297",
+      "bytes": 314,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-002.txt",
+      "exists": true,
+      "sha256": "351ca240f51d6bb16ef80fdc7a1c566256f612378e915f9a0223151be2596341",
+      "bytes": 11313,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-003.txt",
+      "exists": true,
+      "sha256": "128ba2120a18a5940852bdd9f7ef16a2cf8116e33f5e361988223fd982cc9d92",
+      "bytes": 11313,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-004.txt",
+      "exists": true,
+      "sha256": "de3e304c7de1b0a00f83e608a184aa24ebf5b1e0bba5bf65c73a6107b4007536",
+      "bytes": 11313,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-005.txt",
+      "exists": true,
+      "sha256": "8c6096dba5092ddf9056422f0cbf759a8cb86ec39199662ed08f59a9f7b36f66",
+      "bytes": 379,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-006.txt",
+      "exists": true,
+      "sha256": "31b0530e37ca88c205e3acfa51c66207053ca5ed2e173ac721b6bbceb88f9058",
+      "bytes": 379,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-007.txt",
+      "exists": true,
+      "sha256": "50368ec8f26fe05b9c3f0f2dab7717a792f125a70e3aa577202d71b8db36f732",
+      "bytes": 314,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-008.txt",
+      "exists": true,
+      "sha256": "588308cbafb2a4e85c6cf63463e6d0a199fc9a08ef4e9e213b8c7ab3b7b4cd4a",
+      "bytes": 11323,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-009.txt",
+      "exists": true,
+      "sha256": "8606c28e6340ccd06182cb6d12bf2602a6727ea7c6a2181a0eb62bc8dd198103",
+      "bytes": 11323,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-010.txt",
+      "exists": true,
+      "sha256": "1fe610ec09a930e47816b112a5e8641a0ee1701990c756dfd4b16c2cd3b8e9b6",
+      "bytes": 11323,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-011.txt",
+      "exists": true,
+      "sha256": "2803adee9f7c6f8dc0574b00373c128bf6888c6211ed88a671361b29681bd066",
+      "bytes": 56,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-012.txt",
+      "exists": true,
+      "sha256": "e2fdcfa245ea991aadf261ef4caf3de00d404d20d125c2d2c48e6a2ce1f4f796",
+      "bytes": 10739,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-013.txt",
+      "exists": true,
+      "sha256": "f051de9e730571ca6cdf812949298819740f473b583c4049f12bfcdd9149a882",
+      "bytes": 13352,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-014.txt",
+      "exists": true,
+      "sha256": "3d869433622c32f776ffb79976426e5d8d6001f45b11d48627b7ebc67a68e507",
+      "bytes": 260,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-015.txt",
+      "exists": true,
+      "sha256": "733dcc5aac8fa00faa78556dacab3757351acaf3ea4b1209ae66280e6146c0ca",
+      "bytes": 314,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-016.txt",
+      "exists": true,
+      "sha256": "8ad92e099722c8b766004b9d4170a31f7034c98a846c1572eaec7a201e99a330",
+      "bytes": 12003,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-017.txt",
+      "exists": true,
+      "sha256": "8606c28e6340ccd06182cb6d12bf2602a6727ea7c6a2181a0eb62bc8dd198103",
+      "bytes": 11323,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-018.txt",
+      "exists": true,
+      "sha256": "1fe610ec09a930e47816b112a5e8641a0ee1701990c756dfd4b16c2cd3b8e9b6",
+      "bytes": 11323,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-019.txt",
+      "exists": true,
+      "sha256": "93d90ea041aea5b2c094f24b01b05433fb73c444855c0fca9e2fea31f9d4ecd9",
+      "bytes": 56,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-020.txt",
+      "exists": true,
+      "sha256": "8606c28e6340ccd06182cb6d12bf2602a6727ea7c6a2181a0eb62bc8dd198103",
+      "bytes": 11323,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-021.txt",
+      "exists": true,
+      "sha256": "41a147eb651c5bc19045dac0174718ad8a21a404378726d9460cb6370701bcea",
+      "bytes": 10739,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-022.txt",
+      "exists": true,
+      "sha256": "eaafd2fdceaf92bfa2a7dc375d3408107edffb1c0445bc5b0d061b3139051fa1",
+      "bytes": 14831,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-023.txt",
+      "exists": true,
+      "sha256": "1591f8a3195af5c42a38328d85ff1117889d53d6d4c59068bd477f1a39a9e1f1",
+      "bytes": 260,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-024.txt",
+      "exists": true,
+      "sha256": "50368ec8f26fe05b9c3f0f2dab7717a792f125a70e3aa577202d71b8db36f732",
+      "bytes": 314,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-025.txt",
+      "exists": true,
+      "sha256": "8ad92e099722c8b766004b9d4170a31f7034c98a846c1572eaec7a201e99a330",
+      "bytes": 12003,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-026.txt",
+      "exists": true,
+      "sha256": "05b95e96ca1999fbbd772b466c0389de315fd046d9971eb1cc8a140c52c8d594",
+      "bytes": 12003,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-027.txt",
+      "exists": true,
+      "sha256": "1fe610ec09a930e47816b112a5e8641a0ee1701990c756dfd4b16c2cd3b8e9b6",
+      "bytes": 11323,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-028.txt",
+      "exists": true,
+      "sha256": "5636767f068680304653109551066bb91a795267f2f340031de1f662a5cdfd8c",
+      "bytes": 56,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-029.txt",
+      "exists": true,
+      "sha256": "1fe610ec09a930e47816b112a5e8641a0ee1701990c756dfd4b16c2cd3b8e9b6",
+      "bytes": 11323,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-030.txt",
+      "exists": true,
+      "sha256": "c08fc3f6b0b7062300bbe5ef86c6c8940c1965c496ccf121a005fffcc4457c2a",
+      "bytes": 10739,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-031.txt",
+      "exists": true,
+      "sha256": "4748e10e474cb9cb4defe92350ce7b845f33f679738bb043dd2ec577932da302",
+      "bytes": 17184,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-032.txt",
+      "exists": true,
+      "sha256": "835c3b73d2d52295cbf111caa74ea9fae4e5c550805c8ad85366317fee2f347d",
+      "bytes": 260,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-033.txt",
+      "exists": true,
+      "sha256": "50368ec8f26fe05b9c3f0f2dab7717a792f125a70e3aa577202d71b8db36f732",
+      "bytes": 314,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-034.txt",
+      "exists": true,
+      "sha256": "8ad92e099722c8b766004b9d4170a31f7034c98a846c1572eaec7a201e99a330",
+      "bytes": 12003,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-035.txt",
+      "exists": true,
+      "sha256": "05b95e96ca1999fbbd772b466c0389de315fd046d9971eb1cc8a140c52c8d594",
+      "bytes": 12003,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-036.txt",
+      "exists": true,
+      "sha256": "f57a54c2cdc6e9296f4532fa27409696beae54740c4705a21866c41ec0d9110a",
+      "bytes": 12003,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-037.txt",
+      "exists": true,
+      "sha256": "8ad92e099722c8b766004b9d4170a31f7034c98a846c1572eaec7a201e99a330",
+      "bytes": 12003,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-038.txt",
+      "exists": true,
+      "sha256": "05b95e96ca1999fbbd772b466c0389de315fd046d9971eb1cc8a140c52c8d594",
+      "bytes": 12003,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-039.txt",
+      "exists": true,
+      "sha256": "f57a54c2cdc6e9296f4532fa27409696beae54740c4705a21866c41ec0d9110a",
+      "bytes": 12003,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-040.txt",
+      "exists": true,
+      "sha256": "2803adee9f7c6f8dc0574b00373c128bf6888c6211ed88a671361b29681bd066",
+      "bytes": 56,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-041.txt",
+      "exists": true,
+      "sha256": "8ad92e099722c8b766004b9d4170a31f7034c98a846c1572eaec7a201e99a330",
+      "bytes": 12003,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-042.txt",
+      "exists": true,
+      "sha256": "8b474222298ffdd408ec06ee30e813fbad7f0ccdccdaef618f9251126efa6363",
+      "bytes": 11429,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-043.txt",
+      "exists": true,
+      "sha256": "a56f759c881a4ee418b13d0a8ddee14a52f2fb696bdd152b188f935b8727895e",
+      "bytes": 13532,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-044.txt",
+      "exists": true,
+      "sha256": "3d869433622c32f776ffb79976426e5d8d6001f45b11d48627b7ebc67a68e507",
+      "bytes": 260,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-045.txt",
+      "exists": true,
+      "sha256": "50368ec8f26fe05b9c3f0f2dab7717a792f125a70e3aa577202d71b8db36f732",
+      "bytes": 314,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-046.txt",
+      "exists": true,
+      "sha256": "986cdea94e3a6abb9d10645993fe1497aa6b78cf8224d4ed1feee2712ee3bef5",
+      "bytes": 11999,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-047.txt",
+      "exists": true,
+      "sha256": "05b95e96ca1999fbbd772b466c0389de315fd046d9971eb1cc8a140c52c8d594",
+      "bytes": 12003,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-048.txt",
+      "exists": true,
+      "sha256": "f57a54c2cdc6e9296f4532fa27409696beae54740c4705a21866c41ec0d9110a",
+      "bytes": 12003,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-049.txt",
+      "exists": true,
+      "sha256": "5636767f068680304653109551066bb91a795267f2f340031de1f662a5cdfd8c",
+      "bytes": 56,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-050.txt",
+      "exists": true,
+      "sha256": "f57a54c2cdc6e9296f4532fa27409696beae54740c4705a21866c41ec0d9110a",
+      "bytes": 12003,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-051.txt",
+      "exists": true,
+      "sha256": "5de7efe460e1d0e8fc9441d8770cbd9ded04e3b585e0618c494664ea5abd4462",
+      "bytes": 11429,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-052.txt",
+      "exists": true,
+      "sha256": "406ddb2d9c40e8755997167cb6df8e679ae7cfb1329fc5bdedde2daabeefbe44",
+      "bytes": 10334,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-053.txt",
+      "exists": true,
+      "sha256": "835c3b73d2d52295cbf111caa74ea9fae4e5c550805c8ad85366317fee2f347d",
+      "bytes": 260,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-054.txt",
+      "exists": true,
+      "sha256": "50368ec8f26fe05b9c3f0f2dab7717a792f125a70e3aa577202d71b8db36f732",
+      "bytes": 314,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-055.txt",
+      "exists": true,
+      "sha256": "986cdea94e3a6abb9d10645993fe1497aa6b78cf8224d4ed1feee2712ee3bef5",
+      "bytes": 11999,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-056.txt",
+      "exists": true,
+      "sha256": "05b95e96ca1999fbbd772b466c0389de315fd046d9971eb1cc8a140c52c8d594",
+      "bytes": 12003,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-057.txt",
+      "exists": true,
+      "sha256": "b93a756a466b85c27dbb2c686301182d01915016b9692334185247b7fe8bc1f1",
+      "bytes": 12001,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-058.txt",
+      "exists": true,
+      "sha256": "93d90ea041aea5b2c094f24b01b05433fb73c444855c0fca9e2fea31f9d4ecd9",
+      "bytes": 56,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-059.txt",
+      "exists": true,
+      "sha256": "05b95e96ca1999fbbd772b466c0389de315fd046d9971eb1cc8a140c52c8d594",
+      "bytes": 12003,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-060.txt",
+      "exists": true,
+      "sha256": "0185ab76caebd9d8bdfdf1e67ae7f3404c7cce0a484945275a1436a93f5a4eed",
+      "bytes": 11429,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-061.txt",
+      "exists": true,
+      "sha256": "3c8c037504f9a69647d6acf84269a6d01473808c10ae0ed30a6adb4ab8c7b90a",
+      "bytes": 16358,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-062.txt",
+      "exists": true,
+      "sha256": "1591f8a3195af5c42a38328d85ff1117889d53d6d4c59068bd477f1a39a9e1f1",
+      "bytes": 260,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-063.txt",
+      "exists": true,
+      "sha256": "733dcc5aac8fa00faa78556dacab3757351acaf3ea4b1209ae66280e6146c0ca",
+      "bytes": 314,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-064.txt",
+      "exists": true,
+      "sha256": "986cdea94e3a6abb9d10645993fe1497aa6b78cf8224d4ed1feee2712ee3bef5",
+      "bytes": 11999,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-065.txt",
+      "exists": true,
+      "sha256": "801df0328dd89ad3ce4a54a920646ef84f99444f32f6f3dbcb84d9ebc30a60f0",
+      "bytes": 12001,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-066.txt",
+      "exists": true,
+      "sha256": "b93a756a466b85c27dbb2c686301182d01915016b9692334185247b7fe8bc1f1",
+      "bytes": 12001,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-067.txt",
+      "exists": true,
+      "sha256": "99fd62526ba7fb4e33890f4035c5ee94d4e22a0bec8c9791adcd4c605aa1631c",
+      "bytes": 314,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-068.txt",
+      "exists": true,
+      "sha256": "53b71dad7194d14af8d97b9bb4d8d377d9b4803864e230c9ef4ad402d2ec3959",
+      "bytes": 139,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-069.txt",
+      "exists": true,
+      "sha256": "99fd62526ba7fb4e33890f4035c5ee94d4e22a0bec8c9791adcd4c605aa1631c",
+      "bytes": 314,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-070.txt",
+      "exists": true,
+      "sha256": "986cdea94e3a6abb9d10645993fe1497aa6b78cf8224d4ed1feee2712ee3bef5",
+      "bytes": 11999,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-071.txt",
+      "exists": true,
+      "sha256": "058865c7168eee3f4f7d33a6d60759489d91f2f996bfc44f67c06811d9c82dd0",
+      "bytes": 12011,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-072.txt",
+      "exists": true,
+      "sha256": "b93a756a466b85c27dbb2c686301182d01915016b9692334185247b7fe8bc1f1",
+      "bytes": 12001,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-073.txt",
+      "exists": true,
+      "sha256": "90d1c0ba0b590827b63041d81a02421b0f8590bbea71ae9b805f76e7994ce127",
+      "bytes": 379,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-074.txt",
+      "exists": true,
+      "sha256": "2492192ba44f71d0dab351d03f313070ce6a194de75d73ed4c27e821dbfaf8ec",
+      "bytes": 379,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-075.txt",
+      "exists": true,
+      "sha256": "1b68b9335af6e33dc90a0b0d40d41f0f2fd96cab9ecfbecfb08770aa2f22447f",
+      "bytes": 174,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-076.txt",
+      "exists": true,
+      "sha256": "99fd62526ba7fb4e33890f4035c5ee94d4e22a0bec8c9791adcd4c605aa1631c",
+      "bytes": 314,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-077.txt",
+      "exists": true,
+      "sha256": "583f77fcbc78fce50e363d45bd6e92e1b8774b30193167e1533c2d006fd32902",
+      "bytes": 12010,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-078.txt",
+      "exists": true,
+      "sha256": "6f8fbd9e26396890498ca83267e4b7f1d26a70372fad5ad591607cc9ddaf8c8d",
+      "bytes": 12011,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-079.txt",
+      "exists": true,
+      "sha256": "f66ba68f3abaac70a8f892d0df247257b07d588153a100d27471753bba024fe8",
+      "bytes": 12011,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-080.txt",
+      "exists": true,
+      "sha256": "d4833c41bbd44c44abcb3a2c18dcd6315b2f7d091ff43e40bb40849593bae44f",
+      "bytes": 1366,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-081.txt",
+      "exists": true,
+      "sha256": "e981b6dbbc21b45d8100c12e29d311327e1ce77588116273a1968f36a9057243",
+      "bytes": 314,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-082.txt",
+      "exists": true,
+      "sha256": "583f77fcbc78fce50e363d45bd6e92e1b8774b30193167e1533c2d006fd32902",
+      "bytes": 12010,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-083.txt",
+      "exists": true,
+      "sha256": "1e65718d48053f3dc6aad9a8f9c472fd7fcd768db71d1bd6c48eade939e03895",
+      "bytes": 12011,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-084.txt",
+      "exists": true,
+      "sha256": "517fca850b7a1fe501b842afd254cebf5f18372559140a70f357a254c39555cf",
+      "bytes": 12009,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-085.txt",
+      "exists": true,
+      "sha256": "463a1053b790d6f24ccef51f399730801216ffdf21258c88ab0e5bf914b91018",
+      "bytes": 379,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-086.txt",
+      "exists": true,
+      "sha256": "304395f3e873ab10c3fc692e32d7317a4e38909e558e64cfc39a3221451e10bd",
+      "bytes": 27125,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-087.txt",
+      "exists": true,
+      "sha256": "0882ebc3d0f63eba3857b81bd77916547b8299f21a3bf5044a6f44defa864de2",
+      "bytes": 31383,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-088.txt",
+      "exists": true,
+      "sha256": "8aa03dc470fec153548763ec2c02357a60692c83246df07721b017b582911515",
+      "bytes": 28754,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/command-089.txt",
+      "exists": true,
+      "sha256": "a0c66cc333f8599b90f9a7ab6dd5a3cd081f8e524b83d44a9956aa148d9cdad7",
+      "bytes": 857,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/source_2.11.9-checkpoint.json",
+      "exists": true,
+      "sha256": "e56f6fecc3a125b6ef3f6f4292210abf08bdd29dbad347493f628ab7e3253ff9",
+      "bytes": 6722,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/source_2.11.9-members.json",
+      "exists": true,
+      "sha256": "b55a4e631f91f88e08337031e15ee1537f437b0b1cf99b2416d2df392ba8c111",
+      "bytes": 46664,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/source-cold-backup",
+      "exists": true,
+      "type": "directory",
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/source-cold-backup_restart-checkpoint.json",
+      "exists": true,
+      "sha256": "221b023d6ee9ffa73dc1a3f7517abab6e7c3bec516669176aef6818fa818221f",
+      "bytes": 6731,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/before_roll_2.12-members.json",
+      "exists": true,
+      "sha256": "7ec7821e040bbc18997d882c5a1ec3e5904057e73ecb30f7f3accb1b271d65a1",
+      "bytes": 46646,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/2.12_nats-1-checkpoint.json",
+      "exists": true,
+      "sha256": "2f0024945fe5a97639349e55e134f01f22ac9585b63736b6e38129dbe4343d1d",
+      "bytes": 6729,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/2.12_nats-1-members.json",
+      "exists": true,
+      "sha256": "a81398c8ce65c2b59fa55bf305db165fb167194a2939b244a1fc2159c27e3d9d",
+      "bytes": 47223,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/2.12_nats-2-checkpoint.json",
+      "exists": true,
+      "sha256": "b49827df733b77c815875cebb07dde6155857d16b36413a6c6a03ca2b75f3808",
+      "bytes": 6731,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/2.12_nats-2-members.json",
+      "exists": true,
+      "sha256": "4e15dc0934f3cae6f637a348523419d77471286f6a043715b13d2181a80d55b9",
+      "bytes": 47846,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/2.12_nats-3-checkpoint.json",
+      "exists": true,
+      "sha256": "fca0c8c17e06733c8b9f485c8b80cb7e311da9532339eb9954cde288f07a3cb1",
+      "bytes": 6734,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/2.12_nats-3-members.json",
+      "exists": true,
+      "sha256": "b2ab62b7213884dd2de7138dad2104a503fe3095cf1976f6f65775e0b37ee428",
+      "bytes": 48614,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/before_roll_2.14.7-members.json",
+      "exists": true,
+      "sha256": "df6483dbd611b6dbd0762f712752c8f3d27f7d1d62bed7117c13d74a0e4f8cc0",
+      "bytes": 48636,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/2.14.7_nats-1-checkpoint.json",
+      "exists": true,
+      "sha256": "4fd5026ef766f3143ff66a05ea719c58d42e6dbe1efcb1acf0e22fddf6e31ad2",
+      "bytes": 6734,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/2.14.7_nats-1-members.json",
+      "exists": true,
+      "sha256": "d49c7d3ba9f8045933d17c899d35f60f44c191f2139d78563d1fbef6d69ed351",
+      "bytes": 48955,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/2.14.7_nats-3-checkpoint.json",
+      "exists": true,
+      "sha256": "8b00049fe68294358882eb58bfe327d54cf210ff4e9e3386a9a0ae9032c38749",
+      "bytes": 6732,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/2.14.7_nats-3-members.json",
+      "exists": true,
+      "sha256": "860eb8765d17ba5858e55f42759783c22cc8dd051e4c77deb125c1060d89b817",
+      "bytes": 49311,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/2.14.7_nats-2-checkpoint.json",
+      "exists": true,
+      "sha256": "538b40a5d432153206c721e876d3014d0e0c43e260fba9dc0f7c0c4d82f53721",
+      "bytes": 6730,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/2.14.7_nats-2-members.json",
+      "exists": true,
+      "sha256": "5334575513a2210fec378f39d31c890125d9c928acfe683330c0e178f4bcc60f",
+      "bytes": 49699,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/upgraded_takeover-checkpoint.json",
+      "exists": true,
+      "sha256": "c86d01806209a17f659e7d4e9c546e163b915a66350c65189a6d9abe1dedd214",
+      "bytes": 7034,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/single_node_restart-checkpoint.json",
+      "exists": true,
+      "sha256": "07ff62398db851be8cc3726ce4b482b88cad5d18d4c1127d1c404f3d6896d816",
+      "bytes": 6950,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/single_node_restart-members.json",
+      "exists": true,
+      "sha256": "d05364fea2f0cee25e79207c14d1931dee062d5e554ac8d7529b570d244b3504",
+      "bytes": 49731,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/target-cold-backup",
+      "exists": true,
+      "type": "directory",
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/target-cold-backup_restart-checkpoint.json",
+      "exists": true,
+      "sha256": "b77123a46ea31b06c205eacc70b4b21b0a5c6ae934436497847bc2a1d601cbcb",
+      "bytes": 6946,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/all_node_restart-members.json",
+      "exists": true,
+      "sha256": "142e8f5ac73f1d1dab766d31dc81de40d0ea669fc9a456925309f0c8e244ab30",
+      "bytes": 49670,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/after_quorum_fault-checkpoint.json",
+      "exists": true,
+      "sha256": "756c7fd617c5a91fa1009f72c7ced0b102c0c75bb0d89c9523e387860215f08c",
+      "bytes": 6951,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/after_quorum_fault-members.json",
+      "exists": true,
+      "sha256": "94fbfac6e25ad99a304f9e6688a95261a56a42f3883fd0e38de9a6105966ebd7",
+      "bytes": 49701,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-native-calculated-20261005/verification.json",
+      "exists": true,
+      "sha256": "0ed5a9e3e83a97260f4f9b5e68832f62cfc7d2799741a4de2cfce703713e3555",
+      "bytes": 20330,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-native-calculated-20261005/command-001.txt",
+      "exists": true,
+      "sha256": "6a0f7fe0d1054d984e5d083b07ccc991798e8cb2bdc41e76235b52cac9a6f304",
+      "bytes": 81,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-native-calculated-20261005/command-002.txt",
+      "exists": true,
+      "sha256": "6189935a2af508e9d0568b6dd10cd6f94b427ac2e06810a6c54e4513d73332a4",
+      "bytes": 81,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-native-calculated-20261005/command-003.txt",
+      "exists": true,
+      "sha256": "640f08d1ca7f652d8a3a63f1edb49d14a51b2fb5b78ea5738f551074337235eb",
+      "bytes": 1241,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-native-calculated-20261005/command-004.txt",
+      "exists": true,
+      "sha256": "6283054d92e97dff8c1751e74e8de118ab5d1a30be4591e53f7f04ad88b458c2",
+      "bytes": 3332,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-native-calculated-20261005/command-005.txt",
+      "exists": true,
+      "sha256": "056ec137c94c6cc519a9a448a974ff23ef4c8ed789db2da38d82517a5814640d",
+      "bytes": 81,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-native-calculated-20261005/command-006.txt",
+      "exists": true,
+      "sha256": "a134af235ee53627a56927e772fc1c1a6fbc4723671f37754c537b4260eab799",
+      "bytes": 886,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-native-calculated-20261005/command-007.txt",
+      "exists": true,
+      "sha256": "adb6a730b539b64d19cb0053fc868168d937e686f13c06968975c89ae5a677e6",
+      "bytes": 136,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-native-calculated-20261005/command-008.txt",
+      "exists": true,
+      "sha256": "3b71b39f2fed5afb5676439dc9d4f2dd0d3130f6e0b8bf9317f8e64fac4894f5",
+      "bytes": 38,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-native-calculated-20261005/command-009.txt",
+      "exists": true,
+      "sha256": "36cc1633e05a893a89ed3038a66da7de7e4617100e39b0543a8bc20d2c97b524",
+      "bytes": 4914,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-native-calculated-20261005/command-010.txt",
+      "exists": true,
+      "sha256": "c1d27f877d5f1a42149e901fbe779e79f2c05e0f3ffd4d658771705c29d1b70f",
+      "bytes": 49,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-native-calculated-20261005/command-011.txt",
+      "exists": true,
+      "sha256": "31d17e7bd1a0a9600b7cafaa5874904464b9a10f2acd8e6af9f2e3c396ad45a9",
+      "bytes": 8711,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-native-calculated-20261005/command-012.txt",
+      "exists": true,
+      "sha256": "744561dc4cb3a53b5627e642969754c7f8de9ba2acf1479ba67dd7377426abcc",
+      "bytes": 192555,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-native-calculated-20261005/command-013.txt",
+      "exists": true,
+      "sha256": "c1d27f877d5f1a42149e901fbe779e79f2c05e0f3ffd4d658771705c29d1b70f",
+      "bytes": 49,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-native-calculated-20261005/command-014.txt",
+      "exists": true,
+      "sha256": "8df8bd5a06e7673e43ad20c17b2f730c117e70ceb4fc8fa811dd0976e9dbfe07",
+      "bytes": 36,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-native-calculated-20261005/command-015.txt",
+      "exists": true,
+      "sha256": "5743f28863c98968abf267fc0d561434d57ccb7ebfc3a017d8c3e4ee32056b89",
+      "bytes": 52,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-native-calculated-20261005/command-016.txt",
+      "exists": true,
+      "sha256": "300082e002acc2e00ba3b9a0d1f55eb590bd93773cd865a0588cf0b171e5a1bc",
+      "bytes": 10405,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-native-calculated-20261005/command-017.txt",
+      "exists": true,
+      "sha256": "681b2ac957c290ce19ae2c69f4944b09f69ab7126d26786c64c80d5107e23940",
+      "bytes": 464468,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-native-calculated-20261005/command-018.txt",
+      "exists": true,
+      "sha256": "5743f28863c98968abf267fc0d561434d57ccb7ebfc3a017d8c3e4ee32056b89",
+      "bytes": 52,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-native-calculated-20261005/command-019.txt",
+      "exists": true,
+      "sha256": "d6d32a08b3166d783f62665fc3274a2caa01ab28b485099db15e6265ccd5ab07",
+      "bytes": 46,
+      "passed": true
+    },
+    {
+      "path": ".local/evolution/kafka-persistent-migration.json",
+      "exists": true,
+      "sha256": "35e0dc8893bfc256a43efb119cf31bad73a2068a7334b1138e80205188d18c34",
+      "bytes": 62607,
+      "passed": true
+    },
+    {
+      "path": ".local/evolution/nats-persistent-migration.json",
+      "exists": true,
+      "sha256": "be92de4129782386997f13c460ed7279355199327170b03f06286b8cbdf56331",
+      "bytes": 9460,
+      "passed": true
+    },
+    {
+      "path": ".local/evolution/native-calculated-alarm-retention-verified.json",
+      "exists": true,
+      "sha256": "0ed5a9e3e83a97260f4f9b5e68832f62cfc7d2799741a4de2cfce703713e3555",
+      "bytes": 20330,
+      "passed": true
+    },
+    {
+      "path": ".local/evolution/message-official-image-metadata.json",
+      "exists": true,
+      "sha256": "bedba00e8c934daa957196226602127ab538734a9f122cd6628441e38a9b119e",
+      "bytes": 2859,
+      "passed": true
+    },
+    {
+      "path": ".local/evolution/message-nats-intermediate-image.json",
+      "exists": true,
+      "sha256": "e9b56d5d87fb0b8c3f265fe712f4f8012e3c168ccb7e15ad4e7141f849511093",
+      "bytes": 720,
+      "passed": true
+    },
+    {
+      "path": ".local/evolution/message-source-metadata.json",
+      "exists": true,
+      "sha256": "b7282f2e466268dbd1bde857fb1c9105707f86935269e40433c95e50d8e311a5",
+      "bytes": 565,
+      "passed": true
+    },
+    {
+      "path": ".local/evolution/message-services-cleanup.json",
+      "exists": true,
+      "sha256": "be6bde6055340a8007c66e3dba00a824dc5f00f630dcffeb8fa470df44cd77a3",
+      "bytes": 8073,
+      "passed": true
+    },
+    {
+      "path": ".local/evolution/message-toolchains-verified.json",
+      "exists": true,
+      "sha256": "29c3a70783f76056ab5e6accc1bed6c64d3461e3a3634fbe14514986d1739cf9",
+      "bytes": 792,
+      "passed": true
+    },
+    {
+      "path": ".local/evolution/kafka-bind-source-diagnostic.json",
+      "exists": true,
+      "sha256": "a2913ece0463e30bf4f859b0d2a276f2e70ab81036987a01657110740c3e31d4",
+      "bytes": 921,
+      "passed": true
+    },
+    {
+      "path": ".local/evolution/message-deploy-tests.stdout.txt",
+      "exists": true,
+      "sha256": "8049005109008af752c87f4f2f7b8e0bd4b910d4437db5edeae24ae3aa3579cb",
+      "bytes": 541,
+      "passed": true
+    },
+    {
+      "path": ".local/evolution/message-deploy-tests.stderr.txt",
+      "exists": true,
+      "sha256": "16057cf5be610ed8cda05f537a6f71ac1802f4f2bf932cc50065ab8e3741728f",
+      "bytes": 824,
+      "passed": true
+    },
+    {
+      "path": ".local/evolution/message-release-tests.stdout.txt",
+      "exists": true,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "passed": true
+    },
+    {
+      "path": ".local/evolution/message-release-tests.stderr.txt",
+      "exists": true,
+      "sha256": "358c9869bd0bc63a626f998bb8e9079965aa502a55988957182a4bb1080a5a49",
+      "bytes": 692,
+      "passed": true
+    },
+    {
+      "path": ".local/evolution/message-toolchain-tests.stdout.txt",
+      "exists": true,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "passed": true
+    },
+    {
+      "path": ".local/evolution/message-toolchain-tests.stderr.txt",
+      "exists": true,
+      "sha256": "5189ae56db33732727f0cfa96880f037f02185278daed8ed1f901ee317a2840e",
+      "bytes": 1153,
+      "passed": true
+    },
+    {
+      "path": ".local/evolution/message-postgres-deploy-tests.stdout.txt",
+      "exists": true,
+      "sha256": "7e2bb2865f98eb9c7cc750ae1ae8ffd0c6bb9ea49973ba2ab946c51c5023783b",
+      "bytes": 356,
+      "passed": true
+    },
+    {
+      "path": ".local/evolution/message-postgres-deploy-tests.stderr.txt",
+      "exists": true,
+      "sha256": "a877316638af3e7207295e2184ace2fd2cb65de4678884f5c32efcfcb62004ad",
+      "bytes": 422,
+      "passed": true
+    },
+    {
+      "path": ".local/evolution/message-go-race.stdout.txt",
+      "exists": true,
+      "sha256": "a917f4776b1195152dd072e898db961cb571586de74a4ff0cef51f7383d51a85",
+      "bytes": 133,
+      "passed": true
+    },
+    {
+      "path": ".local/evolution/message-go-race.stderr.txt",
+      "exists": true,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-v2/command-134.txt",
+      "exists": true,
+      "sha256": "537c70ccc4de0418eafb4bc29dabd07e9cbd1929b8b74fef396a0ab33ee78e09",
+      "bytes": 9734,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-kafka-20261005-v2/command-137.txt",
+      "exists": true,
+      "sha256": "537c70ccc4de0418eafb4bc29dabd07e9cbd1929b8b74fef396a0ab33ee78e09",
+      "bytes": 9734,
+      "passed": true
+    },
+    {
+      "path": "deploy/dependencies.json",
+      "exists": true,
+      "sha256": "26e61698577abf28b133398660c852223994f03dd879c8ddec5b659b1f7f4307",
+      "bytes": 1638,
+      "passed": true
+    },
+    {
+      "path": "deploy/images.lock.json",
+      "exists": true,
+      "sha256": "1610bddb8a95c19cb2d467a467a145303ccfdc01cb8a5f1ea4cec1f53fe74ca4",
+      "bytes": 11946,
+      "passed": true
+    },
+    {
+      "path": "deploy/toolchains.json",
+      "exists": true,
+      "sha256": "ee800d975bbe62884810bc6c8312deb85019c5df99f589edaa217edc845f0f23",
+      "bytes": 5339,
+      "passed": true
+    },
+    {
+      "path": "deploy/compose.native.json",
+      "exists": true,
+      "sha256": "f639bf0469b1a1977af16d5294c3e031f1af03bd9dd043ab38f5f9464fe46937",
+      "bytes": 8241,
+      "passed": true
+    },
+    {
+      "path": "deploy/compose.site.json",
+      "exists": true,
+      "sha256": "480bcbd6ddff452f01fc629542c31388f105ebe2d789de43574e652ceb9adc81",
+      "bytes": 3016,
+      "passed": true
+    },
+    {
+      "path": "deploy/licenses/provenance.json",
+      "exists": true,
+      "sha256": "250be1c4dcb35a1ba083566007baaac8475d47e81e40fa7d8bd7951aea683865",
+      "bytes": 4168,
+      "passed": true
+    },
+    {
+      "path": "scripts/prepare-deploy.py",
+      "exists": true,
+      "sha256": "f795ec57ee14bcee534e193c3dc68498dc7c0581c294f5ef741b6bbccd21f52d",
+      "bytes": 5391,
+      "passed": true
+    },
+    {
+      "path": "scripts/prepare-site.py",
+      "exists": true,
+      "sha256": "551b2de16fa2b5eb3663c16589e09cb0c51a7fdf2243402699aca4075014baed",
+      "bytes": 5188,
+      "passed": true
+    },
+    {
+      "path": "scripts/prepare-runtime.py",
+      "exists": true,
+      "sha256": "e17bd23ac38746402ddcb9759629542685f109a42cee2481a76a56bfdf68b187",
+      "bytes": 16041,
+      "passed": true
+    },
+    {
+      "path": "scripts/check-kafka-upgrade.py",
+      "exists": true,
+      "sha256": "da4389f253a035c8639f862e2fe144136488abdb3007e5ed5dc186a27ec83203",
+      "bytes": 17249,
+      "passed": true
+    },
+    {
+      "path": "scripts/check-nats-upgrade.py",
+      "exists": true,
+      "sha256": "a78f7f9be141110c025fb762b7445a7e53c6107d18f2cb62fd6e97ac74dbdd6f",
+      "bytes": 12936,
+      "passed": true
+    },
+    {
+      "path": "tests/test_message_deploy.py",
+      "exists": true,
+      "sha256": "b890750d61f5e520c344c4346571b0a50fef3abf5adf0b0de379d8c883d41d4a",
+      "bytes": 8952,
+      "passed": true
+    },
+    {
+      "path": "Wiki/消息组件升级.md",
+      "exists": true,
+      "sha256": "8f87ad34dfd325a62be70047ada247edcfdbd6ea7206b088425f83c65c1aaa25",
+      "bytes": 7184,
+      "passed": true
+    },
+    {
+      "path": "docs/evolution/handoff-message-control.md",
+      "exists": true,
+      "sha256": "765df91ed3e3c8041601376ac88f7c9b6e5819ed878880ed3acd44a7317256b2",
+      "bytes": 2904,
+      "passed": true
+    },
+    {
+      "path": "docs/evolution/handoff-message-delivery.md",
+      "exists": true,
+      "sha256": "0fae9f1136cb3e7a4351e87a8053c611be79ccf46b1712a1055cf1f6dfdf3de9",
+      "bytes": 4249,
+      "passed": true
+    },
+    {
+      "path": "deploy/licenses/nats/LICENSE",
+      "exists": true,
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "bytes": 11357,
+      "passed": true
+    },
+    {
+      "path": "deploy/licenses/nats_upgrade_intermediate/LICENSE",
+      "exists": true,
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "bytes": 11357,
+      "passed": true
+    },
+    {
+      "path": "deploy/licenses/kafka/LICENSE",
+      "exists": true,
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "bytes": 11358,
+      "passed": true
+    },
+    {
+      "path": "deploy/licenses/kafka/NOTICE",
+      "exists": true,
+      "sha256": "11a23c7823a4547fda7567c458328bd77dc7326ac734c6c139b01f1538a8a38a",
+      "bytes": 886,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-message-nats-20261005-final/coordination.test",
+      "exists": true,
+      "sha256": "77558d5d410093b901a1cef6fefe5ca323a6778d79844eca75abca0c630e33de",
+      "bytes": 40445538,
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/sf-native-calculated-20261005.test",
+      "exists": true,
+      "sha256": "547bdd4aafddad63d72c520dfd566dedea568cff271e0727cb961e7d404584a7",
+      "bytes": 38438978,
+      "passed": true
+    },
+    {
+      "path": ".local/evolution/message-test-binaries.buildinfo.txt",
+      "exists": true,
+      "sha256": "0b8fb89d9aa30c4618f4b726d8097e9ba3f3b2184f5c94e6b166d76d41576fe5",
+      "bytes": 11466,
+      "passed": true
+    }
+  ],
+  "kafka_recovery_cutoff": {
+    "restored_records": 42,
+    "finalized_records": 45,
+    "records_after_copy_require_replay": 3
+  },
+  "remaining_delivery_scope": [
+    "complete offline image archives and complete formal release/profile deployment",
+    "NATS full source cold-copy restore after target upgrade; cold source backup and persistent source restart were verified here",
+    "formal Kafka runtime 512MiB heap/1GiB container resource measurement under final combined load",
+    "existing E5-04 ThingsBoard Edge PID1 stop signal forwarding verification from stage1 handoff"
+  ],
+  "handoff_briefs": [
+    "docs/evolution/brief-control.md",
+    "docs/evolution/brief-final-delivery.md"
+  ],
+  "file_digest_checks": 330,
+  "directory_presence_checks": 4,
+  "post_delivery_changes": [
+    {
+      "path": "tests/test_message_deploy.py",
+      "previously_verified_sha256": "b890750d61f5e520c344c4346571b0a50fef3abf5adf0b0de379d8c883d41d4a",
+      "current_sha256": "3505e9c2f226ae85418ff34b84e59216f0d40b8c2a33eeb5681208e1d9d0f911",
+      "reason": "独立审查将测试夹具临时source根目录规范化，以兼容macOS /var与/private/var别名；生产构建脚本未修改",
+      "evidence": ".local/evolution/phase2-review-evidence/deployment-temp-path-diagnosis.json",
+      "followup": ".local/evolution/phase2-review-evidence/deployment-unit-repaired-default.metadata.json",
+      "scope": "原消息专业报告对应修正前夹具；当前组合验证由第二阶段独立报告记录"
+    }
+  ]
+}

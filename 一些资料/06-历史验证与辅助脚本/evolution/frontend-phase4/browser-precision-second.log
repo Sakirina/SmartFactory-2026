@@ -1,0 +1,49 @@
+
+Running 3 tests using 1 worker
+
+(node:5644) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/phase4-precision.spec.ts:9:1 › cloud and edge real charts tables and complete export preserve every numeric representation (1.6s)
+  ✘  2 tests/phase4-precision.spec.ts:15:1 › screen metric details tooltip and complete export preserve precise observation (1.5m)
+(node:5787) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  3 tests/phase4-precision.spec.ts:19:1 › actual subscription passes a heartbeat new commit and opaque cursor reconnection (17.5s)
+
+
+  1) tests/phase4-precision.spec.ts:15:1 › screen metric details tooltip and complete export preserve precise observation 
+
+    Test timeout of 90000ms exceeded.
+
+    Error: locator.click: Test timeout of 90000ms exceeded.
+    Call log:
+      - waiting for locator('.ant-select-dropdown:visible').getByText('AGV 避障设备', { exact: true })
+        - locator resolved to <div class="ant-select-item-option-content">AGV 避障设备</div>
+      - attempting click action
+        - waiting for element to be visible, enabled and stable
+        - element is visible, enabled and stable
+        - scrolling into view if needed
+        - done scrolling
+        - element is outside of the viewport
+      - retrying click action
+        - waiting for element to be visible, enabled and stable
+        - element is not stable
+      - retrying click action
+        - waiting 20ms
+        - waiting for element to be visible, enabled and stable
+      - element was detached from the DOM, retrying
+
+
+      14 |
+      15 | test('screen metric details tooltip and complete export preserve precise observation',async({page})=>{
+    > 16 |   test.skip(phase!=='precision');await login(page,'cloud','screen.html','admin');const manifest=JSON.parse(await readFile(path.join(root,'cloud-precision','precision-manifest.json'),'utf8'));const entities=JSON.parse((await jsonAPI(page,'/entities')).text);const name=entities.find((entity:any)=>entity.id===manifest.device).name;await page.getByRole('button',{name:'配置大屏',exact:true}).click();const modal=page.getByRole('dialog',{name:'配置运行大屏'});while(await modal.getByRole('button',{name:'删除',exact:true}).count())await modal.getByRole('button',{name:'删除',exact:true}).first().click();await modal.getByRole('button',{name:'添加指标',exact:true}).click();await modal.getByLabel('指标 1 的设备').click();await page.locator('.ant-select-dropdown:visible').getByText(name,{exact:true}).click();await modal.getByLabel('指标 1 的测点').fill('precise_integer');await modal.getByLabel('指标 1 的标题').fill('精确累计指标');await modal.getByRole('button',{name:'保存大屏',exact:true}).click();await expect(modal).toBeHidden();const metric=page.getByRole('button',{name:/精确累计指标/});await expect(metric).toContainText('9007199254740993');await metric.click();const drawer=page.getByRole('dialog',{name:'精确累计指标'});await expect(drawer.getByText('9007199254740993',{exact:true})).toBeVisible();await drawer.getByRole('img',{name:/测点历史趋势/}).scrollIntoViewIfNeeded();await page.waitForTimeout(250);const box=(await drawer.getByRole('img',{name:/测点历史趋势/}).boundingBox())!;await page.mouse.move(box.x+box.width/2+20,box.y+box.height/2);await expect(drawer.locator('.sf-chart-tooltip:visible')).toContainText('9007199254740993');await capture(page,'screen-exact-detail-tooltip');await drawer.getByRole('button',{name:'关闭',exact:true}).click();const raw=await exactDownload(page,'导出精确大屏数据','screen-exact-export');expect(raw).toMatch(/"value":\s*9007199254740993/);expect(raw).toContain('18446744073709551615');await capture(page,'screen-exact-metric-export');
+         |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ^
+      17 | });
+      18 |
+      19 | test('actual subscription passes a heartbeat new commit and opaque cursor reconnection',async({page,context})=>{
+        at /path/to/SmartFactory-2026/Frontends/tests/phase4-precision.spec.ts:16:776
+
+    Error Context: ../../../../../private/tmp/smartfactory-frontend-phase4-20261005/playwright-results/phase4-precision-screen-me-9fc31-reserve-precise-observation/error-context.md
+
+  1 failed
+    tests/phase4-precision.spec.ts:15:1 › screen metric details tooltip and complete export preserve precise observation 
+  2 passed (1.8m)

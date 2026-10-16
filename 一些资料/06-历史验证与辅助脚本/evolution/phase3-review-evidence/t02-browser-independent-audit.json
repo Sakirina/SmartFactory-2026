@@ -1,0 +1,92 @@
+{
+  "recorded_at": "2026-10-04T23:15:59.147238+00:00",
+  "assertions": {
+    "reopened_prior_actual_failure": true,
+    "retry_survived_production_snoozes": true,
+    "retry_removed_old_cancellation_marker": true,
+    "retry_advanced_operation_revision_once": true,
+    "trace_and_unique_nonce_preserved": true,
+    "same_original_identity_and_snapshots": true,
+    "one_current_detail_read_then_human_confirmation": true,
+    "original_read_version_submitted": true,
+    "cancel_returned_200": true,
+    "cancel_final_states_and_revision": true,
+    "no_further_calculation_after_cancellation": true,
+    "one_additional_retry_and_cancel_audit": true,
+    "duplicate_and_stale_versions_rejected": true,
+    "rejected_actions_no_business_effect": true
+  },
+  "task_id": "analysis:shadow:fixture-failure:1:2",
+  "river_id": 24,
+  "snapshot_id": "snapshot:a89a5981389f8bff992e622d9cb82d40b99c5d0bfb36a593512f2cdbb7cb4262",
+  "confirmation_elapsed_ms": 17260.0,
+  "operation_revisions": [
+    3,
+    4,
+    5
+  ],
+  "sample_snoozes": [
+    494,
+    496,
+    498
+  ],
+  "audit_actions": [
+    "task.cancel",
+    "task.retry",
+    "task.retry",
+    "task.retry",
+    "task.cancel"
+  ],
+  "sources": [
+    {
+      "path": ".local/evolution/phase3-review-evidence/t02-reopened-original-state.json",
+      "sha256": "bf9e94ca582f25e083053e486d1c238832c4567d395383855c3578321b8a6da7",
+      "bytes": 4563
+    },
+    {
+      "path": ".local/evolution/phase3-review-evidence/t02-retry-scheduling-sample-1.json",
+      "sha256": "f526a7906b9706a3fbba9e77b01da95498dbfc22ccddd5619a4fa32ae097cb61",
+      "bytes": 6406
+    },
+    {
+      "path": ".local/evolution/phase3-review-evidence/t02-retry-scheduling-sample-2.json",
+      "sha256": "5388bcc82032df561adf92ec3f0655b6aec03b87473eac2dd170e3e714bf79d6",
+      "bytes": 6406
+    },
+    {
+      "path": ".local/evolution/phase3-review-evidence/t02-retry-scheduling-sample-3.json",
+      "sha256": "be82e01247ef468cc772d68dabe176eeee2934c5d0f13441703899ca74fee1bf",
+      "bytes": 6402
+    },
+    {
+      "path": ".local/evolution/phase3-review-evidence/t02-single-read-timing.json",
+      "sha256": "65e2e4c344419f24e672074aa956cb8c4a5fcbda007e01d1bb938a5ba1500403",
+      "bytes": 2558
+    },
+    {
+      "path": ".local/evolution/phase3-review-evidence/t02-cancel-immediate.json",
+      "sha256": "59a1d1d10561d28af8ce934d482ee957ccd5aa53f2249b2bb3ec9ca7e302eedf",
+      "bytes": 7512
+    },
+    {
+      "path": ".local/evolution/phase3-review-evidence/t02-cancel-after-scheduling.json",
+      "sha256": "9e8ec6f7577a4700502580edc543210620582ee8f88bed21dd0b6b34877c7b41",
+      "bytes": 7512
+    },
+    {
+      "path": ".local/evolution/phase3-review-evidence/t02-duplicate-stale-http.json",
+      "sha256": "354bb13d3e1ea4d6d42b53bc2fa4b9ded66022017f250bea5f937917369cde72",
+      "bytes": 997
+    },
+    {
+      "path": ".local/evolution/phase3-review-evidence/t02-after-rejected-actions.json",
+      "sha256": "fbf272898dd8da8da605506344b19e4b36031b0d9fa3b65d5c830b3987107919",
+      "bytes": 7512
+    }
+  ],
+  "visuals_inspected": [
+    "t02-single-read-confirmation.png",
+    "t02-single-read-cancelled.png"
+  ],
+  "case_scope": "An existing real failed waiting-parent task from T01, copied with its original SQLite data, opened by current production sf-cloud; ordinary page buttons and manual refresh. Existing completed-step preservation, role/resource changes and rollback are additionally executed by current SQLite and PostgreSQL API/race tests."
+}

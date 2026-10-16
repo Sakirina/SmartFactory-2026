@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "reviewed_at": "2026-10-04T18:06:50.520710+00:00",
+  "status": "behavior_evidence_verified_frontend_notice_correction_pending",
+  "checks": {
+    "cancel_same_task_and_river": true,
+    "cancel_preserves_outbox": true,
+    "retry_preserves_all_identity_and_cursor": true,
+    "retry_resumes_rollups_to_completion": true,
+    "retry_preserves_fixed_job_range": true,
+    "retry_preserves_snapshot_documents_observations_latest": true,
+    "retry_adds_six_rollups": true,
+    "revocation_authenticated_old_session_denied": true,
+    "revocation_clears_ui_and_session": true,
+    "viewer_reads_without_actions_and_cannot_write": true,
+    "foreign_resource_denied": true,
+    "simulation_preserves_reported_database_snapshots": true,
+    "large_integer_replay_exact": true
+  },
+  "task_attempts_before_after": [
+    9,
+    10
+  ],
+  "source_scope": "最终前端报告提供精确SQL查询范围、最终源码及当前后端二进制摘要；首次二进制摘要未保留，最终任务恢复与三个入口使用current二进制。",
+  "evidence": [
+    {
+      "path": ".local/evolution/frontend-phase2/task-cancel-proof.json",
+      "sha256": "dbb97cd5614fe627dbccf4ec7aaed98cefec524cc367783bb411b508c42ec9ff",
+      "bytes": 1387
+    },
+    {
+      "path": ".local/evolution/frontend-phase2/task-rollups-failed.json",
+      "sha256": "80adb8ddf410436460f9689e9e3eb26fac814d5f6ade0b4aff50c84312294cd0",
+      "bytes": 735
+    },
+    {
+      "path": ".local/evolution/frontend-phase2/task-retry-completed.json",
+      "sha256": "4320bf8ad0317f171fc05fe28a77af767271fd170fb420d9d8734bf2581baaf4",
+      "bytes": 735
+    },
+    {
+      "path": ".local/evolution/frontend-phase2/task-job-before-final-retry.json",
+      "sha256": "43ce1f62a6471fe2801ab967cb0fc44b93acc8ec110c2acbccbd3ab3b0cdfd5d",
+      "bytes": 565
+    },
+    {
+      "path": ".local/evolution/frontend-phase2/task-job-completed.json",
+      "sha256": "18b423bf083c6cf32f1a7f0bec573a957cf99d66ce70c8908956bca083593d48",
+      "bytes": 502
+    },
+    {
+      "path": ".local/evolution/frontend-phase2/database-before-rollup-retry.json",
+      "sha256": "864e3a133f37195203be7fb8378fe804769f0119ede0a2be10c2fd1ae02f0e4a",
+      "bytes": 873
+    },
+    {
+      "path": ".local/evolution/frontend-phase2/database-after-rollup-retry.json",
+      "sha256": "98a5d0f5cd53741a2cb5f15e34506f832c8bf4dc6cff00ec2e69c54896fda5dc",
+      "bytes": 873
+    },
+    {
+      "path": ".local/evolution/frontend-phase2/viewer-revocation-api.json",
+      "sha256": "fcac407c3c85172c22d72c76459d2eeb32043c69d8fb8d9ef97b22e45cfc0f94",
+      "bytes": 710
+    },
+    {
+      "path": ".local/evolution/frontend-phase2/browser-viewer-revoked.json",
+      "sha256": "f08136dcf5a1b0031b67f3826f47a71d97252882be5a08424ea69d08068b9ad8",
+      "bytes": 1352816
+    },
+    {
+      "path": ".local/evolution/frontend-phase2/viewer-api.json",
+      "sha256": "cbbea73defb11a7dc423c34010f236b6a7ab97b65f03fe8efc0d0d7af28b2de8",
+      "bytes": 132
+    },
+    {
+      "path": ".local/evolution/frontend-phase2/resource-denied-api.json",
+      "sha256": "ead080ad11892e037caf0b28ed0be8ba8743502a6b798bf2fa76b7891b023e62",
+      "bytes": 57
+    },
+    {
+      "path": ".local/evolution/frontend-phase2/database-before.json",
+      "sha256": "a31570b85afd2206411533dc853d39c211bef166c75c2b6ae746093e4e7ddc53",
+      "bytes": 873
+    },
+    {
+      "path": ".local/evolution/frontend-phase2/database-after-simulation.json",
+      "sha256": "a31570b85afd2206411533dc853d39c211bef166c75c2b6ae746093e4e7ddc53",
+      "bytes": 873
+    },
+    {
+      "path": ".local/evolution/frontend-phase2/replay-proof.json",
+      "sha256": "6e11670297eade8b73493657bb4d44f006a428b7b73df8425f68d38e2b28ba88",
+      "bytes": 282
+    }
+  ],
+  "rehashed_changed_evidence": []
+}

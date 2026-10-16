@@ -1,0 +1,215 @@
+{
+  "id": "independent-ui-shadow",
+  "definition_id": "history-derived",
+  "definition_version": 2,
+  "version": 3,
+  "epoch": 2,
+  "status": "active",
+  "device_ids": [
+    "history-device"
+  ],
+  "keys": [
+    "history-source.result"
+  ],
+  "resources": [
+    "history-device",
+    "history-factory",
+    "history-line-a",
+    "history-line-b"
+  ],
+  "started_ms": 1791151136179,
+  "generation": 0,
+  "completed_generation": 0,
+  "input_count": 0,
+  "context": [
+    {
+      "id": "1c7165d307109c694e1e345046275b5eba2ced789492efa4b04242b9a14203b4",
+      "message_id": "recompute:backfill:history-device:1:evaluation:history-source:1:fixture-live-second:0",
+      "source_id": "history-fixture",
+      "source_sequence": 0,
+      "device_id": "history-device",
+      "key": "history-source.result",
+      "value": 60,
+      "observed_ms": 1791149965709,
+      "received_ms": 1791149968940,
+      "quality": "GOOD",
+      "time_source": "analysis",
+      "unit": "piece",
+      "entity_revision": 0,
+      "asset_version": 0,
+      "rule_version": 1,
+      "definition_id": "history-source",
+      "late": true,
+      "revision": 2
+    }
+  ],
+  "base_snapshot": {
+    "id": "snapshot:3022ee0058030623ce8e1aed45c95777b894dfb1f86662681a3d0f44db0bceba",
+    "sha256": "3022ee0058030623ce8e1aed45c95777b894dfb1f86662681a3d0f44db0bceba",
+    "input_sha256": "",
+    "history_sha256": "353f896bf9c05aa495d331ae991025bf7a0c26c58983115f3c5ffcdd95be2b2c",
+    "captured_ms": 1791151136179,
+    "from_ms": 1791151136179,
+    "to_ms": 1791151136179,
+    "source": "shadow_activation",
+    "data_version": 0,
+    "data_gaps": null,
+    "completeness": "",
+    "order": "event_time",
+    "clock": {},
+    "points": [],
+    "history": [
+      {
+        "id": "1c7165d307109c694e1e345046275b5eba2ced789492efa4b04242b9a14203b4",
+        "message_id": "recompute:backfill:history-device:1:evaluation:history-source:1:fixture-live-second:0",
+        "source_id": "history-fixture",
+        "source_sequence": 0,
+        "device_id": "history-device",
+        "key": "history-source.result",
+        "value": 60,
+        "observed_ms": 1791149965709,
+        "received_ms": 1791149968940,
+        "quality": "GOOD",
+        "time_source": "analysis",
+        "unit": "piece",
+        "entity_revision": 0,
+        "asset_version": 0,
+        "rule_version": 1,
+        "definition_id": "history-source",
+        "late": true,
+        "revision": 2
+      }
+    ],
+    "asset_versions": [
+      {
+        "id": "history-device",
+        "version": 1,
+        "effective_ms": 1791149866695,
+        "parent_id": "history-line-a",
+        "sampling_ms": 1000
+      },
+      {
+        "id": "history-device",
+        "version": 2,
+        "effective_ms": 1791149869695,
+        "parent_id": "history-line-b",
+        "sampling_ms": 1000
+      },
+      {
+        "id": "history-line-a",
+        "version": 1,
+        "effective_ms": 1791149866695,
+        "parent_id": "history-factory",
+        "sampling_ms": 0
+      },
+      {
+        "id": "history-line-b",
+        "version": 1,
+        "effective_ms": 1791149866695,
+        "parent_id": "history-factory",
+        "sampling_ms": 0
+      },
+      {
+        "id": "history-factory",
+        "version": 1,
+        "effective_ms": 1791149866695,
+        "parent_id": "",
+        "sampling_ms": 0
+      }
+    ],
+    "initial_state": {},
+    "initial_state_source": "provided",
+    "rules": [
+      {
+        "definition": {
+          "id": "history-derived",
+          "name": "history-derived",
+          "kind": "analysis",
+          "schema_version": "1.0",
+          "version": 2,
+          "status": "published",
+          "effective_ms": 1791149868695,
+          "group_id": "history-factory",
+          "nodes": [
+            {
+              "id": "value",
+              "type": "expression",
+              "params": {
+                "code": "value"
+              }
+            }
+          ],
+          "connections": null,
+          "outputs": [
+            {
+              "key": "result",
+              "type": "number",
+              "unit": "piece",
+              "node_id": "value"
+            }
+          ],
+          "dependencies": [
+            "history-source"
+          ],
+          "selector": {
+            "device_ids": [
+              "history-device"
+            ],
+            "keys": [
+              "history-source.result"
+            ]
+          },
+          "policy": {}
+        },
+        "plan": {
+          "id": "history-derived:2:1858ea4b0e40609e0f202d7a6cf7cea2260852db14b82ed91521d957ac61c7ab",
+          "format": "smartfactory.rules/1",
+          "definition_id": "history-derived",
+          "definition_version": 2,
+          "content_sha256": "1858ea4b0e40609e0f202d7a6cf7cea2260852db14b82ed91521d957ac61c7ab",
+          "sha256": "b1769397e5007963083913ad54b00ab5a7302355a24ee6ace618476da82be5a8",
+          "kind": "analysis",
+          "selector": {
+            "device_ids": [
+              "history-device"
+            ],
+            "keys": [
+              "history-source.result"
+            ]
+          },
+          "outputs": [
+            {
+              "key": "result",
+              "type": "number",
+              "unit": "piece",
+              "node_id": "value"
+            }
+          ],
+          "policy": {},
+          "dependencies": [
+            "history-source"
+          ],
+          "nodes": [
+            {
+              "id": "value",
+              "type": "expression",
+              "inputs": [],
+              "params": {},
+              "expression": {
+                "op": "variable",
+                "name": "value"
+              },
+              "error_output": false
+            }
+          ]
+        }
+      }
+    ],
+    "resources": [
+      "history-device",
+      "history-factory",
+      "history-line-a",
+      "history-line-b"
+    ]
+  }
+}

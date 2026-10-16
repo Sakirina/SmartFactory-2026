@@ -1,0 +1,59 @@
+{
+  "url": "http://127.0.0.1:51302/#executions?execution=recover-browser",
+  "text": "SF\nSmartFactory\n生产安全控制台\n示例工厂 / cloud\n运行概览\n设备与资产\n数据监控\n数据分析\n告警编排\n联动预案\n审批与执行\n通知记录\n历史补算\n后台任务\n历史分析\n运行状态\nAI 助手\n独立实例 · 云端运行\n规则版本与操作记录全程保存\n云端控制台\n/\n审批与执行\n每秒刷新\nengineer\n退出\n审批与执行\n\n核对会签、现场条件、设备动作和反馈，按照当前许可取消、核对或恢复剩余步骤。\n\n更新执行列表\n发起即时控制\n查看指定执行\n执行 / 预案版本\t执行状态\t风险依据\t已有会签\t请求时间\t操作\n\n执行 / 预案版本\n\t\n执行状态\n\t\n风险依据\n\t\n已有会签\n\t\n请求时间\n\t\n操作\n\n\n暂无数据\nSmartFactory · cloud\n界面时间使用 Asia/Shanghai 时区\n控制执行详情\n更新执行详情\n执行详情读取未完成\npermission denied",
+  "capture": {
+    "requests": [
+      {
+        "url": "/api/sf/v1/executions/recover-browser/reconcile",
+        "method": "POST",
+        "body": "{\"expected_version\":8,\"expected_source_version\":8,\"operation_id\":\"ad21349b-1fa1-4aaf-a9f9-384d0c1c30f5\",\"reason\":\"独立复验 C05 原命令持久反馈\"}",
+        "status": 202,
+        "response": "{\"id\":\"ad21349b-1fa1-4aaf-a9f9-384d0c1c30f5\",\"execution_id\":\"recover-browser\",\"action\":\"reconcile\",\"status\":\"pending\",\"origin_node_id\":\"cloud\",\"target_node_id\":\"edge-a\",\"expected_version\":8,\"expected_source_version\":8,\"requested_ms\":1791150126772,\"deadline_ms\":1791153726772,\"reason\":\"独立复验 C05 原命令持久反馈\",\"actor\":{\"user_id\":\"engineer\",\"name\":\"engineer\",\"department_id\":\"engineering\",\"roles\":[\"engineer\"],\"source\":\"127.0.0.1:51519\",\"session_id\":\"1d59c56b713ae24231402a9e2b068b42\",\"ai\":false},\"request_hash\":\"576f124699a7a139f36909ec25bc186bc27ba268e6da6e4ee1c5243bb9ef8911\",\"version\":1,\"trace_id\":\"0012e99953822a480ed99c425ed28b59\"}\n"
+      },
+      {
+        "url": "/api/sf/v1/executions/recover-browser/reconcile",
+        "method": "POST",
+        "body": "{\"expected_version\":8,\"expected_source_version\":8,\"operation_id\":\"ad21349b-1fa1-4aaf-a9f9-384d0c1c30f5\",\"reason\":\"独立复验 C05 原命令持久反馈\"}",
+        "status": 202,
+        "response": "{\"id\":\"ad21349b-1fa1-4aaf-a9f9-384d0c1c30f5\",\"execution_id\":\"recover-browser\",\"action\":\"reconcile\",\"status\":\"pending\",\"origin_node_id\":\"cloud\",\"target_node_id\":\"edge-a\",\"expected_version\":8,\"expected_source_version\":8,\"requested_ms\":1791150126772,\"deadline_ms\":1791153726772,\"reason\":\"独立复验 C05 原命令持久反馈\",\"actor\":{\"user_id\":\"engineer\",\"name\":\"engineer\",\"department_id\":\"engineering\",\"roles\":[\"engineer\"],\"source\":\"127.0.0.1:51519\",\"session_id\":\"1d59c56b713ae24231402a9e2b068b42\",\"ai\":false},\"request_hash\":\"576f124699a7a139f36909ec25bc186bc27ba268e6da6e4ee1c5243bb9ef8911\",\"version\":1,\"trace_id\":\"0012e99953822a480ed99c425ed28b59\"}\n"
+      },
+      {
+        "url": "/api/sf/v1/executions/recover-browser/resume",
+        "method": "POST",
+        "body": "{\"expected_version\":9,\"expected_source_version\":9,\"operation_id\":\"3c1334f9-5846-4148-9866-baf16306a5c5\",\"reason\":\"独立复验已确认原命令，执行剩余步骤\"}",
+        "status": 202,
+        "response": "{\"id\":\"3c1334f9-5846-4148-9866-baf16306a5c5\",\"execution_id\":\"recover-browser\",\"action\":\"resume\",\"status\":\"pending\",\"origin_node_id\":\"cloud\",\"target_node_id\":\"edge-a\",\"expected_version\":9,\"expected_source_version\":9,\"requested_ms\":1791150347098,\"deadline_ms\":1791153947098,\"reason\":\"独立复验已确认原命令，执行剩余步骤\",\"actor\":{\"user_id\":\"engineer\",\"name\":\"engineer\",\"department_id\":\"engineering\",\"roles\":[\"engineer\"],\"source\":\"127.0.0.1:51519\",\"session_id\":\"1d59c56b713ae24231402a9e2b068b42\",\"ai\":false},\"request_hash\":\"38131c41c0b4570f5a31f06201a9987ce2769cbcabbf462dea1db22bd07dc4db\",\"version\":1,\"trace_id\":\"2ed7b83f5395278d94cb65dc2b0433bc\"}\n"
+      },
+      {
+        "url": "/api/sf/v1/executions/recover-browser",
+        "method": "GET",
+        "body": null,
+        "status": 403,
+        "response": "{\"error\":\"permission denied\"}\n"
+      },
+      {
+        "url": "/api/sf/v1/executions/recover-browser",
+        "method": "GET",
+        "body": null,
+        "status": 403,
+        "response": "{\"error\":\"permission denied\"}\n"
+      },
+      {
+        "url": "/api/sf/v1/executions/recover-browser",
+        "method": "GET",
+        "body": null,
+        "status": 403,
+        "response": "{\"error\":\"permission denied\"}\n"
+      },
+      {
+        "url": "/api/sf/v1/executions/recover-browser",
+        "method": "GET",
+        "body": null,
+        "status": 403,
+        "response": "{\"error\":\"permission denied\"}\n"
+      }
+    ],
+    "errors": []
+  },
+  "recorded_at_ms": 1791151096019
+}

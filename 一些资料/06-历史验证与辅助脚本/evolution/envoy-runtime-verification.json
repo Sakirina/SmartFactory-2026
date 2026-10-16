@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-04T14:49:08.791832+00:00",
+  "image": "envoyproxy/envoy@sha256:be87c8b52663c1164a5bdf3c5419017a269cb3d8c74be1ec93638a71f1ffbd4b",
+  "checks": [
+    {
+      "name": "tls_application_health",
+      "passed": true,
+      "checked_at": "2026-10-04T14:49:10.119892+00:00",
+      "status": 200,
+      "startup_attempts": 3
+    },
+    {
+      "name": "mtls_trusted_client",
+      "passed": true,
+      "checked_at": "2026-10-04T14:49:10.128294+00:00",
+      "status": 200
+    },
+    {
+      "name": "mtls_missing_client",
+      "passed": true,
+      "checked_at": "2026-10-04T14:49:10.132845+00:00",
+      "rejected_by_tls": true,
+      "error_type": "SSLError"
+    },
+    {
+      "name": "mtls_untrusted_client",
+      "passed": true,
+      "checked_at": "2026-10-04T14:49:10.135982+00:00",
+      "rejected_by_tls": true,
+      "error_type": "SSLError"
+    },
+    {
+      "name": "unauthenticated_response_preserved",
+      "passed": true,
+      "checked_at": "2026-10-04T14:49:10.139523+00:00",
+      "status": 401,
+      "request_id_present": true
+    },
+    {
+      "name": "application_sse_unbuffered",
+      "passed": true,
+      "checked_at": "2026-10-04T14:49:12.220499+00:00",
+      "frames": 3,
+      "arrival_seconds": [
+        0.0,
+        1.002,
+        2.004
+      ],
+      "payload_bytes": [
+        2158,
+        2158,
+        2158
+      ],
+      "request_id_present": true
+    }
+  ],
+  "startup_probe_attempts": [
+    {
+      "attempt": 1,
+      "at": "2026-10-04T14:49:09.020884+00:00",
+      "type": "URLError",
+      "message": "<urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1082)>"
+    },
+    {
+      "attempt": 2,
+      "at": "2026-10-04T14:49:09.525480+00:00",
+      "type": "URLError",
+      "message": "<urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1082)>"
+    }
+  ],
+  "resources": {
+    "cpu_limit": 0.5,
+    "memory_limit_bytes": 134217728
+  },
+  "configuration_sha256": "528aa0025b53003c73d00c7acd4108eb570dc70e6e5b6e53939a487a6357b52f",
+  "container_id": "7202b5ce11d20ca65c4ed5cf36aefd6e6c4da97a70e805e057608a22b19e6296",
+  "all_checks_passed": true,
+  "container_logs": "[2026-10-04 14:49:09.620][1][warning][main] [source/server/server.cc:1038] There is no configured limit to the number of allowed active downstream connections. Configure a limit in `envoy.resource_monitors.global_downstream_max_connections` resource monitor.\n",
+  "memory_observation": "52.8MiB / 128MiB",
+  "verified_upstream": {
+    "host": "host.docker.internal",
+    "port": 19990,
+    "dns_lookup_family": "V4_ONLY",
+    "application_listener": "IPv4 0.0.0.0:19990",
+    "route_prefix": "/",
+    "route_timeout": "0s",
+    "condition": "Docker host alias targets the IPv4 local validation app; production Docker-internal service names are a different upstream configuration"
+  }
+}

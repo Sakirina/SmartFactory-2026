@@ -1,0 +1,79 @@
+{
+  "label": "ordinary-Platform-internal-app",
+  "command": [
+    "go",
+    "tool",
+    "test2json",
+    "-t",
+    "-p",
+    "competition2026/product/platform/internal/app",
+    "/private/tmp/smartfactory-phase4-independent-20261005/bin/Platform-internal-app.test",
+    "-test.v=test2json",
+    "-test.count=1",
+    "-test.parallel=1",
+    "-test.timeout=240s",
+    "-test.run=."
+  ],
+  "cwd": "/private/tmp/smartfactory-phase4-independent-20261005/workspace/Platform/internal/app",
+  "started_at": "2026-10-05T02:23:31.439670+00:00",
+  "completed_at": "2026-10-05T02:23:37.651842+00:00",
+  "elapsed_seconds": 6.212,
+  "exit_code": 0,
+  "postgres": false,
+  "stdout": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/ordinary-Platform-internal-app.stdout.log",
+    "sha256": "df89a4b2be5051dce1cb19c6a29b9a6506d5113f8b25337f765438d86247591b",
+    "bytes": 61000
+  },
+  "stderr": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/ordinary-Platform-internal-app.stderr.log",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "counts": {
+    "top_level": {
+      "pass": 5,
+      "fail": 0,
+      "skip": 2
+    },
+    "leaf": {
+      "pass": 5,
+      "fail": 0,
+      "skip": 2
+    },
+    "all_named": {
+      "pass": 5,
+      "fail": 0,
+      "skip": 2
+    },
+    "packages": {
+      "pass": 1,
+      "fail": 0,
+      "skip": 0
+    },
+    "skips": [
+      {
+        "package": "competition2026/product/platform/internal/app",
+        "test": "TestControlledCloudEdgeControlIntervention",
+        "reason": "=== RUN   TestControlledCloudEdgeControlIntervention\n    control_fixture_test.go:509: actual DataTransfer controlled fixture binary required\n--- SKIP: TestControlledCloudEdgeControlIntervention (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/app",
+        "test": "TestControlBrowserFixture",
+        "reason": "=== RUN   TestControlBrowserFixture\n    control_fixture_test.go:744: browser fixture output directory required\n--- SKIP: TestControlBrowserFixture (0.00s)\n"
+      }
+    ],
+    "failures": [],
+    "races": 0
+  },
+  "build_inputs": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/build-inputs.json",
+    "sha256": "88fdc87b09a840748a6cadc356b019dcf324905175ecb4f7fb3e38f7c7981643",
+    "bytes": 1717015
+  },
+  "binary": {
+    "path": "/private/tmp/smartfactory-phase4-independent-20261005/bin/Platform-internal-app.test",
+    "sha256": "25d18fa9aab2042a2fb1ad54aafb52870f9ea7e8b67b864e72d0bc7e73d2c500",
+    "bytes": 54565346
+  }
+}

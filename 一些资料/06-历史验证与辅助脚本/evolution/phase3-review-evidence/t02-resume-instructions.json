@@ -1,0 +1,140 @@
+{
+  "recorded_at": "2026-10-04T22:52:00.543701+00:00",
+  "original_failed_directory": "/private/tmp/smartfactory-phase3-independent/history-browser-t01",
+  "original_closed_port": 19062,
+  "original_binary": {
+    "path": "/private/tmp/smartfactory-t01-current/sf-history-fixture",
+    "sha256": "56ccb26c8420d45ab869f89ed4263865d55eb6f432919be5a95f3ab8090f2cf5",
+    "bytes": 51311682
+  },
+  "original_data_files": [
+    {
+      "path": "/private/tmp/smartfactory-phase3-independent/history-browser-t01/http-samples.json",
+      "sha256": "2938e902d09d880d24984c8adae448219a5ba13b3c6c8ddb0973c44e57ec179c",
+      "bytes": 269697
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase3-independent/history-browser-t01/history.db",
+      "sha256": "1e77640563a3dea44cafa1e02600225269d80c53c95bc2c1505e9566c31b0401",
+      "bytes": 872448
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase3-independent/history-browser-t01/manifest.json",
+      "sha256": "567347191715f1cdfde55cb4857eb80fa88704b61c7fd43efe6b5980fccba9ae",
+      "bytes": 14856
+    }
+  ],
+  "new_directory": "/private/tmp/smartfactory-phase3-independent/history-browser-t02-from-t01",
+  "copy_method": "After verifying the original service remains stopped, copy the entire original directory to the new directory and verify database file hashes before startup. Preserve master.key and private-credentials.json only inside the private new directory. Do not edit the original copy.",
+  "required_new_binary": "A source-matched T02 sf-cloud binary and build manifest; coordinator has been informed to include this alongside sf-history-fixture",
+  "new_start_argv": [
+    "<T02 sf-cloud binary verified from specialist manifest>",
+    "-listen",
+    "127.0.0.1:19063",
+    "-node-id",
+    "history-fixture",
+    "-database",
+    "/private/tmp/smartfactory-phase3-independent/history-browser-t02-from-t01/history.db",
+    "-master-key",
+    "/private/tmp/smartfactory-phase3-independent/history-browser-t02-from-t01/master.key",
+    "-static",
+    "/private/tmp/smartfactory-phase3-independent/browser-static-t01"
+  ],
+  "production_entrypoint": "Platform/cmd/sf-cloud/main.go invokes app.Main(\"cloud\"); app.go flags and existing-database initialization verified. Existing user documents provide login; private credential value must not appear in shell arguments, reports or logs.",
+  "fixture_limitation": "sf-history-fixture requires a new directory and prepares new data, so it cannot itself reopen the retained failure database. Use the normal sf-cloud binary for the existing-record test.",
+  "browser_session": "sf-phase3-independent-t02-history",
+  "page_url": "http://127.0.0.1:19063",
+  "frontend_bundle": "main-CiVE3bj4.js",
+  "frontend_bundle_sha256": "f02c8f65921cac0ef95ce2e8f7d001188e11b60c8e89c35215ac4c625b0dc9cd",
+  "old_task_state": {
+    "business_state": "waiting_parent",
+    "phase": "analysis",
+    "replay_id": "shadow:fixture-failure:1:2",
+    "superseded": false,
+    "id": "analysis:shadow:fixture-failure:1:2",
+    "kind": "analysis",
+    "business_id": "shadow:fixture-failure:1:2",
+    "business_version": 1,
+    "river_id": 24,
+    "queue": "history_analysis",
+    "resources": [
+      "history-device",
+      "history-factory",
+      "history-line-a",
+      "history-line-b"
+    ],
+    "state": "cancelled",
+    "attempt": 2,
+    "max_attempts": 8,
+    "next_ms": 1791153780204,
+    "created_ms": 1791153329729,
+    "started_ms": 1791153780307,
+    "finished_ms": 1791153780460,
+    "error": "waiting for previous shadow generation shadow:fixture-failure:1:1",
+    "progress": 0,
+    "version": "8a018e3b0e58b6ee26148cce51e9fb7ad8037a0f3485c2364815ea8b7780de97",
+    "allowed_actions": [
+      "retry"
+    ]
+  },
+  "old_run_state": {
+    "id": "shadow:fixture-failure:1:2",
+    "kind": "shadow",
+    "definition_id": "history-failed",
+    "snapshot_id": "snapshot:a89a5981389f8bff992e622d9cb82d40b99c5d0bfb36a593512f2cdbb7cb4262",
+    "captured_snapshot_id": "snapshot:a89a5981389f8bff992e622d9cb82d40b99c5d0bfb36a593512f2cdbb7cb4262",
+    "snapshot_sha256": "a89a5981389f8bff992e622d9cb82d40b99c5d0bfb36a593512f2cdbb7cb4262",
+    "input_sha256": "af82706e5b4b2a9f926f53a958c13e5d3ab8dab88f702824d6670abf1201fa7a",
+    "task_id": "analysis:shadow:fixture-failure:1:2",
+    "status": "waiting_parent",
+    "error": "waiting for previous shadow generation shadow:fixture-failure:1:1",
+    "cursor": 0,
+    "total": 1,
+    "progress": 0,
+    "final_state": {},
+    "resources": [
+      "history-device",
+      "history-factory",
+      "history-line-a",
+      "history-line-b"
+    ],
+    "created_ms": 1791153329729,
+    "updated_ms": 1791153780309,
+    "version": 7,
+    "candidate_id": "fixture-failure",
+    "candidate_version": 1,
+    "input_generation": 2,
+    "parent_run_id": "shadow:fixture-failure:1:1",
+    "initial_state_resolved": false
+  },
+  "old_river": {
+    "id": 24,
+    "state": "cancelled",
+    "attempt": 2,
+    "scheduled_at": "2026-10-04 22:43:00.204",
+    "metadata": {
+      "river:unique_nonce": "676171aed593c710",
+      "sf_trace": {
+        "traceparent": "00-58270cf33ec9a53cec22d20174395bbd-377aaf41f6003546-01",
+        "tracestate": ""
+      },
+      "snoozes": 389,
+      "cancel_attempted_at": "2026-10-04T22:38:54.707Z",
+      "sf_operation_revision": 3
+    }
+  },
+  "old_steps": {
+    "items": [],
+    "next": -1
+  },
+  "single_read_conditions": [
+    "Use ordinary login and visible refresh selector to choose 手动查询 before opening task details",
+    "Submit retry for the same retained Task/River/run, retain original snapshot and compare audit lineage",
+    "Allow multiple real production 500ms JobSnooze cycles; verify snoozes increases, task remains available/running, business waiting_parent, old cancel_attempted_at is removed, operation revision advances and trace metadata remains",
+    "Start a fresh request recorder, click 更新详情 once, retain that response version and exact timing, then allow at least3seconds before ordinary modal confirm",
+    "Assert exactly one task-detail GET before the single cancel POST, the submitted expected_version equals that saved GET, HTTP200, no automatic retry and no API bypass for confirmation",
+    "Read current task/run/snapshot/steps/audit and subsequent schedule state; cancellation preserves committed results and stops further computation",
+    "Retain first failures and all T01 tests; audit current T02 build inputs and run only the further affected checks once the coordinator returns PG/race window"
+  ],
+  "awaiting": "Parent resumes this existing reviewer after source-frozen T02 binary is available; no subagents or global acceptance edits"
+}

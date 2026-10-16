@@ -1,0 +1,336 @@
+{
+  "acceptance": "A17",
+  "started_ms": 1789869270396,
+  "drafts": [
+    {
+      "id": "mcp-demo-analysis-e6ac1b5781",
+      "kind": "analysis",
+      "version": 2,
+      "valid": true,
+      "diff": {
+        "after": {
+          "connections": [
+            {
+              "from": "source",
+              "from_port": "",
+              "to": "average",
+              "to_port": ""
+            },
+            {
+              "from": "average",
+              "from_port": "",
+              "to": "output",
+              "to_port": ""
+            }
+          ],
+          "dependencies": null,
+          "effective_ms": 0,
+          "group_id": "factory",
+          "id": "mcp-demo-analysis-e6ac1b5781",
+          "kind": "analysis",
+          "name": "MCP 示例 analysis（修改后）",
+          "nodes": [
+            {
+              "id": "source",
+              "label": "温度读数",
+              "params": null,
+              "type": "input"
+            },
+            {
+              "id": "average",
+              "label": "一分钟平均值",
+              "params": {
+                "function": "avg"
+              },
+              "type": "aggregate"
+            },
+            {
+              "id": "output",
+              "label": "保存计算结果",
+              "params": null,
+              "type": "output"
+            }
+          ],
+          "outputs": [
+            {
+              "description": "只使用 GOOD 数据计算的窗口平均温度",
+              "key": "temperature",
+              "node_id": "output",
+              "type": "number",
+              "unit": "°C"
+            }
+          ],
+          "policy": {},
+          "schema_version": "1.0",
+          "selector": {
+            "device_ids": [
+              "climate-1"
+            ],
+            "keys": [
+              "temperature"
+            ],
+            "window_ms": 60000
+          },
+          "status": "draft",
+          "version": 0
+        },
+        "before": {
+          "connections": null,
+          "dependencies": null,
+          "effective_ms": 0,
+          "group_id": "",
+          "id": "",
+          "kind": "",
+          "name": "",
+          "nodes": null,
+          "outputs": null,
+          "policy": {},
+          "schema_version": "",
+          "selector": {
+            "device_ids": null,
+            "keys": null
+          },
+          "status": "",
+          "version": 0
+        },
+        "changed": true
+      }
+    },
+    {
+      "id": "mcp-demo-alarm-700faeaf4f",
+      "kind": "alarm",
+      "version": 2,
+      "valid": true,
+      "diff": {
+        "after": {
+          "connections": [
+            {
+              "from": "source",
+              "from_port": "",
+              "to": "threshold",
+              "to_port": ""
+            },
+            {
+              "from": "threshold",
+              "from_port": "",
+              "to": "alarm",
+              "to_port": ""
+            }
+          ],
+          "dependencies": null,
+          "effective_ms": 0,
+          "group_id": "factory",
+          "id": "mcp-demo-alarm-700faeaf4f",
+          "kind": "alarm",
+          "name": "MCP 示例 alarm（修改后）",
+          "nodes": [
+            {
+              "id": "source",
+              "label": "温度读数",
+              "params": null,
+              "type": "input"
+            },
+            {
+              "id": "threshold",
+              "label": "超过 30°C，低于 27°C 恢复",
+              "params": {
+                "high": 30,
+                "low": 27
+              },
+              "type": "hysteresis"
+            },
+            {
+              "id": "alarm",
+              "label": "通知现场人员",
+              "params": {
+                "severity": "WARNING"
+              },
+              "type": "alarm"
+            }
+          ],
+          "outputs": null,
+          "policy": {
+            "channels": [
+              "in_app"
+            ],
+            "late_notification": "in_app",
+            "recipients": [
+              "site"
+            ]
+          },
+          "schema_version": "1.0",
+          "selector": {
+            "device_ids": [
+              "climate-1"
+            ],
+            "keys": [
+              "temperature"
+            ]
+          },
+          "status": "draft",
+          "version": 0
+        },
+        "before": {
+          "connections": null,
+          "dependencies": null,
+          "effective_ms": 0,
+          "group_id": "",
+          "id": "",
+          "kind": "",
+          "name": "",
+          "nodes": null,
+          "outputs": null,
+          "policy": {},
+          "schema_version": "",
+          "selector": {
+            "device_ids": null,
+            "keys": null
+          },
+          "status": "",
+          "version": 0
+        },
+        "changed": true
+      }
+    },
+    {
+      "id": "mcp-demo-strategy-4e7bce85fe",
+      "kind": "strategy",
+      "version": 2,
+      "valid": true,
+      "diff": {
+        "after": {
+          "connections": [
+            {
+              "from": "input",
+              "from_port": "",
+              "to": "condition",
+              "to_port": ""
+            },
+            {
+              "from": "condition",
+              "from_port": "",
+              "to": "action",
+              "to_port": ""
+            }
+          ],
+          "dependencies": null,
+          "effective_ms": 0,
+          "group_id": "factory",
+          "id": "mcp-demo-strategy-4e7bce85fe",
+          "kind": "strategy",
+          "name": "MCP 示例 strategy（修改后）",
+          "nodes": [
+            {
+              "id": "input",
+              "label": "现场读数",
+              "params": null,
+              "type": "input"
+            },
+            {
+              "id": "condition",
+              "label": "现场判断",
+              "params": {
+                "code": "false"
+              },
+              "type": "expression"
+            },
+            {
+              "id": "action",
+              "label": "执行设备动作",
+              "params": null,
+              "type": "action"
+            }
+          ],
+          "outputs": null,
+          "policy": {
+            "conditions": [
+              {
+                "device_id": "agv-1",
+                "interlock": true,
+                "key": "interlock",
+                "max_age_ms": 5000,
+                "operator": "==",
+                "value": false
+              },
+              {
+                "device_id": "agv-1",
+                "interlock": false,
+                "key": "distance",
+                "max_age_ms": 5000,
+                "operator": ">=",
+                "value": 80
+              }
+            ],
+            "edge_ids": [
+              "edge-a"
+            ],
+            "risk_category": "business",
+            "risk_level": 1,
+            "safety_user_id": "safety",
+            "steps": [
+              {
+                "action": "resume",
+                "device_id": "agv-1",
+                "edge_id": "edge-a",
+                "id": "resume",
+                "idempotent": true,
+                "params": {
+                  "value": "false"
+                },
+                "timeout_ms": 5000
+              }
+            ]
+          },
+          "schema_version": "1.0",
+          "selector": {
+            "device_ids": [
+              "agv-1"
+            ],
+            "keys": [
+              "distance"
+            ]
+          },
+          "status": "draft",
+          "version": 0
+        },
+        "before": {
+          "connections": null,
+          "dependencies": null,
+          "effective_ms": 0,
+          "group_id": "",
+          "id": "",
+          "kind": "",
+          "name": "",
+          "nodes": null,
+          "outputs": null,
+          "policy": {},
+          "schema_version": "",
+          "selector": {
+            "device_ids": null,
+            "keys": null
+          },
+          "status": "",
+          "version": 0
+        },
+        "changed": true
+      }
+    }
+  ],
+  "denied_api_requests": [
+    {
+      "path": "/api/sf/v1/executions",
+      "status": 403
+    },
+    {
+      "path": "/api/sf/v1/config",
+      "status": 403
+    },
+    {
+      "path": "/api/sf/v1/drafts/mcp-demo-analysis-e6ac1b5781/publish",
+      "status": 403
+    }
+  ],
+  "published_before_sha256": "19945d6aa3fb913102138135c3222600e709ece8057cd973f033f7a130a83c62",
+  "published_after_sha256": "19945d6aa3fb913102138135c3222600e709ece8057cd973f033f7a130a83c62",
+  "passed": true
+}

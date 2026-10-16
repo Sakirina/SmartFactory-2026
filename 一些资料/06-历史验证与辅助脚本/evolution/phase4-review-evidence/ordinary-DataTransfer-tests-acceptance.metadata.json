@@ -1,0 +1,79 @@
+{
+  "label": "ordinary-DataTransfer-tests-acceptance",
+  "command": [
+    "go",
+    "tool",
+    "test2json",
+    "-t",
+    "-p",
+    "competition2026/product/datatransfer/tests/acceptance",
+    "/private/tmp/smartfactory-phase4-independent-20261005/bin/DataTransfer-tests-acceptance.test",
+    "-test.v=test2json",
+    "-test.count=1",
+    "-test.parallel=1",
+    "-test.timeout=240s",
+    "-test.run=."
+  ],
+  "cwd": "/private/tmp/smartfactory-phase4-independent-20261005/workspace/DataTransfer/tests/acceptance",
+  "started_at": "2026-10-05T02:24:02.221866+00:00",
+  "completed_at": "2026-10-05T02:24:02.283097+00:00",
+  "elapsed_seconds": 0.061,
+  "exit_code": 0,
+  "postgres": false,
+  "stdout": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/ordinary-DataTransfer-tests-acceptance.stdout.log",
+    "sha256": "9751e591416f7e5f708554568b69ebcea0e7280c2d8e05b6efd23f0f2d91547c",
+    "bytes": 2565
+  },
+  "stderr": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/ordinary-DataTransfer-tests-acceptance.stderr.log",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "counts": {
+    "top_level": {
+      "pass": 0,
+      "fail": 0,
+      "skip": 2
+    },
+    "leaf": {
+      "pass": 0,
+      "fail": 0,
+      "skip": 2
+    },
+    "all_named": {
+      "pass": 0,
+      "fail": 0,
+      "skip": 2
+    },
+    "packages": {
+      "pass": 1,
+      "fail": 0,
+      "skip": 0
+    },
+    "skips": [
+      {
+        "package": "competition2026/product/datatransfer/tests/acceptance",
+        "test": "TestDurableProcessFixture",
+        "reason": "=== RUN   TestDurableProcessFixture\n    durable_test.go:43: subprocess fixture\n--- SKIP: TestDurableProcessFixture (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/datatransfer/tests/acceptance",
+        "test": "TestDurableMessagesFaultInjection",
+        "reason": "=== RUN   TestDurableMessagesFaultInjection\n    durable_test.go:102: set SF_ACCEPTANCE_COUNT=100000 for A06\n--- SKIP: TestDurableMessagesFaultInjection (0.00s)\n"
+      }
+    ],
+    "failures": [],
+    "races": 0
+  },
+  "build_inputs": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/build-inputs.json",
+    "sha256": "88fdc87b09a840748a6cadc356b019dcf324905175ecb4f7fb3e38f7c7981643",
+    "bytes": 1717015
+  },
+  "binary": {
+    "path": "/private/tmp/smartfactory-phase4-independent-20261005/bin/DataTransfer-tests-acceptance.test",
+    "sha256": "a73175fc08dde821191209da7c3c90df2b927e62af523169d948fffbaa50dddf",
+    "bytes": 27722530
+  }
+}

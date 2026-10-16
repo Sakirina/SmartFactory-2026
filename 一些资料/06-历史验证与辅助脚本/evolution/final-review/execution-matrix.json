@@ -1,0 +1,1303 @@
+{
+  "created_at": "2026-10-07T04:25:36.116807+00:00",
+  "status": "coordinated_execution_matrix",
+  "groups": {
+    "platform_full": {
+      "scope": "最终Platform源码普通全模块回归",
+      "command": [
+        "go",
+        "test",
+        "-count=1",
+        "-p",
+        "1",
+        "-json",
+        "./..."
+      ],
+      "status": "running",
+      "driver": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/final-review/run_platform_ordinary.py",
+        "sha256": "062b3755f490b0ba4a4f4b5647e6474c4110ec9179a5f56ce077c5753e344f59",
+        "bytes": 7304
+      },
+      "database": "SQLite；本批全部SF_/DT_/OTEL_环境变量清除",
+      "external_services_started": 0,
+      "maximum_pg_connections": 0,
+      "inputs": "执行前后完整Go依赖选择、模块清单、编译工具与保留字节"
+    },
+    "datatransfer_full": {
+      "scope": "完整DataTransfer回归",
+      "status": "reuse_confirmed_complete_input_and_selection_equivalence",
+      "observed_passed_including_subtests": 109,
+      "observed_conditional_skips": 7,
+      "database": "原普通回归环境见固定verification.json；原外部专项分别对应",
+      "source": {
+        "path": "/private/tmp/smartfactory-delivery-regressions-current-20261005/verification.json",
+        "sha256": "c09645b40669fb42d50159e0679d2f095328bba0d5680c3d0ff809cee16dd985",
+        "bytes": 25282
+      },
+      "independent_selection": {
+        "path": "/private/tmp/smartfactory-final-independent-20261007/go-selection/datatransfer.metadata.json",
+        "sha256": "640c3e8c7a989647ccdab5cf2024193fdfb51c168b39f27f8bdf1c2f8abf2dfc",
+        "bytes": 1384614
+      },
+      "independent_full_input_comparison": {
+        "path": "/private/tmp/smartfactory-final-independent-20261007/readonly/last-full-regression-current-input-comparison.json",
+        "sha256": "54d7dd65a40f8f0f24846bebd1991a120195a6d43a77c40eeb36e3ec723e6d32",
+        "bytes": 5941252
+      }
+    },
+    "pg_followup": {
+      "scope": "全模块条件跳过与实际PG专项对应，补足最终调用组合；N04原相同输入19场景已有实际PG与race结果",
+      "status": "wait_linux_release_of_pg_window",
+      "database": "当前PG18.6持久容器中独立数据库与各测试自建schema",
+      "maximum_pool_budget": 24,
+      "monitoring_connection_budget": 1,
+      "source_budget_evidence": [
+        "Platform/internal/store/archive_postgres_test.go:24",
+        "Platform/internal/store/archive_postgres_test.go:41",
+        "Platform/internal/store/postgres_retention_test.go:18",
+        "Platform/internal/store/postgres_retention_test.go:35",
+        "Platform/internal/store/store.go:130"
+      ],
+      "serial_package_limit": 1,
+      "gomaxprocs": 2,
+      "do_not_overlap": "Linux三个默认12连接Store上限36；PG实例总上限60"
+    },
+    "bounded_race": {
+      "scope": "未有完全相同输入结果的发布初始化、R02规则往返与代理恢复共享状态",
+      "status": "wait_ordinary_then_resource_window",
+      "planned_packages": [
+        "./internal/app",
+        "./internal/releaseagent"
+      ],
+      "planned_test_selection": "^(TestRelease|TestInvalidRelease|TestAgent|TestRuntimeConfiguration|TestPreparationFailure)",
+      "database": "SQLite和指定隔离PG；依实际用例条件分别记录",
+      "reuse_exact_input_checks": [
+        "N04来源登记与快照19项实际PG竞态",
+        "D01七顶层/十含子测试采集停止竞态"
+      ],
+      "input_requirement": "实际go list包含-race，保留Darwin arm64 race syso与最终程序BuildInfo"
+    },
+    "frontend_build": {
+      "scope": "最终生成客户端、TS7、TS6、27单测与生产构建",
+      "status": "reuse_confirmed_all_inputs_and_outputs",
+      "retained_inputs": 30931,
+      "current_source_files": 295,
+      "production_assets": 19,
+      "independent_audit": {
+        "path": "/private/tmp/smartfactory-final-independent-20261007/readonly/frontend-fixed-input-audit.json",
+        "sha256": "764a6c2bee6f8ad083377312a16e87cc008850f20ecdf69356cd5e1075b15d14",
+        "bytes": 15297919
+      },
+      "specialist": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/release-interface-verified.json",
+        "sha256": "9d5d2324570bd535001c5a9cbe3938de78867e16842a4778a450f7e580f810d3",
+        "bytes": 27971
+      }
+    },
+    "business_browser": {
+      "scope": "最终生产产物上的草稿发布、连续模拟、控制核对与历史、查询订阅、告警工单、模板与AI依据",
+      "status": "fixture_and_execution_pending",
+      "database": "审查自建SQLite夹具",
+      "node_composition": "按业务夹具建立独立cloud/edge；设备动作采用正式测试协议端点",
+      "fixture_source": "当前Platform/cmd/sf-business-fixture、sf-ai-evidence-fixture及生产入口；先记录实际最终编译输入",
+      "historic_mutation_prohibited": true
+    },
+    "release_browser": {
+      "scope": "F01空目录首份清单、F02延迟HTTP后的编辑、F03只读/部分编辑/管理权限、F04同页批次URL来回与清除，以及实际五模板采用",
+      "status": "fixture_and_execution_pending",
+      "database": "审查自建SQLite",
+      "node_composition": {
+        "cloud": 1,
+        "config": 1,
+        "edge": 2,
+        "independent_databases": 4,
+        "release_agents": 2
+      },
+      "production_input": "最终当前Go源码；19份已固定生产静态产物",
+      "objects": "从审查自己的fixture描述读取明确对象、凭据文件和进程归属",
+      "historic_paths_in_tests": "在独立测试副本参数化；记录原始测试SHA与差异"
+    },
+    "precision_browser": {
+      "scope": "云端、现场、大屏精确值、提示和完整导出，三种尺寸共九画面",
+      "status": "fixture_and_execution_pending",
+      "viewports": [
+        [
+          1440,
+          1000
+        ],
+        [
+          1024,
+          768
+        ],
+        [
+          390,
+          844
+        ]
+      ],
+      "database": "审查自建SQLite正式seed与ingest",
+      "production_assets": 19
+    },
+    "release_two_node": {
+      "scope": "独立cloud/config/至少两个edge的期望、准备、实际采用、分批推进、撤权清理、静态重启、同代等待及新发布恢复",
+      "status": "final_input_composition_and_targeted_verification_pending",
+      "database": "四个独立SQLite数据库；实际PG来源并发另由PG专项及Linux入口验证",
+      "node_composition": {
+        "cloud": 1,
+        "config": 1,
+        "edge": 2,
+        "release_agents": 2
+      },
+      "input_requirement": "读取现有两节点报告的完整输入关系；当前最终差异用独立组合定向复验"
+    },
+    "linux_packaged_entry": {
+      "scope": "最终包正式准备、首次转换、原数据与主密钥、实际消费者两版本、停止及保留数据再次启动",
+      "status": "delivery_running_then_independent_inspection",
+      "node_composition": {
+        "cloud": 1,
+        "config": 1,
+        "edge": 1
+      },
+      "database": "PostgreSQL18.6三个独立业务数据库；3×12默认连接上限",
+      "production_input": "交付工程师本轮N04七程序固定输入及最终十四程序包",
+      "scope_note": "两节点分批推进由release_two_node组合覆盖"
+    },
+    "package_public": {
+      "scope": "十四Linux程序、源码/产物摘要、迁移、契约、依赖与许可、公开文件及verify-release",
+      "status": "waiting_final_package",
+      "commands": [
+        "包内verify-release.py",
+        "文档链接核对",
+        "依赖别名与真实发行包核对",
+        "公开资料检查"
+      ],
+      "do_not_repeat": "已确认输入完全相同的有限协议、100000条消息、NATS冷备及原生停止专项以原实际记录复核"
+    },
+    "final_criterion_audit": {
+      "scope": "45项结论、来源、当前输入适用关系、实际范围、跳过及问题状态",
+      "status": "in_progress",
+      "acceptance_owner": "主协调",
+      "output": ".local/evolution/final-independent-review.json"
+    }
+  },
+  "requirements": [
+    {
+      "id": "E1-01",
+      "title": "维护工具链一致性",
+      "verification_criteria": "各入口版本读取、一致性脚本、两个Go模块实际构建与测试、构建镜像检查",
+      "historic_evidence": [
+        ".local/evolution/toolchains-verified.json",
+        ".local/evolution/go-build-verification.json",
+        ".local/evolution/rules-root-review.json"
+      ],
+      "current_source_direct_changes": [
+        ".github/workflows/build-release.yml",
+        "scripts/build-release.py"
+      ],
+      "verification_groups": [
+        "platform_full",
+        "datatransfer_full",
+        "frontend_build",
+        "package_public"
+      ],
+      "final_independent_status": "pending"
+    },
+    {
+      "id": "E1-02",
+      "title": "原生平台与代理维护更新",
+      "verification_criteria": "官方发行与镜像元数据、真实获取记录、版本输出、原生通信与mTLS/流式路由回归",
+      "historic_evidence": [
+        ".local/evolution/image-fetch.json",
+        ".local/evolution/image-versions.json",
+        ".local/evolution/native-controlled-roundtrip.json",
+        ".local/evolution/native-controlled-resources.json",
+        ".local/evolution/envoy-runtime-verification.json",
+        ".local/evolution/toolchain-observability-verified.json",
+        ".local/evolution/toolchain-root-review.json",
+        ".local/evolution/message-infrastructure-verified.json",
+        ".local/evolution/message-infrastructure-root-review.json"
+      ],
+      "current_source_direct_changes": [
+        "Wiki/消息组件升级.md",
+        "deploy/compose.native.json"
+      ],
+      "verification_groups": [
+        "package_public",
+        "linux_packaged_entry"
+      ],
+      "final_independent_status": "pending"
+    },
+    {
+      "id": "E1-03",
+      "title": "依赖与兼容清单",
+      "verification_criteria": "机器可读清单、一致性检查、允许与拒绝组合测试",
+      "historic_evidence": [
+        ".local/evolution/compatibility-verified.json",
+        ".local/evolution/contracts-verified.json"
+      ],
+      "current_source_direct_changes": [
+        "Platform/pkg/compatibility/manifest.json",
+        "contracts/compatibility.json"
+      ],
+      "verification_groups": [
+        "platform_full",
+        "frontend_build",
+        "package_public"
+      ],
+      "final_independent_status": "pending"
+    },
+    {
+      "id": "E1-04",
+      "title": "统一草稿应用用例",
+      "verification_criteria": "直接应用调用与HTTP调用的权限等价、并发修改、依赖变化及事务回滚测试",
+      "historic_evidence": [
+        ".local/evolution/architecture-contracts-verified.json",
+        ".local/evolution/pilot-verified.json"
+      ],
+      "current_source_direct_changes": [],
+      "verification_groups": [
+        "platform_full",
+        "business_browser"
+      ],
+      "final_independent_status": "pending"
+    },
+    {
+      "id": "E1-05",
+      "title": "类型化API与契约源",
+      "verification_criteria": "生成结果检查、实际请求响应验证、旧契约兼容、生成内容一致性",
+      "historic_evidence": [
+        ".local/evolution/architecture-contracts-verified.json",
+        ".local/evolution/contracts-verified.json",
+        ".local/evolution/pilot-verified.json"
+      ],
+      "current_source_direct_changes": [
+        "Platform/internal/api/definition_routes.go",
+        "contracts/1.0/openapi.json"
+      ],
+      "verification_groups": [
+        "platform_full",
+        "frontend_build",
+        "business_browser"
+      ],
+      "final_independent_status": "pending"
+    },
+    {
+      "id": "E1-06",
+      "title": "编号数据库迁移",
+      "verification_criteria": "旧SQLite与PostgreSQL样本迁移、重复启动、中断与修改迁移文件拒绝测试",
+      "historic_evidence": [
+        ".local/evolution/architecture-contracts-verified.json"
+      ],
+      "current_source_direct_changes": [
+        "Platform/internal/store/migrations.go"
+      ],
+      "verification_groups": [
+        "platform_full",
+        "pg_followup",
+        "package_public"
+      ],
+      "final_independent_status": "pending"
+    },
+    {
+      "id": "E1-07",
+      "title": "统一观测基础",
+      "verification_criteria": "实际草稿发布追踪、内存导出器断言、HTTP上下文传播与指标聚合检查",
+      "historic_evidence": [
+        ".local/evolution/architecture-contracts-verified.json",
+        ".local/evolution/pilot-verified.json"
+      ],
+      "current_source_direct_changes": [],
+      "verification_groups": [
+        "platform_full",
+        "business_browser"
+      ],
+      "final_independent_status": "pending"
+    },
+    {
+      "id": "E1-08",
+      "title": "生成前端接口基础",
+      "verification_criteria": "生成检查、TypeScript构建、精确整数与错误状态测试",
+      "historic_evidence": [
+        ".local/evolution/architecture-contracts-verified.json",
+        ".local/evolution/generated-client-verified.json",
+        ".local/evolution/pilot-verified.json"
+      ],
+      "current_source_direct_changes": [],
+      "verification_groups": [
+        "frontend_build",
+        "precision_browser"
+      ],
+      "final_independent_status": "pending"
+    },
+    {
+      "id": "E1-09",
+      "title": "首个完整交付流程",
+      "verification_criteria": "实际API与浏览器流程、发布记录、审计与outbox、版本/构建/迁移证据关联",
+      "historic_evidence": [
+        ".local/evolution/pilot-verified.json"
+      ],
+      "current_source_direct_changes": [],
+      "verification_groups": [
+        "business_browser",
+        "package_public"
+      ],
+      "final_independent_status": "pending"
+    },
+    {
+      "id": "E2-01",
+      "title": "数据库大版本迁移",
+      "verification_criteria": "规定规模的旧数据迁移、查询/写入/归档、原生兼容与数据核对",
+      "historic_evidence": [
+        ".local/evolution/pg16-to18-dump-restore.json",
+        ".local/evolution/postgres-migration-root-review.json",
+        ".local/evolution/toolchain-observability-verified.json",
+        ".local/evolution/storage-tasks-verified.json",
+        ".local/evolution/storage-root-review.json",
+        ".local/evolution/phase2-independent-review.json",
+        ".local/evolution/phase2-independent-root-review.json"
+      ],
+      "current_source_direct_changes": [
+        "Platform/internal/store/migrations.go",
+        "Wiki/operations/backup-restore.md",
+        "scripts/prepare-deploy.py"
+      ],
+      "verification_groups": [
+        "pg_followup",
+        "linux_packaged_entry",
+        "package_public"
+      ],
+      "final_independent_status": "pending"
+    },
+    {
+      "id": "E2-02",
+      "title": "领域存储与写入并发",
+      "verification_criteria": "不同对象并行、同对象竞争、审计哈希链、迟提交事务同步游标、业务inbox/outbox原子性测试",
+      "historic_evidence": [
+        ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+        ".local/evolution/storage-tasks-verified.json",
+        ".local/evolution/storage-root-review.json",
+        ".local/evolution/phase2-independent-review.json",
+        ".local/evolution/phase2-independent-root-review.json"
+      ],
+      "current_source_direct_changes": [
+        "Platform/internal/store/store.go"
+      ],
+      "verification_groups": [
+        "platform_full",
+        "pg_followup"
+      ],
+      "final_independent_status": "pending"
+    },
+    {
+      "id": "E2-03",
+      "title": "归档事务调整",
+      "verification_criteria": "归档往返全部字段与精度、并发晚到数据、失败回滚及事务持续时间对比",
+      "historic_evidence": [
+        ".local/evolution/storage-evidence/storage-archive-total.jsonl",
+        ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+        ".local/evolution/storage-tasks-verified.json",
+        ".local/evolution/storage-root-review.json",
+        ".local/evolution/phase2-independent-review.json",
+        ".local/evolution/phase2-independent-root-review.json"
+      ],
+      "current_source_direct_changes": [],
+      "verification_groups": [
+        "platform_full",
+        "pg_followup"
+      ],
+      "final_independent_status": "pending"
+    },
+    {
+      "id": "E2-04",
+      "title": "通用后台任务替换",
+      "verification_criteria": "任务领取、崩溃恢复、重试、同事务提交/回滚和原业务身份保持；选型变更具有试点证据",
+      "historic_evidence": [
+        ".local/evolution/storage-evidence/storage-platform-reviewed.jsonl",
+        ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+        ".local/evolution/storage-evidence/storage-postgres-legacy-repair.jsonl",
+        ".local/evolution/storage-tasks-verified.json",
+        ".local/evolution/storage-root-review.json",
+        ".local/evolution/phase2-independent-review.json",
+        ".local/evolution/phase2-independent-root-review.json",
+        ".local/evolution/tasks-cancel-t01-verified.json",
+        ".local/evolution/tasks-cancel-t01-root-review.json",
+        ".local/evolution/tasks-cancel-t01-binary-root-review.json",
+        ".local/evolution/tasks-cancel-t01-source-scope-root-review.json",
+        ".local/evolution/tasks-retry-t02-verified.json",
+        ".local/evolution/tasks-retry-t02-root-review.json"
+      ],
+      "current_source_direct_changes": [],
+      "verification_groups": [
+        "platform_full",
+        "pg_followup",
+        "business_browser"
+      ],
+      "final_independent_status": "pending"
+    },
+    {
+      "id": "E2-05",
+      "title": "后台资源分配",
+      "verification_criteria": "受控任务积压下的队列调度、并发限额、取消与前台业务处理记录",
+      "historic_evidence": [
+        ".local/evolution/storage-evidence/storage-platform-reviewed.jsonl",
+        ".local/evolution/storage-evidence/storage-race-reviewed.jsonl",
+        ".local/evolution/storage-tasks-verified.json",
+        ".local/evolution/storage-root-review.json",
+        ".local/evolution/phase2-independent-review.json",
+        ".local/evolution/phase2-independent-root-review.json"
+      ],
+      "current_source_direct_changes": [],
+      "verification_groups": [
+        "platform_full",
+        "datatransfer_full"
+      ],
+      "final_independent_status": "pending"
+    },
+    {
+      "id": "E2-06",
+      "title": "发布编译执行计划",
+      "verification_criteria": "发布错误定位、计划序列化/版本识别、运行时复用及禁止热路径重复解析检查",
+      "historic_evidence": [
+        ".local/evolution/rules-verified.json",
+        ".local/evolution/rules-root-review.json",
+        ".local/evolution/phase2-independent-review.json",
+        ".local/evolution/phase2-independent-root-review.json"
+      ],
+      "current_source_direct_changes": [],
+      "verification_groups": [
+        "platform_full",
+        "pg_followup",
+        "release_two_node"
+      ],
+      "final_independent_status": "pending"
+    },
+    {
+      "id": "E2-07",
+      "title": "统一确定性计算",
+      "verification_criteria": "同输入/顺序/状态/时间/版本产生确定结果，数值、质量、单位和历史版本样本核对",
+      "historic_evidence": [
+        ".local/evolution/rules-verified.json",
+        ".local/evolution/rules-root-review.json",
+        ".local/evolution/phase2-independent-review.json",
+        ".local/evolution/phase2-independent-root-review.json"
+      ],
+      "current_source_direct_changes": [],
+      "verification_groups": [
+        "platform_full",
+        "release_two_node",
+        "business_browser"
+      ],
+      "final_independent_status": "pending"
+    },
+    {
+      "id": "E2-08",
+      "title": "统一节点元数据",
+      "verification_criteria": "内建节点元数据完整性、后端参数校验、生成Schema一致性",
+      "historic_evidence": [
+        ".local/evolution/rules-verified.json",
+        ".local/evolution/rules-root-review.json",
+        ".local/evolution/phase2-independent-review.json",
+        ".local/evolution/phase2-independent-root-review.json"
+      ],
+      "current_source_direct_changes": [],
+      "verification_groups": [
+        "platform_full",
+        "frontend_build"
+      ],
+      "final_independent_status": "pending"
+    },
+    {
+      "id": "E2-09",
+      "title": "连续输入模拟与任务详情",
+      "verification_criteria": "连续状态和窗口计算API/页面、任务故障注入和详情显示",
+      "historic_evidence": [
+        ".local/evolution/rules-verified.json",
+        ".local/evolution/rules-root-review.json",
+        ".local/evolution/storage-tasks-verified.json",
+        ".local/evolution/storage-root-review.json",
+        ".local/evolution/frontend-phase2-verified.json",
+        ".local/evolution/frontend-phase2-root-review.json",
+        ".local/evolution/frontend-behavior-root-review.json",
+        ".local/evolution/phase2-independent-review.json",
+        ".local/evolution/phase2-independent-root-review.json",
+        ".local/evolution/frontend-phase2/review-followup/review-correction.json",
+        ".local/evolution/frontend-phase2-followup-root-review.json",
+        ".local/evolution/tasks-cancel-t01-verified.json",
+        ".local/evolution/tasks-cancel-t01-root-review.json",
+        ".local/evolution/tasks-cancel-t01-binary-root-review.json",
+        ".local/evolution/tasks-cancel-t01-source-scope-root-review.json",
+        ".local/evolution/tasks-retry-t02-verified.json",
+        ".local/evolution/tasks-retry-t02-root-review.json"
+      ],
+      "current_source_direct_changes": [],
+      "verification_groups": [
+        "business_browser",
+        "platform_full"
+      ],
+      "final_independent_status": "pending"
+    },
+    {
+      "id": "E2-10",
+      "title": "官方MCP组件集成",
+      "verification_criteria": "官方客户端与既有客户端发现/读取/草稿操作，传输/会话/权限/错误测试",
+      "historic_evidence": [
+        ".local/evolution/ai-protocols-verified.json",
+        ".local/evolution/ai-protocols-root-review.json",
+        ".local/evolution/phase2-independent-review.json",
+        ".local/evolution/phase2-independent-root-review.json"
+      ],
+      "current_source_direct_changes": [
+        "Platform/pkg/compatibility/manifest.json"
+      ],
+      "verification_groups": [
+        "platform_full"
+      ],
+      "final_independent_status": "pending"
+    },
+    {
+      "id": "E2-11",
+      "title": "模型API适配",
+      "verification_criteria": "至少两种明确API适配的录制样本或模拟端点验证，分片重组、工具参数和异常结束测试",
+      "historic_evidence": [
+        ".local/evolution/ai-protocols-verified.json",
+        ".local/evolution/ai-protocols-root-review.json",
+        ".local/evolution/phase2-independent-review.json",
+        ".local/evolution/phase2-independent-root-review.json"
+      ],
+      "current_source_direct_changes": [],
+      "verification_groups": [
+        "platform_full",
+        "business_browser"
+      ],
+      "final_independent_status": "pending"
+    },
+    {
+      "id": "E2-12",
+      "title": "前端工具链迁移",
+      "verification_criteria": "锁文件、实际版本、构建与类型检查、三种页面入口及浏览器冒烟",
+      "historic_evidence": [
+        ".local/evolution/frontend-phase2-verified.json",
+        ".local/evolution/frontend-phase2-root-review.json",
+        ".local/evolution/frontend-phase2/compiler-info.json",
+        ".local/evolution/frontend-phase2/frontend-toolchain-fields.json",
+        ".local/evolution/frontend-phase2/clean-artifacts.json",
+        ".local/evolution/phase2-independent-review.json",
+        ".local/evolution/phase2-independent-root-review.json",
+        ".local/evolution/frontend-phase2-followup-root-review.json"
+      ],
+      "current_source_direct_changes": [
+        "Frontends/vite.config.ts"
+      ],
+      "verification_groups": [
+        "frontend_build",
+        "precision_browser"
+      ],
+      "final_independent_status": "pending"
+    },
+    {
+      "id": "E3-01",
+      "title": "持久控制状态机",
+      "verification_criteria": "合法/非法转换、过期与撤权、进程重启、重复请求和审计一致性",
+      "historic_evidence": [
+        ".local/evolution/control-execution-verified.json",
+        ".local/evolution/control-execution-root-review.json",
+        ".local/evolution/control-execution-c05-verified.json",
+        ".local/evolution/control-execution-c05-root-review.json",
+        ".local/evolution/control-c05-final-fixture-root-review.json",
+        ".local/evolution/frontend-phase3-verified.json",
+        ".local/evolution/frontend-phase3-root-review.json",
+        ".local/evolution/phase3-independent-review-checkpoint.json",
+        ".local/evolution/phase3-independent-checkpoint-root-review.json",
+        ".local/evolution/phase3-independent-review-t01-checkpoint.json",
+        ".local/evolution/phase3-independent-t01-checkpoint-root-review.json",
+        ".local/evolution/phase3-independent-review.json",
+        ".local/evolution/phase3-independent-root-review.json",
+        ".local/evolution/phase3-final-source-root-review.json",
+        ".local/evolution/phase3-accepted-source.json"
+      ],
+      "current_source_direct_changes": [],
+      "verification_groups": [
+        "platform_full",
+        "pg_followup",
+        "business_browser"
+      ],
+      "final_independent_status": "pending"
+    },
+    {
+      "id": "E3-02",
+      "title": "动作日志与结果核对",
+      "verification_criteria": "发送前后故障注入、重复command_id、执行权失效、明确设备反馈和恢复行为",
+      "historic_evidence": [
+        ".local/evolution/control-execution-verified.json",
+        ".local/evolution/control-execution-root-review.json",
+        ".local/evolution/control-execution-c05-verified.json",
+        ".local/evolution/control-execution-c05-root-review.json",
+        ".local/evolution/control-c05-final-fixture-root-review.json",
+        ".local/evolution/frontend-phase3-verified.json",
+        ".local/evolution/frontend-phase3-root-review.json",
+        ".local/evolution/phase3-independent-review-checkpoint.json",
+        ".local/evolution/phase3-independent-checkpoint-root-review.json",
+        ".local/evolution/phase3-independent-review-t01-checkpoint.json",
+        ".local/evolution/phase3-independent-t01-checkpoint-root-review.json",
+        ".local/evolution/phase3-independent-review.json",
+        ".local/evolution/phase3-independent-root-review.json",
+        ".local/evolution/phase3-final-source-root-review.json",
+        ".local/evolution/phase3-accepted-source.json"
+      ],
+      "current_source_direct_changes": [
+        "DataTransfer/proto/datatransfer/v1/datatransfer.proto"
+      ],
+      "verification_groups": [
+        "platform_full",
+        "datatransfer_full",
+        "pg_followup",
+        "business_browser"
+      ],
+      "final_independent_status": "pending"
+    },
+    {
+      "id": "E3-03",
+      "title": "人工干预流程",
+      "verification_criteria": "不同角色与状态的操作检查、参数或版本变化后的拒绝及合法恢复",
+      "historic_evidence": [
+        ".local/evolution/control-execution-verified.json",
+        ".local/evolution/control-execution-root-review.json",
+        ".local/evolution/control-execution-c05-verified.json",
+        ".local/evolution/control-execution-c05-root-review.json",
+        ".local/evolution/control-c05-final-fixture-root-review.json",
+        ".local/evolution/frontend-phase3-verified.json",
+        ".local/evolution/frontend-phase3-root-review.json",
+        ".local/evolution/phase3-independent-review-checkpoint.json",
+        ".local/evolution/phase3-independent-checkpoint-root-review.json",
+        ".local/evolution/phase3-independent-review-t01-checkpoint.json",
+        ".local/evolution/phase3-independent-t01-checkpoint-root-review.json",
+        ".local/evolution/phase3-independent-review.json",
+        ".local/evolution/phase3-independent-root-review.json",
+        ".local/evolution/phase3-final-source-root-review.json",
+        ".local/evolution/phase3-accepted-source.json"
+      ],
+      "current_source_direct_changes": [],
+      "verification_groups": [
+        "platform_full",
+        "pg_followup",
+        "business_browser"
+      ],
+      "final_independent_status": "pending"
+    },
+    {
+      "id": "E3-04",
+      "title": "历史序列回放",
+      "verification_criteria": "跨版本窗口、乱序与补传样本、来源与质量保留、回放隔离及结果查询",
+      "historic_evidence": [
+        ".local/evolution/history-analysis-verified.json",
+        ".local/evolution/history-analysis-root-review.json",
+        ".local/evolution/frontend-phase3-verified.json",
+        ".local/evolution/frontend-phase3-root-review.json",
+        ".local/evolution/phase3-review-evidence/v2-history-cancel-keyboard-timing.json",
+        ".local/evolution/phase3-independent-review-checkpoint.json",
+        ".local/evolution/phase3-independent-checkpoint-root-review.json",
+        ".local/evolution/tasks-cancel-t01-verified.json",
+        ".local/evolution/tasks-cancel-t01-root-review.json",
+        ".local/evolution/tasks-cancel-t01-binary-root-review.json",
+        ".local/evolution/tasks-cancel-t01-source-scope-root-review.json",
+        ".local/evolution/phase3-independent-review-t01-checkpoint.json",
+        ".local/evolution/phase3-independent-t01-checkpoint-root-review.json",
+        ".local/evolution/tasks-retry-t02-verified.json",
+        ".local/evolution/tasks-retry-t02-root-review.json",
+        ".local/evolution/phase3-independent-review.json",
+        ".local/evolution/phase3-independent-root-review.json",
+        ".local/evolution/phase3-final-source-root-review.json",
+        ".local/evolution/phase3-accepted-source.json"
+      ],
+      "current_source_direct_changes": [],
+      "verification_groups": [
+        "platform_full",
+        "pg_followup",
+        "business_browser"
+      ],
+      "final_independent_status": "pending"
+    },
+    {
+      "id": "E3-05",
+      "title": "规则版本效果比较",
+      "verification_criteria": "变化/无变化样本、数值与质量差异、版本与来源显示、API和页面流程",
+      "historic_evidence": [
+        ".local/evolution/history-analysis-verified.json",
+        ".local/evolution/history-analysis-root-review.json",
+        ".local/evolution/frontend-phase3-verified.json",
+        ".local/evolution/frontend-phase3-root-review.json",
+        ".local/evolution/phase3-independent-review-checkpoint.json",
+        ".local/evolution/phase3-independent-checkpoint-root-review.json",
+        ".local/evolution/phase3-independent-review-t01-checkpoint.json",
+        ".local/evolution/phase3-independent-t01-checkpoint-root-review.json",
+        ".local/evolution/phase3-independent-review.json",
+        ".local/evolution/phase3-independent-root-review.json",
+        ".local/evolution/phase3-final-source-root-review.json",
+        ".local/evolution/phase3-accepted-source.json"
+      ],
+      "current_source_direct_changes": [],
+      "verification_groups": [
+        "platform_full",
+        "business_browser"
+      ],
+      "final_independent_status": "pending"
+    },
+    {
+      "id": "E3-06",
+      "title": "影子计算",
+      "verification_criteria": "实时输入传播、重复数据幂等、候选启停、正式状态/动作完整性与比较结果",
+      "historic_evidence": [
+        ".local/evolution/history-analysis-verified.json",
+        ".local/evolution/history-analysis-root-review.json",
+        ".local/evolution/frontend-phase3-verified.json",
+        ".local/evolution/frontend-phase3-root-review.json",
+        ".local/evolution/phase3-review-evidence/v2-history-cancel-keyboard-timing.json",
+        ".local/evolution/phase3-independent-review-checkpoint.json",
+        ".local/evolution/phase3-independent-checkpoint-root-review.json",
+        ".local/evolution/tasks-cancel-t01-verified.json",
+        ".local/evolution/tasks-cancel-t01-root-review.json",
+        ".local/evolution/tasks-cancel-t01-binary-root-review.json",
+        ".local/evolution/tasks-cancel-t01-source-scope-root-review.json",
+        ".local/evolution/phase3-independent-review-t01-checkpoint.json",
+        ".local/evolution/phase3-independent-t01-checkpoint-root-review.json",
+        ".local/evolution/tasks-retry-t02-verified.json",
+        ".local/evolution/tasks-retry-t02-root-review.json",
+        ".local/evolution/phase3-independent-review.json",
+        ".local/evolution/phase3-independent-root-review.json",
+        ".local/evolution/phase3-final-source-root-review.json",
+        ".local/evolution/phase3-accepted-source.json"
+      ],
+      "current_source_direct_changes": [],
+      "verification_groups": [
+        "platform_full",
+        "pg_followup",
+        "business_browser"
+      ],
+      "final_independent_status": "pending"
+    },
+    {
+      "id": "E3-07",
+      "title": "计算及执行过程解释",
+      "verification_criteria": "记录关联完整性、资源授权、实际API与浏览器显示",
+      "historic_evidence": [
+        ".local/evolution/control-execution-verified.json",
+        ".local/evolution/control-execution-root-review.json",
+        ".local/evolution/history-analysis-verified.json",
+        ".local/evolution/history-analysis-root-review.json",
+        ".local/evolution/control-execution-c05-verified.json",
+        ".local/evolution/control-execution-c05-root-review.json",
+        ".local/evolution/control-c05-final-fixture-root-review.json",
+        ".local/evolution/frontend-phase3-verified.json",
+        ".local/evolution/frontend-phase3-root-review.json",
+        ".local/evolution/phase3-review-evidence/v2-history-cancel-keyboard-timing.json",
+        ".local/evolution/phase3-independent-review-checkpoint.json",
+        ".local/evolution/phase3-independent-checkpoint-root-review.json",
+        ".local/evolution/tasks-cancel-t01-verified.json",
+        ".local/evolution/tasks-cancel-t01-root-review.json",
+        ".local/evolution/tasks-cancel-t01-binary-root-review.json",
+        ".local/evolution/tasks-cancel-t01-source-scope-root-review.json",
+        ".local/evolution/phase3-independent-review-t01-checkpoint.json",
+        ".local/evolution/phase3-independent-t01-checkpoint-root-review.json",
+        ".local/evolution/tasks-retry-t02-verified.json",
+        ".local/evolution/tasks-retry-t02-root-review.json",
+        ".local/evolution/phase3-independent-review.json",
+        ".local/evolution/phase3-independent-root-review.json",
+        ".local/evolution/phase3-final-source-root-review.json",
+        ".local/evolution/phase3-accepted-source.json"
+      ],
+      "current_source_direct_changes": [],
+      "verification_groups": [
+        "platform_full",
+        "business_browser"
+      ],
+      "final_independent_status": "pending"
+    },
+    {
+      "id": "E4-01",
+      "title": "查询读模型与分页",
+      "verification_criteria": "数据库查询范围、分页稳定性、投影重建、修订和权限过滤测试",
+      "historic_evidence": [
+        ".local/evolution/phase4-coordinator-findings.json",
+        ".local/evolution/phase4-query-http-interim-root-review.json",
+        ".local/evolution/phase4-query-postgres-interim-root-review.json",
+        ".local/evolution/query-subscriptions-verified.json",
+        ".local/evolution/query-subscriptions-root-review.json",
+        ".local/evolution/phase4-query-inputs-root-review.json",
+        ".local/evolution/frontend-phase4-verified.json",
+        ".local/evolution/frontend-phase4-root-review.json",
+        ".local/evolution/frontend-phase4-r1-build-provenance-root-review.json",
+        ".local/evolution/phase4-independent-review.json",
+        ".local/evolution/phase4-independent-root-review.json",
+        ".local/evolution/phase4-independent-browser-root-review.json"
+      ],
+      "current_source_direct_changes": [],
+      "verification_groups": [
+        "platform_full",
+        "pg_followup",
+        "business_browser"
+      ],
+      "final_independent_status": "pending"
+    },
+    {
+      "id": "E4-02",
+      "title": "可恢复增量订阅",
+      "verification_criteria": "断连恢复、迟提交、过期游标、权限变化及多个订阅者测试",
+      "historic_evidence": [
+        ".local/evolution/phase4-coordinator-findings.json",
+        ".local/evolution/phase4-query-http-interim-root-review.json",
+        ".local/evolution/phase4-query-postgres-interim-root-review.json",
+        ".local/evolution/query-subscriptions-verified.json",
+        ".local/evolution/query-subscriptions-root-review.json",
+        ".local/evolution/phase4-query-inputs-root-review.json",
+        ".local/evolution/frontend-phase4-verified.json",
+        ".local/evolution/frontend-phase4-root-review.json",
+        ".local/evolution/frontend-phase4-r1-build-provenance-root-review.json",
+        ".local/evolution/phase4-independent-review.json",
+        ".local/evolution/phase4-independent-root-review.json",
+        ".local/evolution/phase4-independent-browser-root-review.json"
+      ],
+      "current_source_direct_changes": [],
+      "verification_groups": [
+        "platform_full",
+        "pg_followup",
+        "business_browser"
+      ],
+      "final_independent_status": "pending"
+    },
+    {
+      "id": "E4-03",
+      "title": "前端业务模块与状态组织",
+      "verification_criteria": "页面调用路径、缓存键/权限身份、增量更新、编辑切换和构建检查",
+      "historic_evidence": [
+        ".local/evolution/frontend-phase4-verified.json",
+        ".local/evolution/frontend-phase4-root-review.json",
+        ".local/evolution/frontend-phase4-r1-build-provenance-root-review.json",
+        ".local/evolution/phase4-independent-review.json",
+        ".local/evolution/phase4-independent-root-review.json",
+        ".local/evolution/phase4-independent-browser-root-review.json"
+      ],
+      "current_source_direct_changes": [],
+      "verification_groups": [
+        "frontend_build",
+        "business_browser",
+        "release_browser"
+      ],
+      "final_independent_status": "pending"
+    },
+    {
+      "id": "E4-04",
+      "title": "设备与节点参数表单",
+      "verification_criteria": "不同节点与协议表单、必填/枚举/数值范围、后端校验等价和编辑往返",
+      "historic_evidence": [
+        ".local/evolution/phase4-business-sqlite-interim-root-review.json",
+        ".local/evolution/phase4-coordinator-findings.json",
+        ".local/evolution/business-workflows-verified.json",
+        ".local/evolution/business-workflows-root-review.json",
+        ".local/evolution/frontend-phase4-verified.json",
+        ".local/evolution/frontend-phase4-root-review.json",
+        ".local/evolution/frontend-phase4-r1-build-provenance-root-review.json",
+        ".local/evolution/phase4-independent-review.json",
+        ".local/evolution/phase4-independent-root-review.json",
+        ".local/evolution/phase4-independent-browser-root-review.json"
+      ],
+      "current_source_direct_changes": [
+        "Platform/internal/application/deviceconfiguration.go"
+      ],
+      "verification_groups": [
+        "platform_full",
+        "business_browser",
+        "release_two_node"
+      ],
+      "final_independent_status": "pending"
+    },
+    {
+      "id": "E4-05",
+      "title": "语义差异与影响分析",
+      "verification_criteria": "节点/连线/参数变化样本、循环及缺失依赖、资源范围与页面检查",
+      "historic_evidence": [
+        ".local/evolution/phase4-business-sqlite-interim-root-review.json",
+        ".local/evolution/phase4-coordinator-findings.json",
+        ".local/evolution/business-workflows-verified.json",
+        ".local/evolution/business-workflows-root-review.json",
+        ".local/evolution/frontend-phase4-verified.json",
+        ".local/evolution/frontend-phase4-root-review.json",
+        ".local/evolution/frontend-phase4-r1-build-provenance-root-review.json",
+        ".local/evolution/phase4-independent-review.json",
+        ".local/evolution/phase4-independent-root-review.json",
+        ".local/evolution/phase4-independent-browser-root-review.json"
+      ],
+      "current_source_direct_changes": [],
+      "verification_groups": [
+        "platform_full",
+        "business_browser"
+      ],
+      "final_independent_status": "pending"
+    },
+    {
+      "id": "E4-06",
+      "title": "告警处置工作台",
+      "verification_criteria": "权限和并发版本、状态同步、告警生命周期、API及页面流程",
+      "historic_evidence": [
+        ".local/evolution/phase4-business-sqlite-interim-root-review.json",
+        ".local/evolution/phase4-coordinator-findings.json",
+        ".local/evolution/business-workflows-verified.json",
+        ".local/evolution/business-workflows-root-review.json",
+        ".local/evolution/frontend-phase4-verified.json",
+        ".local/evolution/frontend-phase4-root-review.json",
+        ".local/evolution/frontend-phase4-r1-build-provenance-root-review.json",
+        ".local/evolution/phase4-independent-review.json",
+        ".local/evolution/phase4-independent-root-review.json",
+        ".local/evolution/phase4-independent-browser-root-review.json"
+      ],
+      "current_source_direct_changes": [],
+      "verification_groups": [
+        "platform_full",
+        "business_browser"
+      ],
+      "final_independent_status": "pending"
+    },
+    {
+      "id": "E4-07",
+      "title": "带依据的AI调查",
+      "verification_criteria": "工具结果与引用一致性、无权资源拒绝、错误/缺失依据处理和页面导航",
+      "historic_evidence": [
+        ".local/evolution/ai-evidence-verified.json",
+        ".local/evolution/ai-evidence-root-review.json",
+        ".local/evolution/phase4-ai-build-provenance-root-review.json",
+        ".local/evolution/phase4-ai-ordinary-root-review.json",
+        ".local/evolution/phase4-coordinator-findings.json",
+        ".local/evolution/ai-evidence-a02-verified.json",
+        ".local/evolution/ai-evidence-a02-root-review.json",
+        ".local/evolution/phase4-ai-a02-build-provenance-root-review.json",
+        ".local/evolution/phase4-review-a02/summary.json",
+        ".local/evolution/phase4-independent-a02-root-review.json",
+        ".local/evolution/frontend-phase4-verified.json",
+        ".local/evolution/frontend-phase4-root-review.json",
+        ".local/evolution/frontend-phase4-r1-build-provenance-root-review.json",
+        ".local/evolution/phase4-independent-review.json",
+        ".local/evolution/phase4-independent-root-review.json",
+        ".local/evolution/phase4-independent-browser-root-review.json"
+      ],
+      "current_source_direct_changes": [],
+      "verification_groups": [
+        "platform_full",
+        "business_browser"
+      ],
+      "final_independent_status": "pending"
+    },
+    {
+      "id": "E4-08",
+      "title": "工单与交接记录",
+      "verification_criteria": "创建、分配、变更、完成/交接、权限与审计、页面完整流程",
+      "historic_evidence": [
+        ".local/evolution/phase4-business-sqlite-interim-root-review.json",
+        ".local/evolution/phase4-coordinator-findings.json",
+        ".local/evolution/business-workflows-verified.json",
+        ".local/evolution/business-workflows-root-review.json",
+        ".local/evolution/frontend-phase4-verified.json",
+        ".local/evolution/frontend-phase4-root-review.json",
+        ".local/evolution/frontend-phase4-r1-build-provenance-root-review.json",
+        ".local/evolution/phase4-independent-review.json",
+        ".local/evolution/phase4-independent-root-review.json",
+        ".local/evolution/phase4-independent-browser-root-review.json"
+      ],
+      "current_source_direct_changes": [],
+      "verification_groups": [
+        "platform_full",
+        "business_browser"
+      ],
+      "final_independent_status": "pending"
+    },
+    {
+      "id": "E4-09",
+      "title": "场景模板与批量准备",
+      "verification_criteria": "五类模板实例化、引用与资源授权、冲突检测及生成结果验证",
+      "historic_evidence": [
+        ".local/evolution/phase4-business-sqlite-interim-root-review.json",
+        ".local/evolution/phase4-coordinator-findings.json",
+        ".local/evolution/business-workflows-verified.json",
+        ".local/evolution/business-workflows-root-review.json",
+        ".local/evolution/frontend-phase4-verified.json",
+        ".local/evolution/frontend-phase4-root-review.json",
+        ".local/evolution/frontend-phase4-r1-build-provenance-root-review.json",
+        ".local/evolution/phase4-independent-review.json",
+        ".local/evolution/phase4-independent-root-review.json",
+        ".local/evolution/phase4-independent-browser-root-review.json"
+      ],
+      "current_source_direct_changes": [
+        "Frontends/src/scene-templates.tsx"
+      ],
+      "verification_groups": [
+        "platform_full",
+        "business_browser",
+        "release_browser"
+      ],
+      "final_independent_status": "pending"
+    },
+    {
+      "id": "E4-10",
+      "title": "图表与三套页面验证",
+      "verification_criteria": "实际浏览器截图与断言、三种尺寸、图例坐标轴和精确数值导出",
+      "historic_evidence": [
+        ".local/evolution/frontend-phase4-verified.json",
+        ".local/evolution/frontend-phase4-root-review.json",
+        ".local/evolution/frontend-phase4-r1-build-provenance-root-review.json",
+        ".local/evolution/phase4-independent-review.json",
+        ".local/evolution/phase4-independent-root-review.json",
+        ".local/evolution/phase4-independent-browser-root-review.json"
+      ],
+      "current_source_direct_changes": [
+        "Frontends/src/style.css"
+      ],
+      "verification_groups": [
+        "frontend_build",
+        "precision_browser"
+      ],
+      "final_independent_status": "pending"
+    },
+    {
+      "id": "E5-01",
+      "title": "完整发布清单",
+      "verification_criteria": "清单校验、依赖解析、摘要不符与不兼容组合拒绝、构建产物核对",
+      "historic_evidence": [
+        ".local/evolution/release-coordination-verified.json",
+        ".local/evolution/release-coordination-root-review.json",
+        ".local/evolution/phase5-release-process-tenth-root-review.json",
+        ".local/evolution/phase5-release-final-checks-root-review.json",
+        ".local/evolution/phase5-release-a01-root-review.json",
+        ".local/evolution/phase5-config-deadlock-root-review.json",
+        ".local/evolution/phase5-delivery-config-deadlock-checkpoint.json",
+        ".local/evolution/phase5-config-deadlock-checkpoint-root-review.json",
+        ".local/evolution/release-interface-verified.json",
+        ".local/evolution/phase5-frontend-final-inputs-root-review.json",
+        ".local/evolution/phase5-frontend-final-root-review.json"
+      ],
+      "current_source_direct_changes": [
+        "Platform/internal/application/release_coordinator.go",
+        "Platform/internal/application/releases.go",
+        "Platform/internal/releaseagent/agent.go",
+        "Platform/internal/releaseagent/agent_test.go"
+      ],
+      "verification_groups": [
+        "platform_full",
+        "release_browser",
+        "release_two_node",
+        "package_public"
+      ],
+      "final_independent_status": "pending"
+    },
+    {
+      "id": "E5-02",
+      "title": "节点身份与配置分发",
+      "verification_criteria": "目标节点/程序筛选、已停用身份、凭据授权与应用确认测试",
+      "historic_evidence": [
+        ".local/evolution/node-configuration-verified.json",
+        ".local/evolution/node-configuration-root-review.json",
+        ".local/evolution/phase5-node-process-final-root-review.json",
+        ".local/evolution/phase5-identity-refresh-root-review.json",
+        ".local/evolution/phase5-release-interface-checkpoint-root-review.json",
+        ".local/evolution/phase5-config-deadlock-root-review.json",
+        ".local/evolution/phase5-delivery-config-deadlock-checkpoint.json",
+        ".local/evolution/phase5-config-deadlock-checkpoint-root-review.json",
+        ".local/evolution/node-connector-deadlock-verified.json",
+        ".local/evolution/phase5-node-deadlock-root-review.json"
+      ],
+      "current_source_direct_changes": [
+        "scripts/prepare-runtime.py"
+      ],
+      "verification_groups": [
+        "platform_full",
+        "pg_followup",
+        "release_two_node",
+        "linux_packaged_entry"
+      ],
+      "final_independent_status": "pending"
+    },
+    {
+      "id": "E5-03",
+      "title": "期望与运行状态协调",
+      "verification_criteria": "幂等协调、重复回执、节点重启、版本变化和实际运行报告",
+      "historic_evidence": [
+        ".local/evolution/release-coordination-verified.json",
+        ".local/evolution/release-coordination-root-review.json",
+        ".local/evolution/phase5-release-process-tenth-root-review.json",
+        ".local/evolution/phase5-release-final-checks-root-review.json",
+        ".local/evolution/phase5-release-a01-root-review.json",
+        ".local/evolution/node-configuration-verified.json",
+        ".local/evolution/phase5-node-process-final-root-review.json",
+        ".local/evolution/phase5-release-restore-diagnosis-root-review.json",
+        ".local/evolution/phase5-coordinator-findings.json",
+        ".local/evolution/storage-version-r01-verified.json",
+        ".local/evolution/phase5-storage-version-root-review.json",
+        ".local/evolution/phase5-release-rule-roundtrip-failure-root-review.json",
+        ".local/evolution/phase5-release-recovery-inputs-root-review.json",
+        ".local/evolution/phase5-release-r02-inputs-root-review.json",
+        ".local/evolution/release-restore-recovery-verified.json",
+        ".local/evolution/phase5-release-recovery-root-review.json",
+        ".local/evolution/phase5-release-recovered-database-root-review.json",
+        ".local/evolution/release-interface-verified.json",
+        ".local/evolution/phase5-frontend-final-inputs-root-review.json",
+        ".local/evolution/phase5-frontend-final-root-review.json"
+      ],
+      "current_source_direct_changes": [
+        "Platform/internal/application/release_coordinator.go",
+        "Platform/internal/application/releases.go",
+        "Platform/internal/releaseagent/agent.go",
+        "Platform/internal/releaseagent/agent_test.go"
+      ],
+      "verification_groups": [
+        "platform_full",
+        "bounded_race",
+        "release_two_node",
+        "release_browser"
+      ],
+      "final_independent_status": "pending"
+    },
+    {
+      "id": "E5-04",
+      "title": "分批发布与恢复",
+      "verification_criteria": "隔离节点实际发布、失败注入、离线恢复、批次阻断和兼容退回证据",
+      "historic_evidence": [
+        ".local/evolution/release-coordination-verified.json",
+        ".local/evolution/release-coordination-root-review.json",
+        ".local/evolution/phase5-release-process-tenth-root-review.json",
+        ".local/evolution/phase5-release-final-checks-root-review.json",
+        ".local/evolution/phase5-release-a01-root-review.json",
+        ".local/evolution/phase5-native-delivery-root-review.json",
+        ".local/evolution/phase5-release-restore-diagnosis-root-review.json",
+        ".local/evolution/phase5-coordinator-findings.json",
+        ".local/evolution/phase5-datatransfer-shutdown-baseline-root-review.json",
+        ".local/evolution/phase5-datatransfer-runtime-root-review.json",
+        ".local/evolution/storage-version-r01-verified.json",
+        ".local/evolution/phase5-storage-version-root-review.json",
+        ".local/evolution/phase5-release-rule-roundtrip-failure-root-review.json",
+        ".local/evolution/phase5-release-recovery-inputs-root-review.json",
+        ".local/evolution/phase5-release-r02-inputs-root-review.json",
+        ".local/evolution/release-restore-recovery-verified.json",
+        ".local/evolution/phase5-release-recovery-root-review.json",
+        ".local/evolution/phase5-release-recovered-database-root-review.json",
+        ".local/evolution/release-interface-verified.json",
+        ".local/evolution/phase5-frontend-final-inputs-root-review.json",
+        ".local/evolution/phase5-frontend-final-root-review.json"
+      ],
+      "current_source_direct_changes": [
+        "Platform/internal/application/release_coordinator.go",
+        "Platform/internal/application/releases.go",
+        "Platform/internal/releaseagent/agent.go",
+        "Platform/internal/releaseagent/agent_test.go"
+      ],
+      "verification_groups": [
+        "platform_full",
+        "bounded_race",
+        "release_two_node",
+        "linux_packaged_entry",
+        "release_browser"
+      ],
+      "final_independent_status": "pending"
+    },
+    {
+      "id": "E5-05",
+      "title": "发布与模板界面",
+      "verification_criteria": "API与浏览器发布流程、节点筛选、状态刷新、模板升级",
+      "historic_evidence": [
+        ".local/evolution/phase5-first-release-flow-root-review.json",
+        ".local/evolution/phase5-coordinator-findings.json",
+        ".local/evolution/phase5-refresh-basis-root-review.json",
+        ".local/evolution/phase5-permissions-root-review.json",
+        ".local/evolution/phase5-acceptance-watchpoints.json",
+        ".local/evolution/phase5-identity-refresh-root-review.json",
+        ".local/evolution/phase5-release-restore-diagnosis-root-review.json",
+        ".local/evolution/phase5-release-interface-checkpoint-root-review.json",
+        ".local/evolution/phase5-datatransfer-runtime-root-review.json",
+        ".local/evolution/storage-version-r01-verified.json",
+        ".local/evolution/phase5-storage-version-root-review.json",
+        ".local/evolution/phase5-release-rule-roundtrip-failure-root-review.json",
+        ".local/evolution/release-restore-recovery-verified.json",
+        ".local/evolution/phase5-release-recovery-root-review.json",
+        ".local/evolution/phase5-release-recovered-database-root-review.json",
+        ".local/evolution/phase5-release-navigation-root-review.json",
+        ".local/evolution/release-interface-verified.json",
+        ".local/evolution/phase5-frontend-final-inputs-root-review.json",
+        ".local/evolution/phase5-frontend-final-root-review.json"
+      ],
+      "current_source_direct_changes": [
+        "Frontends/src/releases.tsx",
+        "Frontends/src/template-evolution.tsx",
+        "Frontends/src/workload-identities.tsx"
+      ],
+      "verification_groups": [
+        "release_browser",
+        "release_two_node"
+      ],
+      "final_independent_status": "pending"
+    },
+    {
+      "id": "E5-06",
+      "title": "最终交付与回归",
+      "verification_criteria": "两Go模块测试、契约、前端、有限协议/云边/控制验证、打包与verify-release结果",
+      "historic_evidence": [
+        ".local/evolution/phase5-delivery-protocols-root-review.json",
+        ".local/evolution/phase5-nats-cold-restore-root-review.json",
+        ".local/evolution/phase5-native-delivery-root-review.json",
+        ".local/evolution/phase5-delivery-regressions-root-review.json",
+        ".local/evolution/phase5-delivery-regressions-verified.json",
+        ".local/evolution/phase5-delivery-regressions-correspondence-root-review.json",
+        ".local/evolution/phase5-historical-source-correspondence-root-review.json",
+        ".local/evolution/phase5-delivery-linux-preflight-checkpoint.json",
+        ".local/evolution/phase5-linux-checkpoint-root-review.json",
+        ".local/evolution/phase5-release-restore-diagnosis-root-review.json",
+        ".local/evolution/phase5-coordinator-findings.json",
+        ".local/evolution/phase5-datatransfer-shutdown-baseline-root-review.json",
+        ".local/evolution/phase5-datatransfer-runtime-root-review.json",
+        ".local/evolution/storage-version-r01-verified.json",
+        ".local/evolution/phase5-storage-version-root-review.json",
+        ".local/evolution/phase5-linux-metadata-root-review.json",
+        ".local/evolution/phase5-release-rule-roundtrip-failure-root-review.json",
+        ".local/evolution/phase5-delivery-current-regressions-root-review.json",
+        ".local/evolution/phase5-release-recovery-inputs-root-review.json",
+        ".local/evolution/phase5-release-r02-inputs-root-review.json",
+        ".local/evolution/release-restore-recovery-verified.json",
+        ".local/evolution/phase5-release-recovery-root-review.json",
+        ".local/evolution/phase5-release-recovered-database-root-review.json",
+        ".local/evolution/phase5-config-deadlock-root-review.json",
+        ".local/evolution/phase5-delivery-config-deadlock-checkpoint.json",
+        ".local/evolution/phase5-config-deadlock-checkpoint-root-review.json",
+        ".local/evolution/node-connector-deadlock-verified.json",
+        ".local/evolution/phase5-node-deadlock-root-review.json",
+        ".local/evolution/release-interface-verified.json",
+        ".local/evolution/phase5-frontend-final-inputs-root-review.json",
+        ".local/evolution/phase5-frontend-final-root-review.json"
+      ],
+      "current_source_direct_changes": [],
+      "verification_groups": [
+        "platform_full",
+        "datatransfer_full",
+        "frontend_build",
+        "linux_packaged_entry",
+        "package_public"
+      ],
+      "final_independent_status": "pending"
+    },
+    {
+      "id": "E5-07",
+      "title": "逐项完成审查",
+      "verification_criteria": "主协调者和独立审查的逐项证据核对，全部目标完成后再更新整体目标状态",
+      "historic_evidence": [],
+      "current_source_direct_changes": [],
+      "verification_groups": [
+        "final_criterion_audit"
+      ],
+      "final_independent_status": "pending"
+    }
+  ],
+  "exclusions": [
+    "完整UOS安装与恢复专项",
+    "单节点和三节点连续断云24小时专项",
+    "受限链路补传补算专项",
+    "实际24小时容量与持续运行测量"
+  ],
+  "new_project_sources": 116,
+  "changed_existing_sources": 56,
+  "initial_inventory_correction": "初次新增清单包含9333份DataTransfer/.cache/go-mod文件；初次盘点保留，修正版按116份项目文件描述。依赖继续计入实际Go输入清单。",
+  "execution_authorization": "普通Platform执行已获主协调放行；PG/race、服务和浏览器按后续资源窗口执行"
+}

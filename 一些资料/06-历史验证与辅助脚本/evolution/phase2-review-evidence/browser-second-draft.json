@@ -1,0 +1,71 @@
+{
+  "id": "independent/simulation:counter",
+  "definition": {
+    "id": "independent-counter",
+    "name": "独立审查连续计数修订2",
+    "kind": "analysis",
+    "schema_version": "1.0",
+    "version": 0,
+    "status": "draft",
+    "effective_ms": 0,
+    "group_id": "factory",
+    "nodes": [
+      {
+        "id": "input",
+        "type": "input",
+        "label": "光电事件",
+        "params": null
+      },
+      {
+        "id": "count",
+        "type": "counter",
+        "label": "累计有效事件",
+        "params": {
+          "mode": "delta"
+        }
+      },
+      {
+        "id": "output",
+        "type": "output",
+        "label": "保存累计值",
+        "params": null
+      }
+    ],
+    "connections": [
+      {
+        "from": "input",
+        "from_port": "",
+        "to": "count",
+        "to_port": ""
+      },
+      {
+        "from": "count",
+        "from_port": "",
+        "to": "output",
+        "to_port": ""
+      }
+    ],
+    "outputs": [
+      {
+        "key": "total",
+        "type": "integer",
+        "unit": "piece",
+        "node_id": "output"
+      }
+    ],
+    "dependencies": null,
+    "selector": {
+      "device_ids": [
+        "counter-1"
+      ],
+      "keys": [
+        "pulse"
+      ]
+    },
+    "policy": {}
+  },
+  "base_version": 0,
+  "author_id": "admin",
+  "version": 2,
+  "updated_ms": 1791138521667
+}

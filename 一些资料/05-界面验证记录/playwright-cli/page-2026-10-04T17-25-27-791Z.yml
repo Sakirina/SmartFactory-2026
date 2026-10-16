@@ -1,0 +1,478 @@
+- generic [ref=e4073]:
+  - complementary [ref=e4074]:
+    - link "SF SmartFactory 生产安全控制台" [ref=e4075] [cursor=pointer]:
+      - /url: "#overview"
+      - generic [ref=e4076]: SF
+      - generic [ref=e4077]:
+        - text: SmartFactory
+        - generic [ref=e4078]: 生产安全控制台
+    - generic [ref=e4079]: 示例工厂 / frontend-phase2-cloud
+    - navigation "主导航" [ref=e4080]:
+      - button "运行概览" [ref=e4081] [cursor=pointer]
+      - button "设备与资产" [ref=e4083] [cursor=pointer]
+      - button "数据监控" [ref=e4085] [cursor=pointer]
+      - button "审批与执行" [ref=e4087] [cursor=pointer]
+      - button "通知记录" [ref=e4089] [cursor=pointer]
+      - button "历史补算" [ref=e4091] [cursor=pointer]
+      - button "后台任务" [ref=e4093] [cursor=pointer]
+      - button "运行状态" [ref=e4095] [cursor=pointer]
+      - button "AI 助手" [ref=e4097] [cursor=pointer]
+    - generic [ref=e4099]:
+      - text: 独立实例 · 云端运行
+      - generic [ref=e4101]: 规则版本与操作记录全程保存
+  - generic [ref=e4102]:
+    - banner [ref=e4103]:
+      - generic [ref=e4104]:
+        - text: 云端控制台
+        - generic [ref=e4105]: /
+        - strong [ref=e4106]: 后台任务
+      - generic [ref=e4107]:
+        - generic [ref=e4109] [cursor=pointer]:
+          - generic "每秒刷新" [ref=e4110]:
+            - text: 每秒刷新
+            - combobox "页面刷新方式" [ref=e4111]
+          - img "down" [ref=e4113]
+        - generic [ref=e4116]: 运行观察员
+        - button "退出" [ref=e4118] [cursor=pointer]
+    - main [ref=e4120]:
+      - generic [ref=e4121]:
+        - generic [ref=e4122]:
+          - heading "后台任务" [level=1] [ref=e4123]
+          - paragraph [ref=e4124]: 查看历史补算、归档和外部投影的业务身份、执行阶段与失败原因，按照当前许可处理任务。
+        - button "更新任务列表" [ref=e4126] [cursor=pointer]
+      - generic [ref=e4128]:
+        - textbox "任务身份" [ref=e4129]:
+          - /placeholder: 输入完整任务身份
+        - button "查看指定任务" [disabled] [ref=e4130]
+      - generic [ref=e4132]:
+        - table [ref=e4139]:
+          - rowgroup [ref=e4140]:
+            - row [ref=e4141]:
+              - columnheader "任务 / 业务身份" [ref=e4142]
+              - columnheader "涉及资源" [ref=e4143]
+              - columnheader "队列状态 / 业务阶段" [ref=e4144]
+              - columnheader "尝试次数" [ref=e4145]
+              - columnheader "逐点计算进度" [ref=e4146]
+              - columnheader "下次执行" [ref=e4147]
+              - columnheader "最近失败" [ref=e4148]
+              - columnheader "操作" [ref=e4149]
+          - rowgroup [ref=e4150]:
+            - row [ref=e4151]:
+              - cell [ref=e4152]:
+                - button "历史补算" [ref=e4153] [cursor=pointer]
+                - generic [ref=e4155]: frontend:failure/with-identityrecompute:frontend:failure/with-identity:1
+              - cell "counter-1、factory" [ref=e4156]
+              - cell "尝试次数已用完 正在计算历史输入" [ref=e4157]:
+                - generic [ref=e4158]: 尝试次数已用完
+                - generic [ref=e4159]: 正在计算历史输入
+              - cell "8 / 8" [ref=e4160]
+              - cell [ref=e4161]:
+                - progressbar [ref=e4162]:
+                  - generic "95%" [ref=e4164]
+              - cell "2026/10/5 00:48:13" [ref=e4165]
+              - cell "invalid recomputation range" [ref=e4166]
+              - cell [ref=e4167]:
+                - button "任务详情" [ref=e4168] [cursor=pointer]
+            - row [ref=e4170]:
+              - cell [ref=e4171]:
+                - button "历史补算" [ref=e4172] [cursor=pointer]
+                - generic [ref=e4174]: frontend:failure/with-identityrecompute:frontend:failure/with-identity:2
+              - cell "counter-1、factory" [ref=e4175]
+              - cell "尝试次数已用完 正在计算历史输入" [ref=e4176]:
+                - generic [ref=e4177]: 尝试次数已用完
+                - generic [ref=e4178]: 正在计算历史输入
+              - cell "8 / 8" [ref=e4179]
+              - cell [ref=e4180]:
+                - progressbar [ref=e4181]:
+                  - generic "95%" [ref=e4183]
+              - cell "2026/10/5 01:06:49" [ref=e4184]
+              - cell "context deadline exceeded" [ref=e4185]
+              - cell [ref=e4186]:
+                - button "任务详情" [ref=e4187] [cursor=pointer]
+            - row [ref=e4189]:
+              - cell [ref=e4190]:
+                - button "历史补算" [ref=e4191] [cursor=pointer]
+                - generic [ref=e4193]: frontend:retry/with-identityrecompute:frontend:retry/with-identity:1
+              - cell "counter-1、factory" [ref=e4194]
+              - cell "已完成 历史计算与汇总更新已完成" [ref=e4195]:
+                - generic [ref=e4196]: 已完成
+                - generic [ref=e4197]: 历史计算与汇总更新已完成
+              - cell "10 / 10" [ref=e4198]
+              - cell [ref=e4199]:
+                - progressbar [ref=e4200]:
+                  - img "check-circle" [ref=e4205]
+              - cell "2026/10/5 01:22:28" [ref=e4208]
+              - 'cell "ERROR: frontend fixture rollup failure (SQLSTATE P0001)" [ref=e4209]'
+              - cell [ref=e4210]:
+                - button "任务详情" [ref=e4211] [cursor=pointer]
+            - row [ref=e4213]:
+              - cell [ref=e4214]:
+                - button "定义投影" [ref=e4215] [cursor=pointer]
+                - generic [ref=e4217]: tb-definition:agv-resume:1tb_definition:tb-definition:agv-resume:1
+              - cell "agv-1、factory" [ref=e4218]
+              - cell "已取消 已取消" [ref=e4219]:
+                - generic [ref=e4220]: 已取消
+                - generic [ref=e4221]: 已取消
+              - cell "0 / 8" [ref=e4222]
+              - cell "—" [ref=e4223]
+              - cell "2026/10/5 00:42:48" [ref=e4224]
+              - cell [ref=e4225]
+              - cell [ref=e4226]:
+                - button "任务详情" [ref=e4227] [cursor=pointer]
+            - row [ref=e4229]:
+              - cell [ref=e4230]:
+                - button "定义投影" [ref=e4231] [cursor=pointer]
+                - generic [ref=e4233]: tb-definition:agv-stop:1tb_definition:tb-definition:agv-stop:1
+              - cell "agv-1、factory" [ref=e4234]
+              - cell "等待执行 等待执行" [ref=e4235]:
+                - generic [ref=e4236]: 等待执行
+                - generic [ref=e4237]: 等待执行
+              - cell "0 / 8" [ref=e4238]
+              - cell "—" [ref=e4239]
+              - cell "2026/10/5 00:42:48" [ref=e4240]
+              - cell [ref=e4241]
+              - cell [ref=e4242]:
+                - button "任务详情" [ref=e4243] [cursor=pointer]
+            - row [ref=e4245]:
+              - cell [ref=e4246]:
+                - button "定义投影" [ref=e4247] [cursor=pointer]
+                - generic [ref=e4249]: tb-definition:climate-alarm:1tb_definition:tb-definition:climate-alarm:1
+              - cell "climate-1、factory" [ref=e4250]
+              - cell "等待执行 等待执行" [ref=e4251]:
+                - generic [ref=e4252]: 等待执行
+                - generic [ref=e4253]: 等待执行
+              - cell "0 / 8" [ref=e4254]
+              - cell "—" [ref=e4255]
+              - cell "2026/10/5 00:42:48" [ref=e4256]
+              - cell [ref=e4257]
+              - cell [ref=e4258]:
+                - button "任务详情" [ref=e4259] [cursor=pointer]
+            - row [ref=e4261]:
+              - cell [ref=e4262]:
+                - button "定义投影" [ref=e4263] [cursor=pointer]
+                - generic [ref=e4265]: tb-definition:climate-average:1tb_definition:tb-definition:climate-average:1
+              - cell "climate-1、factory" [ref=e4266]
+              - cell "等待执行 等待执行" [ref=e4267]:
+                - generic [ref=e4268]: 等待执行
+                - generic [ref=e4269]: 等待执行
+              - cell "0 / 8" [ref=e4270]
+              - cell "—" [ref=e4271]
+              - cell "2026/10/5 00:42:48" [ref=e4272]
+              - cell [ref=e4273]
+              - cell [ref=e4274]:
+                - button "任务详情" [ref=e4275] [cursor=pointer]
+            - row [ref=e4277]:
+              - cell [ref=e4278]:
+                - button "定义投影" [ref=e4279] [cursor=pointer]
+                - generic [ref=e4281]: tb-definition:climate-low:1tb_definition:tb-definition:climate-low:1
+              - cell "climate-1、factory" [ref=e4282]
+              - cell "等待执行 等待执行" [ref=e4283]:
+                - generic [ref=e4284]: 等待执行
+                - generic [ref=e4285]: 等待执行
+              - cell "0 / 8" [ref=e4286]
+              - cell "—" [ref=e4287]
+              - cell "2026/10/5 00:42:48" [ref=e4288]
+              - cell [ref=e4289]
+              - cell [ref=e4290]:
+                - button "任务详情" [ref=e4291] [cursor=pointer]
+            - row [ref=e4293]:
+              - cell [ref=e4294]:
+                - button "定义投影" [ref=e4295] [cursor=pointer]
+                - generic [ref=e4297]: tb-definition:dehumidifier-off:1tb_definition:tb-definition:dehumidifier-off:1
+              - cell "climate-1、factory" [ref=e4298]
+              - cell "等待执行 等待执行" [ref=e4299]:
+                - generic [ref=e4300]: 等待执行
+                - generic [ref=e4301]: 等待执行
+              - cell "0 / 8" [ref=e4302]
+              - cell "—" [ref=e4303]
+              - cell "2026/10/5 00:42:48" [ref=e4304]
+              - cell [ref=e4305]
+              - cell [ref=e4306]:
+                - button "任务详情" [ref=e4307] [cursor=pointer]
+            - row [ref=e4309]:
+              - cell [ref=e4310]:
+                - button "定义投影" [ref=e4311] [cursor=pointer]
+                - generic [ref=e4313]: tb-definition:dehumidifier-on:1tb_definition:tb-definition:dehumidifier-on:1
+              - cell "climate-1、factory" [ref=e4314]
+              - cell "等待执行 等待执行" [ref=e4315]:
+                - generic [ref=e4316]: 等待执行
+                - generic [ref=e4317]: 等待执行
+              - cell "0 / 8" [ref=e4318]
+              - cell "—" [ref=e4319]
+              - cell "2026/10/5 00:42:48" [ref=e4320]
+              - cell [ref=e4321]
+              - cell [ref=e4322]:
+                - button "任务详情" [ref=e4323] [cursor=pointer]
+            - row [ref=e4325]:
+              - cell [ref=e4326]:
+                - button "定义投影" [ref=e4327] [cursor=pointer]
+                - generic [ref=e4329]: tb-definition:gas-co-alarm:1tb_definition:tb-definition:gas-co-alarm:1
+              - cell "factory、gas-1" [ref=e4330]
+              - cell "等待执行 等待执行" [ref=e4331]:
+                - generic [ref=e4332]: 等待执行
+                - generic [ref=e4333]: 等待执行
+              - cell "0 / 8" [ref=e4334]
+              - cell "—" [ref=e4335]
+              - cell "2026/10/5 00:42:48" [ref=e4336]
+              - cell [ref=e4337]
+              - cell [ref=e4338]:
+                - button "任务详情" [ref=e4339] [cursor=pointer]
+            - row [ref=e4341]:
+              - cell [ref=e4342]:
+                - button "定义投影" [ref=e4343] [cursor=pointer]
+                - generic [ref=e4345]: tb-definition:gas-combustible-alarm:1tb_definition:tb-definition:gas-combustible-alarm:1
+              - cell "factory、gas-1" [ref=e4346]
+              - cell "等待执行 等待执行" [ref=e4347]:
+                - generic [ref=e4348]: 等待执行
+                - generic [ref=e4349]: 等待执行
+              - cell "0 / 8" [ref=e4350]
+              - cell "—" [ref=e4351]
+              - cell "2026/10/5 00:42:48" [ref=e4352]
+              - cell [ref=e4353]
+              - cell [ref=e4354]:
+                - button "任务详情" [ref=e4355] [cursor=pointer]
+            - row [ref=e4357]:
+              - cell [ref=e4358]:
+                - button "定义投影" [ref=e4359] [cursor=pointer]
+                - generic [ref=e4361]: tb-definition:gas-combustible-response:1tb_definition:tb-definition:gas-combustible-response:1
+              - cell "factory、gas-1" [ref=e4362]
+              - cell "等待执行 等待执行" [ref=e4363]:
+                - generic [ref=e4364]: 等待执行
+                - generic [ref=e4365]: 等待执行
+              - cell "0 / 8" [ref=e4366]
+              - cell "—" [ref=e4367]
+              - cell "2026/10/5 00:42:48" [ref=e4368]
+              - cell [ref=e4369]
+              - cell [ref=e4370]:
+                - button "任务详情" [ref=e4371] [cursor=pointer]
+            - row [ref=e4373]:
+              - cell [ref=e4374]:
+                - button "定义投影" [ref=e4375] [cursor=pointer]
+                - generic [ref=e4377]: tb-definition:gas-co-response:1tb_definition:tb-definition:gas-co-response:1
+              - cell "factory、gas-1" [ref=e4378]
+              - cell "等待执行 等待执行" [ref=e4379]:
+                - generic [ref=e4380]: 等待执行
+                - generic [ref=e4381]: 等待执行
+              - cell "0 / 8" [ref=e4382]
+              - cell "—" [ref=e4383]
+              - cell "2026/10/5 00:42:48" [ref=e4384]
+              - cell [ref=e4385]
+              - cell [ref=e4386]:
+                - button "任务详情" [ref=e4387] [cursor=pointer]
+            - row [ref=e4389]:
+              - cell [ref=e4390]:
+                - button "定义投影" [ref=e4391] [cursor=pointer]
+                - generic [ref=e4393]: tb-definition:gas-smoke-alarm:1tb_definition:tb-definition:gas-smoke-alarm:1
+              - cell "factory、gas-1" [ref=e4394]
+              - cell "等待执行 等待执行" [ref=e4395]:
+                - generic [ref=e4396]: 等待执行
+                - generic [ref=e4397]: 等待执行
+              - cell "0 / 8" [ref=e4398]
+              - cell "—" [ref=e4399]
+              - cell "2026/10/5 00:42:48" [ref=e4400]
+              - cell [ref=e4401]
+              - cell [ref=e4402]:
+                - button "任务详情" [ref=e4403] [cursor=pointer]
+            - row [ref=e4405]:
+              - cell [ref=e4406]:
+                - button "定义投影" [ref=e4407] [cursor=pointer]
+                - generic [ref=e4409]: tb-definition:gas-smoke-response:1tb_definition:tb-definition:gas-smoke-response:1
+              - cell "factory、gas-1" [ref=e4410]
+              - cell "等待执行 等待执行" [ref=e4411]:
+                - generic [ref=e4412]: 等待执行
+                - generic [ref=e4413]: 等待执行
+              - cell "0 / 8" [ref=e4414]
+              - cell "—" [ref=e4415]
+              - cell "2026/10/5 00:42:48" [ref=e4416]
+              - cell [ref=e4417]
+              - cell [ref=e4418]:
+                - button "任务详情" [ref=e4419] [cursor=pointer]
+            - row [ref=e4421]:
+              - cell [ref=e4422]:
+                - button "定义投影" [ref=e4423] [cursor=pointer]
+                - generic [ref=e4425]: tb-definition:goods-count:1tb_definition:tb-definition:goods-count:1
+              - cell "counter-1、factory" [ref=e4426]
+              - cell "等待执行 等待执行" [ref=e4427]:
+                - generic [ref=e4428]: 等待执行
+                - generic [ref=e4429]: 等待执行
+              - cell "0 / 8" [ref=e4430]
+              - cell "—" [ref=e4431]
+              - cell "2026/10/5 00:42:48" [ref=e4432]
+              - cell [ref=e4433]
+              - cell [ref=e4434]:
+                - button "任务详情" [ref=e4435] [cursor=pointer]
+            - row [ref=e4437]:
+              - cell [ref=e4438]:
+                - button "定义投影" [ref=e4439] [cursor=pointer]
+                - generic [ref=e4441]: tb-definition:heating-off:1tb_definition:tb-definition:heating-off:1
+              - cell "climate-1、factory" [ref=e4442]
+              - cell "等待执行 等待执行" [ref=e4443]:
+                - generic [ref=e4444]: 等待执行
+                - generic [ref=e4445]: 等待执行
+              - cell "0 / 8" [ref=e4446]
+              - cell "—" [ref=e4447]
+              - cell "2026/10/5 00:42:48" [ref=e4448]
+              - cell [ref=e4449]
+              - cell [ref=e4450]:
+                - button "任务详情" [ref=e4451] [cursor=pointer]
+            - row [ref=e4453]:
+              - cell [ref=e4454]:
+                - button "定义投影" [ref=e4455] [cursor=pointer]
+                - generic [ref=e4457]: tb-definition:heating-on:1tb_definition:tb-definition:heating-on:1
+              - cell "climate-1、factory" [ref=e4458]
+              - cell "等待执行 等待执行" [ref=e4459]:
+                - generic [ref=e4460]: 等待执行
+                - generic [ref=e4461]: 等待执行
+              - cell "0 / 8" [ref=e4462]
+              - cell "—" [ref=e4463]
+              - cell "2026/10/5 00:42:48" [ref=e4464]
+              - cell [ref=e4465]
+              - cell [ref=e4466]:
+                - button "任务详情" [ref=e4467] [cursor=pointer]
+            - row [ref=e4469]:
+              - cell [ref=e4470]:
+                - button "定义投影" [ref=e4471] [cursor=pointer]
+                - generic [ref=e4473]: tb-definition:humidifier-off:1tb_definition:tb-definition:humidifier-off:1
+              - cell "climate-1、factory" [ref=e4474]
+              - cell "等待执行 等待执行" [ref=e4475]:
+                - generic [ref=e4476]: 等待执行
+                - generic [ref=e4477]: 等待执行
+              - cell "0 / 8" [ref=e4478]
+              - cell "—" [ref=e4479]
+              - cell "2026/10/5 00:42:48" [ref=e4480]
+              - cell [ref=e4481]
+              - cell [ref=e4482]:
+                - button "任务详情" [ref=e4483] [cursor=pointer]
+            - row [ref=e4485]:
+              - cell [ref=e4486]:
+                - button "定义投影" [ref=e4487] [cursor=pointer]
+                - generic [ref=e4489]: tb-definition:humidifier-on:1tb_definition:tb-definition:humidifier-on:1
+              - cell "climate-1、factory" [ref=e4490]
+              - cell "等待执行 等待执行" [ref=e4491]:
+                - generic [ref=e4492]: 等待执行
+                - generic [ref=e4493]: 等待执行
+              - cell "0 / 8" [ref=e4494]
+              - cell "—" [ref=e4495]
+              - cell "2026/10/5 00:42:48" [ref=e4496]
+              - cell [ref=e4497]
+              - cell [ref=e4498]:
+                - button "任务详情" [ref=e4499] [cursor=pointer]
+            - row [ref=e4501]:
+              - cell [ref=e4502]:
+                - button "定义投影" [ref=e4503] [cursor=pointer]
+                - generic [ref=e4505]: tb-definition:humidity-high:1tb_definition:tb-definition:humidity-high:1
+              - cell "climate-1、factory" [ref=e4506]
+              - cell "等待执行 等待执行" [ref=e4507]:
+                - generic [ref=e4508]: 等待执行
+                - generic [ref=e4509]: 等待执行
+              - cell "0 / 8" [ref=e4510]
+              - cell "—" [ref=e4511]
+              - cell "2026/10/5 00:42:48" [ref=e4512]
+              - cell [ref=e4513]
+              - cell [ref=e4514]:
+                - button "任务详情" [ref=e4515] [cursor=pointer]
+            - row [ref=e4517]:
+              - cell [ref=e4518]:
+                - button "定义投影" [ref=e4519] [cursor=pointer]
+                - generic [ref=e4521]: tb-definition:humidity-low:1tb_definition:tb-definition:humidity-low:1
+              - cell "climate-1、factory" [ref=e4522]
+              - cell "等待执行 等待执行" [ref=e4523]:
+                - generic [ref=e4524]: 等待执行
+                - generic [ref=e4525]: 等待执行
+              - cell "0 / 8" [ref=e4526]
+              - cell "—" [ref=e4527]
+              - cell "2026/10/5 00:42:48" [ref=e4528]
+              - cell [ref=e4529]
+              - cell [ref=e4530]:
+                - button "任务详情" [ref=e4531] [cursor=pointer]
+            - row [ref=e4533]:
+              - cell [ref=e4534]:
+                - button "定义投影" [ref=e4535] [cursor=pointer]
+                - generic [ref=e4537]: tb-definition:light-off:1tb_definition:tb-definition:light-off:1
+              - cell "factory、light-1" [ref=e4538]
+              - cell "等待执行 等待执行" [ref=e4539]:
+                - generic [ref=e4540]: 等待执行
+                - generic [ref=e4541]: 等待执行
+              - cell "0 / 8" [ref=e4542]
+              - cell "—" [ref=e4543]
+              - cell "2026/10/5 00:42:48" [ref=e4544]
+              - cell [ref=e4545]
+              - cell [ref=e4546]:
+                - button "任务详情" [ref=e4547] [cursor=pointer]
+            - row [ref=e4549]:
+              - cell [ref=e4550]:
+                - button "定义投影" [ref=e4551] [cursor=pointer]
+                - generic [ref=e4553]: tb-definition:light-on:1tb_definition:tb-definition:light-on:1
+              - cell "factory、light-1" [ref=e4554]
+              - cell "等待执行 等待执行" [ref=e4555]:
+                - generic [ref=e4556]: 等待执行
+                - generic [ref=e4557]: 等待执行
+              - cell "0 / 8" [ref=e4558]
+              - cell "—" [ref=e4559]
+              - cell "2026/10/5 00:42:48" [ref=e4560]
+              - cell [ref=e4561]
+              - cell [ref=e4562]:
+                - button "任务详情" [ref=e4563] [cursor=pointer]
+            - row [ref=e4565]:
+              - cell [ref=e4566]:
+                - button "定义投影" [ref=e4567] [cursor=pointer]
+                - generic [ref=e4569]: tb-definition:ventilation-off:1tb_definition:tb-definition:ventilation-off:1
+              - cell "climate-1、factory" [ref=e4570]
+              - cell "等待执行 等待执行" [ref=e4571]:
+                - generic [ref=e4572]: 等待执行
+                - generic [ref=e4573]: 等待执行
+              - cell "0 / 8" [ref=e4574]
+              - cell "—" [ref=e4575]
+              - cell "2026/10/5 00:42:48" [ref=e4576]
+              - cell [ref=e4577]
+              - cell [ref=e4578]:
+                - button "任务详情" [ref=e4579] [cursor=pointer]
+            - row [ref=e4581]:
+              - cell [ref=e4582]:
+                - button "定义投影" [ref=e4583] [cursor=pointer]
+                - generic [ref=e4585]: tb-definition:ventilation-plan:1tb_definition:tb-definition:ventilation-plan:1
+              - cell "climate-1、factory" [ref=e4586]
+              - cell "等待执行 等待执行" [ref=e4587]:
+                - generic [ref=e4588]: 等待执行
+                - generic [ref=e4589]: 等待执行
+              - cell "0 / 8" [ref=e4590]
+              - cell "—" [ref=e4591]
+              - cell "2026/10/5 00:42:48" [ref=e4592]
+              - cell [ref=e4593]
+              - cell [ref=e4594]:
+                - button "任务详情" [ref=e4595] [cursor=pointer]
+            - row [ref=e4597]:
+              - cell [ref=e4598]:
+                - button "tb_telemetry" [ref=e4599] [cursor=pointer]
+                - generic [ref=e4601]: tb:be386ce128e735884ff6149b1d586d10c2164f7968cf61f0a915e74899284680tb_telemetry:tb:be386ce128e735884ff6149b1d586d10c2164f7968cf61f0a915e74899284680
+              - cell "counter-1" [ref=e4602]
+              - cell "等待执行 等待执行" [ref=e4603]:
+                - generic [ref=e4604]: 等待执行
+                - generic [ref=e4605]: 等待执行
+              - cell "0 / 8" [ref=e4606]
+              - cell "—" [ref=e4607]
+              - cell "2026/10/5 01:10:33" [ref=e4608]
+              - cell [ref=e4609]
+              - cell [ref=e4610]:
+                - button "任务详情" [ref=e4611] [cursor=pointer]
+            - row [ref=e4613]:
+              - cell [ref=e4614]:
+                - button "tb_telemetry" [ref=e4615] [cursor=pointer]
+                - generic [ref=e4617]: tb:frontend-retry-history:0tb_telemetry:tb:frontend-retry-history:0
+              - cell "counter-1" [ref=e4618]
+              - cell "等待执行 等待执行" [ref=e4619]:
+                - generic [ref=e4620]: 等待执行
+                - generic [ref=e4621]: 等待执行
+              - cell "0 / 8" [ref=e4622]
+              - cell "—" [ref=e4623]
+              - cell "2026/10/5 01:10:33" [ref=e4624]
+              - cell [ref=e4625]
+              - cell [ref=e4626]:
+                - button "任务详情" [ref=e4627] [cursor=pointer]
+        - generic [ref=e4629]:
+          - button "上一页" [disabled] [ref=e4631]
+          - generic [ref=e4632]: 第 1 页
+          - button "下一页" [disabled] [ref=e4635]
+    - contentinfo [ref=e4636]:
+      - text: SmartFactory · frontend-phase2-cloud
+      - generic [ref=e4637]: 界面时间使用 Asia/Shanghai 时区

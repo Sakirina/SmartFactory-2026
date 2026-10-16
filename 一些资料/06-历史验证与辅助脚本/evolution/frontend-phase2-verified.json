@@ -1,0 +1,1220 @@
+{
+  "report_version": 2,
+  "recorded_at": "2026-10-04T19:00:47.890710+00:00",
+  "repository": "/path/to/SmartFactory-2026",
+  "base_commit": "dde3315bd91f62be5fa3593200f9d267bc264811",
+  "agent": "phase2_frontend_foundation",
+  "status": "professional_delivery_complete",
+  "independent_combination_review": "独立审查已完成功能及前端复核，最终结论由主协调者汇总；本轮提示复核见.local/evolution/phase2-review-evidence/frontend-final-notice-review.json",
+  "scope": {
+    "E2-09": "连续模拟和后台任务页面已实现并完成专业验证",
+    "E2-12": "Node24/Vite8.1/TypeScript6至7兼容及正式openapi-typescript已实现并完成专业验证"
+  },
+  "toolchain": {
+    "actual": {
+      "node": {
+        "version": "v24.21.0",
+        "executable": "/path/to/SmartFactory-2026/.local/toolchains/node-v24.21.0-darwin-arm64/bin/node"
+      },
+      "npm": "11.19.0",
+      "packages": {
+        "vite": {
+          "name": "vite",
+          "version": "8.1.5",
+          "path": "/path/to/SmartFactory-2026/Frontends/node_modules/vite/package.json",
+          "declared": "8.1.5",
+          "locked": "8.1.5",
+          "peerDependencies": {
+            "@types/node": "^20.19.0 || >=22.12.0",
+            "@vitejs/devtools": "^0.3.0",
+            "esbuild": "^0.27.0 || ^0.28.0",
+            "jiti": ">=1.21.0",
+            "less": "^4.0.0",
+            "sass": "^1.70.0",
+            "sass-embedded": "^1.70.0",
+            "stylus": ">=0.54.8",
+            "sugarss": "^5.0.0",
+            "terser": "^5.16.0",
+            "tsx": "^4.8.1",
+            "yaml": "^2.4.2"
+          }
+        },
+        "@vitejs/plugin-react": {
+          "name": "@vitejs/plugin-react",
+          "version": "6.1.1",
+          "path": "/path/to/SmartFactory-2026/Frontends/node_modules/@vitejs/plugin-react/package.json",
+          "declared": "6.1.1",
+          "locked": "6.1.1",
+          "peerDependencies": {
+            "@rolldown/plugin-babel": "^0.1.7 || ^0.2.0",
+            "babel-plugin-react-compiler": "^1.0.0",
+            "oxc-transform-react": "^0.145.0",
+            "vite": "^8.0.0"
+          }
+        },
+        "@typescript/native": {
+          "name": "typescript",
+          "version": "7.0.2",
+          "path": "/path/to/SmartFactory-2026/Frontends/node_modules/@typescript/native/package.json",
+          "declared": "npm:typescript@7.0.2",
+          "locked": "7.0.2"
+        },
+        "typescript": {
+          "name": "@typescript/typescript6",
+          "version": "6.0.2",
+          "path": "/path/to/SmartFactory-2026/Frontends/node_modules/typescript/package.json",
+          "declared": "npm:@typescript/typescript6@6.0.2",
+          "locked": "6.0.2"
+        },
+        "@typescript/old": {
+          "name": "typescript",
+          "version": "6.0.2",
+          "path": "/path/to/SmartFactory-2026/Frontends/node_modules/typescript/node_modules/@typescript/old/package.json",
+          "declared": "npm:typescript@6.0.2",
+          "locked": "6.0.2"
+        },
+        "openapi-typescript": {
+          "name": "openapi-typescript",
+          "version": "7.13.0",
+          "path": "/path/to/SmartFactory-2026/Frontends/node_modules/openapi-typescript/package.json",
+          "declared": "7.13.0",
+          "locked": "7.13.0",
+          "peerDependencies": {
+            "typescript": "^5.x"
+          }
+        },
+        "echarts": {
+          "name": "echarts",
+          "version": "5.6.0",
+          "path": "/path/to/SmartFactory-2026/Frontends/node_modules/echarts/package.json",
+          "declared": "5.6.0",
+          "locked": "5.6.0"
+        }
+      },
+      "compiler": {
+        "command": "node node_modules/@typescript/native/bin/tsc",
+        "reported": "Version 7.0.2",
+        "binary": "/path/to/SmartFactory-2026/Frontends/node_modules/@typescript/typescript-darwin-arm64/lib/tsc",
+        "binary_sha256": "a82f731365ad69d5c4c15f5e18fba4584bf3b7b839960172a76c3462b5114bf2",
+        "binary_version": "Version 7.0.2",
+        "binAlias": null
+      },
+      "api": {
+        "module": "/path/to/SmartFactory-2026/Frontends/node_modules/typescript/lib/typescript.js",
+        "version": "6.0.2",
+        "transpileModule": "function",
+        "sharedModule": true
+      },
+      "overrides": {
+        "openapi-typescript": {
+          "typescript": "$typescript"
+        },
+        "@typescript/old": "npm:typescript@6.0.2"
+      }
+    },
+    "source_record": ".local/evolution/frontend-phase2/compiler-info.json",
+    "upstream_sources": [
+      "https://vite.dev/blog/announcing-vite8-1",
+      "https://vite.dev/guide/migration",
+      "https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/",
+      "https://www.typescriptlang.org/docs/handbook/release-notes/typescript-6-0.html",
+      "https://openapi-ts.dev/node"
+    ],
+    "openapi_typescript_upstream_peer": "typescript ^5.x",
+    "override_scope": "本项目在 openapi-typescript 内使用 typescript 别名所指的6.0.2兼容API，并把包装器的 @typescript/old 锁为6.0.2",
+    "override_validation": [
+      "真实官方生成器运行",
+      "71个Schema、56个操作的完整类型编译",
+      "现有与新增精度客户端回归",
+      "TypeScript6.0.2兼容检查",
+      "TypeScript7.0.2正式检查",
+      "独立锁文件安装及产物一致性"
+    ],
+    "explicit_compiler_paths": true,
+    "alias_failure_sample": ".local/evolution/frontend-phase2/alias-failure-samples.json",
+    "frontend_manifest_snapshot": ".local/evolution/frontend-phase2/frontend-toolchain-fields.json"
+  },
+  "contract_generation": {
+    "source": "contracts/1.0/openapi.json",
+    "source_sha256": "b7a5b66d5d72ca6658d1a0431ca066906bf21e1e0b4a8ea721f8ec8569a0a8f0",
+    "single_type_output": "contracts/1.0/api-types.ts",
+    "route_output": "Frontends/src/generated-routes.ts",
+    "generator": "official openapi-typescript 7.13.0 openapiTS + astToString",
+    "compiler_api": "6.0.2",
+    "schemas": 71,
+    "operations": 56,
+    "integer_transform": "int64/uint64 -> number | string | bigint",
+    "generation_order": [
+      "go -C Platform run ./cmd/sf-contracts",
+      "npm --prefix Frontends run generate:api"
+    ],
+    "go_typescript_writer": "由存储专业移除；Go只导出Schema/OpenAPI，前端生成器唯一写入api-types.ts",
+    "repeated_generation": ".local/evolution/frontend-phase2/repeated-generation.json",
+    "repeat_invocations_after_baseline": 2,
+    "identical": true,
+    "checks": [
+      "组合Schema",
+      "可选及可空字段",
+      "路径和查询参数",
+      "请求体",
+      "200/202成功响应",
+      "401/403/409响应",
+      "精确整数和字符串身份"
+    ],
+    "ci_file": ".github/workflows/build-release.yml",
+    "ci_execution": "本轮执行对应本机命令，未触发远端GitHub Actions"
+  },
+  "commands": [
+    {
+      "command": "npm --prefix Frontends run test:unit",
+      "exit_code": 0,
+      "tests": 13,
+      "passed": 13,
+      "log": ".local/evolution/frontend-phase2/unit.log"
+    },
+    {
+      "command": "npm --prefix Frontends run typecheck:compat",
+      "exit_code": 0,
+      "compiler": "6.0.2",
+      "log": ".local/evolution/frontend-phase2/typecheck-compat.log"
+    },
+    {
+      "command": "npm --prefix Frontends run build",
+      "exit_code": 0,
+      "includes": [
+        "check:api",
+        "TypeScript 7.0.2 noEmit",
+        "Vite 8.1.5 production build"
+      ],
+      "log": ".local/evolution/frontend-phase2/build.log"
+    },
+    {
+      "command": "python3 -m unittest discover -s tests -p test_toolchains.py",
+      "exit_code": 0,
+      "tests": 7,
+      "passed": 7,
+      "log": ".local/evolution/frontend-phase2/toolchains.log"
+    },
+    {
+      "command": "npm --prefix Frontends run generate:api (twice after baseline digest)",
+      "exit_code": 0,
+      "identical": true,
+      "log": ".local/evolution/frontend-phase2/generation.log"
+    },
+    {
+      "command": "npm ci in isolated /private/tmp frontend copy",
+      "exit_code": 0,
+      "log": ".local/evolution/frontend-phase2/clean-install.log"
+    },
+    {
+      "command": "npm run test:unit in isolated clean install",
+      "exit_code": 0,
+      "tests": 13,
+      "passed": 13,
+      "log": ".local/evolution/frontend-phase2/clean-unit.log"
+    },
+    {
+      "command": "npm run typecheck:compat in isolated clean install",
+      "exit_code": 0,
+      "log": ".local/evolution/frontend-phase2/clean-compat.log"
+    },
+    {
+      "command": "npm run build in isolated clean install",
+      "exit_code": 0,
+      "byte_identical_artifacts": true,
+      "log": ".local/evolution/frontend-phase2/clean-build.log"
+    },
+    {
+      "command": "isolated alias target/version failure example",
+      "exit_code": 0,
+      "invalid_sample_rejected": true,
+      "evidence": ".local/evolution/frontend-phase2/alias-failure-samples.json"
+    },
+    {
+      "command": "Playwright CLI own session close and own application SIGTERM/port verification",
+      "exit_code": 0,
+      "evidence": ".local/evolution/frontend-phase2/cleanup.json"
+    }
+  ],
+  "continuous_simulation": {
+    "status": "passed",
+    "request_evidence": ".local/evolution/frontend-phase2/browser-simulation-recovered.json",
+    "request_statuses": [
+      200,
+      200,
+      200,
+      409,
+      200
+    ],
+    "numeric_input_decimal": "9007199254740993",
+    "numeric_json_type": "number, exact encode/decode via bigint",
+    "event_time_input_indices": [
+      1,
+      0,
+      2
+    ],
+    "provided_input_indices": [
+      0,
+      1,
+      2
+    ],
+    "event_time_counts_decimal": [
+      "12",
+      "9007199254741005",
+      "9007199254741004"
+    ],
+    "provided_counts_decimal": [
+      "9007199254741003",
+      "9007199254741005",
+      "9007199254741004"
+    ],
+    "final_count_decimal": "9007199254741004",
+    "unit": "piece",
+    "quality": "GOOD",
+    "time_source": "simulation",
+    "freshness_ms": 5000,
+    "initial_count": 10,
+    "trace_nodes_per_point": 3,
+    "before_after_node_state_shown": true,
+    "logical_clock_matches_observed_ms": true,
+    "history_sources": {
+      "omitted_history": "database_snapshot",
+      "explicit_empty_history": "provided"
+    },
+    "plan_input_history_identities_and_actual_assets_shown": true,
+    "revision_conflict": {
+      "status": 409,
+      "expected_revision": 1,
+      "input_and_parameters_preserved": true,
+      "draft_name_preserved": true,
+      "run_disabled_until_revision_reload": true,
+      "reload_save_validate_result_revision": 3,
+      "next_simulation_status": 200,
+      "evidence": ".local/evolution/frontend-phase2/browser-simulation-conflict.json"
+    },
+    "export": "output/playwright/frontend-phase2/simulation-replay.json",
+    "replay": {
+      "status": 200,
+      "input_sha256": "939da773cb4d7506289d258cbff57748d0d9e74614421ef39917df64f6a4479f",
+      "plan_sha256": "745272b0fb0610de2957a13d69a0997c287cd6d88250f691e505744e5fa2ef3c",
+      "count": 9007199254741004,
+      "same_final_state": true,
+      "numeric_value_preserved": true
+    },
+    "replay_evidence": ".local/evolution/frontend-phase2/replay-proof.json",
+    "database_isolation": {
+      "before": ".local/evolution/frontend-phase2/database-before.json",
+      "after": ".local/evolution/frontend-phase2/database-after-simulation.json",
+      "all_captured_scopes_identical": true,
+      "documents_scope": "SELECT row_to_json(d) FROM documents d WHERE kind IN ('definition','state','alarm','revision','entity','data_catalog') ORDER BY kind,id",
+      "formal_document_rows": 35,
+      "observations_rows": 0,
+      "latest_rows": 0,
+      "rollups_rows": 0,
+      "expected_other_document_changes": [
+        "draft保存/修订",
+        "job/task生命周期",
+        "操作audit记录"
+      ],
+      "queries_in_each_snapshot": true
+    }
+  },
+  "background_tasks": {
+    "status": "passed",
+    "request_evidence": ".local/evolution/frontend-phase2/browser-task-requests-final.json",
+    "task_id": "recompute:frontend:retry/with-identity:1",
+    "business_id": "frontend:retry/with-identity",
+    "business_version": 1,
+    "river_id_decimal": "361",
+    "replay_id": "recompute:frontend:retry/with-identity:1",
+    "identity_preserved_across_stale_version_and_both_retries": true,
+    "opaque_expected_version_preserved": true,
+    "retry_statuses": [
+      409,
+      200,
+      200
+    ],
+    "automatic_retry_after_conflict": false,
+    "post_count_at_conflict": 1,
+    "invalid_range_failure": {
+      "attempt": 8,
+      "max_attempts": 8,
+      "state": "discarded",
+      "error": "invalid recomputation range",
+      "evidence": ".local/evolution/frontend-phase2/task-retry-before.json"
+    },
+    "repair_fixture": "以failed业务状态修改有效范围，继续使用原Task/River身份；pending写入创建新代际，早期夹具已实际得到409和superseded，原始浏览器证据保留",
+    "stale_version": {
+      "status": 409,
+      "attempt_unchanged": 8,
+      "detail_and_list_refreshed": true,
+      "evidence": ".local/evolution/frontend-phase2/browser-task-retry-conflict.json"
+    },
+    "rollup_failure": {
+      "attempt": 9,
+      "max_attempts": 9,
+      "business_state": "failed",
+      "state": "discarded",
+      "phase": "rollups",
+      "progress": 1,
+      "cursor_ms": 1800000002000,
+      "fixture": "仅隔离Schema中临时BEFORE INSERT/UPDATE rollups错误触发器，已删除",
+      "evidence": ".local/evolution/frontend-phase2/task-rollups-failed.json"
+    },
+    "rollup_recovery": {
+      "attempt": 10,
+      "max_attempts": 10,
+      "business_state": "completed",
+      "state": "completed",
+      "phase": "completed",
+      "replay_id_preserved": true,
+      "fixed_replay_range_ms": [
+        1800000001000,
+        1800000002000
+      ],
+      "job_range_ms": [
+        1800000000000,
+        1800000002000
+      ],
+      "cursor_ms": 1800000002000,
+      "raw_observations_and_latest_unchanged": true,
+      "rollups_before_rows": 0,
+      "rollups_after_rows": 6,
+      "before_job": ".local/evolution/frontend-phase2/task-job-before-final-retry.json",
+      "after_job": ".local/evolution/frontend-phase2/task-job-completed.json",
+      "before_database": ".local/evolution/frontend-phase2/database-before-rollup-retry.json",
+      "after_database": ".local/evolution/frontend-phase2/database-after-rollup-retry.json"
+    },
+    "retry_worker_settings": "生产worker的8次指数退避原样执行；已耗尽的任务由正式JobRetry将最大次数增加为9、10以执行两次手动重试",
+    "cancel": {
+      "status": 200,
+      "from_state": "available",
+      "to_state": "cancelled",
+      "task_river_outbox_identity_preserved": true,
+      "original_outbox_rows": 1,
+      "evidence": ".local/evolution/frontend-phase2/task-cancel-proof.json"
+    },
+    "running_cancel_display": "客户端回归验证状态与说明；本轮浏览器取消实际从available执行",
+    "pagination": "客户端测试验证授权可见页为空时仍采用服务next；页面提供分页与完整身份查询",
+    "pending_label": "等待调度",
+    "legacy_retry": "保留旧/jobs入口兼容调用，类型和客户端测试核对202响应及身份；后端实际恢复由存储专业报告覆盖"
+  },
+  "permissions": {
+    "read_only": {
+      "read_status": 200,
+      "allowed_actions": [],
+      "rendered_action_buttons": 0,
+      "forced_write_status": 403,
+      "archive_visible": false,
+      "api": ".local/evolution/frontend-phase2/viewer-api.json",
+      "browser": ".local/evolution/frontend-phase2/browser-task-readonly.json"
+    },
+    "insufficient_resource": {
+      "status": 403,
+      "failed_detail_removed": true,
+      "rendered_action_buttons": 0,
+      "api": ".local/evolution/frontend-phase2/resource-denied-api.json",
+      "browser": ".local/evolution/frontend-phase2/browser-resource-denied.json"
+    },
+    "revoked_logged_in_identity": {
+      "user": "viewer",
+      "active_before": true,
+      "active_after": false,
+      "user_version_after": 2,
+      "existing_session_status": 401,
+      "expired_events": 1,
+      "task_detail_present": false,
+      "drawer_present": false,
+      "session_present": false,
+      "login_present": true,
+      "api": ".local/evolution/frontend-phase2/viewer-revocation-api.json",
+      "browser": ".local/evolution/frontend-phase2/browser-viewer-revoked.json"
+    }
+  },
+  "entrypoints": {
+    "cloud": {
+      "url": "http://127.0.0.1:19030/",
+      "title": "SmartFactory 云端控制台",
+      "headings": [
+        "工厂运行概览"
+      ],
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "documentWidth": 1440,
+      "hasHorizontalOverflow": false,
+      "serverStatus": 200,
+      "mode": "cloud",
+      "nodeId": "frontend-phase2-cloud",
+      "userId": "admin",
+      "charts": 1,
+      "mainModule": [
+        "http://127.0.0.1:19030/assets/main-wmP07sDE.js"
+      ],
+      "errors": []
+    },
+    "edge": {
+      "url": "http://127.0.0.1:19031/edge",
+      "title": "SmartFactory 现场工作台",
+      "headings": [
+        "现场运行概览"
+      ],
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "documentWidth": 390,
+      "hasHorizontalOverflow": false,
+      "serverStatus": 200,
+      "mode": "edge",
+      "nodeId": "frontend-phase2-edge",
+      "userId": "admin",
+      "charts": 1,
+      "mainModule": [
+        "http://127.0.0.1:19031/assets/main-wmP07sDE.js"
+      ],
+      "errors": []
+    },
+    "screen": {
+      "url": "http://127.0.0.1:19030/screen",
+      "title": "SmartFactory 运行大屏",
+      "headings": [
+        "示例工厂 · 生产安全运行"
+      ],
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "documentWidth": 1920,
+      "hasHorizontalOverflow": false,
+      "serverStatus": 200,
+      "mode": "cloud",
+      "nodeId": "frontend-phase2-cloud",
+      "userId": "admin",
+      "charts": 1,
+      "mainModule": [
+        "http://127.0.0.1:19030/assets/main-wmP07sDE.js"
+      ],
+      "errors": []
+    }
+  },
+  "screenshots": {
+    "cloud_final": "output/playwright/frontend-phase2/cloud-overview-final.png",
+    "edge_mobile_final": "output/playwright/frontend-phase2/edge-overview-mobile.png",
+    "screen_final": "output/playwright/frontend-phase2/production-screen.png",
+    "simulation_trace": "output/playwright/frontend-phase2/simulation-history-provided-trace.png",
+    "simulation_conflict": "output/playwright/frontend-phase2/simulation-revision-conflict.png",
+    "task_conflict": "output/playwright/frontend-phase2/task-version-conflict.png",
+    "task_rollups_failure": "output/playwright/frontend-phase2/task-rollups-failed.png",
+    "task_completed": "output/playwright/frontend-phase2/task-completed.png",
+    "task_cancelled": "output/playwright/frontend-phase2/task-cancelled.png",
+    "task_readonly": "output/playwright/frontend-phase2/task-readonly.png",
+    "identity_revoked": "output/playwright/frontend-phase2/identity-revoked.png",
+    "resource_denied": "output/playwright/frontend-phase2/resource-denied.png"
+  },
+  "browser": {
+    "runtime": {
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36",
+      "pageErrors": [],
+      "finalPage": "http://127.0.0.1:19030/screen"
+    },
+    "session": "sf-frontends-phase2",
+    "key_requests": [
+      {
+        "method": "POST",
+        "path": "/api/sf/v1/drafts/frontend%2Fsimulation%3Acounter/simulate",
+        "status": 200,
+        "expected_version": 1
+      },
+      {
+        "method": "POST",
+        "path": "/api/sf/v1/drafts/frontend%2Fsimulation%3Acounter/simulate",
+        "status": 200,
+        "expected_version": 1
+      },
+      {
+        "method": "POST",
+        "path": "/api/sf/v1/drafts/frontend%2Fsimulation%3Acounter/simulate",
+        "status": 200,
+        "expected_version": 1
+      },
+      {
+        "method": "POST",
+        "path": "/api/sf/v1/drafts/frontend%2Fsimulation%3Acounter/simulate",
+        "status": 409,
+        "expected_version": 1
+      },
+      {
+        "method": "POST",
+        "path": "/api/sf/v1/drafts/frontend%2Fsimulation%3Acounter/simulate",
+        "status": 200,
+        "expected_version": 3
+      },
+      {
+        "method": "POST",
+        "path": "/api/sf/v1/tasks/recompute%3Afrontend%3Afailure%2Fwith-identity%3A1/retry",
+        "status": 409,
+        "expected_version": "581c60c88b4db208d40c76c092356d0989188a332e16ce8c455970bd3155f40b"
+      },
+      {
+        "method": "POST",
+        "path": "/api/sf/v1/tasks/tb_definition%3Atb-definition%3Aagv-resume%3A1/cancel",
+        "status": 200,
+        "expected_version": "e68f54219eb58e72cc8ad8132f64570a1118744efcf1e68b13cdc53fe0048950"
+      },
+      {
+        "method": "POST",
+        "path": "/api/sf/v1/tasks/recompute%3Afrontend%3Aretry%2Fwith-identity%3A1/retry",
+        "status": 409,
+        "expected_version": "0cf67159a62953cce5633c32a0e13122256ea9bd8fa5ab48c7755f4a60785997"
+      },
+      {
+        "method": "POST",
+        "path": "/api/sf/v1/tasks/recompute%3Afrontend%3Aretry%2Fwith-identity%3A1/retry",
+        "status": 200,
+        "expected_version": "827aa1e4440733f3293b045cef583cdf1942488d0a1bb165bc7dfc549eb01334"
+      },
+      {
+        "method": "POST",
+        "path": "/api/sf/v1/tasks/recompute%3Afrontend%3Aretry%2Fwith-identity%3A1/retry",
+        "status": 200,
+        "expected_version": "290c807456d15cdbe91d06f00e1ef4086c27b76e6ca0de6f209d31a912a0efe4"
+      },
+      {
+        "method": "GET",
+        "path": "/api/sf/v1/tasks/recompute%3Afrontend%3Aretry%2Fwith-identity%3A1",
+        "status": 401
+      },
+      {
+        "method": "GET",
+        "path": "/api/sf/v1/tasks/recompute%3Afrontend%3Aretry%2Fwith-identity%3A1",
+        "status": 403
+      }
+    ],
+    "captured_request_events": 1487,
+    "unhandled_page_errors": 0,
+    "console": {
+      "logs": [
+        ".local/evolution/frontend-phase2/console-2026-10-04T16-43-32-399Z.log",
+        ".local/evolution/frontend-phase2/console-2026-10-04T17-47-35-090Z.log"
+      ],
+      "total_error_entries": 15,
+      "expected_conflicts_409": 3,
+      "expected_revoked_identity_401": 1,
+      "expected_resource_denial_403": 1,
+      "own_backend_restart_connection_refusals": 8,
+      "favicon_not_found_404": 2,
+      "final_screen_console_messages": 0
+    }
+  },
+  "backend": {
+    "isolated_cloud_port": 19030,
+    "isolated_edge_port": 19031,
+    "pg18_schema": "frontend_phase2_20261005_9d1b6988",
+    "per_application_max_connections": 3,
+    "per_application_max_idle_connections": 1,
+    "management_connections": "串行psql，最多1个管理连接",
+    "sqlite_path": "/private/tmp/smartfactory-evolution-frontend-phase2/edge.db",
+    "http_and_worker": "生产app.Open/app.Run、HTTP handler、Store及River worker",
+    "retained_fixture": "Frontends/tests/fixtures/phase2-backend.go.txt",
+    "current_binary_sha256": "08ae272e557eaba7ed94dd6fad697a15c0d2562b810a3b89609c612f0205e6fb",
+    "initial_binary_sha256": null,
+    "initial_binary_identity": "首次启动摘要未单独保留",
+    "backend_path_current_sha256": {
+      "path": "/private/tmp/smartfactory-evolution-frontend-phase2/backend",
+      "sha256": "08ae272e557eaba7ed94dd6fad697a15c0d2562b810a3b89609c612f0205e6fb",
+      "measured_at": "2026-10-04T19:00:47.890710+00:00"
+    },
+    "fixture_control_binary_sha256": "81d7ebc8a102e18820c9622dd548efd8f1010b38d4341832961c8c6906c4ea16",
+    "current_build_snapshot": ".local/evolution/frontend-phase2/backend-source-current.json",
+    "final_source_manifest": ".local/evolution/frontend-phase2/source-manifest.json",
+    "initial_and_current_usage": "连续模拟主要浏览器流程和早期任务冲突在本轮重新编译前执行，首次二进制摘要未单独保留；后端/jobs兼容修复后重新编译，最终固定身份重试、汇总恢复、撤权及三个最终入口使用已保存摘要的current二进制",
+    "production_go_non_test_sources_unchanged_since_current_build": true,
+    "subsequent_shared_change": [
+      "Platform/.local/frontend-phase2-fixture/main.go",
+      "Platform/internal/coordination/integration_test.go",
+      "Frontends/tests/fixtures/phase2-backend.go.txt"
+    ],
+    "source_snapshot_note": "current构建快照与现存文件有两份夹具和一份协调测试差异，具体时间及浏览器关系见fixture_provenance；原完整夹具未单独保存，生产Go实现与所测二进制的源码快照一致",
+    "fixture_provenance": ".local/evolution/frontend-phase2/review-followup/fixture-provenance.json",
+    "review_correction_schema": "frontend_phase2_followup_20261005_968c2bf5"
+  },
+  "artifacts": {
+    "production_digests": {
+      "assets/main-B7H48_c5.css": "b947ce7e34986a33cacde5c72dbda97e1228c7237d8b80adf42eb55916890e7f",
+      "assets/main-DU-bTvx9.js": "12b4b58d59d13647c22e04d8b3d56eb601710c552f86f8061f9c7a7109984bb1",
+      "edge.html": "d1134fd2ce361625c2e63e52cfb54ab60bab635c7d2ecc7ff2ca24b740d86112",
+      "index.html": "174db6218b089b5054298562cc77eea993103986dc5d8013b751cd59b29d4ce9",
+      "screen.html": "0aa2bd823d18bfcbbd47d7788d6583a923825f55ae0d1adb18508d072a4d4b62"
+    },
+    "source_tree_sha256": "92c80b63ad4d45a5d513f9f7ef3d40a9f5ed88f0b37ece1baa4da9241d25d022",
+    "source_manifest": ".local/evolution/frontend-phase2/source-manifest.json",
+    "source_files": 43,
+    "current_existing_clean_install_build_byte_identical": true,
+    "comparison": ".local/evolution/frontend-phase2/review-followup/clean-artifacts.json",
+    "dependencies_reinstalled_in_review_correction": false,
+    "initial_clean_install_byte_identical": true,
+    "initial_clean_install_evidence": ".local/evolution/frontend-phase2/clean-artifacts.json",
+    "initial_clean_install_scope": "首次产物摘要见initial_delivery；当前五文件由既有独立安装目录更新源码后的构建比较确认"
+  },
+  "known_followups": {
+    "echarts": {
+      "installed": "5.6.0",
+      "severity": "moderate",
+      "advisory": "GHSA-fgmj-fm8m-jvvx",
+      "affected": "<6.1.0",
+      "patched": "6.1.0",
+      "official_advisory": "https://github.com/advisories/GHSA-fgmj-fm8m-jvvx",
+      "machine_report": ".local/evolution/frontend-phase2/npm-audit.json",
+      "task": "E4-10升级并再次审计",
+      "audit_total": 1
+    },
+    "bundle_warning": {
+      "existing_main_minified_kb": 2332.27,
+      "gzip_kb": 751.45,
+      "message": "主模块超过500kB构建提示，三个入口实际加载成功",
+      "followup": "第四阶段页面迁移时处理拆分",
+      "current_main_minified_kb": 2332.35,
+      "current_gzip_kb": 751.48
+    },
+    "clean_install_notice": "可选fsevents安装脚本显示allowScripts提示，npm ci退出0；依赖审计保留ECharts一项moderate",
+    "phase4": [
+      "TanStack全面页面迁移",
+      "ECharts6业务页面改造",
+      "参数表单"
+    ]
+  },
+  "cleanup": {
+    "browser_session": "sf-frontends-phase2",
+    "browser_closed": true,
+    "applications": [
+      {
+        "mode": "cloud",
+        "pid": 24443,
+        "command": "/private/tmp/smartfactory-evolution-frontend-phase2/backend-current",
+        "port": 19030,
+        "stopped": true,
+        "port_accepting": false
+      },
+      {
+        "mode": "edge",
+        "pid": 24445,
+        "command": "/private/tmp/smartfactory-evolution-frontend-phase2/backend-current",
+        "port": 19031,
+        "stopped": true,
+        "port_accepting": false
+      }
+    ],
+    "private_rollup_trigger_removed": true,
+    "private_rollup_function_removed": true,
+    "pg18_validation_container_preserved_running": true,
+    "temporary_go_wrapper_removed": true,
+    "temporary_plaintext_credentials_and_keys_removed": true,
+    "review_correction": {
+      "browser_session": "sf-frontends-phase2-followup",
+      "browser_closed": true,
+      "application_pid": 36142,
+      "command": "/private/tmp/smartfactory-evolution-frontend-phase2/backend-current",
+      "port": 19030,
+      "application_stopped": true,
+      "port_accepting": false,
+      "private_schema": "frontend_phase2_followup_20261005_968c2bf5",
+      "private_rollup_trigger_removed": true,
+      "private_rollup_function_removed": true,
+      "cancelled_task_original_outbox_rows": 1,
+      "pg18_container_preserved_running": true,
+      "production_go_modified": false,
+      "temporary_plaintext_credentials_and_key_removed": true
+    }
+  },
+  "privacy": {
+    "credential_scan": ".local/evolution/frontend-phase2/credential-scan.json",
+    "tokens_and_passwords_in_report": false,
+    "temporary_plaintext_credentials_removed": true,
+    "review_correction_credential_scan": ".local/evolution/frontend-phase2/review-followup/credential-scan.json"
+  },
+  "work_volume_available_bytes": 2080256000,
+  "minimum_work_volume_available_bytes": 1073741824,
+  "out_of_scope": [
+    "UOS完整安装恢复",
+    "24h断云",
+    "受限链路专项",
+    "实际24h容量"
+  ],
+  "documentation": "docs/evolution/frontend-phase2.md",
+  "evidence_index": {
+    ".local/evolution/frontend-phase2/alias-failure-samples.json": {
+      "sha256": "eadbfdb3d98cbf5301a73fc5fc91245ca4604936cb44da9c006e10f840bf2b2e",
+      "bytes": 400
+    },
+    ".local/evolution/frontend-phase2/backend-source-current.json": {
+      "sha256": "1d4256b87204df8be4cd50c517572a7cabbf6e5b3ee10b8024341b1ccca1c615",
+      "bytes": 23404
+    },
+    ".local/evolution/frontend-phase2/browser-cloud-final.json": {
+      "sha256": "a566c78861f1d467ea759a3c00c5e9fc6bb408b68ac8b9a1497c8cc5b0a4d9c2",
+      "bytes": 453
+    },
+    ".local/evolution/frontend-phase2/browser-commands.log": {
+      "sha256": "0039f5d3cb6e7c2bae045a65909b1110dcbb2ebbf1e5dd1dc74d146a36d632ac",
+      "bytes": 12999653
+    },
+    ".local/evolution/frontend-phase2/browser-edge-final.json": {
+      "sha256": "4d138615100e92d0432bd39c2099c18eb2a6fcb9305e95566285993664a55cec",
+      "bytes": 452
+    },
+    ".local/evolution/frontend-phase2/browser-resource-denied.json": {
+      "sha256": "f375f03cf045bd78c3d4ac2bd072a097989cfb80d24ab258414c7973218d6a81",
+      "bytes": 1353016
+    },
+    ".local/evolution/frontend-phase2/browser-runtime.json": {
+      "sha256": "1440db14f373e85e2def46cb7308c342ba19cca0a3a68ec0c360f47dbef78f71",
+      "bytes": 207
+    },
+    ".local/evolution/frontend-phase2/browser-screen-final.json": {
+      "sha256": "d491dec7cc7f316e120ec95027dbe5acd7af44b6470fb1741e1f878ba3e2fafc",
+      "bytes": 472
+    },
+    ".local/evolution/frontend-phase2/browser-simulation-conflict.json": {
+      "sha256": "b2d9588b94964ed8a53f2f607ce2702f7302f320d32a21a3a074231aed137e3c",
+      "bytes": 36161
+    },
+    ".local/evolution/frontend-phase2/browser-simulation-initial.json": {
+      "sha256": "66095359c0ad269f0e1f4d55a7519a32c73ace39512fd75238d4c72c4c9246f2",
+      "bytes": 23464
+    },
+    ".local/evolution/frontend-phase2/browser-simulation-ordered.json": {
+      "sha256": "f40943c25e2ec32856c6098a216a3cabefaa2db99f05cd2425f9c12c3001c312",
+      "bytes": 34146
+    },
+    ".local/evolution/frontend-phase2/browser-simulation-recovered.json": {
+      "sha256": "922b8eb45a023bbaf74fa8e2c57991088fd5a1aa233dd318adb78110714a7dc7",
+      "bytes": 49289
+    },
+    ".local/evolution/frontend-phase2/browser-task-cancelled.json": {
+      "sha256": "f142e8241932f33f20f6c59ab192b57a73de293d9f3459e62b72c06b7fb2681b",
+      "bytes": 739228
+    },
+    ".local/evolution/frontend-phase2/browser-task-completed.json": {
+      "sha256": "6d4eb46c3512fd4fd0fe35a6c34e66ed2e8ea3e02f0b7b0756ab9e984584aae5",
+      "bytes": 1179179
+    },
+    ".local/evolution/frontend-phase2/browser-task-conflict.json": {
+      "sha256": "0da7ed14d73ec12a4ffe7e02c91740cfa956046a91b70b9fc3191034830e47ea",
+      "bytes": 261693
+    },
+    ".local/evolution/frontend-phase2/browser-task-failed.json": {
+      "sha256": "f95df87d99581f89120ac2bc9d393f8b23f9ca9e478b3603e11505c04723ad72",
+      "bytes": 68534
+    },
+    ".local/evolution/frontend-phase2/browser-task-readonly.json": {
+      "sha256": "4af25c6d8ea6d7eeeb7148fd54629cd64db967f7a9d7fae0f5d5361e177150c5",
+      "bytes": 1246954
+    },
+    ".local/evolution/frontend-phase2/browser-task-requests-final.json": {
+      "sha256": "1c0663f952a569dc0ffffa1b1cc57f34dc4f351baa7fe8d3162f1b8e3273eff3",
+      "bytes": 1352903
+    },
+    ".local/evolution/frontend-phase2/browser-task-retry-conflict.json": {
+      "sha256": "425f805f3fcb9267d6635055996e034af7fa3d76dca1eaf7bf8ad8a2c4c495e9",
+      "bytes": 838759
+    },
+    ".local/evolution/frontend-phase2/browser-task-rollups-failed.json": {
+      "sha256": "bb60ca84eed8e453168794b3d9bf762e3f1d0de568934d937d51addf7722112a",
+      "bytes": 980144
+    },
+    ".local/evolution/frontend-phase2/browser-viewer-revoked.json": {
+      "sha256": "f08136dcf5a1b0031b67f3826f47a71d97252882be5a08424ea69d08068b9ad8",
+      "bytes": 1352816
+    },
+    ".local/evolution/frontend-phase2/build.log": {
+      "sha256": "17125b315dd75ccfb0034683fd54ab2d043269e66f9ad5df454c3973e18837ee",
+      "bytes": 1274
+    },
+    ".local/evolution/frontend-phase2/clean-artifacts.json": {
+      "sha256": "08b136db18c2b4d9977c382a58b3f78ccb69b330b3d70b0d8b65cba1bf9d6fed",
+      "bytes": 988
+    },
+    ".local/evolution/frontend-phase2/clean-build.log": {
+      "sha256": "813fa4d4c22716d711e745d13697ede8e6c8c06e015b7b86c90ba3471d01d81e",
+      "bytes": 1483
+    },
+    ".local/evolution/frontend-phase2/clean-compat.log": {
+      "sha256": "dbf8b195504f182a5e9d8670ea7a33528a7835c3f43b5d751ec4367ca5694b11",
+      "bytes": 120
+    },
+    ".local/evolution/frontend-phase2/clean-install.log": {
+      "sha256": "6ff7c48a2a9a299e8f2e2b9c80e8a5e7e3de3ae0cd1ae66f441e8d53236fcf50",
+      "bytes": 572
+    },
+    ".local/evolution/frontend-phase2/clean-unit.log": {
+      "sha256": "7d1fd47b3c1fb40f2a3941eb9a45ccea9b74317660d016d028aef0db658d7c13",
+      "bytes": 1534
+    },
+    ".local/evolution/frontend-phase2/cleanup.json": {
+      "sha256": "30e0eef6c61d509b53d381c9d9cbe5ea4ca2bb0c683f5503316d4d6f9ddeb4af",
+      "bytes": 772
+    },
+    ".local/evolution/frontend-phase2/cloud-backend.log": {
+      "sha256": "a85760ecab85cafe442b147e77ca7c800a71f9dc9309fc691bcdccf9c9ec18ab",
+      "bytes": 10391
+    },
+    ".local/evolution/frontend-phase2/compiler-info.json": {
+      "sha256": "4d9be313c9841600bc29a16f60d60760b18268fb4b0cbb003878b1bf17b6d3ff",
+      "bytes": 3523
+    },
+    ".local/evolution/frontend-phase2/console-2026-10-04T16-43-32-399Z.log": {
+      "sha256": "5a29a28fa2e9e94ccd3fab7d0e2020b037d04d530e887d0c597a34cab41fe4dc",
+      "bytes": 2138
+    },
+    ".local/evolution/frontend-phase2/console-2026-10-04T17-47-35-090Z.log": {
+      "sha256": "223627d8396dc47f9dd45cd4460f566f1e71afcea4ce3bd3950f1f10b1dd5559",
+      "bytes": 139
+    },
+    ".local/evolution/frontend-phase2/credential-scan.json": {
+      "sha256": "efaa434d4b28304cc3a6ab812a45fa12d4a5ada32a550cd272e0d2995404c538",
+      "bytes": 118
+    },
+    ".local/evolution/frontend-phase2/database-after-rollup-retry.json": {
+      "sha256": "98a5d0f5cd53741a2cb5f15e34506f832c8bf4dc6cff00ec2e69c54896fda5dc",
+      "bytes": 873
+    },
+    ".local/evolution/frontend-phase2/database-after-simulation.json": {
+      "sha256": "a31570b85afd2206411533dc853d39c211bef166c75c2b6ae746093e4e7ddc53",
+      "bytes": 873
+    },
+    ".local/evolution/frontend-phase2/database-before-rollup-retry.json": {
+      "sha256": "864e3a133f37195203be7fb8378fe804769f0119ede0a2be10c2fd1ae02f0e4a",
+      "bytes": 873
+    },
+    ".local/evolution/frontend-phase2/database-before.json": {
+      "sha256": "a31570b85afd2206411533dc853d39c211bef166c75c2b6ae746093e4e7ddc53",
+      "bytes": 873
+    },
+    ".local/evolution/frontend-phase2/edge-backend.log": {
+      "sha256": "e0b11a922a14292a76b9a7555332bd23b1f565e95ed7cc713d9b2cc2d0d58ba3",
+      "bytes": 8804
+    },
+    ".local/evolution/frontend-phase2/frontend-toolchain-fields.json": {
+      "sha256": "3c82c445cbab1af08aa52edb3e9466744c3413e1afbe472daebf4aea24d4c95f",
+      "bytes": 1528
+    },
+    ".local/evolution/frontend-phase2/generation.log": {
+      "sha256": "737ccf8901a28ee938645c89b067190e6d461f4820ca5caad6f70e8ea3e723d8",
+      "bytes": 463
+    },
+    ".local/evolution/frontend-phase2/initial-delivery/dist/assets/main-B7H48_c5.css": {
+      "sha256": "b947ce7e34986a33cacde5c72dbda97e1228c7237d8b80adf42eb55916890e7f",
+      "bytes": 35817
+    },
+    ".local/evolution/frontend-phase2/initial-delivery/dist/assets/main-wmP07sDE.js": {
+      "sha256": "9cffa87f1674fc075c3c8a24fba38bd1b72da05cac194ba8a5e9cddec0bfdea2",
+      "bytes": 2332274
+    },
+    ".local/evolution/frontend-phase2/initial-delivery/dist/edge.html": {
+      "sha256": "355bba928211040406de43e1ec15670b356a728917bdf0faea54e7c0946e8ea2",
+      "bytes": 437
+    },
+    ".local/evolution/frontend-phase2/initial-delivery/dist/index.html": {
+      "sha256": "106cd345b6a6f4e1405e4a7d96d2117e99d25c1397d500e5eb97da578ffbff30",
+      "bytes": 438
+    },
+    ".local/evolution/frontend-phase2/initial-delivery/dist/screen.html": {
+      "sha256": "f7004d5b93e276ca79bfb1359c2f6256a98628bf8a91111fabb5e31f487b972d",
+      "bytes": 436
+    },
+    ".local/evolution/frontend-phase2/initial-delivery/report.json": {
+      "sha256": "5ab668166f1a9298b1a02cea8b0a69f79d8501b6d496b11398a4959d4dabf273",
+      "bytes": 40327
+    },
+    ".local/evolution/frontend-phase2/initial-delivery/source/Frontends/src/task-status.ts": {
+      "sha256": "e9bce7da1e87b79fa5693af7e7fbf3cf0c7ac5620ce1cafab13336c512e19793",
+      "bytes": 1360
+    },
+    ".local/evolution/frontend-phase2/initial-delivery/source/Frontends/src/tasks.tsx": {
+      "sha256": "827ff6698c32c713c1110ad0cd22e577794434395c499c40c754550bab4e2ffd",
+      "bytes": 10908
+    },
+    ".local/evolution/frontend-phase2/initial-delivery/source/Frontends/tests/generated-client.test.mjs": {
+      "sha256": "819e75b9cf7bf7a7d4f0ac70608be65d21923d6d944876778643e50b45afe713",
+      "bytes": 11357
+    },
+    ".local/evolution/frontend-phase2/initial-delivery/source/docs/evolution/frontend-phase2.md": {
+      "sha256": "7d14a1892b5ab15b47b7800f1362fed2dc66064c2ef81af4d066a7a556fce3e8",
+      "bytes": 7361
+    },
+    ".local/evolution/frontend-phase2/initial-delivery/source-manifest.json": {
+      "sha256": "65c3bca2867f6a96bbec28cb28c931e4446307ea5abcd2ca4fc6d9742e7a1ecc",
+      "bytes": 5743
+    },
+    ".local/evolution/frontend-phase2/npm-audit.json": {
+      "sha256": "e627be4f6519f7c48e58036adac66e39b633d0e38e5f5020229b14e39f130432",
+      "bytes": 1229
+    },
+    ".local/evolution/frontend-phase2/repeated-generation.json": {
+      "sha256": "3cdd302e816125c2aa7bf6e2927a97af88c9d14b2d93f5a822ea384541c83ad9",
+      "bytes": 807
+    },
+    ".local/evolution/frontend-phase2/replay-proof.json": {
+      "sha256": "6e11670297eade8b73493657bb4d44f006a428b7b73df8425f68d38e2b28ba88",
+      "bytes": 282
+    },
+    ".local/evolution/frontend-phase2/resource-denied-api.json": {
+      "sha256": "ead080ad11892e037caf0b28ed0be8ba8743502a6b798bf2fa76b7891b023e62",
+      "bytes": 57
+    },
+    ".local/evolution/frontend-phase2/review-followup/application.json": {
+      "sha256": "efec31756f3e4c0f8e3f625e046f59ae774ebc315b27c524cad684c87623dc96",
+      "bytes": 274
+    },
+    ".local/evolution/frontend-phase2/review-followup/attempt-limit-fixture.json": {
+      "sha256": "9790a103dc5cdce9188f89d38ea4e1146e62561fb9851d4f9234fc689c41e3c9",
+      "bytes": 314
+    },
+    ".local/evolution/frontend-phase2/review-followup/backend.log": {
+      "sha256": "2cda749f9cdb118f30b38813e709a55a4e0c7f2d53b65ed428b46d185ab22a43",
+      "bytes": 1982
+    },
+    ".local/evolution/frontend-phase2/review-followup/before-retry.json": {
+      "sha256": "998def37276d8f69e250a04fa27c850caf3551afe9c2b5e16b886bda0d582784",
+      "bytes": 666
+    },
+    ".local/evolution/frontend-phase2/review-followup/browser-commands.log": {
+      "sha256": "bd448a3973203ee1b5710b3d148654e9e119b5da6617549532a5e327726e48e3",
+      "bytes": 1392910
+    },
+    ".local/evolution/frontend-phase2/review-followup/browser-notice-cancelled.json": {
+      "sha256": "224ec2507436dbb6f9e73a322d20f292d28dc1b54f33a06f648ddefb0deaae66",
+      "bytes": 536253
+    },
+    ".local/evolution/frontend-phase2/review-followup/browser-notice-completed.json": {
+      "sha256": "a35388847898b6c78ed5865104e923268a62fe0d66dc4de7ffe47bfdd4a25ed5",
+      "bytes": 339849
+    },
+    ".local/evolution/frontend-phase2/review-followup/browser-notice-failed.json": {
+      "sha256": "1af45a95e1b6131019e75ebff2e38e915977b0cbd74b29ead94e718ec93e5a1f",
+      "bytes": 142333
+    },
+    ".local/evolution/frontend-phase2/review-followup/build.log": {
+      "sha256": "3e9e60863620c78ffc4eefc7dbb28e5b9fb802b55066186de0f826b5740c7490",
+      "bytes": 1274
+    },
+    ".local/evolution/frontend-phase2/review-followup/cancel-after.json": {
+      "sha256": "a2af35159f410c9f64881b5fd1c40d162579b4f42633e3ad8061828900d33763",
+      "bytes": 644
+    },
+    ".local/evolution/frontend-phase2/review-followup/cancel-before.json": {
+      "sha256": "ad192e068ba5704591f6b6cfcf3a434f6ac197514088767cb3ff6281e3f08aa8",
+      "bytes": 573
+    },
+    ".local/evolution/frontend-phase2/review-followup/clean-artifacts.json": {
+      "sha256": "2cbf8fb38250af7a011e010e53b910c72e96bf1a862a6fafc4f2ceb5fece423d",
+      "bytes": 1138
+    },
+    ".local/evolution/frontend-phase2/review-followup/clean-build.log": {
+      "sha256": "5c0b083f23255ef2a78604888b1e2abf5316a852ad2a9293e7e829780024de4b",
+      "bytes": 1274
+    },
+    ".local/evolution/frontend-phase2/review-followup/clean-commands.json": {
+      "sha256": "9ad2f3845ed4447bb0ce1ae4a1ef016c1fc28a53e65f20191eb75368fda2bd66",
+      "bytes": 638
+    },
+    ".local/evolution/frontend-phase2/review-followup/clean-unit.log": {
+      "sha256": "b895d2a5753e31e24a9c9b16014be9b11edcbebb1e62781486d15df306255598",
+      "bytes": 1643
+    },
+    ".local/evolution/frontend-phase2/review-followup/cleanup.json": {
+      "sha256": "381bd8fbbbf25854ce627ec66a897911596693d7b56ed4b9ae84c88710071808",
+      "bytes": 602
+    },
+    ".local/evolution/frontend-phase2/review-followup/commands.json": {
+      "sha256": "13117ca16b25737d98efa00cfcf2e25723a1e85820bc28f2046c99b29f52b1dd",
+      "bytes": 558
+    },
+    ".local/evolution/frontend-phase2/review-followup/compat.log": {
+      "sha256": "dbf8b195504f182a5e9d8670ea7a33528a7835c3f43b5d751ec4367ca5694b11",
+      "bytes": 120
+    },
+    ".local/evolution/frontend-phase2/review-followup/completed-after-retry.json": {
+      "sha256": "ac6faaf5eccc94fc6073e222d6a470e0b37ebd26d68e4f14c5c6feefbb449084",
+      "bytes": 794
+    },
+    ".local/evolution/frontend-phase2/review-followup/console.log": {
+      "sha256": "a5071ae14f73a31d0d2d446937fd329b6d3871cdc2570d089eca278fcc52bb2a",
+      "bytes": 139
+    },
+    ".local/evolution/frontend-phase2/review-followup/credential-scan.json": {
+      "sha256": "83a1a1bea97e3ed73825390bdca63d6581b00fc1905eba5d29e5b3127cbe4500",
+      "bytes": 111
+    },
+    ".local/evolution/frontend-phase2/review-followup/failed-after-retry.json": {
+      "sha256": "ea3820222e2c0eda76deb6a846db3213126119c4fd4821ccd82c01e00cd5d1cd",
+      "bytes": 804
+    },
+    ".local/evolution/frontend-phase2/review-followup/fixture-provenance.json": {
+      "sha256": "008f790cfa910e5fd6a379b10161832d893e47b0efd2c0729a1702da5d23f36b",
+      "bytes": 3964
+    },
+    ".local/evolution/frontend-phase2/review-followup/review-correction.json": {
+      "sha256": "31332f3066c7662a8ec3b09d2ef0f6773d25d32e5c6362a928feaa2359cbf47b",
+      "bytes": 11652
+    },
+    ".local/evolution/frontend-phase2/review-followup/unit.log": {
+      "sha256": "28d55d4c0d6cd4ae0a2960aedb4905a568c86206dd0064a358911031cf826c42",
+      "bytes": 1644
+    },
+    ".local/evolution/frontend-phase2/source-manifest.json": {
+      "sha256": "be681783d61e1becc2d67e10bb8d26161e75416ad081becc2b7f5e3227c5e63e",
+      "bytes": 6891
+    },
+    ".local/evolution/frontend-phase2/task-cancel-proof.json": {
+      "sha256": "dbb97cd5614fe627dbccf4ec7aaed98cefec524cc367783bb411b508c42ec9ff",
+      "bytes": 1387
+    },
+    ".local/evolution/frontend-phase2/task-job-before-final-retry.json": {
+      "sha256": "43ce1f62a6471fe2801ab967cb0fc44b93acc8ec110c2acbccbd3ab3b0cdfd5d",
+      "bytes": 565
+    },
+    ".local/evolution/frontend-phase2/task-job-completed.json": {
+      "sha256": "18b423bf083c6cf32f1a7f0bec573a957cf99d66ce70c8908956bca083593d48",
+      "bytes": 502
+    },
+    ".local/evolution/frontend-phase2/task-retry-after-conflict.json": {
+      "sha256": "0fd717dec3fe8e0f5e4e240df9131309b44587e5c00cbb0c63a243c661c77c0c",
+      "bytes": 602
+    },
+    ".local/evolution/frontend-phase2/task-retry-before.json": {
+      "sha256": "3ca700195df1561671276d9c38eddbd868b6806aa99d3240b61e4e2a05a36e71",
+      "bytes": 603
+    },
+    ".local/evolution/frontend-phase2/task-retry-completed.json": {
+      "sha256": "4320bf8ad0317f171fc05fe28a77af767271fd170fb420d9d8734bf2581baaf4",
+      "bytes": 735
+    },
+    ".local/evolution/frontend-phase2/task-rollups-failed.json": {
+      "sha256": "80adb8ddf410436460f9689e9e3eb26fac814d5f6ade0b4aff50c84312294cd0",
+      "bytes": 735
+    },
+    ".local/evolution/frontend-phase2/toolchains.log": {
+      "sha256": "bb316c7043f91838b0d7f3837cc759bc00c2edf9029f2eb64aa89243bf50c5ef",
+      "bytes": 105
+    },
+    ".local/evolution/frontend-phase2/typecheck-compat.log": {
+      "sha256": "d31ab8021d73eb72c3fd672ebd7e584a2c4cdd9bc9896d70581976c6384076ab",
+      "bytes": 329
+    },
+    ".local/evolution/frontend-phase2/unit.log": {
+      "sha256": "47fb91346d5a2420839bca64cc09e338e5d73f12d49b8ee3df782c419b639fef",
+      "bytes": 1540
+    },
+    ".local/evolution/frontend-phase2/viewer-api.json": {
+      "sha256": "cbbea73defb11a7dc423c34010f236b6a7ab97b65f03fe8efc0d0d7af28b2de8",
+      "bytes": 132
+    },
+    ".local/evolution/frontend-phase2/viewer-revocation-api.json": {
+      "sha256": "fcac407c3c85172c22d72c76459d2eeb32043c69d8fb8d9ef97b22e45cfc0f94",
+      "bytes": 710
+    },
+    "output/playwright/frontend-phase2/cloud-overview-final.png": {
+      "sha256": "2563c737d23cc03b90a66ba5e9a20fec096dd66cd8e043ade872cde247fc081f",
+      "bytes": 119443
+    },
+    "output/playwright/frontend-phase2/cloud-overview.png": {
+      "sha256": "7a5ddb3b420a19e3d8c0fa94e2fc3d6e4fcdc0d891f8eeaa4a952ec4f4335cb2",
+      "bytes": 117570
+    },
+    "output/playwright/frontend-phase2/edge-overview-mobile.png": {
+      "sha256": "a8fd47e8fb22d0fca0a06aeac137e69c3b7fb37e03b9a8df71c219879fc7d82b",
+      "bytes": 43339
+    },
+    "output/playwright/frontend-phase2/identity-revoked.png": {
+      "sha256": "31c7e6a16323f8dee985701eaaa4f9ad827a117263bdb1444e85bfb651097bb5",
+      "bytes": 217997
+    },
+    "output/playwright/frontend-phase2/production-screen.png": {
+      "sha256": "042e2b1832735603b49f32b0553f84ca9eb0efd8b85920c86029fb4d580a3891",
+      "bytes": 106793
+    },
+    "output/playwright/frontend-phase2/resource-denied.png": {
+      "sha256": "064890b0b9119f0f20073567ec034190e0a16584d59e342c6178adaffad0e101",
+      "bytes": 74101
+    },
+    "output/playwright/frontend-phase2/review-followup/task-notice-cancelled.png": {
+      "sha256": "0c302b9a7665e7da5d94f55bbe4a6c4d74ba3df64289333636e20a369966df2d",
+      "bytes": 175030
+    },
+    "output/playwright/frontend-phase2/review-followup/task-notice-completed.png": {
+      "sha256": "fdab7795fcfae38009d72b5d6ee7dfaf48859940f6ee0b3b3a937fc6714eed1f",
+      "bytes": 192734
+    },
+    "output/playwright/frontend-phase2/review-followup/task-notice-failed.png": {
+      "sha256": "c85f6e8bea76334f9f83405939d7a38b3a1eeb247cdb008a5f6698de90e63780",
+      "bytes": 192058
+    },
+    "output/playwright/frontend-phase2/simulation-history-provided-trace.png": {
+      "sha256": "5e8b1cb439ea301d51b394bf1d1d88d7ba16ca15330ab0ed69760a6b39be9676",
+      "bytes": 119763
+    },
+    "output/playwright/frontend-phase2/simulation-replay.json": {
+      "sha256": "4fde7e66973dc12bdd2e0762ee70d722a32a7f0b6ead66c7fcda8f56e3b82cb5",
+      "bytes": 19968
+    },
+    "output/playwright/frontend-phase2/simulation-revision-conflict.png": {
+      "sha256": "09290411967db2662aaad75ae5dceb2ba023d73e50a4778bd93ef585e0246abb",
+      "bytes": 113116
+    },
+    "output/playwright/frontend-phase2/task-cancelled.png": {
+      "sha256": "269ab07de4432ca25b3fee0dfef268274342e30cfaff57d4d8b077c30da40bce",
+      "bytes": 177295
+    },
+    "output/playwright/frontend-phase2/task-completed.png": {
+      "sha256": "6306e9e838119e9614426ddc4215fd699d20c1967ecd44a8c0ed445e8ce181f6",
+      "bytes": 187893
+    },
+    "output/playwright/frontend-phase2/task-failed.png": {
+      "sha256": "d1fe9af38bbf5b441b48fe66801b888d928239f5c2a72b121a699f33eb092114",
+      "bytes": 194260
+    },
+    "output/playwright/frontend-phase2/task-readonly.png": {
+      "sha256": "37766f9d543002cc315c40ad3025ad100636a33e7afda0f0264e53d3c77175ad",
+      "bytes": 177629
+    },
+    "output/playwright/frontend-phase2/task-rollups-failed.png": {
+      "sha256": "7589a04481e4714d40479d952aab13aad4fb0275cab6dee13644bc2ee5a45d34",
+      "bytes": 186854
+    },
+    "output/playwright/frontend-phase2/task-version-conflict.png": {
+      "sha256": "e9e42caafd94bfb20e728ea5de688e3f95abcc3d18508472bfb32dfb8c930beb",
+      "bytes": 208976
+    }
+  },
+  "review_correction": {
+    "status": "professional_delivery_complete",
+    "path": ".local/evolution/frontend-phase2/review-followup/review-correction.json",
+    "sha256": "31332f3066c7662a8ec3b09d2ef0f6773d25d32e5c6362a928feaa2359cbf47b",
+    "unit_tests_passed": 14,
+    "current_main_module": "assets/main-DU-bTvx9.js",
+    "browser_notice_cases_passed": [
+      "failed",
+      "completed",
+      "cancelled"
+    ],
+    "all_current_applications_and_browser_closed": true
+  },
+  "initial_delivery": {
+    "report": ".local/evolution/frontend-phase2/initial-delivery/report.json",
+    "report_sha256": "5ab668166f1a9298b1a02cea8b0a69f79d8501b6d496b11398a4959d4dabf273",
+    "recorded_at": "2026-10-04T18:01:52.556902+00:00",
+    "source_manifest": ".local/evolution/frontend-phase2/initial-delivery/source-manifest.json",
+    "source_tree_sha256": "f4ab64ca8ecc08f7ccfeb3506e5c9869218b668da4423f68a6fbafdb67a457b1",
+    "production_digests": {
+      "index.html": "106cd345b6a6f4e1405e4a7d96d2117e99d25c1397d500e5eb97da578ffbff30",
+      "screen.html": "f7004d5b93e276ca79bfb1359c2f6256a98628bf8a91111fabb5e31f487b972d",
+      "edge.html": "355bba928211040406de43e1ec15670b356a728917bdf0faea54e7c0946e8ea2",
+      "assets/main-B7H48_c5.css": "b947ce7e34986a33cacde5c72dbda97e1228c7237d8b80adf42eb55916890e7f",
+      "assets/main-wmP07sDE.js": "9cffa87f1674fc075c3c8a24fba38bd1b72da05cac194ba8a5e9cddec0bfdea2"
+    },
+    "scope": "原有commands、continuous_simulation、background_tasks、permissions、entrypoints、screenshots与browser段保留首次交付证据；本轮提示修正与当前检查见review_correction"
+  }
+}

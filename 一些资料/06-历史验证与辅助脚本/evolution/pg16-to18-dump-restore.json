@@ -1,0 +1,182 @@
+{
+  "started_utc": "2026-10-04T15:59:32Z",
+  "source_container": "smartfactory-evolution-pg16-20261004",
+  "target_container": "smartfactory-evolution-pg18-20261004",
+  "source_database": "sf_migration16",
+  "target_database": "sf_upgrade_20261004",
+  "commands": [
+    {
+      "argv": [
+        "docker",
+        "exec",
+        "smartfactory-evolution-pg18-20261004",
+        "psql",
+        "-U",
+        "smartfactory_evolution",
+        "-d",
+        "smartfactory_evolution",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-c",
+        "CREATE DATABASE sf_upgrade_20261004"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 0.19067345798248425
+    },
+    {
+      "argv": [
+        "docker",
+        "exec",
+        "smartfactory-evolution-pg16-20261004",
+        "pg_dump",
+        "-U",
+        "migration",
+        "-d",
+        "sf_migration16",
+        "--format=custom",
+        "--no-owner",
+        "--no-privileges"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 0.24942241600365378
+    },
+    {
+      "argv": [
+        "docker",
+        "exec",
+        "-i",
+        "smartfactory-evolution-pg18-20261004",
+        "pg_restore",
+        "-U",
+        "smartfactory_evolution",
+        "-d",
+        "sf_upgrade_20261004",
+        "--no-owner",
+        "--no-privileges",
+        "--exit-on-error"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 0.21155204199021682
+    }
+  ],
+  "comparisons": [
+    {
+      "category": "documents",
+      "identical": true
+    },
+    {
+      "category": "history",
+      "identical": true
+    },
+    {
+      "category": "observations",
+      "identical": true
+    },
+    {
+      "category": "archive",
+      "identical": true
+    },
+    {
+      "category": "audit",
+      "identical": true
+    },
+    {
+      "category": "audit_checkpoints",
+      "identical": true
+    },
+    {
+      "category": "sync",
+      "identical": true
+    },
+    {
+      "category": "outbox",
+      "identical": true
+    },
+    {
+      "category": "inbox",
+      "identical": true
+    }
+  ],
+  "before": {
+    "documents": {
+      "rows": 2,
+      "sha256": "cdb00a62f163ead9e01ded0456a6c5bf8c2bad6fe870e45cf679a823a3bc1398"
+    },
+    "history": {
+      "rows": 4,
+      "sha256": "30f5df6499120f12bf472a1275f515431f51fcb64505535d2223c612e29ae4ef"
+    },
+    "observations": {
+      "rows": 64,
+      "sha256": "12b5bc0815a8d2f243ddef54a271f6385c13e4f146368338acc057ad13dcb11c"
+    },
+    "archive": {
+      "rows": 1,
+      "sha256": "806ab6797f95b8a7ede64087372636f639224977ae5d287d8ea8a8ed6884b2e7"
+    },
+    "audit": {
+      "rows": 3,
+      "sha256": "16fbbd28dc28b6371e78f717fc10b328e03dfe21a0877ec86b76383bbe180e03"
+    },
+    "audit_checkpoints": {
+      "rows": 3,
+      "sha256": "e7309412be5668c3e64b398c60569df1607e40103a03b59c51dba42e96539954"
+    },
+    "sync": {
+      "rows": 1,
+      "sha256": "daa7d8ba4f0dddaeaac555541d09691113fd3b73926f864dd836d39a0e849e35"
+    },
+    "outbox": {
+      "rows": 1,
+      "sha256": "789ed9d603ac8a7f3f3947f104544fc66778e4eabc71e260109a3740b81df6f7"
+    },
+    "inbox": {
+      "rows": 1,
+      "sha256": "a9aa561a54efbaf42ed87f8ba2335e3bfa28b9f4298bf1e86b1289b415cbb506"
+    }
+  },
+  "dump": {
+    "path": "/private/tmp/storage-pg16-upgrade.dump",
+    "bytes": 26615,
+    "sha256": "f5f31d3b441050142a4a492722bfb04d08af3eef763b2cdf6feb9f0bcac7426f"
+  },
+  "after": {
+    "documents": {
+      "rows": 2,
+      "sha256": "cdb00a62f163ead9e01ded0456a6c5bf8c2bad6fe870e45cf679a823a3bc1398"
+    },
+    "history": {
+      "rows": 4,
+      "sha256": "30f5df6499120f12bf472a1275f515431f51fcb64505535d2223c612e29ae4ef"
+    },
+    "observations": {
+      "rows": 64,
+      "sha256": "12b5bc0815a8d2f243ddef54a271f6385c13e4f146368338acc057ad13dcb11c"
+    },
+    "archive": {
+      "rows": 1,
+      "sha256": "806ab6797f95b8a7ede64087372636f639224977ae5d287d8ea8a8ed6884b2e7"
+    },
+    "audit": {
+      "rows": 3,
+      "sha256": "16fbbd28dc28b6371e78f717fc10b328e03dfe21a0877ec86b76383bbe180e03"
+    },
+    "audit_checkpoints": {
+      "rows": 3,
+      "sha256": "e7309412be5668c3e64b398c60569df1607e40103a03b59c51dba42e96539954"
+    },
+    "sync": {
+      "rows": 1,
+      "sha256": "daa7d8ba4f0dddaeaac555541d09691113fd3b73926f864dd836d39a0e849e35"
+    },
+    "outbox": {
+      "rows": 1,
+      "sha256": "789ed9d603ac8a7f3f3947f104544fc66778e4eabc71e260109a3740b81df6f7"
+    },
+    "inbox": {
+      "rows": 1,
+      "sha256": "a9aa561a54efbaf42ed87f8ba2335e3bfa28b9f4298bf1e86b1289b415cbb506"
+    }
+  },
+  "status": "passed"
+}

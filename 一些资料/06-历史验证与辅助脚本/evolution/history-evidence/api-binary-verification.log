@@ -1,0 +1,9 @@
+=== RUN   TestHistoryHTTPTasksExactValuesAuthorizationAndOTLP
+2026/10/05 04:29:20 INFO River client started client_id=YL-Tilly-MB-A_local_2026_10_04T20_29_20_609036
+2026/10/05 04:29:20 INFO jobexecutor.JobExecutor: Job errored; retrying error="input http-input version 1: input missing_field is missing" job_id=2 job_kind=smartfactory_analysis
+    history_routes_test.go:230: real HTTP compare=202 cancel=200 stale=409 retry=200 completed exact integer=9007199254740994; read/snapshot/steps revoked=403; OTLP spans=35 trace=11111111111111111111111111111111 plans=values:{string_value:"http-comparison:1:7a8d97fa80ed84760f48de37e3d7a5ac2fbaccd1575d37bbafe085f7cdf7ba27"}  values:{string_value:"http-comparison:2:89d63c693c48c19bf52c2d93d80e4329e7ad0b2852bacf515590ce1cd146aabd"} versions=values:{int_value:1}  values:{int_value:2} sides=values:{string_value:"left"}  values:{string_value:"right"} transaction_parent=495eeed46d765e8e create_failure=ERROR run_failure=ERROR
+2026/10/05 04:29:20 INFO Client: Hard stop started; cancelling all work
+2026/10/05 04:29:20 ERROR maintenance.PeriodicJobEnqueuer: Error starting transaction error="context canceled"
+2026/10/05 04:29:20 INFO River client stopped client_id=YL-Tilly-MB-A_local_2026_10_04T20_29_20_609036
+--- PASS: TestHistoryHTTPTasksExactValuesAuthorizationAndOTLP (0.17s)
+PASS

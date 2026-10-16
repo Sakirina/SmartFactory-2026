@@ -1,0 +1,15 @@
+继续原发布协调工程师的 P5-R01 恢复工作，职责仍为发布、应用装配及实际运行组合；当前工程师数量和公共存储报告由恢复消息说明。不得创建其他智能体，同一时间最多两位运行。读取你已交付的 .local/evolution/release-restore-followup-verified.json、主协调 .local/evolution/phase5-release-restore-diagnosis-root-review.json 及原存储工程师的最新记录。
+
+原数据三份副本的41张应用表和1张SQLite内部表一致，2929项诊断输入及保留字节已经核对。Store 版本分配由原存储工程师维护，你可以先在原故障副本上定位默认参数初始化的后续固定版本冲突，等该工程师明确固定源码可用后再构建整合程序。当前 app.Open 在 Mode=config 或 ConfigURL为空时初始化缺失默认参数，再调用 InitializeNodeConfiguration 和 initializeRelease；原数据已保有 parameter_version heartbeat.interval_ms:1，而固定发布可能移除了本地 parameter。请按当前实际配置权威、启动参数与发布载荷证明应有的初始化及恢复行为，修改范围为你维护的应用装配、发布运行代码和相应用例。若必须改变 configcenter 内的固定参数版本语义，先通知主协调，由原配置工程师处理。
+
+原缓存及已登记程序摘要继续作为固定历史证据。可以让固定修正版程序在私有数据库副本上加载原配置载荷验证故障恢复；随后通过正式工件和发布登记恢复前端运行夹具，记录新程序摘要、配置载荷及原数据库/主密钥的关系。不要覆盖旧摘要下的工件或直接改写原发布缓存以伪造旧程序修复；报告需明确实际运行的是哪份程序与哪份固定发布。数据库历史、固定配置版本、审计和原失败记录均保留。
+
+前端检查点为 .local/evolution/release-interface-checkpoint.json，主协调已核对15份私有备份、282份源码、19份受测产物和38轮浏览器统计，报告为 .local/evolution/phase5-release-interface-checkpoint-root-review.json。三协议消费者已运行在独立新目录，替换记录 /private/tmp/smartfactory-release-interface-20261005/datatransfer-replacement/replacement.state.json；二进制摘要 bfa5fee4d9a42ef0f2de6bcc83b7d17387942fd56b0d9cd59199451db276b479。私有进程注册和token已因轮换更新，使用最新登记读取，凭据不输出。原前端七个自建服务已退出，浏览器组合尚未最终构建。
+
+先提供可恢复前端实际用例的固定程序及明确的原数据恢复记录，再整理受影响包、适用PG及必要有限race；与主协调约定共享PG/race时段。原程序失败之后恢复、五类模板固定参数与连接器采用、新旧固定发布往返、重复启动及运行回执均需沿实际调用检查。前端继续由原前端工程师操作，最终Linux正式入口仍由原构建交付工程师验证。
+
+构建交付的原Linux预验证检查点 .local/evolution/phase5-delivery-linux-preflight-checkpoint.json 保存八轮未完成记录；最后在第二次部署创建时返回 configuration reference is unavailable from the authority 的409。最新36项已执行断言均通过，但尚未完成实际两版本消费者读取和完整缓存恢复。该事项根据修正后日志由交付工程师继续诊断，请将你确认会影响正式入口的启动或发布变化交给该角色。
+
+当前 Go1.27.1，GOTOOLCHAIN=local，GOMAXPROCS=2，-p 1，GOPATH=/private/tmp/smartfactory-evolution-gopath，GOMODCACHE=/private/tmp/smartfactory-evolution-gomodcache，GOCACHE=/private/tmp/smartfactory-evolution-go-cache。PG描述位于 .local/evolution/pg18-test.json，当前持久容器 max_connections=60，不停用或重建。临时数据和构建放 /private/tmp，Work保留至少1GiB，用户原始修改及其他工程师内容完整保留。称呼使用工程师/专家，Secret译作密钥。
+
+本轮报告另存 .local/evolution/release-restore-recovery-verified.json，保留原诊断报告摘要和对应文件。交付包含前后实际编译输入、固定源码及程序、原始命令、失败与通过结果、数据及历史对照、恢复后的进程登记和前端继续条件；完成本轮后结束运行释放名额。

@@ -1,0 +1,18 @@
+[
+  {
+    "action": "First HTTP probe used POST /api/sf/v1/auth/login",
+    "exit_code": 1,
+    "observed_http_status": 405,
+    "observed_body": {
+      "error": "method not allowed"
+    },
+    "source": "Observed initial exec_command result; this entry records the setup error separately from the product defect",
+    "repair": "Read the registered login route and used POST /api/sf/v1/login; the repaired probe then reproduced the task cancellation 409"
+  },
+  {
+    "action": "Inspect the owned fixture process using ps before shutdown",
+    "exit_code": 1,
+    "observed_error": "PermissionError: [Errno 1] Operation not permitted: 'ps'",
+    "repair": "The approved exact-path pkill -TERM stopped only /private/tmp/smartfactory-t01-before/sf-history-fixture with its isolated runtime directory; command and process completed with exit 0 and port 19071 is closed"
+  }
+]

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>ThingsBoard IoT Gateway diagram evidence map</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <span id="markdown-mermaid" aria-hidden="true" data-config="{&quot;darkModeTheme&quot;:&quot;vscode&quot;,&quot;lightModeTheme&quot;:&quot;vscode&quot;,&quot;maxTextSize&quot;:50000,&quot;clickDrag&quot;:&quot;alt&quot;,&quot;showControls&quot;:&quot;onHoverOrFocus&quot;,&quot;resizable&quot;:true,&quot;maxHeight&quot;:&quot;&quot;}"></span>
+				<h1 id="thingsboard-iot-gateway-diagram-evidence-map">ThingsBoard IoT Gateway diagram evidence map</h1>
+<p>Scope: only <code>upstream/thingsboard-gateway</code> runtime code was used as authoritative evidence. <code>gateway-deep-dive.html</code> was used as a secondary orientation source with weight 0.35, then corrected against source code. Other upstream ThingsBoard or ThingsBoard Edge product directories were excluded.</p>
+<h2 id="deliverables">Deliverables</h2>
+<ul>
+<li><code>gateway-system-architecture.svg</code>: canonical vector system architecture diagram.</li>
+<li><code>gateway-system-architecture-image.png</code>: formal raster image deliverable, deterministically rendered from the canonical SVG after the image-model draft pass.</li>
+<li><code>gateway-data-flow.svg</code>: canonical vector data-flow diagram.</li>
+<li><code>gateway-data-flow-image.png</code>: formal raster image deliverable, deterministically rendered from the canonical SVG after the image-model draft pass.</li>
+</ul>
+<p>Reference PNGs rendered from the SVGs are kept for visual QA:</p>
+<ul>
+<li><code>gateway-system-architecture-reference.png</code></li>
+<li><code>gateway-data-flow-reference.png</code></li>
+</ul>
+<p>Raw image-model drafts are kept separately because small code labels can drift in generated text:</p>
+<ul>
+<li><code>gateway-system-architecture-image-model-draft.png</code></li>
+<li><code>gateway-data-flow-image-model-draft.png</code></li>
+</ul>
+<h2 id="source-to-diagram-mapping">Source-to-diagram mapping</h2>
+<h3 id="entry-point-and-gateway-coordinator">Entry point and gateway coordinator</h3>
+<ul>
+<li><code>upstream/thingsboard-gateway/thingsboard_gateway/tb_gateway.py</code> starts <code>TBGatewayService</code> from the configured <code>tb_gateway.json</code>.</li>
+<li><code>upstream/thingsboard-gateway/thingsboard_gateway/gateway/tb_gateway_service.py</code> is the runtime coordinator for connector loading, ThingsBoard client connection, device registry, queues, storage, watchers, RPC, attribute updates, and remote configuration.</li>
+<li><code>upstream/thingsboard-gateway/thingsboard_gateway/gateway/constants.py:129</code> defines <code>DEFAULT_CONNECTORS</code>. The diagram uses the code value of 15 default connector types: <code>mqtt</code>, <code>modbus</code>, <code>opcua</code>, <code>ble</code>, <code>request</code>, <code>can</code>, <code>bacnet</code>, <code>odbc</code>, <code>rest</code>, <code>snmp</code>, <code>ftp</code>, <code>socket</code>, <code>xmpp</code>, <code>ocpp</code>, and <code>knx</code>.</li>
+</ul>
+<h3 id="system-architecture-diagram">System architecture diagram</h3>
+<ul>
+<li>Gateway bootstrap, configuration, storage selection, report strategy, updater, device filter, and thread startup are represented from <code>TBGatewayService.__init__</code> and related initialization paths in <code>tb_gateway_service.py</code>.</li>
+<li>Connector discovery and module loading are represented by <code>_load_connectors()</code> at <code>tb_gateway_service.py:861</code>, <code>__connect_with_connectors()</code> at <code>tb_gateway_service.py:1009</code>, and <code>TBModuleLoader</code> extension/package lookup.</li>
+<li>MQTT platform connectivity is represented by <code>TBClient</code> in <code>gateway/tb_client.py:60</code>, its <code>TBGatewayMqttClient</code> creation paths, and connection loop at <code>tb_client.py:427</code> and <code>tb_client.py:488</code>.</li>
+<li>Storage is represented by <code>EventStorage</code> and its three implementations: <code>MemoryEventStorage</code>, <code>FileEventStorage</code>, and <code>SQLiteEventStorage</code>.</li>
+<li>Remote management is represented by <code>RemoteConfigurator</code>, its update queue, configuration handlers, and <code>send_current_configuration()</code>.</li>
+<li>Optional external connector integration is represented by <code>TBGRPCServerManager</code>, <code>GrpcConnector</code>, and <code>GwGrpcConnector</code>.</li>
+</ul>
+<h3 id="data-flow-diagram">Data-flow diagram</h3>
+<ul>
+<li>Uplink starts with protocol connectors calling converter logic, then <code>send_to_storage()</code> at <code>tb_gateway_service.py:1146</code>.</li>
+<li>Report strategy handling is represented by <code>ReportStrategyService.filter_data_and_send()</code> at <code>report_strategy_service.py:60</code>.</li>
+<li>Converted queue batching is represented by <code>__send_to_storage()</code> at <code>tb_gateway_service.py:1181</code> and new-format processing at <code>tb_gateway_service.py:1221</code>.</li>
+<li>Device lifecycle side effects are represented by <code>add_device()</code> at <code>tb_gateway_service.py:1918</code> and <code>del_device()</code> at <code>tb_gateway_service.py:2026</code>.</li>
+<li>Storage persistence and replay are represented by <code>__send_data_pack_to_storage()</code> in <code>tb_gateway_service.py</code>, <code>EventStorage</code>, and <code>__read_data_from_storage()</code> at <code>tb_gateway_service.py:1437</code>.</li>
+<li>Publish to ThingsBoard is represented by gateway and child-device publish methods in <code>TBGatewayMqttClient</code> through <code>TBClient</code>.</li>
+<li>Downlink RPC routing is represented by <code>_rpc_request_handler()</code> at <code>tb_gateway_service.py:1636</code>, connector <code>server_side_rpc_handler()</code>, the device RPC queue, and <code>send_rpc_reply()</code>.</li>
+<li>Attribute update routing is represented by <code>_attribute_update_callback()</code> at <code>tb_gateway_service.py:1860</code> and connector <code>on_attributes_update()</code>.</li>
+<li>Watcher and remote configuration flows are represented by <code>_watchers()</code> at <code>tb_gateway_service.py:482</code>, <code>__init_remote_configuration()</code> at <code>tb_gateway_service.py:637</code>, and <code>RemoteConfigurator</code>.</li>
+<li>Optional gRPC flow is represented by <code>TBGRPCServerManager</code> at <code>gateway/grpc_service/tb_grpc_manager.py:35</code>, <code>GrpcConnector</code> at <code>gateway/grpc_service/grpc_connector.py:22</code>, <code>GrpcUplinkConverter</code>, <code>GrpcDownlinkConverter</code>, and <code>GwGrpcConnector</code> at <code>grpc_connectors/gw_grpc_connector.py:31</code>.</li>
+</ul>
+<h2 id="accuracy-notes">Accuracy notes</h2>
+<ul>
+<li>The diagrams intentionally do not include ThingsBoard server internals, ThingsBoard Edge internals, UI widgets, dashboards, or non-gateway product assets.</li>
+<li>The Claude deep-dive page was treated as a navigation aid. When it differed from source code, source code won; the connector count is the clearest example, because the runtime default connector registry contains 15 types.</li>
+<li>SVG files are the reproducible source of diagram truth. The formal PNG image deliverables are raster exports from the same SVG truth source; raw image-model drafts are preserved as evidence of the image generation step.</li>
+</ul>
+
+            
+            
+        </body>
+        </html>

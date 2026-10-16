@@ -1,0 +1,157 @@
+{
+  "checked_at": "2026-10-05T12:15:50.074261+00:00",
+  "status": "passed",
+  "specialist_report_pending": false,
+  "errors": [],
+  "checks": [
+    {
+      "name": "postgres-workloads",
+      "argv": [
+        "go",
+        "test",
+        "-work",
+        "-count=1",
+        "-p",
+        "1",
+        "./internal/configcenter",
+        "-run",
+        "^TestConnectorVersionRegistration",
+        "-v"
+      ],
+      "exit_code": 0,
+      "counts": {
+        "top_level_passed": 4,
+        "all_named_passed": 19,
+        "failed": 0,
+        "skipped": 0
+      },
+      "base_catalogue_count": 4849,
+      "before_after_equal": true,
+      "stdout": {
+        "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/postgres-workloads.stdout.log",
+        "sha256": "46e36d68a05d58b78c34875bc78fb65cea79e1c4d4725dcbf7a472ae64b3fcfa",
+        "bytes": 7590
+      },
+      "stderr": {
+        "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/postgres-workloads.stderr.log",
+        "sha256": "da4e5de33a9b0925d537c8c5cb0cd7000e041bdd2edda036288192f834aab0a6",
+        "bytes": 72
+      }
+    },
+    {
+      "name": "race-node-configuration",
+      "argv": [
+        "go",
+        "test",
+        "-work",
+        "-race",
+        "-count=1",
+        "-p",
+        "1",
+        "./internal/configcenter",
+        "-run",
+        "^TestConnectorVersionRegistration",
+        "-v"
+      ],
+      "exit_code": 0,
+      "counts": {
+        "top_level_passed": 4,
+        "all_named_passed": 19,
+        "failed": 0,
+        "skipped": 0
+      },
+      "base_catalogue_count": 4849,
+      "before_after_equal": true,
+      "stdout": {
+        "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/race-node-configuration.stdout.log",
+        "sha256": "fcdeeaf1921191622dbb26c7020b228715da47b9681c45e46fdbb43fede79274",
+        "bytes": 7590
+      },
+      "stderr": {
+        "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/race-node-configuration.stderr.log",
+        "sha256": "060f9b0c816505359f7761113cdd79c768403b98446b75f09d19905adc3c8822",
+        "bytes": 73
+      }
+    }
+  ],
+  "retained_files_hashed": 4806,
+  "fixed_product": {
+    "path": "/path/to/SmartFactory-2026/Platform/internal/configcenter/connector_sources.go",
+    "sha256": "facec76f2194c930358119042723d4b2847031e16ad600eea7d99059c60f0dc4",
+    "bytes": 15231
+  },
+  "fixed_test": {
+    "path": "/path/to/SmartFactory-2026/Platform/internal/configcenter/connector_sources_test.go",
+    "sha256": "1274cb6ec134f3ff8fd420d769e5550f048820641ed29e4c9434a12de477040e",
+    "bytes": 22980
+  },
+  "ordinary_and_initial_race_catalogue": {
+    "count": 4849,
+    "before_after_equal": true,
+    "scope": "Initial race catalogue used ordinary go-list conditions; actual race execution and binary are preserved separately"
+  },
+  "race_conditioned_supplement": {
+    "metadata": {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/race-actual-collection.json",
+      "sha256": "1e19f461929a7f5d335468a0515405bcb87e5714dd582de82037fde5a3283d4f",
+      "bytes": 3296
+    },
+    "inputs": {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/race-actual.inputs.json",
+      "sha256": "6526487d9dc032cb415926c4156ef4f3c85810e9b8f8e3aeae0969e7f184aacc",
+      "bytes": 1818806
+    },
+    "count": 4855,
+    "shared_count": 4838,
+    "shared_files_unchanged": true,
+    "timing": "supplemental collection after successful race execution; no test repeated",
+    "race_only_count": 17,
+    "scope": "Collected after successful execution with go list -race; catalogue includes dependency test-source entries"
+  },
+  "test_programs": [
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/test-programs/postgres-configcenter.test",
+      "sha256": "db1a17bc2db0ebcca44e2794bebbc75f7a312907ac5e1a26df39496474b4b935",
+      "bytes": 26953122
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/test-programs/race-configcenter.test",
+      "sha256": "fabe23e8f22e4741d305ec35dcc032afe53eaea615baed0e36543e7e21dce198",
+      "bytes": 38567490
+    }
+  ],
+  "buildinfo": {
+    "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/test-program-buildinfo.json",
+    "sha256": "2129b70822519c8f344313f5e48d532130e412e373980a049187657d344f68b1",
+    "bytes": 1066
+  },
+  "cleanup": {
+    "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/cleanup-processes.json",
+    "sha256": "ea7a960d0b9d9dcb082a83f5e9d6c79232e8246f39d3a51f89c4a7315a701088",
+    "bytes": 144
+  },
+  "old_actual_failure": ".local/evolution/phase5-config-deadlock-checkpoint-root-review.json",
+  "remaining": "Final Linux package combination and independent review remain for user-authorized resume",
+  "specialist_report": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/node-connector-deadlock-verified.json",
+    "sha256": "187e74067a4c05d1513b463ec0fe1e8c1f4bc4b5311d3adc619aa02c9ccc6566"
+  },
+  "specialist_references_checked": 126,
+  "report_reference_errors": [],
+  "scope_preservation": {
+    "public_store_files_unchanged": 3,
+    "final_production_and_test_copies_match": true
+  },
+  "retained_history": 6,
+  "coordinator_reference_lifecycle": {
+    "specialist_reference": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-node-deadlock-root-review.json",
+      "sha256": "385f8ac39240a8a0a38ebfa2b82bd2cf2fe0c1fed0f3c153c736ffa184cd7d4d",
+      "bytes": 4961
+    },
+    "checked_before_this_finalization": true,
+    "reason": "Specialist report recorded the coordinator test-and-source review before this file was finalized with the specialist handoff digest; the administrative cross-reference names that earlier revision",
+    "immutable_specialist_data_references": 125,
+    "product_test_and_input_evidence_unchanged": true
+  }
+}

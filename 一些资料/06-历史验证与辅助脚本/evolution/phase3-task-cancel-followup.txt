@@ -1,0 +1,13 @@
+你继续担任存储与后台任务工程师，本次负责第三阶段独立浏览器发现的 P3-T01 任务取消可用性问题。仓库 /path/to/SmartFactory-2026，共享工作树，无需提交或新工作树；主协调负责验收与协调，当前另一个运行角色为 phase2_independent_review，你不得创建子代理。
+
+实际证据：独立审查在正式历史应用、River history worker、当前前端 main-CiVE3bj4.js 中取消 waiting_parent 任务，四次普通鼠标/键盘确认均返回409。第三次从详情响应到确认约883ms，第四次正常键盘操作从详情响应到POST约848ms，expected_version与刚读取版本完全相同。任务 River ID26、business run shadow:fixture-failure:1:2，父任务失败而子任务持续等待；证据 .local/evolution/phase3-review-evidence/v2-history-cancel-timing.json、v2-history-cancel-keyboard-timing.json、v2-history-waiting-parent-cancel-reviewed-second.json。
+
+当前代码 fillTask（Platform/internal/store/tasks.go）使用队列State、Attempt、NextMS、CancelRequestedMS、业务文档版本和Metadata构造opaque版本，fillAnalysisTask（store/history.go）再混入analysis_run文档版本；history worker在父代待完成时JobSnooze500ms，调度字段变化使正常阅读确认窗口内版本反复失效。请沿应用授权、存储事务/锁顺序、River更新与历史状态追踪后完成最小且有明确语义的修复。需要让同一等待业务状态下的自动调度不使人工取消长期无法提交，同时保留实际业务变化、终态/已取消/重试代际、权限与资源变化时的并发拒绝。禁止简单删除版本校验、前端自动重试或靠极短点击窗口通过。如何区分操作所需版本由你根据当前源码说明并实施；优先维持既有HTTP Task/version/expected_version契约与当前前端。
+
+所有原有已应用迁移00001至00006保持摘要，当前兼容清单为min/max6。无需变更前端或全局team/status/acceptance。你可修改任务存储与历史任务适配、必要应用用例和专业测试；历史计算算子、控制业务交给原专业。本阶段控制C05修正已完成，读取control-execution-c05-verified.json和frontend-phase3-verified.json避免覆盖更新。阶段三专业报告原件保留，新补充报告命名 .local/evolution/tasks-cancel-t01-verified.json，报告保留首次失败、实际等待后取消成功、必要409/403、源码和二进制来源及所有命令日志。
+
+验证应包含真正River worker持续等待至少数秒，读取一次版本，给操作者至少2至3秒确认时间后正常请求取消，验证同一任务/RiverID/run/快照的取消状态、无后续计算、原子审计；补充父代完成或业务状态改变后的过期版本拒绝、重复取消、撤权和资源变化。SQLite及PG18均覆盖，有限race覆盖取消与调度/父代解析竞争。先复现一次原失败后修复，不改夹具调度间隔掩盖问题。普通受影响包与兼容契约检查应通过。
+
+当前Go1.27.1/GOTOOLCHAIN=local，GOPATH=/private/tmp/smartfactory-evolution-gopath，GOMODCACHE=/private/tmp/smartfactory-evolution-gomodcache，GOCACHE=/private/tmp/smartfactory-evolution-go-cache。PG18.6容器 smartfactory-evolution-pg18-20261004 可使用，私有DSN在.local/evolution/pg18-test.json，仅私下读取；本次允许有限PG和race资源时段，独立schema，最多3open/1idle加1管理连接，包并行度1。工作卷约1.6GiB可用，大产物在/private/tmp。实际源码历史夹具Platform/cmd/sf-history-fixture，历史契约docs/evolution/history-frontend-contract.md有启动说明。你新建隔离数据目录完成专业验证，交付当前源码历史夹具二进制及构建输入摘要供QA重启其自身样本，禁止改动QA正在保留的旧夹具和证据。完成后结束自建应用与测试服务，保留数据和证据。
+
+用户允许五阶段所需依赖/镜像获取，仍仅排除完整UOS安装恢复、1/3节点连续断云24h、受限链路专项、实际24h容量持续运行。模型沿用6 Astra/Max。中文使用自然完整段落、无emoji、列表仅用于有序流程，避免禁词及预防式对立句；读取当前Humanizer技能并作内部审阅。遇到跨专业修改先报告主协调，专业报告完成后结束本次运行，QA继续独立复验。

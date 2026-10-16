@@ -1,0 +1,425 @@
+{
+  "schema_version": 1,
+  "status": "diagnosis_verified_shared_storage_correction_pending",
+  "captured_at": "2026-10-05T09:55:35.710294+00:00",
+  "scope": "P5-R01 original release restore diagnosis; current turn ends to release the specialist slot",
+  "production_files_modified": [],
+  "original_reproduction": {
+    "status": "original_failure_reproduced",
+    "argv": [
+      "/private/tmp/smartfactory-phase5-release-process-tenth-20261005/private/agent-a/artifacts/9ffcdcf27ad3c8242b6a9256c438038599c4b5b1d1002cd4475e5365b5f9bff4",
+      "-node-id",
+      "edge-a",
+      "-listen",
+      "127.0.0.1:64343",
+      "-database",
+      "/private/tmp/smartfactory-release-restore-followup-20261005/private/original-reproduction.db",
+      "-master-key",
+      "/private/tmp/smartfactory-release-restore-followup-20261005/private/original-reproduction.key",
+      "-static",
+      "/private/tmp/smartfactory-release-restore-followup-20261005/unused-static"
+    ],
+    "environment_keys": [
+      "PATH",
+      "TMPDIR",
+      "SF_RELEASE_PAYLOAD",
+      "SF_SERVICE_TOKEN"
+    ],
+    "external_services_enabled": false,
+    "started_at": 1791193835.730124,
+    "duration_seconds": 0.023802995681762695,
+    "exit_code": 1,
+    "binary": "/private/tmp/smartfactory-phase5-release-process-tenth-20261005/private/agent-a/artifacts/9ffcdcf27ad3c8242b6a9256c438038599c4b5b1d1002cd4475e5365b5f9bff4",
+    "binary_sha256": "9ffcdcf27ad3c8242b6a9256c438038599c4b5b1d1002cd4475e5365b5f9bff4",
+    "input_files": [
+      {
+        "source": "/private/tmp/smartfactory-release-interface-20261005/checkpoint-before-release-version-fix/private/original-a.db",
+        "copy": "/private/tmp/smartfactory-release-restore-followup-20261005/private/original-reproduction.db",
+        "sha256": "91d309bef4fef9588d8fe701b1425a1dc35393f8d5218711455bd3492c896383"
+      },
+      {
+        "source": "/private/tmp/smartfactory-release-interface-20261005/checkpoint-before-release-version-fix/private/original-a.master-key",
+        "copy": "/private/tmp/smartfactory-release-restore-followup-20261005/private/original-reproduction.key",
+        "sha256": "9a8999014c69ccb3175422aee36534febf734fdcdebf8f1b5d69c46c58ff0f8d"
+      },
+      {
+        "source": "/private/tmp/smartfactory-phase5-release-process-tenth-20261005/private/agent-a/releases/eed6161d9488bed956dbf02e844451db1c67df40aedcddda98eb1f9364bf4caf.json",
+        "copy": "/private/tmp/smartfactory-release-restore-followup-20261005/private/original-active.release.json",
+        "sha256": "42e12909bed0e3a0c8c50d48e467cf5ca8ee0f18b248bb98e217d08ff79eaa66"
+      }
+    ],
+    "database_state_after": {
+      "parameter:heartbeat.interval_ms": {
+        "current": [],
+        "history": [
+          [
+            1,
+            1791181774328
+          ],
+          [
+            2,
+            1791181774627
+          ],
+          [
+            4,
+            1791181777161
+          ],
+          [
+            6,
+            1791181783235
+          ],
+          [
+            8,
+            1791181785247
+          ],
+          [
+            10,
+            1791181789164
+          ],
+          [
+            12,
+            1791181790454
+          ],
+          [
+            14,
+            1791181807315
+          ],
+          [
+            16,
+            1791181809487
+          ],
+          [
+            18,
+            1791181810362
+          ],
+          [
+            20,
+            1791183108479
+          ],
+          [
+            22,
+            1791187675219
+          ],
+          [
+            24,
+            1791191017124
+          ],
+          [
+            26,
+            1791191191067
+          ]
+        ]
+      },
+      "parameter:release.private": {
+        "current": [],
+        "history": [
+          [
+            2,
+            1791181777162
+          ],
+          [
+            3,
+            1791191017124
+          ],
+          [
+            4,
+            1791181783235
+          ],
+          [
+            5,
+            1791191191067
+          ],
+          [
+            6,
+            1791181785247
+          ],
+          [
+            8,
+            1791181789164
+          ],
+          [
+            10,
+            1791181790454
+          ],
+          [
+            12,
+            1791181807315
+          ],
+          [
+            14,
+            1791181809487
+          ]
+        ]
+      }
+    },
+    "stdout": "/private/tmp/smartfactory-release-restore-followup-20261005/original-reproduction.stdout.log",
+    "stderr": "/private/tmp/smartfactory-release-restore-followup-20261005/original-reproduction.stderr.log",
+    "backup_files_unchanged": true
+  },
+  "minimum_reproductions": [
+    {
+      "case": "actual_backup_default_initialization",
+      "kind": "parameter",
+      "id": "heartbeat.interval_ms",
+      "before": {
+        "current_version": 0,
+        "current_missing": true,
+        "history_versions": [
+          1,
+          2,
+          4,
+          6,
+          8,
+          10,
+          12,
+          14,
+          16,
+          18,
+          20,
+          22,
+          24,
+          26
+        ]
+      },
+      "after": {
+        "current_version": 0,
+        "current_missing": true,
+        "history_versions": [
+          1,
+          2,
+          4,
+          6,
+          8,
+          10,
+          12,
+          14,
+          16,
+          18,
+          20,
+          22,
+          24,
+          26
+        ]
+      },
+      "failure": "constraint failed: UNIQUE constraint failed: document_versions.kind, document_versions.id, document_versions.version (1555)",
+      "call": "app.Open -> configcenter.Service.Put(expected=0) -> store.Tx.Put(parameter, id, 0)"
+    },
+    {
+      "case": "ordinary_put_after_delete",
+      "kind": "parameter",
+      "id": "restore-probe",
+      "before": {
+        "current_version": 0,
+        "current_missing": true,
+        "history_versions": [
+          1,
+          2
+        ]
+      },
+      "after": {
+        "current_version": 0,
+        "current_missing": true,
+        "history_versions": [
+          1,
+          2
+        ]
+      },
+      "failure": "constraint failed: UNIQUE constraint failed: document_versions.kind, document_versions.id, document_versions.version (1555)",
+      "call": "store.Put(v1), Put(v2), Tx.Delete, Put(expected=0)"
+    },
+    {
+      "case": "acknowledge_after_ephemeral_recreation",
+      "kind": "parameter",
+      "id": "restore-probe",
+      "before": {
+        "current_version": 1,
+        "current_missing": false,
+        "history_versions": [
+          1,
+          2
+        ]
+      },
+      "after": {
+        "current_version": 1,
+        "current_missing": false,
+        "history_versions": [
+          1,
+          2
+        ]
+      },
+      "failure": "constraint failed: UNIQUE constraint failed: document_versions.kind, document_versions.id, document_versions.version (1555)",
+      "call": "store.Put(v1), Put(v2), Tx.Delete, Tx.SetEphemeral(v1), configcenter.Acknowledge -> Tx.Put(v2)"
+    }
+  ],
+  "original_backup_and_history_unchanged": true,
+  "database_state_comparison": "/private/tmp/smartfactory-release-restore-followup-20261005/database-state-comparison.json",
+  "compiled_probe_inputs": {
+    "count": 2929,
+    "manifest": "/private/tmp/smartfactory-release-restore-followup-20261005/original-probe-evidence/actual-inputs.json",
+    "before_and_after_equal": true,
+    "all_actual_and_retained_bytes_match": true,
+    "mismatches": []
+  },
+  "source_locations": {
+    "Platform/internal/app/app.go": {
+      "fixed_source_path": "/private/tmp/smartfactory-release-restore-followup-20261005/original-source/Platform/internal/app/app.go",
+      "line": 183,
+      "sha256": "7caf3a802ba0107183e9653040dc05e1927e4f7d738b223acad615d0a108b1c7"
+    },
+    "Platform/internal/configcenter/config.go": {
+      "fixed_source_path": "/private/tmp/smartfactory-release-restore-followup-20261005/original-source/Platform/internal/configcenter/config.go",
+      "line": 179,
+      "sha256": "fe7b16419231202cb99d76ee07e1f8b97b80659ae96e5bccd87f440946f98c37"
+    },
+    "Platform/internal/store/store.go": {
+      "fixed_source_path": "/private/tmp/smartfactory-release-restore-followup-20261005/original-source/Platform/internal/store/store.go",
+      "line": 236,
+      "sha256": "6ff9f6a9c115d4fd79a0dc7a9ba3ec7e80d10c48c810a533bce2ab3c7eac51a0"
+    },
+    "Platform/internal/store/transaction.go": {
+      "fixed_source_path": "/private/tmp/smartfactory-release-restore-followup-20261005/original-source/Platform/internal/store/transaction.go",
+      "line": 144,
+      "sha256": "be818c1d68a03a7bcc499ef1174e7bf62cd0aab33fdf1ecbeaad47afafd5408d"
+    },
+    "Platform/internal/store/data.go": {
+      "fixed_source_path": "/private/tmp/smartfactory-release-restore-followup-20261005/original-source/Platform/internal/store/data.go",
+      "line": 241,
+      "sha256": "24559fc2aa78112231362caf57755803a72dcc470ab1bd9388926c01ad787f60"
+    },
+    "Platform/internal/configcenter/workload_subscriber.go": {
+      "fixed_source_path": "/private/tmp/smartfactory-release-restore-followup-20261005/original-source/Platform/internal/configcenter/workload_subscriber.go",
+      "line": 351,
+      "sha256": "231c5af4e2890bd1ddfeab07bfb19a5371af0a3a3b95f03051e53ecf09ea13df"
+    },
+    "Platform/internal/configcenter/local_release.go": {
+      "fixed_source_path": "/private/tmp/smartfactory-release-restore-followup-20261005/original-source/Platform/internal/configcenter/local_release.go",
+      "line": 13,
+      "sha256": "6820df678d08f5144b99a8cac00e4565082f1df702c2710817b808d17910450a"
+    },
+    "Platform/internal/app/workers.go": {
+      "fixed_source_path": "/private/tmp/smartfactory-release-restore-followup-20261005/original-source/Platform/internal/app/workers.go",
+      "line": 104,
+      "sha256": "f7d7b02c149a1f06a896f5fa90ec8904ccbe4f46a7b56b61af12848a6906839d"
+    }
+  },
+  "version_semantics": {
+    "parameter_version": "Parameter.Version and ConfigurationReference.Version identify a fixed configuration version from its authority; rollback may apply a lower fixed version. The immutable reference includes its digest, and parameter_version keys use this fixed version. A local acknowledgement preserves it.",
+    "local_document_version": "documents.version is the local mutation/CAS revision. Store.Put appends that revision to document_versions and a change record; SetEphemeral updates the local document revision without appending a historical row. Delete preserves document_versions, so subsequent writes must account for preserved history and earlier recreated current rows.",
+    "expected_version": "configcenter.Put expected is the public fixed parameter version. It reads the current local document and separately passes currentVersion to Tx.Put; missing local documents retain expected local revision 0 semantics. These two values must not be substituted for each other."
+  },
+  "confirmed_causes": [
+    "Original backed-up heartbeat.interval_ms has no current parameter document and historical local revisions 1,2,4,6,8,10,12,14,16,18,20,22,24,26. app.Open calls cfg.Put(expected=0), then Tx.Put constructs local revision 1 and violates its existing history row.",
+    "On unmodified source, ordinary Put(v1,v2), Delete, and Put(expected=0) fails for the same preserved-history collision.",
+    "On unmodified source, Put(v1,v2), Delete, SetEphemeral recreates local revision 1; configcenter.Acknowledge then attempts historical local revision 2 and fails. This verifies the mechanism compatible with earlier background errors; the original background log contains no kind/id trace."
+  ],
+  "additional_startup_condition": "The original backup also retains the immutable parameter_version heartbeat.interval_ms:1. After shared local-version allocation is repaired, replaying cfg.Put(expected=0) during default initialization would meet that existing fixed record. The release startup/default initialization path must also be tested against this original backup; immutable configuration versions and digests remain preserved.",
+  "ownership_handoff": {
+    "shared_storage_expert": [
+      "Platform/internal/store/store.go: Tx.Put historical revision allocation and missing-row CAS semantics",
+      "Platform/internal/store/data.go: Tx.SetEphemeral revision allocation after deletion and current rows below historical maximum",
+      "Platform/internal/store/transaction.go: Tx.Delete/DeleteCollection history retention and locking",
+      "SQLite and PostgreSQL concurrency tests covering preserved history, ephemeral recreation, ordinary writes and rollback"
+    ],
+    "release_coordination_expert_after_storage_fix": [
+      "Original backup and encrypted cache startup, including existing immutable default parameter version",
+      "Release configuration removal/application ordering and failure recovery, supported release rollback, repeated startup and reports",
+      "Build exact patched artifacts with fixed input manifests; return frontend fixture through formal release registration"
+    ],
+    "node_configuration_expert_if_assigned": [
+      "Configuration initialization and fixed parameter history semantics; keep authority configuration version distinct from local document revision"
+    ]
+  },
+  "pending_acceptance": [
+    "Shared storage correction",
+    "Original database and encrypted cached release recovery with three-protocol DataTransfer consumer",
+    "Runtime apply failure recovery and old/new fixed release alternation",
+    "SQLite and applicable PostgreSQL behaviour with bounded race checks",
+    "Frontend combination and final Linux package verification by their assigned engineers"
+  ],
+  "resources": {
+    "database_kind": "isolated SQLite copies only",
+    "postgres_window_used": false,
+    "race_used": false,
+    "docker_used": false,
+    "external_service_mutations": false,
+    "new_processes_remaining": false
+  },
+  "evidence": [
+    {
+      "path": "/private/tmp/smartfactory-release-restore-followup-20261005/original-reproduction.json",
+      "sha256": "b8e0299669018468d11c2ca678eb5154763150cdc894dae61b34d0d274cd670a",
+      "bytes": 4029
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-followup-20261005/original-reproduction.stderr.log",
+      "sha256": "9806806f6fd91079d035a48c222a81afe628e39e8a663ac854dbb6a22ce4a5da",
+      "bytes": 124
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-followup-20261005/database-state-comparison.json",
+      "sha256": "ed70d85ee513a0396b2124f3c4afa3a186ac19edbd77c13a764fdbd3158176bb",
+      "bytes": 14105
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-followup-20261005/prepare-original-probe.py",
+      "sha256": "d764114b571888c5046a927d4eb3fbba36b0e1e2cfd3d2d1bcd952aefc273d9b",
+      "bytes": 7662
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-followup-20261005/original-probe-evidence/result.json",
+      "sha256": "0b471faf854fb143d231a7af8a9228c9923d74956195f5273bead22875c3a7ef",
+      "bytes": 496
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-followup-20261005/original-probe-evidence/probe-result.json",
+      "sha256": "d0eb18be9a32604a6a2babd5a878d4999f054117fb64bd62eb9681525ef30b56",
+      "bytes": 2153
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-followup-20261005/original-probe-evidence/actual-inputs.json",
+      "sha256": "5427dd2f04a00ff2aadc41625c842266d7b7cb9ee3480a7ace929a07a01949df",
+      "bytes": 1064542
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-followup-20261005/original-probe-evidence/probe.inputs-before.json",
+      "sha256": "286f69f30bb7a39e49b088da983276a72d1d17b9869ed85c94608fda14525b21",
+      "bytes": 478573
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-followup-20261005/original-probe-evidence/probe.inputs-after.json",
+      "sha256": "286f69f30bb7a39e49b088da983276a72d1d17b9869ed85c94608fda14525b21",
+      "bytes": 478573
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-followup-20261005/original-probe-evidence/build-original-probe.json",
+      "sha256": "51ccc1dd33e7b52857d61c8ba8058c40b2f7a560cb6010aa698203f17c11d62d",
+      "bytes": 411
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-followup-20261005/original-probe-evidence/build-original-probe.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-followup-20261005/original-probe-evidence/run-original-probe.json",
+      "sha256": "77682120fdcf740ef82a28588739ebd99bf4b570c67996edd9e142143044b9e9",
+      "bytes": 382
+    },
+    {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-release-restore-failure-root-review.json",
+      "sha256": "8bef289f43cd67a1a2751f0cbd3659179cb56d3028e92d40e35dcaf7bae0604e",
+      "bytes": 2627
+    },
+    {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/release-interface-checkpoint.json",
+      "sha256": "603fa8523e5e3d9824947b6143517d30ae55cded06d878021fe471f44d0c0920",
+      "bytes": 12482
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-followup-20261005/database-table-content-proof.json",
+      "sha256": "7e4e80229791bf7be201f18f97caa08317610434e1a873ba1c50690747c1342e",
+      "bytes": 20124
+    }
+  ],
+  "all_original_database_table_contents_unchanged": true
+}

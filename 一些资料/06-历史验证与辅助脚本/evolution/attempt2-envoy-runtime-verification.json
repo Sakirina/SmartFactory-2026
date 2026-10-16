@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "image": "envoyproxy/envoy@sha256:be87c8b52663c1164a5bdf3c5419017a269cb3d8c74be1ec93638a71f1ffbd4b",
+  "checks": [],
+  "resources": {
+    "cpu_limit": 0.5,
+    "memory_limit_bytes": 134217728
+  },
+  "configuration_sha256": "26718ca052b5b5ff8b5004fdd24e6c89d182164702843b64a8e82df30ed962ad",
+  "container_id": "3df6dc0f338425702aace75433779e44651d5cc59d99e182f7cfb2aa6abf8837",
+  "all_checks_passed": false,
+  "error": "Envoy did not route application health",
+  "container_logs": "[2026-10-04 14:28:52.910][1][warning][main] [source/server/server.cc:1038] There is no configured limit to the number of allowed active downstream connections. Configure a limit in `envoy.resource_monitors.global_downstream_max_connections` resource monitor.\n",
+  "memory_observation": "86.32MiB / 128MiB"
+}

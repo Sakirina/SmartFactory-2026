@@ -1,0 +1,330 @@
+{
+  "checked_at": "2026-10-05T06:54:18.143803+00:00",
+  "status": "passed",
+  "result": "/private/tmp/smartfactory-phase5-release-a01-20261005/result.json",
+  "result_sha256": "baab27e9ae0f6b6c6b0b53290a05e92f7e99413cbdd2106d40415074bd767c7d",
+  "source_sha256": "6eaa64a9f642b5a45421d883cae4c29a309d94d1eb7df3ab02d551755dc1e693",
+  "production_changes": [
+    {
+      "path": "Platform/internal/api/definition_routes.go",
+      "before": "2c70cffa17e54cbbd6b087b45038a134b03d8ab27996b16f267c15f8ed24c818",
+      "after": "c9aac35309434f26bb181e58845c730c9d56bffca4ca6dafbda5296924748808"
+    }
+  ],
+  "local_input_count": 446,
+  "actual_input_count": 5843,
+  "unique_hashed_files": 5700,
+  "commands": [
+    {
+      "name": "go-list-patched-programs",
+      "exit_code": 0,
+      "stdout_sha256": "6e7dacd8fbad086a86180182a6d6c4e9990a0faf781ffe7c77df10266912bb64",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "go-list-affected-tests",
+      "exit_code": 0,
+      "stdout_sha256": "b3a163e4fecc90dcaa607618fd3fd3a18b9f0640d52c5e3fe714735ba9b6741a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "affected-api-schema-tests",
+      "exit_code": 0,
+      "stdout_sha256": "38a1673c36f713a33da31de9f669515fe27590eb5bace9e2550ebdb0476cf68d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "top_pass": 40,
+      "all_pass": 78,
+      "failures": [],
+      "skips": [
+        "--- SKIP: TestBusinessNativeCEAlarmLifecycle (0.00s)",
+        "--- SKIP: TestPostgresDeadlockReturnsHTTP409WithoutRepeatingCallback (0.00s)",
+        "--- SKIP: TestPostgresLegacyAndTaskRetryConcurrentRequestsShareOneAttempt (0.00s)",
+        "--- SKIP: TestQuerySSEPostgresSnapshotDeltaResumeReset (0.00s)",
+        "    --- SKIP: TestPostgresTaskOperationVersionsAllowHumanConfirmation/waiting_parent_delayed_cancel_and_retry (0.00s)",
+        "    --- SKIP: TestPostgresTaskOperationVersionsAllowHumanConfirmation/running_progress_delayed_cancel (0.00s)",
+        "    --- SKIP: TestPostgresTaskOperationVersionsAllowHumanConfirmation/resolved_parent_snapshot_rejects_old_version (0.00s)",
+        "    --- SKIP: TestPostgresTaskOperationVersionsAllowHumanConfirmation/parent_completed_child_still_waiting_and_worker_metadata (0.00s)",
+        "    --- SKIP: TestPostgresTaskOperationVersionsAllowHumanConfirmation/concurrent_confirmations_commit_one_cancel (0.00s)",
+        "    --- SKIP: TestPostgresTaskOperationVersionsAllowHumanConfirmation/terminal_state_rejects_old_version (0.00s)",
+        "    --- SKIP: TestPostgresTaskOperationVersionsAllowHumanConfirmation/role (0.00s)",
+        "    --- SKIP: TestPostgresTaskOperationVersionsAllowHumanConfirmation/resource_ancestry (0.00s)",
+        "    --- SKIP: TestPostgresTaskOperationVersionsAllowHumanConfirmation/task_resources_after_authorization (0.00s)",
+        "    --- SKIP: TestPostgresTaskOperationVersionsAllowHumanConfirmation/grant_after_authorization (0.00s)",
+        "    --- SKIP: TestPostgresTaskOperationVersionsAllowHumanConfirmation/audit_failure_rolls_back_cancel_and_operation_revision (0.00s)",
+        "    --- SKIP: TestPostgresTaskRetryClearsPriorCancellation/running_cancel_retry_multiple_snoozes_then_cancel (0.00s)",
+        "    --- SKIP: TestPostgresTaskRetryClearsPriorCancellation/retry_audit_failure_restores_marker_business_and_revision (0.00s)",
+        "    --- SKIP: TestPostgresTaskRetryClearsPriorCancellation/retry_authorization_and_obsolete_generation (0.00s)",
+        "    --- SKIP: TestPostgresTaskRetryClearsPriorCancellation/concurrent_retries_commit_one_new_operation (0.00s)",
+        "    --- SKIP: TestPostgresTaskRetryClearsPriorCancellation/cancel_old_worker_commit_retry_preserves_completed_steps (0.00s)",
+        "    --- SKIP: TestPostgresTaskRetryClearsPriorCancellation/official_null_merge_differs_but_retry_removes_key (0.00s)"
+      ],
+      "race_warning": false
+    },
+    {
+      "name": "export-contracts",
+      "exit_code": 0,
+      "stdout_sha256": "5a60f0c9021f16c8773560848de3e22f6667980a529671c6573edcd0e9fd1f3d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "build-sf-cloud",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "build-sf-config",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "build-sf-edge",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "edge-build-info",
+      "exit_code": 0,
+      "stdout_sha256": "3482e78c8e5ef006ecadb48cb1420d385090881823ced8587260058716364a78",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "go_list_coverage": [
+    {
+      "name": "go-list-patched-programs.stdout.log",
+      "sha256": "6e7dacd8fbad086a86180182a6d6c4e9990a0faf781ffe7c77df10266912bb64",
+      "packages": 658,
+      "missing": [],
+      "package_errors": []
+    },
+    {
+      "name": "go-list-affected-tests.stdout.log",
+      "sha256": "b3a163e4fecc90dcaa607618fd3fd3a18b9f0640d52c5e3fe714735ba9b6741a",
+      "packages": 673,
+      "missing": [],
+      "package_errors": []
+    }
+  ],
+  "binaries": [
+    {
+      "path": "/private/tmp/smartfactory-phase5-release-a01-20261005/bin/sf-config",
+      "sha256": "2cd0f047b65f5a7464b21f40958ce5d8f006316f8c8d091d3a4ad51f94109742",
+      "bytes": 54837666
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-release-a01-20261005/bin/sf-edge",
+      "sha256": "9ffcdcf27ad3c8242b6a9256c438038599c4b5b1d1002cd4475e5365b5f9bff4",
+      "bytes": 54837666
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-release-a01-20261005/bin/sf-cloud",
+      "sha256": "3ee7de59988b11dbc379e1f2660509b354f410f4af3ec8ed2b32e8996db4ccd7",
+      "bytes": 54821154
+    }
+  ],
+  "assertions": 41,
+  "assertions_sha256": "c5b83496bbcd2b601cc212db1a7894a8a87b77c170b07aa3adaaf60424ba2e28",
+  "http_records": 49,
+  "http_sha256": "c011a7973b2ec7ec6ef2d83d7b473225a2dae5566035b53507660cb50f067d01",
+  "http_status_counts": {
+    "200": 32,
+    "400": 1,
+    "422": 16
+  },
+  "validation_422": [
+    {
+      "url": "http://127.0.0.1:60047",
+      "path": "/api/sf/v1/workload-identities/release-a/rotate",
+      "status": 422,
+      "locations": [
+        "body"
+      ],
+      "value_fields": 0
+    },
+    {
+      "url": "http://127.0.0.1:60047",
+      "path": "/api/sf/v1/workload-identities/release-a/rotate",
+      "status": 422,
+      "locations": [
+        "body.credential"
+      ],
+      "value_fields": 0
+    },
+    {
+      "url": "http://127.0.0.1:60047",
+      "path": "/api/sf/v1/workload-identities/release-a/rotate",
+      "status": 422,
+      "locations": [
+        "body.credential"
+      ],
+      "value_fields": 0
+    },
+    {
+      "url": "http://127.0.0.1:60047",
+      "path": "/api/sf/v1/workload-identities/release-a/rotate",
+      "status": 422,
+      "locations": [
+        "body.credential"
+      ],
+      "value_fields": 0
+    },
+    {
+      "url": "https://127.0.0.1:60048",
+      "path": "/api/sf/v1/workload-identities/release-a/rotate",
+      "status": 422,
+      "locations": [
+        "body"
+      ],
+      "value_fields": 0
+    },
+    {
+      "url": "https://127.0.0.1:60048",
+      "path": "/api/sf/v1/workload-identities/release-a/rotate",
+      "status": 422,
+      "locations": [
+        "body.credential"
+      ],
+      "value_fields": 0
+    },
+    {
+      "url": "https://127.0.0.1:60048",
+      "path": "/api/sf/v1/workload-identities/release-a/rotate",
+      "status": 422,
+      "locations": [
+        "body.credential"
+      ],
+      "value_fields": 0
+    },
+    {
+      "url": "https://127.0.0.1:60048",
+      "path": "/api/sf/v1/workload-identities/release-a/rotate",
+      "status": 422,
+      "locations": [
+        "body.credential"
+      ],
+      "value_fields": 0
+    },
+    {
+      "url": "http://127.0.0.1:60050",
+      "path": "/api/sf/v1/workload-identities/release-a/rotate",
+      "status": 422,
+      "locations": [
+        "body"
+      ],
+      "value_fields": 0
+    },
+    {
+      "url": "http://127.0.0.1:60050",
+      "path": "/api/sf/v1/workload-identities/release-a/rotate",
+      "status": 422,
+      "locations": [
+        "body.credential"
+      ],
+      "value_fields": 0
+    },
+    {
+      "url": "http://127.0.0.1:60050",
+      "path": "/api/sf/v1/workload-identities/release-a/rotate",
+      "status": 422,
+      "locations": [
+        "body.credential"
+      ],
+      "value_fields": 0
+    },
+    {
+      "url": "http://127.0.0.1:60050",
+      "path": "/api/sf/v1/workload-identities/release-a/rotate",
+      "status": 422,
+      "locations": [
+        "body.credential"
+      ],
+      "value_fields": 0
+    },
+    {
+      "url": "http://127.0.0.1:60051",
+      "path": "/api/sf/v1/workload-identities/release-a/rotate",
+      "status": 422,
+      "locations": [
+        "body"
+      ],
+      "value_fields": 0
+    },
+    {
+      "url": "http://127.0.0.1:60051",
+      "path": "/api/sf/v1/workload-identities/release-a/rotate",
+      "status": 422,
+      "locations": [
+        "body.credential"
+      ],
+      "value_fields": 0
+    },
+    {
+      "url": "http://127.0.0.1:60051",
+      "path": "/api/sf/v1/workload-identities/release-a/rotate",
+      "status": 422,
+      "locations": [
+        "body.credential"
+      ],
+      "value_fields": 0
+    },
+    {
+      "url": "http://127.0.0.1:60051",
+      "path": "/api/sf/v1/workload-identities/release-a/rotate",
+      "status": 422,
+      "locations": [
+        "body.credential"
+      ],
+      "value_fields": 0
+    }
+  ],
+  "findings": [],
+  "command_input_checks": [
+    {
+      "name": "affected-api-schema-tests",
+      "inputs": 5843,
+      "matches_actual_retained_inputs": true,
+      "before": "/private/tmp/smartfactory-phase5-release-a01-20261005/evidence/affected-api-schema-tests.inputs-before.json",
+      "before_sha256": "4aa2a96ab46f4710fd2f680505bfc7e8cb02dd07dfcc10d1ccce9baed94aeb21",
+      "after": "/private/tmp/smartfactory-phase5-release-a01-20261005/evidence/affected-api-schema-tests.inputs-after.json",
+      "after_sha256": "4aa2a96ab46f4710fd2f680505bfc7e8cb02dd07dfcc10d1ccce9baed94aeb21"
+    },
+    {
+      "name": "export-contracts",
+      "inputs": 5843,
+      "matches_actual_retained_inputs": true,
+      "before": "/private/tmp/smartfactory-phase5-release-a01-20261005/evidence/export-contracts.inputs-before.json",
+      "before_sha256": "4aa2a96ab46f4710fd2f680505bfc7e8cb02dd07dfcc10d1ccce9baed94aeb21",
+      "after": "/private/tmp/smartfactory-phase5-release-a01-20261005/evidence/export-contracts.inputs-after.json",
+      "after_sha256": "4aa2a96ab46f4710fd2f680505bfc7e8cb02dd07dfcc10d1ccce9baed94aeb21"
+    },
+    {
+      "name": "build-sf-cloud",
+      "inputs": 5843,
+      "matches_actual_retained_inputs": true,
+      "before": "/private/tmp/smartfactory-phase5-release-a01-20261005/evidence/build-sf-cloud.inputs-before.json",
+      "before_sha256": "4aa2a96ab46f4710fd2f680505bfc7e8cb02dd07dfcc10d1ccce9baed94aeb21",
+      "after": "/private/tmp/smartfactory-phase5-release-a01-20261005/evidence/build-sf-cloud.inputs-after.json",
+      "after_sha256": "4aa2a96ab46f4710fd2f680505bfc7e8cb02dd07dfcc10d1ccce9baed94aeb21"
+    },
+    {
+      "name": "build-sf-config",
+      "inputs": 5843,
+      "matches_actual_retained_inputs": true,
+      "before": "/private/tmp/smartfactory-phase5-release-a01-20261005/evidence/build-sf-config.inputs-before.json",
+      "before_sha256": "4aa2a96ab46f4710fd2f680505bfc7e8cb02dd07dfcc10d1ccce9baed94aeb21",
+      "after": "/private/tmp/smartfactory-phase5-release-a01-20261005/evidence/build-sf-config.inputs-after.json",
+      "after_sha256": "4aa2a96ab46f4710fd2f680505bfc7e8cb02dd07dfcc10d1ccce9baed94aeb21"
+    },
+    {
+      "name": "build-sf-edge",
+      "inputs": 5843,
+      "matches_actual_retained_inputs": true,
+      "before": "/private/tmp/smartfactory-phase5-release-a01-20261005/evidence/build-sf-edge.inputs-before.json",
+      "before_sha256": "4aa2a96ab46f4710fd2f680505bfc7e8cb02dd07dfcc10d1ccce9baed94aeb21",
+      "after": "/private/tmp/smartfactory-phase5-release-a01-20261005/evidence/build-sf-edge.inputs-after.json",
+      "after_sha256": "4aa2a96ab46f4710fd2f680505bfc7e8cb02dd07dfcc10d1ccce9baed94aeb21"
+    }
+  ]
+}

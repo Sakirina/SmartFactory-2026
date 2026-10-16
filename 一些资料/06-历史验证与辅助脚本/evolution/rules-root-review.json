@@ -1,0 +1,60 @@
+{
+  "reviewed_at": "2026-10-04T15:11:22.047405+00:00",
+  "source_report": ".local/evolution/rules-verified.json",
+  "source_report_sha256": "310256acd216decfe2b6a39cb49c4b42002526c79f79769376eab009aab9cf5c",
+  "verification": {
+    "verified-platform-full": {
+      "test_counts_from_log": {
+        "pass": 188,
+        "fail": 0,
+        "skip": 7
+      },
+      "package_failures": [],
+      "command": [
+        "go",
+        "test",
+        "-count=1",
+        "-json",
+        "./..."
+      ]
+    },
+    "postgres18": {
+      "test_counts_from_log": {
+        "pass": 1,
+        "fail": 0,
+        "skip": 0
+      },
+      "package_failures": [],
+      "command": [
+        "go",
+        "test",
+        "-count=1",
+        "-json",
+        "-run",
+        "TestPostgresPlanTransactionsAndConcurrentPublication",
+        "./internal/compiledplan"
+      ]
+    }
+  },
+  "source_hashes_checked": 115,
+  "source_changes_since_report": [],
+  "missing_command_logs": [],
+  "contract_validation": {
+    "schemas": 67,
+    "example_definitions": 24,
+    "api_operations": 51,
+    "unknown_versions_rejected": true,
+    "unknown_nodes_rejected": true,
+    "references_valid": true
+  },
+  "accepted_scope": [
+    "E2-06",
+    "E2-07",
+    "E2-08",
+    "E2-09 continuous simulation API/core partial"
+  ],
+  "remaining": [
+    "E2-09 task details and frontend",
+    "stage integration and final complete-source regression"
+  ]
+}

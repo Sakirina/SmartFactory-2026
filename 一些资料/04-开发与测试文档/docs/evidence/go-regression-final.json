@@ -1,0 +1,35 @@
+{
+  "status": "passed",
+  "reports": [
+    {
+      "module": "datatransfer",
+      "tests_passed": 92,
+      "packages_passed": 20,
+      "failures": [],
+      "skipped": [
+        "TestNativeClientExternalSmoke",
+        "TestHTTPExampleProcessCollectsAndControlsSimulator",
+        "TestExternalBrokerSmoke",
+        "TestDurableProcessFixture",
+        "TestDurableMessagesFaultInjection"
+      ],
+      "finished_at": "2026-09-20T15:15:30.449255+08:00",
+      "command": "SF_OPCUA_PYTHON=<configured fixture interpreter> go test -json ./..."
+    },
+    {
+      "module": "platform",
+      "tests_passed": 84,
+      "packages_passed": 14,
+      "failures": [],
+      "skipped": [
+        "TestRealThreeReplicaCoordination",
+        "TestActualOrganizationProcessPullAndCrashIsolation",
+        "TestPostgresArchiveCapacityAndLatePartitionRecovery",
+        "TestNativeCalculatedFieldAlarmAndRetention",
+        "TestPostgresRetentionDropsExpiredPartitionBeforeRowDeletion"
+      ],
+      "finished_at": "2026-09-20T15:15:28.89118+08:00",
+      "command": "go test -json ./..."
+    }
+  ]
+}

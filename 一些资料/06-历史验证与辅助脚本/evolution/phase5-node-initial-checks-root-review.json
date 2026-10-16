@@ -1,0 +1,83 @@
+{
+  "reviewed_at": "2026-10-05T05:28:43.104231+00:00",
+  "status": "initial_raw_execution_records_consistent",
+  "scope": "Raw first-run command, exit and three named test results only; final build input provenance, independent-process cases and final integration remain pending",
+  "records": [
+    {
+      "suite": "postgres",
+      "command": [
+        "go",
+        "test",
+        "-p",
+        "1",
+        "-count=1",
+        "./internal/configcenter",
+        "-run",
+        "TestWorkload|TestFixedRelease",
+        "-v"
+      ],
+      "exit_code": 0,
+      "top_level_passed": [
+        "TestWorkloadConfigurationDynamicFailureStaticRestart",
+        "TestWorkloadIdentityScopeReportsRevocationAndRotation",
+        "TestFixedReleaseConfigurationTargetSurvivesParallelLatestRead"
+      ],
+      "artifacts": [
+        {
+          "path": "/private/tmp/smartfactory-phase5-node-checks-20261005/postgres.json",
+          "sha256": "b48cef0b4a54a003f5bda82f655f0d23b568c3a60684e24f8b8522c23b909b24",
+          "bytes": 595
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase5-node-checks-20261005/postgres.stdout.log",
+          "sha256": "cd7aabd286aa24f2671150fcdd1091e0c7911e7606cd6a55bc7fbcd01fce7f8c",
+          "bytes": 1008
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase5-node-checks-20261005/postgres.stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        }
+      ]
+    },
+    {
+      "suite": "race",
+      "command": [
+        "go",
+        "test",
+        "-race",
+        "-p",
+        "1",
+        "-count=1",
+        "./internal/configcenter",
+        "-run",
+        "TestWorkload|TestFixedRelease",
+        "-v"
+      ],
+      "exit_code": 0,
+      "top_level_passed": [
+        "TestWorkloadConfigurationDynamicFailureStaticRestart",
+        "TestWorkloadIdentityScopeReportsRevocationAndRotation",
+        "TestFixedReleaseConfigurationTargetSurvivesParallelLatestRead"
+      ],
+      "artifacts": [
+        {
+          "path": "/private/tmp/smartfactory-phase5-node-checks-20261005/race.json",
+          "sha256": "71a73d43933f4d454827acd3adde61a00f0e645ebfcdfe8b2779e78ba868a8e2",
+          "bytes": 437
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase5-node-checks-20261005/race.stdout.log",
+          "sha256": "35215763d3c094c360c63e7f5140e73e86ba29ba6a982f1d5eb59f2a855e68fc",
+          "bytes": 1008
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase5-node-checks-20261005/race.stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        }
+      ]
+    }
+  ],
+  "accepted_requirements": []
+}

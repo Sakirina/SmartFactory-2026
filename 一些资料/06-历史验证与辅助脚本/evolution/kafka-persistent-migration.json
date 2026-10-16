@@ -1,0 +1,1250 @@
+{
+  "captured_at": "2026-10-04T18:14:59.976424+00:00",
+  "evidence_root": "/private/tmp/sf-message-kafka-20261005-final",
+  "raw_report": "/private/tmp/sf-message-kafka-20261005-final/verification.json",
+  "checks": {
+    "old_topics_partitions_content_offsets_positions_preserved": true,
+    "binary_rollback_before_metadata_finalization": true,
+    "metadata_downgrade_rejected_after_finalization": true,
+    "new_messages_and_positions_survive_finalized_restart": true,
+    "restored_copy_all_files_match_cold_copy_sha256": true,
+    "cold_copy_restore_after_metadata_finalization": true
+  },
+  "all_checks_passed": true,
+  "stages": [
+    {
+      "stage": "source_4.0.0",
+      "at": "2026-10-04T17:43:29.830789+00:00",
+      "image_id": "sha256:01b9a4030e54c6068e66eb3ba4cb82c0d89238629ef1c30d79b86036bf89b1b7",
+      "health": {
+        "Status": "healthy",
+        "FailingStreak": 0,
+        "Log": [
+          {
+            "Start": "2026-10-04T17:43:25.703239255Z",
+            "End": "2026-10-04T17:43:29.187170299Z",
+            "ExitCode": 0,
+            "Output": ""
+          }
+        ]
+      },
+      "configured_image": "apache/kafka@sha256:01b9a4030e54c6068e66eb3ba4cb82c0d89238629ef1c30d79b86036bf89b1b7",
+      "mounts": [
+        {
+          "Type": "bind",
+          "Source": "/private/tmp/sf-message-kafka-20261005-final/data",
+          "Destination": "/data",
+          "Mode": "",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "volume",
+          "Name": "02258219762faa4e30ff9ed4580967fb0a6aa1fadf1e1fc7152743ffdbb30449",
+          "Source": "/var/lib/docker/volumes/02258219762faa4e30ff9ed4580967fb0a6aa1fadf1e1fc7152743ffdbb30449/_data",
+          "Destination": "/etc/kafka/secrets",
+          "Driver": "local",
+          "Mode": "",
+          "RW": true,
+          "Propagation": ""
+        },
+        {
+          "Type": "volume",
+          "Name": "43404991b6e7cbc0fad6513f879b8472fd7b069b8eddde8d761ac9a81f075f39",
+          "Source": "/var/lib/docker/volumes/43404991b6e7cbc0fad6513f879b8472fd7b069b8eddde8d761ac9a81f075f39/_data",
+          "Destination": "/mnt/shared/config",
+          "Driver": "local",
+          "Mode": "",
+          "RW": true,
+          "Propagation": ""
+        },
+        {
+          "Type": "volume",
+          "Name": "edcc91245dc2df89f452c2a81e967fe1fb0f0c9442c727138340bb6682730dce",
+          "Source": "/var/lib/docker/volumes/edcc91245dc2df89f452c2a81e967fe1fb0f0c9442c727138340bb6682730dce/_data",
+          "Destination": "/var/lib/kafka/data",
+          "Driver": "local",
+          "Mode": "",
+          "RW": true,
+          "Propagation": ""
+        }
+      ]
+    },
+    {
+      "stage": "source_partial_consume",
+      "at": "2026-10-04T17:43:39.347354+00:00",
+      "consumed_records": [
+        "key-1\t{\"phase\":\"old\",\"sequence\":1}",
+        "key-4\t{\"phase\":\"old\",\"sequence\":4}",
+        "key-9\t{\"phase\":\"old\",\"sequence\":9}",
+        "key-15\t{\"phase\":\"old\",\"sequence\":15}"
+      ]
+    },
+    {
+      "stage": "source_populated",
+      "at": "2026-10-04T17:43:56.540154+00:00",
+      "offsets": {
+        "0": 9,
+        "1": 10,
+        "2": 11
+      },
+      "positions": {
+        "0": 4,
+        "1": 0,
+        "2": 0
+      },
+      "records": [
+        "Partition:0\tOffset:0\tkey-1\t{\"phase\":\"old\",\"sequence\":1}",
+        "Partition:0\tOffset:1\tkey-4\t{\"phase\":\"old\",\"sequence\":4}",
+        "Partition:0\tOffset:2\tkey-9\t{\"phase\":\"old\",\"sequence\":9}",
+        "Partition:0\tOffset:3\tkey-15\t{\"phase\":\"old\",\"sequence\":15}",
+        "Partition:0\tOffset:4\tkey-17\t{\"phase\":\"old\",\"sequence\":17}",
+        "Partition:0\tOffset:5\tkey-19\t{\"phase\":\"old\",\"sequence\":19}",
+        "Partition:0\tOffset:6\tkey-21\t{\"phase\":\"old\",\"sequence\":21}",
+        "Partition:0\tOffset:7\tkey-26\t{\"phase\":\"old\",\"sequence\":26}",
+        "Partition:0\tOffset:8\tkey-28\t{\"phase\":\"old\",\"sequence\":28}",
+        "Partition:1\tOffset:0\tkey-0\t{\"phase\":\"old\",\"sequence\":0}",
+        "Partition:1\tOffset:1\tkey-7\t{\"phase\":\"old\",\"sequence\":7}",
+        "Partition:1\tOffset:2\tkey-8\t{\"phase\":\"old\",\"sequence\":8}",
+        "Partition:1\tOffset:3\tkey-11\t{\"phase\":\"old\",\"sequence\":11}",
+        "Partition:1\tOffset:4\tkey-13\t{\"phase\":\"old\",\"sequence\":13}",
+        "Partition:1\tOffset:5\tkey-14\t{\"phase\":\"old\",\"sequence\":14}",
+        "Partition:1\tOffset:6\tkey-16\t{\"phase\":\"old\",\"sequence\":16}",
+        "Partition:1\tOffset:7\tkey-20\t{\"phase\":\"old\",\"sequence\":20}",
+        "Partition:1\tOffset:8\tkey-22\t{\"phase\":\"old\",\"sequence\":22}",
+        "Partition:1\tOffset:9\tkey-29\t{\"phase\":\"old\",\"sequence\":29}",
+        "Partition:2\tOffset:0\tkey-2\t{\"phase\":\"old\",\"sequence\":2}",
+        "Partition:2\tOffset:1\tkey-3\t{\"phase\":\"old\",\"sequence\":3}",
+        "Partition:2\tOffset:2\tkey-5\t{\"phase\":\"old\",\"sequence\":5}",
+        "Partition:2\tOffset:3\tkey-6\t{\"phase\":\"old\",\"sequence\":6}",
+        "Partition:2\tOffset:4\tkey-10\t{\"phase\":\"old\",\"sequence\":10}",
+        "Partition:2\tOffset:5\tkey-12\t{\"phase\":\"old\",\"sequence\":12}",
+        "Partition:2\tOffset:6\tkey-18\t{\"phase\":\"old\",\"sequence\":18}",
+        "Partition:2\tOffset:7\tkey-23\t{\"phase\":\"old\",\"sequence\":23}",
+        "Partition:2\tOffset:8\tkey-24\t{\"phase\":\"old\",\"sequence\":24}",
+        "Partition:2\tOffset:9\tkey-25\t{\"phase\":\"old\",\"sequence\":25}",
+        "Partition:2\tOffset:10\tkey-27\t{\"phase\":\"old\",\"sequence\":27}"
+      ],
+      "records_sha256": "dedd904600c33d89a45fd5f491cce10e9c4dfcb2274ff20f7d6edee8fd770c77",
+      "metadata_version": "4.0-IV3",
+      "features": "Feature: eligible.leader.replicas.version\tSupportedMinVersion: 0\tSupportedMaxVersion: 1\tFinalizedVersionLevel: 0\tEpoch: 79\nFeature: group.version\tSupportedMinVersion: 0\tSupportedMaxVersion: 1\tFinalizedVersionLevel: 1\tEpoch: 79\nFeature: kraft.version\tSupportedMinVersion: 0\tSupportedMaxVersion: 1\tFinalizedVersionLevel: 0\tEpoch: 79\nFeature: metadata.version\tSupportedMinVersion: 3.3-IV3\tSupportedMaxVersion: 4.0-IV3\tFinalizedVersionLevel: 4.0-IV3\tEpoch: 79\nFeature: transaction.version\tSupportedMinVersion: 0\tSupportedMaxVersion: 2\tFinalizedVersionLevel: 2\tEpoch: 79\n"
+    },
+    {
+      "stage": "source_memory",
+      "at": "2026-10-04T17:43:59.647446+00:00",
+      "container_peak_bytes": 706072576
+    },
+    {
+      "stage": "source_stopped",
+      "at": "2026-10-04T17:44:00.522047+00:00",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 143,
+        "Error": "",
+        "StartedAt": "2026-10-04T17:43:20.65707192Z",
+        "FinishedAt": "2026-10-04T17:44:00.417597424Z",
+        "Health": {
+          "Status": "unhealthy",
+          "FailingStreak": 0,
+          "Log": [
+            {
+              "Start": "2026-10-04T17:43:25.703239255Z",
+              "End": "2026-10-04T17:43:29.187170299Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-04T17:43:44.188365416Z",
+              "End": "2026-10-04T17:43:47.861606168Z",
+              "ExitCode": 0,
+              "Output": ""
+            }
+          ]
+        }
+      }
+    },
+    {
+      "stage": "source-cold-backup",
+      "at": "2026-10-04T17:44:00.578370+00:00",
+      "cold_copy": "/private/tmp/sf-message-kafka-20261005-final/source-cold-backup",
+      "files": 48,
+      "bytes": 10827,
+      "manifest": "source-cold-backup-manifest.json"
+    },
+    {
+      "stage": "target_binary_only",
+      "at": "2026-10-04T17:44:12.991483+00:00",
+      "image_id": "sha256:ccd1314e47ec76909e01f86308b4dcf2064f19f7c89759234322314b0e319e26",
+      "health": {
+        "Status": "healthy",
+        "FailingStreak": 0,
+        "Log": [
+          {
+            "Start": "2026-10-04T17:44:05.83105851Z",
+            "End": "2026-10-04T17:44:10.086424679Z",
+            "ExitCode": 0,
+            "Output": ""
+          }
+        ]
+      },
+      "configured_image": "apache/kafka@sha256:ccd1314e47ec76909e01f86308b4dcf2064f19f7c89759234322314b0e319e26",
+      "mounts": [
+        {
+          "Type": "bind",
+          "Source": "/private/tmp/sf-message-kafka-20261005-final/data",
+          "Destination": "/data",
+          "Mode": "",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "volume",
+          "Name": "5b2144b55eb3dac9561c13433201ac6d4d0698a220081d8b0c16937e10d6e743",
+          "Source": "/var/lib/docker/volumes/5b2144b55eb3dac9561c13433201ac6d4d0698a220081d8b0c16937e10d6e743/_data",
+          "Destination": "/etc/kafka/secrets",
+          "Driver": "local",
+          "Mode": "",
+          "RW": true,
+          "Propagation": ""
+        },
+        {
+          "Type": "volume",
+          "Name": "c2072eea11d8b33bc2aa8d8978e1d7b9c97ca24fca09b61ca8a63cb843a8172b",
+          "Source": "/var/lib/docker/volumes/c2072eea11d8b33bc2aa8d8978e1d7b9c97ca24fca09b61ca8a63cb843a8172b/_data",
+          "Destination": "/mnt/shared/config",
+          "Driver": "local",
+          "Mode": "",
+          "RW": true,
+          "Propagation": ""
+        },
+        {
+          "Type": "volume",
+          "Name": "1345ed6cd00a96189b19053f23ce5e0d9ad7e05858197546ff34148ceab910b1",
+          "Source": "/var/lib/docker/volumes/1345ed6cd00a96189b19053f23ce5e0d9ad7e05858197546ff34148ceab910b1/_data",
+          "Destination": "/var/lib/kafka/data",
+          "Driver": "local",
+          "Mode": "",
+          "RW": true,
+          "Propagation": ""
+        }
+      ]
+    },
+    {
+      "stage": "target_before_metadata_update",
+      "at": "2026-10-04T17:44:30.070584+00:00",
+      "offsets": {
+        "0": 9,
+        "1": 10,
+        "2": 11
+      },
+      "positions": {
+        "0": 4,
+        "1": 0,
+        "2": 0
+      },
+      "records": [
+        "Partition:0\tOffset:0\tkey-1\t{\"phase\":\"old\",\"sequence\":1}",
+        "Partition:0\tOffset:1\tkey-4\t{\"phase\":\"old\",\"sequence\":4}",
+        "Partition:0\tOffset:2\tkey-9\t{\"phase\":\"old\",\"sequence\":9}",
+        "Partition:0\tOffset:3\tkey-15\t{\"phase\":\"old\",\"sequence\":15}",
+        "Partition:0\tOffset:4\tkey-17\t{\"phase\":\"old\",\"sequence\":17}",
+        "Partition:0\tOffset:5\tkey-19\t{\"phase\":\"old\",\"sequence\":19}",
+        "Partition:0\tOffset:6\tkey-21\t{\"phase\":\"old\",\"sequence\":21}",
+        "Partition:0\tOffset:7\tkey-26\t{\"phase\":\"old\",\"sequence\":26}",
+        "Partition:0\tOffset:8\tkey-28\t{\"phase\":\"old\",\"sequence\":28}",
+        "Partition:1\tOffset:0\tkey-0\t{\"phase\":\"old\",\"sequence\":0}",
+        "Partition:1\tOffset:1\tkey-7\t{\"phase\":\"old\",\"sequence\":7}",
+        "Partition:1\tOffset:2\tkey-8\t{\"phase\":\"old\",\"sequence\":8}",
+        "Partition:1\tOffset:3\tkey-11\t{\"phase\":\"old\",\"sequence\":11}",
+        "Partition:1\tOffset:4\tkey-13\t{\"phase\":\"old\",\"sequence\":13}",
+        "Partition:1\tOffset:5\tkey-14\t{\"phase\":\"old\",\"sequence\":14}",
+        "Partition:1\tOffset:6\tkey-16\t{\"phase\":\"old\",\"sequence\":16}",
+        "Partition:1\tOffset:7\tkey-20\t{\"phase\":\"old\",\"sequence\":20}",
+        "Partition:1\tOffset:8\tkey-22\t{\"phase\":\"old\",\"sequence\":22}",
+        "Partition:1\tOffset:9\tkey-29\t{\"phase\":\"old\",\"sequence\":29}",
+        "Partition:2\tOffset:0\tkey-2\t{\"phase\":\"old\",\"sequence\":2}",
+        "Partition:2\tOffset:1\tkey-3\t{\"phase\":\"old\",\"sequence\":3}",
+        "Partition:2\tOffset:2\tkey-5\t{\"phase\":\"old\",\"sequence\":5}",
+        "Partition:2\tOffset:3\tkey-6\t{\"phase\":\"old\",\"sequence\":6}",
+        "Partition:2\tOffset:4\tkey-10\t{\"phase\":\"old\",\"sequence\":10}",
+        "Partition:2\tOffset:5\tkey-12\t{\"phase\":\"old\",\"sequence\":12}",
+        "Partition:2\tOffset:6\tkey-18\t{\"phase\":\"old\",\"sequence\":18}",
+        "Partition:2\tOffset:7\tkey-23\t{\"phase\":\"old\",\"sequence\":23}",
+        "Partition:2\tOffset:8\tkey-24\t{\"phase\":\"old\",\"sequence\":24}",
+        "Partition:2\tOffset:9\tkey-25\t{\"phase\":\"old\",\"sequence\":25}",
+        "Partition:2\tOffset:10\tkey-27\t{\"phase\":\"old\",\"sequence\":27}"
+      ],
+      "records_sha256": "dedd904600c33d89a45fd5f491cce10e9c4dfcb2274ff20f7d6edee8fd770c77",
+      "metadata_version": "4.0-IV3",
+      "features": "Feature: eligible.leader.replicas.version          SupportedMinVersion: 0                SupportedMaxVersion: 1                FinalizedVersionLevel: 0                Epoch: 150\nFeature: group.version                             SupportedMinVersion: 0                SupportedMaxVersion: 1                FinalizedVersionLevel: 1                Epoch: 150\nFeature: kraft.version                             SupportedMinVersion: 0                SupportedMaxVersion: 1                FinalizedVersionLevel: 0                Epoch: 150\nFeature: metadata.version                          SupportedMinVersion: 3.3-IV3          SupportedMaxVersion: 4.3-IV0          FinalizedVersionLevel: 4.0-IV3          Epoch: 150\nFeature: share.version                             SupportedMinVersion: 0                SupportedMaxVersion: 1                FinalizedVersionLevel: 0                Epoch: 150\nFeature: streams.version                           SupportedMinVersion: 0                SupportedMaxVersion: 1                FinalizedVersionLevel: 0                Epoch: 150\nFeature: transaction.version                       SupportedMinVersion: 0                SupportedMaxVersion: 2                FinalizedVersionLevel: 2                Epoch: 150\n"
+    },
+    {
+      "stage": "remaining_old_records",
+      "at": "2026-10-04T17:44:36.702678+00:00",
+      "consumed_records": [
+        "key-0\t{\"phase\":\"old\",\"sequence\":0}",
+        "key-7\t{\"phase\":\"old\",\"sequence\":7}",
+        "key-8\t{\"phase\":\"old\",\"sequence\":8}",
+        "key-11\t{\"phase\":\"old\",\"sequence\":11}",
+        "key-13\t{\"phase\":\"old\",\"sequence\":13}",
+        "key-14\t{\"phase\":\"old\",\"sequence\":14}",
+        "key-16\t{\"phase\":\"old\",\"sequence\":16}",
+        "key-20\t{\"phase\":\"old\",\"sequence\":20}",
+        "key-22\t{\"phase\":\"old\",\"sequence\":22}",
+        "key-29\t{\"phase\":\"old\",\"sequence\":29}",
+        "key-2\t{\"phase\":\"old\",\"sequence\":2}",
+        "key-3\t{\"phase\":\"old\",\"sequence\":3}",
+        "key-5\t{\"phase\":\"old\",\"sequence\":5}",
+        "key-6\t{\"phase\":\"old\",\"sequence\":6}",
+        "key-10\t{\"phase\":\"old\",\"sequence\":10}",
+        "key-12\t{\"phase\":\"old\",\"sequence\":12}",
+        "key-18\t{\"phase\":\"old\",\"sequence\":18}",
+        "key-23\t{\"phase\":\"old\",\"sequence\":23}",
+        "key-24\t{\"phase\":\"old\",\"sequence\":24}",
+        "key-25\t{\"phase\":\"old\",\"sequence\":25}",
+        "key-27\t{\"phase\":\"old\",\"sequence\":27}",
+        "key-17\t{\"phase\":\"old\",\"sequence\":17}",
+        "key-19\t{\"phase\":\"old\",\"sequence\":19}",
+        "key-21\t{\"phase\":\"old\",\"sequence\":21}",
+        "key-26\t{\"phase\":\"old\",\"sequence\":26}",
+        "key-28\t{\"phase\":\"old\",\"sequence\":28}"
+      ]
+    },
+    {
+      "stage": "new_records_same_consumer",
+      "at": "2026-10-04T17:44:42.950772+00:00",
+      "consumed_records": [
+        "key-1\t{\"phase\":\"new\",\"sequence\":1}",
+        "key-4\t{\"phase\":\"new\",\"sequence\":4}",
+        "key-9\t{\"phase\":\"new\",\"sequence\":9}",
+        "key-0\t{\"phase\":\"new\",\"sequence\":0}",
+        "key-7\t{\"phase\":\"new\",\"sequence\":7}",
+        "key-8\t{\"phase\":\"new\",\"sequence\":8}",
+        "key-11\t{\"phase\":\"new\",\"sequence\":11}",
+        "key-2\t{\"phase\":\"new\",\"sequence\":2}",
+        "key-3\t{\"phase\":\"new\",\"sequence\":3}",
+        "key-5\t{\"phase\":\"new\",\"sequence\":5}",
+        "key-6\t{\"phase\":\"new\",\"sequence\":6}",
+        "key-10\t{\"phase\":\"new\",\"sequence\":10}"
+      ]
+    },
+    {
+      "stage": "before_binary_rollback",
+      "at": "2026-10-04T17:45:00.596592+00:00",
+      "offsets": {
+        "0": 12,
+        "1": 14,
+        "2": 16
+      },
+      "positions": {
+        "0": 12,
+        "1": 14,
+        "2": 16
+      },
+      "records": [
+        "Partition:0\tOffset:0\tkey-1\t{\"phase\":\"old\",\"sequence\":1}",
+        "Partition:0\tOffset:1\tkey-4\t{\"phase\":\"old\",\"sequence\":4}",
+        "Partition:0\tOffset:2\tkey-9\t{\"phase\":\"old\",\"sequence\":9}",
+        "Partition:0\tOffset:3\tkey-15\t{\"phase\":\"old\",\"sequence\":15}",
+        "Partition:0\tOffset:4\tkey-17\t{\"phase\":\"old\",\"sequence\":17}",
+        "Partition:0\tOffset:5\tkey-19\t{\"phase\":\"old\",\"sequence\":19}",
+        "Partition:0\tOffset:6\tkey-21\t{\"phase\":\"old\",\"sequence\":21}",
+        "Partition:0\tOffset:7\tkey-26\t{\"phase\":\"old\",\"sequence\":26}",
+        "Partition:0\tOffset:8\tkey-28\t{\"phase\":\"old\",\"sequence\":28}",
+        "Partition:0\tOffset:9\tkey-1\t{\"phase\":\"new\",\"sequence\":1}",
+        "Partition:0\tOffset:10\tkey-4\t{\"phase\":\"new\",\"sequence\":4}",
+        "Partition:0\tOffset:11\tkey-9\t{\"phase\":\"new\",\"sequence\":9}",
+        "Partition:1\tOffset:0\tkey-0\t{\"phase\":\"old\",\"sequence\":0}",
+        "Partition:1\tOffset:1\tkey-7\t{\"phase\":\"old\",\"sequence\":7}",
+        "Partition:1\tOffset:2\tkey-8\t{\"phase\":\"old\",\"sequence\":8}",
+        "Partition:1\tOffset:3\tkey-11\t{\"phase\":\"old\",\"sequence\":11}",
+        "Partition:1\tOffset:4\tkey-13\t{\"phase\":\"old\",\"sequence\":13}",
+        "Partition:1\tOffset:5\tkey-14\t{\"phase\":\"old\",\"sequence\":14}",
+        "Partition:1\tOffset:6\tkey-16\t{\"phase\":\"old\",\"sequence\":16}",
+        "Partition:1\tOffset:7\tkey-20\t{\"phase\":\"old\",\"sequence\":20}",
+        "Partition:1\tOffset:8\tkey-22\t{\"phase\":\"old\",\"sequence\":22}",
+        "Partition:1\tOffset:9\tkey-29\t{\"phase\":\"old\",\"sequence\":29}",
+        "Partition:1\tOffset:10\tkey-0\t{\"phase\":\"new\",\"sequence\":0}",
+        "Partition:1\tOffset:11\tkey-7\t{\"phase\":\"new\",\"sequence\":7}",
+        "Partition:1\tOffset:12\tkey-8\t{\"phase\":\"new\",\"sequence\":8}",
+        "Partition:1\tOffset:13\tkey-11\t{\"phase\":\"new\",\"sequence\":11}",
+        "Partition:2\tOffset:0\tkey-2\t{\"phase\":\"old\",\"sequence\":2}",
+        "Partition:2\tOffset:1\tkey-3\t{\"phase\":\"old\",\"sequence\":3}",
+        "Partition:2\tOffset:2\tkey-5\t{\"phase\":\"old\",\"sequence\":5}",
+        "Partition:2\tOffset:3\tkey-6\t{\"phase\":\"old\",\"sequence\":6}",
+        "Partition:2\tOffset:4\tkey-10\t{\"phase\":\"old\",\"sequence\":10}",
+        "Partition:2\tOffset:5\tkey-12\t{\"phase\":\"old\",\"sequence\":12}",
+        "Partition:2\tOffset:6\tkey-18\t{\"phase\":\"old\",\"sequence\":18}",
+        "Partition:2\tOffset:7\tkey-23\t{\"phase\":\"old\",\"sequence\":23}",
+        "Partition:2\tOffset:8\tkey-24\t{\"phase\":\"old\",\"sequence\":24}",
+        "Partition:2\tOffset:9\tkey-25\t{\"phase\":\"old\",\"sequence\":25}",
+        "Partition:2\tOffset:10\tkey-27\t{\"phase\":\"old\",\"sequence\":27}",
+        "Partition:2\tOffset:11\tkey-2\t{\"phase\":\"new\",\"sequence\":2}",
+        "Partition:2\tOffset:12\tkey-3\t{\"phase\":\"new\",\"sequence\":3}",
+        "Partition:2\tOffset:13\tkey-5\t{\"phase\":\"new\",\"sequence\":5}",
+        "Partition:2\tOffset:14\tkey-6\t{\"phase\":\"new\",\"sequence\":6}",
+        "Partition:2\tOffset:15\tkey-10\t{\"phase\":\"new\",\"sequence\":10}"
+      ],
+      "records_sha256": "ab3407a2484e027b666549facd51f841ad6994e3468ad7741b807fb1f8a038bb",
+      "metadata_version": "4.0-IV3",
+      "features": "Feature: eligible.leader.replicas.version          SupportedMinVersion: 0                SupportedMaxVersion: 1                FinalizedVersionLevel: 0                Epoch: 212\nFeature: group.version                             SupportedMinVersion: 0                SupportedMaxVersion: 1                FinalizedVersionLevel: 1                Epoch: 212\nFeature: kraft.version                             SupportedMinVersion: 0                SupportedMaxVersion: 1                FinalizedVersionLevel: 0                Epoch: 212\nFeature: metadata.version                          SupportedMinVersion: 3.3-IV3          SupportedMaxVersion: 4.3-IV0          FinalizedVersionLevel: 4.0-IV3          Epoch: 212\nFeature: share.version                             SupportedMinVersion: 0                SupportedMaxVersion: 1                FinalizedVersionLevel: 0                Epoch: 212\nFeature: streams.version                           SupportedMinVersion: 0                SupportedMaxVersion: 1                FinalizedVersionLevel: 0                Epoch: 212\nFeature: transaction.version                       SupportedMinVersion: 0                SupportedMaxVersion: 2                FinalizedVersionLevel: 2                Epoch: 212\n"
+    },
+    {
+      "stage": "target_binary_only_memory",
+      "at": "2026-10-04T17:45:03.839274+00:00",
+      "container_peak_bytes": 786677760
+    },
+    {
+      "stage": "target_binary_only_stopped",
+      "at": "2026-10-04T17:45:04.821326+00:00",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 143,
+        "Error": "",
+        "StartedAt": "2026-10-04T17:44:00.786887341Z",
+        "FinishedAt": "2026-10-04T17:45:04.718918718Z",
+        "Health": {
+          "Status": "unhealthy",
+          "FailingStreak": 1,
+          "Log": [
+            {
+              "Start": "2026-10-04T17:44:05.83105851Z",
+              "End": "2026-10-04T17:44:10.086424679Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-04T17:44:25.087928547Z",
+              "End": "2026-10-04T17:44:28.599535298Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-04T17:44:43.600716722Z",
+              "End": "2026-10-04T17:44:47.775193918Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-04T17:45:02.775799259Z",
+              "End": "2026-10-04T17:45:04.718209676Z",
+              "ExitCode": 137,
+              "Output": ""
+            }
+          ]
+        }
+      }
+    },
+    {
+      "stage": "old_binary_before_metadata_finalization",
+      "at": "2026-10-04T17:45:32.498444+00:00",
+      "image_id": "sha256:01b9a4030e54c6068e66eb3ba4cb82c0d89238629ef1c30d79b86036bf89b1b7",
+      "health": {
+        "Status": "healthy",
+        "FailingStreak": 0,
+        "Log": [
+          {
+            "Start": "2026-10-04T17:45:10.145231595Z",
+            "End": "2026-10-04T17:45:14.424208583Z",
+            "ExitCode": 1,
+            "Output": ""
+          },
+          {
+            "Start": "2026-10-04T17:45:19.425280794Z",
+            "End": "2026-10-04T17:45:22.092334212Z",
+            "ExitCode": 1,
+            "Output": ""
+          },
+          {
+            "Start": "2026-10-04T17:45:27.093373381Z",
+            "End": "2026-10-04T17:45:29.924315507Z",
+            "ExitCode": 0,
+            "Output": ""
+          }
+        ]
+      },
+      "configured_image": "apache/kafka@sha256:01b9a4030e54c6068e66eb3ba4cb82c0d89238629ef1c30d79b86036bf89b1b7",
+      "mounts": [
+        {
+          "Type": "bind",
+          "Source": "/private/tmp/sf-message-kafka-20261005-final/data",
+          "Destination": "/data",
+          "Mode": "",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "volume",
+          "Name": "2e37cc0575a94aec54aca205d4d3b84958f4ddec61084ba1eee3cc72da90611d",
+          "Source": "/var/lib/docker/volumes/2e37cc0575a94aec54aca205d4d3b84958f4ddec61084ba1eee3cc72da90611d/_data",
+          "Destination": "/etc/kafka/secrets",
+          "Driver": "local",
+          "Mode": "",
+          "RW": true,
+          "Propagation": ""
+        },
+        {
+          "Type": "volume",
+          "Name": "f4deeb6bbe3492f61cd77ff9802eae06533396c491430e140b2ddfd21a26eb96",
+          "Source": "/var/lib/docker/volumes/f4deeb6bbe3492f61cd77ff9802eae06533396c491430e140b2ddfd21a26eb96/_data",
+          "Destination": "/mnt/shared/config",
+          "Driver": "local",
+          "Mode": "",
+          "RW": true,
+          "Propagation": ""
+        },
+        {
+          "Type": "volume",
+          "Name": "84530dda7a729c74294c5e480188fda4795518745c0e82b15d107d82db174ab7",
+          "Source": "/var/lib/docker/volumes/84530dda7a729c74294c5e480188fda4795518745c0e82b15d107d82db174ab7/_data",
+          "Destination": "/var/lib/kafka/data",
+          "Driver": "local",
+          "Mode": "",
+          "RW": true,
+          "Propagation": ""
+        }
+      ]
+    },
+    {
+      "stage": "binary_rollback_preserves_new_records_and_positions",
+      "at": "2026-10-04T17:45:50.941648+00:00",
+      "offsets": {
+        "0": 12,
+        "1": 14,
+        "2": 16
+      },
+      "positions": {
+        "0": 12,
+        "1": 14,
+        "2": 16
+      },
+      "records": [
+        "Partition:0\tOffset:0\tkey-1\t{\"phase\":\"old\",\"sequence\":1}",
+        "Partition:0\tOffset:1\tkey-4\t{\"phase\":\"old\",\"sequence\":4}",
+        "Partition:0\tOffset:2\tkey-9\t{\"phase\":\"old\",\"sequence\":9}",
+        "Partition:0\tOffset:3\tkey-15\t{\"phase\":\"old\",\"sequence\":15}",
+        "Partition:0\tOffset:4\tkey-17\t{\"phase\":\"old\",\"sequence\":17}",
+        "Partition:0\tOffset:5\tkey-19\t{\"phase\":\"old\",\"sequence\":19}",
+        "Partition:0\tOffset:6\tkey-21\t{\"phase\":\"old\",\"sequence\":21}",
+        "Partition:0\tOffset:7\tkey-26\t{\"phase\":\"old\",\"sequence\":26}",
+        "Partition:0\tOffset:8\tkey-28\t{\"phase\":\"old\",\"sequence\":28}",
+        "Partition:0\tOffset:9\tkey-1\t{\"phase\":\"new\",\"sequence\":1}",
+        "Partition:0\tOffset:10\tkey-4\t{\"phase\":\"new\",\"sequence\":4}",
+        "Partition:0\tOffset:11\tkey-9\t{\"phase\":\"new\",\"sequence\":9}",
+        "Partition:1\tOffset:0\tkey-0\t{\"phase\":\"old\",\"sequence\":0}",
+        "Partition:1\tOffset:1\tkey-7\t{\"phase\":\"old\",\"sequence\":7}",
+        "Partition:1\tOffset:2\tkey-8\t{\"phase\":\"old\",\"sequence\":8}",
+        "Partition:1\tOffset:3\tkey-11\t{\"phase\":\"old\",\"sequence\":11}",
+        "Partition:1\tOffset:4\tkey-13\t{\"phase\":\"old\",\"sequence\":13}",
+        "Partition:1\tOffset:5\tkey-14\t{\"phase\":\"old\",\"sequence\":14}",
+        "Partition:1\tOffset:6\tkey-16\t{\"phase\":\"old\",\"sequence\":16}",
+        "Partition:1\tOffset:7\tkey-20\t{\"phase\":\"old\",\"sequence\":20}",
+        "Partition:1\tOffset:8\tkey-22\t{\"phase\":\"old\",\"sequence\":22}",
+        "Partition:1\tOffset:9\tkey-29\t{\"phase\":\"old\",\"sequence\":29}",
+        "Partition:1\tOffset:10\tkey-0\t{\"phase\":\"new\",\"sequence\":0}",
+        "Partition:1\tOffset:11\tkey-7\t{\"phase\":\"new\",\"sequence\":7}",
+        "Partition:1\tOffset:12\tkey-8\t{\"phase\":\"new\",\"sequence\":8}",
+        "Partition:1\tOffset:13\tkey-11\t{\"phase\":\"new\",\"sequence\":11}",
+        "Partition:2\tOffset:0\tkey-2\t{\"phase\":\"old\",\"sequence\":2}",
+        "Partition:2\tOffset:1\tkey-3\t{\"phase\":\"old\",\"sequence\":3}",
+        "Partition:2\tOffset:2\tkey-5\t{\"phase\":\"old\",\"sequence\":5}",
+        "Partition:2\tOffset:3\tkey-6\t{\"phase\":\"old\",\"sequence\":6}",
+        "Partition:2\tOffset:4\tkey-10\t{\"phase\":\"old\",\"sequence\":10}",
+        "Partition:2\tOffset:5\tkey-12\t{\"phase\":\"old\",\"sequence\":12}",
+        "Partition:2\tOffset:6\tkey-18\t{\"phase\":\"old\",\"sequence\":18}",
+        "Partition:2\tOffset:7\tkey-23\t{\"phase\":\"old\",\"sequence\":23}",
+        "Partition:2\tOffset:8\tkey-24\t{\"phase\":\"old\",\"sequence\":24}",
+        "Partition:2\tOffset:9\tkey-25\t{\"phase\":\"old\",\"sequence\":25}",
+        "Partition:2\tOffset:10\tkey-27\t{\"phase\":\"old\",\"sequence\":27}",
+        "Partition:2\tOffset:11\tkey-2\t{\"phase\":\"new\",\"sequence\":2}",
+        "Partition:2\tOffset:12\tkey-3\t{\"phase\":\"new\",\"sequence\":3}",
+        "Partition:2\tOffset:13\tkey-5\t{\"phase\":\"new\",\"sequence\":5}",
+        "Partition:2\tOffset:14\tkey-6\t{\"phase\":\"new\",\"sequence\":6}",
+        "Partition:2\tOffset:15\tkey-10\t{\"phase\":\"new\",\"sequence\":10}"
+      ],
+      "records_sha256": "ab3407a2484e027b666549facd51f841ad6994e3468ad7741b807fb1f8a038bb",
+      "metadata_version": "4.0-IV3",
+      "features": "Feature: eligible.leader.replicas.version\tSupportedMinVersion: 0\tSupportedMaxVersion: 1\tFinalizedVersionLevel: 0\tEpoch: 316\nFeature: group.version\tSupportedMinVersion: 0\tSupportedMaxVersion: 1\tFinalizedVersionLevel: 1\tEpoch: 316\nFeature: kraft.version\tSupportedMinVersion: 0\tSupportedMaxVersion: 1\tFinalizedVersionLevel: 0\tEpoch: 316\nFeature: metadata.version\tSupportedMinVersion: 3.3-IV3\tSupportedMaxVersion: 4.0-IV3\tFinalizedVersionLevel: 4.0-IV3\tEpoch: 316\nFeature: transaction.version\tSupportedMinVersion: 0\tSupportedMaxVersion: 2\tFinalizedVersionLevel: 2\tEpoch: 316\n"
+    },
+    {
+      "stage": "old_binary_rollback_memory",
+      "at": "2026-10-04T17:45:54.761427+00:00",
+      "container_peak_bytes": 710176768
+    },
+    {
+      "stage": "old_binary_rollback_stopped",
+      "at": "2026-10-04T17:45:55.724145+00:00",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 143,
+        "Error": "",
+        "StartedAt": "2026-10-04T17:45:05.099607426Z",
+        "FinishedAt": "2026-10-04T17:45:55.624498714Z",
+        "Health": {
+          "Status": "unhealthy",
+          "FailingStreak": 0,
+          "Log": [
+            {
+              "Start": "2026-10-04T17:45:10.145231595Z",
+              "End": "2026-10-04T17:45:14.424208583Z",
+              "ExitCode": 1,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-04T17:45:19.425280794Z",
+              "End": "2026-10-04T17:45:22.092334212Z",
+              "ExitCode": 1,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-04T17:45:27.093373381Z",
+              "End": "2026-10-04T17:45:29.924315507Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-04T17:45:44.927100083Z",
+              "End": "2026-10-04T17:45:49.24329421Z",
+              "ExitCode": 0,
+              "Output": ""
+            }
+          ]
+        }
+      }
+    },
+    {
+      "stage": "pre-finalization-cold-backup",
+      "at": "2026-10-04T17:45:55.775663+00:00",
+      "cold_copy": "/private/tmp/sf-message-kafka-20261005-final/pre-finalization-cold-backup",
+      "files": 49,
+      "bytes": 32576,
+      "manifest": "pre-finalization-cold-backup-manifest.json"
+    },
+    {
+      "stage": "target_for_metadata_finalization",
+      "at": "2026-10-04T17:46:11.251966+00:00",
+      "image_id": "sha256:ccd1314e47ec76909e01f86308b4dcf2064f19f7c89759234322314b0e319e26",
+      "health": {
+        "Status": "healthy",
+        "FailingStreak": 0,
+        "Log": [
+          {
+            "Start": "2026-10-04T17:46:01.051783924Z",
+            "End": "2026-10-04T17:46:08.22015647Z",
+            "ExitCode": 0,
+            "Output": ""
+          }
+        ]
+      },
+      "configured_image": "apache/kafka@sha256:ccd1314e47ec76909e01f86308b4dcf2064f19f7c89759234322314b0e319e26",
+      "mounts": [
+        {
+          "Type": "bind",
+          "Source": "/private/tmp/sf-message-kafka-20261005-final/data",
+          "Destination": "/data",
+          "Mode": "",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "volume",
+          "Name": "338867a6f93c0de629a91a1925996b0ae162e22aa252428a2953570076281f11",
+          "Source": "/var/lib/docker/volumes/338867a6f93c0de629a91a1925996b0ae162e22aa252428a2953570076281f11/_data",
+          "Destination": "/etc/kafka/secrets",
+          "Driver": "local",
+          "Mode": "",
+          "RW": true,
+          "Propagation": ""
+        },
+        {
+          "Type": "volume",
+          "Name": "331d91228af49e021f4366f267bfeec86b4efca96cea002109b1c08ec8c6e3a5",
+          "Source": "/var/lib/docker/volumes/331d91228af49e021f4366f267bfeec86b4efca96cea002109b1c08ec8c6e3a5/_data",
+          "Destination": "/mnt/shared/config",
+          "Driver": "local",
+          "Mode": "",
+          "RW": true,
+          "Propagation": ""
+        },
+        {
+          "Type": "volume",
+          "Name": "d2119854e9e42e5b0462f740b3b26129f09a1e0f2de853e09096ae14a629e209",
+          "Source": "/var/lib/docker/volumes/d2119854e9e42e5b0462f740b3b26129f09a1e0f2de853e09096ae14a629e209/_data",
+          "Destination": "/var/lib/kafka/data",
+          "Driver": "local",
+          "Mode": "",
+          "RW": true,
+          "Propagation": ""
+        }
+      ]
+    },
+    {
+      "stage": "metadata_finalized_4.3",
+      "at": "2026-10-04T17:46:42.124666+00:00",
+      "offsets": {
+        "0": 12,
+        "1": 14,
+        "2": 16
+      },
+      "positions": {
+        "0": 12,
+        "1": 14,
+        "2": 16
+      },
+      "records": [
+        "Partition:0\tOffset:0\tkey-1\t{\"phase\":\"old\",\"sequence\":1}",
+        "Partition:0\tOffset:1\tkey-4\t{\"phase\":\"old\",\"sequence\":4}",
+        "Partition:0\tOffset:2\tkey-9\t{\"phase\":\"old\",\"sequence\":9}",
+        "Partition:0\tOffset:3\tkey-15\t{\"phase\":\"old\",\"sequence\":15}",
+        "Partition:0\tOffset:4\tkey-17\t{\"phase\":\"old\",\"sequence\":17}",
+        "Partition:0\tOffset:5\tkey-19\t{\"phase\":\"old\",\"sequence\":19}",
+        "Partition:0\tOffset:6\tkey-21\t{\"phase\":\"old\",\"sequence\":21}",
+        "Partition:0\tOffset:7\tkey-26\t{\"phase\":\"old\",\"sequence\":26}",
+        "Partition:0\tOffset:8\tkey-28\t{\"phase\":\"old\",\"sequence\":28}",
+        "Partition:0\tOffset:9\tkey-1\t{\"phase\":\"new\",\"sequence\":1}",
+        "Partition:0\tOffset:10\tkey-4\t{\"phase\":\"new\",\"sequence\":4}",
+        "Partition:0\tOffset:11\tkey-9\t{\"phase\":\"new\",\"sequence\":9}",
+        "Partition:1\tOffset:0\tkey-0\t{\"phase\":\"old\",\"sequence\":0}",
+        "Partition:1\tOffset:1\tkey-7\t{\"phase\":\"old\",\"sequence\":7}",
+        "Partition:1\tOffset:2\tkey-8\t{\"phase\":\"old\",\"sequence\":8}",
+        "Partition:1\tOffset:3\tkey-11\t{\"phase\":\"old\",\"sequence\":11}",
+        "Partition:1\tOffset:4\tkey-13\t{\"phase\":\"old\",\"sequence\":13}",
+        "Partition:1\tOffset:5\tkey-14\t{\"phase\":\"old\",\"sequence\":14}",
+        "Partition:1\tOffset:6\tkey-16\t{\"phase\":\"old\",\"sequence\":16}",
+        "Partition:1\tOffset:7\tkey-20\t{\"phase\":\"old\",\"sequence\":20}",
+        "Partition:1\tOffset:8\tkey-22\t{\"phase\":\"old\",\"sequence\":22}",
+        "Partition:1\tOffset:9\tkey-29\t{\"phase\":\"old\",\"sequence\":29}",
+        "Partition:1\tOffset:10\tkey-0\t{\"phase\":\"new\",\"sequence\":0}",
+        "Partition:1\tOffset:11\tkey-7\t{\"phase\":\"new\",\"sequence\":7}",
+        "Partition:1\tOffset:12\tkey-8\t{\"phase\":\"new\",\"sequence\":8}",
+        "Partition:1\tOffset:13\tkey-11\t{\"phase\":\"new\",\"sequence\":11}",
+        "Partition:2\tOffset:0\tkey-2\t{\"phase\":\"old\",\"sequence\":2}",
+        "Partition:2\tOffset:1\tkey-3\t{\"phase\":\"old\",\"sequence\":3}",
+        "Partition:2\tOffset:2\tkey-5\t{\"phase\":\"old\",\"sequence\":5}",
+        "Partition:2\tOffset:3\tkey-6\t{\"phase\":\"old\",\"sequence\":6}",
+        "Partition:2\tOffset:4\tkey-10\t{\"phase\":\"old\",\"sequence\":10}",
+        "Partition:2\tOffset:5\tkey-12\t{\"phase\":\"old\",\"sequence\":12}",
+        "Partition:2\tOffset:6\tkey-18\t{\"phase\":\"old\",\"sequence\":18}",
+        "Partition:2\tOffset:7\tkey-23\t{\"phase\":\"old\",\"sequence\":23}",
+        "Partition:2\tOffset:8\tkey-24\t{\"phase\":\"old\",\"sequence\":24}",
+        "Partition:2\tOffset:9\tkey-25\t{\"phase\":\"old\",\"sequence\":25}",
+        "Partition:2\tOffset:10\tkey-27\t{\"phase\":\"old\",\"sequence\":27}",
+        "Partition:2\tOffset:11\tkey-2\t{\"phase\":\"new\",\"sequence\":2}",
+        "Partition:2\tOffset:12\tkey-3\t{\"phase\":\"new\",\"sequence\":3}",
+        "Partition:2\tOffset:13\tkey-5\t{\"phase\":\"new\",\"sequence\":5}",
+        "Partition:2\tOffset:14\tkey-6\t{\"phase\":\"new\",\"sequence\":6}",
+        "Partition:2\tOffset:15\tkey-10\t{\"phase\":\"new\",\"sequence\":10}"
+      ],
+      "records_sha256": "ab3407a2484e027b666549facd51f841ad6994e3468ad7741b807fb1f8a038bb",
+      "metadata_version": "4.3-IV0",
+      "features": "Feature: eligible.leader.replicas.version          SupportedMinVersion: 0                SupportedMaxVersion: 1                FinalizedVersionLevel: 1                Epoch: 426\nFeature: group.version                             SupportedMinVersion: 0                SupportedMaxVersion: 1                FinalizedVersionLevel: 1                Epoch: 426\nFeature: kraft.version                             SupportedMinVersion: 0                SupportedMaxVersion: 1                FinalizedVersionLevel: 1                Epoch: 426\nFeature: metadata.version                          SupportedMinVersion: 3.3-IV3          SupportedMaxVersion: 4.3-IV0          FinalizedVersionLevel: 4.3-IV0          Epoch: 426\nFeature: share.version                             SupportedMinVersion: 0                SupportedMaxVersion: 1                FinalizedVersionLevel: 1                Epoch: 426\nFeature: streams.version                           SupportedMinVersion: 0                SupportedMaxVersion: 1                FinalizedVersionLevel: 1                Epoch: 426\nFeature: transaction.version                       SupportedMinVersion: 0                SupportedMaxVersion: 2                FinalizedVersionLevel: 2                Epoch: 426\n"
+    },
+    {
+      "stage": "post_finalization_consumer",
+      "at": "2026-10-04T17:47:01.062573+00:00",
+      "consumed_records": [
+        "key-1\t{\"phase\":\"post-finalization\",\"sequence\":1}",
+        "key-0\t{\"phase\":\"post-finalization\",\"sequence\":0}",
+        "key-2\t{\"phase\":\"post-finalization\",\"sequence\":2}"
+      ]
+    },
+    {
+      "stage": "finalized_written",
+      "at": "2026-10-04T17:47:22.499097+00:00",
+      "offsets": {
+        "0": 13,
+        "1": 15,
+        "2": 17
+      },
+      "positions": {
+        "0": 13,
+        "1": 15,
+        "2": 17
+      },
+      "records": [
+        "Partition:0\tOffset:0\tkey-1\t{\"phase\":\"old\",\"sequence\":1}",
+        "Partition:0\tOffset:1\tkey-4\t{\"phase\":\"old\",\"sequence\":4}",
+        "Partition:0\tOffset:2\tkey-9\t{\"phase\":\"old\",\"sequence\":9}",
+        "Partition:0\tOffset:3\tkey-15\t{\"phase\":\"old\",\"sequence\":15}",
+        "Partition:0\tOffset:4\tkey-17\t{\"phase\":\"old\",\"sequence\":17}",
+        "Partition:0\tOffset:5\tkey-19\t{\"phase\":\"old\",\"sequence\":19}",
+        "Partition:0\tOffset:6\tkey-21\t{\"phase\":\"old\",\"sequence\":21}",
+        "Partition:0\tOffset:7\tkey-26\t{\"phase\":\"old\",\"sequence\":26}",
+        "Partition:0\tOffset:8\tkey-28\t{\"phase\":\"old\",\"sequence\":28}",
+        "Partition:0\tOffset:9\tkey-1\t{\"phase\":\"new\",\"sequence\":1}",
+        "Partition:0\tOffset:10\tkey-4\t{\"phase\":\"new\",\"sequence\":4}",
+        "Partition:0\tOffset:11\tkey-9\t{\"phase\":\"new\",\"sequence\":9}",
+        "Partition:0\tOffset:12\tkey-1\t{\"phase\":\"post-finalization\",\"sequence\":1}",
+        "Partition:1\tOffset:0\tkey-0\t{\"phase\":\"old\",\"sequence\":0}",
+        "Partition:1\tOffset:1\tkey-7\t{\"phase\":\"old\",\"sequence\":7}",
+        "Partition:1\tOffset:2\tkey-8\t{\"phase\":\"old\",\"sequence\":8}",
+        "Partition:1\tOffset:3\tkey-11\t{\"phase\":\"old\",\"sequence\":11}",
+        "Partition:1\tOffset:4\tkey-13\t{\"phase\":\"old\",\"sequence\":13}",
+        "Partition:1\tOffset:5\tkey-14\t{\"phase\":\"old\",\"sequence\":14}",
+        "Partition:1\tOffset:6\tkey-16\t{\"phase\":\"old\",\"sequence\":16}",
+        "Partition:1\tOffset:7\tkey-20\t{\"phase\":\"old\",\"sequence\":20}",
+        "Partition:1\tOffset:8\tkey-22\t{\"phase\":\"old\",\"sequence\":22}",
+        "Partition:1\tOffset:9\tkey-29\t{\"phase\":\"old\",\"sequence\":29}",
+        "Partition:1\tOffset:10\tkey-0\t{\"phase\":\"new\",\"sequence\":0}",
+        "Partition:1\tOffset:11\tkey-7\t{\"phase\":\"new\",\"sequence\":7}",
+        "Partition:1\tOffset:12\tkey-8\t{\"phase\":\"new\",\"sequence\":8}",
+        "Partition:1\tOffset:13\tkey-11\t{\"phase\":\"new\",\"sequence\":11}",
+        "Partition:1\tOffset:14\tkey-0\t{\"phase\":\"post-finalization\",\"sequence\":0}",
+        "Partition:2\tOffset:0\tkey-2\t{\"phase\":\"old\",\"sequence\":2}",
+        "Partition:2\tOffset:1\tkey-3\t{\"phase\":\"old\",\"sequence\":3}",
+        "Partition:2\tOffset:2\tkey-5\t{\"phase\":\"old\",\"sequence\":5}",
+        "Partition:2\tOffset:3\tkey-6\t{\"phase\":\"old\",\"sequence\":6}",
+        "Partition:2\tOffset:4\tkey-10\t{\"phase\":\"old\",\"sequence\":10}",
+        "Partition:2\tOffset:5\tkey-12\t{\"phase\":\"old\",\"sequence\":12}",
+        "Partition:2\tOffset:6\tkey-18\t{\"phase\":\"old\",\"sequence\":18}",
+        "Partition:2\tOffset:7\tkey-23\t{\"phase\":\"old\",\"sequence\":23}",
+        "Partition:2\tOffset:8\tkey-24\t{\"phase\":\"old\",\"sequence\":24}",
+        "Partition:2\tOffset:9\tkey-25\t{\"phase\":\"old\",\"sequence\":25}",
+        "Partition:2\tOffset:10\tkey-27\t{\"phase\":\"old\",\"sequence\":27}",
+        "Partition:2\tOffset:11\tkey-2\t{\"phase\":\"new\",\"sequence\":2}",
+        "Partition:2\tOffset:12\tkey-3\t{\"phase\":\"new\",\"sequence\":3}",
+        "Partition:2\tOffset:13\tkey-5\t{\"phase\":\"new\",\"sequence\":5}",
+        "Partition:2\tOffset:14\tkey-6\t{\"phase\":\"new\",\"sequence\":6}",
+        "Partition:2\tOffset:15\tkey-10\t{\"phase\":\"new\",\"sequence\":10}",
+        "Partition:2\tOffset:16\tkey-2\t{\"phase\":\"post-finalization\",\"sequence\":2}"
+      ],
+      "records_sha256": "afd362c750886d138d218fbdab577b38f28f63462d5bd74899bbe3b26cdd89ff",
+      "metadata_version": "4.3-IV0",
+      "features": "Feature: eligible.leader.replicas.version          SupportedMinVersion: 0                SupportedMaxVersion: 1                FinalizedVersionLevel: 1                Epoch: 507\nFeature: group.version                             SupportedMinVersion: 0                SupportedMaxVersion: 1                FinalizedVersionLevel: 1                Epoch: 507\nFeature: kraft.version                             SupportedMinVersion: 0                SupportedMaxVersion: 1                FinalizedVersionLevel: 1                Epoch: 507\nFeature: metadata.version                          SupportedMinVersion: 3.3-IV3          SupportedMaxVersion: 4.3-IV0          FinalizedVersionLevel: 4.3-IV0          Epoch: 507\nFeature: share.version                             SupportedMinVersion: 0                SupportedMaxVersion: 1                FinalizedVersionLevel: 1                Epoch: 507\nFeature: streams.version                           SupportedMinVersion: 0                SupportedMaxVersion: 1                FinalizedVersionLevel: 1                Epoch: 507\nFeature: transaction.version                       SupportedMinVersion: 0                SupportedMaxVersion: 2                FinalizedVersionLevel: 2                Epoch: 507\n"
+    },
+    {
+      "stage": "finalized_target_memory",
+      "at": "2026-10-04T17:47:26.073873+00:00",
+      "container_peak_bytes": 806240256
+    },
+    {
+      "stage": "finalized_target_stopped",
+      "at": "2026-10-04T17:47:26.879452+00:00",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 143,
+        "Error": "",
+        "StartedAt": "2026-10-04T17:45:56.00714788Z",
+        "FinishedAt": "2026-10-04T17:47:26.780227089Z",
+        "Health": {
+          "Status": "unhealthy",
+          "FailingStreak": 1,
+          "Log": [
+            {
+              "Start": "2026-10-04T17:46:01.051783924Z",
+              "End": "2026-10-04T17:46:08.22015647Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-04T17:46:23.221768421Z",
+              "End": "2026-10-04T17:46:29.431437382Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-04T17:46:44.433543625Z",
+              "End": "2026-10-04T17:46:50.795605503Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-04T17:47:05.79700551Z",
+              "End": "2026-10-04T17:47:11.288246929Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-04T17:47:26.290270339Z",
+              "End": "2026-10-04T17:47:26.772010672Z",
+              "ExitCode": 137,
+              "Output": ""
+            }
+          ]
+        }
+      }
+    },
+    {
+      "stage": "finalized_target_restart",
+      "at": "2026-10-04T17:47:48.566118+00:00",
+      "image_id": "sha256:ccd1314e47ec76909e01f86308b4dcf2064f19f7c89759234322314b0e319e26",
+      "health": {
+        "Status": "healthy",
+        "FailingStreak": 0,
+        "Log": [
+          {
+            "Start": "2026-10-04T17:47:32.268099258Z",
+            "End": "2026-10-04T17:47:38.57967872Z",
+            "ExitCode": 1,
+            "Output": ""
+          },
+          {
+            "Start": "2026-10-04T17:47:43.580356264Z",
+            "End": "2026-10-04T17:47:46.401650709Z",
+            "ExitCode": 0,
+            "Output": ""
+          }
+        ]
+      },
+      "configured_image": "apache/kafka@sha256:ccd1314e47ec76909e01f86308b4dcf2064f19f7c89759234322314b0e319e26",
+      "mounts": [
+        {
+          "Type": "bind",
+          "Source": "/private/tmp/sf-message-kafka-20261005-final/data",
+          "Destination": "/data",
+          "Mode": "",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "volume",
+          "Name": "94c64c8c417e14957bfd6cb82d6957daebf80f8d27c81b7c24c2facb6fb5d3b5",
+          "Source": "/var/lib/docker/volumes/94c64c8c417e14957bfd6cb82d6957daebf80f8d27c81b7c24c2facb6fb5d3b5/_data",
+          "Destination": "/etc/kafka/secrets",
+          "Driver": "local",
+          "Mode": "",
+          "RW": true,
+          "Propagation": ""
+        },
+        {
+          "Type": "volume",
+          "Name": "22e64aa5521c8750f4cb6f19cfd8f27be51e4909e76a96ea92ba8b9cfb05b591",
+          "Source": "/var/lib/docker/volumes/22e64aa5521c8750f4cb6f19cfd8f27be51e4909e76a96ea92ba8b9cfb05b591/_data",
+          "Destination": "/mnt/shared/config",
+          "Driver": "local",
+          "Mode": "",
+          "RW": true,
+          "Propagation": ""
+        },
+        {
+          "Type": "volume",
+          "Name": "26444ab35bf33b0c73258e92004e2fb148fbe02f6d90582549efe17c06dbf8d7",
+          "Source": "/var/lib/docker/volumes/26444ab35bf33b0c73258e92004e2fb148fbe02f6d90582549efe17c06dbf8d7/_data",
+          "Destination": "/var/lib/kafka/data",
+          "Driver": "local",
+          "Mode": "",
+          "RW": true,
+          "Propagation": ""
+        }
+      ]
+    },
+    {
+      "stage": "finalized_restart_preserves_data",
+      "at": "2026-10-04T17:48:08.366769+00:00",
+      "offsets": {
+        "0": 13,
+        "1": 15,
+        "2": 17
+      },
+      "positions": {
+        "0": 13,
+        "1": 15,
+        "2": 17
+      },
+      "records": [
+        "Partition:0\tOffset:0\tkey-1\t{\"phase\":\"old\",\"sequence\":1}",
+        "Partition:0\tOffset:1\tkey-4\t{\"phase\":\"old\",\"sequence\":4}",
+        "Partition:0\tOffset:2\tkey-9\t{\"phase\":\"old\",\"sequence\":9}",
+        "Partition:0\tOffset:3\tkey-15\t{\"phase\":\"old\",\"sequence\":15}",
+        "Partition:0\tOffset:4\tkey-17\t{\"phase\":\"old\",\"sequence\":17}",
+        "Partition:0\tOffset:5\tkey-19\t{\"phase\":\"old\",\"sequence\":19}",
+        "Partition:0\tOffset:6\tkey-21\t{\"phase\":\"old\",\"sequence\":21}",
+        "Partition:0\tOffset:7\tkey-26\t{\"phase\":\"old\",\"sequence\":26}",
+        "Partition:0\tOffset:8\tkey-28\t{\"phase\":\"old\",\"sequence\":28}",
+        "Partition:0\tOffset:9\tkey-1\t{\"phase\":\"new\",\"sequence\":1}",
+        "Partition:0\tOffset:10\tkey-4\t{\"phase\":\"new\",\"sequence\":4}",
+        "Partition:0\tOffset:11\tkey-9\t{\"phase\":\"new\",\"sequence\":9}",
+        "Partition:0\tOffset:12\tkey-1\t{\"phase\":\"post-finalization\",\"sequence\":1}",
+        "Partition:1\tOffset:0\tkey-0\t{\"phase\":\"old\",\"sequence\":0}",
+        "Partition:1\tOffset:1\tkey-7\t{\"phase\":\"old\",\"sequence\":7}",
+        "Partition:1\tOffset:2\tkey-8\t{\"phase\":\"old\",\"sequence\":8}",
+        "Partition:1\tOffset:3\tkey-11\t{\"phase\":\"old\",\"sequence\":11}",
+        "Partition:1\tOffset:4\tkey-13\t{\"phase\":\"old\",\"sequence\":13}",
+        "Partition:1\tOffset:5\tkey-14\t{\"phase\":\"old\",\"sequence\":14}",
+        "Partition:1\tOffset:6\tkey-16\t{\"phase\":\"old\",\"sequence\":16}",
+        "Partition:1\tOffset:7\tkey-20\t{\"phase\":\"old\",\"sequence\":20}",
+        "Partition:1\tOffset:8\tkey-22\t{\"phase\":\"old\",\"sequence\":22}",
+        "Partition:1\tOffset:9\tkey-29\t{\"phase\":\"old\",\"sequence\":29}",
+        "Partition:1\tOffset:10\tkey-0\t{\"phase\":\"new\",\"sequence\":0}",
+        "Partition:1\tOffset:11\tkey-7\t{\"phase\":\"new\",\"sequence\":7}",
+        "Partition:1\tOffset:12\tkey-8\t{\"phase\":\"new\",\"sequence\":8}",
+        "Partition:1\tOffset:13\tkey-11\t{\"phase\":\"new\",\"sequence\":11}",
+        "Partition:1\tOffset:14\tkey-0\t{\"phase\":\"post-finalization\",\"sequence\":0}",
+        "Partition:2\tOffset:0\tkey-2\t{\"phase\":\"old\",\"sequence\":2}",
+        "Partition:2\tOffset:1\tkey-3\t{\"phase\":\"old\",\"sequence\":3}",
+        "Partition:2\tOffset:2\tkey-5\t{\"phase\":\"old\",\"sequence\":5}",
+        "Partition:2\tOffset:3\tkey-6\t{\"phase\":\"old\",\"sequence\":6}",
+        "Partition:2\tOffset:4\tkey-10\t{\"phase\":\"old\",\"sequence\":10}",
+        "Partition:2\tOffset:5\tkey-12\t{\"phase\":\"old\",\"sequence\":12}",
+        "Partition:2\tOffset:6\tkey-18\t{\"phase\":\"old\",\"sequence\":18}",
+        "Partition:2\tOffset:7\tkey-23\t{\"phase\":\"old\",\"sequence\":23}",
+        "Partition:2\tOffset:8\tkey-24\t{\"phase\":\"old\",\"sequence\":24}",
+        "Partition:2\tOffset:9\tkey-25\t{\"phase\":\"old\",\"sequence\":25}",
+        "Partition:2\tOffset:10\tkey-27\t{\"phase\":\"old\",\"sequence\":27}",
+        "Partition:2\tOffset:11\tkey-2\t{\"phase\":\"new\",\"sequence\":2}",
+        "Partition:2\tOffset:12\tkey-3\t{\"phase\":\"new\",\"sequence\":3}",
+        "Partition:2\tOffset:13\tkey-5\t{\"phase\":\"new\",\"sequence\":5}",
+        "Partition:2\tOffset:14\tkey-6\t{\"phase\":\"new\",\"sequence\":6}",
+        "Partition:2\tOffset:15\tkey-10\t{\"phase\":\"new\",\"sequence\":10}",
+        "Partition:2\tOffset:16\tkey-2\t{\"phase\":\"post-finalization\",\"sequence\":2}"
+      ],
+      "records_sha256": "afd362c750886d138d218fbdab577b38f28f63462d5bd74899bbe3b26cdd89ff",
+      "metadata_version": "4.3-IV0",
+      "features": "Feature: eligible.leader.replicas.version          SupportedMinVersion: 0                SupportedMaxVersion: 1                FinalizedVersionLevel: 1                Epoch: 595\nFeature: group.version                             SupportedMinVersion: 0                SupportedMaxVersion: 1                FinalizedVersionLevel: 1                Epoch: 595\nFeature: kraft.version                             SupportedMinVersion: 0                SupportedMaxVersion: 1                FinalizedVersionLevel: 1                Epoch: 595\nFeature: metadata.version                          SupportedMinVersion: 3.3-IV3          SupportedMaxVersion: 4.3-IV0          FinalizedVersionLevel: 4.3-IV0          Epoch: 595\nFeature: share.version                             SupportedMinVersion: 0                SupportedMaxVersion: 1                FinalizedVersionLevel: 1                Epoch: 595\nFeature: streams.version                           SupportedMinVersion: 0                SupportedMaxVersion: 1                FinalizedVersionLevel: 1                Epoch: 595\nFeature: transaction.version                       SupportedMinVersion: 0                SupportedMaxVersion: 2                FinalizedVersionLevel: 2                Epoch: 595\n"
+    },
+    {
+      "stage": "finalized_restart_memory",
+      "at": "2026-10-04T17:48:12.105371+00:00",
+      "container_peak_bytes": 722161664
+    },
+    {
+      "stage": "finalized_restart_stopped",
+      "at": "2026-10-04T17:48:13.038784+00:00",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 143,
+        "Error": "",
+        "StartedAt": "2026-10-04T17:47:27.216765423Z",
+        "FinishedAt": "2026-10-04T17:48:12.941899013Z",
+        "Health": {
+          "Status": "unhealthy",
+          "FailingStreak": 0,
+          "Log": [
+            {
+              "Start": "2026-10-04T17:47:32.268099258Z",
+              "End": "2026-10-04T17:47:38.57967872Z",
+              "ExitCode": 1,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-04T17:47:43.580356264Z",
+              "End": "2026-10-04T17:47:46.401650709Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-04T17:48:01.402323383Z",
+              "End": "2026-10-04T17:48:06.281664844Z",
+              "ExitCode": 0,
+              "Output": ""
+            }
+          ]
+        }
+      }
+    },
+    {
+      "stage": "restore_cold_copy_to_4.0.0",
+      "at": "2026-10-04T17:48:40.900377+00:00",
+      "image_id": "sha256:01b9a4030e54c6068e66eb3ba4cb82c0d89238629ef1c30d79b86036bf89b1b7",
+      "health": {
+        "Status": "healthy",
+        "FailingStreak": 0,
+        "Log": [
+          {
+            "Start": "2026-10-04T17:48:18.57702546Z",
+            "End": "2026-10-04T17:48:24.622862505Z",
+            "ExitCode": 1,
+            "Output": ""
+          },
+          {
+            "Start": "2026-10-04T17:48:29.624241924Z",
+            "End": "2026-10-04T17:48:32.260961008Z",
+            "ExitCode": 1,
+            "Output": ""
+          },
+          {
+            "Start": "2026-10-04T17:48:37.262182802Z",
+            "End": "2026-10-04T17:48:40.11623122Z",
+            "ExitCode": 0,
+            "Output": ""
+          }
+        ]
+      },
+      "configured_image": "apache/kafka@sha256:01b9a4030e54c6068e66eb3ba4cb82c0d89238629ef1c30d79b86036bf89b1b7",
+      "mounts": [
+        {
+          "Type": "bind",
+          "Source": "/private/tmp/sf-message-kafka-20261005-final/restored-data",
+          "Destination": "/data",
+          "Mode": "",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "volume",
+          "Name": "13bf745c894e2fba6ef71132c19cfceb7f0f19a46f9009287e2735f0a937bdc7",
+          "Source": "/var/lib/docker/volumes/13bf745c894e2fba6ef71132c19cfceb7f0f19a46f9009287e2735f0a937bdc7/_data",
+          "Destination": "/etc/kafka/secrets",
+          "Driver": "local",
+          "Mode": "",
+          "RW": true,
+          "Propagation": ""
+        },
+        {
+          "Type": "volume",
+          "Name": "01e155280a742d188897d0de741bc4b044106e63cc564e424542ff020dfc2810",
+          "Source": "/var/lib/docker/volumes/01e155280a742d188897d0de741bc4b044106e63cc564e424542ff020dfc2810/_data",
+          "Destination": "/mnt/shared/config",
+          "Driver": "local",
+          "Mode": "",
+          "RW": true,
+          "Propagation": ""
+        },
+        {
+          "Type": "volume",
+          "Name": "3d66742511a61be659dd7298d684e22d179edaccfdfea26e53d342bb71747ad6",
+          "Source": "/var/lib/docker/volumes/3d66742511a61be659dd7298d684e22d179edaccfdfea26e53d342bb71747ad6/_data",
+          "Destination": "/var/lib/kafka/data",
+          "Driver": "local",
+          "Mode": "",
+          "RW": true,
+          "Propagation": ""
+        }
+      ]
+    },
+    {
+      "stage": "cold_copy_restored_at_record_42",
+      "at": "2026-10-04T17:49:02.250534+00:00",
+      "offsets": {
+        "0": 12,
+        "1": 14,
+        "2": 16
+      },
+      "positions": {
+        "0": 12,
+        "1": 14,
+        "2": 16
+      },
+      "records": [
+        "Partition:0\tOffset:0\tkey-1\t{\"phase\":\"old\",\"sequence\":1}",
+        "Partition:0\tOffset:1\tkey-4\t{\"phase\":\"old\",\"sequence\":4}",
+        "Partition:0\tOffset:2\tkey-9\t{\"phase\":\"old\",\"sequence\":9}",
+        "Partition:0\tOffset:3\tkey-15\t{\"phase\":\"old\",\"sequence\":15}",
+        "Partition:0\tOffset:4\tkey-17\t{\"phase\":\"old\",\"sequence\":17}",
+        "Partition:0\tOffset:5\tkey-19\t{\"phase\":\"old\",\"sequence\":19}",
+        "Partition:0\tOffset:6\tkey-21\t{\"phase\":\"old\",\"sequence\":21}",
+        "Partition:0\tOffset:7\tkey-26\t{\"phase\":\"old\",\"sequence\":26}",
+        "Partition:0\tOffset:8\tkey-28\t{\"phase\":\"old\",\"sequence\":28}",
+        "Partition:0\tOffset:9\tkey-1\t{\"phase\":\"new\",\"sequence\":1}",
+        "Partition:0\tOffset:10\tkey-4\t{\"phase\":\"new\",\"sequence\":4}",
+        "Partition:0\tOffset:11\tkey-9\t{\"phase\":\"new\",\"sequence\":9}",
+        "Partition:1\tOffset:0\tkey-0\t{\"phase\":\"old\",\"sequence\":0}",
+        "Partition:1\tOffset:1\tkey-7\t{\"phase\":\"old\",\"sequence\":7}",
+        "Partition:1\tOffset:2\tkey-8\t{\"phase\":\"old\",\"sequence\":8}",
+        "Partition:1\tOffset:3\tkey-11\t{\"phase\":\"old\",\"sequence\":11}",
+        "Partition:1\tOffset:4\tkey-13\t{\"phase\":\"old\",\"sequence\":13}",
+        "Partition:1\tOffset:5\tkey-14\t{\"phase\":\"old\",\"sequence\":14}",
+        "Partition:1\tOffset:6\tkey-16\t{\"phase\":\"old\",\"sequence\":16}",
+        "Partition:1\tOffset:7\tkey-20\t{\"phase\":\"old\",\"sequence\":20}",
+        "Partition:1\tOffset:8\tkey-22\t{\"phase\":\"old\",\"sequence\":22}",
+        "Partition:1\tOffset:9\tkey-29\t{\"phase\":\"old\",\"sequence\":29}",
+        "Partition:1\tOffset:10\tkey-0\t{\"phase\":\"new\",\"sequence\":0}",
+        "Partition:1\tOffset:11\tkey-7\t{\"phase\":\"new\",\"sequence\":7}",
+        "Partition:1\tOffset:12\tkey-8\t{\"phase\":\"new\",\"sequence\":8}",
+        "Partition:1\tOffset:13\tkey-11\t{\"phase\":\"new\",\"sequence\":11}",
+        "Partition:2\tOffset:0\tkey-2\t{\"phase\":\"old\",\"sequence\":2}",
+        "Partition:2\tOffset:1\tkey-3\t{\"phase\":\"old\",\"sequence\":3}",
+        "Partition:2\tOffset:2\tkey-5\t{\"phase\":\"old\",\"sequence\":5}",
+        "Partition:2\tOffset:3\tkey-6\t{\"phase\":\"old\",\"sequence\":6}",
+        "Partition:2\tOffset:4\tkey-10\t{\"phase\":\"old\",\"sequence\":10}",
+        "Partition:2\tOffset:5\tkey-12\t{\"phase\":\"old\",\"sequence\":12}",
+        "Partition:2\tOffset:6\tkey-18\t{\"phase\":\"old\",\"sequence\":18}",
+        "Partition:2\tOffset:7\tkey-23\t{\"phase\":\"old\",\"sequence\":23}",
+        "Partition:2\tOffset:8\tkey-24\t{\"phase\":\"old\",\"sequence\":24}",
+        "Partition:2\tOffset:9\tkey-25\t{\"phase\":\"old\",\"sequence\":25}",
+        "Partition:2\tOffset:10\tkey-27\t{\"phase\":\"old\",\"sequence\":27}",
+        "Partition:2\tOffset:11\tkey-2\t{\"phase\":\"new\",\"sequence\":2}",
+        "Partition:2\tOffset:12\tkey-3\t{\"phase\":\"new\",\"sequence\":3}",
+        "Partition:2\tOffset:13\tkey-5\t{\"phase\":\"new\",\"sequence\":5}",
+        "Partition:2\tOffset:14\tkey-6\t{\"phase\":\"new\",\"sequence\":6}",
+        "Partition:2\tOffset:15\tkey-10\t{\"phase\":\"new\",\"sequence\":10}"
+      ],
+      "records_sha256": "ab3407a2484e027b666549facd51f841ad6994e3468ad7741b807fb1f8a038bb",
+      "metadata_version": "4.0-IV3",
+      "features": "Feature: eligible.leader.replicas.version\tSupportedMinVersion: 0\tSupportedMaxVersion: 1\tFinalizedVersionLevel: 0\tEpoch: 423\nFeature: group.version\tSupportedMinVersion: 0\tSupportedMaxVersion: 1\tFinalizedVersionLevel: 1\tEpoch: 423\nFeature: kraft.version\tSupportedMinVersion: 0\tSupportedMaxVersion: 1\tFinalizedVersionLevel: 0\tEpoch: 423\nFeature: metadata.version\tSupportedMinVersion: 3.3-IV3\tSupportedMaxVersion: 4.0-IV3\tFinalizedVersionLevel: 4.0-IV3\tEpoch: 423\nFeature: transaction.version\tSupportedMinVersion: 0\tSupportedMaxVersion: 2\tFinalizedVersionLevel: 2\tEpoch: 423\n"
+    },
+    {
+      "stage": "restored_source_memory",
+      "at": "2026-10-04T17:49:06.509785+00:00",
+      "container_peak_bytes": 735154176
+    },
+    {
+      "stage": "restored_source_stopped",
+      "at": "2026-10-04T17:49:07.417046+00:00",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 143,
+        "Error": "",
+        "StartedAt": "2026-10-04T17:48:13.528994264Z",
+        "FinishedAt": "2026-10-04T17:49:07.324906552Z",
+        "Health": {
+          "Status": "unhealthy",
+          "FailingStreak": 0,
+          "Log": [
+            {
+              "Start": "2026-10-04T17:48:18.57702546Z",
+              "End": "2026-10-04T17:48:24.622862505Z",
+              "ExitCode": 1,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-04T17:48:29.624241924Z",
+              "End": "2026-10-04T17:48:32.260961008Z",
+              "ExitCode": 1,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-04T17:48:37.262182802Z",
+              "End": "2026-10-04T17:48:40.11623122Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-04T17:48:55.11859438Z",
+              "End": "2026-10-04T17:49:01.080123508Z",
+              "ExitCode": 0,
+              "Output": ""
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "completed_at": "2026-10-04T17:49:07.461890+00:00"
+}

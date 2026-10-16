@@ -1,0 +1,23 @@
+temperature-high: passed
+temperature-recovered: passed
+temperature-low: passed
+low-temperature-recovered: passed
+humidity-high: passed
+high-humidity-recovered: passed
+humidity-low: passed
+low-humidity-recovered: passed
+presence-lights-on: passed
+absence-delayed-lights-off: passed
+smoke-extraction: passed
+combustible-extraction: passed
+co-extraction: passed
+agv-obstacle-stop: passed
+Traceback (most recent call last):
+  File "/path/to/SmartFactory-2026/scripts/check-scenes.py", line 112, in <module>
+    main()
+    ~~~~^^
+  File "/path/to/SmartFactory-2026/scripts/check-scenes.py", line 99, in main
+    evidence = wait(lambda: observed('counter-1', 'goods-count.total', target, since), 'exact goods count', 60)
+  File "/path/to/SmartFactory-2026/scripts/check-scenes.py", line 38, in wait
+    raise TimeoutError(label)
+TimeoutError: exact goods count

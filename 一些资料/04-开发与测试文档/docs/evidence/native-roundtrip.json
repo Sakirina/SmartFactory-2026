@@ -1,0 +1,119 @@
+{
+  "check": "native_cloud_edge_roundtrip",
+  "started_ms": 1789860002716,
+  "ce_version": "4.3.1.5",
+  "edge_version": "4.3.1.1EDGE",
+  "profiles": [
+    {
+      "name": "cloud",
+      "message_id": "native-evidence-cloud-1789860003385",
+      "ingress": {
+        "message_id": "native-evidence-cloud-1789860003385",
+        "duplicate": false,
+        "committed": true,
+        "count": 1,
+        "late": 0
+      },
+      "repeat": {
+        "message_id": "native-evidence-cloud-1789860003385",
+        "duplicate": true,
+        "committed": true,
+        "count": 0,
+        "late": 0
+      },
+      "derived": [
+        {
+          "id": "6e4b6c1e2d57139e392b129a4cf982f55dcdae19703dee9a1588a87d937d2657",
+          "message_id": "evaluation:climate-average:1:native-evidence-cloud-1789860003385:0",
+          "source_id": "cloud-1",
+          "source_sequence": 0,
+          "device_id": "climate-1",
+          "key": "climate-average.temperature",
+          "value": 21.90659340659341,
+          "observed_ms": 1789860003385,
+          "received_ms": 1789860003638,
+          "quality": "GOOD",
+          "time_source": "analysis",
+          "unit": "°C",
+          "entity_revision": 0,
+          "asset_version": 0,
+          "rule_version": 1,
+          "definition_id": "climate-average",
+          "late": false,
+          "revision": 1
+        }
+      ],
+      "tb_timeseries": {
+        "temperature": [
+          {
+            "ts": 1789860003385,
+            "value": "22.5"
+          }
+        ],
+        "climate-average.temperature": [
+          {
+            "ts": 1789860003385,
+            "value": "21.90659340659341"
+          }
+        ]
+      },
+      "passed": true
+    },
+    {
+      "name": "edge",
+      "message_id": "native-evidence-edge-1789860011242",
+      "ingress": {
+        "message_id": "native-evidence-edge-1789860011242",
+        "duplicate": false,
+        "committed": true,
+        "count": 1,
+        "late": 0
+      },
+      "repeat": {
+        "message_id": "native-evidence-edge-1789860011242",
+        "duplicate": true,
+        "committed": true,
+        "count": 0,
+        "late": 0
+      },
+      "derived": [
+        {
+          "id": "7c63dc61d388eb927f454b3c4a3dba2c9b4cbbc851dbee02dacd3aef2a541ca2",
+          "message_id": "evaluation:climate-average:1:native-evidence-edge-1789860011242:0",
+          "source_id": "edge-a",
+          "source_sequence": 0,
+          "device_id": "climate-1",
+          "key": "climate-average.temperature",
+          "value": 21.906382978723407,
+          "observed_ms": 1789860011242,
+          "received_ms": 1789860012072,
+          "quality": "GOOD",
+          "time_source": "analysis",
+          "unit": "°C",
+          "entity_revision": 0,
+          "asset_version": 0,
+          "rule_version": 1,
+          "definition_id": "climate-average",
+          "late": false,
+          "revision": 1
+        }
+      ],
+      "tb_timeseries": {
+        "temperature": [
+          {
+            "ts": 1789860011242,
+            "value": "22.5"
+          }
+        ],
+        "climate-average.temperature": [
+          {
+            "ts": 1789860011242,
+            "value": "21.906382978723407"
+          }
+        ]
+      },
+      "passed": true
+    }
+  ],
+  "finished_ms": 1789860018437
+}

@@ -1,0 +1,19 @@
+{
+  "original": {
+    "path": "/private/tmp/smartfactory-phase4-independent-20261005/overlays/independent-ai-build-v3/independent_ai_review_test.go",
+    "sha256": "b52e3c3a36f364aed1712384504072ed039e3daaf6dd5ca591626ab893d06f00",
+    "bytes": 2751
+  },
+  "corrected": {
+    "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/overlays/independent-v3-null-corrected/independent_ai_review_test.go",
+    "sha256": "1a15d8648430a385839802c572786e5a2a20addc32e4a27e241e68d54e158362",
+    "bytes": 2801
+  },
+  "patch": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-a02/independent-v3-null-correction.patch",
+    "sha256": "300a6e69fb5f3fddced5e15f32dd2362fa800888f370d76b96c56068e2364ed4",
+    "bytes": 929
+  },
+  "equals_specialist_minimal_correction": true,
+  "reason": "Required arguments is serialized as JSON null after content is cleared; nil and the JSON null token both represent no parameter content. Non-null prior content still fails the assertion."
+}

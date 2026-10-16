@@ -1,0 +1,132 @@
+{
+  "created_at_ms": 1791145676170,
+  "commands": [
+    {
+      "cwd": "/path/to/SmartFactory-2026/DataTransfer",
+      "command": [
+        "go",
+        "test",
+        "-c",
+        "-p",
+        "1",
+        "-o",
+        "/private/tmp/sf-control-browser-final-v2-20261005/device-control.test",
+        "./internal/northbound/grpc"
+      ],
+      "exit_code": 0
+    },
+    {
+      "cwd": "/path/to/SmartFactory-2026/Platform",
+      "command": [
+        "go",
+        "test",
+        "-c",
+        "-p",
+        "1",
+        "-o",
+        "/private/tmp/sf-control-browser-final-v2-20261005/platform-control.test",
+        "./internal/app"
+      ],
+      "exit_code": 0
+    },
+    {
+      "cwd": "/path/to/SmartFactory-2026/Platform",
+      "command": [
+        "go",
+        "build",
+        "-p",
+        "1",
+        "-o",
+        "/private/tmp/sf-control-browser-final-v2-20261005/sf-cloud",
+        "./cmd/sf-cloud"
+      ],
+      "exit_code": 0
+    },
+    {
+      "cwd": "/path/to/SmartFactory-2026/Platform",
+      "command": [
+        "go",
+        "build",
+        "-p",
+        "1",
+        "-o",
+        "/private/tmp/sf-control-browser-final-v2-20261005/sf-edge",
+        "./cmd/sf-edge"
+      ],
+      "exit_code": 0
+    },
+    {
+      "cwd": "/path/to/SmartFactory-2026/DataTransfer",
+      "command": [
+        "go",
+        "build",
+        "-p",
+        "1",
+        "-o",
+        "/private/tmp/sf-control-browser-final-v2-20261005/datatransfer",
+        "./cmd/datatransfer"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "toolchain": {
+    "CGO_ENABLED": "1",
+    "GOARCH": "arm64",
+    "GOEXPERIMENT": "",
+    "GOOS": "darwin",
+    "GOVERSION": "go1.27.1"
+  },
+  "build_inputs": {
+    "path": "/private/tmp/sf-control-browser-final-v2-20261005/build-inputs.json",
+    "sha256": "6431b5762fc5ada9638fb4b1a9a19e5825143e3e1599a634b94ef38ec0e92882",
+    "count": 3643,
+    "verified_unchanged_after_build": true
+  },
+  "binaries": {
+    "device": {
+      "path": "/private/tmp/sf-control-browser-final-v2-20261005/device-control.test",
+      "sha256": "dc29f051ec8d1850fd2f27dcb198291fe864f56499d0904ec80d9fe57d060bc5",
+      "bytes": 25987858
+    },
+    "platform": {
+      "path": "/private/tmp/sf-control-browser-final-v2-20261005/platform-control.test",
+      "sha256": "3dac33c927bea5feb1ecbd23dc6b6c3edaa700e39ae733721f53e45a06e3899e",
+      "bytes": 52342530
+    },
+    "sf-cloud": {
+      "path": "/private/tmp/sf-control-browser-final-v2-20261005/sf-cloud",
+      "sha256": "cf7f6eef7997d71c3ad2b91440959cde9518828ce7f4ec8abfe18f1a01449990",
+      "bytes": 51244082
+    },
+    "sf-edge": {
+      "path": "/private/tmp/sf-control-browser-final-v2-20261005/sf-edge",
+      "sha256": "96c6cd512c9750c2ac704e81abb92c795c1137933836b07750652e67d7a400a9",
+      "bytes": 51244082
+    },
+    "datatransfer": {
+      "path": "/private/tmp/sf-control-browser-final-v2-20261005/datatransfer",
+      "sha256": "1c29ab30268760bf39a6eeda6ca203d03106ce04394f2914a203458717bbbc68",
+      "bytes": 36785970
+    }
+  },
+  "fixture_script_sha256": "1b67e77c43252cc9f9de0ba3b3e684cdd347fe92c50781b63bc2c32f152750f0",
+  "runtime": {
+    "test_run": "^TestControlBrowserFixture$",
+    "test_timeout": "2h",
+    "static_dir": "/path/to/SmartFactory-2026/Frontends/dist",
+    "pid": 48541,
+    "startup": {
+      "access_file": "/private/tmp/sf-control-browser-final-v2-20261005/runtime/private-access.json",
+      "approved_cancel_execution": "cancel-browser",
+      "cloud_url": "http://127.0.0.1:57807",
+      "driver_url": "http://127.0.0.1:57815",
+      "edge_url": "http://127.0.0.1:57808",
+      "stop_file": "/private/tmp/sf-control-browser-final-v2-20261005/runtime/browser-stop",
+      "unknown_execution": "recover-browser"
+    },
+    "device_rpc": "actual gRPC",
+    "cloud_edge_transport": "mTLS signed exchange",
+    "database": "separate SQLite files",
+    "simulator": "DataTransfer runtime Modbus TCP counted commands"
+  }
+}

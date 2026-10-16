@@ -1,0 +1,66 @@
+{
+  "environment": "macOS arm64 Docker Desktop Linux/amd64 emulation",
+  "docker_vm_memory_bytes": 8589934592,
+  "ce_container_limit_bytes": 4294967296,
+  "recording_completed_before_event": true,
+  "cause": "Docker VM global out-of-memory; kernel killed CE Java process",
+  "event_time_utc": "2026-09-20T07:30:44Z",
+  "events": [
+    {
+      "component": "kmsg",
+      "level": "info",
+      "msg": "C1 CompilerThre invoked oom-killer: gfp_mask=0x140cca(GFP_HIGHUSER_MOVABLE|__GFP_COMP), order=0, oom_score_adj=0",
+      "time": "2026-09-20T07:30:44.262137465Z"
+    },
+    {
+      "component": "kmsg",
+      "level": "info",
+      "msg": "Free swap  = 72kB",
+      "time": "2026-09-20T07:30:44.264261715Z"
+    },
+    {
+      "component": "kmsg",
+      "level": "info",
+      "msg": "Total swap = 1048572kB",
+      "time": "2026-09-20T07:30:44.264269048Z"
+    },
+    {
+      "component": "kmsg",
+      "level": "info",
+      "msg": "2097152 pages RAM",
+      "time": "2026-09-20T07:30:44.264273632Z"
+    },
+    {
+      "component": "kmsg",
+      "level": "info",
+      "msg": "oom-kill:constraint=CONSTRAINT_NONE,nodemask=(null),cpuset=5c632a4e41371b180f8f16860c25fc88fc6912b58f57699040d8784b2f78b4f4,mems_allowed=0,global_oom,task_memcg=/docker/4046e07a8a79516177e6b2a56138fe95f37ac724f590f4fb62aabb727e997ecf,task=java,pid=81536,uid=799",
+      "time": "2026-09-20T07:30:44.296125965Z"
+    },
+    {
+      "component": "kmsg",
+      "level": "info",
+      "msg": "Out of memory: Killed process 81536 (java) total-vm:6088820kB, anon-rss:4139432kB, file-rss:660kB, shmem-rss:0kB, UID:799 pgtables:9980kB oom_score_adj:0",
+      "time": "2026-09-20T07:30:44.296146715Z"
+    },
+    {
+      "component": "command",
+      "container": "4046e07a8a79516177e6b2a56138fe95f37ac724f590f4fb62aabb727e997ecf",
+      "exitCode": 137,
+      "exitedAt": "2026-09-20T07:30:44.61256084Z",
+      "level": "info",
+      "manualRestart": false,
+      "msg": "restarting container",
+      "restartCount": 1,
+      "restartPolicy": {
+        "MaximumRetryCount": 0,
+        "Name": "unless-stopped"
+      },
+      "time": "2026-09-20T07:30:44.768214757Z"
+    }
+  ],
+  "action": "Protocol simulator and gateway stopped; native cloud and Edge callback rechecked successfully; fixture containers and temporary volumes removed",
+  "target_uos_long_run_status": "pending",
+  "recovery_check": "native-after-vm-resource-recovery.json",
+  "recovery_passed": true,
+  "fixture_removed_at": "2026-09-20T07:41:00.714988+00:00"
+}

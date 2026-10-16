@@ -1,0 +1,17 @@
+继续担任第三阶段独立审查工程师，沿用 6 Astra / Max，恢复 .local/evolution/phase3-independent-review-t01-checkpoint.json 和其中 .local/evolution/phase3-review-evidence/t02-resume-instructions.json。主协调已核对该检查点的20个摘要引用、277份索引、7组命令及原始输出；6组验证通过，T02增强断言实际失败。更早的 .local/evolution/phase3-independent-review-checkpoint.json 与原失败数据、T01二进制均保留。
+
+新一轮开始时读取 .local/evolution/tasks-retry-t02-verified.json 及主协调对应源码／构建复核记录；如果最终报告尚在整理而主协调已经交付固定的新构建，则先执行SQLite页面，PG/race窗口按主协调通知使用。你负责独立验证及报告，存储生产修正交 phase2_storage_tasks；不创建子代理，不修改全局team/status/acceptance。
+
+P3-T02的实际问题为：同River24的运行中取消留下 cancel_attempted_at，正常页面重试两次均返回200，operation_revision依次2和3，随后生产snooze再次将River变为cancelled，业务run仍waiting_parent。第一次正常取消已在42.33秒后成功，但当时页面每秒GET；改为手动刷新后，单次读取的取消验证被T02阻碍，因此仍需补完。旧断言仅确认业务waiting_parent和代次，没有确认后续队列能够持续运行。
+
+验证从既有失败数据的独立副本开始，原目录保持原件；按照你保存的恢复说明，使用存储专业新交付的正式sf-cloud及当前源码摘要打开关闭后复制的history.db和master.key。旧sf-history-fixture要求新目录，不能直接用于旧库复验。启动前核对实际参数、节点身份、前端目录、二进制和数据库副本来源，凭据只在私有文件中读取。新鲜夹具可供必要独立场景使用，分别记录其来源。
+
+普通页面完成同一既有任务的重试，确认旧cancel_attempted_at实际删除；持续经过多次生产River调度或snooze后仍可运行，业务状态与队列状态一致。然后将页面刷新设为手动，取得一次当前Task详情，等待至少3秒，通过正常确认按钮再次取消。保留GET与POST时间、原expected_version、同Task/River/run/快照、已提交步骤和审计，验证取消后不继续计算。重复操作、旧代次、业务快照／阶段变化、撤权及资源变化按当前授权与版本语义检查；不要通过自动重试、过短确认窗口或改动生产调度时间代替这些条件。
+
+读取当前实现及River0.48.0驱动，确认删除取消字段与推进内部代次、业务／任务状态和审计在既有事务及锁内完成，其他metadata、sf_trace和精确JSON值被保留。SQLite与PostgreSQL各完成实际取消／重试／多次后续调度／再次取消检查，覆盖旧worker后续更新、取消重试并发和审计失败回滚；先复跑你已经保存的独立失败断言，保留首次失败和修复后通过的不同日志。按最终影响范围补充有限race及当前组合普通回归，未变化的DataTransfer、前端和控制专业证据继续引用对应受测摘要。
+
+PG18.6使用现有隔离容器，私有DSN来自.local/evolution/pg18-test.json且不打印，独立schema、3open/1idle加最多一管理连接，包并行1；PG与较大race顺序执行。Go1.27.1/GOTOOLCHAIN=local，GOPATH=/private/tmp/smartfactory-evolution-gopath，GOMODCACHE=/private/tmp/smartfactory-evolution-gomodcache，GOCACHE=/private/tmp/smartfactory-evolution-go-cache。大产物放/private/tmp，工作卷至少保留1GiB。
+
+最终形成 .local/evolution/phase3-independent-review.json，逐项核对E3-01至E3-07和十五项发现，明确各次源码／二进制／前端组合与原条件跳过的专项证据；所有必要检查完成后由主协调更新验收。正式契约、前端产物和已应用迁移若摘要没有变化，明确引用其现有验证；若发现新问题，保留复现并立即交主协调协调原专业。完成后关闭自建服务与浏览器，保存数据和日志，核对所有引用及凭据扫描后结束本轮。
+
+主协调负责需求、分工和验收，用户要求全局同时最多两个子智能体运行，每阶段最多五个新角色，本轮继续复用原审查角色。五阶段其余目标继续执行，排除范围仅为完整UOS安装恢复、单节点／三节点连续断云24小时、受限链路专项与实际24小时容量持续运行。中文使用自然完整段落，按当前Humanizer内部审阅，不用emoji，列表只用于有序流程。

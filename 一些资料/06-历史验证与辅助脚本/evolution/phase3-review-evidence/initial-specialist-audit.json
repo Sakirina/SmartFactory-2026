@@ -1,0 +1,1260 @@
+{
+  "recorded_at": "2026-10-04T20:43:38.840239+00:00",
+  "reports": {
+    "control-execution-verified.json": {
+      "snapshot": ".local/evolution/phase3-review-evidence/initial-specialist-reports/control-execution-verified.json",
+      "sha256": "e8d7c544ce7fe029a0048890a292c893da8fbef70b79ac5af888ba8af388fe8d",
+      "references": {
+        "files": 39,
+        "matched": 39,
+        "different": []
+      }
+    },
+    "history-analysis-verified.json": {
+      "snapshot": ".local/evolution/phase3-review-evidence/initial-specialist-reports/history-analysis-verified.json",
+      "sha256": "cf8f4a1c754d696b12e8a1a1aaac4a754b5afa28501376b7629712939023175c",
+      "references": {
+        "files": 33,
+        "matched": 33,
+        "different": []
+      }
+    },
+    "phase3-coordinator-findings.json": {
+      "snapshot": ".local/evolution/phase3-review-evidence/initial-specialist-reports/phase3-coordinator-findings.json",
+      "sha256": "089394fc2f90ce1ce5c3d688c6db888333a9ef2a205a66d96ea657f916889377",
+      "references": {
+        "files": 0,
+        "matched": 0,
+        "different": []
+      }
+    }
+  },
+  "control_source": {
+    "files": 445,
+    "matched": 445,
+    "different": []
+  },
+  "control_compiled_inputs": {
+    "files": 3643,
+    "matched": 3643,
+    "different": []
+  },
+  "control_binaries": {
+    "files": 5,
+    "matched": 5,
+    "different": []
+  },
+  "history_source": {
+    "production_inputs": {
+      "files": 140,
+      "matched": 140,
+      "different": []
+    },
+    "test_and_fixture_inputs": {
+      "files": 48,
+      "matched": 48,
+      "different": []
+    },
+    "module_lock_inputs": {
+      "files": 4,
+      "matched": 4,
+      "different": []
+    },
+    "generated_contract_inputs": {
+      "files": 100,
+      "matched": 99,
+      "different": [
+        {
+          "path": "Frontends/src/generated-client.ts",
+          "expected": "8d9401ba0e2596131f06e563ef52994710842806fe8a02d357048cf5c0000609",
+          "actual": "cf9371d2d06a288e8702cabca944c3723174c68296d04b424eb1b3023a5882fe",
+          "identical": false
+        }
+      ]
+    },
+    "documentation_inputs": {
+      "files": 1,
+      "matched": 1,
+      "different": []
+    }
+  },
+  "history_binaries": {
+    "files": 3,
+    "matched": 3,
+    "different": []
+  },
+  "control_commands": [
+    {
+      "log": {
+        "path": ".local/evolution/control-evidence/platform-final-ordinary.jsonl",
+        "sha256": "8655c3a67ab3c1f17c87215cb29ea8ded2b7f33c5798bf3863acf805c26de72b",
+        "bytes": 531597
+      },
+      "counts": {
+        "top_level": {
+          "pass": 202,
+          "fail": 2,
+          "skip": 32
+        },
+        "leaf_cases": {
+          "pass": 325,
+          "fail": 2,
+          "skip": 32
+        },
+        "all_named_cases": {
+          "pass": 363,
+          "fail": 2,
+          "skip": 32
+        },
+        "packages": {
+          "pass": 19,
+          "fail": 2,
+          "skip": 17
+        },
+        "conditional_skips": [
+          {
+            "package": "competition2026/product/platform/internal/api",
+            "test": "TestPostgresDeadlockReturnsHTTP409WithoutRepeatingCallback",
+            "reason": "=== RUN   TestPostgresDeadlockReturnsHTTP409WithoutRepeatingCallback\n    concurrency_postgres_test.go:19: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresDeadlockReturnsHTTP409WithoutRepeatingCallback (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/api",
+            "test": "TestPostgresLegacyAndTaskRetryConcurrentRequestsShareOneAttempt",
+            "reason": "=== RUN   TestPostgresLegacyAndTaskRetryConcurrentRequestsShareOneAttempt\n    jobs_retry_test.go:254: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresLegacyAndTaskRetryConcurrentRequestsShareOneAttempt (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/app",
+            "test": "TestControlledCloudEdgeControlIntervention",
+            "reason": "=== RUN   TestControlledCloudEdgeControlIntervention\n    control_fixture_test.go:509: actual DataTransfer controlled fixture binary required\n--- SKIP: TestControlledCloudEdgeControlIntervention (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/app",
+            "test": "TestControlBrowserFixture",
+            "reason": "=== RUN   TestControlBrowserFixture\n    control_fixture_test.go:706: browser fixture output directory required\n--- SKIP: TestControlBrowserFixture (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/application",
+            "test": "TestPostgresIndependentDraftsShareAuthorizationWithoutSerialization",
+            "reason": "=== RUN   TestPostgresIndependentDraftsShareAuthorizationWithoutSerialization\n    concurrency_postgres_test.go:19: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresIndependentDraftsShareAuthorizationWithoutSerialization (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/application",
+            "test": "TestHistoryCrashProcess",
+            "reason": "=== RUN   TestHistoryCrashProcess\n    history_restart_test.go:51: subprocess helper\n--- SKIP: TestHistoryCrashProcess (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/application",
+            "test": "TestPostgresHistoryReplayCrossVersionAssetsAndImmutableSnapshot",
+            "reason": "=== RUN   TestPostgresHistoryReplayCrossVersionAssetsAndImmutableSnapshot\n    history_test.go:102: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresHistoryReplayCrossVersionAssetsAndImmutableSnapshot (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/application",
+            "test": "TestPostgresHistoryRiverWorkerExecutesDurableAnalysis",
+            "reason": "=== RUN   TestPostgresHistoryRiverWorkerExecutesDurableAnalysis\n    history_test.go:355: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresHistoryRiverWorkerExecutesDurableAnalysis (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/application",
+            "test": "TestPostgresShadowProductionDerivedRevisionComparedWithCommittedRecompute",
+            "reason": "=== RUN   TestPostgresShadowProductionDerivedRevisionComparedWithCommittedRecompute\n    shadow_test.go:21: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresShadowProductionDerivedRevisionComparedWithCommittedRecompute (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/application",
+            "test": "TestPostgresShadowProductionDeliveriesDeduplicateContinueAndWaitForParent",
+            "reason": "=== RUN   TestPostgresShadowProductionDeliveriesDeduplicateContinueAndWaitForParent\n    shadow_test.go:253: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresShadowProductionDeliveriesDeduplicateContinueAndWaitForParent (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/compiledplan",
+            "test": "TestPostgresPlanTransactionsAndConcurrentPublication",
+            "reason": "=== RUN   TestPostgresPlanTransactionsAndConcurrentPublication\n    postgres_test.go:22: isolated PostgreSQL fixture required\n--- SKIP: TestPostgresPlanTransactionsAndConcurrentPublication (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/control",
+            "test": "TestPostgresControlAtomicTransitionsAndConcurrentIntervention",
+            "reason": "=== RUN   TestPostgresControlAtomicTransitionsAndConcurrentIntervention\n    postgres_test.go:16: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresControlAtomicTransitionsAndConcurrentIntervention (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/coordination",
+            "test": "TestPersistentThreeReplicaUpgrade",
+            "reason": "=== RUN   TestPersistentThreeReplicaUpgrade\n    infrastructure_test.go:33: set SF_SITE_MIGRATION_FIXTURE to an isolated prepared .local/site directory\n--- SKIP: TestPersistentThreeReplicaUpgrade (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/coordination",
+            "test": "TestRealThreeReplicaCoordination",
+            "reason": "=== RUN   TestRealThreeReplicaCoordination\n    integration_test.go:219: set SF_SITE_INTEGRATION to the prepared .local/site directory\n--- SKIP: TestRealThreeReplicaCoordination (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/coordination",
+            "test": "TestRealThreeReplicaReadOnlyReconcileAndManualResume",
+            "reason": "=== RUN   TestRealThreeReplicaReadOnlyReconcileAndManualResume\n    intervention_test.go:15: set SF_SITE_INTEGRATION to the prepared .local/site directory\n--- SKIP: TestRealThreeReplicaReadOnlyReconcileAndManualResume (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/coordination",
+            "test": "TestRealConcurrentOperationDeliveryKeepsLeaseContentionRetryable",
+            "reason": "=== RUN   TestRealConcurrentOperationDeliveryKeepsLeaseContentionRetryable\n    intervention_test.go:84: set SF_SITE_INTEGRATION to the prepared .local/site directory\n--- SKIP: TestRealConcurrentOperationDeliveryKeepsLeaseContentionRetryable (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/plugins",
+            "test": "TestActualOrganizationProcessPullAndCrashIsolation",
+            "reason": "=== RUN   TestActualOrganizationProcessPullAndCrashIsolation\n    manager_test.go:36: set SF_HR_PLUGIN_BINARY to the built example process\n--- SKIP: TestActualOrganizationProcessPullAndCrashIsolation (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresArchiveCASAndTransactionDuration",
+            "reason": "=== RUN   TestPostgresArchiveCASAndTransactionDuration\n    archive_cas_test.go:100: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresArchiveCASAndTransactionDuration (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresArchiveRetirementAndCreationRace",
+            "reason": "=== RUN   TestPostgresArchiveRetirementAndCreationRace\n    archive_cas_test.go:205: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresArchiveRetirementAndCreationRace (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresArchiveCapacityAndLatePartitionRecovery",
+            "reason": "=== RUN   TestPostgresArchiveCapacityAndLatePartitionRecovery\n    archive_postgres_test.go:21: isolated PostgreSQL fixture required\n--- SKIP: TestPostgresArchiveCapacityAndLatePartitionRecovery (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresBulkIngestTasksBudget",
+            "reason": "=== RUN   TestPostgresBulkIngestTasksBudget\n    bulk_tasks_test.go:42: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresBulkIngestTasksBudget (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresIndependentObjectsAndContendedIdentity",
+            "reason": "=== RUN   TestPostgresIndependentObjectsAndContendedIdentity\n    concurrency_postgres_test.go:39: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresIndependentObjectsAndContendedIdentity (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresLateCommitSyncAuditAndAtomicFinalization",
+            "reason": "=== RUN   TestPostgresLateCommitSyncAuditAndAtomicFinalization\n    concurrency_postgres_test.go:138: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresLateCommitSyncAuditAndAtomicFinalization (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresDeadlockIsRecognizableWithoutCallbackReplay",
+            "reason": "=== RUN   TestPostgresDeadlockIsRecognizableWithoutCallbackReplay\n    concurrency_postgres_test.go:245: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresDeadlockIsRecognizableWithoutCallbackReplay (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresNumberedMigrationsPreserveExistingSchema",
+            "reason": "=== RUN   TestPostgresNumberedMigrationsPreserveExistingSchema\n    migrations_test.go:159: set SF_TEST_POSTGRES_DATABASE to an isolated PostgreSQL fixture\n--- SKIP: TestPostgresNumberedMigrationsPreserveExistingSchema (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresRetentionDropsExpiredPartitionBeforeRowDeletion",
+            "reason": "=== RUN   TestPostgresRetentionDropsExpiredPartitionBeforeRowDeletion\n    postgres_retention_test.go:15: set SF_TEST_POSTGRES_DATABASE to an isolated PostgreSQL fixture\n--- SKIP: TestPostgresRetentionDropsExpiredPartitionBeforeRowDeletion (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresRiverMigrationHandoffResumes",
+            "reason": "=== RUN   TestPostgresRiverMigrationHandoffResumes\n    river_migration_test.go:72: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresRiverMigrationHandoffResumes (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresRiverTransactionalEnqueue",
+            "reason": "=== RUN   TestPostgresRiverTransactionalEnqueue\n    river_test.go:112: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresRiverTransactionalEnqueue (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestControlledPostgresUpgradeFixture",
+            "reason": "=== RUN   TestControlledPostgresUpgradeFixture\n    upgrade_fixture_test.go:33: controlled PostgreSQL 16 -> 18 fixture\n--- SKIP: TestControlledPostgresUpgradeFixture (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/tasks",
+            "test": "TestPostgresRiverRetryAndRunningCancellation",
+            "reason": "=== RUN   TestPostgresRiverRetryAndRunningCancellation\n    service_test.go:130: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresRiverRetryAndRunningCancellation (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/tasks",
+            "test": "TestTaskCrashProcess",
+            "reason": "=== RUN   TestTaskCrashProcess\n    service_test.go:136: subprocess helper\n--- SKIP: TestTaskCrashProcess (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/thingsboard",
+            "test": "TestNativeCalculatedFieldAlarmAndRetention",
+            "reason": "=== RUN   TestNativeCalculatedFieldAlarmAndRetention\n    native_test.go:22: set SF_NATIVE_URL and SF_NATIVE_CREDENTIALS for the pinned native integration\n--- SKIP: TestNativeCalculatedFieldAlarmAndRetention (0.00s)\n"
+          }
+        ],
+        "failures": [
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestRiverMigrationHandoffResumesSQLite",
+            "output": "=== RUN   TestRiverMigrationHandoffResumesSQLite\n    river_migration_test.go:69: [{1 migrations/sqlite/00001_baseline.sql 8f8b3ff25cd9a9f55e99ab3abd851f20e8075d15242bec0e52ee4e2695a15631 1791145492679} {2 migration00002.go d41f217a598789ec94a29fdcf9db03547eb5bc79cb1671bdc2211891ccc1b626 1791145492680} {3 migration00003.go 5b5c043c4d830ba6e77057b54654585e83fec0b0fb9e8e9b75e87e65bba9cfd4 1791145492680} {4 migration00004.go 1a69098a1f06a9659d5b6d2f0d967b88a1e29a7a677bbf3014714ab2856bf854 1791145492690} {5 migration00005.go ef7dbe90ee1e57d318b600b2f7ff62416384f833031ba196fd238b45e8df16ac 1791145492691} {6 migration00006.go cfc2e96ad04880f7081db6b62a179ed52f37269ac0e46fd60c84fc40aafc15aa 1791145492691}] <nil>\n--- FAIL: TestRiverMigrationHandoffResumesSQLite (0.01s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/pkg/compatibility",
+            "test": "TestDatabaseMigrationRange",
+            "output": "=== RUN   TestDatabaseMigrationRange\n    compatibility_test.go:62: unsupported sqlite migration version 4\n--- FAIL: TestDatabaseMigrationRange (0.00s)\n"
+          }
+        ],
+        "data_race_occurrences": 0
+      },
+      "reported_passed_names_match": true
+    },
+    {
+      "log": {
+        "path": ".local/evolution/control-evidence/control-final-race.jsonl",
+        "sha256": "1feb5d9fedf36fbaca5138e3daebe5aafbe631906ff110a5f36233008f3a1287",
+        "bytes": 105174
+      },
+      "counts": {
+        "top_level": {
+          "pass": 39,
+          "fail": 0,
+          "skip": 5
+        },
+        "leaf_cases": {
+          "pass": 78,
+          "fail": 0,
+          "skip": 5
+        },
+        "all_named_cases": {
+          "pass": 87,
+          "fail": 0,
+          "skip": 5
+        },
+        "packages": {
+          "pass": 4,
+          "fail": 0,
+          "skip": 0
+        },
+        "conditional_skips": [
+          {
+            "package": "competition2026/product/platform/internal/control",
+            "test": "TestPostgresControlAtomicTransitionsAndConcurrentIntervention",
+            "reason": "=== RUN   TestPostgresControlAtomicTransitionsAndConcurrentIntervention\n    postgres_test.go:16: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresControlAtomicTransitionsAndConcurrentIntervention (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/coordination",
+            "test": "TestPersistentThreeReplicaUpgrade",
+            "reason": "=== RUN   TestPersistentThreeReplicaUpgrade\n    infrastructure_test.go:33: set SF_SITE_MIGRATION_FIXTURE to an isolated prepared .local/site directory\n--- SKIP: TestPersistentThreeReplicaUpgrade (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/coordination",
+            "test": "TestRealThreeReplicaCoordination",
+            "reason": "=== RUN   TestRealThreeReplicaCoordination\n    integration_test.go:219: set SF_SITE_INTEGRATION to the prepared .local/site directory\n--- SKIP: TestRealThreeReplicaCoordination (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/coordination",
+            "test": "TestRealThreeReplicaReadOnlyReconcileAndManualResume",
+            "reason": "=== RUN   TestRealThreeReplicaReadOnlyReconcileAndManualResume\n    intervention_test.go:15: set SF_SITE_INTEGRATION to the prepared .local/site directory\n--- SKIP: TestRealThreeReplicaReadOnlyReconcileAndManualResume (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/coordination",
+            "test": "TestRealConcurrentOperationDeliveryKeepsLeaseContentionRetryable",
+            "reason": "=== RUN   TestRealConcurrentOperationDeliveryKeepsLeaseContentionRetryable\n    intervention_test.go:84: set SF_SITE_INTEGRATION to the prepared .local/site directory\n--- SKIP: TestRealConcurrentOperationDeliveryKeepsLeaseContentionRetryable (0.00s)\n"
+          }
+        ],
+        "failures": [],
+        "data_race_occurrences": 0
+      },
+      "reported_passed_names_match": true
+    },
+    {
+      "log": {
+        "path": ".local/evolution/control-evidence/datatransfer-final-ordinary.jsonl",
+        "sha256": "f69c20574bc960e875001a0de7cd7f03d9a9f9bd408891c56be47aea40d150fe",
+        "bytes": 159459
+      },
+      "counts": {
+        "top_level": {
+          "pass": 96,
+          "fail": 0,
+          "skip": 7
+        },
+        "leaf_cases": {
+          "pass": 99,
+          "fail": 0,
+          "skip": 7
+        },
+        "all_named_cases": {
+          "pass": 101,
+          "fail": 0,
+          "skip": 7
+        },
+        "packages": {
+          "pass": 21,
+          "fail": 0,
+          "skip": 12
+        },
+        "conditional_skips": [
+          {
+            "package": "competition2026/product/datatransfer/internal/connector/opcua",
+            "test": "TestNativeClientExternalSmoke",
+            "reason": "=== RUN   TestNativeClientExternalSmoke\n    connector_test.go:116: DT_OPCUA_SMOKE_ENDPOINT is not set\n--- SKIP: TestNativeClientExternalSmoke (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/datatransfer/internal/connector/opcua",
+            "test": "TestNativeSignedEncryptedMethodAndCertificateValidation",
+            "reason": "=== RUN   TestNativeSignedEncryptedMethodAndCertificateValidation\n    security_recovery_test.go:43: set SF_OPCUA_PYTHON to the interpreter with tests/fixtures/requirements-opcua.txt\n--- SKIP: TestNativeSignedEncryptedMethodAndCertificateValidation (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/datatransfer/internal/connector/sidecar",
+            "test": "TestHTTPExampleProcessCollectsAndControlsSimulator",
+            "reason": "=== RUN   TestHTTPExampleProcessCollectsAndControlsSimulator\n    http_example_test.go:19: set SF_HTTP_PLUGIN_BINARY to the built examples/http-plugin\n--- SKIP: TestHTTPExampleProcessCollectsAndControlsSimulator (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/datatransfer/internal/northbound/grpc",
+            "test": "TestControlledControlDeviceFixture",
+            "reason": "=== RUN   TestControlledControlDeviceFixture\n    control_fixture_test.go:57: controlled device fixture directory required\n--- SKIP: TestControlledControlDeviceFixture (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/datatransfer/internal/northbound/mqtt",
+            "test": "TestExternalBrokerSmoke",
+            "reason": "=== RUN   TestExternalBrokerSmoke\n    adapter_test.go:100: DT_MQTT_SMOKE_BROKER is not set\n--- SKIP: TestExternalBrokerSmoke (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/datatransfer/tests/acceptance",
+            "test": "TestDurableProcessFixture",
+            "reason": "=== RUN   TestDurableProcessFixture\n    durable_test.go:43: subprocess fixture\n--- SKIP: TestDurableProcessFixture (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/datatransfer/tests/acceptance",
+            "test": "TestDurableMessagesFaultInjection",
+            "reason": "=== RUN   TestDurableMessagesFaultInjection\n    durable_test.go:102: set SF_ACCEPTANCE_COUNT=100000 for A06\n--- SKIP: TestDurableMessagesFaultInjection (0.00s)\n"
+          }
+        ],
+        "failures": [],
+        "data_race_occurrences": 0
+      },
+      "reported_passed_names_match": true
+    },
+    {
+      "log": {
+        "path": ".local/evolution/control-evidence/contracts-final.jsonl",
+        "sha256": "6c6df99558e9fd908ab188ec0167284db0592d5d97badd5f9313cf5f413c4e5e",
+        "bytes": 7498
+      },
+      "counts": {
+        "top_level": {
+          "pass": 6,
+          "fail": 0,
+          "skip": 0
+        },
+        "leaf_cases": {
+          "pass": 6,
+          "fail": 0,
+          "skip": 0
+        },
+        "all_named_cases": {
+          "pass": 6,
+          "fail": 0,
+          "skip": 0
+        },
+        "packages": {
+          "pass": 3,
+          "fail": 0,
+          "skip": 0
+        },
+        "conditional_skips": [],
+        "failures": [],
+        "data_race_occurrences": 0
+      },
+      "reported_passed_names_match": true
+    },
+    {
+      "log": {
+        "path": ".local/evolution/control-evidence/postgres-control-final.jsonl",
+        "sha256": "598596928d1aae3cf5c9b2615db93db51621dab66a143c9fc1751f4750f8841a",
+        "bytes": 2130
+      },
+      "counts": {
+        "top_level": {
+          "pass": 1,
+          "fail": 0,
+          "skip": 0
+        },
+        "leaf_cases": {
+          "pass": 1,
+          "fail": 0,
+          "skip": 0
+        },
+        "all_named_cases": {
+          "pass": 1,
+          "fail": 0,
+          "skip": 0
+        },
+        "packages": {
+          "pass": 1,
+          "fail": 0,
+          "skip": 0
+        },
+        "conditional_skips": [],
+        "failures": [],
+        "data_race_occurrences": 0
+      },
+      "reported_passed_names_match": true
+    },
+    {
+      "log": {
+        "path": ".local/evolution/control-evidence/nats-final.jsonl",
+        "sha256": "09e4de0a1fd1322a71d98aa2213675d5d9d6b930dd19829fd3ee37f3e67ec5fe",
+        "bytes": 8126
+      },
+      "counts": {
+        "top_level": {
+          "pass": 3,
+          "fail": 0,
+          "skip": 0
+        },
+        "leaf_cases": {
+          "pass": 3,
+          "fail": 0,
+          "skip": 0
+        },
+        "all_named_cases": {
+          "pass": 3,
+          "fail": 0,
+          "skip": 0
+        },
+        "packages": {
+          "pass": 1,
+          "fail": 0,
+          "skip": 0
+        },
+        "conditional_skips": [],
+        "failures": [],
+        "data_race_occurrences": 0
+      },
+      "reported_passed_names_match": true
+    },
+    {
+      "log": {
+        "path": ".local/evolution/control-evidence/dual-app-final-binary.jsonl",
+        "sha256": "c12cd49181a3630a6f308117b64802e910605f19d8bfc60a7a12a1a4060141ad",
+        "bytes": 6520
+      },
+      "counts": {
+        "top_level": {
+          "pass": 1,
+          "fail": 0,
+          "skip": 0
+        },
+        "leaf_cases": {
+          "pass": 1,
+          "fail": 0,
+          "skip": 0
+        },
+        "all_named_cases": {
+          "pass": 1,
+          "fail": 0,
+          "skip": 0
+        },
+        "packages": {
+          "pass": 1,
+          "fail": 0,
+          "skip": 0
+        },
+        "conditional_skips": [],
+        "failures": [],
+        "data_race_occurrences": 0
+      },
+      "reported_passed_names_match": true
+    },
+    {
+      "log": {
+        "path": ".local/evolution/control-evidence/operation-deadline-concurrent-first.jsonl",
+        "sha256": "e8086372c1bf2da68db5822d407334920a682dfadfeadf3edbf3a610cd3fe41e",
+        "bytes": 7634
+      },
+      "counts": {
+        "top_level": {
+          "pass": 3,
+          "fail": 0,
+          "skip": 0
+        },
+        "leaf_cases": {
+          "pass": 4,
+          "fail": 0,
+          "skip": 0
+        },
+        "all_named_cases": {
+          "pass": 5,
+          "fail": 0,
+          "skip": 0
+        },
+        "packages": {
+          "pass": 1,
+          "fail": 0,
+          "skip": 0
+        },
+        "conditional_skips": [],
+        "failures": [],
+        "data_race_occurrences": 0
+      },
+      "reported_passed_names_match": true
+    },
+    {
+      "log": {
+        "path": ".local/evolution/control-evidence/operation-started-receipt-first.jsonl",
+        "sha256": "e115fb06842ab87bff8b70f05cb1c90695b8b40bd2bd512137a516429a865e74",
+        "bytes": 14834
+      },
+      "counts": {
+        "top_level": {
+          "pass": 5,
+          "fail": 0,
+          "skip": 0
+        },
+        "leaf_cases": {
+          "pass": 8,
+          "fail": 0,
+          "skip": 0
+        },
+        "all_named_cases": {
+          "pass": 11,
+          "fail": 0,
+          "skip": 0
+        },
+        "packages": {
+          "pass": 1,
+          "fail": 0,
+          "skip": 0
+        },
+        "conditional_skips": [],
+        "failures": [],
+        "data_race_occurrences": 0
+      },
+      "reported_passed_names_match": true
+    },
+    {
+      "log": {
+        "path": ".local/evolution/control-evidence/state-legacy-first.jsonl",
+        "sha256": "ccc4560c6762d964c6735fba704422b15f11c81a216a19cb023df600b4decb8a",
+        "bytes": 19112
+      },
+      "counts": {
+        "top_level": {
+          "pass": 3,
+          "fail": 0,
+          "skip": 0
+        },
+        "leaf_cases": {
+          "pass": 16,
+          "fail": 0,
+          "skip": 0
+        },
+        "all_named_cases": {
+          "pass": 17,
+          "fail": 0,
+          "skip": 0
+        },
+        "packages": {
+          "pass": 1,
+          "fail": 0,
+          "skip": 0
+        },
+        "conditional_skips": [],
+        "failures": [],
+        "data_race_occurrences": 0
+      },
+      "reported_passed_names_match": true
+    },
+    {
+      "log": {
+        "path": ".local/evolution/control-evidence/authorization-first.jsonl",
+        "sha256": "66c20e3b4cacc9e6ac6159681b96f398237e8398d41fe3b42813c5306884022f",
+        "bytes": 10998
+      },
+      "counts": {
+        "top_level": {
+          "pass": 2,
+          "fail": 0,
+          "skip": 0
+        },
+        "leaf_cases": {
+          "pass": 7,
+          "fail": 0,
+          "skip": 0
+        },
+        "all_named_cases": {
+          "pass": 8,
+          "fail": 0,
+          "skip": 0
+        },
+        "packages": {
+          "pass": 1,
+          "fail": 0,
+          "skip": 0
+        },
+        "conditional_skips": [],
+        "failures": [],
+        "data_race_occurrences": 0
+      },
+      "reported_passed_names_match": true
+    }
+  ],
+  "history_commands": [
+    {
+      "log": {
+        "path": ".local/evolution/history-evidence/compile-3.log",
+        "sha256": "7de19181b46a766c49b3087a342e8ce6027af15aceefbd2cd68d93ca30555993",
+        "bytes": 395
+      },
+      "counts": {
+        "top_level": {
+          "pass": 0,
+          "fail": 0,
+          "skip": 0
+        },
+        "leaf_cases": {
+          "pass": 0,
+          "fail": 0,
+          "skip": 0
+        },
+        "all_named_cases": {
+          "pass": 0,
+          "fail": 0,
+          "skip": 0
+        },
+        "packages": {
+          "pass": 0,
+          "fail": 0,
+          "skip": 0
+        },
+        "conditional_skips": [],
+        "failures": [],
+        "data_race_occurrences": 0
+      }
+    },
+    {
+      "log": {
+        "path": ".local/evolution/history-evidence/history-first.jsonl",
+        "sha256": "30ba425f0e6ce64a080988ae4ab2bde2cb4aef8614eec698366e5462be587dc4",
+        "bytes": 8801
+      },
+      "counts": {
+        "top_level": {
+          "pass": 5,
+          "fail": 0,
+          "skip": 0
+        },
+        "leaf_cases": {
+          "pass": 5,
+          "fail": 0,
+          "skip": 0
+        },
+        "all_named_cases": {
+          "pass": 5,
+          "fail": 0,
+          "skip": 0
+        },
+        "packages": {
+          "pass": 1,
+          "fail": 0,
+          "skip": 0
+        },
+        "conditional_skips": [],
+        "failures": [],
+        "data_race_occurrences": 0
+      },
+      "reported_top_level_match": true
+    },
+    {
+      "log": {
+        "path": ".local/evolution/history-evidence/shadow-first.jsonl",
+        "sha256": "f2ee09ccacca279fb443906d8c391aa15c8d5af58877e038c9e4c020c7d09542",
+        "bytes": 11853
+      },
+      "counts": {
+        "top_level": {
+          "pass": 3,
+          "fail": 0,
+          "skip": 0
+        },
+        "leaf_cases": {
+          "pass": 6,
+          "fail": 0,
+          "skip": 0
+        },
+        "all_named_cases": {
+          "pass": 8,
+          "fail": 0,
+          "skip": 0
+        },
+        "packages": {
+          "pass": 1,
+          "fail": 0,
+          "skip": 0
+        },
+        "conditional_skips": [],
+        "failures": [],
+        "data_race_occurrences": 0
+      },
+      "reported_top_level_match": true
+    },
+    {
+      "log": {
+        "path": ".local/evolution/history-evidence/shadow-revision-repair.jsonl",
+        "sha256": "ea23eff8d512ddd4a09aaa6d8d89dfb0a88be6c2074e2fa660ae0e747790fef3",
+        "bytes": 3638
+      },
+      "counts": {
+        "top_level": {
+          "pass": 2,
+          "fail": 0,
+          "skip": 0
+        },
+        "leaf_cases": {
+          "pass": 2,
+          "fail": 0,
+          "skip": 0
+        },
+        "all_named_cases": {
+          "pass": 2,
+          "fail": 0,
+          "skip": 0
+        },
+        "packages": {
+          "pass": 1,
+          "fail": 0,
+          "skip": 0
+        },
+        "conditional_skips": [],
+        "failures": [],
+        "data_race_occurrences": 0
+      },
+      "reported_top_level_match": true
+    },
+    {
+      "log": {
+        "path": ".local/evolution/history-evidence/postgres-first.jsonl",
+        "sha256": "e0b0c66912143db4a2f5ccac44ecd41e50d4a402cefac6600556d4684bf13735",
+        "bytes": 8221
+      },
+      "counts": {
+        "top_level": {
+          "pass": 4,
+          "fail": 0,
+          "skip": 0
+        },
+        "leaf_cases": {
+          "pass": 4,
+          "fail": 0,
+          "skip": 0
+        },
+        "all_named_cases": {
+          "pass": 4,
+          "fail": 0,
+          "skip": 0
+        },
+        "packages": {
+          "pass": 1,
+          "fail": 0,
+          "skip": 0
+        },
+        "conditional_skips": [],
+        "failures": [],
+        "data_race_occurrences": 0
+      },
+      "reported_top_level_match": true
+    },
+    {
+      "log": {
+        "path": ".local/evolution/history-evidence/sigkill-first.jsonl",
+        "sha256": "7b283e8d46bc7744c4d2e51333f414d63df39a26c68507bd31cab299ca869f59",
+        "bytes": 16518
+      },
+      "counts": {
+        "top_level": {
+          "pass": 3,
+          "fail": 0,
+          "skip": 0
+        },
+        "leaf_cases": {
+          "pass": 5,
+          "fail": 0,
+          "skip": 0
+        },
+        "all_named_cases": {
+          "pass": 6,
+          "fail": 0,
+          "skip": 0
+        },
+        "packages": {
+          "pass": 1,
+          "fail": 0,
+          "skip": 0
+        },
+        "conditional_skips": [],
+        "failures": [],
+        "data_race_occurrences": 0
+      },
+      "reported_top_level_match": true
+    },
+    {
+      "log": {
+        "path": ".local/evolution/history-evidence/http-otlp-repair.jsonl",
+        "sha256": "660b85234dda45705035f38551a4f3fcdbfde4592fb4a53aa7eafb20f268227c",
+        "bytes": 3907
+      },
+      "counts": {
+        "top_level": {
+          "pass": 1,
+          "fail": 0,
+          "skip": 0
+        },
+        "leaf_cases": {
+          "pass": 1,
+          "fail": 0,
+          "skip": 0
+        },
+        "all_named_cases": {
+          "pass": 1,
+          "fail": 0,
+          "skip": 0
+        },
+        "packages": {
+          "pass": 1,
+          "fail": 0,
+          "skip": 0
+        },
+        "conditional_skips": [],
+        "failures": [],
+        "data_race_occurrences": 0
+      },
+      "reported_top_level_match": true
+    },
+    {
+      "log": {
+        "path": ".local/evolution/history-evidence/race-first.jsonl",
+        "sha256": "233aa9d466ae5447293d5969b783705c82e99e972b0ac9ff6e9ef4eab4ed8eb9",
+        "bytes": 16681
+      },
+      "counts": {
+        "top_level": {
+          "pass": 7,
+          "fail": 0,
+          "skip": 0
+        },
+        "leaf_cases": {
+          "pass": 8,
+          "fail": 0,
+          "skip": 0
+        },
+        "all_named_cases": {
+          "pass": 9,
+          "fail": 0,
+          "skip": 0
+        },
+        "packages": {
+          "pass": 2,
+          "fail": 0,
+          "skip": 0
+        },
+        "conditional_skips": [],
+        "failures": [],
+        "data_race_occurrences": 0
+      },
+      "reported_top_level_match": true
+    },
+    {
+      "log": {
+        "path": ".local/evolution/history-evidence/combined-regression.jsonl",
+        "sha256": "05aaabbdfe6052a4dbb9d9b7d76105ccfd3ee08e81760dd673e23103aba4a963",
+        "bytes": 235366
+      },
+      "counts": {
+        "top_level": {
+          "pass": 97,
+          "fail": 1,
+          "skip": 22
+        },
+        "leaf_cases": {
+          "pass": 140,
+          "fail": 1,
+          "skip": 22
+        },
+        "all_named_cases": {
+          "pass": 156,
+          "fail": 1,
+          "skip": 22
+        },
+        "packages": {
+          "pass": 4,
+          "fail": 1,
+          "skip": 0
+        },
+        "conditional_skips": [
+          {
+            "package": "competition2026/product/platform/internal/application",
+            "test": "TestPostgresIndependentDraftsShareAuthorizationWithoutSerialization",
+            "reason": "=== RUN   TestPostgresIndependentDraftsShareAuthorizationWithoutSerialization\n    concurrency_postgres_test.go:19: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresIndependentDraftsShareAuthorizationWithoutSerialization (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/application",
+            "test": "TestHistoryCrashProcess",
+            "reason": "=== RUN   TestHistoryCrashProcess\n    history_restart_test.go:51: subprocess helper\n--- SKIP: TestHistoryCrashProcess (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/application",
+            "test": "TestPostgresHistoryReplayCrossVersionAssetsAndImmutableSnapshot",
+            "reason": "=== RUN   TestPostgresHistoryReplayCrossVersionAssetsAndImmutableSnapshot\n    history_test.go:102: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresHistoryReplayCrossVersionAssetsAndImmutableSnapshot (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/application",
+            "test": "TestPostgresHistoryRiverWorkerExecutesDurableAnalysis",
+            "reason": "=== RUN   TestPostgresHistoryRiverWorkerExecutesDurableAnalysis\n    history_test.go:355: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresHistoryRiverWorkerExecutesDurableAnalysis (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/application",
+            "test": "TestPostgresShadowProductionDerivedRevisionComparedWithCommittedRecompute",
+            "reason": "=== RUN   TestPostgresShadowProductionDerivedRevisionComparedWithCommittedRecompute\n    shadow_test.go:21: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresShadowProductionDerivedRevisionComparedWithCommittedRecompute (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/application",
+            "test": "TestPostgresShadowProductionDeliveriesDeduplicateContinueAndWaitForParent",
+            "reason": "=== RUN   TestPostgresShadowProductionDeliveriesDeduplicateContinueAndWaitForParent\n    shadow_test.go:253: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresShadowProductionDeliveriesDeduplicateContinueAndWaitForParent (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/api",
+            "test": "TestPostgresDeadlockReturnsHTTP409WithoutRepeatingCallback",
+            "reason": "=== RUN   TestPostgresDeadlockReturnsHTTP409WithoutRepeatingCallback\n    concurrency_postgres_test.go:19: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresDeadlockReturnsHTTP409WithoutRepeatingCallback (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/api",
+            "test": "TestPostgresLegacyAndTaskRetryConcurrentRequestsShareOneAttempt",
+            "reason": "=== RUN   TestPostgresLegacyAndTaskRetryConcurrentRequestsShareOneAttempt\n    jobs_retry_test.go:254: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresLegacyAndTaskRetryConcurrentRequestsShareOneAttempt (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresArchiveCASAndTransactionDuration",
+            "reason": "=== RUN   TestPostgresArchiveCASAndTransactionDuration\n    archive_cas_test.go:100: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresArchiveCASAndTransactionDuration (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresArchiveRetirementAndCreationRace",
+            "reason": "=== RUN   TestPostgresArchiveRetirementAndCreationRace\n    archive_cas_test.go:205: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresArchiveRetirementAndCreationRace (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresArchiveCapacityAndLatePartitionRecovery",
+            "reason": "=== RUN   TestPostgresArchiveCapacityAndLatePartitionRecovery\n    archive_postgres_test.go:21: isolated PostgreSQL fixture required\n--- SKIP: TestPostgresArchiveCapacityAndLatePartitionRecovery (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresBulkIngestTasksBudget",
+            "reason": "=== RUN   TestPostgresBulkIngestTasksBudget\n    bulk_tasks_test.go:42: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresBulkIngestTasksBudget (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresIndependentObjectsAndContendedIdentity",
+            "reason": "=== RUN   TestPostgresIndependentObjectsAndContendedIdentity\n    concurrency_postgres_test.go:39: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresIndependentObjectsAndContendedIdentity (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresLateCommitSyncAuditAndAtomicFinalization",
+            "reason": "=== RUN   TestPostgresLateCommitSyncAuditAndAtomicFinalization\n    concurrency_postgres_test.go:138: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresLateCommitSyncAuditAndAtomicFinalization (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresDeadlockIsRecognizableWithoutCallbackReplay",
+            "reason": "=== RUN   TestPostgresDeadlockIsRecognizableWithoutCallbackReplay\n    concurrency_postgres_test.go:245: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresDeadlockIsRecognizableWithoutCallbackReplay (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresNumberedMigrationsPreserveExistingSchema",
+            "reason": "=== RUN   TestPostgresNumberedMigrationsPreserveExistingSchema\n    migrations_test.go:159: set SF_TEST_POSTGRES_DATABASE to an isolated PostgreSQL fixture\n--- SKIP: TestPostgresNumberedMigrationsPreserveExistingSchema (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresRetentionDropsExpiredPartitionBeforeRowDeletion",
+            "reason": "=== RUN   TestPostgresRetentionDropsExpiredPartitionBeforeRowDeletion\n    postgres_retention_test.go:15: set SF_TEST_POSTGRES_DATABASE to an isolated PostgreSQL fixture\n--- SKIP: TestPostgresRetentionDropsExpiredPartitionBeforeRowDeletion (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresRiverMigrationHandoffResumes",
+            "reason": "=== RUN   TestPostgresRiverMigrationHandoffResumes\n    river_migration_test.go:72: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresRiverMigrationHandoffResumes (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresRiverTransactionalEnqueue",
+            "reason": "=== RUN   TestPostgresRiverTransactionalEnqueue\n    river_test.go:112: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresRiverTransactionalEnqueue (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestControlledPostgresUpgradeFixture",
+            "reason": "=== RUN   TestControlledPostgresUpgradeFixture\n    upgrade_fixture_test.go:33: controlled PostgreSQL 16 -> 18 fixture\n--- SKIP: TestControlledPostgresUpgradeFixture (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/tasks",
+            "test": "TestPostgresRiverRetryAndRunningCancellation",
+            "reason": "=== RUN   TestPostgresRiverRetryAndRunningCancellation\n    service_test.go:130: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresRiverRetryAndRunningCancellation (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/tasks",
+            "test": "TestTaskCrashProcess",
+            "reason": "=== RUN   TestTaskCrashProcess\n    service_test.go:136: subprocess helper\n--- SKIP: TestTaskCrashProcess (0.00s)\n"
+          }
+        ],
+        "failures": [
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestRiverMigrationHandoffResumesSQLite",
+            "output": "=== RUN   TestRiverMigrationHandoffResumesSQLite\n    river_migration_test.go:69: [{1 migrations/sqlite/00001_baseline.sql 8f8b3ff25cd9a9f55e99ab3abd851f20e8075d15242bec0e52ee4e2695a15631 1791145465198} {2 migration00002.go d41f217a598789ec94a29fdcf9db03547eb5bc79cb1671bdc2211891ccc1b626 1791145465199} {3 migration00003.go 5b5c043c4d830ba6e77057b54654585e83fec0b0fb9e8e9b75e87e65bba9cfd4 1791145465199} {4 migration00004.go 1a69098a1f06a9659d5b6d2f0d967b88a1e29a7a677bbf3014714ab2856bf854 1791145465209} {5 migration00005.go ef7dbe90ee1e57d318b600b2f7ff62416384f833031ba196fd238b45e8df16ac 1791145465210} {6 migration00006.go cfc2e96ad04880f7081db6b62a179ed52f37269ac0e46fd60c84fc40aafc15aa 1791145465210}] <nil>\n--- FAIL: TestRiverMigrationHandoffResumesSQLite (0.01s)\n"
+          }
+        ],
+        "data_race_occurrences": 0
+      },
+      "reported_top_level_match": true
+    },
+    {
+      "log": {
+        "path": ".local/evolution/history-evidence/store-regression-repair.jsonl",
+        "sha256": "c3879fa32d0abd0885e25c35a8b9cd0e09eb4d7052b046f98689c9ff31ec22f2",
+        "bytes": 57191
+      },
+      "counts": {
+        "top_level": {
+          "pass": 27,
+          "fail": 0,
+          "skip": 12
+        },
+        "leaf_cases": {
+          "pass": 38,
+          "fail": 0,
+          "skip": 12
+        },
+        "all_named_cases": {
+          "pass": 41,
+          "fail": 0,
+          "skip": 12
+        },
+        "packages": {
+          "pass": 1,
+          "fail": 0,
+          "skip": 0
+        },
+        "conditional_skips": [
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresArchiveCASAndTransactionDuration",
+            "reason": "=== RUN   TestPostgresArchiveCASAndTransactionDuration\n    archive_cas_test.go:100: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresArchiveCASAndTransactionDuration (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresArchiveRetirementAndCreationRace",
+            "reason": "=== RUN   TestPostgresArchiveRetirementAndCreationRace\n    archive_cas_test.go:205: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresArchiveRetirementAndCreationRace (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresArchiveCapacityAndLatePartitionRecovery",
+            "reason": "=== RUN   TestPostgresArchiveCapacityAndLatePartitionRecovery\n    archive_postgres_test.go:21: isolated PostgreSQL fixture required\n--- SKIP: TestPostgresArchiveCapacityAndLatePartitionRecovery (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresBulkIngestTasksBudget",
+            "reason": "=== RUN   TestPostgresBulkIngestTasksBudget\n    bulk_tasks_test.go:42: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresBulkIngestTasksBudget (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresIndependentObjectsAndContendedIdentity",
+            "reason": "=== RUN   TestPostgresIndependentObjectsAndContendedIdentity\n    concurrency_postgres_test.go:39: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresIndependentObjectsAndContendedIdentity (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresLateCommitSyncAuditAndAtomicFinalization",
+            "reason": "=== RUN   TestPostgresLateCommitSyncAuditAndAtomicFinalization\n    concurrency_postgres_test.go:138: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresLateCommitSyncAuditAndAtomicFinalization (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresDeadlockIsRecognizableWithoutCallbackReplay",
+            "reason": "=== RUN   TestPostgresDeadlockIsRecognizableWithoutCallbackReplay\n    concurrency_postgres_test.go:245: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresDeadlockIsRecognizableWithoutCallbackReplay (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresNumberedMigrationsPreserveExistingSchema",
+            "reason": "=== RUN   TestPostgresNumberedMigrationsPreserveExistingSchema\n    migrations_test.go:159: set SF_TEST_POSTGRES_DATABASE to an isolated PostgreSQL fixture\n--- SKIP: TestPostgresNumberedMigrationsPreserveExistingSchema (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresRetentionDropsExpiredPartitionBeforeRowDeletion",
+            "reason": "=== RUN   TestPostgresRetentionDropsExpiredPartitionBeforeRowDeletion\n    postgres_retention_test.go:15: set SF_TEST_POSTGRES_DATABASE to an isolated PostgreSQL fixture\n--- SKIP: TestPostgresRetentionDropsExpiredPartitionBeforeRowDeletion (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresRiverMigrationHandoffResumes",
+            "reason": "=== RUN   TestPostgresRiverMigrationHandoffResumes\n    river_migration_test.go:78: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresRiverMigrationHandoffResumes (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresRiverTransactionalEnqueue",
+            "reason": "=== RUN   TestPostgresRiverTransactionalEnqueue\n    river_test.go:112: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresRiverTransactionalEnqueue (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestControlledPostgresUpgradeFixture",
+            "reason": "=== RUN   TestControlledPostgresUpgradeFixture\n    upgrade_fixture_test.go:33: controlled PostgreSQL 16 -> 18 fixture\n--- SKIP: TestControlledPostgresUpgradeFixture (0.00s)\n"
+          }
+        ],
+        "failures": [],
+        "data_race_occurrences": 0
+      },
+      "reported_top_level_match": true
+    },
+    {
+      "log": {
+        "path": ".local/evolution/history-evidence/storage-volume.jsonl",
+        "sha256": "29f3ace23399c88d0ce97697860712bfdc7785ed39d97654c94cd9b06f49fb6d",
+        "bytes": 9283
+      },
+      "counts": {
+        "top_level": {
+          "pass": 2,
+          "fail": 0,
+          "skip": 0
+        },
+        "leaf_cases": {
+          "pass": 2,
+          "fail": 0,
+          "skip": 0
+        },
+        "all_named_cases": {
+          "pass": 2,
+          "fail": 0,
+          "skip": 0
+        },
+        "packages": {
+          "pass": 1,
+          "fail": 0,
+          "skip": 0
+        },
+        "conditional_skips": [],
+        "failures": [],
+        "data_race_occurrences": 0
+      },
+      "reported_top_level_match": true
+    },
+    {
+      "log": {
+        "path": ".local/evolution/history-evidence/migration-compatibility-repair.jsonl",
+        "sha256": "68feb88ca3e9eaba16efa42dd00713c74bb3d488f2c95223c1d63ee302ac1421",
+        "bytes": 5543
+      },
+      "counts": {
+        "top_level": {
+          "pass": 4,
+          "fail": 0,
+          "skip": 0
+        },
+        "leaf_cases": {
+          "pass": 4,
+          "fail": 0,
+          "skip": 0
+        },
+        "all_named_cases": {
+          "pass": 4,
+          "fail": 0,
+          "skip": 0
+        },
+        "packages": {
+          "pass": 2,
+          "fail": 0,
+          "skip": 0
+        },
+        "conditional_skips": [],
+        "failures": [],
+        "data_race_occurrences": 0
+      },
+      "reported_top_level_match": true
+    }
+  ]
+}

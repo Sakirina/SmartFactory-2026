@@ -1,0 +1,39 @@
+
+> smartfactory-frontends@0.1.0 build
+> npm run check:api && npm run typecheck && vite build
+
+
+> smartfactory-frontends@0.1.0 check:api
+> node scripts/generate-api.mjs --check
+
+{"source_sha256":"1245e77f2d1eda6dfa02ef50249d53148585e94216c04fd772d54d1bb07cd3d1","schemas":158,"operations":96,"compiler_api":"6.0.2","checked":true}
+
+> smartfactory-frontends@0.1.0 typecheck
+> node node_modules/@typescript/native/bin/tsc --noEmit
+
+vite v8.1.5 building client environment for production...
+[2Ktransforming...✓ 2312 modules transformed.
+rendering chunks...
+computing gzip size...
+../../dist-final-reviewed/screen.html                                     0.43 kB │ gzip:   0.32 kB
+../../dist-final-reviewed/edge.html                                       0.43 kB │ gzip:   0.32 kB
+../../dist-final-reviewed/index.html                                      0.43 kB │ gzip:   0.32 kB
+../../dist-final-reviewed/assets/definitions-DLioOiRN.css                15.41 kB │ gzip:   2.56 kB
+../../dist-final-reviewed/assets/main-NJkLhln0.css                       22.38 kB │ gzip:   5.75 kB
+../../dist-final-reviewed/assets/resource-navigation-D5lMMONq.js          0.50 kB │ gzip:   0.27 kB
+../../dist-final-reviewed/assets/useMutation-BtmdZoj5.js                  2.30 kB │ gzip:   0.95 kB
+../../dist-final-reviewed/assets/protocol-configurations-C1zUtUE0.js      6.50 kB │ gzip:   2.76 kB
+../../dist-final-reviewed/assets/metadata-form-BCnvta2i.js                6.73 kB │ gzip:   2.84 kB
+../../dist-final-reviewed/assets/alarm-workbench-qYFxidkr.js              7.20 kB │ gzip:   3.08 kB
+../../dist-final-reviewed/assets/scene-templates-B4dUQ5Nm.js              7.50 kB │ gzip:   3.03 kB
+../../dist-final-reviewed/assets/assistant-DZwxoLLu.js                    8.35 kB │ gzip:   3.62 kB
+../../dist-final-reviewed/assets/work-orders-B89SJo8D.js                  8.54 kB │ gzip:   3.06 kB
+../../dist-final-reviewed/assets/definitions-fUMSi2EM.js                205.62 kB │ gzip:  66.79 kB
+../../dist-final-reviewed/assets/main-CZpYrwbT.js                     1,807.68 kB │ gzip: 577.42 kB
+
+✓ built in 349ms
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.

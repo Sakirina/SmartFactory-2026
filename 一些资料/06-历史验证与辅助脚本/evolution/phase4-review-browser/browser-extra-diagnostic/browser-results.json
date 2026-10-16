@@ -1,0 +1,186 @@
+{
+  "config": {
+    "argv": [
+      "/path/to/SmartFactory-2026/.local/toolchains/node-v24.21.0-darwin-arm64/bin/node",
+      "/private/tmp/smartfactory-phase4-independent-browser-20261005/frontend/Frontends/node_modules/@playwright/test/cli.js",
+      "test",
+      "-c",
+      "playwright.phase4.config.ts",
+      "phase4-independent-extra.spec.ts"
+    ],
+    "configFile": "/private/tmp/smartfactory-phase4-independent-browser-20261005/frontend/Frontends/playwright.phase4.config.ts",
+    "rootDir": "/private/tmp/smartfactory-phase4-independent-browser-20261005/frontend/Frontends/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/private/tmp/smartfactory-phase4-independent-browser-20261005/playwright-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/private/tmp/smartfactory-phase4-independent-browser-20261005/frontend/Frontends/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "phase4*.spec.ts"
+        ],
+        "timeout": 90000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-browser/browser-extra-diagnostic/browser-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "phase4-independent-extra.spec.ts",
+      "file": "phase4-independent-extra.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "independent empty queries render all three surfaces at every required viewport",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 2163,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: <= \u001b[32m391\u001b[39m\nReceived:    \u001b[31m393\u001b[39m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: <= \u001b[32m391\u001b[39m\nReceived:    \u001b[31m393\u001b[39m\n    at /private/tmp/smartfactory-phase4-independent-browser-20261005/frontend/Frontends/tests/phase4-independent-extra.spec.ts:48:37",
+                    "location": {
+                      "file": "/private/tmp/smartfactory-phase4-independent-browser-20261005/frontend/Frontends/tests/phase4-independent-extra.spec.ts",
+                      "column": 37,
+                      "line": 48
+                    },
+                    "snippet": "  46 |         await capture(page, `empty-${kind}-${surface}-${width}x${height}`);\n  47 |         await writeFile(path.join(evidence, `empty-${kind}-${surface}-${width}x${height}-layout.json`), JSON.stringify(dimensions, null, 2));\n> 48 |         expect(dimensions.document).toBeLessThanOrEqual(width + 1);\n     |                                     ^\n  49 |         records.push({ kind, surface, width, height, chart: box, dimensions, matching_rows: 0 });\n  50 |       } finally {\n  51 |         if (original && savedVersion !== undefined) {"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/private/tmp/smartfactory-phase4-independent-browser-20261005/frontend/Frontends/tests/phase4-independent-extra.spec.ts",
+                        "column": 37,
+                        "line": 48
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: <= \u001b[32m391\u001b[39m\nReceived:    \u001b[31m393\u001b[39m\n\n  46 |         await capture(page, `empty-${kind}-${surface}-${width}x${height}`);\n  47 |         await writeFile(path.join(evidence, `empty-${kind}-${surface}-${width}x${height}-layout.json`), JSON.stringify(dimensions, null, 2));\n> 48 |         expect(dimensions.document).toBeLessThanOrEqual(width + 1);\n     |                                     ^\n  49 |         records.push({ kind, surface, width, height, chart: box, dimensions, matching_rows: 0 });\n  50 |       } finally {\n  51 |         if (original && savedVersion !== undefined) {\n    at /private/tmp/smartfactory-phase4-independent-browser-20261005/frontend/Frontends/tests/phase4-independent-extra.spec.ts:48:37"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T04:04:08.034Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/playwright-results/phase4-independent-extra-i-eb069--at-every-required-viewport/error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/private/tmp/smartfactory-phase4-independent-browser-20261005/frontend/Frontends/tests/phase4-independent-extra.spec.ts",
+                    "column": 37,
+                    "line": 48
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "30232d64c39ab2deddaf-803daa1eadb807b0bf9b",
+          "file": "phase4-independent-extra.spec.ts",
+          "line": 6,
+          "column": 1
+        },
+        {
+          "title": "independent deleted-original-resource polling clears cached drawer without another evidence request",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3886,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T04:04:10.780Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "30232d64c39ab2deddaf-a75bbd89dcbd592d803b",
+          "file": "phase4-independent-extra.spec.ts",
+          "line": 62,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-05T04:04:07.811Z",
+    "duration": 7190.64,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

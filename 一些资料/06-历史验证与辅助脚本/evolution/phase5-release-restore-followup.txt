@@ -1,0 +1,13 @@
+恢复原发布协调工程师处理第五阶段P5-R01，继续原职责和模型设置。本阶段已新增四位，同一时间最多两位运行；采集运行工程师另行处理DataTransfer三协议隔离消费者和停止生命周期，你不修改其代码，也不创建其他智能体。
+
+前端五类模板程序启动先因现有消费者仅支持MQTT而失败，随后沿用原A数据库、主密钥及已验证 active.json 发布缓存恢复时，sf-edge出现 document_versions(kind,id,version) UNIQUE constraint，启动退出1。代理描述位于 /private/tmp/smartfactory-release-interface-20261005/browser-failure-rollback-fourth/agent-cache-restore.state.json；完整保留观察和原始日志副本见 .local/evolution/phase5-release-restore-failure-root-review.json 与 /private/tmp/smartfactory-phase5-release-restore-coordinator-evidence-20261005。前端将交付一致SQLite备份及所有私有运行材料的检查点，启动你的任务消息会给出最新路径。A接口60050当前不可用，新的分批发布保持等待，B节点尚未进入。
+
+请先用失败数据副本及实际保留程序复现，定位具体kind/id、现有文档版本、全部历史版本和失败调用；主协调读取完整program.log发现相同唯一性错误从16:07:55本地日志时间起已经以background task failed出现，早于本次缓存启动失败，因此不要假设全部由最近模板动作引起。releaseruntime移除旧规则使用disabled新版本，当前没有证据证明规则直接删除是原因。Store.Put在当前文档缺失时从0开始增加、Delete保留历史以及SetEphemeral与普通Put交互值得检查，但这些属于待验证线索，不能当成结论。
+
+修正限定你负责的发布协调/代理/运行应用代码；如果实际故障属于存储版本或其他专家的共用实现，请保留最小复现并先告诉主协调，由主协调安排原专家维护，避免扩大本角色职责。需要同时修正事务前后动作、缓存启动和配置应用失败恢复时，明确实际采用与持久声明之间的次序，并保留正式授权、摘要、历史记录和审计要求。不得通过清空数据库、删除历史版本、修改缓存摘要或忽略唯一性异常完成恢复。
+
+采集运行专家已构建三种协议的隔离消费者，正式替换与端口和私有目录由前端交接；它经过生产ConfigManager、Manager、gRPC与journal，保持其范围说明。你可以在交接后的失败数据副本使用该程序验证模板和恢复，但前端页面仍由原前端工程师完成。修正后至少验证原数据缓存启动、实际应用失败后的恢复、同一规则/配置在新旧发布往返、重复启动和回执、数据库历史与审计、SQLite与适用PG行为；用受影响普通回归与必要有限race覆盖实际并发。先提交能恢复前端组合的固定程序，再整理最终专家报告。
+
+交付专家另有Linux入口检查点 .local/evolution/phase5-delivery-linux-preflight-checkpoint.json，保存七个Linux程序、八轮原始结果及当前第二次部署创建时configuration reference is unavailable from the authority的409。当前Docker时段由 /root/phase5_datatransfer_runtime 用于有限三容器停止复现，PG为持久max_connections60实例，读取.local/evolution/pg18-test.json，密钥不输出。你的第一步使用SQLite失败副本；需要PG/race或大型Linux组合时与主协调约定。Linux来源409可先按日志检查是否与你负责的发布协调有关，再按职责分工报告，正式整包复验仍归构建交付负责人。
+
+Go1.27.1，GOTOOLCHAIN=local，GOMAXPROCS=2，-p1；GOPATH=/private/tmp/smartfactory-evolution-gopath，GOMODCACHE=/private/tmp/smartfactory-evolution-gomodcache，GOCACHE=/private/tmp/smartfactory-evolution-go-cache。临时盘约5GiB、Work约1.4GiB，复用已有依赖与固定内容，保存每次实际构建前后完整Go/C/C++/汇编/头文件/Embed/测试输入、命令、二进制及失败/通过日志。用户原工作树和其他专家修改保留，不提交Git或发布。最终报告 .local/evolution/release-restore-followup-verified.json，标明需要前端、最终Linux交付与独立验收继续验证的内容，完成本轮后结束运行释放名额。

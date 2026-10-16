@@ -1,0 +1,17 @@
+{
+  "url": "http://127.0.0.1:51303/edge.html#executions",
+  "text": "SF\nSmartFactory\n现场工作台\n示例工厂 / edge-a\n运行概览\n设备与资产\n数据监控\n审批与执行\n通知记录\n历史补算\n后台任务\n历史分析\n运行状态\n独立实例 · 边缘运行\n规则版本与操作记录全程保存\n现场工作台\n/\n审批与执行\n手动查询\nengineer\n退出\n审批与执行\n\n核对会签、现场条件、设备动作和反馈，按照当前许可取消、核对或恢复剩余步骤。\n\n更新执行列表\n发起即时控制\n查看指定执行\n执行 / 预案版本\t执行状态\t风险依据\t已有会签\t请求时间\t操作\n\n执行 / 预案版本\n\t\n执行状态\n\t\n风险依据\n\t\n已有会签\n\t\n请求时间\n\t\n操作\n\n\ncancel-browser\ncontrol-fixture · v1\n\t正在执行正常步骤\tbusiness / 1级\t2人\t2026/10/5 05:39:27\t\n执行详情\n\n\nrecover-browser\ncontrol-fixture · v1\n\t正常步骤已完成\tbusiness / 1级\t2人\t2026/10/5 05:39:26\t\n执行详情\n1\nSmartFactory · edge-a\n界面时间使用 Asia/Shanghai 时区\n控制执行详情\n更新执行详情\n执行版本或状态已经变化\n详情已更新，请核对当前版本与许可操作。服务返回：version or message content conflict\n执行身份\tcancel-browser\t预案版本\tcontrol-fixture · v1\n当前执行状态\t正在执行正常步骤\t当前处理依据\t暂无补充说明\n当前应用版本\t6\t来源节点 / 边缘版本\tedge-a / 6\n执行分支\t正常步骤\t执行协调身份 / 执行权\t暂无协调身份 / 0\n当前原命令身份\tcancel-browser:first\t会签有效期限\t2026/10/5 06:39:27\n执行开始期限\t2026/10/5 05:52:37\t取消请求时间\t暂无记录\n人工操作理由\n取消后续步骤\n核对原命令结果\n恢复剩余步骤\n核对原命令结果：operation is unavailable in the current execution state\n恢复剩余步骤：operation is unavailable in the current execution state\n会签与设备步骤\n人工请求与回执\n原命令核对证据\n关联时间线\n人员会签\n人员 / 角色\t确认时间\t现场证据\nengineer / engineer\t2026/10/5 05:39:27\t账号会话\nleader / leader\t2026/10/5 05:39:27\t账号会话\n设备动作与回执\n步骤 / 命令身份\t设备 / 分支\t设备结果\t步骤开始 / 保存结果时间\t反馈说明\n\n步骤 / 命令身份\n\t\n设备 / 分支\n\t\n设备结果\n\t\n步骤开始 / 保存结果时间\n\t\n反馈说明\n\n\n暂无数据\n采用版本的条件、正常步骤和降级步骤\n执行记录绑定摘要\n判断时的现场观测与来源",
+  "capture": {
+    "requests": [
+      {
+        "url": "/api/sf/v1/executions/cancel-browser/cancel",
+        "method": "POST",
+        "body": "{\"expected_version\":3,\"expected_source_version\":3,\"operation_id\":\"0607f3c0-3865-4dc2-8dfb-86de563f3787\",\"reason\":\"并发版本变化后取消尚未执行步骤\"}",
+        "status": 409,
+        "response": "{\"error\":\"version or message content conflict\"}\n"
+      }
+    ],
+    "errors": []
+  },
+  "recorded_at_ms": 1791150772379
+}

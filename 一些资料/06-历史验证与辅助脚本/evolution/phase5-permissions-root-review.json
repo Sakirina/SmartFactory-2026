@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-10-05T09:19:58.997776+00:00",
+  "status": "original_failure_and_authority_cross_check_verified_partial_fixed_browsers_passed_final_freeze_pending",
+  "scope": "P5-F03",
+  "original_failure": {
+    "path": "/private/tmp/smartfactory-release-interface-20261005/browser-permissions-before/results.json",
+    "sha256": "1aad7d88544a0e9f8a293a8e85730d43818796b8ff84693e9aa901b8212d8eae",
+    "bytes": 8029
+  },
+  "preserved_source_manifest": {
+    "path": "/private/tmp/smartfactory-release-interface-20261005/before-permission-fix/manifest.json",
+    "sha256": "525a1cb18ba645782609b411fa3ef9aeb1987322b777969d87792ef6ecf6f6ce",
+    "bytes": 498
+  },
+  "authority_cross_check": {
+    "evidence": {
+      "path": "/private/tmp/smartfactory-release-interface-20261005/before-permission-fix/actual-authority-cross-check.json",
+      "sha256": "d64cbb372d612c41ee49db4002946fb33cf1b55572354314dea84766a12d8d0d",
+      "bytes": 12620
+    },
+    "results": [
+      {
+        "resource": "/me",
+        "status": 200
+      },
+      {
+        "resource": "/release-deployments/deploy-validation-a01-b",
+        "status": 200
+      },
+      {
+        "resource": "/config",
+        "status": 403
+      },
+      {
+        "resource": "/configuration-reports",
+        "status": 200
+      },
+      {
+        "resource": "/configuration-runtime",
+        "status": 403
+      }
+    ]
+  },
+  "fixed_browser_observations": [
+    {
+      "role": "read_only",
+      "evidence": {
+        "path": "/private/tmp/smartfactory-release-interface-20261005/browser-permissions-second-fixed/readonly-release-view.json",
+        "sha256": "8a01430aa7a7a947cd1e7dad85bd7722bbdc9d65c14a48aac5f8b2cc4972e4cf",
+        "bytes": 4409
+      },
+      "api_http_errors": [],
+      "page_errors": [],
+      "console_resource_urls": [
+        "http://127.0.0.1:19610/favicon.ico"
+      ]
+    },
+    {
+      "role": "partial_editor",
+      "evidence": {
+        "path": "/private/tmp/smartfactory-release-interface-20261005/browser-permissions-editor/editor-authorized-release-view.json",
+        "sha256": "9ac30160bb9dd6d1e6f59fb8f23f92d8dad485ccc0bbd1a62efe15c22c7693d2",
+        "bytes": 18250
+      },
+      "api_http_errors": [],
+      "page_errors": [],
+      "console_resource_urls": [
+        "http://127.0.0.1:19610/favicon.ico"
+      ]
+    }
+  ],
+  "visual_review": "Saved read-only screenshot contains releases, deployment detail and disabled publish actions",
+  "limitations": [
+    "Original failed browser network chronology was not included in the currently indexed evidence; the later direct authority check is separate",
+    "Final frontend input and output correspondence, the complete current combination and independent re-verification remain pending",
+    "The favicon URL is observed in these fixed permission runs; the earlier empty-catalog console event requires its own evidence"
+  ]
+}

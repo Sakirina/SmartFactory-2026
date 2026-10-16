@@ -1,0 +1,397 @@
+{
+  "config": {
+    "argv": [
+      "/path/to/SmartFactory-2026/.local/toolchains/node-v24.21.0-darwin-arm64/bin/node",
+      "/path/to/SmartFactory-2026/Frontends/node_modules/@playwright/test/cli.js",
+      "test",
+      "--config",
+      "playwright.phase4.config.ts",
+      "--grep",
+      "AI"
+    ],
+    "configFile": "/path/to/SmartFactory-2026/Frontends/playwright.phase4.config.ts",
+    "rootDir": "/path/to/SmartFactory-2026/Frontends/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/private/tmp/smartfactory-frontend-phase4-20261005/playwright-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/path/to/SmartFactory-2026/Frontends/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "phase4*.spec.ts"
+        ],
+        "timeout": 90000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "../.local/evolution/frontend-phase4/browser-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "phase4-ai.spec.ts",
+      "file": "phase4-ai.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "AI five actual tools show byte-identical evidence and navigate escaped resource identities",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 1431,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n    at /path/to/SmartFactory-2026/Frontends/tests/phase4-ai.spec.ts:23:546",
+                    "location": {
+                      "file": "/path/to/SmartFactory-2026/Frontends/tests/phase4-ai.spec.ts",
+                      "column": 546,
+                      "line": 23
+                    },
+                    "snippet": "  21 |   const transcript=(await readFile(path.join(root,'ai-first','model-visible-results.jsonl'),'utf8')).trim().split('\\n').filter(Boolean).map(line=>JSON.parse(line));\n  22 |   const checked=[];\n> 23 |   for(const item of result.evidence){const response=await jsonAPI(page,`/investigations/${encodeURIComponent(result.id)}/evidence/${encodeURIComponent(item.id)}`);expect(response.status).toBe(200);const value=JSON.parse(response.text);const sha=createHash('sha256').update(value.visible_content).digest('hex');expect(sha).toBe(value.visible_sha256);const actual=transcript.find(row=>(row.tool_call_id||row.ToolCallID)===value.tool_call_id);expect(actual).toBeTruthy();expect(Object.values(actual).some(content=>content===value.visible_content)).toBe(true);checked.push(value);}\n     |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  ^\n  24 |   await page.getByRole('button',{name:'查看工具依据',exact:true}).first().click();const drawer=page.getByRole('dialog',{name:'模型实际取得的依据'});await expect(drawer.getByTestId('model-visible-content')).toHaveText(checked[0].visible_content,{useInnerText:true});await capture(page,'ai-five-tools-visible-evidence');await drawer.getByRole('button',{name:'关闭',exact:true}).click();\n  25 |   const special=await investigate(page,'读取身份 调查/温度:一号');expect(special.evidence_status).toBe('supported');await page.getByRole('button',{name:'查看依据原文',exact:true}).first().click();const source=page.getByRole('dialog',{name:'模型实际取得的依据'});const link=source.getByRole('link',{name:/definition \\/ 调查\\/温度:一号/});await expect(link).toHaveAttribute('href',/#analysis\\?definition=%E8%B0%83%E6%9F%A5%2F%E6%B8%A9%E5%BA%A6%3A%E4%B8%80%E5%8F%B7/);await link.click();await expect(page.getByLabel('定义名称')).toBeVisible();await capture(page,'ai-escaped-definition-navigation');await writeFile(path.join(evidence,'ai-byte-correspondence.json'),JSON.stringify(clean({result,checked,special,transcript_checks:checked.length}),null,2));\n  26 | });"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/path/to/SmartFactory-2026/Frontends/tests/phase4-ai.spec.ts",
+                        "column": 546,
+                        "line": 23
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\n  21 |   const transcript=(await readFile(path.join(root,'ai-first','model-visible-results.jsonl'),'utf8')).trim().split('\\n').filter(Boolean).map(line=>JSON.parse(line));\n  22 |   const checked=[];\n> 23 |   for(const item of result.evidence){const response=await jsonAPI(page,`/investigations/${encodeURIComponent(result.id)}/evidence/${encodeURIComponent(item.id)}`);expect(response.status).toBe(200);const value=JSON.parse(response.text);const sha=createHash('sha256').update(value.visible_content).digest('hex');expect(sha).toBe(value.visible_sha256);const actual=transcript.find(row=>(row.tool_call_id||row.ToolCallID)===value.tool_call_id);expect(actual).toBeTruthy();expect(Object.values(actual).some(content=>content===value.visible_content)).toBe(true);checked.push(value);}\n     |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  ^\n  24 |   await page.getByRole('button',{name:'查看工具依据',exact:true}).first().click();const drawer=page.getByRole('dialog',{name:'模型实际取得的依据'});await expect(drawer.getByTestId('model-visible-content')).toHaveText(checked[0].visible_content,{useInnerText:true});await capture(page,'ai-five-tools-visible-evidence');await drawer.getByRole('button',{name:'关闭',exact:true}).click();\n  25 |   const special=await investigate(page,'读取身份 调查/温度:一号');expect(special.evidence_status).toBe('supported');await page.getByRole('button',{name:'查看依据原文',exact:true}).first().click();const source=page.getByRole('dialog',{name:'模型实际取得的依据'});const link=source.getByRole('link',{name:/definition \\/ 调查\\/温度:一号/});await expect(link).toHaveAttribute('href',/#analysis\\?definition=%E8%B0%83%E6%9F%A5%2F%E6%B8%A9%E5%BA%A6%3A%E4%B8%80%E5%8F%B7/);await link.click();await expect(page.getByLabel('定义名称')).toBeVisible();await capture(page,'ai-escaped-definition-navigation');await writeFile(path.join(evidence,'ai-byte-correspondence.json'),JSON.stringify(clean({result,checked,special,transcript_checks:checked.length}),null,2));\n  26 | });\n    at /path/to/SmartFactory-2026/Frontends/tests/phase4-ai.spec.ts:23:546"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T02:15:16.662Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/private/tmp/smartfactory-frontend-phase4-20261005/playwright-results/phase4-ai-AI-five-actual-t-80487-escaped-resource-identities/error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/path/to/SmartFactory-2026/Frontends/tests/phase4-ai.spec.ts",
+                    "column": 546,
+                    "line": 23
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "1894a6ced8b1a1264e8d-150bf6d0cd73cac8eab2",
+          "file": "phase4-ai.spec.ts",
+          "line": 18,
+          "column": 1
+        },
+        {
+          "title": "AI forged cross-investigation failed empty and budget references retain current statuses",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2735,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T02:15:18.648Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1894a6ced8b1a1264e8d-63c717155c2388c30807",
+          "file": "phase4-ai.spec.ts",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "AI revoked permission clears visible answer and evidence then restores and expires current data",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "timedOut",
+                  "duration": 90076,
+                  "error": {
+                    "message": "\u001b[31mTest timeout of 90000ms exceeded.\u001b[39m",
+                    "stack": "\u001b[31mTest timeout of 90000ms exceeded.\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "message": "\u001b[31mTest timeout of 90000ms exceeded.\u001b[39m"
+                    },
+                    {
+                      "location": {
+                        "file": "/path/to/SmartFactory-2026/Frontends/tests/phase4-ai.spec.ts",
+                        "column": 438,
+                        "line": 36
+                      },
+                      "message": "Error: locator.click: Test timeout of 90000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: '更新依据状态', exact: true })\u001b[22m\n\u001b[2m    - locator resolved to <button type=\"button\" class=\"ant-btn css-19u5a7b css-var-_r_0_ ant-btn-default ant-btn-color-default ant-btn-variant-outlined\">…</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <div class=\"ant-drawer-mask ant-drawer-mask-motion-appear ant-drawer-mask-motion-appear-active ant-drawer-mask-motion\"></div> from <div>…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <span class=\"ant-descriptions-item-content\">ok / delivered</span> from <div>…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <span class=\"ant-descriptions-item-content\">ok / delivered</span> from <div>…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m  2 × retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div id=\"_r_4_\" class=\"ant-drawer-title\">模型实际取得的依据</div> from <div>…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m  42 × retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\u001b[2m       - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is visible, enabled and stable\u001b[22m\n\u001b[2m       - scrolling into view if needed\u001b[22m\n\u001b[2m       - done scrolling\u001b[22m\n\u001b[2m       - <span class=\"ant-descriptions-item-content\">1843 / 524288</span> from <div>…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\u001b[2m       - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is visible, enabled and stable\u001b[22m\n\u001b[2m       - scrolling into view if needed\u001b[22m\n\u001b[2m       - done scrolling\u001b[22m\n\u001b[2m       - <span class=\"ant-descriptions-item-content\">1843 / 524288</span> from <div>…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\u001b[2m       - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is visible, enabled and stable\u001b[22m\n\u001b[2m       - scrolling into view if needed\u001b[22m\n\u001b[2m       - done scrolling\u001b[22m\n\u001b[2m       - <div id=\"_r_4_\" class=\"ant-drawer-title\">模型实际取得的依据</div> from <div>…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\u001b[2m       - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is visible, enabled and stable\u001b[22m\n\u001b[2m       - scrolling into view if needed\u001b[22m\n\u001b[2m       - done scrolling\u001b[22m\n\u001b[2m       - <div id=\"_r_4_\" class=\"ant-drawer-title\">模型实际取得的依据</div> from <div>…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m  2 × retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <span class=\"ant-descriptions-item-content\">1843 / 524288</span> from <div>…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting 500ms\u001b[22m\n\n\n  34 |\n  35 | test('AI revoked permission clears visible answer and evidence then restores and expires current data',async({page})=>{\n> 36 |   test.skip(phase!=='ai');await login(page,'ai');await route(page,'assistant');const result=await investigate(page,'调查温度、执行与历史依据');const evidenceID=result.evidence[0].id;await page.getByRole('button',{name:'查看依据原文',exact:true}).first().click();await expect(page.getByTestId('model-visible-content')).toBeVisible();expect((await fixture(page,{action:'revoke'})).status).toBe(200);await page.getByRole('button',{name:'更新依据状态',exact:true}).click();await expect(page.getByTestId('model-visible-content')).toBeHidden();await expect(page.locator('.message-assistant')).not.toContainText(result.answer);const revoked=await detail(page,result.id);expect(revoked.answer||'').toBe('');expect(revoked.evidence.some((item:any)=>item.access_status==='forbidden')).toBe(true);await capture(page,'ai-revoked-cache-cleared');\n     |                                                                                                                                                                                                                                                                                                                                                                                                                                                      ^\n  37 |   expect((await fixture(page,{action:'restore'})).status).toBe(200);await page.reload();await route(page,'assistant?investigation='+encodeURIComponent(result.id));await expect(page.locator('.message-assistant')).toContainText(result.answer);await capture(page,'ai-restored-permission');\n  38 |   expect((await fixture(page,{action:'expire',investigation_id:result.id})).status).toBe(200);await page.getByRole('button',{name:'更新依据状态',exact:true}).click();await expect(page.locator('.message-assistant')).not.toContainText(result.answer);const expired=await detail(page,result.id);expect(expired.answer||'').toBe('');const response=await jsonAPI(page,`/investigations/${result.id}/evidence/${evidenceID}`);expect(response.status).toBe(410);await capture(page,'ai-expired-answer-cleared');await writeFile(path.join(evidence,'ai-permission-expiry.json'),JSON.stringify(clean({investigation_id:result.id,revoked,expired,evidence_status:response.status}),null,2));\n  39 | });\n    at /path/to/SmartFactory-2026/Frontends/tests/phase4-ai.spec.ts:36:438"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T02:15:21.574Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/private/tmp/smartfactory-frontend-phase4-20261005/playwright-results/phase4-ai-AI-revoked-permi-abeed-es-and-expires-current-data/error-context.md"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "1894a6ced8b1a1264e8d-45e1a8d342a9b727d3af",
+          "file": "phase4-ai.spec.ts",
+          "line": 35,
+          "column": 1
+        },
+        {
+          "title": "AI user switch and expired session clear previous investigation and unsaved editor",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "timedOut",
+                  "duration": 90028,
+                  "error": {
+                    "message": "\u001b[31mTest timeout of 90000ms exceeded.\u001b[39m",
+                    "stack": "\u001b[31mTest timeout of 90000ms exceeded.\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "message": "\u001b[31mTest timeout of 90000ms exceeded.\u001b[39m"
+                    },
+                    {
+                      "location": {
+                        "file": "/path/to/SmartFactory-2026/Frontends/tests/phase4-ai.spec.ts",
+                        "column": 216,
+                        "line": 42
+                      },
+                      "message": "Error: locator.click: Test timeout of 90000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: '编辑与评审' }).first()\u001b[22m\n\n\n  40 |   expect((await fixture(page,{action:'expire',investigation_id:result.id})).status).toBe(200);await page.getByRole('button',{name:'更新依据状态',exact:true}).click();await expect(page.locator('body')).not.toContainText(result.answer);const expired=await detail(page,result.id);expect(expired.answer||'').toBe('');const response=await jsonAPI(page,`/investigations/${result.id}/evidence/${evidenceID}`);expect(response.status).toBe(410);await capture(page,'ai-expired-answer-cleared');await writeFile(path.join(evidence,'ai-permission-expiry.json'),JSON.stringify(clean({investigation_id:result.id,revoked,expired,evidence_status:response.status}),null,2));\n  41 | });\n> 42 |\n     | ^\n  43 | test('AI user switch and expired session clear previous investigation and unsaved editor',async({page})=>{\n  44 |   test.skip(phase!=='ai');await login(page,'ai');await route(page,'assistant');const result=await investigate(page,'读取身份 调查/温度:一号');await route(page,'analysis');await page.getByRole('button',{name:'编辑与评审'}).first().click();await page.getByLabel('定义名称').fill('前一账号尚未提交的编辑');await page.getByRole('button',{name:'退出',exact:true}).click();await expect(page.getByLabel('账号',{exact:true})).toBeVisible();await login(page,'ai','index.html','operator-b');await route(page,'assistant');await expect(page.getByText(result.id,{exact:true})).toBeHidden();expect((await jsonAPI(page,'/investigations/'+result.id)).status).toBe(404);await route(page,'analysis');await expect(page.getByLabel('定义名称')).toBeHidden();await capture(page,'ai-user-isolation-and-editor-cleared');await jsonAPI(page,'/logout',{});await route(page,'assistant');await page.getByRole('button',{name:'更新依据状态',exact:true}).click();await expect(page.getByLabel('账号',{exact:true})).toBeVisible();expect(await page.evaluate(()=>Object.keys(sessionStorage).filter(key=>key.startsWith('smartfactory.session.')))).toEqual([]);await capture(page,'ai-expired-session-login');\n  45 | });\n    at /path/to/SmartFactory-2026/Frontends/tests/phase4-ai.spec.ts:42:216"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T02:16:51.899Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/private/tmp/smartfactory-frontend-phase4-20261005/playwright-results/phase4-ai-AI-user-switch-a-6a138-tigation-and-unsaved-editor/error-context.md"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "1894a6ced8b1a1264e8d-ffa47304628262498a1a",
+          "file": "phase4-ai.spec.ts",
+          "line": 41,
+          "column": 1
+        },
+        {
+          "title": "AI interrupted and service-error streams show saved terminal investigation state",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6866,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T02:18:22.530Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1894a6ced8b1a1264e8d-5a89d3205fb3f4929e0a",
+          "file": "phase4-ai.spec.ts",
+          "line": 45,
+          "column": 1
+        },
+        {
+          "title": "AI deleted source and explicit investigation deletion remove stored visible content",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 16394,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).not.\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.message-assistant')\nExpected substring: not \u001b[32m\"本地模型已完成调查，返回内容包含查询范围、质量、版本及分页状态。\u001b[39m\n\u001b[32m工具 fixture-call-0 返回状态 error [evidence:79eedc0e4e6e7ac235e2b0cb19ea9977]\"\u001b[39m\nReceived string: \u001b[31m\"平台助手\u001b[7m本地模型已完成调查，返回内容包含查询范围、质量、版本及分页状态。\u001b[27m\u001b[39m\n\u001b[31m\u001b[7m工具 fixture-call-0 返回状态 error [evidence:79eedc0e4e6e7ac235e2b0cb19ea9977]\u001b[27m\"\u001b[39m\nTimeout: 15000ms\n\nCall log:\n\u001b[2m  - Expect \"not toContainText\" locator('.message-assistant') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for locator('.message-assistant')\u001b[22m\n\u001b[2m    34 × locator resolved to <div class=\"chat-message message-assistant\">…</div>\u001b[22m\n\u001b[2m       - unexpected value \"平台助手本地模型已完成调查，返回内容包含查询范围、质量、版本及分页状态。\u001b[22m\n\u001b[2m工具 fixture-call-0 返回状态 error [evidence:79eedc0e4e6e7ac235e2b0cb19ea9977]\"\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).not.\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.message-assistant')\nExpected substring: not \u001b[32m\"本地模型已完成调查，返回内容包含查询范围、质量、版本及分页状态。\u001b[39m\n\u001b[32m工具 fixture-call-0 返回状态 error [evidence:79eedc0e4e6e7ac235e2b0cb19ea9977]\"\u001b[39m\nReceived string: \u001b[31m\"平台助手\u001b[7m本地模型已完成调查，返回内容包含查询范围、质量、版本及分页状态。\u001b[27m\u001b[39m\n\u001b[31m\u001b[7m工具 fixture-call-0 返回状态 error [evidence:79eedc0e4e6e7ac235e2b0cb19ea9977]\u001b[27m\"\u001b[39m\nTimeout: 15000ms\n\nCall log:\n\u001b[2m  - Expect \"not toContainText\" locator('.message-assistant') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for locator('.message-assistant')\u001b[22m\n\u001b[2m    34 × locator resolved to <div class=\"chat-message message-assistant\">…</div>\u001b[22m\n\u001b[2m       - unexpected value \"平台助手本地模型已完成调查，返回内容包含查询范围、质量、版本及分页状态。\u001b[22m\n\u001b[2m工具 fixture-call-0 返回状态 error [evidence:79eedc0e4e6e7ac235e2b0cb19ea9977]\"\u001b[22m\n\n    at /path/to/SmartFactory-2026/Frontends/tests/phase4-ai.spec.ts:52:365",
+                    "location": {
+                      "file": "/path/to/SmartFactory-2026/Frontends/tests/phase4-ai.spec.ts",
+                      "column": 365,
+                      "line": 52
+                    },
+                    "snippet": "  50 |   await writeFile(path.join(evidence,'ai-terminal-states.json'),JSON.stringify(clean(results),null,2));\n  51 | });\n> 52 |\n     | ^\n  53 | test('AI deleted source and explicit investigation deletion remove stored visible content',async({page})=>{\n  54 |   test.skip(phase!=='ai');await login(page,'ai');await route(page,'assistant');const result=await investigate(page,'读取身份 调查/温度:一号');const evidenceID=result.evidence[0].id;expect((await fixture(page,{action:'delete_resource'})).status).toBe(200);await page.getByRole('button',{name:'更新依据状态',exact:true}).click();await expect(page.locator('body')).not.toContainText(result.answer);expect((await jsonAPI(page,`/investigations/${result.id}/evidence/${evidenceID}`)).status).toBe(404);const deletedSource=await detail(page,result.id);expect(deletedSource.answer||'').toBe('');await capture(page,'ai-deleted-resource');await page.getByRole('button',{name:'删除此调查内容',exact:true}).click();await expect(page.locator('.message-assistant')).toBeHidden();const deleted=await detail(page,result.id);expect(deleted.status).toBe('deleted');expect(deleted.messages||[]).toEqual([]);expect(deleted.evidence.every((item:any)=>!item.visible_content&&!item.arguments&&!item.resources?.length)).toBe(true);await writeFile(path.join(evidence,'ai-deleted-content.json'),JSON.stringify(clean({deletedSource,deleted}),null,2));await capture(page,'ai-investigation-content-deleted');\n  55 | });"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/path/to/SmartFactory-2026/Frontends/tests/phase4-ai.spec.ts",
+                        "column": 365,
+                        "line": 52
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).not.\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.message-assistant')\nExpected substring: not \u001b[32m\"本地模型已完成调查，返回内容包含查询范围、质量、版本及分页状态。\u001b[39m\n\u001b[32m工具 fixture-call-0 返回状态 error [evidence:79eedc0e4e6e7ac235e2b0cb19ea9977]\"\u001b[39m\nReceived string: \u001b[31m\"平台助手\u001b[7m本地模型已完成调查，返回内容包含查询范围、质量、版本及分页状态。\u001b[27m\u001b[39m\n\u001b[31m\u001b[7m工具 fixture-call-0 返回状态 error [evidence:79eedc0e4e6e7ac235e2b0cb19ea9977]\u001b[27m\"\u001b[39m\nTimeout: 15000ms\n\nCall log:\n\u001b[2m  - Expect \"not toContainText\" locator('.message-assistant') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for locator('.message-assistant')\u001b[22m\n\u001b[2m    34 × locator resolved to <div class=\"chat-message message-assistant\">…</div>\u001b[22m\n\u001b[2m       - unexpected value \"平台助手本地模型已完成调查，返回内容包含查询范围、质量、版本及分页状态。\u001b[22m\n\u001b[2m工具 fixture-call-0 返回状态 error [evidence:79eedc0e4e6e7ac235e2b0cb19ea9977]\"\u001b[22m\n\n\n  50 |   await writeFile(path.join(evidence,'ai-terminal-states.json'),JSON.stringify(clean(results),null,2));\n  51 | });\n> 52 |\n     | ^\n  53 | test('AI deleted source and explicit investigation deletion remove stored visible content',async({page})=>{\n  54 |   test.skip(phase!=='ai');await login(page,'ai');await route(page,'assistant');const result=await investigate(page,'读取身份 调查/温度:一号');const evidenceID=result.evidence[0].id;expect((await fixture(page,{action:'delete_resource'})).status).toBe(200);await page.getByRole('button',{name:'更新依据状态',exact:true}).click();await expect(page.locator('body')).not.toContainText(result.answer);expect((await jsonAPI(page,`/investigations/${result.id}/evidence/${evidenceID}`)).status).toBe(404);const deletedSource=await detail(page,result.id);expect(deletedSource.answer||'').toBe('');await capture(page,'ai-deleted-resource');await page.getByRole('button',{name:'删除此调查内容',exact:true}).click();await expect(page.locator('.message-assistant')).toBeHidden();const deleted=await detail(page,result.id);expect(deleted.status).toBe('deleted');expect(deleted.messages||[]).toEqual([]);expect(deleted.evidence.every((item:any)=>!item.visible_content&&!item.arguments&&!item.resources?.length)).toBe(true);await writeFile(path.join(evidence,'ai-deleted-content.json'),JSON.stringify(clean({deletedSource,deleted}),null,2));await capture(page,'ai-investigation-content-deleted');\n  55 | });\n    at /path/to/SmartFactory-2026/Frontends/tests/phase4-ai.spec.ts:52:365"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T02:18:29.693Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/private/tmp/smartfactory-frontend-phase4-20261005/playwright-results/phase4-ai-AI-deleted-sourc-601d8-move-stored-visible-content/error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/path/to/SmartFactory-2026/Frontends/tests/phase4-ai.spec.ts",
+                    "column": 365,
+                    "line": 52
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "1894a6ced8b1a1264e8d-16a6e170b274bb232b7b",
+          "file": "phase4-ai.spec.ts",
+          "line": 51,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-05T02:15:16.450Z",
+    "duration": 209735.902,
+    "expected": 2,
+    "skipped": 0,
+    "unexpected": 4,
+    "flaky": 0
+  }
+}

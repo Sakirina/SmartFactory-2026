@@ -1,0 +1,19 @@
+1/100 quorum_partition: degraded_completed actions=[1, 0, 0]
+2/100 single_replica_loss: completed actions=[1, 1, 1]
+3/100 coordinator_process_loss: completed actions=[1, 1, 1]
+4/100 participant_process_loss: degraded_completed actions=[1, 0, 0]
+5/100 quorum_partition: degraded_completed actions=[1, 0, 0]
+6/100 single_replica_loss: completed actions=[1, 1, 1]
+7/100 coordinator_process_loss: completed actions=[1, 1, 1]
+8/100 participant_process_loss: degraded_completed actions=[1, 0, 0]
+9/100 quorum_partition: degraded_completed actions=[1, 0, 0]
+10/100 single_replica_loss: completed actions=[1, 1, 1]
+Traceback (most recent call last):
+  File "/path/to/SmartFactory-2026/scripts/check-site.py", line 260, in <module>
+    main()
+    ~~~~^^
+  File "/path/to/SmartFactory-2026/scripts/check-site.py", line 202, in main
+    counts=assert_actions(execution,{0,1,2})
+  File "/path/to/SmartFactory-2026/scripts/check-site.py", line 161, in assert_actions
+    raise AssertionError(f'{execution}: unexpected physical actions {counts}')
+AssertionError: site-fault-010: unexpected physical actions [1, 2, 1]

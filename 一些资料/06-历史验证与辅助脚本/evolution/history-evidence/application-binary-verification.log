@@ -1,0 +1,97 @@
+=== RUN   TestHistorySIGKILLResumesCommittedCheckpointUsingOfficialRiverRescue
+2026/10/05 04:28:40 INFO River client started client_id=YL-Tilly-MB-A_local_2026_10_04T20_28_40_209416
+2026/10/05 04:28:58 INFO maintenance.JobRescuer: Ran successfully num_jobs_discarded=0 num_jobs_retry_scheduled=1
+2026/10/05 04:28:59 INFO maintenance.JobScheduler: Ran successfully num_jobs_scheduled=1
+    history_restart_test.go:215: SIGKILL cursor=1; River official rescue attempt1->2 age=120s threshold=90s; task=analysis:crash-replay river=1 run=crash-replay captured=snapshot:db8e96be074da35981b08ee75319d0173fc9d4aa06e627fb0c915222aeaa685c resolved=db8e96be074da35981b08ee75319d0173fc9d4aa06e627fb0c915222aeaa685c input=f8a172893f0b393f611747989fe624f804f04c518f14e1c5790cced5580bfbfb resumed_executions=2 steps=3 final_counter=7
+2026/10/05 04:28:59 INFO Client: Hard stop started; cancelling all work
+2026/10/05 04:28:59 ERROR maintenance.PeriodicJobEnqueuer: Error starting transaction error="context canceled"
+2026/10/05 04:28:59 INFO River client stopped client_id=YL-Tilly-MB-A_local_2026_10_04T20_28_40_209416
+--- PASS: TestHistorySIGKILLResumesCommittedCheckpointUsingOfficialRiverRescue (19.61s)
+=== RUN   TestShadowSIGKILLPreservesResolvedParentSnapshot
+2026/10/05 04:28:59 INFO River client started client_id=YL-Tilly-MB-A_local_2026_10_04T20_28_59_856394
+2026/10/05 04:29:17 INFO maintenance.JobRescuer: Ran successfully num_jobs_discarded=0 num_jobs_retry_scheduled=1
+2026/10/05 04:29:18 INFO maintenance.JobScheduler: Ran successfully num_jobs_scheduled=1
+    history_restart_test.go:261: SIGKILL resolved shadow task=analysis:shadow:resolved:1:2 river=5 parent=shadow:resolved:1:1 captured=d3067cc78403851867c234b32704709888d8eec32191a6a5d2e0e9fa4537e247 resolved_before=34394bd26d431d7edc2394756e3ee1c5dcab7266eb75f95b3a8420e30f6c1cf0 resolved_after=34394bd26d431d7edc2394756e3ee1c5dcab7266eb75f95b3a8420e30f6c1cf0 initial=8 final=12 resumed_executions=1
+2026/10/05 04:29:18 INFO Client: Hard stop started; cancelling all work
+2026/10/05 04:29:18 ERROR maintenance.PeriodicJobEnqueuer: Error starting transaction error="context canceled"
+2026/10/05 04:29:18 INFO River client stopped client_id=YL-Tilly-MB-A_local_2026_10_04T20_28_59_856394
+--- PASS: TestShadowSIGKILLPreservesResolvedParentSnapshot (19.13s)
+=== RUN   TestShadowSIGKILLAtProductionDeliveryStages
+=== RUN   TestShadowSIGKILLAtProductionDeliveryStages/before-capture
+2026/10/05 04:29:18 INFO River client started client_id=YL-Tilly-MB-A_local_2026_10_04T20_29_18_979234
+    history_restart_test.go:303: actual SIGKILL at before-capture; durable outbox redelivery captured once; generation=1 receipts=1 runs=1 formal=7 candidate=8 snapshot=d672f2d825b0919aca3ef5a9c04481eeace60f9f488115280a3afccfb482914c
+2026/10/05 04:29:19 INFO Client: Hard stop started; cancelling all work
+2026/10/05 04:29:19 ERROR maintenance.PeriodicJobEnqueuer: Error starting transaction error="context canceled"
+2026/10/05 04:29:19 INFO River client stopped client_id=YL-Tilly-MB-A_local_2026_10_04T20_29_18_979234
+=== RUN   TestShadowSIGKILLAtProductionDeliveryStages/after-capture
+2026/10/05 04:29:19 INFO River client started client_id=YL-Tilly-MB-A_local_2026_10_04T20_29_19_093998
+    history_restart_test.go:303: actual SIGKILL at after-capture; durable outbox redelivery captured once; generation=1 receipts=1 runs=1 formal=7 candidate=8 snapshot=2f10624856b5dab2ca3561d281e3f037b9c20186e0511f0d3eff487839f1580b
+2026/10/05 04:29:19 INFO Client: Hard stop started; cancelling all work
+2026/10/05 04:29:19 ERROR maintenance.PeriodicJobEnqueuer: Error starting transaction error="context canceled"
+2026/10/05 04:29:19 INFO River client stopped client_id=YL-Tilly-MB-A_local_2026_10_04T20_29_19_093998
+=== RUN   TestShadowSIGKILLAtProductionDeliveryStages/before-ack
+2026/10/05 04:29:19 INFO River client started client_id=YL-Tilly-MB-A_local_2026_10_04T20_29_19_206119
+    history_restart_test.go:303: actual SIGKILL at before-ack; durable outbox redelivery captured once; generation=1 receipts=1 runs=1 formal=7 candidate=8 snapshot=b12a5f15502d9f474b05945a811582133630e10c03abde1b33a355939c703d86
+2026/10/05 04:29:19 INFO Client: Hard stop started; cancelling all work
+2026/10/05 04:29:19 ERROR maintenance.PeriodicJobEnqueuer: Error starting transaction error="context canceled"
+2026/10/05 04:29:19 INFO River client stopped client_id=YL-Tilly-MB-A_local_2026_10_04T20_29_19_206119
+--- PASS: TestShadowSIGKILLAtProductionDeliveryStages (0.36s)
+    --- PASS: TestShadowSIGKILLAtProductionDeliveryStages/before-capture (0.13s)
+    --- PASS: TestShadowSIGKILLAtProductionDeliveryStages/after-capture (0.12s)
+    --- PASS: TestShadowSIGKILLAtProductionDeliveryStages/before-ack (0.11s)
+=== RUN   TestHistoryReplayCrossVersionAssetsAndImmutableSnapshot
+    history_test.go:164: replay snapshot=39e21d520e80f61003ba5f1b0c16ac2641d3ff2c00a543822003acc550b9ca35 input=83ce01fc651dd76bda086888fa23e9ca8674703485d36443871041d057aeb5bd outputs=2 versions=1,2 exact_value=9007199254740994 assets=1,2 formal_hash=021d1c48789fdd3af268ed83103f9e7eac82b293160383beb962bb0785f656ed
+--- PASS: TestHistoryReplayCrossVersionAssetsAndImmutableSnapshot (0.02s)
+=== RUN   TestHistoryCompareSameInputClockPreciseWindowAndDifferences
+    history_test.go:229: comparison changed=3 unchanged=3 shared_input=a5ebe152d10ab90dd22c9ee73ef906e5d8f240fee0d4873b69385221a88069a6 clock_start=1791145668305 clock_step=10 exact_window=[9007199254740996 9007199254740998 7]
+--- PASS: TestHistoryCompareSameInputClockPreciseWindowAndDifferences (0.02s)
+=== RUN   TestHistoryCancellationRetryFreezesInputAndResumesCheckpoint
+    history_test.go:305: retry task=analysis:recoverable river=5 cursor=1->3 stable_snapshot=0569fee68e5cb3df057a767dca73ec4bae5ac011c34048461c2fcc3552da7334 suffix_executions=2
+--- PASS: TestHistoryCancellationRetryFreezesInputAndResumesCheckpoint (0.02s)
+=== RUN   TestHistoryAuthorizationBudgetAndSnapshotCorruption
+    history_test.go:348: all result routes reauthorize; hidden history rejected; 10001 inputs rejected; edited persisted snapshot refused
+--- PASS: TestHistoryAuthorizationBudgetAndSnapshotCorruption (0.01s)
+=== RUN   TestHistoryRiverWorkerExecutesDurableAnalysis
+2026/10/05 04:29:19 INFO River client started client_id=YL-Tilly-MB-A_local_2026_10_04T20_29_19_353129
+    history_test.go:386: River task=analysis:river-analysis river=1 attempt=1 queue=history_analysis snapshot=847d1c1c8903d4692b6d515378b6a7f41003171f997dda1f8eacc43c75d27179
+2026/10/05 04:29:19 INFO Client: Hard stop started; cancelling all work
+2026/10/05 04:29:19 ERROR maintenance.PeriodicJobEnqueuer: Error starting transaction error="context canceled"
+2026/10/05 04:29:19 INFO River client stopped client_id=YL-Tilly-MB-A_local_2026_10_04T20_29_19_353129
+--- PASS: TestHistoryRiverWorkerExecutesDurableAnalysis (0.08s)
+=== RUN   TestShadowProductionDerivedRevisionComparedWithCommittedRecompute
+    shadow_test.go:105: actual raw late input -> Recompute recompute:backfill:device:1 -> derived revision2 outbox -> shadow generation4: effective_inputs=3 captured_revisions=4 candidate=61 formal=60 formal_output_revision=2 formal_run=recompute:backfill:device:1
+--- PASS: TestShadowProductionDerivedRevisionComparedWithCommittedRecompute (0.03s)
+=== RUN   TestShadowCalculationFailurePreservesFormalStateAndIntentIsolation
+    shadow_test.go:177: candidate failure preserved formal counter, next formal input advanced to12; failed parent waits; candidate action intent=1 formal trigger deliveries=0
+--- PASS: TestShadowCalculationFailurePreservesFormalStateAndIntentIsolation (0.02s)
+=== RUN   TestShadowProductionDeliveriesDeduplicateContinueAndWaitForParent
+    shadow_test.go:335: 20-input persisted payload backend=sqlite category=snapshots rows=40 utf8_bytes=128531
+    shadow_test.go:335: 20-input persisted payload backend=sqlite category=steps rows=20 utf8_bytes=56864
+    shadow_test.go:335: 20-input persisted payload backend=sqlite category=captured_inputs rows=20 utf8_bytes=7210
+    shadow_test.go:335: 20-input persisted payload backend=sqlite category=candidate_current rows=1 utf8_bytes=3096
+    shadow_test.go:335: 20-input persisted payload backend=sqlite category=candidate_versions rows=41 utf8_bytes=125263
+    shadow_test.go:335: 20-input persisted payload backend=sqlite category=runs_current rows=20 utf8_bytes=20520
+    shadow_test.go:335: 20-input persisted payload backend=sqlite category=runs_versions rows=61 utf8_bytes=53056
+    shadow_test.go:363: 20-input retained context backend=sqlite rule_window_ms=0 latest_per_device_key=1 candidate_context_points=1 snapshot_max_inputs=1 snapshot_max_history=1; payload bytes exclude database indexes, task/audit envelopes and WAL
+    shadow_test.go:386: 20 inputs: actual executions=40, stored steps=20, receipts=20; normal run total=1; second generation waited without rewriting; final candidate=40 formal=20; stopped generation=20; replacement epoch=2 candidate=1
+--- PASS: TestShadowProductionDeliveriesDeduplicateContinueAndWaitForParent (0.07s)
+=== RUN   TestShadowDeliveryInterruptionBeforeCaptureAfterCaptureAndBeforeAcknowledgement
+=== RUN   TestShadowDeliveryInterruptionBeforeCaptureAfterCaptureAndBeforeAcknowledgement/before_capture
+    shadow_test.go:483: before_capture: receipt=1 task=analysis:shadow:durable:1:1 formal_count=7 candidate_count=7 pending_input_removed=true
+=== RUN   TestShadowDeliveryInterruptionBeforeCaptureAfterCaptureAndBeforeAcknowledgement/after_capture
+    shadow_test.go:483: after_capture: receipt=1 task=analysis:shadow:durable:1:1 formal_count=7 candidate_count=7 pending_input_removed=true
+=== RUN   TestShadowDeliveryInterruptionBeforeCaptureAfterCaptureAndBeforeAcknowledgement/before_ack
+    shadow_test.go:483: before_ack: receipt=1 task=analysis:shadow:durable:1:1 formal_count=7 candidate_count=7 pending_input_removed=true
+--- PASS: TestShadowDeliveryInterruptionBeforeCaptureAfterCaptureAndBeforeAcknowledgement (0.04s)
+    --- PASS: TestShadowDeliveryInterruptionBeforeCaptureAfterCaptureAndBeforeAcknowledgement/before_capture (0.01s)
+    --- PASS: TestShadowDeliveryInterruptionBeforeCaptureAfterCaptureAndBeforeAcknowledgement/after_capture (0.01s)
+    --- PASS: TestShadowDeliveryInterruptionBeforeCaptureAfterCaptureAndBeforeAcknowledgement/before_ack (0.01s)
+=== RUN   TestShadowCandidateStopAndReplacementRaceUsesCurrentScope
+=== RUN   TestShadowCandidateStopAndReplacementRaceUsesCurrentScope/stop
+    shadow_test.go:528: stop: epoch=1 status=stopped generation=0 input_receipts=0; formal delivery completed
+=== RUN   TestShadowCandidateStopAndReplacementRaceUsesCurrentScope/replace_scope
+    shadow_test.go:528: replace_scope: epoch=2 status=active generation=0 input_receipts=0; formal delivery completed
+--- PASS: TestShadowCandidateStopAndReplacementRaceUsesCurrentScope (0.03s)
+    --- PASS: TestShadowCandidateStopAndReplacementRaceUsesCurrentScope/stop (0.01s)
+    --- PASS: TestShadowCandidateStopAndReplacementRaceUsesCurrentScope/replace_scope (0.01s)
+PASS

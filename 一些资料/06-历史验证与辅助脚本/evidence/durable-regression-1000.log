@@ -1,0 +1,24 @@
+=== RUN   TestDurableMessagesFaultInjection
+    durable_test.go:230: receiver committed 469/1000; restarted sender 1
+    durable_test.go:230: receiver committed 921/1000; restarted sender 2
+    durable_test.go:230: receiver committed 1000/1000; restarted sender 3
+    durable_test.go:291: {
+          "case": "A06",
+          "confirmed_events": 1000,
+          "deduplicated_deliveries": 142,
+          "delivery_attempts": 1142,
+          "duplicate_business_effects": 0,
+          "duration_seconds": 0.218416333,
+          "environment": "darwin/arm64",
+          "input_duplicate_every": 11,
+          "lost_acknowledgements": 142,
+          "messages": 1000,
+          "missing_confirmed_events": 0,
+          "sender_process_restarts": 3,
+          "shuffled_input_seed": 731,
+          "status": "passed",
+          "successful_write_failure_acknowledgements": 0
+        }
+--- PASS: TestDurableMessagesFaultInjection (0.22s)
+PASS
+I/O report: .local/evidence/durable-regression-1000-io.json

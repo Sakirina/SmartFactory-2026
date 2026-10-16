@@ -1,0 +1,59 @@
+{
+  "captured_at": "2026-10-05T01:29:14.362551+00:00",
+  "id": "P4-A01",
+  "status": "source_finding_owner_reproduction_pending",
+  "scope": "E4-07",
+  "condition": "A user has read permission for the concrete device but not its source node or ancestor asset. The formal trend query accepts DeviceID; generic evidence extraction also requires source_id.",
+  "expected": "Reference access follows the resources actually required by the formal authorized tool, including retained original resources after subsequent edits.",
+  "evidence": [
+    {
+      "path": "Platform/internal/application/investigations.go",
+      "sha256": "18db70dfaf410f34e623c29fc58626b9d5d7c2c7d90c7118e63f7f85348c2a8b",
+      "excerpts": [
+        {
+          "start_line": 470,
+          "end_line": 504,
+          "content": "func (s *Investigations) checkResource(ctx context.Context, p identity.Principal, r model.EvidenceResource) error {\n\tswitch r.Kind {\n\tcase \"definition\":\n\t\t_, err := s.ReadDefinition(ctx, p, r.ID)\n\t\treturn err\n\tcase \"draft\":\n\t\t_, err := s.Definitions.LoadDraft(ctx, p, DraftInput{ID: r.ID}, \"read\")\n\t\treturn err\n\tcase \"execution\":\n\t\t_, err := s.Control.Detail(ctx, p, r.ID)\n\t\treturn err\n\tcase \"analysis_run\":\n\t\t_, err := s.History.Get(ctx, p, r.ID)\n\t\treturn err\n\tcase \"alarm\":\n\t\t_, err := s.Business.AlarmDetail(ctx, p, r.ID)\n\t\treturn err\n\tcase \"catalogue\":\n\t\tdoc, err := s.Store.Get(ctx, \"catalogue\", r.ID)\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\treturn s.documentAccess(ctx, p, doc)\n\tcase \"entity\":\n\t\tif err := s.Identity.Permit(ctx, p, \"read\", r.ID); err != nil {\n\t\t\treturn err\n\t\t}\n\t\t_, err := s.Store.Get(ctx, \"entity\", r.ID)\n\t\treturn err\n\tcase \"resource\":\n\t\treturn s.Identity.Permit(ctx, p, \"read\", r.ID)\n\tdefault:\n\t\treturn identity.ErrDenied\n\t}\n}"
+        },
+        {
+          "start_line": 666,
+          "end_line": 687,
+          "content": "\t\t\t\t}\n\t\t\t}\n\t\t\tfor _, key := range []string{\"device_id\", \"entity_id\", \"asset_id\"} {\n\t\t\t\tif id, ok := m[key].(string); ok {\n\t\t\t\t\tadd(\"entity\", id, 0, \"\")\n\t\t\t\t}\n\t\t\t}\n\t\t\tfor _, key := range []string{\"group_id\", \"source_id\"} {\n\t\t\t\tif id, ok := m[key].(string); ok {\n\t\t\t\t\tadd(\"resource\", id, 0, \"\")\n\t\t\t\t}\n\t\t\t}\n\t\t\tfor _, key := range []string{\"device_ids\", \"resource_ids\"} {\n\t\t\t\tif values, ok := m[key].([]any); ok {\n\t\t\t\t\tfor _, part := range values {\n\t\t\t\t\t\tif id, ok := part.(string); ok {\n\t\t\t\t\t\t\tadd(\"entity\", id, 0, \"\")\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t\tif values, ok := m[\"resources\"].([]any); ok {"
+        }
+      ]
+    },
+    {
+      "path": "Platform/internal/application/queries.go",
+      "sha256": "1a664a37280229ae068ba7f4fdd08007dd2e497b8466a8b431a5b8d711539646",
+      "excerpts": [
+        {
+          "start_line": 330,
+          "end_line": 365,
+          "content": "\nfunc (s *Queries) permitRow(ctx context.Context, p identity.Principal, row model.QueryRow) error {\n\tresource := \"\"\n\tswitch row.Kind {\n\tcase \"entities\":\n\t\tresource = row.ID\n\tcase \"alarms\":\n\t\tvar v model.Alarm\n\t\tif err := store.DecodeJSON(row.Data, &v); err != nil {\n\t\t\treturn err\n\t\t}\n\t\tresource = v.EntityID\n\tcase \"trend\":\n\t\tvar v model.Observation\n\t\tif err := store.DecodeJSON(row.Data, &v); err != nil {\n\t\t\treturn err\n\t\t}\n\t\tresource = v.DeviceID\n\tcase \"executions\":\n\t\tif s.Control == nil {\n\t\t\treturn identity.ErrDenied\n\t\t}\n\t\t_, err := s.Control.Detail(ctx, p, row.ID)\n\t\treturn err\n\tdefault:\n\t\treturn identity.ErrDenied\n\t}\n\treturn s.Identity.Permit(ctx, p, \"read\", resource)\n}\n\ntype QuerySubscription struct {\n\tEvents <-chan model.QueryEvent\n\tevents chan model.QueryEvent\n\tdone   chan struct{}\n\tonce   sync.Once\n\tclose  func()"
+        }
+      ]
+    },
+    {
+      "path": "Platform/internal/store/query_projection.go",
+      "sha256": "655296127bb23e721b8ce25fb4f0f2b41b1983c62aa2aea4796bb788a3da6fdc",
+      "excerpts": [
+        {
+          "start_line": 76,
+          "end_line": 81,
+          "content": "func queryPointRecord(p model.Observation, resolution string) (queryRecord, error) {\n\traw, err := json.Marshal(p)\n\treturn queryRecord{Kind: \"trend\", ID: queryPointIdentity(p, resolution), Version: p.Revision, SortMS: p.ObservedMS, Resource: p.DeviceID, Definition: p.DefinitionID, Key: p.Key, Resolution: resolution, Data: raw, Resources: []string{p.DeviceID}}, err\n}\nfunc (t *Tx) markQueryPoint(p model.Observation, resolution string) error {\n\tif !t.managed {"
+        }
+      ]
+    },
+    {
+      "path": "Platform/internal/identity/identity.go",
+      "sha256": "d1091b04e7fca51d870c9efae81e5cf4056f69101cdcc2e5122df9a41c5d9722",
+      "excerpts": [
+        {
+          "start_line": 287,
+          "end_line": 351,
+          "content": "func (m *Manager) Permit(ctx context.Context, p Principal, action, resource string) error {\n\tif !p.User.Active {\n\t\treturn ErrDenied\n\t}\n\tif p.User.AI && action != \"read\" && action != \"draft\" {\n\t\treturn ErrDenied\n\t}\n\tallowed := false\n\tfor _, role := range p.User.Roles {\n\t\tswitch role {\n\t\tcase \"admin\":\n\t\t\tallowed = true\n\t\tcase \"viewer\":\n\t\t\tallowed = allowed || action == \"read\"\n\t\tcase \"engineer\":\n\t\t\tallowed = allowed || action == \"read\" || action == \"draft\" || action == \"publish\" || action == \"control\" || action == \"approve\" || action == \"register\" || action == \"dashboard\"\n\t\tcase \"leader\", \"safety\":\n\t\t\tallowed = allowed || action == \"read\" || action == \"approve\"\n\t\tcase \"ai\":\n\t\t\tallowed = allowed || action == \"read\" || action == \"draft\"\n\t\tcase \"gateway\":\n\t\t\tallowed = allowed || action == \"ingest\"\n\t\t}\n\t}\n\tresources := append([]string{}, p.User.Resources...)\n\tif allowed && (resource == \"\" || contains(resources, \"*\") || contains(resources, resource)) {\n\t\treturn nil\n\t}\n\tgrants, e := m.Store.List(ctx, \"grant\")\n\tif e != nil {\n\t\treturn e\n\t}\n\tfor _, d := range grants {\n\t\tg, e := store.Decode[Grant](d)\n\t\tif e != nil {\n\t\t\treturn e\n\t\t}\n\t\tif contains(p.User.Teams, g.TeamID) && contains(g.Actions, action) {\n\t\t\tallowed = true\n\t\t\tresources = append(resources, g.Resources...)\n\t\t\tresources = append(resources, g.GroupID)\n\t\t}\n\t}\n\tif !allowed {\n\t\treturn ErrDenied\n\t}\n\tif resource == \"\" || contains(resources, \"*\") || contains(resources, resource) {\n\t\treturn nil\n\t}\n\t// Grants to a logical asset include its descendants, bounded against cycles.\n\tfor id, i := resource, 0; id != \"\" && i < 64; i++ {\n\t\td, e := m.Store.Get(ctx, \"entity\", id)\n\t\tif e != nil {\n\t\t\tbreak\n\t\t}\n\t\tv, e := store.Decode[model.Entity](d)\n\t\tif e != nil {\n\t\t\treturn e\n\t\t}\n\t\tid = v.ParentID\n\t\tif contains(resources, id) {\n\t\t\treturn nil\n\t\t}\n\t}\n\treturn ErrDenied"
+        }
+      ]
+    }
+  ]
+}

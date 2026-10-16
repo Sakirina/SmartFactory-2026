@@ -1,0 +1,59 @@
+ Container smartfactory_6a48cb419a-kafka-1 Running 
+ Container smartfactory_6a48cb419a-config-1 Running 
+ Container smartfactory_6a48cb419a-web-1 Running 
+ Container smartfactory_6a48cb419a-edge-a-db-1 Running 
+ Container smartfactory_6a48cb419a-cloud-1 Running 
+ Container smartfactory_6a48cb419a-edge-a-simulator-1 Running 
+ Container smartfactory_6a48cb419a-cloud-db-1 Running 
+ Container smartfactory_6a48cb419a-edge-a-gateway-1 Running 
+ Container smartfactory_6a48cb419a-edge-a-1 Running 
+ Container smartfactory_6a48cb419a-thingsboard-1 Recreate 
+ Container smartfactory_6a48cb419a-thingsboard-1 Recreated 
+ Container smartfactory_6a48cb419a-cloud-db-1 Waiting 
+ Container smartfactory_6a48cb419a-cloud-db-1 Waiting 
+ Container smartfactory_6a48cb419a-kafka-1 Waiting 
+ Container smartfactory_6a48cb419a-cloud-db-1 Healthy 
+ Container smartfactory_6a48cb419a-kafka-1 Healthy 
+ Container smartfactory_6a48cb419a-thingsboard-1 Starting 
+ Container smartfactory_6a48cb419a-cloud-db-1 Healthy 
+ Container smartfactory_6a48cb419a-cloud-db-1 Waiting 
+ Container smartfactory_6a48cb419a-thingsboard-1 Started 
+ Container smartfactory_6a48cb419a-cloud-db-1 Healthy 
+ Container smartfactory_6a48cb419a-edge-a-db-1 Waiting 
+ Container smartfactory_6a48cb419a-edge-a-db-1 Healthy 
+ Container smartfactory_6a48cb419a-edge-a-simulator-1 Waiting 
+ Container smartfactory_6a48cb419a-edge-a-simulator-1 Healthy 
+edge-a certificate, audit key and credential encryption key enrolled; version 2
+ Container smartfactory_6a48cb419a-edge-a-db-1 Running 
+ Container smartfactory_6a48cb419a-cloud-db-1 Running 
+ Container smartfactory_6a48cb419a-edge-a-gateway-1 Running 
+ Container smartfactory_6a48cb419a-cloud-1 Running 
+ Container smartfactory_6a48cb419a-edge-a-simulator-1 Running 
+ Container smartfactory_6a48cb419a-config-1 Running 
+ Container smartfactory_6a48cb419a-kafka-1 Running 
+ Container smartfactory_6a48cb419a-thingsboard-1 Running 
+ Container smartfactory_6a48cb419a-edge-a-1 Running 
+ Container smartfactory_6a48cb419a-edge-a-native-1 Running 
+ Container smartfactory_6a48cb419a-web-1 Running 
+ Container smartfactory_6a48cb419a-cloud-db-1 Waiting 
+ Container smartfactory_6a48cb419a-kafka-1 Waiting 
+ Container smartfactory_6a48cb419a-cloud-db-1 Waiting 
+ Container smartfactory_6a48cb419a-cloud-db-1 Healthy 
+ Container smartfactory_6a48cb419a-cloud-db-1 Healthy 
+ Container smartfactory_6a48cb419a-cloud-db-1 Waiting 
+ Container smartfactory_6a48cb419a-kafka-1 Healthy 
+ Container smartfactory_6a48cb419a-cloud-db-1 Healthy 
+ Container smartfactory_6a48cb419a-edge-a-db-1 Waiting 
+ Container smartfactory_6a48cb419a-edge-a-db-1 Healthy 
+ Container smartfactory_6a48cb419a-edge-a-simulator-1 Waiting 
+ Container smartfactory_6a48cb419a-edge-a-simulator-1 Healthy 
+Traceback (most recent call last):
+  File "/path/to/SmartFactory-2026/scripts/bootstrap-runtime.py", line 97, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "/path/to/SmartFactory-2026/scripts/bootstrap-runtime.py", line 77, in main
+    wait(lambda:request(native,'/api/auth/login',{'username':'developer@example.invalid','password':credentials['tb_admin_password']}).get('token'),node+' native platform synchronization',600)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/path/to/SmartFactory-2026/scripts/bootstrap-runtime.py", line 38, in wait
+    raise TimeoutError(label)
+TimeoutError: edge-a native platform synchronization

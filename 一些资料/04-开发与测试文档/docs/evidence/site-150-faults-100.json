@@ -1,0 +1,1706 @@
+{
+  "started_ms": 1789886182835,
+  "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "source_commit": "f4bd353dcd2f023e41355eb92698e252be6d4f73",
+  "binary_sha256": {
+    "sf-site-fixture": "67e11e600a3a8d4ef2382c186bd31c3982f60bec840158224d06ac5ffa627fbe",
+    "datatransfer": "80ee6965b7aa67b771abae40fcbf6244d0d8ab7e3c0aab51f38eb980044bee10",
+    "dt-simulator": "7f48fe40dbb65e5a67b6d410f01f0dd3d60ae59afbf761a47a3ee1f3dd7f194a"
+  },
+  "nodes": 3,
+  "devices_per_node": 50,
+  "protocol": "MQTT 5.0",
+  "sampling_ms": 5000,
+  "storage": "three PostgreSQL databases in one bounded tmpfs fixture; three in-memory DataTransfer journals and simulator stores; three independent NATS tmpfs stores",
+  "lease_ms": 5000,
+  "production_default_lease_ms": 15000,
+  "offline_ms": 15000,
+  "cloud_connected": false,
+  "tests": [
+    {
+      "number": 1,
+      "fault": "quorum_partition",
+      "execution_id": "site-fault-000",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 6972
+    },
+    {
+      "number": 2,
+      "fault": "single_replica_loss",
+      "execution_id": "site-fault-001",
+      "status": "completed",
+      "coordinator_id": "edge-a",
+      "fence": 24,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 8346
+    },
+    {
+      "number": 3,
+      "fault": "coordinator_process_loss",
+      "execution_id": "site-fault-002",
+      "status": "completed",
+      "coordinator_id": "edge-b",
+      "fence": 58,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 10884
+    },
+    {
+      "number": 4,
+      "fault": "participant_process_loss",
+      "execution_id": "site-fault-003",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 24599
+    },
+    {
+      "number": 5,
+      "fault": "quorum_partition",
+      "execution_id": "site-fault-004",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 10322
+    },
+    {
+      "number": 6,
+      "fault": "single_replica_loss",
+      "execution_id": "site-fault-005",
+      "status": "completed",
+      "coordinator_id": "edge-a",
+      "fence": 72,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 13284
+    },
+    {
+      "number": 7,
+      "fault": "coordinator_process_loss",
+      "execution_id": "site-fault-006",
+      "status": "completed",
+      "coordinator_id": "edge-b",
+      "fence": 106,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 9903
+    },
+    {
+      "number": 8,
+      "fault": "participant_process_loss",
+      "execution_id": "site-fault-007",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 24223
+    },
+    {
+      "number": 9,
+      "fault": "quorum_partition",
+      "execution_id": "site-fault-008",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 8395
+    },
+    {
+      "number": 10,
+      "fault": "single_replica_loss",
+      "execution_id": "site-fault-009",
+      "status": "completed",
+      "coordinator_id": "edge-a",
+      "fence": 120,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 12901
+    },
+    {
+      "number": 11,
+      "fault": "coordinator_process_loss",
+      "execution_id": "site-fault-010",
+      "status": "completed",
+      "coordinator_id": "edge-b",
+      "fence": 155,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 9899
+    },
+    {
+      "number": 12,
+      "fault": "participant_process_loss",
+      "execution_id": "site-fault-011",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 24733
+    },
+    {
+      "number": 13,
+      "fault": "quorum_partition",
+      "execution_id": "site-fault-012",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 12003
+    },
+    {
+      "number": 14,
+      "fault": "single_replica_loss",
+      "execution_id": "site-fault-013",
+      "status": "completed",
+      "coordinator_id": "edge-a",
+      "fence": 169,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 14673
+    },
+    {
+      "number": 15,
+      "fault": "coordinator_process_loss",
+      "execution_id": "site-fault-014",
+      "status": "completed",
+      "coordinator_id": "edge-b",
+      "fence": 204,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 11433
+    },
+    {
+      "number": 16,
+      "fault": "participant_process_loss",
+      "execution_id": "site-fault-015",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 24425
+    },
+    {
+      "number": 17,
+      "fault": "quorum_partition",
+      "execution_id": "site-fault-016",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 8248
+    },
+    {
+      "number": 18,
+      "fault": "single_replica_loss",
+      "execution_id": "site-fault-017",
+      "status": "completed",
+      "coordinator_id": "edge-a",
+      "fence": 218,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 10921
+    },
+    {
+      "number": 19,
+      "fault": "coordinator_process_loss",
+      "execution_id": "site-fault-018",
+      "status": "completed",
+      "coordinator_id": "edge-c",
+      "fence": 252,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 9360
+    },
+    {
+      "number": 20,
+      "fault": "participant_process_loss",
+      "execution_id": "site-fault-019",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 24276
+    },
+    {
+      "number": 21,
+      "fault": "quorum_partition",
+      "execution_id": "site-fault-020",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 9809
+    },
+    {
+      "number": 22,
+      "fault": "single_replica_loss",
+      "execution_id": "site-fault-021",
+      "status": "completed",
+      "coordinator_id": "edge-a",
+      "fence": 266,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 9832
+    },
+    {
+      "number": 23,
+      "fault": "coordinator_process_loss",
+      "execution_id": "site-fault-022",
+      "status": "completed",
+      "coordinator_id": "edge-b",
+      "fence": 300,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 9623
+    },
+    {
+      "number": 24,
+      "fault": "participant_process_loss",
+      "execution_id": "site-fault-023",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 24228
+    },
+    {
+      "number": 25,
+      "fault": "quorum_partition",
+      "execution_id": "site-fault-024",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 9741
+    },
+    {
+      "number": 26,
+      "fault": "single_replica_loss",
+      "execution_id": "site-fault-025",
+      "status": "completed",
+      "coordinator_id": "edge-a",
+      "fence": 314,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 10887
+    },
+    {
+      "number": 27,
+      "fault": "coordinator_process_loss",
+      "execution_id": "site-fault-026",
+      "status": "completed",
+      "coordinator_id": "edge-c",
+      "fence": 348,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 9523
+    },
+    {
+      "number": 28,
+      "fault": "participant_process_loss",
+      "execution_id": "site-fault-027",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 24222
+    },
+    {
+      "number": 29,
+      "fault": "quorum_partition",
+      "execution_id": "site-fault-028",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 9659
+    },
+    {
+      "number": 30,
+      "fault": "single_replica_loss",
+      "execution_id": "site-fault-029",
+      "status": "completed",
+      "coordinator_id": "edge-a",
+      "fence": 362,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 7778
+    },
+    {
+      "number": 31,
+      "fault": "coordinator_process_loss",
+      "execution_id": "site-fault-030",
+      "status": "completed",
+      "coordinator_id": "edge-b",
+      "fence": 396,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 9793
+    },
+    {
+      "number": 32,
+      "fault": "participant_process_loss",
+      "execution_id": "site-fault-031",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 24217
+    },
+    {
+      "number": 33,
+      "fault": "quorum_partition",
+      "execution_id": "site-fault-032",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 6023
+    },
+    {
+      "number": 34,
+      "fault": "single_replica_loss",
+      "execution_id": "site-fault-033",
+      "status": "completed",
+      "coordinator_id": "edge-a",
+      "fence": 410,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 7817
+    },
+    {
+      "number": 35,
+      "fault": "coordinator_process_loss",
+      "execution_id": "site-fault-034",
+      "status": "completed",
+      "coordinator_id": "edge-b",
+      "fence": 444,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 10240
+    },
+    {
+      "number": 36,
+      "fault": "participant_process_loss",
+      "execution_id": "site-fault-035",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 24231
+    },
+    {
+      "number": 37,
+      "fault": "quorum_partition",
+      "execution_id": "site-fault-036",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 8039
+    },
+    {
+      "number": 38,
+      "fault": "single_replica_loss",
+      "execution_id": "site-fault-037",
+      "status": "completed",
+      "coordinator_id": "edge-a",
+      "fence": 458,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 10833
+    },
+    {
+      "number": 39,
+      "fault": "coordinator_process_loss",
+      "execution_id": "site-fault-038",
+      "status": "completed",
+      "coordinator_id": "edge-b",
+      "fence": 492,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 10607
+    },
+    {
+      "number": 40,
+      "fault": "participant_process_loss",
+      "execution_id": "site-fault-039",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 24242
+    },
+    {
+      "number": 41,
+      "fault": "quorum_partition",
+      "execution_id": "site-fault-040",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 7961
+    },
+    {
+      "number": 42,
+      "fault": "single_replica_loss",
+      "execution_id": "site-fault-041",
+      "status": "completed",
+      "coordinator_id": "edge-a",
+      "fence": 506,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 12962
+    },
+    {
+      "number": 43,
+      "fault": "coordinator_process_loss",
+      "execution_id": "site-fault-042",
+      "status": "completed",
+      "coordinator_id": "edge-c",
+      "fence": 540,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 9245
+    },
+    {
+      "number": 44,
+      "fault": "participant_process_loss",
+      "execution_id": "site-fault-043",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 24228
+    },
+    {
+      "number": 45,
+      "fault": "quorum_partition",
+      "execution_id": "site-fault-044",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 7900
+    },
+    {
+      "number": 46,
+      "fault": "single_replica_loss",
+      "execution_id": "site-fault-045",
+      "status": "completed",
+      "coordinator_id": "edge-a",
+      "fence": 554,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 10626
+    },
+    {
+      "number": 47,
+      "fault": "coordinator_process_loss",
+      "execution_id": "site-fault-046",
+      "status": "completed",
+      "coordinator_id": "edge-c",
+      "fence": 588,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 9107
+    },
+    {
+      "number": 48,
+      "fault": "participant_process_loss",
+      "execution_id": "site-fault-047",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 24756
+    },
+    {
+      "number": 49,
+      "fault": "quorum_partition",
+      "execution_id": "site-fault-048",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 5930
+    },
+    {
+      "number": 50,
+      "fault": "single_replica_loss",
+      "execution_id": "site-fault-049",
+      "status": "completed",
+      "coordinator_id": "edge-a",
+      "fence": 602,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 10961
+    },
+    {
+      "number": 51,
+      "fault": "coordinator_process_loss",
+      "execution_id": "site-fault-050",
+      "status": "completed",
+      "coordinator_id": "edge-b",
+      "fence": 636,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 9732
+    },
+    {
+      "number": 52,
+      "fault": "participant_process_loss",
+      "execution_id": "site-fault-051",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 24266
+    },
+    {
+      "number": 53,
+      "fault": "quorum_partition",
+      "execution_id": "site-fault-052",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 5988
+    },
+    {
+      "number": 54,
+      "fault": "single_replica_loss",
+      "execution_id": "site-fault-053",
+      "status": "completed",
+      "coordinator_id": "edge-a",
+      "fence": 650,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 7887
+    },
+    {
+      "number": 55,
+      "fault": "coordinator_process_loss",
+      "execution_id": "site-fault-054",
+      "status": "completed",
+      "coordinator_id": "edge-b",
+      "fence": 684,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 9780
+    },
+    {
+      "number": 56,
+      "fault": "participant_process_loss",
+      "execution_id": "site-fault-055",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 24274
+    },
+    {
+      "number": 57,
+      "fault": "quorum_partition",
+      "execution_id": "site-fault-056",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 9255
+    },
+    {
+      "number": 58,
+      "fault": "single_replica_loss",
+      "execution_id": "site-fault-057",
+      "status": "completed",
+      "coordinator_id": "edge-a",
+      "fence": 698,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 7977
+    },
+    {
+      "number": 59,
+      "fault": "coordinator_process_loss",
+      "execution_id": "site-fault-058",
+      "status": "completed",
+      "coordinator_id": "edge-c",
+      "fence": 732,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 9026
+    },
+    {
+      "number": 60,
+      "fault": "participant_process_loss",
+      "execution_id": "site-fault-059",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 24268
+    },
+    {
+      "number": 61,
+      "fault": "quorum_partition",
+      "execution_id": "site-fault-060",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 7912
+    },
+    {
+      "number": 62,
+      "fault": "single_replica_loss",
+      "execution_id": "site-fault-061",
+      "status": "completed",
+      "coordinator_id": "edge-a",
+      "fence": 746,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 7880
+    },
+    {
+      "number": 63,
+      "fault": "coordinator_process_loss",
+      "execution_id": "site-fault-062",
+      "status": "completed",
+      "coordinator_id": "edge-b",
+      "fence": 780,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 9809
+    },
+    {
+      "number": 64,
+      "fault": "participant_process_loss",
+      "execution_id": "site-fault-063",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 24305
+    },
+    {
+      "number": 65,
+      "fault": "quorum_partition",
+      "execution_id": "site-fault-064",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 7902
+    },
+    {
+      "number": 66,
+      "fault": "single_replica_loss",
+      "execution_id": "site-fault-065",
+      "status": "completed",
+      "coordinator_id": "edge-a",
+      "fence": 794,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 10890
+    },
+    {
+      "number": 67,
+      "fault": "coordinator_process_loss",
+      "execution_id": "site-fault-066",
+      "status": "completed",
+      "coordinator_id": "edge-b",
+      "fence": 828,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 10351
+    },
+    {
+      "number": 68,
+      "fault": "participant_process_loss",
+      "execution_id": "site-fault-067",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 24260
+    },
+    {
+      "number": 69,
+      "fault": "quorum_partition",
+      "execution_id": "site-fault-068",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 9232
+    },
+    {
+      "number": 70,
+      "fault": "single_replica_loss",
+      "execution_id": "site-fault-069",
+      "status": "completed",
+      "coordinator_id": "edge-a",
+      "fence": 842,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 10753
+    },
+    {
+      "number": 71,
+      "fault": "coordinator_process_loss",
+      "execution_id": "site-fault-070",
+      "status": "completed",
+      "coordinator_id": "edge-b",
+      "fence": 876,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 9440
+    },
+    {
+      "number": 72,
+      "fault": "participant_process_loss",
+      "execution_id": "site-fault-071",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 24260
+    },
+    {
+      "number": 73,
+      "fault": "quorum_partition",
+      "execution_id": "site-fault-072",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 6030
+    },
+    {
+      "number": 74,
+      "fault": "single_replica_loss",
+      "execution_id": "site-fault-073",
+      "status": "completed",
+      "coordinator_id": "edge-a",
+      "fence": 890,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 10822
+    },
+    {
+      "number": 75,
+      "fault": "coordinator_process_loss",
+      "execution_id": "site-fault-074",
+      "status": "completed",
+      "coordinator_id": "edge-b",
+      "fence": 924,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 8847
+    },
+    {
+      "number": 76,
+      "fault": "participant_process_loss",
+      "execution_id": "site-fault-075",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 24251
+    },
+    {
+      "number": 77,
+      "fault": "quorum_partition",
+      "execution_id": "site-fault-076",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 5972
+    },
+    {
+      "number": 78,
+      "fault": "single_replica_loss",
+      "execution_id": "site-fault-077",
+      "status": "completed",
+      "coordinator_id": "edge-a",
+      "fence": 938,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 7933
+    },
+    {
+      "number": 79,
+      "fault": "coordinator_process_loss",
+      "execution_id": "site-fault-078",
+      "status": "completed",
+      "coordinator_id": "edge-b",
+      "fence": 972,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 9998
+    },
+    {
+      "number": 80,
+      "fault": "participant_process_loss",
+      "execution_id": "site-fault-079",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 24275
+    },
+    {
+      "number": 81,
+      "fault": "quorum_partition",
+      "execution_id": "site-fault-080",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 5929
+    },
+    {
+      "number": 82,
+      "fault": "single_replica_loss",
+      "execution_id": "site-fault-081",
+      "status": "completed",
+      "coordinator_id": "edge-a",
+      "fence": 986,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 7767
+    },
+    {
+      "number": 83,
+      "fault": "coordinator_process_loss",
+      "execution_id": "site-fault-082",
+      "status": "completed",
+      "coordinator_id": "edge-b",
+      "fence": 1020,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 10030
+    },
+    {
+      "number": 84,
+      "fault": "participant_process_loss",
+      "execution_id": "site-fault-083",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 24261
+    },
+    {
+      "number": 85,
+      "fault": "quorum_partition",
+      "execution_id": "site-fault-084",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 6208
+    },
+    {
+      "number": 86,
+      "fault": "single_replica_loss",
+      "execution_id": "site-fault-085",
+      "status": "completed",
+      "coordinator_id": "edge-a",
+      "fence": 1034,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 7905
+    },
+    {
+      "number": 87,
+      "fault": "coordinator_process_loss",
+      "execution_id": "site-fault-086",
+      "status": "completed",
+      "coordinator_id": "edge-b",
+      "fence": 1068,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 9467
+    },
+    {
+      "number": 88,
+      "fault": "participant_process_loss",
+      "execution_id": "site-fault-087",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 24272
+    },
+    {
+      "number": 89,
+      "fault": "quorum_partition",
+      "execution_id": "site-fault-088",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 6088
+    },
+    {
+      "number": 90,
+      "fault": "single_replica_loss",
+      "execution_id": "site-fault-089",
+      "status": "completed",
+      "coordinator_id": "edge-a",
+      "fence": 1082,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 10936
+    },
+    {
+      "number": 91,
+      "fault": "coordinator_process_loss",
+      "execution_id": "site-fault-090",
+      "status": "completed",
+      "coordinator_id": "edge-c",
+      "fence": 1116,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 9302
+    },
+    {
+      "number": 92,
+      "fault": "participant_process_loss",
+      "execution_id": "site-fault-091",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 24313
+    },
+    {
+      "number": 93,
+      "fault": "quorum_partition",
+      "execution_id": "site-fault-092",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 9839
+    },
+    {
+      "number": 94,
+      "fault": "single_replica_loss",
+      "execution_id": "site-fault-093",
+      "status": "completed",
+      "coordinator_id": "edge-a",
+      "fence": 1130,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 10979
+    },
+    {
+      "number": 95,
+      "fault": "coordinator_process_loss",
+      "execution_id": "site-fault-094",
+      "status": "completed",
+      "coordinator_id": "edge-b",
+      "fence": 1164,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 9940
+    },
+    {
+      "number": 96,
+      "fault": "participant_process_loss",
+      "execution_id": "site-fault-095",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 24256
+    },
+    {
+      "number": 97,
+      "fault": "quorum_partition",
+      "execution_id": "site-fault-096",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 5935
+    },
+    {
+      "number": 98,
+      "fault": "single_replica_loss",
+      "execution_id": "site-fault-097",
+      "status": "completed",
+      "coordinator_id": "edge-a",
+      "fence": 1178,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 10900
+    },
+    {
+      "number": 99,
+      "fault": "coordinator_process_loss",
+      "execution_id": "site-fault-098",
+      "status": "completed",
+      "coordinator_id": "edge-b",
+      "fence": 1212,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 8913
+    },
+    {
+      "number": 100,
+      "fault": "participant_process_loss",
+      "execution_id": "site-fault-099",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 24278
+    }
+  ],
+  "passed": true,
+  "full_A09_24h": false,
+  "postgres_tmpfs_mib": 1536,
+  "storage_samples": [
+    {
+      "trial": 4,
+      "total_kib": 1572864,
+      "used_kib": 144356,
+      "available_kib": 1428508
+    },
+    {
+      "trial": 8,
+      "total_kib": 1572864,
+      "used_kib": 199668,
+      "available_kib": 1373196
+    },
+    {
+      "trial": 12,
+      "total_kib": 1572864,
+      "used_kib": 215700,
+      "available_kib": 1357164
+    },
+    {
+      "trial": 16,
+      "total_kib": 1572864,
+      "used_kib": 232092,
+      "available_kib": 1340772
+    },
+    {
+      "trial": 20,
+      "total_kib": 1572864,
+      "used_kib": 246964,
+      "available_kib": 1325900
+    },
+    {
+      "trial": 24,
+      "total_kib": 1572864,
+      "used_kib": 261332,
+      "available_kib": 1311532
+    },
+    {
+      "trial": 28,
+      "total_kib": 1572864,
+      "used_kib": 278900,
+      "available_kib": 1293964
+    },
+    {
+      "trial": 32,
+      "total_kib": 1572864,
+      "used_kib": 291140,
+      "available_kib": 1281724
+    },
+    {
+      "trial": 36,
+      "total_kib": 1572864,
+      "used_kib": 302764,
+      "available_kib": 1270100
+    },
+    {
+      "trial": 40,
+      "total_kib": 1572864,
+      "used_kib": 316796,
+      "available_kib": 1256068
+    },
+    {
+      "trial": 44,
+      "total_kib": 1572864,
+      "used_kib": 332084,
+      "available_kib": 1240780
+    },
+    {
+      "trial": 48,
+      "total_kib": 1572864,
+      "used_kib": 349484,
+      "available_kib": 1223380
+    },
+    {
+      "trial": 52,
+      "total_kib": 1572864,
+      "used_kib": 366748,
+      "available_kib": 1206116
+    },
+    {
+      "trial": 56,
+      "total_kib": 1572864,
+      "used_kib": 385844,
+      "available_kib": 1187020
+    },
+    {
+      "trial": 60,
+      "total_kib": 1572864,
+      "used_kib": 396532,
+      "available_kib": 1176332
+    },
+    {
+      "trial": 64,
+      "total_kib": 1572864,
+      "used_kib": 416148,
+      "available_kib": 1156716
+    },
+    {
+      "trial": 68,
+      "total_kib": 1572864,
+      "used_kib": 429196,
+      "available_kib": 1143668
+    },
+    {
+      "trial": 72,
+      "total_kib": 1572864,
+      "used_kib": 442124,
+      "available_kib": 1130740
+    },
+    {
+      "trial": 76,
+      "total_kib": 1572864,
+      "used_kib": 458668,
+      "available_kib": 1114196
+    },
+    {
+      "trial": 80,
+      "total_kib": 1572864,
+      "used_kib": 467764,
+      "available_kib": 1105100
+    },
+    {
+      "trial": 84,
+      "total_kib": 1572864,
+      "used_kib": 487748,
+      "available_kib": 1085116
+    },
+    {
+      "trial": 88,
+      "total_kib": 1572864,
+      "used_kib": 497796,
+      "available_kib": 1075068
+    },
+    {
+      "trial": 92,
+      "total_kib": 1572864,
+      "used_kib": 511820,
+      "available_kib": 1061044
+    },
+    {
+      "trial": 96,
+      "total_kib": 1572864,
+      "used_kib": 527532,
+      "available_kib": 1045332
+    },
+    {
+      "trial": 100,
+      "total_kib": 1572864,
+      "used_kib": 536428,
+      "available_kib": 1036436
+    }
+  ],
+  "fixture": {
+    "definition_hash": "021e66b93a9456aa7bf28f3f207071bdafbf44279a36faed2119e866bd7522ca",
+    "devices_per_node": 50,
+    "lease_ms": 5000,
+    "nodes": 3,
+    "offline_ms": 15000
+  },
+  "baseline": {
+    "execution": {
+      "downlink_id": "site-baseline",
+      "definition_id": "site-gas-plan",
+      "definition_version": 1,
+      "params": {},
+      "status": "completed",
+      "override": false,
+      "risk_category": "",
+      "risk_level": 0,
+      "binding": "",
+      "created_ms": 0,
+      "approval_expires_ms": 0,
+      "start_deadline_ms": 1789886213458,
+      "approvals": [],
+      "steps": [
+        {
+          "step_id": "extract-edge-a",
+          "command_id": "site-baseline:extract-edge-a",
+          "status": "SUCCESS",
+          "message": "device state updated",
+          "started_ms": 1789886203845,
+          "finished_ms": 1789886204337
+        },
+        {
+          "step_id": "extract-edge-b",
+          "command_id": "site-baseline:extract-edge-b",
+          "status": "SUCCESS",
+          "message": "device state updated",
+          "started_ms": 1789886204763,
+          "finished_ms": 1789886205665
+        },
+        {
+          "step_id": "extract-edge-c",
+          "command_id": "site-baseline:extract-edge-c",
+          "status": "SUCCESS",
+          "message": "device state updated",
+          "started_ms": 1789886205711,
+          "finished_ms": 1789886206226
+        }
+      ],
+      "snapshot": [
+        {
+          "id": "edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789886198522214000:1:2",
+          "origin_id": "edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789886198522214000:1:2",
+          "message_id": "edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789886198522214000:1",
+          "source_id": "edge-a",
+          "source_sequence": 1,
+          "device_id": "edge-a-device-000",
+          "key": "interlock",
+          "value": false,
+          "observed_ms": 1789886198522,
+          "received_ms": 1789886198982,
+          "quality": "GOOD",
+          "time_source": "device",
+          "entity_revision": 1,
+          "asset_version": 1,
+          "late": false,
+          "revision": 1
+        },
+        {
+          "id": "site:edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789886198944746000:1:2:0",
+          "origin_id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789886198944746000:1:2",
+          "message_id": "site:edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789886198944746000:1:2",
+          "source_id": "edge-b",
+          "source_sequence": 1,
+          "device_id": "edge-b-device-000",
+          "key": "interlock",
+          "value": false,
+          "observed_ms": 1789886198944,
+          "received_ms": 1789886201051,
+          "quality": "GOOD",
+          "time_source": "device",
+          "entity_revision": 1,
+          "asset_version": 1,
+          "late": false,
+          "revision": 1
+        },
+        {
+          "id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789886199500501000:1:2:0",
+          "origin_id": "edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789886199500501000:1:2",
+          "message_id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789886199500501000:1:2",
+          "source_id": "edge-c",
+          "source_sequence": 1,
+          "device_id": "edge-c-device-000",
+          "key": "interlock",
+          "value": false,
+          "observed_ms": 1789886199500,
+          "received_ms": 1789886201089,
+          "quality": "GOOD",
+          "time_source": "device",
+          "entity_revision": 1,
+          "asset_version": 1,
+          "late": false,
+          "revision": 1
+        }
+      ],
+      "actor": {
+        "user_id": "published-policy",
+        "name": "",
+        "department_id": "",
+        "roles": null,
+        "source": "acceptance-fixture",
+        "session_id": "",
+        "ai": false
+      },
+      "fence": 1,
+      "coordinator_id": "edge-a",
+      "version": 6
+    },
+    "physical_actions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "final_physical_actions": [
+    1,
+    1,
+    1
+  ],
+  "duplicate_physical_actions": 0,
+  "finished_ms": 1789887516775
+}

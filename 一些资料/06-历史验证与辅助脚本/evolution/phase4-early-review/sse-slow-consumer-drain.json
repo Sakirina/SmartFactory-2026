@@ -1,0 +1,20 @@
+{
+  "finding_id": "P4-Q02",
+  "recorded_at": "2026-10-05T00:00:14.481820+00:00",
+  "source": {
+    "path": "Platform/internal/application/queries.go",
+    "sha256": "da7ffbe561e03e7581af98a76e929c71b5b725662f43732e591924455cfb4359",
+    "start_line": 549,
+    "end_line": 559,
+    "excerpt": "func (s *Queries) sendQuery(g *queryGroup, sub *QuerySubscription, event model.QueryEvent) {\n\tselect {\n\tcase sub.events <- event:\n\tdefault:\n\t\tfor len(sub.events) > 0 {\n\t\t\t<-sub.events\n\t\t}\n\t\tsub.events <- resetQueryEvent(errors.New(\"slow_consumer\"))\n\t\ts.removeSubscription(g, sub)\n\t}\n}"
+  },
+  "basis": "Coordinator source review; runtime reproduction and specialist verification pending",
+  "interleaving": [
+    "Slow subscriber fills the queue; sendQuery enters its default branch while caller holds Queries.mu",
+    "len(events) returns 1",
+    "Subscriber consumes that last event before sendQuery receives",
+    "The blocking receive waits forever; the same mutex prevents subsequent send, cancellation and subscription operations"
+  ],
+  "required_verification": "Finite concurrency test for full queue cleanup racing resumed consumption; other subscribers continue receiving; all cancellation and polling resources terminate",
+  "runtime_verified": false
+}

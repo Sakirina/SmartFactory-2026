@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1680" height="920" viewBox="0 0 1680 920" role="img" aria-labelledby="t d">
+  <title id="t">持久化层 · 四类存储与各自的访问模式</title>
+  <desc id="d">ThingsBoard 持久化层：关系型 PostgreSQL 存结构化数据，时序库（sqlts 或 nosql）存遥测历史，缓存用 Caffeine 或 Redis，OTA 存固件包。上层经 dao 模块统一访问。</desc>
+  <defs>
+    <style>
+      .bg{fill:#f8fafc;}
+      .title{font:800 34px 'Inter',Arial,sans-serif;fill:#0f172a;}
+      .sub{font:400 16px 'Inter',Arial,sans-serif;fill:#475569;}
+      .bt{font:800 18px 'Inter',Arial,sans-serif;fill:#0f172a;}
+      .bt2{font:700 16px 'Inter',Arial,sans-serif;fill:#0f172a;}
+      .tx{font:400 13.5px 'Inter',Arial,sans-serif;fill:#334155;}
+      .ti{font:400 12.5px 'Inter',Arial,sans-serif;fill:#475569;}
+      .cd{font:600 12px Menlo,Consolas,monospace;fill:#475569;}
+      .h{font:800 17px 'Inter',Arial,sans-serif;fill:#0f172a;}
+      .dao{fill:#ecfdf5;stroke:#10b981;stroke-width:2.4;}
+      .store{fill:#ffffff;stroke:#10b981;stroke-width:2.2;}
+      .trait{fill:#ecfdf5;stroke:#a7f3d0;stroke-width:1.5;}
+      .panel{fill:#ffffff;stroke:#e2e8f0;stroke-width:1.6;}
+      .opt{fill:#f0fdf4;stroke:#86efac;stroke-width:1.5;}
+      .ar{fill:none;stroke:#10b981;stroke-width:2.4;marker-end:url(#m);}
+    </style>
+    <marker id="m" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M2,2 L9,5.5 L2,9 Z" fill="#10b981"/></marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="1680" height="920"/>
+
+  <text class="title" x="60" y="54">持久化层 · 四类存储</text>
+  <text class="sub" x="62" y="84">不同的数据有不同的读写脾性；结构化与时序分库，缓存与对象存储各司其职</text>
+
+  <!-- DAO band -->
+  <rect class="dao" x="60" y="116" width="1560" height="86" rx="14"/>
+  <text class="bt" x="90" y="152">dao 模块 · 统一数据访问层</text>
+  <text class="ti" x="90" y="180">上层服务只面对 DAO 接口，不直接耦合具体的数据库实现；底层换库，对业务透明</text>
+  <text class="cd" x="1590" y="166" text-anchor="end">dao/src/main/java/.../dao</text>
+
+  <line class="ar" x1="245" y1="202" x2="245" y2="262"/>
+  <line class="ar" x1="630" y1="202" x2="630" y2="262"/>
+  <line class="ar" x1="1015" y1="202" x2="1015" y2="262"/>
+  <line class="ar" x1="1400" y1="202" x2="1400" y2="262"/>
+
+  <!-- box1 PostgreSQL -->
+  <rect class="store" x="60" y="266" width="370" height="386" rx="14"/>
+  <text class="h" x="86" y="302">关系型 · PostgreSQL</text>
+  <text class="tx" x="86" y="334">实体（设备 / 资产 / 客户）</text>
+  <text class="tx" x="86" y="360">关系 relations</text>
+  <text class="tx" x="86" y="386">仪表盘 dashboards</text>
+  <text class="tx" x="86" y="412">规则链 rule chains</text>
+  <text class="tx" x="86" y="438">用户与权限</text>
+  <text class="tx" x="86" y="464">告警 alarms</text>
+  <text class="tx" x="86" y="490">组件配置 · OAuth2 · 通知</text>
+  <rect class="trait" x="86" y="514" width="318" height="76" rx="10"/>
+  <text class="ti" x="104" y="540">需要事务与关联查询</text>
+  <text class="ti" x="104" y="562">结构稳定、强一致</text>
+  <text class="ti" x="104" y="582">是平台的元数据底座</text>
+  <text class="cd" x="86" y="624">dao/sql · model</text>
+
+  <!-- box2 Time-Series -->
+  <rect class="store" x="450" y="266" width="370" height="386" rx="14"/>
+  <text class="h" x="476" y="302">时序 · Time-Series</text>
+  <text class="tx" x="476" y="334">遥测历史 telemetry</text>
+  <text class="ti" x="476" y="358">海量、随时间不断追加的数据</text>
+  <rect class="opt" x="476" y="376" width="318" height="62" rx="10"/>
+  <text class="bt2" x="492" y="402">PostgreSQL / TimescaleDB</text>
+  <text class="cd" x="492" y="424">dao/sqlts</text>
+  <rect class="opt" x="476" y="448" width="318" height="62" rx="10"/>
+  <text class="bt2" x="492" y="474">Apache Cassandra</text>
+  <text class="cd" x="492" y="496">dao/nosql</text>
+  <rect class="trait" x="476" y="522" width="318" height="76" rx="10"/>
+  <text class="ti" x="494" y="548">海量追加写</text>
+  <text class="ti" x="494" y="570">按时间范围扫描</text>
+  <text class="ti" x="494" y="590">后端可按规模选型</text>
+  <text class="cd" x="476" y="632">两种实现可二选一</text>
+
+  <!-- box3 Cache -->
+  <rect class="store" x="840" y="266" width="370" height="386" rx="14"/>
+  <text class="h" x="866" y="302">缓存 · Cache</text>
+  <text class="tx" x="866" y="334">实体 · 凭据 · 会话</text>
+  <text class="tx" x="866" y="360">最新值（latest）</text>
+  <text class="ti" x="866" y="384">把高频读取的热点数据放在更快的位置</text>
+  <rect class="opt" x="866" y="402" width="318" height="62" rx="10"/>
+  <text class="bt2" x="882" y="428">Caffeine · 本地缓存</text>
+  <text class="cd" x="882" y="450">单体默认</text>
+  <rect class="opt" x="866" y="474" width="318" height="62" rx="10"/>
+  <text class="bt2" x="882" y="500">Redis · 分布式缓存</text>
+  <text class="cd" x="882" y="522">集群形态</text>
+  <rect class="trait" x="866" y="548" width="318" height="50" rx="10"/>
+  <text class="ti" x="884" y="574">显著降低热点数据的读取延迟</text>
+  <text class="cd" x="866" y="632">CACHE_TYPE: caffeine | redis</text>
+
+  <!-- box4 OTA -->
+  <rect class="store" x="1230" y="266" width="370" height="386" rx="14"/>
+  <text class="h" x="1256" y="302">对象 / OTA 存储</text>
+  <text class="tx" x="1256" y="334">固件 / 软件包二进制</text>
+  <text class="ti" x="1256" y="358">体积较大、需要可靠下发到设备</text>
+  <rect class="opt" x="1256" y="378" width="318" height="120" rx="10"/>
+  <text class="bt2" x="1272" y="406">分块下发</text>
+  <text class="ti" x="1272" y="432">把大文件切分成块，逐块推送给设备</text>
+  <text class="ti" x="1272" y="454">配合 OTA 主题，跟踪每台设备的</text>
+  <text class="ti" x="1272" y="474">升级进度与固件、设备的配对关系</text>
+  <rect class="trait" x="1256" y="512" width="318" height="50" rx="10"/>
+  <text class="ti" x="1274" y="538">面向大文件的分发场景</text>
+  <text class="cd" x="1256" y="632">tb_ota_package</text>
+
+  <!-- bottom note -->
+  <rect class="panel" x="60" y="696" width="1560" height="190" rx="14"/>
+  <text class="h" x="86" y="734">为什么结构化数据与时序数据要分开存</text>
+  <text class="tx" x="86" y="768">两类数据的读写脾性几乎相反。元数据（实体、关系、仪表盘）结构稳定、改动不频繁，却经常需要跨表关联与事务保证，</text>
+  <text class="tx" x="86" y="794">关系型数据库正是为此而生。遥测则相反：它随时间不停追加、体量极大，查询多是"取某段时间内的值"，关注的是写入吞吐</text>
+  <text class="tx" x="86" y="820">与范围扫描的效率。把两者合并到同一个库里，迟早会在两个方向上都顾此失彼；分库之后，各自选用最合适的存储与索引方式。</text>
+  <text class="ti" x="86" y="858">缓存把热点数据放在更快的位置以降低延迟，OTA 则单独承载大文件的可靠下发——四类存储，各自对应一种访问模式。</text>
+</svg>

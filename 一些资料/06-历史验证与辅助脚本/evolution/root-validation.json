@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-10-04T13:33:21.863873+00:00",
+  "checks": [
+    {
+      "command": "python3 -m unittest discover -s tests -p test_release.py -v",
+      "exit_code": 0,
+      "tests": 4,
+      "covers": [
+        "Git and unpacked public source selection",
+        "internal and secret file exclusions",
+        "symlink exclusion",
+        "Wiki link rewrite idempotence"
+      ]
+    },
+    {
+      "command": "go test ./pkg/compatibility ./internal/cloudsync",
+      "cwd": "Platform",
+      "exit_code": 0,
+      "packages": [
+        {
+          "name": "pkg/compatibility",
+          "seconds": 0.005
+        },
+        {
+          "name": "internal/cloudsync",
+          "seconds": 1.674
+        }
+      ],
+      "covers": [
+        "supported and unsupported wire formats",
+        "legacy peer omission",
+        "no imports or cursor mutation on incompatible peer",
+        "mutual TLS cloud-edge synchronization regressions"
+      ]
+    }
+  ],
+  "scope": "Incremental checks; complete five-stage verification is pending"
+}

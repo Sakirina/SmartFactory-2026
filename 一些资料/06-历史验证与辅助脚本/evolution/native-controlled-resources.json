@@ -1,0 +1,1377 @@
+{
+  "schema_version": 1,
+  "started_at": "2026-10-04T15:03:57.881169+00:00",
+  "budget": {
+    "ce_container_bytes": 3221225472,
+    "edge_container_bytes": 1879048192,
+    "kafka_container_bytes": 1073741824,
+    "postgres_container_bytes": 1073741824,
+    "combined_limit_bytes": 7247757312,
+    "docker_memory_bytes": 8319504384
+  },
+  "jvm_budget": {
+    "ce": {
+      "heap_max_mib": 512,
+      "metaspace_max_mib": 256,
+      "direct_max_mib": 64,
+      "code_cache_max_mib": 64,
+      "thread_stack_kib": 512,
+      "active_processors": 2,
+      "nmt": "summary"
+    },
+    "edge": {
+      "heap_max_mib": 512,
+      "metaspace_max_mib": 256,
+      "direct_max_mib": 96,
+      "code_cache_max_mib": 96,
+      "thread_stack_kib": 512,
+      "active_processors": 2
+    },
+    "kafka": {
+      "heap_max_mib": 256
+    }
+  },
+  "architecture": {
+    "docker_host": "aarch64",
+    "ce_image": "linux/amd64",
+    "edge_image": "linux/amd64",
+    "architecture_emulation": true,
+    "measurement_note": "JVM NMT and cgroup/container memory are separate observations; unmeasured overhead is not attributed",
+    "verified_at": "2026-10-04T15:11:54.784192+00:00",
+    "verification_commands": [
+      "docker image inspect --format {{.Os}}/{{.Architecture}} <pinned CE/Edge>",
+      "docker info --format {{.Architecture}} {{.MemTotal}}"
+    ]
+  },
+  "samples": [
+    {
+      "at": "2026-10-04T15:03:59.382927+00:00",
+      "elapsed_seconds": 1.502,
+      "containers": [
+        {
+          "Name": "sf-evolution-ce-20261004",
+          "MemUsage": "65.25MiB / 3GiB",
+          "CPUPerc": "115.51%",
+          "PIDs": "20"
+        },
+        {
+          "Name": "sf-evolution-edge-20261004",
+          "MemUsage": "1.356GiB / 1.75GiB",
+          "CPUPerc": "5.93%",
+          "PIDs": "204"
+        },
+        {
+          "Name": "sf-evolution-kafka-20261004",
+          "MemUsage": "764.1MiB / 1GiB",
+          "CPUPerc": "1.33%",
+          "PIDs": "103"
+        },
+        {
+          "Name": "smartfactory-evolution-pg18-20261004",
+          "MemUsage": "373.6MiB / 1GiB",
+          "CPUPerc": "0.01%",
+          "PIDs": "12"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-04T15:04:03.421836+00:00",
+      "elapsed_seconds": 5.541,
+      "containers": [
+        {
+          "Name": "sf-evolution-ce-20261004",
+          "MemUsage": "232.7MiB / 3GiB",
+          "CPUPerc": "135.04%",
+          "PIDs": "22"
+        },
+        {
+          "Name": "sf-evolution-edge-20261004",
+          "MemUsage": "1.356GiB / 1.75GiB",
+          "CPUPerc": "2.92%",
+          "PIDs": "204"
+        },
+        {
+          "Name": "sf-evolution-kafka-20261004",
+          "MemUsage": "764MiB / 1GiB",
+          "CPUPerc": "1.00%",
+          "PIDs": "103"
+        },
+        {
+          "Name": "smartfactory-evolution-pg18-20261004",
+          "MemUsage": "373.6MiB / 1GiB",
+          "CPUPerc": "0.01%",
+          "PIDs": "12"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-04T15:04:07.466862+00:00",
+      "elapsed_seconds": 9.586,
+      "containers": [
+        {
+          "Name": "sf-evolution-ce-20261004",
+          "MemUsage": "423.7MiB / 3GiB",
+          "CPUPerc": "257.30%",
+          "PIDs": "23"
+        },
+        {
+          "Name": "sf-evolution-edge-20261004",
+          "MemUsage": "1.356GiB / 1.75GiB",
+          "CPUPerc": "2.93%",
+          "PIDs": "204"
+        },
+        {
+          "Name": "sf-evolution-kafka-20261004",
+          "MemUsage": "764.2MiB / 1GiB",
+          "CPUPerc": "0.85%",
+          "PIDs": "103"
+        },
+        {
+          "Name": "smartfactory-evolution-pg18-20261004",
+          "MemUsage": "373.6MiB / 1GiB",
+          "CPUPerc": "0.00%",
+          "PIDs": "12"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-04T15:04:11.504538+00:00",
+      "elapsed_seconds": 13.624,
+      "containers": [
+        {
+          "Name": "sf-evolution-ce-20261004",
+          "MemUsage": "440.9MiB / 3GiB",
+          "CPUPerc": "154.38%",
+          "PIDs": "22"
+        },
+        {
+          "Name": "sf-evolution-edge-20261004",
+          "MemUsage": "1.356GiB / 1.75GiB",
+          "CPUPerc": "2.55%",
+          "PIDs": "204"
+        },
+        {
+          "Name": "sf-evolution-kafka-20261004",
+          "MemUsage": "764.4MiB / 1GiB",
+          "CPUPerc": "0.71%",
+          "PIDs": "103"
+        },
+        {
+          "Name": "smartfactory-evolution-pg18-20261004",
+          "MemUsage": "373.4MiB / 1GiB",
+          "CPUPerc": "0.00%",
+          "PIDs": "12"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-04T15:04:15.546107+00:00",
+      "elapsed_seconds": 17.665,
+      "containers": [
+        {
+          "Name": "sf-evolution-ce-20261004",
+          "MemUsage": "484.5MiB / 3GiB",
+          "CPUPerc": "157.74%",
+          "PIDs": "23"
+        },
+        {
+          "Name": "sf-evolution-edge-20261004",
+          "MemUsage": "1.356GiB / 1.75GiB",
+          "CPUPerc": "2.70%",
+          "PIDs": "207"
+        },
+        {
+          "Name": "sf-evolution-kafka-20261004",
+          "MemUsage": "764.3MiB / 1GiB",
+          "CPUPerc": "0.69%",
+          "PIDs": "103"
+        },
+        {
+          "Name": "smartfactory-evolution-pg18-20261004",
+          "MemUsage": "373.6MiB / 1GiB",
+          "CPUPerc": "0.01%",
+          "PIDs": "12"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-04T15:04:19.575108+00:00",
+      "elapsed_seconds": 21.694,
+      "containers": [
+        {
+          "Name": "sf-evolution-ce-20261004",
+          "MemUsage": "511.2MiB / 3GiB",
+          "CPUPerc": "123.25%",
+          "PIDs": "25"
+        },
+        {
+          "Name": "sf-evolution-edge-20261004",
+          "MemUsage": "1.356GiB / 1.75GiB",
+          "CPUPerc": "3.11%",
+          "PIDs": "207"
+        },
+        {
+          "Name": "sf-evolution-kafka-20261004",
+          "MemUsage": "764.7MiB / 1GiB",
+          "CPUPerc": "0.71%",
+          "PIDs": "103"
+        },
+        {
+          "Name": "smartfactory-evolution-pg18-20261004",
+          "MemUsage": "373.6MiB / 1GiB",
+          "CPUPerc": "0.01%",
+          "PIDs": "12"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-04T15:04:23.610700+00:00",
+      "elapsed_seconds": 25.73,
+      "containers": [
+        {
+          "Name": "sf-evolution-ce-20261004",
+          "MemUsage": "526.3MiB / 3GiB",
+          "CPUPerc": "124.16%",
+          "PIDs": "28"
+        },
+        {
+          "Name": "sf-evolution-edge-20261004",
+          "MemUsage": "1.357GiB / 1.75GiB",
+          "CPUPerc": "2.51%",
+          "PIDs": "207"
+        },
+        {
+          "Name": "sf-evolution-kafka-20261004",
+          "MemUsage": "763.9MiB / 1GiB",
+          "CPUPerc": "0.68%",
+          "PIDs": "103"
+        },
+        {
+          "Name": "smartfactory-evolution-pg18-20261004",
+          "MemUsage": "386.3MiB / 1GiB",
+          "CPUPerc": "0.02%",
+          "PIDs": "14"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-04T15:04:27.658592+00:00",
+      "elapsed_seconds": 29.778,
+      "containers": [
+        {
+          "Name": "sf-evolution-ce-20261004",
+          "MemUsage": "545.9MiB / 3GiB",
+          "CPUPerc": "150.88%",
+          "PIDs": "28"
+        },
+        {
+          "Name": "sf-evolution-edge-20261004",
+          "MemUsage": "1.356GiB / 1.75GiB",
+          "CPUPerc": "2.56%",
+          "PIDs": "207"
+        },
+        {
+          "Name": "sf-evolution-kafka-20261004",
+          "MemUsage": "764.5MiB / 1GiB",
+          "CPUPerc": "0.72%",
+          "PIDs": "103"
+        },
+        {
+          "Name": "smartfactory-evolution-pg18-20261004",
+          "MemUsage": "386.3MiB / 1GiB",
+          "CPUPerc": "0.00%",
+          "PIDs": "14"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-04T15:04:31.697280+00:00",
+      "elapsed_seconds": 33.817,
+      "containers": [
+        {
+          "Name": "sf-evolution-ce-20261004",
+          "MemUsage": "571.8MiB / 3GiB",
+          "CPUPerc": "163.92%",
+          "PIDs": "30"
+        },
+        {
+          "Name": "sf-evolution-edge-20261004",
+          "MemUsage": "1.357GiB / 1.75GiB",
+          "CPUPerc": "2.88%",
+          "PIDs": "207"
+        },
+        {
+          "Name": "sf-evolution-kafka-20261004",
+          "MemUsage": "764.2MiB / 1GiB",
+          "CPUPerc": "0.71%",
+          "PIDs": "103"
+        },
+        {
+          "Name": "smartfactory-evolution-pg18-20261004",
+          "MemUsage": "386.3MiB / 1GiB",
+          "CPUPerc": "0.00%",
+          "PIDs": "14"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-04T15:04:35.737469+00:00",
+      "elapsed_seconds": 37.857,
+      "containers": [
+        {
+          "Name": "sf-evolution-ce-20261004",
+          "MemUsage": "656MiB / 3GiB",
+          "CPUPerc": "132.84%",
+          "PIDs": "32"
+        },
+        {
+          "Name": "sf-evolution-edge-20261004",
+          "MemUsage": "1.356GiB / 1.75GiB",
+          "CPUPerc": "2.41%",
+          "PIDs": "207"
+        },
+        {
+          "Name": "sf-evolution-kafka-20261004",
+          "MemUsage": "764.3MiB / 1GiB",
+          "CPUPerc": "0.68%",
+          "PIDs": "103"
+        },
+        {
+          "Name": "smartfactory-evolution-pg18-20261004",
+          "MemUsage": "386.5MiB / 1GiB",
+          "CPUPerc": "0.41%",
+          "PIDs": "14"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-04T15:04:39.751406+00:00",
+      "elapsed_seconds": 41.871,
+      "containers": [
+        {
+          "Name": "sf-evolution-ce-20261004",
+          "MemUsage": "683.9MiB / 3GiB",
+          "CPUPerc": "163.69%",
+          "PIDs": "55"
+        },
+        {
+          "Name": "sf-evolution-edge-20261004",
+          "MemUsage": "1.356GiB / 1.75GiB",
+          "CPUPerc": "2.91%",
+          "PIDs": "207"
+        },
+        {
+          "Name": "sf-evolution-kafka-20261004",
+          "MemUsage": "765.8MiB / 1GiB",
+          "CPUPerc": "5.27%",
+          "PIDs": "103"
+        },
+        {
+          "Name": "smartfactory-evolution-pg18-20261004",
+          "MemUsage": "386.5MiB / 1GiB",
+          "CPUPerc": "0.01%",
+          "PIDs": "14"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-04T15:04:43.779299+00:00",
+      "elapsed_seconds": 45.899,
+      "containers": [
+        {
+          "Name": "sf-evolution-ce-20261004",
+          "MemUsage": "698.3MiB / 3GiB",
+          "CPUPerc": "168.50%",
+          "PIDs": "68"
+        },
+        {
+          "Name": "sf-evolution-edge-20261004",
+          "MemUsage": "1.356GiB / 1.75GiB",
+          "CPUPerc": "4.00%",
+          "PIDs": "207"
+        },
+        {
+          "Name": "sf-evolution-kafka-20261004",
+          "MemUsage": "768MiB / 1GiB",
+          "CPUPerc": "4.48%",
+          "PIDs": "103"
+        },
+        {
+          "Name": "smartfactory-evolution-pg18-20261004",
+          "MemUsage": "386.8MiB / 1GiB",
+          "CPUPerc": "0.29%",
+          "PIDs": "14"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-04T15:04:47.810626+00:00",
+      "elapsed_seconds": 49.93,
+      "containers": [
+        {
+          "Name": "sf-evolution-ce-20261004",
+          "MemUsage": "713.2MiB / 3GiB",
+          "CPUPerc": "137.22%",
+          "PIDs": "71"
+        },
+        {
+          "Name": "sf-evolution-edge-20261004",
+          "MemUsage": "1.356GiB / 1.75GiB",
+          "CPUPerc": "4.23%",
+          "PIDs": "207"
+        },
+        {
+          "Name": "sf-evolution-kafka-20261004",
+          "MemUsage": "768.2MiB / 1GiB",
+          "CPUPerc": "3.04%",
+          "PIDs": "103"
+        },
+        {
+          "Name": "smartfactory-evolution-pg18-20261004",
+          "MemUsage": "390.3MiB / 1GiB",
+          "CPUPerc": "0.07%",
+          "PIDs": "14"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-04T15:04:51.849537+00:00",
+      "elapsed_seconds": 53.969,
+      "containers": [
+        {
+          "Name": "sf-evolution-ce-20261004",
+          "MemUsage": "736.8MiB / 3GiB",
+          "CPUPerc": "174.72%",
+          "PIDs": "86"
+        },
+        {
+          "Name": "sf-evolution-edge-20261004",
+          "MemUsage": "1.357GiB / 1.75GiB",
+          "CPUPerc": "3.05%",
+          "PIDs": "208"
+        },
+        {
+          "Name": "sf-evolution-kafka-20261004",
+          "MemUsage": "770.9MiB / 1GiB",
+          "CPUPerc": "3.04%",
+          "PIDs": "103"
+        },
+        {
+          "Name": "smartfactory-evolution-pg18-20261004",
+          "MemUsage": "364.5MiB / 1GiB",
+          "CPUPerc": "0.01%",
+          "PIDs": "13"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-04T15:04:55.883855+00:00",
+      "elapsed_seconds": 58.004,
+      "containers": [
+        {
+          "Name": "sf-evolution-ce-20261004",
+          "MemUsage": "783.4MiB / 3GiB",
+          "CPUPerc": "145.43%",
+          "PIDs": "104"
+        },
+        {
+          "Name": "sf-evolution-edge-20261004",
+          "MemUsage": "1.356GiB / 1.75GiB",
+          "CPUPerc": "2.73%",
+          "PIDs": "207"
+        },
+        {
+          "Name": "sf-evolution-kafka-20261004",
+          "MemUsage": "765.7MiB / 1GiB",
+          "CPUPerc": "2.35%",
+          "PIDs": "103"
+        },
+        {
+          "Name": "smartfactory-evolution-pg18-20261004",
+          "MemUsage": "364.5MiB / 1GiB",
+          "CPUPerc": "0.02%",
+          "PIDs": "13"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-04T15:04:59.899543+00:00",
+      "elapsed_seconds": 62.019,
+      "containers": [
+        {
+          "Name": "sf-evolution-ce-20261004",
+          "MemUsage": "805.6MiB / 3GiB",
+          "CPUPerc": "150.95%",
+          "PIDs": "105"
+        },
+        {
+          "Name": "sf-evolution-edge-20261004",
+          "MemUsage": "1.356GiB / 1.75GiB",
+          "CPUPerc": "3.31%",
+          "PIDs": "207"
+        },
+        {
+          "Name": "sf-evolution-kafka-20261004",
+          "MemUsage": "766.3MiB / 1GiB",
+          "CPUPerc": "2.70%",
+          "PIDs": "103"
+        },
+        {
+          "Name": "smartfactory-evolution-pg18-20261004",
+          "MemUsage": "364.5MiB / 1GiB",
+          "CPUPerc": "0.01%",
+          "PIDs": "13"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-04T15:05:03.938951+00:00",
+      "elapsed_seconds": 66.059,
+      "containers": [
+        {
+          "Name": "sf-evolution-ce-20261004",
+          "MemUsage": "824.9MiB / 3GiB",
+          "CPUPerc": "141.21%",
+          "PIDs": "110"
+        },
+        {
+          "Name": "sf-evolution-edge-20261004",
+          "MemUsage": "1.356GiB / 1.75GiB",
+          "CPUPerc": "2.64%",
+          "PIDs": "207"
+        },
+        {
+          "Name": "sf-evolution-kafka-20261004",
+          "MemUsage": "766.2MiB / 1GiB",
+          "CPUPerc": "1.75%",
+          "PIDs": "103"
+        },
+        {
+          "Name": "smartfactory-evolution-pg18-20261004",
+          "MemUsage": "364.5MiB / 1GiB",
+          "CPUPerc": "0.01%",
+          "PIDs": "13"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-04T15:05:07.977930+00:00",
+      "elapsed_seconds": 70.098,
+      "containers": [
+        {
+          "Name": "sf-evolution-ce-20261004",
+          "MemUsage": "876.7MiB / 3GiB",
+          "CPUPerc": "182.83%",
+          "PIDs": "161"
+        },
+        {
+          "Name": "sf-evolution-edge-20261004",
+          "MemUsage": "1.356GiB / 1.75GiB",
+          "CPUPerc": "2.94%",
+          "PIDs": "207"
+        },
+        {
+          "Name": "sf-evolution-kafka-20261004",
+          "MemUsage": "771.3MiB / 1GiB",
+          "CPUPerc": "2.86%",
+          "PIDs": "103"
+        },
+        {
+          "Name": "smartfactory-evolution-pg18-20261004",
+          "MemUsage": "378.7MiB / 1GiB",
+          "CPUPerc": "2.61%",
+          "PIDs": "14"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-04T15:05:12.013993+00:00",
+      "elapsed_seconds": 74.134,
+      "containers": [
+        {
+          "Name": "sf-evolution-ce-20261004",
+          "MemUsage": "991.4MiB / 3GiB",
+          "CPUPerc": "150.51%",
+          "PIDs": "288"
+        },
+        {
+          "Name": "sf-evolution-edge-20261004",
+          "MemUsage": "1.356GiB / 1.75GiB",
+          "CPUPerc": "3.00%",
+          "PIDs": "207"
+        },
+        {
+          "Name": "sf-evolution-kafka-20261004",
+          "MemUsage": "789.2MiB / 1GiB",
+          "CPUPerc": "32.84%",
+          "PIDs": "103"
+        },
+        {
+          "Name": "smartfactory-evolution-pg18-20261004",
+          "MemUsage": "379.2MiB / 1GiB",
+          "CPUPerc": "0.01%",
+          "PIDs": "14"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-04T15:05:16.049875+00:00",
+      "elapsed_seconds": 78.17,
+      "containers": [
+        {
+          "Name": "sf-evolution-ce-20261004",
+          "MemUsage": "1.051GiB / 3GiB",
+          "CPUPerc": "98.73%",
+          "PIDs": "316"
+        },
+        {
+          "Name": "sf-evolution-edge-20261004",
+          "MemUsage": "1.356GiB / 1.75GiB",
+          "CPUPerc": "4.22%",
+          "PIDs": "206"
+        },
+        {
+          "Name": "sf-evolution-kafka-20261004",
+          "MemUsage": "774.1MiB / 1GiB",
+          "CPUPerc": "5.30%",
+          "PIDs": "103"
+        },
+        {
+          "Name": "smartfactory-evolution-pg18-20261004",
+          "MemUsage": "387.9MiB / 1GiB",
+          "CPUPerc": "4.27%",
+          "PIDs": "15"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-04T15:05:20.065273+00:00",
+      "elapsed_seconds": 82.186,
+      "containers": [
+        {
+          "Name": "sf-evolution-ce-20261004",
+          "MemUsage": "1.155GiB / 3GiB",
+          "CPUPerc": "173.71%",
+          "PIDs": "324"
+        },
+        {
+          "Name": "sf-evolution-edge-20261004",
+          "MemUsage": "1.356GiB / 1.75GiB",
+          "CPUPerc": "2.71%",
+          "PIDs": "206"
+        },
+        {
+          "Name": "sf-evolution-kafka-20261004",
+          "MemUsage": "768.5MiB / 1GiB",
+          "CPUPerc": "3.52%",
+          "PIDs": "103"
+        },
+        {
+          "Name": "smartfactory-evolution-pg18-20261004",
+          "MemUsage": "392.1MiB / 1GiB",
+          "CPUPerc": "0.38%",
+          "PIDs": "15"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-04T15:05:24.096267+00:00",
+      "elapsed_seconds": 86.217,
+      "containers": [
+        {
+          "Name": "sf-evolution-ce-20261004",
+          "MemUsage": "1.273GiB / 3GiB",
+          "CPUPerc": "186.23%",
+          "PIDs": "325"
+        },
+        {
+          "Name": "sf-evolution-edge-20261004",
+          "MemUsage": "1.357GiB / 1.75GiB",
+          "CPUPerc": "3.18%",
+          "PIDs": "206"
+        },
+        {
+          "Name": "sf-evolution-kafka-20261004",
+          "MemUsage": "768.3MiB / 1GiB",
+          "CPUPerc": "4.50%",
+          "PIDs": "103"
+        },
+        {
+          "Name": "smartfactory-evolution-pg18-20261004",
+          "MemUsage": "392.1MiB / 1GiB",
+          "CPUPerc": "1.17%",
+          "PIDs": "15"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-04T15:05:28.135076+00:00",
+      "elapsed_seconds": 90.255,
+      "containers": [
+        {
+          "Name": "sf-evolution-ce-20261004",
+          "MemUsage": "1.453GiB / 3GiB",
+          "CPUPerc": "165.95%",
+          "PIDs": "325"
+        },
+        {
+          "Name": "sf-evolution-edge-20261004",
+          "MemUsage": "1.357GiB / 1.75GiB",
+          "CPUPerc": "2.62%",
+          "PIDs": "206"
+        },
+        {
+          "Name": "sf-evolution-kafka-20261004",
+          "MemUsage": "768.2MiB / 1GiB",
+          "CPUPerc": "1.34%",
+          "PIDs": "103"
+        },
+        {
+          "Name": "smartfactory-evolution-pg18-20261004",
+          "MemUsage": "392.3MiB / 1GiB",
+          "CPUPerc": "2.39%",
+          "PIDs": "15"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-04T15:05:32.176548+00:00",
+      "elapsed_seconds": 94.297,
+      "containers": [
+        {
+          "Name": "sf-evolution-ce-20261004",
+          "MemUsage": "1.492GiB / 3GiB",
+          "CPUPerc": "178.89%",
+          "PIDs": "327"
+        },
+        {
+          "Name": "sf-evolution-edge-20261004",
+          "MemUsage": "1.356GiB / 1.75GiB",
+          "CPUPerc": "2.75%",
+          "PIDs": "205"
+        },
+        {
+          "Name": "sf-evolution-kafka-20261004",
+          "MemUsage": "769.5MiB / 1GiB",
+          "CPUPerc": "1.34%",
+          "PIDs": "103"
+        },
+        {
+          "Name": "smartfactory-evolution-pg18-20261004",
+          "MemUsage": "404.1MiB / 1GiB",
+          "CPUPerc": "0.28%",
+          "PIDs": "15"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-04T15:05:36.216157+00:00",
+      "elapsed_seconds": 98.337,
+      "containers": [
+        {
+          "Name": "sf-evolution-ce-20261004",
+          "MemUsage": "1.574GiB / 3GiB",
+          "CPUPerc": "135.48%",
+          "PIDs": "331"
+        },
+        {
+          "Name": "sf-evolution-edge-20261004",
+          "MemUsage": "1.358GiB / 1.75GiB",
+          "CPUPerc": "18.64%",
+          "PIDs": "207"
+        },
+        {
+          "Name": "sf-evolution-kafka-20261004",
+          "MemUsage": "782.8MiB / 1GiB",
+          "CPUPerc": "14.64%",
+          "PIDs": "103"
+        },
+        {
+          "Name": "smartfactory-evolution-pg18-20261004",
+          "MemUsage": "403.9MiB / 1GiB",
+          "CPUPerc": "0.23%",
+          "PIDs": "15"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-04T15:05:40.233660+00:00",
+      "elapsed_seconds": 102.354,
+      "containers": [
+        {
+          "Name": "sf-evolution-ce-20261004",
+          "MemUsage": "1.61GiB / 3GiB",
+          "CPUPerc": "144.78%",
+          "PIDs": "337"
+        },
+        {
+          "Name": "sf-evolution-edge-20261004",
+          "MemUsage": "1.362GiB / 1.75GiB",
+          "CPUPerc": "46.26%",
+          "PIDs": "219"
+        },
+        {
+          "Name": "sf-evolution-kafka-20261004",
+          "MemUsage": "778.5MiB / 1GiB",
+          "CPUPerc": "32.42%",
+          "PIDs": "103"
+        },
+        {
+          "Name": "smartfactory-evolution-pg18-20261004",
+          "MemUsage": "406.4MiB / 1GiB",
+          "CPUPerc": "0.88%",
+          "PIDs": "15"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-04T15:05:44.305672+00:00",
+      "elapsed_seconds": 106.426,
+      "containers": [
+        {
+          "Name": "sf-evolution-ce-20261004",
+          "MemUsage": "1.61GiB / 3GiB",
+          "CPUPerc": "39.31%",
+          "PIDs": "337"
+        },
+        {
+          "Name": "sf-evolution-edge-20261004",
+          "MemUsage": "1.362GiB / 1.75GiB",
+          "CPUPerc": "5.99%",
+          "PIDs": "219"
+        },
+        {
+          "Name": "sf-evolution-kafka-20261004",
+          "MemUsage": "768.3MiB / 1GiB",
+          "CPUPerc": "18.47%",
+          "PIDs": "103"
+        },
+        {
+          "Name": "smartfactory-evolution-pg18-20261004",
+          "MemUsage": "406.4MiB / 1GiB",
+          "CPUPerc": "0.02%",
+          "PIDs": "15"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-04T15:05:48.355813+00:00",
+      "elapsed_seconds": 110.477,
+      "containers": [
+        {
+          "Name": "sf-evolution-ce-20261004",
+          "MemUsage": "1.61GiB / 3GiB",
+          "CPUPerc": "30.27%",
+          "PIDs": "337"
+        },
+        {
+          "Name": "sf-evolution-edge-20261004",
+          "MemUsage": "1.362GiB / 1.75GiB",
+          "CPUPerc": "5.22%",
+          "PIDs": "220"
+        },
+        {
+          "Name": "sf-evolution-kafka-20261004",
+          "MemUsage": "768.9MiB / 1GiB",
+          "CPUPerc": "17.09%",
+          "PIDs": "103"
+        },
+        {
+          "Name": "smartfactory-evolution-pg18-20261004",
+          "MemUsage": "411.1MiB / 1GiB",
+          "CPUPerc": "0.00%",
+          "PIDs": "16"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-04T15:05:51.425763+00:00",
+      "elapsed_seconds": 113.547,
+      "containers": [
+        {
+          "Name": "sf-evolution-ce-20261004",
+          "MemUsage": "1.61GiB / 3GiB",
+          "CPUPerc": "39.43%",
+          "PIDs": "337"
+        },
+        {
+          "Name": "sf-evolution-edge-20261004",
+          "MemUsage": "1.362GiB / 1.75GiB",
+          "CPUPerc": "6.64%",
+          "PIDs": "219"
+        },
+        {
+          "Name": "sf-evolution-kafka-20261004",
+          "MemUsage": "770MiB / 1GiB",
+          "CPUPerc": "12.14%",
+          "PIDs": "103"
+        },
+        {
+          "Name": "smartfactory-evolution-pg18-20261004",
+          "MemUsage": "411.3MiB / 1GiB",
+          "CPUPerc": "0.12%",
+          "PIDs": "16"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-04T15:05:55.493971+00:00",
+      "elapsed_seconds": 117.615,
+      "containers": [
+        {
+          "Name": "sf-evolution-ce-20261004",
+          "MemUsage": "1.61GiB / 3GiB",
+          "CPUPerc": "36.41%",
+          "PIDs": "337"
+        },
+        {
+          "Name": "sf-evolution-edge-20261004",
+          "MemUsage": "1.362GiB / 1.75GiB",
+          "CPUPerc": "6.07%",
+          "PIDs": "220"
+        },
+        {
+          "Name": "sf-evolution-kafka-20261004",
+          "MemUsage": "768.5MiB / 1GiB",
+          "CPUPerc": "13.19%",
+          "PIDs": "103"
+        },
+        {
+          "Name": "smartfactory-evolution-pg18-20261004",
+          "MemUsage": "411.3MiB / 1GiB",
+          "CPUPerc": "0.02%",
+          "PIDs": "16"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-04T15:05:59.528237+00:00",
+      "elapsed_seconds": 121.649,
+      "containers": [
+        {
+          "Name": "sf-evolution-ce-20261004",
+          "MemUsage": "1.61GiB / 3GiB",
+          "CPUPerc": "38.12%",
+          "PIDs": "337"
+        },
+        {
+          "Name": "sf-evolution-edge-20261004",
+          "MemUsage": "1.362GiB / 1.75GiB",
+          "CPUPerc": "5.65%",
+          "PIDs": "220"
+        },
+        {
+          "Name": "sf-evolution-kafka-20261004",
+          "MemUsage": "768.9MiB / 1GiB",
+          "CPUPerc": "17.69%",
+          "PIDs": "103"
+        },
+        {
+          "Name": "smartfactory-evolution-pg18-20261004",
+          "MemUsage": "399MiB / 1GiB",
+          "CPUPerc": "0.02%",
+          "PIDs": "15"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-04T15:06:03.597564+00:00",
+      "elapsed_seconds": 125.719,
+      "containers": [
+        {
+          "Name": "sf-evolution-ce-20261004",
+          "MemUsage": "1.611GiB / 3GiB",
+          "CPUPerc": "32.95%",
+          "PIDs": "337"
+        },
+        {
+          "Name": "sf-evolution-edge-20261004",
+          "MemUsage": "1.362GiB / 1.75GiB",
+          "CPUPerc": "3.58%",
+          "PIDs": "219"
+        },
+        {
+          "Name": "sf-evolution-kafka-20261004",
+          "MemUsage": "768.6MiB / 1GiB",
+          "CPUPerc": "9.30%",
+          "PIDs": "103"
+        },
+        {
+          "Name": "smartfactory-evolution-pg18-20261004",
+          "MemUsage": "398.9MiB / 1GiB",
+          "CPUPerc": "0.00%",
+          "PIDs": "15"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-04T15:06:07.663971+00:00",
+      "elapsed_seconds": 129.785,
+      "containers": [
+        {
+          "Name": "sf-evolution-ce-20261004",
+          "MemUsage": "1.611GiB / 3GiB",
+          "CPUPerc": "85.57%",
+          "PIDs": "335"
+        },
+        {
+          "Name": "sf-evolution-edge-20261004",
+          "MemUsage": "1.362GiB / 1.75GiB",
+          "CPUPerc": "5.54%",
+          "PIDs": "219"
+        },
+        {
+          "Name": "sf-evolution-kafka-20261004",
+          "MemUsage": "770MiB / 1GiB",
+          "CPUPerc": "11.75%",
+          "PIDs": "103"
+        },
+        {
+          "Name": "smartfactory-evolution-pg18-20261004",
+          "MemUsage": "398.9MiB / 1GiB",
+          "CPUPerc": "0.73%",
+          "PIDs": "15"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-04T15:06:11.723197+00:00",
+      "elapsed_seconds": 133.844,
+      "containers": [
+        {
+          "Name": "sf-evolution-ce-20261004",
+          "MemUsage": "1.631GiB / 3GiB",
+          "CPUPerc": "60.18%",
+          "PIDs": "329"
+        },
+        {
+          "Name": "sf-evolution-edge-20261004",
+          "MemUsage": "1.362GiB / 1.75GiB",
+          "CPUPerc": "5.32%",
+          "PIDs": "219"
+        },
+        {
+          "Name": "sf-evolution-kafka-20261004",
+          "MemUsage": "771.1MiB / 1GiB",
+          "CPUPerc": "8.79%",
+          "PIDs": "103"
+        },
+        {
+          "Name": "smartfactory-evolution-pg18-20261004",
+          "MemUsage": "398.9MiB / 1GiB",
+          "CPUPerc": "0.04%",
+          "PIDs": "15"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-04T15:06:15.796737+00:00",
+      "elapsed_seconds": 137.918,
+      "containers": [
+        {
+          "Name": "sf-evolution-ce-20261004",
+          "MemUsage": "1.629GiB / 3GiB",
+          "CPUPerc": "46.82%",
+          "PIDs": "320"
+        },
+        {
+          "Name": "sf-evolution-edge-20261004",
+          "MemUsage": "1.362GiB / 1.75GiB",
+          "CPUPerc": "7.81%",
+          "PIDs": "218"
+        },
+        {
+          "Name": "sf-evolution-kafka-20261004",
+          "MemUsage": "769MiB / 1GiB",
+          "CPUPerc": "11.49%",
+          "PIDs": "103"
+        },
+        {
+          "Name": "smartfactory-evolution-pg18-20261004",
+          "MemUsage": "401.9MiB / 1GiB",
+          "CPUPerc": "3.37%",
+          "PIDs": "15"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-04T15:06:19.828989+00:00",
+      "elapsed_seconds": 141.95,
+      "containers": [
+        {
+          "Name": "sf-evolution-ce-20261004",
+          "MemUsage": "1.632GiB / 3GiB",
+          "CPUPerc": "35.82%",
+          "PIDs": "320"
+        },
+        {
+          "Name": "sf-evolution-edge-20261004",
+          "MemUsage": "1.362GiB / 1.75GiB",
+          "CPUPerc": "6.00%",
+          "PIDs": "218"
+        },
+        {
+          "Name": "sf-evolution-kafka-20261004",
+          "MemUsage": "771.7MiB / 1GiB",
+          "CPUPerc": "17.92%",
+          "PIDs": "103"
+        },
+        {
+          "Name": "smartfactory-evolution-pg18-20261004",
+          "MemUsage": "401.9MiB / 1GiB",
+          "CPUPerc": "0.02%",
+          "PIDs": "15"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-04T15:06:23.885740+00:00",
+      "elapsed_seconds": 146.007,
+      "containers": [
+        {
+          "Name": "sf-evolution-ce-20261004",
+          "MemUsage": "1.632GiB / 3GiB",
+          "CPUPerc": "21.66%",
+          "PIDs": "320"
+        },
+        {
+          "Name": "sf-evolution-edge-20261004",
+          "MemUsage": "1.362GiB / 1.75GiB",
+          "CPUPerc": "3.59%",
+          "PIDs": "218"
+        },
+        {
+          "Name": "sf-evolution-kafka-20261004",
+          "MemUsage": "768.7MiB / 1GiB",
+          "CPUPerc": "36.89%",
+          "PIDs": "103"
+        },
+        {
+          "Name": "smartfactory-evolution-pg18-20261004",
+          "MemUsage": "402.1MiB / 1GiB",
+          "CPUPerc": "0.00%",
+          "PIDs": "15"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-04T15:06:27.957958+00:00",
+      "elapsed_seconds": 150.079,
+      "containers": [
+        {
+          "Name": "sf-evolution-ce-20261004",
+          "MemUsage": "1.638GiB / 3GiB",
+          "CPUPerc": "44.28%",
+          "PIDs": "320"
+        },
+        {
+          "Name": "sf-evolution-edge-20261004",
+          "MemUsage": "1.362GiB / 1.75GiB",
+          "CPUPerc": "5.27%",
+          "PIDs": "218"
+        },
+        {
+          "Name": "sf-evolution-kafka-20261004",
+          "MemUsage": "769.2MiB / 1GiB",
+          "CPUPerc": "13.04%",
+          "PIDs": "103"
+        },
+        {
+          "Name": "smartfactory-evolution-pg18-20261004",
+          "MemUsage": "402.1MiB / 1GiB",
+          "CPUPerc": "0.00%",
+          "PIDs": "15"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-04T15:06:32.030784+00:00",
+      "elapsed_seconds": 154.152,
+      "containers": [
+        {
+          "Name": "sf-evolution-ce-20261004",
+          "MemUsage": "1.638GiB / 3GiB",
+          "CPUPerc": "44.34%",
+          "PIDs": "320"
+        },
+        {
+          "Name": "sf-evolution-edge-20261004",
+          "MemUsage": "1.362GiB / 1.75GiB",
+          "CPUPerc": "6.01%",
+          "PIDs": "218"
+        },
+        {
+          "Name": "sf-evolution-kafka-20261004",
+          "MemUsage": "769.3MiB / 1GiB",
+          "CPUPerc": "10.19%",
+          "PIDs": "103"
+        },
+        {
+          "Name": "smartfactory-evolution-pg18-20261004",
+          "MemUsage": "402.1MiB / 1GiB",
+          "CPUPerc": "0.11%",
+          "PIDs": "15"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-04T15:06:36.101842+00:00",
+      "elapsed_seconds": 158.223,
+      "containers": [
+        {
+          "Name": "sf-evolution-ce-20261004",
+          "MemUsage": "1.642GiB / 3GiB",
+          "CPUPerc": "43.24%",
+          "PIDs": "318"
+        },
+        {
+          "Name": "sf-evolution-edge-20261004",
+          "MemUsage": "1.362GiB / 1.75GiB",
+          "CPUPerc": "4.90%",
+          "PIDs": "218"
+        },
+        {
+          "Name": "sf-evolution-kafka-20261004",
+          "MemUsage": "769.8MiB / 1GiB",
+          "CPUPerc": "13.39%",
+          "PIDs": "103"
+        },
+        {
+          "Name": "smartfactory-evolution-pg18-20261004",
+          "MemUsage": "402.1MiB / 1GiB",
+          "CPUPerc": "0.02%",
+          "PIDs": "15"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-04T15:06:40.129442+00:00",
+      "elapsed_seconds": 162.251,
+      "containers": [
+        {
+          "Name": "sf-evolution-ce-20261004",
+          "MemUsage": "1.674GiB / 3GiB",
+          "CPUPerc": "36.62%",
+          "PIDs": "297"
+        },
+        {
+          "Name": "sf-evolution-edge-20261004",
+          "MemUsage": "1.362GiB / 1.75GiB",
+          "CPUPerc": "4.83%",
+          "PIDs": "210"
+        },
+        {
+          "Name": "sf-evolution-kafka-20261004",
+          "MemUsage": "771.2MiB / 1GiB",
+          "CPUPerc": "6.27%",
+          "PIDs": "103"
+        },
+        {
+          "Name": "smartfactory-evolution-pg18-20261004",
+          "MemUsage": "402.1MiB / 1GiB",
+          "CPUPerc": "0.02%",
+          "PIDs": "15"
+        }
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "name": "actual_ce_jvm_budget",
+      "passed": true
+    },
+    {
+      "name": "ce_preserved_original_message_and_audit",
+      "passed": true,
+      "message_id": "native-evidence-cloud-1791123370948",
+      "duplicate": true,
+      "audit_valid": true,
+      "tb_keys": [
+        "climate-average.temperature",
+        "temperature"
+      ]
+    },
+    {
+      "name": "edge_preserved_original_message_and_audit",
+      "passed": true,
+      "message_id": "native-evidence-edge-1791124132497",
+      "duplicate": true,
+      "audit_valid": true,
+      "tb_keys": [
+        "climate-average.temperature",
+        "temperature"
+      ]
+    }
+  ],
+  "startup_login_attempts": 34,
+  "controlled_read_iterations": 12,
+  "container_id": "3d373d59693d440221d0bf9cdb6fce4143cd03afce5dd560fa2a20945edc11f5",
+  "ready_at": "2026-10-04T15:05:22.129290+00:00",
+  "startup_seconds": 84.25,
+  "actual_ce_jvm_command": "java -cp /usr/share/thingsboard/bin/thingsboard.jar -Xms128m -Xmx512m -XX:MaxMetaspaceSize=256m -XX:MaxDirectMemorySize=64m -XX:ReservedCodeCacheSize=64m -XX:ActiveProcessorCount=2 -Xss512k -XX:NativeMemoryTracking=summary -XX:+UnlockDiagnosticVMOptions -XX:+PrintNMTStatistics -Dplatform=deb -Dinstall.data_dir=/usr/share/thingsboard/data -Xlog:gc*,heap*,age*,safepoint=debug:file=/var/log/thingsboard/gc.log:time,uptime,level,tags:filecount=10,filesize=10M -XX:+IgnoreUnrecognizedVMOptions -XX:+HeapDumpOnOutOfMemoryError -XX:-UseBiasedLocking -XX:+UseTLAB -XX:+ResizeTLAB -XX:+PerfDisableSharedMem -XX:+UseCondCardMark -XX:+UseG1GC -XX:MaxGCPauseMillis=500 -XX:+UseStringDeduplication -XX:+ParallelRefProcEnabled -XX:MaxTenuringThreshold=10 -Dloader.main=org.thingsboard.server.ThingsboardServerApplication -Dlogging.config=/usr/share/thingsboard/conf/logback.xml org.springframework.boot.loader.launch.PropertiesLauncher",
+  "actual_edge_jvm_command": "java -cp /usr/share/tb-edge/bin/tb-edge.jar -Xms128m -Xmx512m -XX:MaxMetaspaceSize=256m -XX:MaxDirectMemorySize=96m -XX:ReservedCodeCacheSize=96m -XX:ActiveProcessorCount=2 -Xss512k -Dplatform=deb -Dinstall.data_dir=/usr/share/tb-edge/data -Xlog:gc*,heap*,age*,safepoint=debug:file=/var/log/tb-edge/gc.log:time,uptime,level,tags:filecount=10,filesize=10M -XX:+IgnoreUnrecognizedVMOptions -XX:+HeapDumpOnOutOfMemoryError -XX:-UseBiasedLocking -XX:+UseTLAB -XX:+ResizeTLAB -XX:+PerfDisableSharedMem -XX:+UseCondCardMark -XX:+UseG1GC -XX:MaxGCPauseMillis=500 -XX:+UseStringDeduplication -XX:+ParallelRefProcEnabled -XX:MaxTenuringThreshold=10 -XX:+ExitOnOutOfMemoryError -Dloader.main=org.thingsboard.server.TbEdgeApplication -Dspring.jpa.hibernate.ddl-auto=none -Dlogging.config=/usr/share/tb-edge/conf/logback.xml org.springframework.boot.loader.launch.PropertiesLauncher",
+  "roundtrip_exit_code": 0,
+  "roundtrip_log": "/private/tmp/smartfactory-evolution-native-20261004/ce-controlled-roundtrip.log",
+  "nmt_output_path": "/private/tmp/smartfactory-evolution-native-20261004/ce-after_load-nmt.log",
+  "nmt_command_exit_code": 0,
+  "nmt_summary": "1:\n\nNative Memory Tracking:\n\n(Omitting categories weighting less than 1KB)\n\nTotal: reserved=1400340KB, committed=846956KB\n       malloc: 118688KB #963088, peak=138634KB #918212\n       mmap:   reserved=1281652KB, committed=728268KB\n\n-                 Java Heap (reserved=524288KB, committed=375808KB)\n                            (mmap: reserved=524288KB, committed=375808KB, at peak)\n\n-                     Class (reserved=216675KB, committed=33379KB)\n                            (classes #43076)\n                            (  instance classes #40544, array classes #2532)\n                            (malloc=3683KB tag=Class #80956) (peak=3707KB #81606)\n                            (mmap: reserved=212992KB, committed=29696KB, at peak)\n                            (  Metadata:   )\n                            (    reserved=262144KB, committed=199872KB)\n                            (    used=198671KB)\n                            (    waste=1201KB =0.60%)\n                            (  Class space:)\n                            (    reserved=212992KB, committed=29696KB)\n                            (    used=28672KB)\n                            (    waste=1024KB =3.45%)\n\n-                    Thread (reserved=157780KB, committed=33380KB)\n                            (threads #296)\n                            (stack: reserved=156672KB, committed=32272KB, peak=34208KB)\n                            (malloc=764KB tag=Thread #1797) (peak=877KB #2041)\n                            (arena=345KB #588) (peak=3154KB #310)\n\n-                      Code (reserved=83220KB, committed=53680KB)\n                            (malloc=17171KB tag=Code #68359) (peak=17895KB #69997)\n                            (mmap: reserved=66048KB, committed=36508KB, at peak)\n                            (arena=1KB #1) (peak=34KB #2)\n\n-                        GC (reserved=49870KB, committed=46974KB)\n                            (malloc=6790KB tag=GC #22064) (peak=6928KB #22630)\n                            (mmap: reserved=43080KB, committed=40184KB, at peak)\n                            (arena=0KB #0) (peak=34KB #2)\n\n-                 GCCardSet (reserved=23KB, committed=23KB)\n                            (malloc=23KB tag=GCCardSet #8) (peak=322KB #207)\n\n-                  Compiler (reserved=1773KB, committed=1773KB)\n                            (malloc=1577KB tag=Compiler #603) (peak=1887KB #708)\n                            (arena=196KB #6) (peak=42803KB #14)\n\n-                  Internal (reserved=2384KB, committed=2384KB)\n                            (malloc=2348KB tag=Internal #31739) (peak=2378KB #31881)\n                            (mmap: reserved=36KB, committed=36KB, at peak)\n\n-                     Other (reserved=10399KB, committed=10399KB)\n                            (malloc=10399KB tag=Other #513) (peak=10533KB #533)\n\n-                    Symbol (reserved=45131KB, committed=45131KB)\n                            (malloc=42917KB tag=Symbol #647823) (at peak)\n                            (arena=2214KB #1) (at peak)\n\n-    Native Memory Tracking (reserved=17238KB, committed=17238KB)\n                            (malloc=309KB tag=Native Memory Tracking #5464) (peak=312KB #5510)\n                            (tracking overhead=16929KB)\n\n-        Shared class space (reserved=16384KB, committed=13884KB, readonly=0KB)\n                            (mmap: reserved=16384KB, committed=13884KB, peak=14088KB)\n\n-               Arena Chunk (reserved=2873KB, committed=2873KB)\n                            (malloc=2873KB tag=Arena Chunk #797) (peak=55145KB #1021)\n\n-                   Tracing (reserved=74KB, committed=74KB)\n                            (malloc=74KB tag=Tracing #305) (peak=84KB #345)\n                            (arena=0KB #0) (peak=32KB #1)\n\n-                   Logging (reserved=0KB, committed=0KB)\n                            (malloc=0KB tag=Logging) (peak=1KB #1)\n\n-                    Module (reserved=257KB, committed=257KB)\n                            (malloc=257KB tag=Module #6485) (at peak)\n\n-                 Safepoint (reserved=8KB, committed=8KB)\n                            (mmap: reserved=8KB, committed=8KB, at peak)\n\n-           Synchronization (reserved=2870KB, committed=2870KB)\n                            (malloc=2870KB tag=Synchronization #28203) (peak=2871KB #28218)\n\n-            Serviceability (reserved=19KB, committed=19KB)\n                            (malloc=19KB tag=Serviceability #57) (peak=22KB #61)\n\n-                 Metaspace (reserved=263126KB, committed=200854KB)\n                            (malloc=982KB tag=Metaspace #473) (at peak)\n                            (mmap: reserved=262144KB, committed=199872KB, at peak)\n\n-      String Deduplication (reserved=5931KB, committed=5931KB)\n                            (malloc=5931KB tag=String Deduplication #67349) (peak=9134KB #99682)\n\n-           Object Monitors (reserved=17KB, committed=17KB)\n                            (malloc=17KB tag=Object Monitors #85) (peak=151KB #775)\n\n",
+  "cgroup_memory_output": "1815105536\n1854484480\nanon 1758568448\nfile 35831808\nkernel 15544320\nkernel_stack 4898816\npagetables 5013504\nsec_pagetables 0\npercpu 27168\nsock 0\nvmalloc 16384\nshmem 0\nzswap 0\nzswapped 0\nfile_mapped 2363392\nfile_dirty 4096\nfile_writeback 0\nswapcached 0\nanon_thp 887095296\nfile_thp 0\nshmem_thp 0\ninactive_anon 0\nactive_anon 1762041856\ninactive_file 11120640\nactive_file 24711168\nunevictable 0\nslab_reclaimable 1225120\nslab_unreclaimable 4324800\nslab 5549920\nworkingset_refault_anon 0\nworkingset_refault_file 298\nworkingset_activate_anon 0\nworkingset_activate_file 0\nworkingset_restore_anon 0\nworkingset_restore_file 0\nworkingset_nodereclaim 0\npgdemote_kswapd 0\npgdemote_direct 0\npgdemote_khugepaged 0\npgdemote_proactive 0\npgscan 0\npgsteal 0\npswpin 0\npswpout 0\npgscan_kswapd 0\npgscan_direct 0\npgscan_khugepaged 0\npgscan_proactive 0\npgsteal_kswapd 0\npgsteal_direct 0\npgsteal_khugepaged 0\npgsteal_proactive 0\npgfault 634720\npgmajfault 3\npgrefill 0\npgactivate 0\npgdeactivate 0\npglazyfree 0\npglazyfreed 0\nswpin_zero 0\nswpout_zero 0\nzswpin 0\nzswpout 0\nzswpwb 0\nthp_fault_alloc 585\nthp_collapse_alloc 0\nthp_swpout 0\nthp_swpout_fallback 0\n",
+  "controlled_load": {
+    "new_ingress_messages": 2,
+    "fresh_duplicate_checks": 2,
+    "prior_duplicate_checks": 2,
+    "post_readiness_authenticated_ce_reads": 12,
+    "polling_readiness_attempts": 34,
+    "load_concurrency": 1
+  },
+  "completed_at": "2026-10-04T15:06:41.897060+00:00",
+  "elapsed_seconds": 164.019,
+  "all_checks_passed": true,
+  "final_nmt_live_output": "1:\n\nNative Memory Tracking:\n\n(Omitting categories weighting less than 1KB)\n\nTotal: reserved=1400340KB, committed=846956KB\n       malloc: 118688KB #963089, peak=138634KB #918212\n       mmap:   reserved=1281652KB, committed=728268KB\n\n-                 Java Heap (reserved=524288KB, committed=375808KB)\n                            (mmap: reserved=524288KB, committed=375808KB, at peak)\n\n-                     Class (reserved=216675KB, committed=33379KB)\n                            (classes #43076)\n                            (  instance classes #40544, array classes #2532)\n                            (malloc=3683KB tag=Class #80956) (peak=3707KB #81606)\n                            (mmap: reserved=212992KB, committed=29696KB, at peak)\n                            (  Metadata:   )\n                            (    reserved=262144KB, committed=199872KB)\n                            (    used=198671KB)\n                            (    waste=1201KB =0.60%)\n                            (  Class space:)\n                            (    reserved=212992KB, committed=29696KB)\n                            (    used=28672KB)\n                            (    waste=1024KB =3.45%)\n\n-                    Thread (reserved=157780KB, committed=33380KB)\n                            (threads #296)\n                            (stack: reserved=156672KB, committed=32272KB, peak=34208KB)\n                            (malloc=764KB tag=Thread #1797) (peak=877KB #2041)\n                            (arena=345KB #588) (peak=3154KB #310)\n\n-                      Code (reserved=83220KB, committed=53680KB)\n                            (malloc=17171KB tag=Code #68359) (peak=17895KB #69997)\n                            (mmap: reserved=66048KB, committed=36508KB, at peak)\n                            (arena=1KB #1) (peak=34KB #2)\n\n-                        GC (reserved=49870KB, committed=46974KB)\n                            (malloc=6790KB tag=GC #22064) (peak=6928KB #22630)\n                            (mmap: reserved=43080KB, committed=40184KB, at peak)\n                            (arena=0KB #0) (peak=34KB #2)\n\n-                 GCCardSet (reserved=23KB, committed=23KB)\n                            (malloc=23KB tag=GCCardSet #8) (peak=322KB #207)\n\n-                  Compiler (reserved=1773KB, committed=1773KB)\n                            (malloc=1577KB tag=Compiler #603) (peak=1887KB #708)\n                            (arena=196KB #6) (peak=42803KB #14)\n\n-                  Internal (reserved=2384KB, committed=2384KB)\n                            (malloc=2348KB tag=Internal #31739) (peak=2378KB #31881)\n                            (mmap: reserved=36KB, committed=36KB, at peak)\n\n-                     Other (reserved=10399KB, committed=10399KB)\n                            (malloc=10399KB tag=Other #513) (peak=10533KB #533)\n\n-                    Symbol (reserved=45131KB, committed=45131KB)\n                            (malloc=42917KB tag=Symbol #647823) (at peak)\n                            (arena=2214KB #1) (at peak)\n\n-    Native Memory Tracking (reserved=17238KB, committed=17238KB)\n                            (malloc=309KB tag=Native Memory Tracking #5464) (peak=312KB #5510)\n                            (tracking overhead=16929KB)\n\n-        Shared class space (reserved=16384KB, committed=13884KB, readonly=0KB)\n                            (mmap: reserved=16384KB, committed=13884KB, peak=14088KB)\n\n-               Arena Chunk (reserved=2873KB, committed=2873KB)\n                            (malloc=2873KB tag=Arena Chunk #797) (peak=55145KB #1021)\n\n-                   Tracing (reserved=74KB, committed=74KB)\n                            (malloc=74KB tag=Tracing #305) (peak=84KB #345)\n                            (arena=0KB #0) (peak=32KB #1)\n\n-                   Logging (reserved=0KB, committed=0KB)\n                            (malloc=0KB tag=Logging) (peak=1KB #1)\n\n-                    Module (reserved=257KB, committed=257KB)\n                            (malloc=257KB tag=Module #6485) (at peak)\n\n-                 Safepoint (reserved=8KB, committed=8KB)\n                            (mmap: reserved=8KB, committed=8KB, at peak)\n\n-           Synchronization (reserved=2870KB, committed=2870KB)\n                            (malloc=2870KB tag=Synchronization #28203) (peak=2871KB #28218)\n\n-            Serviceability (reserved=19KB, committed=19KB)\n                            (malloc=19KB tag=Serviceability #57) (peak=22KB #61)\n\n-                 Metaspace (reserved=263126KB, committed=200854KB)\n                            (malloc=982KB tag=Metaspace #473) (at peak)\n                            (mmap: reserved=262144KB, committed=199872KB, at peak)\n\n-      String Deduplication (reserved=5931KB, committed=5931KB)\n                            (malloc=5931KB tag=String Deduplication #67349) (peak=9134KB #99682)\n\n-           Object Monitors (reserved=17KB, committed=17KB)\n                            (malloc=17KB tag=Object Monitors #86) (peak=151KB #775)\n\n",
+  "final_cgroup_live_output": "1811628032\n1854763008\nanon 1754935296\nfile 35831808\nkernel 15515648\nkernel_stack 4898816\npagetables 5005312\nsec_pagetables 0\npercpu 26976\nsock 0\nvmalloc 16384\nshmem 0\nzswap 0\nzswapped 0\nfile_mapped 2363392\nfile_dirty 4096\nfile_writeback 0\nswapcached 0\nanon_thp 887095296\nfile_thp 0\nshmem_thp 0\ninactive_anon 0\nactive_anon 1758486528\ninactive_file 11120640\nactive_file 24711168\nunevictable 0\nslab_reclaimable 1233432\nslab_unreclaimable 4293896\nslab 5527328\nworkingset_refault_anon 0\nworkingset_refault_file 298\nworkingset_activate_anon 0\nworkingset_activate_file 0\nworkingset_restore_anon 0\nworkingset_restore_file 0\nworkingset_nodereclaim 0\npgdemote_kswapd 0\npgdemote_direct 0\npgdemote_khugepaged 0\npgdemote_proactive 0\npgscan 0\npgsteal 0\npswpin 0\npswpout 0\npgscan_kswapd 0\npgscan_direct 0\npgscan_khugepaged 0\npgscan_proactive 0\npgsteal_kswapd 0\npgsteal_direct 0\npgsteal_khugepaged 0\npgsteal_proactive 0\npgfault 652336\npgmajfault 3\npgrefill 0\npgactivate 0\npgdeactivate 0\npglazyfree 0\npglazyfreed 0\nswpin_zero 0\nswpout_zero 0\nzswpin 0\nzswpout 0\nzswpwb 0\nthp_fault_alloc 585\nthp_collapse_alloc 0\nthp_swpout 0\nthp_swpout_fallback 0\n",
+  "stop_command_exit_code": 0,
+  "container_log": "/private/tmp/smartfactory-evolution-native-20261004/ce-controlled-container.log",
+  "shutdown_nmt_summary": "Native Memory Tracking:\n\nTotal: reserved=1312807404, committed=849369580\n       malloc: 130943468 #962248, peak=141960903 #918212\n       mmap:   reserved=1181863936, committed=718426112\n\n-                 Java Heap (reserved=536870912, committed=384827392)\n                            (mmap: reserved=536870912, committed=384827392, at peak)\n\n-                     Class (reserved=221809671, committed=34180103)\n                            (classes #43207)\n                            (  instance classes #40666, array classes #2541)\n                            (malloc=3705863 tag=Class #80997) (peak=3796007 #81606)\n                            (mmap: reserved=218103808, committed=30474240, at peak)\n                            (  Metadata:   )\n                            (    reserved=268435456, committed=205062144)\n                            (    used=203860240)\n                            (    waste=1201904 =0.59%)\n                            (  Class space:)\n                            (    reserved=218103808, committed=30474240)\n                            (    used=29440936)\n                            (    waste=1033304 =3.39%)\n\n-                    Thread (reserved=30094112, committed=5276448)\n                            (threads #51)\n                            (stack: reserved=29884416, committed=5066752, peak=35028992)\n                            (malloc=146096 tag=Thread #345) (peak=898152 #2041)\n                            (arena=63600 #106) (peak=3229704 #310)\n\n-                      Code (reserved=85622736, committed=55574480)\n                            (malloc=17988600 tag=Code #69275) (peak=18324576 #69997)\n                            (mmap: reserved=67633152, committed=37584896, at peak)\n                            (arena=984 #1) (peak=34696 #2)\n\n-                        GC (reserved=51110263, committed=48144759)\n                            (malloc=6996343 tag=GC #22171) (peak=7094207 #22630)\n                            (mmap: reserved=44113920, committed=41148416, at peak)\n                            (arena=0 #0) (peak=34696 #2)\n\n-                 GCCardSet (reserved=23784, committed=23784)\n                            (malloc=23784 tag=GCCardSet #8) (peak=330080 #207)\n\n-                  Compiler (reserved=13291560, committed=13291560)\n                            (malloc=326808 tag=Compiler #178) (peak=1931880 #708)\n                            (arena=12964752 #14) (peak=43830088 #14)\n\n-                  Internal (reserved=1110395, committed=1110395)\n                            (malloc=1073531 tag=Internal #30189) (peak=2435456 #31881)\n                            (mmap: reserved=36864, committed=36864, at peak)\n\n-                     Other (reserved=8820136, committed=8820136)\n                            (malloc=8820136 tag=Other #84) (peak=10785816 #533)\n\n-                    Symbol (reserved=46250722, committed=46250722)\n                            (malloc=43983858 tag=Symbol #648480) (at peak)\n                            (arena=2266864 #1) (at peak)\n\n-    Native Memory Tracking (reserved=17587800, committed=17587800)\n                            (malloc=267336 tag=Native Memory Tracking #4735) (peak=319008 #5510)\n                            (tracking overhead=17320464)\n\n-        Shared class space (reserved=16777312, committed=14217312, readonly=0)\n                            (malloc=96 tag=Shared class space #2) (at peak)\n                            (mmap: reserved=16777216, committed=14217216, peak=14426112)\n\n-               Arena Chunk (reserved=4165072, committed=4165072)\n                            (malloc=4165072 tag=Arena Chunk #708) (peak=56468320 #1021)\n\n-                   Tracing (reserved=14417, committed=14417)\n                            (malloc=14417 tag=Tracing #64) (peak=86353 #345)\n                            (arena=0 #0) (peak=32728 #1)\n\n-                   Logging (reserved=0, committed=0)\n                            (malloc=0 tag=Logging) (peak=512 #1)\n\n-                Statistics (reserved=128, committed=128)\n                            (malloc=128 tag=Statistics #2) (at peak)\n\n-                 Arguments (reserved=86, committed=86)\n                            (malloc=86 tag=Arguments #4) (at peak)\n\n-                    Module (reserved=263664, committed=263664)\n                            (malloc=263664 tag=Module #6487) (at peak)\n\n-                 Safepoint (reserved=8192, committed=8192)\n                            (mmap: reserved=8192, committed=8192, at peak)\n\n-           Synchronization (reserved=2947152, committed=2947152)\n                            (malloc=2947152 tag=Synchronization #28125) (peak=2951488 #28187)\n\n-            Serviceability (reserved=19206, committed=19206)\n                            (malloc=19206 tag=Serviceability #53) (peak=22431 #61)\n\n-                 Metaspace (reserved=269441088, committed=206067776)\n                            (malloc=1005632 tag=Metaspace #473) (at peak)\n                            (mmap: reserved=268435456, committed=205062144, at peak)\n\n-      String Deduplication (reserved=6075996, committed=6075996)\n                            (malloc=6075996 tag=String Deduplication #67353) (peak=9353440 #99682)\n\n-           Object Monitors (reserved=503000, committed=503000)\n                            (malloc=503000 tag=Object Monitors #2515) (at peak)\n\n",
+  "final_container_state": {
+    "Status": "exited",
+    "Running": false,
+    "OOMKilled": false,
+    "ExitCode": 143,
+    "StartedAt": "2026-10-04T15:03:57.989868591Z",
+    "FinishedAt": "2026-10-04T15:06:51.187821296Z",
+    "Error": ""
+  },
+  "remove_command_exit_code": 0,
+  "ended_at": "2026-10-04T15:06:51.405791+00:00",
+  "measurements": {
+    "ce_final_cgroup_current_bytes": 1811628032,
+    "ce_cgroup_peak_bytes": 1854763008,
+    "docker_working_set_samples": 41,
+    "ce_nmt_reserved_bytes": 1433948160,
+    "ce_nmt_committed_bytes": 867282944,
+    "ce_heap_reserved_bytes": 536870912,
+    "ce_heap_committed_bytes": 384827392,
+    "sampled_docker_working_set_peaks": {
+      "sf-evolution-ce-20261004": {
+        "docker_display": "1.674GiB",
+        "approximate_bytes": 1797443813,
+        "at": "2026-10-04T15:06:40.129442+00:00"
+      },
+      "sf-evolution-edge-20261004": {
+        "docker_display": "1.362GiB",
+        "approximate_bytes": 1462436364,
+        "at": "2026-10-04T15:05:40.233660+00:00"
+      },
+      "sf-evolution-kafka-20261004": {
+        "docker_display": "789.2MiB",
+        "approximate_bytes": 827536179,
+        "at": "2026-10-04T15:05:12.013993+00:00"
+      },
+      "smartfactory-evolution-pg18-20261004": {
+        "docker_display": "411.3MiB",
+        "approximate_bytes": 431279308,
+        "at": "2026-10-04T15:05:51.425763+00:00"
+      }
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "recorded_at_ms": 1791148233663,
+  "reason": "Coordinator requested review engineer to finish active work and release one running-agent slot for control receipt fix P3-C05",
+  "services_retained": {
+    "control_test_pid": 51754,
+    "device_pid": 51756,
+    "history_pid": 51755,
+    "cloud_url": "http://127.0.0.1:59107",
+    "edge_url": "http://127.0.0.1:59108",
+    "driver_url": "http://127.0.0.1:59114",
+    "history_url": "http://127.0.0.1:19060",
+    "cloud_http_status": 200,
+    "edge_http_status": 200,
+    "history_http_status": 200
+  },
+  "paths": {
+    "runtime": "/private/tmp/smartfactory-phase3-independent/control-browser/runtime",
+    "history": "/private/tmp/smartfactory-phase3-independent/history-browser",
+    "frontend_copy": "/private/tmp/smartfactory-phase3-independent/browser-static",
+    "initial_process_manifest": "/path/to/SmartFactory-2026/.local/evolution/phase3-review-evidence/browser-process.json"
+  },
+  "browser_sessions": {
+    "sf-phase3-independent-cloud": {
+      "tab_0": "cloud recover-browser completed, original-command evidence tab empty",
+      "tab_1": "edge cancel-browser login page; no login or cancel action performed"
+    },
+    "sf-phase3-independent-history": {
+      "tab_0": "history create-analysis modal open; analysis-kind dropdown open; compare option visible; no new run submitted"
+    }
+  },
+  "confirmed_findings": [
+    "P3-C05 cloud detail lacks edge command evidence and feedback timeline",
+    "P3-F02 replay/shadow rows showed comparison equality without comparison data",
+    "P3-F01 pending notice uses success appearance; coordinator already assigned frontend"
+  ],
+  "restart_after_control_fix": "Preserve all initial evidence and databases. Write control-browser/runtime/browser-stop, confirm its applications close, and launch current-source fixture in a NEW directory with scripts/control-intervention-fixture.py start --output /private/tmp/smartfactory-phase3-independent/control-browser-v2 using established Go environment; alternatively reuse newly verified control test/device binaries and save their updated source/build manifest. Keep browser-process.json and static copy unchanged as initial evidence. History may remain running during control changes. Final frontend build requires a separately recorded source/dist snapshot before updating served static files."
+}

@@ -1,0 +1,724 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-10-05T06:57:44.355203+00:00",
+  "status": "passed",
+  "scope": "Evidence integrity, actual go-list coverage, archived inputs and raw-log recount",
+  "test_outcome": "passed",
+  "source_directory": "/private/tmp/smartfactory-phase5-node-process-final-20261005",
+  "result_sha256": "c6ae648af8080c01eb2626a966803f4094c4df7e87bfae59ec4719f7e8118297",
+  "commands_sha256": "8444220c7cd4d0d877cd6cb0eab805f1ad1272fcd7b033d10109f9b33333e418",
+  "commands": [
+    {
+      "name": "go-version",
+      "argv": [
+        "go",
+        "version"
+      ],
+      "cwd": "/path/to/SmartFactory-2026/Platform",
+      "exit_code": 0,
+      "started_at": 1791182321.2415318,
+      "elapsed_seconds": 0.007336139678955078,
+      "stdout": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/go-version.stdout.log",
+      "stderr": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/go-version.stderr.log",
+      "source_before": null,
+      "source_after": null,
+      "input_unchanged": null,
+      "raw_log_sha256s": {
+        "stdout": "c528ba02b39880f1357f51dee70e41c1ef03e3a70c7a03055c080532b9635f58",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "top_pass": [],
+      "all_pass_count": 0,
+      "failed": [],
+      "skipped": [],
+      "race_warning": false
+    },
+    {
+      "name": "build-sf-cloud",
+      "argv": [
+        "go",
+        "build",
+        "-o",
+        "/private/tmp/smartfactory-phase5-node-process-final-20261005/bin/sf-cloud",
+        "./cmd/sf-cloud"
+      ],
+      "cwd": "/path/to/SmartFactory-2026/Platform",
+      "exit_code": 0,
+      "started_at": 1791182321.793921,
+      "elapsed_seconds": 1.285593032836914,
+      "stdout": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/build-sf-cloud.stdout.log",
+      "stderr": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/build-sf-cloud.stderr.log",
+      "source_before": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/build-sf-cloud-before.source-inputs.json",
+      "source_after": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/build-sf-cloud-after.source-inputs.json",
+      "input_unchanged": true,
+      "raw_log_sha256s": {
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "top_pass": [],
+      "all_pass_count": 0,
+      "failed": [],
+      "skipped": [],
+      "race_warning": false,
+      "verified_before_after_equal": true,
+      "input_count": 3293,
+      "input_manifest_sha256s": {
+        "before": "f33abfe7cecabb022b1b9eb71c9f96f365aec8aa825b47ad6c4e3c0dbe00c4da",
+        "after": "f33abfe7cecabb022b1b9eb71c9f96f365aec8aa825b47ad6c4e3c0dbe00c4da"
+      },
+      "go_list_coverage": [
+        {
+          "phase": "before",
+          "path": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/build-sf-cloud-before.go-list.json",
+          "sha256": "7ee2d3750685d8e79f89e5c3e940067fd0c983008502a668bd7959c79d3380e5",
+          "packages": 656,
+          "missing": [],
+          "package_errors": []
+        },
+        {
+          "phase": "after",
+          "path": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/build-sf-cloud-after.go-list.json",
+          "sha256": "7ee2d3750685d8e79f89e5c3e940067fd0c983008502a668bd7959c79d3380e5",
+          "packages": 656,
+          "missing": [],
+          "package_errors": []
+        }
+      ]
+    },
+    {
+      "name": "build-sf-edge",
+      "argv": [
+        "go",
+        "build",
+        "-o",
+        "/private/tmp/smartfactory-phase5-node-process-final-20261005/bin/sf-edge",
+        "./cmd/sf-edge"
+      ],
+      "cwd": "/path/to/SmartFactory-2026/Platform",
+      "exit_code": 0,
+      "started_at": 1791182323.3888042,
+      "elapsed_seconds": 1.2246997356414795,
+      "stdout": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/build-sf-edge.stdout.log",
+      "stderr": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/build-sf-edge.stderr.log",
+      "source_before": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/build-sf-edge-before.source-inputs.json",
+      "source_after": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/build-sf-edge-after.source-inputs.json",
+      "input_unchanged": true,
+      "raw_log_sha256s": {
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "top_pass": [],
+      "all_pass_count": 0,
+      "failed": [],
+      "skipped": [],
+      "race_warning": false,
+      "verified_before_after_equal": true,
+      "input_count": 3293,
+      "input_manifest_sha256s": {
+        "before": "78c30dae82252aa80b3990e8305b9f3916645801f9791892d81125bae4d5af69",
+        "after": "78c30dae82252aa80b3990e8305b9f3916645801f9791892d81125bae4d5af69"
+      },
+      "go_list_coverage": [
+        {
+          "phase": "before",
+          "path": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/build-sf-edge-before.go-list.json",
+          "sha256": "41669224f0e57c954237b0b7c38c78c1c7ad6836a30863eb2256b8de282a6878",
+          "packages": 656,
+          "missing": [],
+          "package_errors": []
+        },
+        {
+          "phase": "after",
+          "path": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/build-sf-edge-after.go-list.json",
+          "sha256": "41669224f0e57c954237b0b7c38c78c1c7ad6836a30863eb2256b8de282a6878",
+          "packages": 656,
+          "missing": [],
+          "package_errors": []
+        }
+      ]
+    },
+    {
+      "name": "build-sf-pki",
+      "argv": [
+        "go",
+        "build",
+        "-o",
+        "/private/tmp/smartfactory-phase5-node-process-final-20261005/bin/sf-pki",
+        "./cmd/sf-pki"
+      ],
+      "cwd": "/path/to/SmartFactory-2026/Platform",
+      "exit_code": 0,
+      "started_at": 1791182324.7303832,
+      "elapsed_seconds": 0.2919449806213379,
+      "stdout": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/build-sf-pki.stdout.log",
+      "stderr": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/build-sf-pki.stderr.log",
+      "source_before": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/build-sf-pki-before.source-inputs.json",
+      "source_after": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/build-sf-pki-after.source-inputs.json",
+      "input_unchanged": true,
+      "raw_log_sha256s": {
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "top_pass": [],
+      "all_pass_count": 0,
+      "failed": [],
+      "skipped": [],
+      "race_warning": false,
+      "verified_before_after_equal": true,
+      "input_count": 1007,
+      "input_manifest_sha256s": {
+        "before": "764f69af4bd7123d4855e2dd1a3504bed2491ea9ece7bcce78e3c9a3b67d6076",
+        "after": "764f69af4bd7123d4855e2dd1a3504bed2491ea9ece7bcce78e3c9a3b67d6076"
+      },
+      "go_list_coverage": [
+        {
+          "phase": "before",
+          "path": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/build-sf-pki-before.go-list.json",
+          "sha256": "8a1a640f8c86f73e00b31ca7ed24c2171325bd8e2e1549ef3a792372dbcbab2a",
+          "packages": 156,
+          "missing": [],
+          "package_errors": []
+        },
+        {
+          "phase": "after",
+          "path": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/build-sf-pki-after.go-list.json",
+          "sha256": "8a1a640f8c86f73e00b31ca7ed24c2171325bd8e2e1549ef3a792372dbcbab2a",
+          "packages": 156,
+          "missing": [],
+          "package_errors": []
+        }
+      ]
+    },
+    {
+      "name": "build-sf-node-configuration-fixture",
+      "argv": [
+        "go",
+        "build",
+        "-o",
+        "/private/tmp/smartfactory-phase5-node-process-final-20261005/bin/sf-node-configuration-fixture",
+        "./cmd/sf-node-configuration-fixture"
+      ],
+      "cwd": "/path/to/SmartFactory-2026/Platform",
+      "exit_code": 0,
+      "started_at": 1791182325.3414772,
+      "elapsed_seconds": 1.241816759109497,
+      "stdout": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/build-sf-node-configuration-fixture.stdout.log",
+      "stderr": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/build-sf-node-configuration-fixture.stderr.log",
+      "source_before": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/build-sf-node-configuration-fixture-before.source-inputs.json",
+      "source_after": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/build-sf-node-configuration-fixture-after.source-inputs.json",
+      "input_unchanged": true,
+      "raw_log_sha256s": {
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "top_pass": [],
+      "all_pass_count": 0,
+      "failed": [],
+      "skipped": [],
+      "race_warning": false,
+      "verified_before_after_equal": true,
+      "input_count": 3293,
+      "input_manifest_sha256s": {
+        "before": "b0961d30b601f103f451e8e2e614f69bbabdedb65ceb3f730682046361204aaf",
+        "after": "b0961d30b601f103f451e8e2e614f69bbabdedb65ceb3f730682046361204aaf"
+      },
+      "go_list_coverage": [
+        {
+          "phase": "before",
+          "path": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/build-sf-node-configuration-fixture-before.go-list.json",
+          "sha256": "dce86545c4ed42060ea00c65f83ce57566caa6203966e3acd24c53b61c52a571",
+          "packages": 656,
+          "missing": [],
+          "package_errors": []
+        },
+        {
+          "phase": "after",
+          "path": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/build-sf-node-configuration-fixture-after.go-list.json",
+          "sha256": "dce86545c4ed42060ea00c65f83ce57566caa6203966e3acd24c53b61c52a571",
+          "packages": 656,
+          "missing": [],
+          "package_errors": []
+        }
+      ]
+    },
+    {
+      "name": "build-sf-contracts",
+      "argv": [
+        "go",
+        "build",
+        "-o",
+        "/private/tmp/smartfactory-phase5-node-process-final-20261005/bin/sf-contracts",
+        "./cmd/sf-contracts"
+      ],
+      "cwd": "/path/to/SmartFactory-2026/Platform",
+      "exit_code": 0,
+      "started_at": 1791182326.8923972,
+      "elapsed_seconds": 1.145263671875,
+      "stdout": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/build-sf-contracts.stdout.log",
+      "stderr": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/build-sf-contracts.stderr.log",
+      "source_before": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/build-sf-contracts-before.source-inputs.json",
+      "source_after": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/build-sf-contracts-after.source-inputs.json",
+      "input_unchanged": true,
+      "raw_log_sha256s": {
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "top_pass": [],
+      "all_pass_count": 0,
+      "failed": [],
+      "skipped": [],
+      "race_warning": false,
+      "verified_before_after_equal": true,
+      "input_count": 3293,
+      "input_manifest_sha256s": {
+        "before": "c752b19166a04876e3a97b04ea091476846e882e4b0321d7fc95469085314ce8",
+        "after": "c752b19166a04876e3a97b04ea091476846e882e4b0321d7fc95469085314ce8"
+      },
+      "go_list_coverage": [
+        {
+          "phase": "before",
+          "path": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/build-sf-contracts-before.go-list.json",
+          "sha256": "fee3ed9858cc6bd5090f0184bdb0b01e236dd614e61b7570160e5bd07fe4befd",
+          "packages": 656,
+          "missing": [],
+          "package_errors": []
+        },
+        {
+          "phase": "after",
+          "path": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/build-sf-contracts-after.go-list.json",
+          "sha256": "fee3ed9858cc6bd5090f0184bdb0b01e236dd614e61b7570160e5bd07fe4befd",
+          "packages": 656,
+          "missing": [],
+          "package_errors": []
+        }
+      ]
+    },
+    {
+      "name": "build-dt-node-configuration-fixture",
+      "argv": [
+        "go",
+        "build",
+        "-o",
+        "/private/tmp/smartfactory-phase5-node-process-final-20261005/bin/dt-node-configuration-fixture",
+        "./cmd/dt-node-configuration-fixture"
+      ],
+      "cwd": "/path/to/SmartFactory-2026/DataTransfer",
+      "exit_code": 0,
+      "started_at": 1791182328.250099,
+      "elapsed_seconds": 0.6624219417572021,
+      "stdout": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/build-dt-node-configuration-fixture.stdout.log",
+      "stderr": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/build-dt-node-configuration-fixture.stderr.log",
+      "source_before": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/build-dt-node-configuration-fixture-before.source-inputs.json",
+      "source_after": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/build-dt-node-configuration-fixture-after.source-inputs.json",
+      "input_unchanged": true,
+      "raw_log_sha256s": {
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "top_pass": [],
+      "all_pass_count": 0,
+      "failed": [],
+      "skipped": [],
+      "race_warning": false,
+      "verified_before_after_equal": true,
+      "input_count": 1877,
+      "input_manifest_sha256s": {
+        "before": "8306711f50f1e76aa4f3952ec3b535f305805f559048612b76f6c7764613f0ec",
+        "after": "8306711f50f1e76aa4f3952ec3b535f305805f559048612b76f6c7764613f0ec"
+      },
+      "go_list_coverage": [
+        {
+          "phase": "before",
+          "path": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/build-dt-node-configuration-fixture-before.go-list.json",
+          "sha256": "477c8954faa9c14720105131710a1424eabc2c6d6861739af79c19fe7fd89aa0",
+          "packages": 378,
+          "missing": [],
+          "package_errors": []
+        },
+        {
+          "phase": "after",
+          "path": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/build-dt-node-configuration-fixture-after.go-list.json",
+          "sha256": "477c8954faa9c14720105131710a1424eabc2c6d6861739af79c19fe7fd89aa0",
+          "packages": 378,
+          "missing": [],
+          "package_errors": []
+        }
+      ]
+    },
+    {
+      "name": "export-contracts",
+      "argv": [
+        "/private/tmp/smartfactory-phase5-node-process-final-20261005/bin/sf-contracts",
+        "--out",
+        "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/contracts/1.0",
+        "--examples",
+        "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/editable-definitions.json",
+        "--api-source",
+        "internal/api"
+      ],
+      "cwd": "/path/to/SmartFactory-2026/Platform",
+      "exit_code": 0,
+      "started_at": 1791182329.021348,
+      "elapsed_seconds": 0.06050395965576172,
+      "stdout": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/export-contracts.stdout.log",
+      "stderr": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/export-contracts.stderr.log",
+      "source_before": null,
+      "source_after": null,
+      "input_unchanged": null,
+      "raw_log_sha256s": {
+        "stdout": "5a60f0c9021f16c8773560848de3e22f6667980a529671c6573edcd0e9fd1f3d",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "top_pass": [],
+      "all_pass_count": 0,
+      "failed": [],
+      "skipped": [],
+      "race_warning": false
+    },
+    {
+      "name": "pki-init",
+      "argv": [
+        "/private/tmp/smartfactory-phase5-node-process-final-20261005/bin/sf-pki",
+        "--mode",
+        "init",
+        "--dir",
+        "/private/tmp/smartfactory-phase5-node-process-final-20261005/private/pki"
+      ],
+      "cwd": "/path/to/SmartFactory-2026",
+      "exit_code": 0,
+      "started_at": 1791182329.084637,
+      "elapsed_seconds": 0.006577253341674805,
+      "stdout": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/pki-init.stdout.log",
+      "stderr": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/pki-init.stderr.log",
+      "source_before": null,
+      "source_after": null,
+      "input_unchanged": null,
+      "raw_log_sha256s": {
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "top_pass": [],
+      "all_pass_count": 0,
+      "failed": [],
+      "skipped": [],
+      "race_warning": false
+    },
+    {
+      "name": "pki-cloud-1",
+      "argv": [
+        "/private/tmp/smartfactory-phase5-node-process-final-20261005/bin/sf-pki",
+        "--dir",
+        "/private/tmp/smartfactory-phase5-node-process-final-20261005/private/pki",
+        "--node",
+        "cloud-1",
+        "--hosts",
+        "localhost,127.0.0.1"
+      ],
+      "cwd": "/path/to/SmartFactory-2026",
+      "exit_code": 0,
+      "started_at": 1791182329.0914402,
+      "elapsed_seconds": 0.005169868469238281,
+      "stdout": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/pki-cloud-1.stdout.log",
+      "stderr": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/pki-cloud-1.stderr.log",
+      "source_before": null,
+      "source_after": null,
+      "input_unchanged": null,
+      "raw_log_sha256s": {
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "top_pass": [],
+      "all_pass_count": 0,
+      "failed": [],
+      "skipped": [],
+      "race_warning": false
+    },
+    {
+      "name": "pki-config-service",
+      "argv": [
+        "/private/tmp/smartfactory-phase5-node-process-final-20261005/bin/sf-pki",
+        "--dir",
+        "/private/tmp/smartfactory-phase5-node-process-final-20261005/private/pki",
+        "--node",
+        "config-service",
+        "--hosts",
+        "localhost,127.0.0.1",
+        "--client"
+      ],
+      "cwd": "/path/to/SmartFactory-2026",
+      "exit_code": 0,
+      "started_at": 1791182329.096846,
+      "elapsed_seconds": 0.004467964172363281,
+      "stdout": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/pki-config-service.stdout.log",
+      "stderr": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/pki-config-service.stderr.log",
+      "source_before": null,
+      "source_after": null,
+      "input_unchanged": null,
+      "raw_log_sha256s": {
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "top_pass": [],
+      "all_pass_count": 0,
+      "failed": [],
+      "skipped": [],
+      "race_warning": false
+    },
+    {
+      "name": "pki-config-client-cloud-1",
+      "argv": [
+        "/private/tmp/smartfactory-phase5-node-process-final-20261005/bin/sf-pki",
+        "--dir",
+        "/private/tmp/smartfactory-phase5-node-process-final-20261005/private/pki",
+        "--node",
+        "config-client-cloud-1",
+        "--hosts",
+        "localhost,127.0.0.1",
+        "--client"
+      ],
+      "cwd": "/path/to/SmartFactory-2026",
+      "exit_code": 0,
+      "started_at": 1791182329.101536,
+      "elapsed_seconds": 0.00421595573425293,
+      "stdout": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/pki-config-client-cloud-1.stdout.log",
+      "stderr": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/pki-config-client-cloud-1.stderr.log",
+      "source_before": null,
+      "source_after": null,
+      "input_unchanged": null,
+      "raw_log_sha256s": {
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "top_pass": [],
+      "all_pass_count": 0,
+      "failed": [],
+      "skipped": [],
+      "race_warning": false
+    },
+    {
+      "name": "pki-edge-a",
+      "argv": [
+        "/private/tmp/smartfactory-phase5-node-process-final-20261005/bin/sf-pki",
+        "--dir",
+        "/private/tmp/smartfactory-phase5-node-process-final-20261005/private/pki",
+        "--node",
+        "edge-a",
+        "--hosts",
+        "localhost,127.0.0.1",
+        "--client"
+      ],
+      "cwd": "/path/to/SmartFactory-2026",
+      "exit_code": 0,
+      "started_at": 1791182329.10597,
+      "elapsed_seconds": 0.0044291019439697266,
+      "stdout": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/pki-edge-a.stdout.log",
+      "stderr": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/pki-edge-a.stderr.log",
+      "source_before": null,
+      "source_after": null,
+      "input_unchanged": null,
+      "raw_log_sha256s": {
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "top_pass": [],
+      "all_pass_count": 0,
+      "failed": [],
+      "skipped": [],
+      "race_warning": false
+    },
+    {
+      "name": "pki-edge-b",
+      "argv": [
+        "/private/tmp/smartfactory-phase5-node-process-final-20261005/bin/sf-pki",
+        "--dir",
+        "/private/tmp/smartfactory-phase5-node-process-final-20261005/private/pki",
+        "--node",
+        "edge-b",
+        "--hosts",
+        "localhost,127.0.0.1",
+        "--client"
+      ],
+      "cwd": "/path/to/SmartFactory-2026",
+      "exit_code": 0,
+      "started_at": 1791182329.110645,
+      "elapsed_seconds": 0.004555940628051758,
+      "stdout": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/pki-edge-b.stdout.log",
+      "stderr": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/pki-edge-b.stderr.log",
+      "source_before": null,
+      "source_after": null,
+      "input_unchanged": null,
+      "raw_log_sha256s": {
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "top_pass": [],
+      "all_pass_count": 0,
+      "failed": [],
+      "skipped": [],
+      "race_warning": false
+    },
+    {
+      "name": "public-keys-cloud-1",
+      "argv": [
+        "/private/tmp/smartfactory-phase5-node-process-final-20261005/bin/sf-pki",
+        "--mode",
+        "public-keys",
+        "--dir",
+        "/private/tmp/smartfactory-phase5-node-process-final-20261005/private/pki",
+        "--node",
+        "cloud-1",
+        "--master-key",
+        "/private/tmp/smartfactory-phase5-node-process-final-20261005/private/cloud.master"
+      ],
+      "cwd": "/path/to/SmartFactory-2026",
+      "exit_code": 0,
+      "started_at": 1791182329.1167092,
+      "elapsed_seconds": 0.005436897277832031,
+      "stdout": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/public-keys-cloud-1.stdout.log",
+      "stderr": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/public-keys-cloud-1.stderr.log",
+      "source_before": null,
+      "source_after": null,
+      "input_unchanged": null,
+      "raw_log_sha256s": {
+        "stdout": "070fb6a1eebf79d9bf712522b4df6978e272bc0e47df8dde1e0cc8c5d77fa9a1",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "top_pass": [],
+      "all_pass_count": 0,
+      "failed": [],
+      "skipped": [],
+      "race_warning": false
+    },
+    {
+      "name": "public-keys-edge-a",
+      "argv": [
+        "/private/tmp/smartfactory-phase5-node-process-final-20261005/bin/sf-pki",
+        "--mode",
+        "public-keys",
+        "--dir",
+        "/private/tmp/smartfactory-phase5-node-process-final-20261005/private/pki",
+        "--node",
+        "edge-a",
+        "--master-key",
+        "/private/tmp/smartfactory-phase5-node-process-final-20261005/private/edge-a.master"
+      ],
+      "cwd": "/path/to/SmartFactory-2026",
+      "exit_code": 0,
+      "started_at": 1791182329.1225522,
+      "elapsed_seconds": 0.004866838455200195,
+      "stdout": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/public-keys-edge-a.stdout.log",
+      "stderr": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/public-keys-edge-a.stderr.log",
+      "source_before": null,
+      "source_after": null,
+      "input_unchanged": null,
+      "raw_log_sha256s": {
+        "stdout": "54533660893def0bf77e4773d4fd968a966b5bf2916de015270f7c28c65ae15e",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "top_pass": [],
+      "all_pass_count": 0,
+      "failed": [],
+      "skipped": [],
+      "race_warning": false
+    },
+    {
+      "name": "public-keys-edge-b",
+      "argv": [
+        "/private/tmp/smartfactory-phase5-node-process-final-20261005/bin/sf-pki",
+        "--mode",
+        "public-keys",
+        "--dir",
+        "/private/tmp/smartfactory-phase5-node-process-final-20261005/private/pki",
+        "--node",
+        "edge-b",
+        "--master-key",
+        "/private/tmp/smartfactory-phase5-node-process-final-20261005/private/edge-b.master"
+      ],
+      "cwd": "/path/to/SmartFactory-2026",
+      "exit_code": 0,
+      "started_at": 1791182329.1278021,
+      "elapsed_seconds": 0.004807949066162109,
+      "stdout": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/public-keys-edge-b.stdout.log",
+      "stderr": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/public-keys-edge-b.stderr.log",
+      "source_before": null,
+      "source_after": null,
+      "input_unchanged": null,
+      "raw_log_sha256s": {
+        "stdout": "e8334151496a15952b21a17a7fb020231e5f27aa512cb169fff0d88913c261b5",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "top_pass": [],
+      "all_pass_count": 0,
+      "failed": [],
+      "skipped": [],
+      "race_warning": false
+    }
+  ],
+  "binaries": [
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-process-final-20261005/bin/sf-pki",
+      "sha256": "5a597f332266d7df3b15a0a52d56b96d7212ca386cd69b81af14abf0d312ee38",
+      "bytes": 6399778
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-process-final-20261005/bin/sf-node-configuration-fixture",
+      "sha256": "eee7425dcd053b14bd107a3d344da9ee86f93f4738112e5ef250213c01b42edb",
+      "bytes": 54969826
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-process-final-20261005/bin/sf-edge",
+      "sha256": "3d7dab79a44892bb2664191dfc3694b7e8f1b514ba930e52dca84e189cc48ac6",
+      "bytes": 54953138
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-process-final-20261005/bin/sf-cloud",
+      "sha256": "98bd3c639e86b9292d3d291e93fa4597debe57a08ab3732f574860474d2d447e",
+      "bytes": 54953138
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-process-final-20261005/bin/dt-node-configuration-fixture",
+      "sha256": "c6b559c0e670379a543a167dcdb696f6dd4ae68cff353d78cdbe4761c33238c9",
+      "bytes": 25476690
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-process-final-20261005/bin/sf-contracts",
+      "sha256": "5d444a2913be2103ebe2a4c0706aecbc7edb707f028c085a287bb8331ebc3915",
+      "bytes": 46943682
+    }
+  ],
+  "artifacts": {
+    "source_inputs": {
+      "path": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/local-source-inputs.json",
+      "sha256": "0a8b806e72181b44295e4abf2eea3e47966e8cf008d979a25ad88a9ff7126bb5",
+      "records": 3444
+    },
+    "http": {
+      "path": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/http.json",
+      "sha256": "626b515671fdaa39259ae73736c5c62080f4ac98c2c743456d7634b2e15173ab",
+      "records": 149,
+      "status_counts": {
+        "200": 125,
+        "400": 9,
+        "401": 3,
+        "403": 4,
+        "409": 1,
+        "422": 6,
+        "503": 1
+      }
+    },
+    "assertions": {
+      "path": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/assertions.json",
+      "sha256": "621751ee2ce958b4695d5f54870135a266d689067bd20a686cc31d52c62c62d0",
+      "records": 54,
+      "passed": 39,
+      "process_exits": 15
+    },
+    "schema_checks": {
+      "path": "/private/tmp/smartfactory-phase5-node-process-final-20261005/evidence/schema-checks.json",
+      "sha256": "37a357bc31f17175dc0af0274ac304403951b315b4dcd17ad4fc73780ad3de75",
+      "records": 12
+    }
+  },
+  "unique_hashed_files": 3372,
+  "findings": []
+}

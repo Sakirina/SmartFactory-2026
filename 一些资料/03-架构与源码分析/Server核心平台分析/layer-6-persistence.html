@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>持久化层 · ThingsBoard 核心平台拆解</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="components.css">
+  <style>
+    body { --accent:#059669; --accent-soft:rgba(5,150,105,0.08); --accent-line:rgba(5,150,105,0.2); }
+  </style>
+</head>
+<body data-accent="emerald">
+  <header>
+    <nav>
+      <a class="back-link" href="index.html">返回总览</a>
+      <div class="crumb">核心平台 <span class="sep">/</span> <b>⑥ 持久化层</b></div>
+      <div class="nav-mini">
+        <a href="layer-1-access.html">接入层</a>
+        <a href="layer-2-transport.html">传输层</a>
+        <a href="layer-3-queue.html">消息总线</a>
+        <a href="layer-4-core.html">核心处理</a>
+        <a href="layer-5-platform-services.html">支撑服务</a>
+      </div>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-inner">
+      <div class="hero-eyebrow"><span class="layer-no">6</span> 第六层 · Persistence</div>
+      <h1>持久化层<span class="en">四类存储，各对应一种访问模式</span></h1>
+      <p class="hero-lead">这是数据最终沉淀下来的地方。它并非一个大而全的数据库，而是四类各有所长的存储：关系型数据库守护结构化的元数据，时序库承接海量的遥测历史，缓存为热点数据加速，对象存储负责固件这类大文件。把它们分开，是因为不同的数据有着截然不同的读写脾性。</p>
+      <dl class="hero-facts">
+        <div class="fact"><dt>关系型</dt><dd>PostgreSQL</dd></div>
+        <div class="fact"><dt>时序</dt><dd>PostgreSQL / TimescaleDB · Cassandra</dd></div>
+        <div class="fact"><dt>缓存</dt><dd>Caffeine · Redis</dd></div>
+        <div class="fact"><dt>统一访问</dt><dd>dao 模块</dd></div>
+      </dl>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <section>
+      <div class="reveal">
+        <div class="section-label">Overview</div>
+        <h2>这一层在做什么</h2>
+      </div>
+      <div class="prose reveal rd1">
+        <p>上层的服务并不直接面对具体的数据库，而是统一通过 dao 模块的接口来读写数据。这层抽象的好处很直接：底层换库、或在不同存储后端之间切换，对业务代码而言是透明的。开发者面对的始终是"保存这条遥测""查出这个实体"这样的语义，而非某个数据库的方言。</p>
+        <p>抽象之下，数据被分流到四类存储里。这种分流并非随意为之，而是顺着每类数据自身的特点来安排——结构化的元数据、不断追加的时序、需要加速的热点、以及体积庞大的固件，各自交给最擅长处理它的那种存储。</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="reveal">
+        <div class="section-label">Internals</div>
+        <h2>内部结构</h2>
+        <p class="section-desc">上方是统一的 dao 访问层，下方四类存储各自承接一类数据，并标注了它们各自的访问模式。</p>
+      </div>
+      <div class="diagram-frame reveal rd1" data-cap="持久化层 · 四类存储与各自的访问模式（点击空白处关闭）">
+        <span class="diagram-hint">点击放大</span>
+        <img src="diagrams/persistence.svg" alt="持久化层四类存储：关系型 PostgreSQL、时序库、缓存、OTA 对象存储，经 dao 统一访问">
+      </div>
+    </section>
+
+    <section>
+      <div class="reveal">
+        <div class="section-label">Stores</div>
+        <h2>四类存储，逐一拆开</h2>
+      </div>
+      <div class="grid cols-2">
+        <div class="card reveal rd1">
+          <h3>关系型 · PostgreSQL <span class="tag">元数据底座</span></h3>
+          <p>存放平台的结构化元数据：设备、资产、客户等实体，实体之间的关系，仪表盘、规则链、用户与权限、告警、组件配置等等。这类数据结构稳定、改动不频繁，却经常需要跨表关联与事务保证，关系型数据库正合用。</p>
+          <div class="src"><code>dao/sql · model</code></div>
+        </div>
+        <div class="card reveal rd2">
+          <h3>时序 · Time-Series <span class="tag">遥测历史</span></h3>
+          <p>承接随时间不断追加的遥测数据。它有两种可选的后端：基于 PostgreSQL 或 TimescaleDB 的实现，以及基于 Apache Cassandra 的实现，可按规模二选一。关注点落在海量追加写与按时间范围扫描的效率上。</p>
+          <div class="src"><code>dao/sqlts（关系型时序） · dao/nosql（Cassandra）</code></div>
+        </div>
+        <div class="card reveal rd3">
+          <h3>缓存 · Cache <span class="tag">加速</span></h3>
+          <p>把实体、凭据、会话、最新值这类高频读取的热点数据，放在更快的位置。单体形态默认使用进程内的 Caffeine 本地缓存；集群形态则换成 Redis 分布式缓存，由多个实例共享。</p>
+          <div class="src"><code>CACHE_TYPE: caffeine | redis</code></div>
+        </div>
+        <div class="card reveal rd4">
+          <h3>对象 / OTA 存储 <span class="tag">大文件</span></h3>
+          <p>存放固件与软件包这类体积较大的二进制文件。下发时把大文件切分成块，逐块推送给设备，并配合 OTA 主题跟踪每台设备的升级进度，以及固件与设备之间的配对关系。</p>
+          <div class="src"><code>tb_ota_package</code></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="reveal">
+        <div class="section-label">Design Note</div>
+        <h2>为什么结构化数据与时序数据要分库</h2>
+      </div>
+      <div class="prose reveal rd1">
+        <p>这两类数据的读写脾性几乎相反。元数据——实体、关系、仪表盘——结构稳定、改动不频繁，但经常需要跨多张表做关联查询，并且要求事务来保证一致性，这正是关系型数据库的拿手好戏。</p>
+        <p>遥测则走在另一个极端：它随时间源源不断地追加，体量极大，而查询多半是"取某一段时间内的值"这种形态，真正在意的是写入的吞吐与范围扫描的效率。把这两类数据合并到同一个库里，迟早会在两个方向上都顾此失彼——为关联查询优化的结构，未必扛得住海量追加；为追加写优化的结构，又难以胜任复杂关联。分库之后，各自选用最合适的存储引擎与索引方式，两边都能从容。</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="reveal">
+        <div class="section-label">Position</div>
+        <h2>在整条链路中的位置</h2>
+        <p class="section-desc">持久化层是上行数据的终点。规则链处理完的遥测与属性，最终在这里沉淀下来。</p>
+      </div>
+      <div class="passage reveal rd1">
+        <span class="node">① 接入层</span>
+        <span class="ar">→</span>
+        <span class="node">② 传输层</span>
+        <span class="ar">→</span>
+        <span class="node">③ 消息总线</span>
+        <span class="ar">→</span>
+        <span class="node">④ 核心处理</span>
+        <span class="ar">→</span>
+        <span class="node here">⑥ 持久化</span>
+      </div>
+      <div class="prose reveal rd2">
+        <p>在<a href="index.html#dataflow">总览页的端到端数据流</a>里，规则链中的存储节点把遥测写入时序库、把属性写入关系库，对应的正是数据抵达这一层的那一跳。数据在这里落定之后，既成为历史查询的依据，也通过缓存与 EDQS 的索引，支撑起仪表盘上那些实时与回溯的视图。</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="reveal">
+        <div class="section-label">Source Map</div>
+        <h2>源码位置</h2>
+      </div>
+      <div class="grid cols-3">
+        <div class="card reveal rd1"><h3>关系型与模型</h3><p>结构化实体的数据访问与实体模型。</p><div class="src"><code>dao/sql · dao/model</code></div></div>
+        <div class="card reveal rd2"><h3>时序存储</h3><p>两种时序后端的实现，可二选一。</p><div class="src"><code>dao/sqlts · dao/nosql</code></div></div>
+        <div class="card reveal rd3"><h3>缓存与配置</h3><p>缓存类型与各类参数的配置项。</p><div class="src"><code>common/cache · thingsboard.yml</code></div></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="siblings reveal">
+        <a class="sib" href="layer-5-platform-services.html"><span class="dir">← 上一层</span><span class="nm">⑤ 支撑服务 <span class="en">Platform Services</span></span></a>
+        <a class="sib next" href="index.html"><span class="dir">回到 →</span><span class="nm">总览 <span class="en">Overview</span></span></a>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <p>ThingsBoard 核心平台拆解 · 第六层 持久化层 · <a href="index.html">返回总览</a></p>
+      <div class="dots">
+        <span style="background:var(--amber)"></span><span style="background:var(--cyan)"></span>
+        <span style="background:var(--blue)"></span><span style="background:var(--teal)"></span>
+        <span style="background:var(--violet)"></span><span style="background:var(--emerald)"></span>
+      </div>
+    </div>
+  </footer>
+
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <span class="lightbox-close">&times;</span>
+    <img id="lightbox-img" src="" alt="放大查看">
+    <div class="lightbox-cap" id="lightbox-cap"></div>
+  </div>
+
+  <script src="deepdive.js"></script>
+</body>
+</html>

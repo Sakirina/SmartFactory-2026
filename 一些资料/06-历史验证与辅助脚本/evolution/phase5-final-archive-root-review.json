@@ -1,0 +1,25 @@
+{
+  "checked_at": "2026-10-07T05:20:20.119594+00:00",
+  "status": "passed",
+  "scope": "Coordinator independently hashes the stable archive and all regular file members against the exact final manifest; accepts safe directory members corresponding to the actual package and checks checksum text plus neutral ownership metadata",
+  "archive": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/delivery/SmartFactory-1.1.0-dev-linux-amd64-20261007-6c66570a31e7.tar.gz",
+    "bytes": 137796066,
+    "sha256": "376f11ba9f0b1f6319b22bccdc7f704d55d0567b306ca72a133005fa82099218"
+  },
+  "source_sha256": "6c66570a31e7f921e4830fa2a0c16c6947a589c0d4cb0c57aab5fd8d4ba1fdbe",
+  "index": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/delivery/SmartFactory-1.1.0-dev-linux-amd64-20261007-6c66570a31e7.json",
+    "sha256": "cc61b435cb42523b0fec55735dd3c052b57767ac04684f040c110057478f735a"
+  },
+  "regular_file_count": 1534,
+  "directory_count": 441,
+  "manifest_file_count": 1533,
+  "checksum_file": "/path/to/SmartFactory-2026/.local/evolution/delivery/SmartFactory-1.1.0-dev-linux-amd64-20261007-6c66570a31e7.tar.gz.sha256",
+  "first_attempt": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-final-archive-root-review-first-attempt.json",
+    "sha256": "6306b49bb267cf62c6a375d192ae85e0cbb9366f4f72e7135a06915671620528",
+    "explanation": "Coordinator initial checker incorrectly rejected normal directory entries; every regular file already matched. Corrected checker validates normal directories against the actual package, with all other content and ownership checks retained."
+  },
+  "findings": []
+}

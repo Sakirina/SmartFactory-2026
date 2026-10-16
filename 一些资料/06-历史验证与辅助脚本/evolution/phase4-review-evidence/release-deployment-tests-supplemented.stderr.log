@@ -1,0 +1,38 @@
+test_native_generator_matches_entire_committed_compose (test_message_deploy.MessageDeploymentTests.test_native_generator_matches_entire_committed_compose) ... ok
+test_release_exports_intermediate_source_license_and_verified_bytes (test_message_deploy.MessageDeploymentTests.test_release_exports_intermediate_source_license_and_verified_bytes) ... ok
+test_runtime_profiles_use_target_protocol_probe_and_persistent_nats (test_message_deploy.MessageDeploymentTests.test_runtime_profiles_use_target_protocol_probe_and_persistent_nats) ... ok
+test_site_generator_matches_committed_compose_and_keeps_file_budget (test_message_deploy.MessageDeploymentTests.test_site_generator_matches_committed_compose_and_keeps_file_budget) ... ok
+test_native_generator_matches_major_version_layout (test_postgres_deploy.PostgresDeploymentTests.test_native_generator_matches_major_version_layout) ... ok
+test_runtime_capacity_and_site_keep_all_declared_volumes (test_postgres_deploy.PostgresDeploymentTests.test_runtime_capacity_and_site_keep_all_declared_volumes) ... ok
+test_symlinks_and_nested_output_are_not_included (test_release.ReleaseContentsTests.test_symlinks_and_nested_output_are_not_included) ... ok
+test_tracked_internal_files_stay_out_of_both_bundle_copies (test_release.ReleaseContentsTests.test_tracked_internal_files_stay_out_of_both_bundle_copies) ... ok
+test_unpacked_source_keeps_the_same_public_contents (test_release.ReleaseContentsTests.test_unpacked_source_keeps_the_same_public_contents) ... ok
+test_wiki_links_work_in_bundle_and_source_snapshot (test_release.ReleaseContentsTests.test_wiki_links_work_in_bundle_and_source_snapshot) ... ok
+test_frontend_alias_declaration_drift_is_rejected (test_toolchains.ToolchainConsistencyTests.test_frontend_alias_declaration_drift_is_rejected) ... ok
+test_frontend_alias_target_and_version_drift_are_rejected (test_toolchains.ToolchainConsistencyTests.test_frontend_alias_target_and_version_drift_are_rejected) ... ok
+test_frontend_lock_drift_is_rejected (test_toolchains.ToolchainConsistencyTests.test_frontend_lock_drift_is_rejected) ... ok
+test_selected_configuration_is_consistent (test_toolchains.ToolchainConsistencyTests.test_selected_configuration_is_consistent) ... FAIL
+test_unknown_compose_image_and_conflicting_sizes_are_rejected (test_toolchains.ToolchainConsistencyTests.test_unknown_compose_image_and_conflicting_sizes_are_rejected) ... ok
+test_workspace_runtime_and_no_implicit_go_download (test_toolchains.ToolchainConsistencyTests.test_workspace_runtime_and_no_implicit_go_download) ... ok
+test_wrong_go_module_and_ci_version_are_rejected (test_toolchains.ToolchainConsistencyTests.test_wrong_go_module_and_ci_version_are_rejected) ... ok
+
+======================================================================
+FAIL: test_selected_configuration_is_consistent (test_toolchains.ToolchainConsistencyTests.test_selected_configuration_is_consistent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/smartfactory-phase4-independent-20261005/workspace/tests/test_toolchains.py", line 35, in test_selected_configuration_is_consistent
+    self.assertEqual(toolchain.configuration_errors(self.root), [])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['frontend dependencies differ from centralized locked versions'] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+'frontend dependencies differ from centralized locked versions'
+
+- ['frontend dependencies differ from centralized locked versions']
++ []
+
+----------------------------------------------------------------------
+Ran 17 tests in 0.320s
+
+FAILED (failures=1)

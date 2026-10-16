@@ -1,0 +1,394 @@
+{
+  "check": "five_scene_protocol_control_and_cloud_edge_observation",
+  "storage": "running deployment determines persistence; memory demo is supported",
+  "started_ms": 1789880957179,
+  "steps": [
+    {
+      "label": "temperature-high",
+      "device": "climate-1",
+      "input": {
+        "temperature": 34
+      },
+      "output": "fan",
+      "expected": true,
+      "feedback": {
+        "cloud": {
+          "value": true,
+          "observed_ms": 1789880957707,
+          "quality": "GOOD",
+          "entity_revision": 1,
+          "source_id": "edge-a"
+        },
+        "edge": {
+          "value": true,
+          "observed_ms": 1789880957707,
+          "quality": "GOOD",
+          "entity_revision": 1,
+          "source_id": "edge-a"
+        }
+      },
+      "elapsed_ms": 993
+    },
+    {
+      "label": "temperature-recovered",
+      "device": "climate-1",
+      "input": {
+        "temperature": 26
+      },
+      "output": "fan",
+      "expected": false,
+      "feedback": {
+        "cloud": {
+          "value": false,
+          "observed_ms": 1789880958707,
+          "quality": "GOOD",
+          "entity_revision": 1,
+          "source_id": "edge-a"
+        },
+        "edge": {
+          "value": false,
+          "observed_ms": 1789880958707,
+          "quality": "GOOD",
+          "entity_revision": 1,
+          "source_id": "edge-a"
+        }
+      },
+      "elapsed_ms": 830
+    },
+    {
+      "label": "temperature-low",
+      "device": "climate-1",
+      "input": {
+        "temperature": 15
+      },
+      "output": "heater",
+      "expected": true,
+      "feedback": {
+        "cloud": {
+          "value": true,
+          "observed_ms": 1789880959708,
+          "quality": "GOOD",
+          "entity_revision": 1,
+          "source_id": "edge-a"
+        },
+        "edge": {
+          "value": true,
+          "observed_ms": 1789880959708,
+          "quality": "GOOD",
+          "entity_revision": 1,
+          "source_id": "edge-a"
+        }
+      },
+      "elapsed_ms": 996
+    },
+    {
+      "label": "low-temperature-recovered",
+      "device": "climate-1",
+      "input": {
+        "temperature": 22
+      },
+      "output": "heater",
+      "expected": false,
+      "feedback": {
+        "cloud": {
+          "value": false,
+          "observed_ms": 1789880960708,
+          "quality": "GOOD",
+          "entity_revision": 1,
+          "source_id": "edge-a"
+        },
+        "edge": {
+          "value": false,
+          "observed_ms": 1789880960708,
+          "quality": "GOOD",
+          "entity_revision": 1,
+          "source_id": "edge-a"
+        }
+      },
+      "elapsed_ms": 979
+    },
+    {
+      "label": "humidity-high",
+      "device": "climate-1",
+      "input": {
+        "humidity": 80
+      },
+      "output": "dehumidifier",
+      "expected": true,
+      "feedback": {
+        "cloud": {
+          "value": true,
+          "observed_ms": 1789880962208,
+          "quality": "GOOD",
+          "entity_revision": 1,
+          "source_id": "edge-a"
+        },
+        "edge": {
+          "value": true,
+          "observed_ms": 1789880962208,
+          "quality": "GOOD",
+          "entity_revision": 1,
+          "source_id": "edge-a"
+        }
+      },
+      "elapsed_ms": 1689
+    },
+    {
+      "label": "high-humidity-recovered",
+      "device": "climate-1",
+      "input": {
+        "humidity": 60
+      },
+      "output": "dehumidifier",
+      "expected": false,
+      "feedback": {
+        "cloud": {
+          "value": false,
+          "observed_ms": 1789880963208,
+          "quality": "GOOD",
+          "entity_revision": 1,
+          "source_id": "edge-a"
+        },
+        "edge": {
+          "value": false,
+          "observed_ms": 1789880963208,
+          "quality": "GOOD",
+          "entity_revision": 1,
+          "source_id": "edge-a"
+        }
+      },
+      "elapsed_ms": 1028
+    },
+    {
+      "label": "humidity-low",
+      "device": "climate-1",
+      "input": {
+        "humidity": 20
+      },
+      "output": "humidifier",
+      "expected": true,
+      "feedback": {
+        "cloud": {
+          "value": true,
+          "observed_ms": 1789880964209,
+          "quality": "GOOD",
+          "entity_revision": 1,
+          "source_id": "edge-a"
+        },
+        "edge": {
+          "value": true,
+          "observed_ms": 1789880964209,
+          "quality": "GOOD",
+          "entity_revision": 1,
+          "source_id": "edge-a"
+        }
+      },
+      "elapsed_ms": 931
+    },
+    {
+      "label": "low-humidity-recovered",
+      "device": "climate-1",
+      "input": {
+        "humidity": 45
+      },
+      "output": "humidifier",
+      "expected": false,
+      "feedback": {
+        "cloud": {
+          "value": false,
+          "observed_ms": 1789880965209,
+          "quality": "GOOD",
+          "entity_revision": 1,
+          "source_id": "edge-a"
+        },
+        "edge": {
+          "value": false,
+          "observed_ms": 1789880965209,
+          "quality": "GOOD",
+          "entity_revision": 1,
+          "source_id": "edge-a"
+        }
+      },
+      "elapsed_ms": 1400
+    },
+    {
+      "label": "presence-lights-on",
+      "device": "light-1",
+      "input": {
+        "presence": true
+      },
+      "output": "light",
+      "expected": true,
+      "feedback": {
+        "cloud": {
+          "value": true,
+          "observed_ms": 1789880967392,
+          "quality": "GOOD",
+          "entity_revision": 1,
+          "source_id": "edge-a"
+        },
+        "edge": {
+          "value": true,
+          "observed_ms": 1789880967392,
+          "quality": "GOOD",
+          "entity_revision": 1,
+          "source_id": "edge-a"
+        }
+      },
+      "elapsed_ms": 1660
+    },
+    {
+      "label": "absence-delayed-lights-off",
+      "device": "light-1",
+      "input": {
+        "presence": false
+      },
+      "output": "light",
+      "expected": false,
+      "feedback": {
+        "cloud": {
+          "value": false,
+          "observed_ms": 1789880970392,
+          "quality": "GOOD",
+          "entity_revision": 1,
+          "source_id": "edge-a"
+        },
+        "edge": {
+          "value": false,
+          "observed_ms": 1789880970392,
+          "quality": "GOOD",
+          "entity_revision": 1,
+          "source_id": "edge-a"
+        }
+      },
+      "elapsed_ms": 3051
+    },
+    {
+      "label": "smoke-extraction",
+      "device": "gas-1",
+      "input": {
+        "smoke": 10
+      },
+      "output": "extractor",
+      "expected": true,
+      "feedback": {
+        "cloud": {
+          "value": true,
+          "observed_ms": 1789880972036,
+          "quality": "GOOD",
+          "entity_revision": 1,
+          "source_id": "edge-a"
+        },
+        "edge": {
+          "value": true,
+          "observed_ms": 1789880972036,
+          "quality": "GOOD",
+          "entity_revision": 1,
+          "source_id": "edge-a"
+        }
+      },
+      "elapsed_ms": 1297
+    },
+    {
+      "label": "combustible-extraction",
+      "device": "gas-1",
+      "input": {
+        "combustible": 40
+      },
+      "output": "extractor",
+      "expected": true,
+      "feedback": {
+        "cloud": {
+          "value": true,
+          "observed_ms": 1789880973590,
+          "quality": "GOOD",
+          "entity_revision": 1,
+          "source_id": "edge-a"
+        },
+        "edge": {
+          "value": true,
+          "observed_ms": 1789880973590,
+          "quality": "GOOD",
+          "entity_revision": 1,
+          "source_id": "edge-a"
+        }
+      },
+      "elapsed_ms": 945
+    },
+    {
+      "label": "co-extraction",
+      "device": "gas-1",
+      "input": {
+        "co": 60
+      },
+      "output": "extractor",
+      "expected": true,
+      "feedback": {
+        "cloud": {
+          "value": true,
+          "observed_ms": 1789880975727,
+          "quality": "GOOD",
+          "entity_revision": 1,
+          "source_id": "edge-a"
+        },
+        "edge": {
+          "value": true,
+          "observed_ms": 1789880975727,
+          "quality": "GOOD",
+          "entity_revision": 1,
+          "source_id": "edge-a"
+        }
+      },
+      "elapsed_ms": 1449
+    },
+    {
+      "label": "agv-obstacle-stop",
+      "device": "agv-1",
+      "input": {
+        "distance": 25
+      },
+      "output": "stopped",
+      "expected": true,
+      "feedback": {
+        "cloud": {
+          "value": true,
+          "observed_ms": 1789880976709,
+          "quality": "GOOD",
+          "entity_revision": 1,
+          "source_id": "edge-a"
+        },
+        "edge": {
+          "value": true,
+          "observed_ms": 1789880976709,
+          "quality": "GOOD",
+          "entity_revision": 1,
+          "source_id": "edge-a"
+        }
+      },
+      "elapsed_ms": 699
+    },
+    {
+      "label": "agv-approved-resume",
+      "downlink_id": "scene-agv-resume-1789880978187418000",
+      "feedback": {
+        "cloud": {
+          "value": false,
+          "observed_ms": 1789880978708,
+          "quality": "GOOD",
+          "entity_revision": 1,
+          "source_id": "edge-a"
+        },
+        "edge": {
+          "value": false,
+          "observed_ms": 1789880978708,
+          "quality": "GOOD",
+          "entity_revision": 1,
+          "source_id": "edge-a"
+        }
+      }
+    }
+  ],
+  "status": "failed",
+  "error": "exact goods count",
+  "finished_ms": 1789881039141
+}

@@ -1,0 +1,26 @@
+{
+  "finding_id": "P4-Q03",
+  "recorded_at": "2026-10-05T00:09:22.216413+00:00",
+  "basis": "Actual PostgreSQL specialist run and owner-confirmed cause",
+  "log": {
+    "path": ".local/evolution/query-evidence/postgres-first.jsonl",
+    "sha256": "dd53a4a4519ae64f86371584d01dee2946cdc8b1746894adb946443a2741b135"
+  },
+  "counts_at_review": {
+    "sub_fail": 12,
+    "sub_pass": 3,
+    "top_fail": 2,
+    "package_fail": 2,
+    "top_pass": 1,
+    "package_pass": 1
+  },
+  "observed_errors": [
+    "query_projection_test.go:117: ERROR: recursive query \"permitted\" column 1 has collation \"default\" in non-recursive term but collation \"C\" overall (SQLSTATE 42P21)",
+    "queries_test.go:103: {[]   false {[] []       <nil> <nil> 0 0  0 } {{0 0 0 0 <nil> }  [] [] []}} ERROR: recursive query \"permitted\" column 1 has collation \"default\" in non-recursive term but collation \"C\" overall (SQLSTATE 42P21)",
+    "queries_test.go:158: ERROR: recursive query \"permitted\" column 1 has collation \"default\" in non-recursive term but collation \"C\" overall (SQLSTATE 42P21)"
+  ],
+  "cause": "Recursive permitted CTE non-recursive root parameters use default collation while projected entity IDs use C collation",
+  "fix_owner": "phase4_query_subscriptions",
+  "verification": "Use one consistent collation for PostgreSQL root and recursive terms; verify PostgreSQL scoped queries, pagination and subscriptions, plus SQLite regression",
+  "separate_fixture_issue": "Late-commit fixture inserted two new entities and waited on existing collection membership serialization; owner will use independent updates of existing entities, bounded context, cleanup, and retain original stack"
+}

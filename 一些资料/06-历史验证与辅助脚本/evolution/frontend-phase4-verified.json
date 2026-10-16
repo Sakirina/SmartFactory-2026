@@ -1,0 +1,985 @@
+{
+  "schema": "smartfactory.frontend-phase4-verification/1",
+  "created_at": "2026-10-05T04:20:55.964146+00:00",
+  "role": "phase4_frontend",
+  "status": "complete",
+  "scope": "第四阶段前端实现、实际浏览器、持久状态、审计与页面使用说明",
+  "phase_acceptance_owner": "root，独立审查与阶段总体状态由主协调维护",
+  "summary": "第四阶段页面交付完成。原正式冻结组合28项浏览器流程、27项有意义的既有及新增单元回归、18项只读持久状态和412条审计签名通过；R1仅修改手机标题操作区CSS，另完成九种非空和九种空数据布局、200条新增审计签名，并同步工作区最终产物。所有本角色服务已正常退出。",
+  "final_frontend": {
+    "revision": "R1",
+    "input_manifest": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/frontend-phase4/final-inputs-r1.json",
+      "sha256": "acdab3ec47f97a2b2db1308d2d48ad5ccf6e98380e34705696d2cb874cc56361",
+      "bytes": 15810048
+    },
+    "freeze": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/frontend-phase4/freeze-r1.json",
+      "sha256": "28f93d822820624c6a075a931dd1ed077ba5c6dbd003d2d9684a6fd3fde087a0",
+      "bytes": 2326
+    },
+    "source_sha256": "1e481ea83be42dd86eb719ffcf5561123172a98adfd5126237df6c79ed5ca07b",
+    "all_inputs_sha256": "6aaa972048a64d5d965b54a5b82a598b2cc2faf3f2d640ced7cebee11ae27f5c",
+    "output_tree_sha256": "264f50c2d3c6ece82fa5555c8a70e01ad7918d56c9b6b1523408fe155ee91b03",
+    "workspace": "/private/tmp/smartfactory-frontend-phase4-20261005/clean-build-r1",
+    "static": "/private/tmp/smartfactory-frontend-phase4-20261005/dist-frozen-r1",
+    "actual_input_count": 30863,
+    "workspace_files": 227,
+    "installed_dependency_files": 25836,
+    "node_runtime_files": 4800,
+    "static_files": 15,
+    "hash_algorithm": "SHA256 of compact JSON array of {path,sha256}, sorted by path; individual file SHA256 over original bytes",
+    "provenance_check": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/frontend-phase4/final-r1-provenance-check.json",
+      "sha256": "1909dbd2ff8cdc4b92f074686150389b1a58b685f64164d8e3ac53a6593cd888",
+      "bytes": 249
+    },
+    "workspace_dist": "/path/to/SmartFactory-2026/Frontends/dist",
+    "workspace_dist_copy": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/frontend-phase4/workspace-dist-r1-copy.json",
+      "sha256": "bc3150c256b0885673631204b9f4e576bf462913e19929165e6ca3103d85ac2d",
+      "bytes": 4208
+    }
+  },
+  "version_history": [
+    {
+      "revision": "03:43过渡版本",
+      "input_manifest_original": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/frontend-phase4/final-inputs-transition-original.json",
+        "sha256": "676c5f2cff2553552a294cc1031cd7c3ab6229c3ff2f7308fec29ff6cf56307f",
+        "bytes": 15808833
+      },
+      "preserved_old_source_manifest": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/frontend-phase4/final-inputs-axis-preview.json",
+        "sha256": "d106ef1395c25695e18a9ce1ff0509fc188bae1de4fe52dd1ff58f3f73bb06c5",
+        "bytes": 15808862
+      },
+      "source_sha256": "f3cc91cc07835021efad4f66676cecc18773be232a3bb032f40231ef68119e99",
+      "static": "/private/tmp/smartfactory-frontend-phase4-20261005/dist-final-reviewed",
+      "output_tree_sha256": "61d0a38c09ec4fa7f0e475d265faef75b148e3407c9fe9a5bbc86260811d144a",
+      "relationship": "正式冻结前唯一源码差异为chart-data.ts，随后在亚秒窗口为时间刻度显示毫秒；原始manifest恢复后与主协调/独立审查首次676c5f2c摘要相同，旧保存路径修订版另列d106ef13，实际旧源码与15产物保留"
+    },
+    {
+      "revision": "正式冻结",
+      "manifest": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/frontend-phase4/final-inputs.json",
+        "sha256": "bb13eac761da19129837353b4ecf3ba0504d797d4c065083b267677038aca1ba",
+        "bytes": 15808580
+      },
+      "freeze": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/frontend-phase4/freeze.json",
+        "sha256": "12be7bda3746ec452a9c134c7bc3d91fcbf6e81b63a67b0526f68d90934f0211",
+        "bytes": 1629
+      },
+      "source_sha256": "7e8c592db46c524f65a197f9af6d75aa0baf1e3877b4c00cabde69212576c8a5",
+      "all_inputs_sha256": "9ee853259f2f3f42ece7ef42a50b0c54a354289e47e8f62eee89f40825626d72",
+      "static": "/private/tmp/smartfactory-frontend-phase4-20261005/dist-frozen",
+      "output_sha256": "80727d562cd33cf826b8b264926860f4acd03eb8e7081b01edbbe19bc275577f",
+      "browser": "本报告全部28项逻辑流程及18项持久状态/412条审计的实际受测版本；固定源、依赖与15产物继续保留"
+    },
+    {
+      "revision": "R1",
+      "predecessor_manifest": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/frontend-phase4/final-inputs.json",
+        "sha256": "bb13eac761da19129837353b4ecf3ba0504d797d4c065083b267677038aca1ba",
+        "bytes": 15808580
+      },
+      "change": "唯一源码变动Frontends/src/style.css，手机标题操作区换行修正；TypeScript、生成客户端、查询、业务、AI、锁文件、Node和全部依赖原文与正式冻结逐字节一致",
+      "manifest": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/frontend-phase4/final-inputs-r1.json",
+        "sha256": "acdab3ec47f97a2b2db1308d2d48ad5ccf6e98380e34705696d2cb874cc56361",
+        "bytes": 15810048
+      },
+      "verification": "生产构建、三入口九非空与九空数据页面及200审计签名通过；工作区dist与固定15产物一致"
+    }
+  ],
+  "backend_combination": {
+    "fixed_workspace": "/private/tmp/smartfactory-ai-a02-final-20261005-110928/workspace",
+    "ai_source_report": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/ai-evidence-a02-verified.json",
+      "sha256": "d2a4d680ff6c779f332c446f7844b840442e08971146583d62e1a233eb55cafa",
+      "bytes": 127141
+    },
+    "ai_actual_build_inputs": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/ai-evidence-a02/final-build-inputs.json",
+      "sha256": "d2c6918f65145d9219aa58d034ba732f2834521ab06e6f7da884d6eba6563688",
+      "bytes": 2329608
+    },
+    "business_actual_build_inputs": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/frontend-phase4/business-a02-build-inputs.json",
+      "sha256": "1f59d1362d29ecee1f70475be5f4720964fa1cafb91619b0c0dd3553866187ed",
+      "bytes": 1715136
+    },
+    "runtime_binary_mapping": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/frontend-phase4/runtime-frozen-processes.json",
+      "sha256": "f19182460250f8094da46de0bbd52cfbb6fccfe550b99f5466e9ecebfe5bdb45",
+      "bytes": 5586
+    },
+    "r1_runtime_mapping": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/frontend-phase4/runtime-r1-processes.json",
+      "sha256": "9f50c0afb971a93d066f28f4355b0c60790f0396fabb96cbb45e6dc9f7fea684",
+      "bytes": 2876
+    },
+    "runtime": "/private/tmp/smartfactory-frontend-phase4-20261005/frozen-runtime",
+    "r1_runtime": "/private/tmp/smartfactory-frontend-phase4-20261005/layout-r1-runtime",
+    "note": "业务fixture从同一固定A02源码构建，601依赖包/3006实际输入；AI fixture、sf-cloud及sf-edge使用AI原专业A02固定二进制。旧业务v3和AI v1只用于各自早期记录，最终浏览器采用A02组合"
+  },
+  "contracts": {
+    "openapi": {
+      "path": "/path/to/SmartFactory-2026/contracts/1.0/openapi.json",
+      "sha256": "1245e77f2d1eda6dfa02ef50249d53148585e94216c04fd772d54d1bb07cd3d1",
+      "bytes": 489608
+    },
+    "huma_schemas": 158,
+    "json_schemas": 157,
+    "operations": 96,
+    "assistant_operation": "post_assistant",
+    "generator": "正式openapi-typescript 7.13.0",
+    "generated_types": {
+      "path": "/path/to/SmartFactory-2026/contracts/1.0/api-types.ts",
+      "sha256": "e45ae77481978fa06741a287195fcc4bd70b491b0d56fdc91c6a5c0afdca39c8",
+      "bytes": 397399
+    },
+    "generated_routes": {
+      "path": "/path/to/SmartFactory-2026/Frontends/src/generated-routes.ts",
+      "sha256": "dea5fb7f829ca90fde251bf6fd64544305ee021787157e552c63b7d6e7bae79f",
+      "bytes": 8366
+    },
+    "view_types": {
+      "path": "/path/to/SmartFactory-2026/Frontends/src/types.ts",
+      "sha256": "ef870f66799cccc683dbf2018bd528af4600dd7ec944b39aed8aecfd58b0bdcb",
+      "bytes": 3662
+    },
+    "generated_client": {
+      "path": "/path/to/SmartFactory-2026/Frontends/src/generated-client.ts",
+      "sha256": "ed6bff693be7ab640964949327aef8a7c8606dca4a4fa46b3e1ba3b503723e42",
+      "bytes": 13553
+    },
+    "public_generation_owner": "phase4_ai_evidence维护OpenAPI/Schema及组合生成产物；前端按最终公开契约集成"
+  },
+  "toolchain": {
+    "node": "24.21.0",
+    "npm": "11.19.0",
+    "typescript_native": "7.0.2",
+    "typescript_api_compatibility": "6.0.2",
+    "vite": "8.1.5",
+    "echarts": "6.1.0",
+    "tanstack_query": "5.104.1",
+    "package": {
+      "path": "/path/to/SmartFactory-2026/Frontends/package.json",
+      "sha256": "0b4e619e7435c6e285632ab2c38d16fc45e4d72c568f4eb0dda9dbb10104786a",
+      "bytes": 1324
+    },
+    "lock": {
+      "path": "/path/to/SmartFactory-2026/Frontends/package-lock.json",
+      "sha256": "1c17fa03827d77b304e91e42046e87928edbb1d834366ebd04f41a929367d2d6",
+      "bytes": 107440
+    },
+    "central": {
+      "path": "/path/to/SmartFactory-2026/deploy/toolchains.json",
+      "sha256": "d75a2f5c734605c78526b0dd56badb2841f3c9d409a233b5c00fce771ea94245",
+      "bytes": 6069
+    },
+    "central_check": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/frontend-phase4/toolchain-final-check.json",
+      "sha256": "3be54ccc119eb816f917e140ac29ee3b200da9960409629403428c157de65584",
+      "bytes": 84
+    },
+    "clean_install": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/frontend-phase4/clean-npm-ci.log",
+      "sha256": "1594e7215a8a347ec12d67c2082249bd6124f2d7bab53b89705d2f64e92abca7",
+      "bytes": 450
+    },
+    "dependency_audit": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/frontend-phase4/clean-final-audit.json",
+      "sha256": "96e9a071f83a5a688e1ccb66fcacdbf4ee8b47cecf11bb49564f1c9b77624bd6",
+      "bytes": 364
+    },
+    "reported_vulnerabilities": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    },
+    "maintenance_sources": [
+      "https://github.com/apache/echarts/releases/tag/6.1.0",
+      "https://github.com/advisories/GHSA-fgmj-fm8m-jvvx",
+      "https://tanstack.com/query/latest/docs/framework/react/guides/query-keys"
+    ],
+    "note": "采用正式维护版本，包及锁文件与中央前端版本一致；ECharts公告修复范围和更新后的npm审计已核对"
+  },
+  "checks": {
+    "frozen_build": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/frontend-phase4/frozen-build.log",
+      "sha256": "7813355f3fa5b01516ddbde4407f6bf30dc0c53e6422f785b46df400d7b0dbef",
+      "bytes": 2370
+    },
+    "compatibility_typecheck": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/frontend-phase4/frozen-typecheck-compat.log",
+      "sha256": "dbf8b195504f182a5e9d8670ea7a33528a7835c3f43b5d751ec4367ca5694b11",
+      "bytes": 120
+    },
+    "unit": {
+      "passed": 27,
+      "failed": 0,
+      "skipped": 0,
+      "log": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/frontend-phase4/frozen-unit.log",
+        "sha256": "2d2cb60ef94dabfbdbe294d5c46ceabcab388bf7d4d3436d6a2440e4c743656e",
+        "bytes": 2913
+      }
+    },
+    "r1_build": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/frontend-phase4/frozen-r1-build.log",
+      "sha256": "272cdda470ec45ae7145254887f56e397ad733b0909b1f01c812d10db9a0d2cc",
+      "bytes": 2415
+    },
+    "api_consistency": "两次生产构建均执行check:api并通过",
+    "diff_check": "git diff --check -- Frontends docs/evolution/frontend-phase4.md deploy/toolchains.json，退出码0",
+    "build_notice": "Vite保留主包超过500kB的构建提示，原始日志记录实际大小；ECharts采用所需图表组件，功能与页面验证通过"
+  },
+  "browser": {
+    "actual_browser": "Google Chrome on macOS, Playwright actual headless browser",
+    "execution": "普通沙箱首次Mach注册失败的原始日志保留，后续通过已授权的可启动Chrome执行环境；没有自动审批拒绝",
+    "unified": {
+      "runner": {
+        "path": "/private/tmp/smartfactory-frontend-phase4-20261005/frozen-runtime/reports/runner-results.json",
+        "sha256": "98f5349d0cd99581f9ffbe9598d5a442b210f918948dfaaf1598b65f7b16d103",
+        "bytes": 3266
+      },
+      "log": {
+        "path": "/private/tmp/smartfactory-frontend-phase4-20261005/frozen-runtime/browser-unified.log",
+        "sha256": "07455e259085d24989b2c9b68a7596d1e08c9d24de8ffd81f47e7708019cc8fe",
+        "bytes": 2657
+      },
+      "start": "2026-10-05T03:53:08.233Z",
+      "end": "2026-10-05T03:55:06.415Z",
+      "passed": 28,
+      "failed": 0,
+      "flaky": 0,
+      "group_statistics": [
+        {
+          "group": "business",
+          "start": "2026-10-05T03:53:08.233Z",
+          "end": "2026-10-05T03:53:36.803Z",
+          "exit_code": 0,
+          "log": "/private/tmp/smartfactory-frontend-phase4-20261005/frozen-runtime/reports/browser-business.log",
+          "result": "/private/tmp/smartfactory-frontend-phase4-20261005/frozen-runtime/reports/browser-results-business.json",
+          "statistics": {
+            "startTime": "2026-10-05T03:53:08.491Z",
+            "duration": 28304.501,
+            "expected": 5,
+            "skipped": 1,
+            "unexpected": 0,
+            "flaky": 0
+          }
+        },
+        {
+          "group": "details",
+          "start": "2026-10-05T03:53:36.804Z",
+          "end": "2026-10-05T03:53:58.474Z",
+          "exit_code": 0,
+          "log": "/private/tmp/smartfactory-frontend-phase4-20261005/frozen-runtime/reports/browser-details.log",
+          "result": "/private/tmp/smartfactory-frontend-phase4-20261005/frozen-runtime/reports/browser-results-details.json",
+          "statistics": {
+            "startTime": "2026-10-05T03:53:37.014Z",
+            "duration": 21454.042999999998,
+            "expected": 6,
+            "skipped": 0,
+            "unexpected": 0,
+            "flaky": 0
+          }
+        },
+        {
+          "group": "state",
+          "start": "2026-10-05T03:53:58.474Z",
+          "end": "2026-10-05T03:54:11.585Z",
+          "exit_code": 0,
+          "log": "/private/tmp/smartfactory-frontend-phase4-20261005/frozen-runtime/reports/browser-state.log",
+          "result": "/private/tmp/smartfactory-frontend-phase4-20261005/frozen-runtime/reports/browser-results-state.json",
+          "statistics": {
+            "startTime": "2026-10-05T03:53:58.683Z",
+            "duration": 12896.316,
+            "expected": 5,
+            "skipped": 0,
+            "unexpected": 0,
+            "flaky": 0
+          }
+        },
+        {
+          "group": "precision",
+          "start": "2026-10-05T03:54:11.586Z",
+          "end": "2026-10-05T03:54:34.059Z",
+          "exit_code": 0,
+          "log": "/private/tmp/smartfactory-frontend-phase4-20261005/frozen-runtime/reports/browser-precision.log",
+          "result": "/private/tmp/smartfactory-frontend-phase4-20261005/frozen-runtime/reports/browser-results-precision.json",
+          "statistics": {
+            "startTime": "2026-10-05T03:54:11.790Z",
+            "duration": 22261.925,
+            "expected": 3,
+            "skipped": 0,
+            "unexpected": 0,
+            "flaky": 0
+          }
+        },
+        {
+          "group": "surfaces",
+          "start": "2026-10-05T03:54:34.059Z",
+          "end": "2026-10-05T03:54:39.694Z",
+          "exit_code": 0,
+          "log": "/private/tmp/smartfactory-frontend-phase4-20261005/frozen-runtime/reports/browser-surfaces.log",
+          "result": "/private/tmp/smartfactory-frontend-phase4-20261005/frozen-runtime/reports/browser-results-surfaces.json",
+          "statistics": {
+            "startTime": "2026-10-05T03:54:34.267Z",
+            "duration": 5421.499,
+            "expected": 1,
+            "skipped": 5,
+            "unexpected": 0,
+            "flaky": 0
+          }
+        },
+        {
+          "group": "ai",
+          "start": "2026-10-05T03:54:39.694Z",
+          "end": "2026-10-05T03:55:06.415Z",
+          "exit_code": 0,
+          "log": "/private/tmp/smartfactory-frontend-phase4-20261005/frozen-runtime/reports/browser-ai.log",
+          "result": "/private/tmp/smartfactory-frontend-phase4-20261005/frozen-runtime/reports/browser-results-ai.json",
+          "statistics": {
+            "startTime": "2026-10-05T03:54:39.900Z",
+            "duration": 26508.577,
+            "expected": 8,
+            "skipped": 0,
+            "unexpected": 0,
+            "flaky": 0
+          }
+        }
+      ],
+      "routing_skips": "business和surfaces共用一个6项文件，按组选择产生6次路由保护跳过；对应6项均在正确组执行通过"
+    },
+    "r1_nonempty": {
+      "runner": {
+        "path": "/private/tmp/smartfactory-frontend-phase4-20261005/layout-r1-runtime/reports/runner-results.json",
+        "sha256": "e67cddaf589fd52abe1c64663eb87df85da62fecd034242ba24488f3bd32efd0",
+        "bytes": 555
+      },
+      "evidence": "/private/tmp/smartfactory-frontend-phase4-20261005/layout-r1-runtime/browser-surfaces-final",
+      "combinations": 9
+    },
+    "r1_empty": {
+      "cloud_edge": {
+        "path": "/private/tmp/smartfactory-frontend-phase4-20261005/layout-r1-runtime/browser-empty-layout-r1/layout-results.json",
+        "sha256": "4b4438af9edcd1b84b432db97faa822500a724627a2a689cb27ba2a6a9ba41f5",
+        "bytes": 2350
+      },
+      "screen": {
+        "path": "/private/tmp/smartfactory-frontend-phase4-20261005/layout-r1-runtime/browser-empty-screen-r1/layout-results.json",
+        "sha256": "7a6d594298d3644a3901bc75f1dfbf858ce283ee66e3e2276e3a9a5cf7f4c4da",
+        "bytes": 720
+      },
+      "cloud_edge_script": {
+        "path": "/private/tmp/smartfactory-frontend-phase4-20261005/verify-heading-layout-r1.cjs",
+        "sha256": "cf4f2be4fd65c8a5779034e8517cb700d2c4694bd920777a1b8a761a851b7224",
+        "bytes": 3122
+      },
+      "screen_script": {
+        "path": "/private/tmp/smartfactory-frontend-phase4-20261005/verify-empty-screen-r1.cjs",
+        "sha256": "388ae2caa435d3036fbac91db18f570b112e1b607fadb6f3b3083ee95b6f5eff",
+        "bytes": 3661
+      },
+      "cloud_edge_log": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/frontend-phase4/browser-empty-layout-r1.log",
+        "sha256": "8577c4af4944901480338ea36d0c58665841964a31aebeb7eb88f30e22ea2b49",
+        "bytes": 269
+      },
+      "screen_log": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/frontend-phase4/browser-empty-screen-r1.log",
+        "sha256": "56bb585e6c81b57a1b4dbb1872bc64ecb079cc765e33c7c71be23b280686b6d5",
+        "bytes": 147
+      },
+      "combinations": 9,
+      "all_document_body_widths_equal_viewport": true,
+      "all_actual_horizontal_offsets": 0
+    },
+    "viewports": [
+      [
+        1440,
+        1000
+      ],
+      [
+        1024,
+        768
+      ],
+      [
+        390,
+        844
+      ]
+    ],
+    "entries": [
+      "index.html",
+      "edge.html",
+      "screen.html"
+    ],
+    "console": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/frontend-phase4/console-frozen-review.json",
+      "sha256": "7a3b865df05249b27910bcc4ea1a940db6656049ea9d80ff348c590b07a65eaa",
+      "bytes": 15163
+    },
+    "javascript_page_errors": 0,
+    "precision": {
+      "values": [
+        "-9007199254740993",
+        "18446744073709551615",
+        "9007199254740993",
+        "12.345678901234567",
+        "数字文本9007199254740993",
+        "true",
+        "精确聚合对象",
+        "BAD质量观测"
+      ],
+      "scope": "三套正式入口、工具提示、精确记录、完整JSON导出及大屏指标详情，原值、类型、质量、单位、来源与修订保持一致",
+      "evidence": "/private/tmp/smartfactory-frontend-phase4-20261005/frozen-runtime/browser-precision-final"
+    }
+  },
+  "persistence": {
+    "verification": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/frontend-phase4/persistence-frozen-check.json",
+      "sha256": "2688fc4a56f096237bf1a4ae2b3bdc0578cb4190608273f5f5d85d704427666a",
+      "bytes": 9174
+    },
+    "passed": 18,
+    "failed": 0,
+    "script": {
+      "path": "/private/tmp/smartfactory-frontend-phase4-20261005/verify-frozen-persistence.py",
+      "sha256": "1143f48e0e3dc58e5b05a700cc086c70d6c7a4ed24a4e75568ce4ec0c9a017d6",
+      "bytes": 10059
+    },
+    "mode": "五个正式冻结服务正常停止后，SQLite mode=ro；浏览器原请求/响应及模型记录与数据库独立核对",
+    "verification_initial_attempts": [
+      {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/frontend-phase4/persistence-frozen-first-error.json",
+        "sha256": "bbd69072d8781c98fd002486d80764d5aa37ced05535f01ca2d0c88f52591ecc",
+        "bytes": 606
+      },
+      {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/frontend-phase4/persistence-frozen-second-error.json",
+        "sha256": "e0c92109e46979e1d620d7bdb4c7b9dcd613c28e9cf20ab3ab16715e0ae7edc0",
+        "bytes": 322
+      },
+      {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/frontend-phase4/persistence-frozen-third-error.json",
+        "sha256": "9f16948ad2b0e712ecc5ee256a18106bf9770e94a5e4b3cffd2764a82f387d5f",
+        "bytes": 9176
+      },
+      {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/frontend-phase4/persistence-frozen-verification-notes.json",
+        "sha256": "9ee8519e596fede04b366fdd082e53e8bb24c0c71d84447199f9acfc43053a46",
+        "bytes": 946
+      }
+    ],
+    "note": "三协议保存来自现场数据库；告警幂等保存对象为已提交alarm/case/action_version，当前权限和原生状态在HTTP读取时装配；完成工单审计快照保存最终处理条目"
+  },
+  "audit": {
+    "frozen": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/frontend-phase4/audit-readonly-frozen-check.json",
+      "sha256": "057e9666e0dd37af958b87ab9511e3c4e47561ccc3709328ff3b85f6413ef122",
+      "bytes": 1983
+    },
+    "r1": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/frontend-phase4/audit-readonly-r1-check.json",
+      "sha256": "13f339c7ac6af3821f460c5a05e92af584984276704400fbadd59081f251c207",
+      "bytes": 811
+    },
+    "records": 412,
+    "r1_records": 200,
+    "total_checked_records": 612,
+    "all_signatures_valid": true,
+    "algorithm": "原始审计JSON字节SHA256、source/sequence/previous_hash连续性、检查点内容及Ed25519签名；公钥与私有本机主密钥派生的可信源公钥比对",
+    "script": {
+      "path": "/private/tmp/smartfactory-frontend-phase4-20261005/audit-check.go",
+      "sha256": "8ad24a6dc076bae2df9b257294b5e2e812ffcdca8cd5c787f866287cfe121c96",
+      "bytes": 3087
+    },
+    "initial_failure": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/frontend-phase4/audit-readonly-check-first.json",
+      "sha256": "3245a868b776cb3c1e5fd0075e5c95fae5edd14921cfeaa30c35bbb3805c1ebe",
+      "bytes": 10395
+    },
+    "repair": "正式生产入口主密钥文件为Base64文本，原独立夹具为原始字节；按实际入口格式解码后，旧344项与最终412/新增200项分别通过"
+  },
+  "fixes": [
+    {
+      "id": "P4-F01",
+      "problem": "较早HTTP快照在实际SSE更新和窗口删除之后返回，将新行、修订和恢复游标恢复成旧状态",
+      "first_failure": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/frontend-phase4/browser-results-state-unfixed-F01-real.json",
+        "sha256": "a582a7fe86775d03da92aae956e7af6f02a6030fd460e7b84185bbd55b43f769",
+        "bytes": 9937
+      },
+      "old_source": {
+        "path": "/private/tmp/smartfactory-frontend-phase4-20261005/snapshots/frontend-third/Frontends/src/query.ts",
+        "sha256": "49a9ad4f6037b13282c30dfa0834d76cb8583d8d9834b7d9f2e5f2c6bebd8304",
+        "bytes": 6659
+      },
+      "repair": "HTTP请求记录开始时的已提交次序，结构共享比较该次序与已经应用的SSE事件；较早响应保留新提交窗口、删除结果和不透明游标",
+      "final_evidence": {
+        "path": "/private/tmp/smartfactory-frontend-phase4-20261005/frozen-runtime/browser-state-final/F01-http-sse-snapshot-race.json",
+        "sha256": "84ace4aca04956be21cd078a10797c7ae625fa39fa33798af7eb15f943689141",
+        "bytes": 172341
+      },
+      "verification": "100条正式Ingest观测，延迟旧HTTP响应，再经实际SSE完成9999修订、7777新增及81移出当前窗口；释放HTTP后仍保持新状态"
+    },
+    {
+      "id": "P4-F02",
+      "problem": "完整JSON修正或删除重复字段后旧错误仍阻止操作，同名章节字段共享错误身份",
+      "first_failure": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/frontend-phase4/browser-results-state-unfixed-initial.json",
+        "sha256": "4ddac32b8b1211fa0c2c0156c2c05a27167a3ed67ab087205f3a99a2db1bb4f1",
+        "bytes": 31654
+      },
+      "old_source": {
+        "path": "/private/tmp/smartfactory-frontend-phase4-20261005/snapshots/frontend-third/Frontends/src/metadata-form.tsx",
+        "sha256": "673244284885360b379dfe036aa5b2c34b72e6ee64a51f3980f26b70c76a4fcd",
+        "bytes": 8425
+      },
+      "repair": "值或编辑修订变化时清除错误，卸载时注销有效性，字段身份包含章节与重复项路径",
+      "final_evidence": [
+        {
+          "path": "/private/tmp/smartfactory-frontend-phase4-20261005/frozen-runtime/browser-state-final/F02-raw-json-repair.json",
+          "sha256": "074c5c9c79efc21646ecb3f6a6b0ab528fecdfafa51ed03cb9e76c70a964d8d5",
+          "bytes": 3798
+        },
+        {
+          "path": "/private/tmp/smartfactory-frontend-phase4-20261005/frozen-runtime/browser-state-final/F02-deleted-invalid-item.json",
+          "sha256": "6bfab1bca6882818596bfdafdc30830b6069522e02324e82bc1575d200606c06",
+          "bytes": 3001
+        },
+        {
+          "path": "/private/tmp/smartfactory-frontend-phase4-20261005/frozen-runtime/browser-state-final/F02-section-error-isolation.json",
+          "sha256": "9d7a84c7a492e82c04dfe8e81107f80b18d9dbb8b5775fdd27b224ec7bcbe5df",
+          "bytes": 1749
+        },
+        {
+          "path": "/private/tmp/smartfactory-frontend-phase4-20261005/frozen-runtime/browser-state-final/F02-section-error-identity.json",
+          "sha256": "c0ae83e8146bfe2ab85ceb987fe44aea8eb09cce7a1c5ba5d188e0d8f9243f01",
+          "bytes": 35
+        }
+      ],
+      "verification": "完整JSON修正、删除无效数据点及相同timeout字段身份隔离三个实际页面场景通过"
+    },
+    {
+      "id": "P4-F03",
+      "problem": "选择数据设备输入完整中文名称后，下拉搜索按设备身份筛选，中文选项被隐藏",
+      "first_failure": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/frontend-phase4/browser-results-business-details-third.json",
+        "sha256": "0d392dc90430530a811a1739dd7c3654625c847e0e5bf36cea72caa00292b5ef",
+        "bytes": 9371
+      },
+      "old_source": {
+        "path": "/private/tmp/smartfactory-frontend-phase4-20261005/snapshots/frontend-sixth/Frontends/src/definitions.tsx",
+        "sha256": "ca17db6d7b6991b903493787323e704c3b5b897bebde41978986efd05267304a",
+        "bytes": 17914
+      },
+      "repair": "多选下拉明确按label筛选",
+      "final_evidence": {
+        "path": "/private/tmp/smartfactory-frontend-phase4-20261005/frozen-runtime/browser-details-final/node-metadata-exact-save.json",
+        "sha256": "07c198f17f5320b2da9c1e8ccfe8c18efc8d588ade6717a666b876ff74ff5d13",
+        "bytes": 5658
+      },
+      "verification": "沿输入温湿度与通风完整中文名称、选择可见中文选项的原操作保存节点草稿，数据库设备身份为device-climate-ventilation"
+    },
+    {
+      "id": "P4-F04",
+      "problem": "依据返回404或调查轮询明确失效后，已经打开的抽屉继续显示旧原文",
+      "first_failure": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/frontend-phase4/browser-results-ai-a02-first.json",
+        "sha256": "06d4d6b5e8dbe1dc92248254c83569613a10eaec09e93104e8a65cd08df4ae6b",
+        "bytes": 25647
+      },
+      "old_source": [
+        {
+          "path": "/private/tmp/smartfactory-frontend-phase4-20261005/snapshots/frontend-ai-a02-first/Frontends/src/assistant.tsx",
+          "sha256": "e9e918e12a50ae362163ca8997bfbadff4c32d6d6df61a5863124ee3583d8727",
+          "bytes": 10918
+        },
+        {
+          "path": "/private/tmp/smartfactory-frontend-phase4-20261005/snapshots/frontend-ai-a02-first/Frontends/src/api.ts",
+          "sha256": "dcd0eb8b57b3ca206e8abe79893a5a3485777497a3b75d930fbb165f24c4546d",
+          "bytes": 1967
+        }
+      ],
+      "repair": "资源GET的404/410先清除精确缓存项；调查轮询中deleted/expired/forbidden立即隐藏所选依据的正文、参数、资源，并清除临时答案和工具内容；401/403沿会话及授权路径清理身份状态",
+      "final_evidence": [
+        {
+          "path": "/private/tmp/smartfactory-frontend-phase4-20261005/frozen-runtime/browser-ai-final/ai-original-resource-deleted-cleared.json",
+          "sha256": "bd0851be29492c870a96c4a6462697a1fda68b2ff42dadcb2cf619327717981b",
+          "bytes": 4381
+        },
+        {
+          "path": "/private/tmp/smartfactory-frontend-phase4-20261005/frozen-runtime/browser-ai-final/ai-open-evidence-expired-cleared.json",
+          "sha256": "bf528c9a1eee49774d3a81e7b6d3a9ce449824bc500d01a615b77e24cb0358e2",
+          "bytes": 4094
+        },
+        {
+          "path": "/private/tmp/smartfactory-frontend-phase4-20261005/frozen-runtime/browser-ai-final/ai-revoked-cache-cleared.json",
+          "sha256": "d017f4d0e92523e3cf1313d36d0412e0fd6124cb379beebb0ee3d2cf6a54fe7b",
+          "bytes": 3708
+        },
+        {
+          "path": "/private/tmp/smartfactory-frontend-phase4-20261005/frozen-runtime/browser-ai-final/ai-expired-session-login.json",
+          "sha256": "8a143cd6d73d89b7d84f471469939712f8f118685a843dc735005abe1d361f24",
+          "bytes": 1617
+        }
+      ],
+      "verification": "A02定义改绑后删除原资产的404、仅轮询失效时立即隐藏、到期410、撤权403及会话401均在实际浏览器通过"
+    },
+    {
+      "id": "mobile-empty-heading-layout",
+      "problem": "390px空查询页面的导出按钮宽144px，手机操作区最大125px且标题行不换行，按钮右侧到393px并造成3px整体横移",
+      "first_failure": {
+        "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/browser-empty-all-before-fix/independent-empty-surfaces.json",
+        "sha256": "a102e5d13be367da6f836036f7893f395c65439c0c088ce038ada8bf39aae42f",
+        "bytes": 31884
+      },
+      "old_source": {
+        "path": "/private/tmp/smartfactory-frontend-phase4-20261005/snapshots/frontend-before-heading-layout/Frontends/src/style.css",
+        "sha256": "f76f697d25ad47a999ff74acaeb033a44ea1657240df923ffc95182effb8335c",
+        "bytes": 19691
+      },
+      "repair": "手机标题允许换行，操作区width为auto、max-width为100%",
+      "final_evidence": [
+        {
+          "path": "/private/tmp/smartfactory-frontend-phase4-20261005/layout-r1-runtime/browser-empty-layout-r1/layout-results.json",
+          "sha256": "4b4438af9edcd1b84b432db97faa822500a724627a2a689cb27ba2a6a9ba41f5",
+          "bytes": 2350
+        },
+        {
+          "path": "/private/tmp/smartfactory-frontend-phase4-20261005/layout-r1-runtime/browser-empty-screen-r1/layout-results.json",
+          "sha256": "7a6d594298d3644a3901bc75f1dfbf858ce283ee66e3e2276e3a9a5cf7f4c4da",
+          "bytes": 720
+        }
+      ],
+      "verification": "原空查询操作及正式大屏空布局覆盖全部九组合，document/body与视口相等，实际horizontal为0；九种非空页面另行通过"
+    },
+    {
+      "id": "echarts-series-tooltip",
+      "problem": "首次精度浏览器出现getDataParams异常，数据替换后旧提示仍引用已经移除的系列",
+      "first_failure": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/frontend-phase4/browser-results-precision-first.json",
+        "sha256": "bfe0f9d6c69eaaee06de7e27b7f0579a33b89b1b63932451b3e6c21f239da4ef",
+        "bytes": 35801
+      },
+      "repair": "系列身份变化时先隐藏旧提示，再按替换系列方式更新图表；提示中的原值与来源继续使用精确记录",
+      "final_evidence": {
+        "path": "/private/tmp/smartfactory-frontend-phase4-20261005/frozen-runtime/browser-precision-final/cloud-precise-tooltip.json",
+        "sha256": "50a6b7705025a75df3a80e235f4f3adcf829143d6293ecec97b16afb611e6ecf",
+        "bytes": 2354
+      },
+      "verification": "最终三项精度流程和所有捕获页面均无JavaScript异常"
+    }
+  ],
+  "initial_failures_and_conditions": [
+    {
+      "kind": "npm默认缓存权限",
+      "evidence": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/frontend-phase4/initial-failures.json",
+        "sha256": "0e92c08d2077260adefa17cf21018730ba6717af2b857617757eb26280a3f16d",
+        "bytes": 388
+      },
+      "repair": "私有tmp缓存完成版本读取与锁定安装"
+    },
+    {
+      "kind": "macOS浏览器Mach注册",
+      "evidence": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/frontend-phase4/browser-results-launch-failed.json",
+        "sha256": "53368d29766f6c0e19ffce3d0f7dbd5ced87139d22a6fe7325d1897f81636917",
+        "bytes": 88791
+      },
+      "repair": "已授权本机可启动Chrome环境，所有后续实际流程完成"
+    },
+    {
+      "kind": "业务v3首次页面",
+      "evidence": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/frontend-phase4/browser-results-business-v3.json",
+        "sha256": "a398055e619110a008e5b46582fd8494afc837e3aae70b6071da22cbc6278b6f",
+        "bytes": 30240
+      },
+      "backend": "原业务v3源码与二进制见业务专业固定交付及business-v3-stop.json，后续结果分别记录v1组合与A02组合",
+      "conditions": "原始2通过/3失败完整保留；可选address初始化、唯一模板名称与能力/设备/正式配置匹配处理后，最终五项在A02新目录通过"
+    },
+    {
+      "kind": "协议表单与节点第三轮90秒定位失败",
+      "evidence": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/frontend-phase4/browser-results-business-details-third.json",
+        "sha256": "0d392dc90430530a811a1739dd7c3654625c847e0e5bf36cea72caa00292b5ef",
+        "bytes": 9371
+      },
+      "conditions": "配置预检loading使按钮可访问名称改变，后续等待并按可见名称定位；中文设备搜索是P4-F03产品问题，按原完整中文输入路径修正复验，诊断超时改为45秒"
+    },
+    {
+      "kind": "测试数据或定位修正",
+      "evidence": "所有业务补充一至六轮、精度一至最终、AI早期及A02一至三轮、状态旧静态重试均列于evidence-index.json",
+      "conditions": "完整JSON目录外字段只在允许的内层扩展处验证；空Selector不通过后端定义检查；Ant Select虚拟项采用正常键盘/可见选项操作；会话过期已经自动回到登录页时验证该状态"
+    },
+    {
+      "kind": "早期尺寸夹具无持久趋势",
+      "evidence": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/frontend-phase4/browser-results-surfaces-empty-business-fixture.json",
+        "sha256": "b233e4642a692277a376e119b789b9e7758e98e291bfbe6848ab6e3881711a3a",
+        "bytes": 3235
+      },
+      "conditions": "业务fixture连续求值用于告警，尺寸最终改用正常生产入口Ingest八种观测；该早期结果保留且不作为有数据图表依据"
+    }
+  ],
+  "criteria": [
+    {
+      "id": "E4-01",
+      "title": "数据库分页查询的页面集成",
+      "implementation_status": "complete",
+      "frontend_verification_status": "passed",
+      "implementation": [
+        "/path/to/SmartFactory-2026/Frontends/src/query.ts",
+        "/path/to/SmartFactory-2026/Frontends/src/data-monitor.tsx",
+        "/path/to/SmartFactory-2026/Frontends/src/executions.tsx",
+        "/path/to/SmartFactory-2026/Frontends/src/alarm-workbench.tsx"
+      ],
+      "description": "身份/资源/筛选/分页进入查询键，实际409范围变化自动回到第一页",
+      "evidence": {
+        "path": "/private/tmp/smartfactory-frontend-phase4-20261005/frozen-runtime/browser-state-final/query-paging-scope-reset.json",
+        "sha256": "2b6a131b951096bbfefa6e56f257df68c72796ec55a5ed650b30692cbb204fc9",
+        "bytes": 184
+      }
+    },
+    {
+      "id": "E4-02",
+      "title": "可恢复增量订阅的页面集成",
+      "implementation_status": "complete",
+      "frontend_verification_status": "passed",
+      "implementation": [
+        "/path/to/SmartFactory-2026/Frontends/src/query.ts",
+        "/path/to/SmartFactory-2026/Frontends/src/query-window.ts",
+        "/path/to/SmartFactory-2026/Frontends/src/query-cache.ts"
+      ],
+      "description": "实际15秒心跳、新提交、断网恢复、不透明Last-Event-ID及F01修订/窗口删除通过",
+      "evidence": {
+        "path": "/private/tmp/smartfactory-frontend-phase4-20261005/frozen-runtime/browser-precision-final/query-heartbeat-resume.json",
+        "sha256": "cc4632a5ba98233273a6a4a93497608fdd0e65d53c7258f10921291561d040b1",
+        "bytes": 5536
+      }
+    },
+    {
+      "id": "E4-03",
+      "title": "功能页面与服务端/编辑状态",
+      "implementation_status": "complete",
+      "frontend_verification_status": "passed",
+      "implementation": [
+        "/path/to/SmartFactory-2026/Frontends/src/api.ts",
+        "/path/to/SmartFactory-2026/Frontends/src/generated-client.ts",
+        "/path/to/SmartFactory-2026/Frontends/src/generated-resource.ts",
+        "/path/to/SmartFactory-2026/Frontends/src/editor-state.ts"
+      ],
+      "description": "TanStack Query实际承担读取和提交，生成客户端请求、账号切换清理、页面切换及冲突时保留编辑通过",
+      "evidence": {
+        "path": "/private/tmp/smartfactory-frontend-phase4-20261005/frozen-runtime/browser-business-final/semantic-impact-and-retained-editor.json",
+        "sha256": "d5113e69f37255a3c04bd4fd221799851518fda200302fe95f34d175bdbed190",
+        "bytes": 6534
+      }
+    },
+    {
+      "id": "E4-04",
+      "title": "统一元数据设备与节点表单",
+      "implementation_status": "complete",
+      "frontend_verification_status": "passed",
+      "implementation": [
+        "/path/to/SmartFactory-2026/Frontends/src/metadata-form.tsx",
+        "/path/to/SmartFactory-2026/Frontends/src/metadata-values.ts",
+        "/path/to/SmartFactory-2026/Frontends/src/protocol-configurations.tsx",
+        "/path/to/SmartFactory-2026/Frontends/src/definitions.tsx"
+      ],
+      "description": "Modbus TCP、MQTT、OPC-UA与节点的类型、单位、必填、枚举、范围及精确扩展往返通过",
+      "evidence": {
+        "path": "/private/tmp/smartfactory-frontend-phase4-20261005/frozen-runtime/browser-details-final/three-protocol-roundtrips.json",
+        "sha256": "fe7c234c3388a913fd9381dda82b8cf3858d44b8d62b02ca689c767d4c97eb78",
+        "bytes": 6489
+      }
+    },
+    {
+      "id": "E4-05",
+      "title": "语义差异与影响页面",
+      "implementation_status": "complete",
+      "frontend_verification_status": "passed",
+      "implementation": [
+        "/path/to/SmartFactory-2026/Frontends/src/semantic-review.tsx",
+        "/path/to/SmartFactory-2026/Frontends/src/definition-tools.tsx",
+        "/path/to/SmartFactory-2026/Frontends/src/definitions.tsx"
+      ],
+      "description": "比较版本、节点/连线/参数、受影响身份及显式采用新保存依据通过",
+      "evidence": {
+        "path": "/private/tmp/smartfactory-frontend-phase4-20261005/frozen-runtime/browser-details-final/draft-conflict-adoption.json",
+        "sha256": "88d43a775b672dba7b0ae51290dabb2c047abe9773054122dc9d9078dbabdfde",
+        "bytes": 2963
+      }
+    },
+    {
+      "id": "E4-06",
+      "title": "告警处置工作台",
+      "implementation_status": "complete",
+      "frontend_verification_status": "passed",
+      "implementation": [
+        "/path/to/SmartFactory-2026/Frontends/src/alarm-workbench.tsx"
+      ],
+      "description": "持续采样17秒后按已阅action_version单次确认成功；人工并发冲突保留理由、显式采用新依据后提交成功",
+      "evidence": {
+        "path": "/private/tmp/smartfactory-frontend-phase4-20261005/frozen-runtime/browser-business-final/alarm-persisted.json",
+        "sha256": "c754f23c9ebbf1b55c4ce5e05b52a38f48d540aaf9acb437e0c9569f560ca2e5",
+        "bytes": 5870
+      }
+    },
+    {
+      "id": "E4-07",
+      "title": "AI调查引用与详情",
+      "implementation_status": "complete",
+      "frontend_verification_status": "passed",
+      "implementation": [
+        "/path/to/SmartFactory-2026/Frontends/src/assistant.tsx",
+        "/path/to/SmartFactory-2026/Frontends/src/resource-navigation.ts"
+      ],
+      "description": "五工具原文/ToolCallID/SHA与模型边界逐字节对应，中文斜杠冒号导航、引用异常、授权/删除/到期/会话清理通过",
+      "evidence": {
+        "path": "/private/tmp/smartfactory-frontend-phase4-20261005/frozen-runtime/browser-ai-final/ai-byte-correspondence.json",
+        "sha256": "42b554853d1cfeb65d51fa92b4237a5dc2caaf78284c2dbc3703a538d19133fb",
+        "bytes": 26246
+      }
+    },
+    {
+      "id": "E4-08",
+      "title": "工单与交接页面",
+      "implementation_status": "complete",
+      "frontend_verification_status": "passed",
+      "implementation": [
+        "/path/to/SmartFactory-2026/Frontends/src/work-orders.tsx"
+      ],
+      "description": "创建、开始、交接两项未完成事项及已阅告警版本、新责任人完成、原责任人权限变化与审计通过",
+      "evidence": {
+        "path": "/private/tmp/smartfactory-frontend-phase4-20261005/frozen-runtime/browser-details-final/work-order-completed.json",
+        "sha256": "f8ce6b0a8d85e68471f3f377709dbbbca6ff77681d6e2544f0f23110d6cb2855",
+        "bytes": 5072
+      }
+    },
+    {
+      "id": "E4-09",
+      "title": "五类模板批量准备",
+      "implementation_status": "complete",
+      "frontend_verification_status": "passed",
+      "implementation": [
+        "/path/to/SmartFactory-2026/Frontends/src/scene-templates.tsx"
+      ],
+      "description": "五绑定固定设备/配置版本，25草稿持久化；冲突批次保留零草稿、失败及两次尝试",
+      "evidence": {
+        "path": "/private/tmp/smartfactory-frontend-phase4-20261005/frozen-runtime/browser-business-final/templates-persisted.json",
+        "sha256": "9677ad6a5146f252c5c2d98aae23752a3a4da8e143e31d5dcdf7bc4572e96a5e",
+        "bytes": 56985
+      }
+    },
+    {
+      "id": "E4-10",
+      "title": "ECharts6与三入口精度/尺寸",
+      "implementation_status": "complete",
+      "frontend_verification_status": "passed",
+      "implementation": [
+        "/path/to/SmartFactory-2026/Frontends/src/chart.tsx",
+        "/path/to/SmartFactory-2026/Frontends/src/chart-data.ts",
+        "/path/to/SmartFactory-2026/Frontends/src/screen.tsx",
+        "/path/to/SmartFactory-2026/Frontends/src/style.css"
+      ],
+      "description": "ECharts6.1.0、三个入口/三种尺寸、图例/双轴/Asia/Shanghai/亚秒刻度/精确提示表格导出及九空数据布局通过",
+      "evidence": {
+        "path": "/private/tmp/smartfactory-frontend-phase4-20261005/layout-r1-runtime/reports/browser-results-surfaces.json",
+        "sha256": "2d9b2ff6524771c9714fb8acb9dcddd7da2cc1fc726417d6f37bebbf5ea4a586",
+        "bytes": 12102
+      }
+    }
+  ],
+  "documentation": {
+    "usage": {
+      "path": "/path/to/SmartFactory-2026/docs/evolution/frontend-phase4.md",
+      "sha256": "5161a1a07f6f072993288451500f8481a43496e9af18c03814bd4ad44a31ba98",
+      "bytes": 6329
+    },
+    "independent_runbook": {
+      "path": "/path/to/SmartFactory-2026/Frontends/tests/phase4-runbook.md",
+      "sha256": "7a9eab79f1cd72f827e6be20456e11658fd3bbb8b8c8b9eeedf81b6eb073d752",
+      "bytes": 5441
+    },
+    "browser_runner": {
+      "path": "/path/to/SmartFactory-2026/Frontends/scripts/phase4-browser.mjs",
+      "sha256": "57f046e47904c9f458f6b39f18bd4bfa18157add220315d98b52ec554e4d9d0e",
+      "bytes": 2905
+    },
+    "precision_initialization": {
+      "path": "/path/to/SmartFactory-2026/Frontends/scripts/phase4-fixtures.py",
+      "sha256": "a4e04e578a906eef2f5eb50eddf618f42b05fff685e1e5be9a9be10bedab8d4e",
+      "bytes": 4910
+    },
+    "sequence": [
+      "business",
+      "details",
+      "state",
+      "precision",
+      "surfaces",
+      "ai"
+    ],
+    "independent_ports": "独立审查使用19510至19514及自己的修订端口，所有目录独立初始化；页面补充读取本轮先前组产物"
+  },
+  "responsibility": {
+    "owned": [
+      "Frontends实现与测试",
+      "docs/evolution/frontend-phase4.md页面说明",
+      "已授权deploy/toolchains.json前端依赖字段",
+      "本角色验证材料"
+    ],
+    "backend_changes": 0,
+    "backend_fix_owner": "A02资源存在性修正由AI原专业实施并交付固定二进制",
+    "private_evidence": "随机账号/模型配置仅在各自0600私有清单，本报告及浏览器正文没有凭据明文；最终82份原冻结浏览器JSON已核对实际私有密码/令牌零匹配",
+    "original_workspace_baseline": "/private/tmp/smartfactory-evolution-baseline-20261004-1310，由主协调保存用户27份原修改；本角色原前端副本保留在baseline目录",
+    "global_acceptance_files": "本角色未修改team/status/acceptance"
+  },
+  "excluded_by_user": [
+    "完整UOS安装恢复",
+    "1/3节点连续断云24小时",
+    "受限链路专项",
+    "实际24小时容量与持续运行"
+  ],
+  "cleanup": {
+    "frozen": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/frontend-phase4/service-cleanup-final.json",
+      "sha256": "8a62fd6a1404027b3847676fa72cb3f2be59823f224967378f92e45fc9e0642b",
+      "bytes": 1723
+    },
+    "r1": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/frontend-phase4/service-cleanup-r1.json",
+      "sha256": "580599709e8585339bd1346b98585f2b9c7152c06ed731dd89fd9fb4ef3a46fb",
+      "bytes": 631
+    },
+    "all_owned_services_stopped": true,
+    "application_exit_codes": 0,
+    "ports_19410_through_19415_closed": true,
+    "ai_model_closed_with_fixture": true,
+    "large_outputs": "/private/tmp/smartfactory-frontend-phase4-20261005",
+    "work_volume_available_gib": 1.3
+  },
+  "retained_evidence_index": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/frontend-phase4/evidence-index.json",
+    "sha256": "2c4fb06ed1d6ea42752eefba6e914f8cfb500b5fef25b82df6e87d5b76a21bd1",
+    "bytes": 371627
+  },
+  "independent_review": {
+    "owner": "phase4_independent_review",
+    "original_frozen_browser_reported_passed": 28,
+    "R1_review": "主协调已通知R1全部受影响独立检查通过；最终独立报告与阶段判定由主协调保存"
+  },
+  "remaining_frontend_implementation": [],
+  "remaining_frontend_verification": []
+}

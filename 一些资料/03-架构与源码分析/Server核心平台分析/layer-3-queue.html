@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>消息总线 · ThingsBoard 核心平台拆解</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="components.css">
+  <style>
+    body { --accent:#0891b2; --accent-soft:rgba(8,145,178,0.08); --accent-line:rgba(8,145,178,0.2); }
+  </style>
+</head>
+<body data-accent="cyan">
+  <header>
+    <nav>
+      <a class="back-link" href="index.html">返回总览</a>
+      <div class="crumb">核心平台 <span class="sep">/</span> <b>③ 消息总线</b></div>
+      <div class="nav-mini">
+        <a href="layer-1-access.html">接入层</a>
+        <a href="layer-2-transport.html">传输层</a>
+        <a href="layer-4-core.html">核心处理</a>
+        <a href="layer-5-platform-services.html">支撑服务</a>
+        <a href="layer-6-persistence.html">持久化</a>
+      </div>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-inner">
+      <div class="hero-eyebrow"><span class="layer-no">3</span> 第三层 · Message Queue</div>
+      <h1>消息总线<span class="en">把整套架构串起来的那根脊梁</span></h1>
+      <p class="hero-lead">消息总线是所有跨服务通信的中转站。它横在传输层与处理层之间，让两端不再直接相连：上游只负责把消息写进队列，下游只负责从队列取走，彼此无需知道对方部署在哪台机器、运行着几个实例。这一层的存在，是整套架构能够从单机平滑成长为集群的根本前提。</p>
+      <dl class="hero-facts">
+        <div class="fact"><dt>两种后端</dt><dd>In-Memory · Apache Kafka</dd></div>
+        <div class="fact"><dt>切换开关</dt><dd>TB_QUEUE_TYPE</dd></div>
+        <div class="fact"><dt>分区依据</dt><dd>tenantId + entityId 一致性哈希</dd></div>
+        <div class="fact"><dt>源码位置</dt><dd>common/queue</dd></div>
+      </dl>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <section>
+      <div class="reveal">
+        <div class="section-label">Overview</div>
+        <h2>这一层在做什么</h2>
+      </div>
+      <div class="prose reveal rd1">
+        <p>把两个服务直接连起来，是最省事的做法，却也把它们焊在了一起：一端出现抖动或重启，另一端会立刻受到牵连。消息总线插在中间，正是为了拆开这种紧耦合。传输层把数据写进队列就算交付完成，至于谁在什么时候取走、用多大的速度处理，它一概不必关心。</p>
+        <p>这种解耦还顺带提供了一个缓冲带。物联网场景的流量常常是突发的——某一刻成千上万台设备同时上报，下一刻又归于平静。消息先在队列里积压，处理层按照自身的承载能力从容消费，这样再陡峭的瞬时洪峰，也不会直接冲垮后端。代价是多了一跳延迟、以及一套需要运维的队列设施，对突发型负载而言，这笔投入通常是合算的。</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="reveal">
+        <div class="section-label">Internals</div>
+        <h2>内部结构</h2>
+        <p class="section-desc">生产者在上、消费者在下，中间是按用途切分的主题；右侧是分区机制，底部是可切换的两种后端。</p>
+      </div>
+      <div class="diagram-frame reveal rd1" data-cap="消息总线 · 生产消费、主题划分、分区与后端切换（点击空白处关闭）">
+        <span class="diagram-hint">点击放大</span>
+        <img src="diagrams/queue.svg" alt="消息总线内部：生产者、消费者、主题列表、按实体哈希分区、In-Memory 与 Kafka 两种后端">
+      </div>
+    </section>
+
+    <section>
+      <div class="reveal">
+        <div class="section-label">Topics</div>
+        <h2>主题为什么要切分</h2>
+        <p class="section-desc">不同用途的消息走不同的主题，互不干扰，也便于各自配置保留时长、分区数量与优先级。</p>
+      </div>
+      <div class="table-wrap reveal rd1">
+        <table class="matrix">
+          <thead><tr><th>主题</th><th>承载的消息</th></tr></thead>
+          <tbody>
+            <tr><td><code>tb_rule_engine</code></td><td>设备遥测与属性的主处理流，规则引擎从这里取走消息</td></tr>
+            <tr><td><code>tb_core</code></td><td>设备状态、订阅、会话相关的消息，由 TB Core 消费</td></tr>
+            <tr><td><code>tb_transport.api</code></td><td>传输层与 Core 之间的认证往返，分请求与响应两个子主题</td></tr>
+            <tr><td><code>tb_core.notifications</code></td><td>高优先级、低时延的核心通知，单独成主题以保证及时</td></tr>
+            <tr><td><code>tb_usage_stats</code></td><td>租户的用量计量数据</td></tr>
+            <tr><td><code>js-executor</code></td><td>规则脚本的远程执行请求</td></tr>
+            <tr><td><code>version-control</code></td><td>实体配置版本化操作</td></tr>
+            <tr><td><code>tb_housekeeper</code></td><td>级联删除与过期数据的清理任务</td></tr>
+            <tr><td><code>tb_ota_package</code></td><td>固件与软件包的分发</td></tr>
+            <tr><td><code>tb_edge</code></td><td>与 Edge 实例之间的同步</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <div class="reveal">
+        <div class="section-label">Partitioning</div>
+        <h2>分区机制：兼顾顺序与扩展</h2>
+      </div>
+      <div class="prose reveal rd1">
+        <p>分区要解决的问题，用一个具体场景来说明会更清楚。假设此刻有三个规则引擎节点在并行工作，一台设备连续上报的若干条消息，应该交给谁来处理？如果只是简单地轮流分配，同一台设备的相邻消息就会散落到不同节点上——它们之间的先后顺序，以及各节点为这台设备维护的状态，都会因此错乱。</p>
+        <p>一致性哈希给出的解法是：拿设备的标识（<code>tenantId + entityId</code>）算出一个固定的归属，让同一台设备的消息，始终落到同一个分区，进而由同一个节点处理。顺序得到了保证，状态也自始至终由一个节点掌管；而当整体负载上升时，增加节点便能分摊更多分区，扩容因此是线性的。这是有状态流处理领域里相当通用的一种做法——既想要顺序，又想要水平扩展，一致性哈希恰好同时满足这两点。</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="reveal">
+        <div class="section-label">Backends</div>
+        <h2>两种后端，同一套抽象</h2>
+        <p class="section-desc">业务代码面对的始终是"队列"这个抽象，底层换成内存还是 Kafka，由 <code>TB_QUEUE_TYPE</code> 一个开关决定。</p>
+      </div>
+      <div class="table-wrap reveal rd1">
+        <table class="matrix">
+          <thead><tr><th>对比项</th><th>In-Memory</th><th>Apache Kafka</th></tr></thead>
+          <tbody>
+            <tr><td>形态</td><td>进程内内存队列</td><td>跨节点的消息骨干</td></tr>
+            <tr><td>外部依赖</td><td>无，开箱即用</td><td>需要独立的 Kafka 集群</td></tr>
+            <tr><td>持久化与回溯</td><td>不持久，重启即清空</td><td>消息可保留、可回溯，消费进度独立维护</td></tr>
+            <tr><td>适用规模</td><td>概念验证、中小规模、边缘现场</td><td>海量设备、高吞吐、组件独立伸缩</td></tr>
+            <tr><td>主要代价</td><td>扩展上限受单机约束</td><td>运维复杂度与组件数量上升</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout reveal rd2">
+        <div class="ico">i</div>
+        <p><b>这正是架构弹性的来源：</b>因为上层业务始终只面对队列这一抽象，底层是内存还是 Kafka 对它完全透明，所以同一套代码才能够从单体形态平滑成长为微服务集群。架构的弹性，往往就藏在这种让上层无感的抽象之中。</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="reveal">
+        <div class="section-label">Position</div>
+        <h2>在整条链路中的位置</h2>
+        <p class="section-desc">消息总线居于正中。它的上游是传输层与各个服务，下游则是负责实际处理的核心层。</p>
+      </div>
+      <div class="passage reveal rd1">
+        <span class="node">① 接入层</span>
+        <span class="ar">→</span>
+        <span class="node">② 传输层</span>
+        <span class="ar">→</span>
+        <span class="node here">③ 消息总线</span>
+        <span class="ar">→</span>
+        <span class="node">④ 核心处理</span>
+        <span class="ar">→</span>
+        <span class="node">⑥ 持久化</span>
+      </div>
+      <div class="prose reveal rd2">
+        <p>几乎每一次跨服务的消息传递，都会在这里中转一次。<a href="index.html#dataflow">总览页的端到端数据流</a>里，无论是上行的遥测投递，还是下行的命令分发，中间那一跳大多落在消息总线上——对照着看，能更直观地感受到它中枢的角色。</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="reveal">
+        <div class="section-label">Source Map</div>
+        <h2>源码位置</h2>
+      </div>
+      <div class="grid cols-3">
+        <div class="card reveal rd1"><h3>生产消费模板</h3><p>队列的统一抽象与两种后端实现。</p><div class="src"><code>common/queue/common · kafka · memory</code></div></div>
+        <div class="card reveal rd2"><h3>各服务的 Provider</h3><p>Core、规则引擎、传输等各自的队列生产者装配。</p><div class="src"><code>common/queue/provider</code></div></div>
+        <div class="card reveal rd3"><h3>主题与参数设置</h3><p>主题名、分区数、保留策略等配置项。</p><div class="src"><code>common/queue/settings · thingsboard.yml</code></div></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="siblings reveal">
+        <a class="sib" href="layer-2-transport.html"><span class="dir">← 上一层</span><span class="nm">② 传输层 <span class="en">Transport</span></span></a>
+        <a class="sib next" href="layer-4-core.html"><span class="dir">下一层 →</span><span class="nm">④ 核心处理 <span class="en">Core Processing</span></span></a>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <p>ThingsBoard 核心平台拆解 · 第三层 消息总线 · <a href="index.html">返回总览</a></p>
+      <div class="dots">
+        <span style="background:var(--amber)"></span><span style="background:var(--cyan)"></span>
+        <span style="background:var(--blue)"></span><span style="background:var(--teal)"></span>
+        <span style="background:var(--violet)"></span><span style="background:var(--emerald)"></span>
+      </div>
+    </div>
+  </footer>
+
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <span class="lightbox-close">&times;</span>
+    <img id="lightbox-img" src="" alt="放大查看">
+    <div class="lightbox-cap" id="lightbox-cap"></div>
+  </div>
+
+  <script src="deepdive.js"></script>
+</body>
+</html>

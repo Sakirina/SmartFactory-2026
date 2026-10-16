@@ -1,0 +1,17 @@
+=== RUN   TestTasksPreserveTraceIdentityAndBoundedMetricLabels
+2026/10/04 23:49:18 INFO River client started client_id=YL-Tilly-MB-A_local_2026_10_04T15_49_18_253588
+2026/10/04 23:49:18 INFO Client: Hard stop started; cancelling all work
+2026/10/04 23:49:18 ERROR maintenance.PeriodicJobEnqueuer: Error starting transaction error="context canceled"
+2026/10/04 23:49:18 INFO River client stopped client_id=YL-Tilly-MB-A_local_2026_10_04T15_49_18_253588
+    observability_test.go:120: durable enqueue trace -> tasks.execute/tasks.wait -> archive.prepare/archive.commit/store.transaction; task and business IDs in spans; queue-only wait metric
+2026/10/04 23:49:18 INFO Client: Hard stop started; cancelling all work
+--- PASS: TestTasksPreserveTraceIdentityAndBoundedMetricLabels (0.07s)
+PASS
+ok  	competition2026/product/platform/internal/tasks	0.090s
+=== RUN   TestTaskRoutesCheckResourcesRolesVersionsAndActualState
+    task_routes_test.go:72: HTTP task list/details filter all resources; cancel/retry require role and exact version; same business/River identity survives retry
+--- PASS: TestTaskRoutesCheckResourcesRolesVersionsAndActualState (0.12s)
+=== RUN   TestAITaskReaderCannotCancelOrRetry
+--- PASS: TestAITaskReaderCannotCancelOrRetry (0.11s)
+PASS
+ok  	competition2026/product/platform/internal/api	0.240s

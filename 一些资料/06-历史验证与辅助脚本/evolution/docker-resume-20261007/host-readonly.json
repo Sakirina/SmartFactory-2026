@@ -1,0 +1,50 @@
+[
+  {
+    "command": [
+      "/bin/ps",
+      "-axo",
+      "pid,ppid,etime,pcpu,pmem,comm"
+    ],
+    "checked_at": "2026-10-07T04:07:14.303550+00:00",
+    "returncode": 0,
+    "stdout": "  PID  PPID     ELAPSED  %CPU %MEM COMM\n91928     1 02-14:55:55   0.0  0.2 /Applications/Docker.app/Contents/MacOS/com.docker.backend\n91934 91928 02-14:55:53   0.0  0.2 /Applications/Docker.app/Contents/MacOS/com.docker.backend\n91998     1 02-14:55:50   0.0  0.0 /Library/PrivilegedHelperTools/com.docker.vmnetd\n92121 91934 02-14:55:44   0.0  0.1 /Applications/Docker.app/Contents/Resources/cli-plugins/docker-agent",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "docker",
+      "desktop",
+      "status"
+    ],
+    "checked_at": "2026-10-07T04:07:14.325098+00:00",
+    "timeout_seconds": 12,
+    "stdout": null,
+    "stderr": null
+  },
+  {
+    "command": [
+      "docker",
+      "version",
+      "--format",
+      "{{json .}}"
+    ],
+    "checked_at": "2026-10-07T04:07:26.327635+00:00",
+    "returncode": 1,
+    "stdout": "{\"Client\":{\"Platform\":{\"Name\":\"Docker Engine - Community\"},\"Version\":\"29.8.1\",\"ApiVersion\":\"1.56\",\"DefaultAPIVersion\":\"1.56\",\"GitCommit\":\"4a63305d74\",\"GoVersion\":\"go1.27.1\",\"Os\":\"darwin\",\"Arch\":\"arm64\",\"BuildTime\":\"Tue Sep 15 11:21:13 2026\",\"Context\":\"desktop-linux\"},\"Server\":null}\n",
+    "stderr": "Cannot connect to the Docker daemon at unix:///home/developer/.docker/run/docker.sock. Is the docker daemon running?\n"
+  },
+  {
+    "path": "/home/developer/.docker/run/docker.sock",
+    "exists": true,
+    "mode": "0o140755",
+    "mtime": 1791119488.2589202,
+    "size": 0
+  },
+  {
+    "path": "/home/developer/Library/Containers/com.docker.docker/Data/backend.sock",
+    "exists": true,
+    "mode": "0o140755",
+    "mtime": 1791119488.2576702,
+    "size": 0
+  }
+]

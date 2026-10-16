@@ -1,0 +1,88 @@
+=== RUN   TestPostgresArchiveCapacityAndLatePartitionRecovery
+    archive_postgres_test.go:125: {
+          "archive_bytes_per_point": 82,
+          "archive_table_toast_and_indexes_bytes": 671744,
+          "elapsed_ms": 122,
+          "fixture": "8192 deterministic observations; 4 series; SHA256 source identifiers; numeric values; BAD quality samples; 48 hours old",
+          "full_fields_recovered": true,
+          "go_version": "go1.27.0",
+          "gzip_payload_bytes": 549813,
+          "hot_bytes_per_point": 1114,
+          "hot_day_partition_retired": true,
+          "hot_table_and_indexes_bytes": 9125888,
+          "late_partition_recreated": true,
+          "partial_archive_retention_removed": 4001,
+          "points": 8192,
+          "postgres_storage": "caller-supplied isolated schema",
+          "retained_after_cutoff": 4192,
+          "runtime": "darwin/arm64",
+          "seed": 731,
+          "status": "passed"
+        }
+--- PASS: TestPostgresArchiveCapacityAndLatePartitionRecovery (0.69s)
+=== RUN   TestArchivePreservesFullObservationsRevisionsAndRollups
+--- PASS: TestArchivePreservesFullObservationsRevisionsAndRollups (0.22s)
+=== RUN   TestArchiveRollbackCorruptionAndRetention
+--- PASS: TestArchiveRollbackCorruptionAndRetention (0.00s)
+=== RUN   TestArchiveSurvivesBackupAndRestore
+--- PASS: TestArchiveSurvivesBackupAndRestore (0.15s)
+=== RUN   TestBatchIngestPreservesOrderDeduplicationAndAtomicFailure
+--- PASS: TestBatchIngestPreservesOrderDeduplicationAndAtomicFailure (0.36s)
+=== RUN   TestDeliveryBatchCommitFailurePreservesAllResults
+--- PASS: TestDeliveryBatchCommitFailurePreservesAllResults (0.00s)
+=== RUN   TestMultiMessageIngestFailureDoesNotAcknowledgeEarlierMessages
+--- PASS: TestMultiMessageIngestFailureDoesNotAcknowledgeEarlierMessages (0.00s)
+=== RUN   TestGapQueriesRespectTimeAndDeviceScopeAndReplay
+--- PASS: TestGapQueriesRespectTimeAndDeviceScopeAndReplay (0.00s)
+=== RUN   TestTelemetryDedupExpiresWhileBusinessIdentityRemains
+--- PASS: TestTelemetryDedupExpiresWhileBusinessIdentityRemains (0.00s)
+=== RUN   TestPostgresRetentionDropsExpiredPartitionBeforeRowDeletion
+--- PASS: TestPostgresRetentionDropsExpiredPartitionBeforeRowDeletion (0.25s)
+=== RUN   TestRecentQueryPreservesRawEventsAndLatestDerivedRevision
+--- PASS: TestRecentQueryPreservesRawEventsAndLatestDerivedRevision (0.00s)
+=== RUN   TestPartialMinuteRebuildPreservesUnchangedObservations
+--- PASS: TestPartialMinuteRebuildPreservesUnchangedObservations (0.00s)
+=== RUN   TestRetentionTiersQuarantineAndPermanentHistory
+--- PASS: TestRetentionTiersQuarantineAndPermanentHistory (0.00s)
+=== RUN   TestDurableInboxConflictRollbackAndRestart
+--- PASS: TestDurableInboxConflictRollbackAndRestart (0.01s)
+=== RUN   TestAuditDetectsModificationDeletionInsertionAndReorder
+=== RUN   TestAuditDetectsModificationDeletionInsertionAndReorder/UPDATE_audit_SET_data=replace(data,'change','tamper')_WHERE_sequence=2
+=== RUN   TestAuditDetectsModificationDeletionInsertionAndReorder/DELETE_FROM_audit_WHERE_sequence=2
+=== RUN   TestAuditDetectsModificationDeletionInsertionAndReorder/UPDATE_audit_SET_sequence=9_WHERE_sequence=2
+=== RUN   TestAuditDetectsModificationDeletionInsertionAndReorder/UPDATE_audit_SET_previous_hash='altered'_WHERE_sequence=2
+=== RUN   TestAuditDetectsModificationDeletionInsertionAndReorder/DELETE_FROM_audit_WHERE_sequence=3
+--- PASS: TestAuditDetectsModificationDeletionInsertionAndReorder (0.01s)
+    --- PASS: TestAuditDetectsModificationDeletionInsertionAndReorder/UPDATE_audit_SET_data=replace(data,'change','tamper')_WHERE_sequence=2 (0.00s)
+    --- PASS: TestAuditDetectsModificationDeletionInsertionAndReorder/DELETE_FROM_audit_WHERE_sequence=2 (0.00s)
+    --- PASS: TestAuditDetectsModificationDeletionInsertionAndReorder/UPDATE_audit_SET_sequence=9_WHERE_sequence=2 (0.00s)
+    --- PASS: TestAuditDetectsModificationDeletionInsertionAndReorder/UPDATE_audit_SET_previous_hash='altered'_WHERE_sequence=2 (0.00s)
+    --- PASS: TestAuditDetectsModificationDeletionInsertionAndReorder/DELETE_FROM_audit_WHERE_sequence=3 (0.00s)
+=== RUN   TestAuditPreservesStructFieldOrderAndExactNumbers
+--- PASS: TestAuditPreservesStructFieldOrderAndExactNumbers (0.00s)
+=== RUN   TestLateQualityRollupAndRetention
+--- PASS: TestLateQualityRollupAndRetention (0.00s)
+=== RUN   TestDistinctEventsAtSameTimestampAreCounted
+--- PASS: TestDistinctEventsAtSameTimestampAreCounted (0.00s)
+PASS
+ok  	competition2026/product/platform/internal/store	1.729s
+=== RUN   TestQueuedRealtimeObservationCreatesRecomputationBeforeAcknowledgement
+--- PASS: TestQueuedRealtimeObservationCreatesRecomputationBeforeAcknowledgement (0.01s)
+=== RUN   TestExpressionsResourceBudgetAndPrecision
+--- PASS: TestExpressionsResourceBudgetAndPrecision (0.00s)
+=== RUN   TestTypedGraphAndDerivedRevision
+--- PASS: TestTypedGraphAndDerivedRevision (0.01s)
+=== RUN   TestCounterSurvivesDuplicateAndRestart
+--- PASS: TestCounterSurvivesDuplicateAndRestart (0.04s)
+=== RUN   TestExpressionNumericBudgetAndExactRounding
+--- PASS: TestExpressionNumericBudgetAndExactRounding (0.00s)
+=== RUN   TestReplayUsesMoreThanOneDayAndRestoresLiveCounter
+--- PASS: TestReplayUsesMoreThanOneDayAndRestoresLiveCounter (0.06s)
+=== RUN   TestHistoricalAlarmKeepsAcknowledgementAndCurrentEpisode
+--- PASS: TestHistoricalAlarmKeepsAcknowledgementAndCurrentEpisode (0.01s)
+=== RUN   TestExpressionErrorUsesOnlyTheErrorBranch
+--- PASS: TestExpressionErrorUsesOnlyTheErrorBranch (0.00s)
+=== RUN   TestDraftSimulationIncludesSampleWithoutChangingStoredData
+--- PASS: TestDraftSimulationIncludesSampleWithoutChangingStoredData (0.00s)
+PASS
+ok  	competition2026/product/platform/internal/engine	0.139s

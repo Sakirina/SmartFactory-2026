@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>接入层 · ThingsBoard 核心平台拆解</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="components.css">
+  <style>
+    body { --accent: var(--amber); --accent-soft: rgba(217,119,6,0.08); --accent-line: rgba(217,119,6,0.2); }
+  </style>
+</head>
+<body data-accent="amber">
+  <header>
+    <nav>
+      <a class="back-link" href="index.html">返回总览</a>
+      <div class="crumb">核心平台 <span class="sep">/</span> <b>① 接入层</b></div>
+      <div class="nav-mini">
+        <a href="layer-2-transport.html">传输层</a>
+        <a href="layer-3-queue.html">消息总线</a>
+        <a href="layer-4-core.html">核心处理</a>
+        <a href="layer-5-platform-services.html">支撑服务</a>
+        <a href="layer-6-persistence.html">持久化</a>
+      </div>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-inner">
+      <div class="hero-eyebrow"><span class="layer-no">1</span> 第一层 · Access Layer</div>
+      <h1>接入层<span class="en">设备与用户进入平台的两道门</span></h1>
+      <p class="hero-lead">接入层是平台与外部世界相接的边界。它需要同时面对两类性质相差很大的流量：一类来自现场设备，数量庞大、协议各异、连接长期保持；另一类来自人和业务系统，关注的是身份、权限与实时反馈。把这两类流量从入口处就区分开来对待，是这一层最重要的设计取向。</p>
+      <dl class="hero-facts">
+        <div class="fact"><dt>南向 · 设备</dt><dd>MQTT · CoAP · HTTP · LwM2M · SNMP</dd></div>
+        <div class="fact"><dt>北向 · 用户</dt><dd>REST API · WebSocket</dd></div>
+        <div class="fact"><dt>设备侧服务</dt><dd>ServiceType: TB_TRANSPORT</dd></div>
+        <div class="fact"><dt>源码位置</dt><dd>transport/* · ui-ngx</dd></div>
+      </dl>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <section>
+      <div class="reveal">
+        <div class="section-label">Overview</div>
+        <h2>这一层在做什么</h2>
+      </div>
+      <div class="prose reveal rd1">
+        <p>把接入层理解成一栋楼的两个门厅会比较直观。一个门厅朝向车间，迎接的是成千上万台设备，它们说着 MQTT、CoAP、HTTP、LwM2M、SNMP 等不同的语言，而且大多希望保持长期在线。另一个门厅朝向办公区，迎接的是运维人员的浏览器、上层的业务系统、以及对接平台的第三方应用，它们更在意能不能登录、看到哪些数据、操作是否被授权。</p>
+        <p>两个门厅服务于同一栋楼，却配备了完全不同的接待方式。设备这一侧的关注点集中在协议适配与身份校验，请求量大、连接持久；用户这一侧的关注点集中在会话管理与权限控制，并且需要在数据发生变化时主动把结果送达，而非依赖反复轮询。这种从源头分流的安排，让两类流量的扩展策略能够彼此独立。</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="reveal">
+        <div class="section-label">Internals</div>
+        <h2>内部结构</h2>
+        <p class="section-desc">左侧是南向的设备接入路径，右侧是北向的用户与应用路径。两条路径各自完成校验之后，汇入同一套核心处理层。</p>
+      </div>
+      <div class="diagram-frame reveal rd1" data-cap="接入层 · 南向设备与北向用户的两道入口（点击空白处关闭）">
+        <span class="diagram-hint">点击放大</span>
+        <img src="diagrams/access.svg" alt="接入层内部结构：南向五种设备协议进入传输层，北向 REST 与 WebSocket 进入 Core">
+      </div>
+    </section>
+
+    <section>
+      <div class="reveal">
+        <div class="section-label">Two Doors</div>
+        <h2>南向与北向的分工</h2>
+        <p class="section-desc">同一层里的两条路径，承担着不同的职责，也对应着不同的源码模块。</p>
+      </div>
+      <div class="grid cols-2">
+        <div class="card reveal rd1">
+          <h3>南向 · 设备接入 <span class="tag">TB_TRANSPORT</span></h3>
+          <p>承接来自传感器、控制器、网关、Edge 实例的数据上报与命令应答。五种协议适配器各自处理一类连接模型，把不同格式的设备数据，转换成平台内部统一的遥测、属性与事件。</p>
+          <p style="margin-top:10px">它要解决的问题集中在三处：协议异构需要逐一适配；设备身份需要可信校验，并且校验结果会缓存复用以降低开销；瞬时洪峰需要借助队列缓冲，避免冲击后端。</p>
+          <div class="src"><code>transport/mqtt</code> <code>coap</code> <code>http</code> <code>lwm2m</code> <code>snmp</code></div>
+        </div>
+        <div class="card reveal rd2">
+          <h3>北向 · 用户与应用 <span class="tag">Core API</span></h3>
+          <p>承接浏览器、运营系统与第三方集成的访问。REST 接口处理实体管理、遥测查询、命令下发这类请求；WebSocket 维持长连接，在订阅的数据发生变化时把新值主动送到前端。</p>
+          <p style="margin-top:10px">它要解决的问题同样有三处：每个请求都要确认用户身份、所属租户与可见范围；仪表盘需要在数据落库的同时收到推送；对外接口的契约需要长期保持兼容，内部实现的调整不应外泄给调用方。</p>
+          <div class="src"><code>application/controller</code> · WebSocket Service · <code>ui-ngx</code></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="reveal">
+        <div class="section-label">Design Note</div>
+        <h2>为什么要从入口就分流</h2>
+      </div>
+      <div class="prose reveal rd1">
+        <p>设备流量与用户流量的特征几乎相反。设备连接数量极大、单条消息很小、连接长期保持，瓶颈通常落在并发连接与吞吐上；用户访问数量相对有限、单次请求可能携带复杂查询、关注响应时延与权限判定，瓶颈落在计算与一致性上。</p>
+        <p>如果把两者混在同一道入口处理，扩容时就会互相牵制——设备规模上涨本该只增加传输节点，却可能连带影响到面向用户的接口。把它们从源头分开之后，传输层可以围绕高并发持续横向扩展，Core 与 WebSocket 则按照前端访问量独立伸缩，两条路径各自应对各自的压力点。</p>
+      </div>
+      <div class="callout reveal rd2">
+        <div class="ico">i</div>
+        <p><b>一个容易忽略的细节：</b>设备的凭据校验并不在传输层本地完成，而是经由 Transport API 往返一次 Core 来确认身份。为了避免每条消息都付出这次往返的开销，校验结果会被缓存复用。这条机制在<a href="layer-2-transport.html">传输层</a>里有更完整的展开。</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="reveal">
+        <div class="section-label">Position</div>
+        <h2>在整条链路中的位置</h2>
+        <p class="section-desc">接入层是数据进入平台的第一站。它的下游，是负责协议适配与转发的传输层。</p>
+      </div>
+      <div class="passage reveal rd1">
+        <span class="node here">① 接入层</span>
+        <span class="ar">→</span>
+        <span class="node">② 传输层</span>
+        <span class="ar">→</span>
+        <span class="node">③ 消息总线</span>
+        <span class="ar">→</span>
+        <span class="node">④ 核心处理</span>
+        <span class="ar">→</span>
+        <span class="node">⑥ 持久化</span>
+      </div>
+      <div class="prose reveal rd2">
+        <p>设备数据从这里进入之后，会沿着传输层、消息总线、核心处理层一路向下，最终落入持久化层；与此同时，处理结果又会通过 WebSocket 回到这一层的北向门厅，呈现在仪表盘上。完整的逐跳过程，可以在<a href="index.html#dataflow">总览页的端到端数据流</a>里对照查看。</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="reveal">
+        <div class="section-label">Source Map</div>
+        <h2>源码位置</h2>
+      </div>
+      <div class="grid cols-3">
+        <div class="card reveal rd1"><h3>协议适配器</h3><p>五种传输协议的接入实现，各自独立成模块。</p><div class="src"><code>transport/mqtt · coap · http · lwm2m · snmp</code></div></div>
+        <div class="card reveal rd2"><h3>传输服务骨架</h3><p>会话管理、认证与转发的公共逻辑。</p><div class="src"><code>common/transport/transport-api</code></div></div>
+        <div class="card reveal rd3"><h3>前端工程</h3><p>Angular 实现的 Web 控制台，承接北向交互。</p><div class="src"><code>ui-ngx</code></div></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="siblings reveal">
+        <span class="sib disabled"><span class="dir">上一层</span><span class="nm">已是第一层</span></span>
+        <a class="sib next" href="layer-2-transport.html"><span class="dir">下一层 →</span><span class="nm">② 传输层 <span class="en">Transport</span></span></a>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <p>ThingsBoard 核心平台拆解 · 第一层 接入层 · <a href="index.html">返回总览</a></p>
+      <div class="dots">
+        <span style="background:var(--amber)"></span><span style="background:var(--cyan)"></span>
+        <span style="background:var(--blue)"></span><span style="background:var(--teal)"></span>
+        <span style="background:var(--violet)"></span><span style="background:var(--emerald)"></span>
+      </div>
+    </div>
+  </footer>
+
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <span class="lightbox-close">&times;</span>
+    <img id="lightbox-img" src="" alt="放大查看">
+    <div class="lightbox-cap" id="lightbox-cap"></div>
+  </div>
+
+  <script src="deepdive.js"></script>
+</body>
+</html>

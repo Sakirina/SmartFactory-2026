@@ -1,0 +1,281 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2400" height="1660" viewBox="0 0 2400 1660" role="img" aria-labelledby="title desc">
+  <title id="title">ThingsBoard 核心平台 · 系统架构</title>
+  <desc id="desc">ThingsBoard Server/Cloud 主平台分层架构：接入层、传输层、消息总线、核心处理层（TB Core / TB Rule Engine / EDQS 与 Actor 体系）、支撑服务、持久化层，基于 upstream/thingsboard 源码模块整理。</desc>
+  <defs>
+    <style>
+      .bg { fill: #f8fafc; }
+      .title { font: 800 42px 'Inter', Arial, sans-serif; fill: #0f172a; }
+      .subtitle { font: 400 18px 'Inter', Arial, sans-serif; fill: #475569; }
+      .band-tag { font: 700 19px 'Inter', Arial, sans-serif; fill: #0f172a; }
+      .box-title { font: 800 21px 'Inter', Arial, sans-serif; fill: #0f172a; }
+      .box-title-sm { font: 700 17px 'Inter', Arial, sans-serif; fill: #111827; }
+      .text { font: 400 15px 'Inter', Arial, sans-serif; fill: #334155; }
+      .small { font: 400 14px 'Inter', Arial, sans-serif; fill: #475569; }
+      .tiny { font: 400 12.5px 'Inter', Arial, sans-serif; fill: #64748b; }
+      .code { font: 600 13.5px Menlo, Consolas, monospace; fill: #0f172a; }
+      .badge { font: 700 12px 'Inter', Arial, sans-serif; }
+      .lane { fill: #ffffff; stroke: #e2e8f0; stroke-width: 1.5; }
+      .lane-spine { fill: #ecfeff; stroke: #a5f3fc; stroke-width: 1.5; }
+      .box { fill: #ffffff; stroke: #cbd5e1; stroke-width: 2; }
+      .box-blue { fill: #eff6ff; stroke: #2563eb; stroke-width: 2; }
+      .box-teal { fill: #ecfdf5; stroke: #059669; stroke-width: 2; }
+      .box-amber { fill: #fffbeb; stroke: #d97706; stroke-width: 2; }
+      .box-rose { fill: #fff1f2; stroke: #e11d48; stroke-width: 2; }
+      .box-violet { fill: #f5f3ff; stroke: #7c3aed; stroke-width: 2; }
+      .box-slate { fill: #f1f5f9; stroke: #64748b; stroke-width: 2; }
+      .box-emerald { fill: #ecfdf5; stroke: #10b981; stroke-width: 2; }
+      .box-cyan { fill: #ecfeff; stroke: #0891b2; stroke-width: 2; }
+      .chip { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.5; }
+      .chip-code { font: 600 13px Menlo, Consolas, monospace; fill: #334155; }
+      .arrow { fill: none; stroke: #334155; stroke-width: 2.5; marker-end: url(#arrow); }
+      .arrow-amber { fill: none; stroke: #d97706; stroke-width: 2.5; marker-end: url(#arrowAmber); }
+      .arrow-cyan { fill: none; stroke: #0891b2; stroke-width: 2.5; marker-end: url(#arrowCyan); }
+      .arrow-emerald { fill: none; stroke: #10b981; stroke-width: 2.5; marker-end: url(#arrowEmerald); }
+      .arrow-blue { fill: none; stroke: #2563eb; stroke-width: 2.5; marker-end: url(#arrowBlue); }
+      .dash { stroke-dasharray: 7 7; }
+    </style>
+    <marker id="arrow" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M2,2 L9,5.5 L2,9 Z" fill="#334155"/></marker>
+    <marker id="arrowAmber" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M2,2 L9,5.5 L2,9 Z" fill="#d97706"/></marker>
+    <marker id="arrowCyan" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M2,2 L9,5.5 L2,9 Z" fill="#0891b2"/></marker>
+    <marker id="arrowEmerald" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M2,2 L9,5.5 L2,9 Z" fill="#10b981"/></marker>
+    <marker id="arrowBlue" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M2,2 L9,5.5 L2,9 Z" fill="#2563eb"/></marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="2400" height="1660"/>
+
+  <!-- ===== TITLE ===== -->
+  <text class="title" x="60" y="58">ThingsBoard 核心平台 · 系统架构</text>
+  <text class="subtitle" x="62" y="90">Server / Cloud 主平台 — 接入、传输、消息总线、核心服务、Actor 体系与持久化的分层视图（源自 upstream/thingsboard）</text>
+
+  <!-- legend -->
+  <g transform="translate(1640,30)">
+    <rect class="box-blue" x="0" y="0" width="14" height="14" rx="3"/><text class="tiny" x="20" y="12">TB Core</text>
+    <rect class="box-teal" x="120" y="0" width="14" height="14" rx="3"/><text class="tiny" x="140" y="12">Rule Engine</text>
+    <rect class="box-violet" x="270" y="0" width="14" height="14" rx="3"/><text class="tiny" x="290" y="12">EDQS</text>
+    <rect class="box-amber" x="370" y="0" width="14" height="14" rx="3"/><text class="tiny" x="390" y="12">传输</text>
+    <rect class="box-cyan" x="450" y="0" width="14" height="14" rx="3"/><text class="tiny" x="470" y="12">消息总线</text>
+    <rect class="box-emerald" x="560" y="0" width="14" height="14" rx="3"/><text class="tiny" x="580" y="12">持久化</text>
+    <rect class="box-slate" x="660" y="0" width="14" height="14" rx="3"/><text class="tiny" x="680" y="12">基础设施</text>
+  </g>
+
+  <!-- ===== BAND A: ACCESS ===== -->
+  <rect class="lane" x="60" y="112" width="2280" height="186" rx="14"/>
+  <text class="band-tag" x="84" y="146">① 接入层 — 设备与客户端</text>
+
+  <rect class="box-amber" x="92" y="160" width="940" height="118" rx="10"/>
+  <text class="box-title-sm" x="116" y="190">现场设备 / 网关 / Edge</text>
+  <text class="small" x="116" y="217">传感器 · PLC · 执行器 · ThingsBoard IoT Gateway · ThingsBoard Edge 实例</text>
+  <g transform="translate(116,236)">
+    <rect class="chip" x="0" y="0" width="92" height="28" rx="14"/><text class="chip-code" x="46" y="19" text-anchor="middle">MQTT</text>
+    <rect class="chip" x="104" y="0" width="92" height="28" rx="14"/><text class="chip-code" x="150" y="19" text-anchor="middle">CoAP</text>
+    <rect class="chip" x="208" y="0" width="92" height="28" rx="14"/><text class="chip-code" x="254" y="19" text-anchor="middle">HTTP</text>
+    <rect class="chip" x="312" y="0" width="104" height="28" rx="14"/><text class="chip-code" x="364" y="19" text-anchor="middle">LwM2M</text>
+    <rect class="chip" x="428" y="0" width="92" height="28" rx="14"/><text class="chip-code" x="474" y="19" text-anchor="middle">SNMP</text>
+  </g>
+
+  <rect class="box-blue" x="1056" y="160" width="1252" height="118" rx="10"/>
+  <text class="box-title-sm" x="1080" y="190">用户与应用客户端</text>
+  <text class="small" x="1080" y="217">浏览器、运营系统、外部集成 — 经 REST / WebSocket 与平台交互</text>
+  <g transform="translate(1080,236)">
+    <rect class="chip" x="0" y="0" width="220" height="28" rx="14"/><text class="tiny" x="110" y="19" text-anchor="middle">Web UI · Angular (ui-ngx)</text>
+    <rect class="chip" x="236" y="0" width="180" height="28" rx="14"/><text class="tiny" x="326" y="19" text-anchor="middle">REST API 客户端</text>
+    <rect class="chip" x="432" y="0" width="200" height="28" rx="14"/><text class="tiny" x="532" y="19" text-anchor="middle">WebSocket 订阅端</text>
+    <rect class="chip" x="648" y="0" width="200" height="28" rx="14"/><text class="tiny" x="748" y="19" text-anchor="middle">第三方系统 / 集成</text>
+  </g>
+
+  <!-- A -> B arrows -->
+  <line class="arrow-amber" x1="560" y1="298" x2="560" y2="330"/>
+  <line class="arrow-blue dash" x1="1680" y1="330" x2="1680" y2="298"/>
+  <text class="tiny" x="1694" y="318" fill="#2563eb">REST / WS</text>
+
+  <!-- ===== BAND B: TRANSPORT ===== -->
+  <rect class="lane" x="60" y="330" width="2280" height="172" rx="14"/>
+  <text class="band-tag" x="84" y="364">② 传输层 — ServiceType: TB_TRANSPORT</text>
+  <text class="tiny" x="430" y="364">校验设备凭据 → Transport API 请求/响应队列 ↔ TB Core；遥测 / 属性 → 规则引擎队列</text>
+  <g transform="translate(0,378)">
+    <rect class="box-amber" x="92" y="0" width="416" height="100" rx="10"/>
+    <text class="box-title-sm" x="300" y="38" text-anchor="middle">MQTT Transport</text>
+    <text class="tiny" x="300" y="64" text-anchor="middle">Netty · 长连接 · QoS</text>
+    <text class="tiny" x="300" y="84" text-anchor="middle">transport/mqtt</text>
+
+    <rect class="box-amber" x="530" y="0" width="360" height="100" rx="10"/>
+    <text class="box-title-sm" x="710" y="38" text-anchor="middle">CoAP Transport</text>
+    <text class="tiny" x="710" y="64" text-anchor="middle">UDP · DTLS · 轻量</text>
+    <text class="tiny" x="710" y="84" text-anchor="middle">transport/coap</text>
+
+    <rect class="box-amber" x="912" y="0" width="360" height="100" rx="10"/>
+    <text class="box-title-sm" x="1092" y="38" text-anchor="middle">HTTP Transport</text>
+    <text class="tiny" x="1092" y="64" text-anchor="middle">REST 上报 · 长轮询</text>
+    <text class="tiny" x="1092" y="84" text-anchor="middle">transport/http</text>
+
+    <rect class="box-amber" x="1294" y="0" width="420" height="100" rx="10"/>
+    <text class="box-title-sm" x="1504" y="38" text-anchor="middle">LwM2M Transport</text>
+    <text class="tiny" x="1504" y="64" text-anchor="middle">Leshan · 设备管理</text>
+    <text class="tiny" x="1504" y="84" text-anchor="middle">transport/lwm2m</text>
+
+    <rect class="box-amber" x="1736" y="0" width="572" height="100" rx="10"/>
+    <text class="box-title-sm" x="2022" y="38" text-anchor="middle">SNMP Transport</text>
+    <text class="tiny" x="2022" y="64" text-anchor="middle">轮询采集 · 工业设备纳管</text>
+    <text class="tiny" x="2022" y="84" text-anchor="middle">transport/snmp</text>
+  </g>
+
+  <!-- B -> C -->
+  <line class="arrow-amber" x1="700" y1="502" x2="700" y2="532"/>
+  <text class="tiny" x="714" y="522">遥测 / 属性 / RPC 响应</text>
+  <line class="arrow-cyan dash" x1="1500" y1="532" x2="1500" y2="502"/>
+  <text class="tiny" x="1514" y="522" fill="#0891b2">RPC 下行 / 配置推送</text>
+
+  <!-- ===== BAND C: MESSAGE QUEUE ===== -->
+  <rect class="lane-spine" x="60" y="532" width="2280" height="156" rx="14"/>
+  <text class="band-tag" x="84" y="566">③ 消息总线 — In-Memory（单体默认）/ Apache Kafka（集群）</text>
+  <text class="tiny" x="700" y="566">所有跨服务通信经此解耦；按租户 + 实体一致性哈希分区到各处理节点</text>
+  <g transform="translate(92,584)">
+    <rect class="box-cyan" x="0" y="0" width="232" height="32" rx="8"/><text class="chip-code" x="116" y="21" text-anchor="middle">tb_transport.api</text>
+    <rect class="box-cyan" x="248" y="0" width="210" height="32" rx="8"/><text class="chip-code" x="353" y="21" text-anchor="middle">tb_rule_engine</text>
+    <rect class="box-cyan" x="482" y="0" width="150" height="32" rx="8"/><text class="chip-code" x="557" y="21" text-anchor="middle">tb_core</text>
+    <rect class="box-cyan" x="656" y="0" width="262" height="32" rx="8"/><text class="chip-code" x="787" y="21" text-anchor="middle">tb_core.notifications</text>
+    <rect class="box-cyan" x="942" y="0" width="206" height="32" rx="8"/><text class="chip-code" x="1045" y="21" text-anchor="middle">tb_usage_stats</text>
+    <rect class="box-cyan" x="1172" y="0" width="186" height="32" rx="8"/><text class="chip-code" x="1265" y="21" text-anchor="middle">js-executor</text>
+    <rect class="box-cyan" x="1382" y="0" width="216" height="32" rx="8"/><text class="chip-code" x="1490" y="21" text-anchor="middle">version-control</text>
+    <rect class="box-cyan" x="1622" y="0" width="218" height="32" rx="8"/><text class="chip-code" x="1731" y="21" text-anchor="middle">tb_housekeeper</text>
+    <rect class="box-cyan" x="1864" y="0" width="190" height="32" rx="8"/><text class="chip-code" x="1959" y="21" text-anchor="middle">tb_ota_package</text>
+    <rect class="box-cyan" x="2078" y="0" width="138" height="32" rx="8"/><text class="chip-code" x="2147" y="21" text-anchor="middle">tb_edge</text>
+  </g>
+  <text class="tiny" x="92" y="660">Producer / Consumer 模板：common/queue（kafka · memory · provider）— 主题保留、分区数、min.insync 均可配</text>
+
+  <!-- C -> D -->
+  <line class="arrow-cyan" x1="440" y1="688" x2="440" y2="718"/>
+  <line class="arrow-cyan" x1="900" y1="688" x2="900" y2="718"/>
+  <line class="arrow-cyan dash" x1="1380" y1="718" x2="1380" y2="688"/>
+
+  <!-- ===== BAND D: CORE PROCESSING ===== -->
+  <rect class="lane" x="60" y="718" width="2280" height="480" rx="14"/>
+  <text class="band-tag" x="84" y="752">④ 核心处理层 — 服务集群 + Actor 体系</text>
+
+  <!-- Col1 TB Core -->
+  <rect class="box-blue" x="92" y="768" width="712" height="248" rx="10"/>
+  <rect x="112" y="786" width="150" height="24" rx="12" fill="#2563eb"/><text class="badge" x="187" y="803" text-anchor="middle" fill="#fff">TB_CORE</text>
+  <text class="box-title" x="280" y="806">TB Core</text>
+  <text class="text" x="116" y="842">• Device State Service — 在线/离线状态机</text>
+  <text class="text" x="116" y="868">• Subscription Manager — 遥测/属性订阅</text>
+  <text class="text" x="116" y="894">• WebSocket Service — 实时推送给前端</text>
+  <text class="text" x="116" y="920">• REST + Telemetry API — 对外服务入口</text>
+  <text class="text" x="116" y="946">• Transport API Handler — 设备会话校验</text>
+  <text class="text" x="116" y="972">• Device RPC · OTA · Edge Service</text>
+  <text class="text" x="116" y="998">• Calculated Field 调度 · 告警下发</text>
+
+  <!-- Col2 Rule Engine -->
+  <rect class="box-teal" x="824" y="768" width="712" height="248" rx="10"/>
+  <rect x="844" y="786" width="200" height="24" rx="12" fill="#059669"/><text class="badge" x="944" y="803" text-anchor="middle" fill="#fff">TB_RULE_ENGINE</text>
+  <text class="box-title" x="1060" y="806">TB Rule Engine</text>
+  <text class="text" x="848" y="842">• 规则链消费者 — 从 tb_rule_engine 拉消息</text>
+  <text class="text" x="848" y="868">• 消息进入 DeviceActor → RuleChain → RuleNode</text>
+  <text class="text" x="848" y="900" font-weight="700" fill="#047857">rule-engine-components 节点族：</text>
+  <text class="small" x="848" y="924">Filter 过滤 · Transform 转换 · Enrichment 富化</text>
+  <text class="small" x="848" y="946">Action 动作 · External 外部 · Telemetry 存储 · Flow 流转</text>
+  <text class="text" x="848" y="978">• 处理结果回写 Core / 下发 Transport / 触发 CF</text>
+  <text class="tiny" x="848" y="1000">分区：按 tenantId + entityId 一致性哈希落到具体节点</text>
+
+  <!-- Col3 EDQS -->
+  <rect class="box-violet" x="1556" y="768" width="752" height="248" rx="10"/>
+  <rect x="1576" y="786" width="60" height="24" rx="12" fill="#7c3aed"/><text class="badge" x="1606" y="803" text-anchor="middle" fill="#fff">EDQS</text>
+  <text class="box-title" x="1650" y="806">Entity Data Query Service</text>
+  <text class="text" x="1580" y="842">• 内存实体索引 — 实体/关系/最新遥测常驻内存</text>
+  <text class="text" x="1580" y="868">• 复杂实体数据查询（Entity Data Query）提速</text>
+  <text class="text" x="1580" y="894">• 经 Kafka 订阅实体变更，保持索引最新</text>
+  <text class="text" x="1580" y="920">• 为 Dashboard 大表格 / 地图聚合卸载 DB 压力</text>
+  <text class="tiny" x="1580" y="952">独立 ServiceType：可单独伸缩，集群下显著降低 SQL 负载</text>
+  <rect class="chip" x="1580" y="968" width="240" height="30" rx="8"/><text class="tiny" x="1700" y="988" text-anchor="middle">edqs · common/edqs</text>
+
+  <!-- Actor System sub-band -->
+  <rect class="box-slate" x="92" y="1036" width="2216" height="146" rx="10"/>
+  <text class="box-title-sm" x="116" y="1064">Actor 体系 (common/actor) — 分层监督，每个实体独享邮箱，串行处理保证状态一致</text>
+  <g transform="translate(120,1086)">
+    <rect class="box" x="0" y="0" width="150" height="64" rx="8"/><text class="box-title-sm" x="75" y="30" text-anchor="middle">AppActor</text><text class="tiny" x="75" y="50" text-anchor="middle">系统根</text>
+    <line class="arrow" x1="150" y1="32" x2="196" y2="32"/>
+    <rect class="box" x="200" y="0" width="170" height="64" rx="8"/><text class="box-title-sm" x="285" y="30" text-anchor="middle">TenantActor</text><text class="tiny" x="285" y="50" text-anchor="middle">租户隔离边界</text>
+    <line class="arrow" x1="370" y1="32" x2="416" y2="32"/>
+    <rect class="box-teal" x="420" y="-14" width="220" height="44" rx="8"/><text class="box-title-sm" x="530" y="13" text-anchor="middle">RuleChainActor</text>
+    <line class="arrow" x1="640" y1="8" x2="686" y2="8"/>
+    <rect class="box-teal" x="690" y="-14" width="200" height="44" rx="8"/><text class="box-title-sm" x="790" y="13" text-anchor="middle">RuleNodeActor</text>
+    <rect class="box-blue" x="420" y="40" width="220" height="44" rx="8"/><text class="box-title-sm" x="530" y="67" text-anchor="middle">DeviceActor</text>
+    <line class="arrow" x1="900" y1="8" x2="946" y2="8"/>
+    <rect class="box-violet" x="950" y="-14" width="320" height="44" rx="8"/><text class="box-title-sm" x="1110" y="13" text-anchor="middle">CalculatedFieldManagerActor</text>
+    <line class="arrow" x1="1270" y1="8" x2="1316" y2="8"/>
+    <rect class="box-violet" x="1320" y="-14" width="270" height="44" rx="8"/><text class="box-title-sm" x="1455" y="13" text-anchor="middle">CFEntityActor</text>
+    <rect class="box" x="1320" y="40" width="270" height="44" rx="8"/><text class="box-title-sm" x="1455" y="67" text-anchor="middle">StatsActor</text>
+    <text class="tiny" x="1640" y="14">租户 → 设备 / 规则链 / 计算字段，逐级派生子 Actor；</text>
+    <text class="tiny" x="1640" y="36">单 Actor 串行消费消息，避免并发锁，故障就地隔离重启。</text>
+  </g>
+
+  <!-- D -> E -->
+  <line class="arrow" x1="500" y1="1198" x2="500" y2="1228"/>
+  <line class="arrow" x1="1180" y1="1198" x2="1180" y2="1228"/>
+
+  <!-- ===== BAND E: SUPPORTING ===== -->
+  <rect class="lane" x="60" y="1228" width="2280" height="158" rx="14"/>
+  <text class="band-tag" x="84" y="1262">⑤ 支撑服务 — Platform Services</text>
+  <g transform="translate(0,1276)">
+    <rect class="box-slate" x="92" y="0" width="426" height="92" rx="10"/>
+    <text class="box-title-sm" x="305" y="32" text-anchor="middle">JS Executor</text>
+    <text class="tiny" x="305" y="56" text-anchor="middle">远程 NodeJS 进程池 / 本地引擎</text>
+    <text class="tiny" x="305" y="76" text-anchor="middle">规则脚本沙箱执行 · js-executor 队列</text>
+
+    <rect class="box-slate" x="540" y="0" width="400" height="92" rx="10"/>
+    <text class="box-title-sm" x="740" y="32" text-anchor="middle">Version Control</text>
+    <text class="tiny" x="740" y="56" text-anchor="middle">实体配置 Git 版本化</text>
+    <text class="tiny" x="740" y="76" text-anchor="middle">vc-executor · version-control 队列</text>
+
+    <rect class="box-slate" x="962" y="0" width="360" height="92" rx="10"/>
+    <text class="box-title-sm" x="1142" y="32" text-anchor="middle">Housekeeper</text>
+    <text class="tiny" x="1142" y="56" text-anchor="middle">删除级联清理 · TTL 过期</text>
+    <text class="tiny" x="1142" y="76" text-anchor="middle">tb_housekeeper 队列</text>
+
+    <rect class="box-slate" x="1344" y="0" width="360" height="92" rx="10"/>
+    <text class="box-title-sm" x="1524" y="32" text-anchor="middle">Usage Stats</text>
+    <text class="tiny" x="1524" y="56" text-anchor="middle">租户用量计量 · 配额</text>
+    <text class="tiny" x="1524" y="76" text-anchor="middle">tb_usage_stats 队列</text>
+
+    <rect class="box-rose" x="1726" y="0" width="582" height="92" rx="10"/>
+    <text class="box-title-sm" x="2017" y="32" text-anchor="middle">Discovery &amp; Partition Service</text>
+    <text class="tiny" x="2017" y="56" text-anchor="middle">Zookeeper 服务发现 · 一致性哈希分区</text>
+    <text class="tiny" x="2017" y="76" text-anchor="middle">决定每个实体由哪个 Rule Engine 节点处理</text>
+  </g>
+
+  <!-- E -> F -->
+  <line class="arrow-emerald" x1="500" y1="1386" x2="500" y2="1416"/>
+  <line class="arrow-emerald" x1="1180" y1="1386" x2="1180" y2="1416"/>
+
+  <!-- ===== BAND F: PERSISTENCE ===== -->
+  <rect class="lane" x="60" y="1416" width="2280" height="186" rx="14"/>
+  <text class="band-tag" x="84" y="1450">⑥ 持久化层 — Persistence（dao 模块）</text>
+  <g transform="translate(0,1464)">
+    <rect class="box-emerald" x="92" y="0" width="560" height="118" rx="10"/>
+    <text class="box-title-sm" x="372" y="34" text-anchor="middle">关系型存储 · PostgreSQL</text>
+    <text class="tiny" x="372" y="62" text-anchor="middle">实体 · 关系 · 仪表盘 · 规则链 · 用户</text>
+    <text class="tiny" x="372" y="84" text-anchor="middle">告警 · 组件配置 · OAuth2 · 通知</text>
+    <text class="tiny" x="372" y="106" text-anchor="middle">dao/sql · model</text>
+
+    <rect class="box-emerald" x="676" y="0" width="600" height="118" rx="10"/>
+    <text class="box-title-sm" x="976" y="34" text-anchor="middle">时序存储 · Time-Series</text>
+    <text class="tiny" x="976" y="62" text-anchor="middle">PostgreSQL / TimescaleDB（dao/sqlts）</text>
+    <text class="tiny" x="976" y="84" text-anchor="middle">或 Apache Cassandra（dao/nosql）</text>
+    <text class="tiny" x="976" y="106" text-anchor="middle">遥测历史 · 海量写入与时间范围查询</text>
+
+    <rect class="box-emerald" x="1300" y="0" width="520" height="118" rx="10"/>
+    <text class="box-title-sm" x="1560" y="34" text-anchor="middle">缓存 · Cache</text>
+    <text class="tiny" x="1560" y="62" text-anchor="middle">Caffeine（本地，默认）</text>
+    <text class="tiny" x="1560" y="84" text-anchor="middle">Redis（分布式，集群）</text>
+    <text class="tiny" x="1560" y="106" text-anchor="middle">实体 · 凭据 · 会话 · 最新值加速</text>
+
+    <rect class="box-emerald" x="1844" y="0" width="464" height="118" rx="10"/>
+    <text class="box-title-sm" x="2076" y="34" text-anchor="middle">对象 / OTA 存储</text>
+    <text class="tiny" x="2076" y="62" text-anchor="middle">固件 / 软件包二进制</text>
+    <text class="tiny" x="2076" y="84" text-anchor="middle">tb_ota_package 分发</text>
+    <text class="tiny" x="2076" y="106" text-anchor="middle">大文件分块下发设备</text>
+  </g>
+
+  <!-- right rail: real-time push back to clients -->
+  <path class="arrow-blue dash" d="M2326 906 C 2370 906, 2370 250, 2326 250"/>
+  <text class="tiny" x="2300" y="580" fill="#2563eb" transform="rotate(90 2300 580)">WebSocket 实时推送回前端</text>
+</svg>

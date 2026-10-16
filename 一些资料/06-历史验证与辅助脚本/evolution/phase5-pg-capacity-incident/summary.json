@@ -1,0 +1,74 @@
+{
+  "recorded_at": "2026-10-05T07:46:16.599424+00:00",
+  "status": "replacement_reinitialized_logical_data_preserved_connection_limit_60_native_restart_passed",
+  "kind": "isolated_test_infrastructure_capacity_incident",
+  "old_container": "smartfactory-evolution-pg18-20261004",
+  "old_limits": {
+    "container_memory_bytes": 1073741824,
+    "data_tmpfs_bytes": 536870912,
+    "max_connections": 30
+  },
+  "observed_order": [
+    "new isolated native databases cloned",
+    "PostgreSQL No space left on device",
+    "checkpoint PANIC",
+    "recovery checkpoint failed",
+    "container exited 1; OOMKilled true observed in state"
+  ],
+  "historical_evidence": "Previously completed PostgreSQL checks retain their original binaries, raw logs and source manifests; previous temporary database contents are unavailable for fresh queries after the container exit",
+  "unavailable_temporary_state": [
+    "sf_pilot_20261004 schema",
+    "previous native CE/Edge databases and attempted final clones"
+  ],
+  "replacement": {
+    "container": "smartfactory-evolution-pg18-final60-20261005",
+    "version": "18.6",
+    "same_locked_image": true,
+    "container_memory_bytes": 1073741824,
+    "cpu_limit": 2,
+    "max_connections": 60,
+    "storage": "persistent bind-mounted directory",
+    "directory": "/private/tmp/smartfactory-evolution-pg18-final-20261005/data",
+    "readiness": "SQL settings, unchanged cluster identifier and full normalized logical dumps of four databases verified before and after restart"
+  },
+  "next_steps": [
+    "final independent PostgreSQL tests use the updated private descriptor and newly isolated schemas"
+  ],
+  "evidence": [
+    {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-pg-capacity-incident/container-state.json",
+      "sha256": "537c83891c0d7b72b4a19f6ea3082a78d3240dd142058054a8e1b5bab1817a55",
+      "bytes": 502
+    },
+    {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-pg-capacity-incident/pg.log",
+      "sha256": "357cf7eeea15dcf73382d16752ab4fe884dfe9666f18aaaf9024cec6412dc909",
+      "bytes": 34531
+    },
+    {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-pg-capacity-incident/replacement-create.json",
+      "sha256": "e431b25cf89803c476e4d79fd0a518fc40983a2b925f2db071ea7fd5708a4203",
+      "bytes": 1316
+    },
+    {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-pg-capacity-incident/replacement-ready.json",
+      "sha256": "314aba7b40901656cbe2930289235523770e14706432ed839048bedd610c3608",
+      "bytes": 996
+    }
+  ],
+  "private_descriptors": "Previous descriptor retained privately beside incident records; current .local/evolution/pg18-test.json updated without publishing credentials",
+  "original_user_container_scope": "Nine original stopped user containers and their volumes were not operated on during this replacement",
+  "updated_at": "2026-10-05T08:31:58.536281+00:00",
+  "connection_limit_transition": {
+    "path": "/private/tmp/smartfactory-evolution-pg18-final-20261005/pg60-transition/verification.json",
+    "sha256": "fa6caad11dc55633f211e0c4d5488e3f94be95bd0d0f98d6c85014e3e956012b",
+    "bytes": 4574
+  },
+  "native_databases": {
+    "initialization": "formal installation and bootstrap completed on replacement instance",
+    "cloud": "sf_delivery_tbce_20261005",
+    "edge": "sf_delivery_tbedge_20261005",
+    "current_verification": "/private/tmp/smartfactory-delivery-native-restart-verified-20261005",
+    "verification_result": "thirteen finite native checks passed and coordinator verified"
+  }
+}

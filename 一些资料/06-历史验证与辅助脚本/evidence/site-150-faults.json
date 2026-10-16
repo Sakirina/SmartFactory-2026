@@ -1,0 +1,104 @@
+{
+  "started_ms": 1789877825480,
+  "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "source_commit": "f4bd353dcd2f023e41355eb92698e252be6d4f73",
+  "binary_sha256": {
+    "sf-site-fixture": "e30eea9613fd2bc4e4a46dd43a566b172c58f347d40cbcc14d9afa96269f7bb5",
+    "datatransfer": "80ee6965b7aa67b771abae40fcbf6244d0d8ab7e3c0aab51f38eb980044bee10",
+    "dt-simulator": "7f48fe40dbb65e5a67b6d410f01f0dd3d60ae59afbf761a47a3ee1f3dd7f194a"
+  },
+  "nodes": 3,
+  "devices_per_node": 50,
+  "protocol": "MQTT 5.0",
+  "sampling_ms": 5000,
+  "storage": "three PostgreSQL databases in one bounded tmpfs fixture; three in-memory DataTransfer journals and simulator stores; three independent NATS tmpfs stores",
+  "lease_ms": 5000,
+  "production_default_lease_ms": 15000,
+  "offline_ms": 15000,
+  "cloud_connected": false,
+  "tests": [],
+  "passed": false,
+  "full_A09_24h": false,
+  "fixture": {
+    "definition_hash": "021956eaf7457682c89d02443a917831f2e128b56889ac96078425cdd89d04ae",
+    "devices_per_node": 50,
+    "lease_ms": 5000,
+    "nodes": 3,
+    "offline_ms": 15000
+  },
+  "error": "baseline all-node execution",
+  "failure_state": {
+    "0": [
+      {
+        "downlink_id": "site-baseline",
+        "definition_id": "site-gas-plan",
+        "definition_version": 1,
+        "params": {},
+        "status": "rejected",
+        "override": false,
+        "risk_category": "",
+        "risk_level": 0,
+        "binding": "",
+        "created_ms": 0,
+        "approval_expires_ms": 0,
+        "start_deadline_ms": 1789877849894,
+        "approvals": [],
+        "steps": [],
+        "reason": "physical interlock: edge-b-device-000.interlock: missing observation",
+        "snapshot": [
+          {
+            "id": "edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789877835212598000:1:2",
+            "origin_id": "edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789877835212598000:1:2",
+            "message_id": "edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789877835212598000:1",
+            "source_id": "edge-a",
+            "source_sequence": 1,
+            "device_id": "edge-a-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789877835212,
+            "received_ms": 1789877835302,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789877835788819000:1:2:0",
+            "origin_id": "edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789877835788819000:1:2",
+            "message_id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789877835788819000:1:2",
+            "source_id": "edge-c",
+            "source_sequence": 1,
+            "device_id": "edge-c-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789877835788,
+            "received_ms": 1789877839393,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          }
+        ],
+        "actor": {
+          "user_id": "published-policy",
+          "name": "",
+          "department_id": "",
+          "roles": null,
+          "source": "acceptance-fixture",
+          "session_id": "",
+          "ai": false
+        },
+        "fence": 1,
+        "coordinator_id": "edge-a",
+        "version": 2
+      }
+    ],
+    "1": [],
+    "2": []
+  },
+  "finished_ms": 1789877875713
+}

@@ -1,0 +1,1001 @@
+{
+  "schema_version": 1,
+  "phase": 3,
+  "role": "control_execution",
+  "finding": "P3-C05",
+  "status": "verified_backend_fix_browser_fixture_available_for_independent_review",
+  "generated_at": "2026-10-04T21:33:03.018556+00:00",
+  "scope": "Synchronize durable original-command evidence from edge execution receipts into cloud detail, including late original results after cancellation",
+  "baseline": {
+    "original_report": {
+      "path": ".local/evolution/control-execution-verified.json",
+      "sha256": "e8d7c544ce7fe029a0048890a292c893da8fbef70b79ac5af888ba8af388fe8d",
+      "bytes": 81826
+    },
+    "preserved_report": {
+      "path": ".local/evolution/control-evidence/pre-c05/control-execution-verified.json",
+      "sha256": "e8d7c544ce7fe029a0048890a292c893da8fbef70b79ac5af888ba8af388fe8d",
+      "bytes": 81826
+    },
+    "original_source_manifest": {
+      "path": ".local/evolution/control-evidence/pre-c05/final-source-manifest.json",
+      "sha256": "dc68f412270d13d9f9a2cb75b46adb163c3af2d1afeac1d582c9205e451eb43b",
+      "bytes": 73616
+    },
+    "original_binary_manifest": {
+      "path": "/private/tmp/sf-control-browser-final-v2-20261005/manifest.json",
+      "sha256": "44338befd4cd20f1d0c41ac1b8ea9fece72c472f348016bf5e6ba807a842a4e4",
+      "bytes": 4073
+    },
+    "independent_before_fix_evidence": [
+      {
+        "path": ".local/evolution/phase3-review-evidence/control-resume-backend.json",
+        "sha256": "9c8358acab4dcbff79222fcc5df9aee47f3117db08088a4b7d9a450450cbc7a9",
+        "bytes": 85741
+      },
+      {
+        "path": ".local/evolution/phase3-review-evidence/control-trusted-evidence.json",
+        "sha256": "a4cd709f49f64d46317e200a637c5440577855b7e0bb31da9f95cd8dc3025f29",
+        "bytes": 5764
+      }
+    ],
+    "first_reproduced_failure": {
+      "log": {
+        "path": ".local/evolution/control-evidence/c05/dual-app-before-fix.jsonl",
+        "sha256": "58d1fcd774e079101a8f8d61881d826254ff197a2816c10e8d5f04fccb4a61a4",
+        "bytes": 5898
+      },
+      "command": "GOMAXPROCS=2 SF_CONTROL_DEVICE_BINARY=/private/tmp/sf-control-browser-final-v2-20261005/device-control.test SF_CONTROL_INTEGRATION_OUTPUT=/private/tmp/sf-control-c05-reproduce-20261005 go test -json -p 1 ./internal/app -run ^TestControlledCloudEdgeControlIntervention$ -count=1",
+      "cwd": "Platform",
+      "exit_code": 1,
+      "stage": "before_production_fix",
+      "passed_tests_and_subtests": [],
+      "failed_tests": [
+        "TestControlledCloudEdgeControlIntervention",
+        "competition2026/product/platform/internal/app"
+      ],
+      "skipped_tests": [],
+      "package_results": [
+        {
+          "package": "competition2026/product/platform/internal/app",
+          "action": "fail",
+          "elapsed_seconds": 2.133
+        }
+      ]
+    }
+  },
+  "behavior": {
+    "wire_contract": "Execution root JSON fields are retained. Optional receipt_source has schema_version=1, authenticated node_id, source execution version and recorded_ms. command_evidence carries all immutable evidence for that execution on each newly committed receipt.",
+    "validation": "Sender remains admitted by mTLS and current edge ownership. Receipt source node/version must match authenticated delivery and execution identity. Evidence must bind original published definition version, execution, command, step, device, bound payload hash, collection time and trusted source/result provenance. Referenced trusted evidence must match the step result.",
+    "atomicity": "Evidence, execution local version, transition, durable outbox/receipt and signed audit commit or roll back together. Cloud receipt audit preserves original evidence and authenticated source node/version/time; original evidence TraceID is retained.",
+    "replay_ordering": "Same delivery identity with altered content conflicts. Same evidence ID with altered content conflicts across deliveries and source versions. Older source versions and fences may add immutable feedback without regressing state or source cursor. Legacy plain Execution receipts remain accepted. Confirmed evidence identities cannot be erased or replaced by receipt/checkpoint progression.",
+    "late_cancel_result": "Late confirmed original command responses are captured once as trusted control.action_journal:<node> evidence with request/result hashes, platform journal time, original command identity and available TraceID; cancellation still prevents remaining commands.",
+    "read_authorization": "Current principal, original published resources, current resource ancestry and every evidence device remain required for execution detail and operation results. Cloud HTTP evidence and feedback timeline use existing public types.",
+    "public_api": "No public HTTP field or generated client schema changed; all 99 pre-C05 contract files remain byte-for-byte identical."
+  },
+  "verification": {
+    "commands": [
+      {
+        "log": {
+          "path": ".local/evolution/control-evidence/c05/affected-final.jsonl",
+          "sha256": "9f41db42c84b4eea8e8dd33a05c3651f41c42bb2a123069d00e7d9facab5e687",
+          "bytes": 245922
+        },
+        "command": "go test -json -p 1 ./internal/api ./internal/control ./internal/cloudsync ./internal/store ./internal/coordination -count=1",
+        "cwd": "Platform",
+        "exit_code": 0,
+        "stage": "final",
+        "passed_tests_and_subtests": [
+          "TestAssetProposalNeedsCloudReviewAndPreservesCurrentVersion",
+          "TestDraftAndQueriesEnforceEveryReferencedResource/selector",
+          "TestDraftAndQueriesEnforceEveryReferencedResource/condition",
+          "TestDraftAndQueriesEnforceEveryReferencedResource/step",
+          "TestDraftAndQueriesEnforceEveryReferencedResource/degraded",
+          "TestDraftAndQueriesEnforceEveryReferencedResource",
+          "TestAIIdentityCannotInvokePrivilegedRoutes",
+          "TestHTTPAndBackgroundControlShareBudgetDuringTaskBacklog",
+          "TestHTTPImportedControlEvidenceAndCurrentResourcePermission",
+          "TestControlHTTPCloudPendingAndVersionContract",
+          "TestControlHTTPReadsHistoricalResourcesAndRechecksPrincipal",
+          "TestDashboardPermissionsVersionsAndReplication",
+          "TestTypedDraftRoutesRunReviewedPublicationAndPreserveJSONNumbers",
+          "TestTypedDraftRoutesAllowIncompleteGraphsAndRejectMalformedBodies",
+          "TestTypedDraftRoutesPropagateRemoteTraceAndBusinessIdentity",
+          "TestTypedCompatibilityEndpointReportsAppliedMigrations",
+          "TestHistoryHTTPTasksExactValuesAuthorizationAndOTLP",
+          "TestLegacyJobRetryResumesOriginalCheckpointAndRollupPhase/replaying",
+          "TestLegacyJobRetryResumesOriginalCheckpointAndRollupPhase/rollups",
+          "TestLegacyJobRetryResumesOriginalCheckpointAndRollupPhase",
+          "TestLegacyJobRetryAdoptsUnmappedJobAtomicallyAndChecksAllResources/adopt",
+          "TestLegacyJobRetryAdoptsUnmappedJobAtomicallyAndChecksAllResources/forbidden",
+          "TestLegacyJobRetryAdoptsUnmappedJobAtomicallyAndChecksAllResources/mapped-forbidden",
+          "TestLegacyJobRetryAdoptsUnmappedJobAtomicallyAndChecksAllResources/viewer",
+          "TestLegacyJobRetryAdoptsUnmappedJobAtomicallyAndChecksAllResources/audit-failure",
+          "TestLegacyJobRetryAdoptsUnmappedJobAtomicallyAndChecksAllResources",
+          "TestLegacyAndTaskRetryConcurrentRequestsShareOneAttempt",
+          "TestLegacyJobRetryReturnsNotFoundForExpiredRiverAttempt",
+          "TestLatestIndicatorsSurviveTrendWindowAndKeepResourceScope",
+          "TestContinuousSimulationAPIRevisionPrecisionPermissionsAndCompatibility/point",
+          "TestContinuousSimulationAPIRevisionPrecisionPermissionsAndCompatibility/history",
+          "TestContinuousSimulationAPIRevisionPrecisionPermissionsAndCompatibility/initial_state",
+          "TestContinuousSimulationAPIRevisionPrecisionPermissionsAndCompatibility/asset_parent",
+          "TestContinuousSimulationAPIRevisionPrecisionPermissionsAndCompatibility",
+          "TestNodeCatalogAndPlanDiagnosticsEnforceResourceAccess",
+          "TestStaticAndAIHandlersCanCoexist",
+          "TestTaskRoutesCheckResourcesRolesVersionsAndActualState",
+          "TestAITaskReaderCannotCancelOrRetry",
+          "TestRecomputeTaskResolvesDefinitionResourceScope",
+          "TestCurrentAuthorizationAndResourceVersionsBeforeExecution/device_moved",
+          "TestCurrentAuthorizationAndResourceVersionsBeforeExecution/team_removed",
+          "TestCurrentAuthorizationAndResourceVersionsBeforeExecution/grant_changed",
+          "TestCurrentAuthorizationAndResourceVersionsBeforeExecution/principal_disabled",
+          "TestCurrentAuthorizationAndResourceVersionsBeforeExecution/session_revoked",
+          "TestCurrentAuthorizationAndResourceVersionsBeforeExecution/reference_changed",
+          "TestCurrentAuthorizationAndResourceVersionsBeforeExecution",
+          "TestInterventionRequiresHistoricalConditionResources",
+          "TestUpdatedConfirmationCountsApplyBeforeDispatch",
+          "TestOrganizationMoveInvalidatesLeaderApproval",
+          "TestInterlockIsRecheckedBetweenDeviceSteps",
+          "TestApprovalExecutionAndRestartDeduplication",
+          "TestUnknownResultNeverResends",
+          "TestExpiredAndRevokedApprovalsAndInterlock/expired",
+          "TestExpiredAndRevokedApprovalsAndInterlock/revoked",
+          "TestExpiredAndRevokedApprovalsAndInterlock/interlocked",
+          "TestExpiredAndRevokedApprovalsAndInterlock/old-version",
+          "TestExpiredAndRevokedApprovalsAndInterlock",
+          "TestSafetyOverrideRequiresDesignatedLocalSecondFactor",
+          "TestCrashWindowsRecoverWithoutRepeatingReservedCommands/before_reserve",
+          "TestCrashWindowsRecoverWithoutRepeatingReservedCommands/after_reserve",
+          "TestCrashWindowsRecoverWithoutRepeatingReservedCommands/after_send",
+          "TestCrashWindowsRecoverWithoutRepeatingReservedCommands/before_result_save",
+          "TestCrashWindowsRecoverWithoutRepeatingReservedCommands/after_result_save",
+          "TestCrashWindowsRecoverWithoutRepeatingReservedCommands",
+          "TestChineseColonIdentityReconcileAndResumeRemainingSteps",
+          "TestUntrustedFeedbackCannotAuthorizeResume/wrong_content",
+          "TestUntrustedFeedbackCannotAuthorizeResume/stale",
+          "TestUntrustedFeedbackCannotAuthorizeResume/missing_hash",
+          "TestUntrustedFeedbackCannotAuthorizeResume/unknown",
+          "TestUntrustedFeedbackCannotAuthorizeResume/missing",
+          "TestUntrustedFeedbackCannotAuthorizeResume/unbound_legacy",
+          "TestUntrustedFeedbackCannotAuthorizeResume/future",
+          "TestUntrustedFeedbackCannotAuthorizeResume/missing_source",
+          "TestUntrustedFeedbackCannotAuthorizeResume/wrong_command",
+          "TestUntrustedFeedbackCannotAuthorizeResume/wrong_device",
+          "TestUntrustedFeedbackCannotAuthorizeResume",
+          "TestCancelDuringCommandRetainsLateResultAndSkipsRemaining",
+          "TestConcurrentManualOperationsHaveSingleVersionWinner",
+          "TestHistoricalExecutionAndOperationReadChecksOriginalResources",
+          "TestMigrationFourExecutionAndActionJournalRemainRecoverable",
+          "TestOperationStartSurvivesDuplicateAfterDeadline",
+          "TestStartedOperationResumesAfterDatabaseReopenBeyondDeadline",
+          "TestOperationDeadlineUsesStartTimeAndCloudAcceptsLateCompletion/starts_before_deadline_finishes_after",
+          "TestOperationDeadlineUsesStartTimeAndCloudAcceptsLateCompletion/expired_before_start",
+          "TestOperationDeadlineUsesStartTimeAndCloudAcceptsLateCompletion",
+          "TestCloudPendingConflictAndCurrentPermissionAreCheckedAtEdge/revision_changed",
+          "TestCloudPendingConflictAndCurrentPermissionAreCheckedAtEdge/permission_revoked",
+          "TestCloudPendingConflictAndCurrentPermissionAreCheckedAtEdge",
+          "TestLocalOperationSurvivesCommitBeforeProcessingAndSameIDRetry/worker_delivery",
+          "TestLocalOperationSurvivesCommitBeforeProcessingAndSameIDRetry/same_id_retry",
+          "TestLocalOperationSurvivesCommitBeforeProcessingAndSameIDRetry",
+          "TestStateEventsEnforcePersistenceAndImmutableRequest/approval",
+          "TestStateEventsEnforcePersistenceAndImmutableRequest/queue",
+          "TestStateEventsEnforcePersistenceAndImmutableRequest/degraded_execution",
+          "TestStateEventsEnforcePersistenceAndImmutableRequest/uncertain_feedback",
+          "TestStateEventsEnforcePersistenceAndImmutableRequest/cancel_unknown",
+          "TestStateEventsEnforcePersistenceAndImmutableRequest/reconcile_before_resume",
+          "TestStateEventsEnforcePersistenceAndImmutableRequest/resume_remaining",
+          "TestStateEventsEnforcePersistenceAndImmutableRequest/late_cancel_feedback",
+          "TestStateEventsEnforcePersistenceAndImmutableRequest/unapproved_dispatch",
+          "TestStateEventsEnforcePersistenceAndImmutableRequest/automatic_unknown_restart",
+          "TestStateEventsEnforcePersistenceAndImmutableRequest/resume_unknown",
+          "TestStateEventsEnforcePersistenceAndImmutableRequest/completed_restart",
+          "TestStateEventsEnforcePersistenceAndImmutableRequest/cancelled_resume",
+          "TestStateEventsEnforcePersistenceAndImmutableRequest/unknown_event",
+          "TestStateEventsEnforcePersistenceAndImmutableRequest",
+          "TestProcessRecoveryFaultPreservesReservedCommand",
+          "TestProposalAndDecisionRoundTripUnderNodeOwnership",
+          "TestIncompatibleExchangeDoesNotAdvanceCursorOrImportData",
+          "TestClientRejectsIncompatibleResponseBeforeApplyingChanges",
+          "TestCurrentClientAcceptsLegacyCloudResponse",
+          "TestControlReceiptEvidenceOrderingAndLegacyCompatibility",
+          "TestControlReceiptRejectsUnboundEvidenceAtomically/source_node",
+          "TestControlReceiptRejectsUnboundEvidenceAtomically/source_time",
+          "TestControlReceiptRejectsUnboundEvidenceAtomically/missing_source",
+          "TestControlReceiptRejectsUnboundEvidenceAtomically/execution",
+          "TestControlReceiptRejectsUnboundEvidenceAtomically/payload",
+          "TestControlReceiptRejectsUnboundEvidenceAtomically/journal_time",
+          "TestControlReceiptRejectsUnboundEvidenceAtomically/unresolved_trusted",
+          "TestControlReceiptRejectsUnboundEvidenceAtomically/conflicting_reference",
+          "TestControlReceiptRejectsUnboundEvidenceAtomically/source_schema",
+          "TestControlReceiptRejectsUnboundEvidenceAtomically/journal_content",
+          "TestControlReceiptRejectsUnboundEvidenceAtomically/contradictory_trusted",
+          "TestControlReceiptRejectsUnboundEvidenceAtomically/device",
+          "TestControlReceiptRejectsUnboundEvidenceAtomically/journal_source",
+          "TestControlReceiptRejectsUnboundEvidenceAtomically/collection_time",
+          "TestControlReceiptRejectsUnboundEvidenceAtomically/source_version",
+          "TestControlReceiptRejectsUnboundEvidenceAtomically/command",
+          "TestControlReceiptRejectsUnboundEvidenceAtomically/step",
+          "TestControlReceiptRejectsUnboundEvidenceAtomically",
+          "TestControlReceiptEvidenceMTLSResponseLossAndCurrentResources",
+          "TestMutualTLSSynchronizationReplayAndOfflinePermissions",
+          "TestAdmissionRequiresCertificateAndAvailableRegistry",
+          "TestChangedContentAndForeignOwnerAreNotAcknowledged",
+          "TestIdleExchangesDoNotWriteUntilHeartbeat",
+          "TestImportPreparesEarlierConsumerUsingLaterDependencyAndOriginalVersions",
+          "TestLegacyImportIsolatesInvalidDefinitionAndRecoversMissingDependency",
+          "TestCorruptImportedPlanRollsBackEarlierDefinitionsHistoriesCursorAndAudit/format",
+          "TestCorruptImportedPlanRollsBackEarlierDefinitionsHistoriesCursorAndAudit/checksum",
+          "TestCorruptImportedPlanRollsBackEarlierDefinitionsHistoriesCursorAndAudit/content",
+          "TestCorruptImportedPlanRollsBackEarlierDefinitionsHistoriesCursorAndAudit",
+          "TestPublicationWaitsForCommittedNodeCursor",
+          "TestNativeRelayCertificateAdmissionAndLiveRevocation",
+          "TestNativeRelayRejectsPublicCleartextListener",
+          "TestArchiveCandidatePreservesConcurrentLateDataAndRejectsChangedRows/late",
+          "TestArchiveCandidatePreservesConcurrentLateDataAndRejectsChangedRows/changed",
+          "TestArchiveCandidatePreservesConcurrentLateDataAndRejectsChangedRows/new-block",
+          "TestArchiveCandidatePreservesConcurrentLateDataAndRejectsChangedRows/changed-block",
+          "TestArchiveCandidatePreservesConcurrentLateDataAndRejectsChangedRows/encode-failure",
+          "TestArchiveCandidatePreservesConcurrentLateDataAndRejectsChangedRows/commit-failure",
+          "TestArchiveCandidatePreservesConcurrentLateDataAndRejectsChangedRows",
+          "TestArchivePreservesFullObservationsRevisionsAndRollups",
+          "TestArchiveRollbackCorruptionAndRetention",
+          "TestArchiveSurvivesBackupAndRestore",
+          "TestArchiveColumnFormatPreservesVariableTypesAndIdentifiers",
+          "TestBatchIngestPreservesOrderDeduplicationAndAtomicFailure",
+          "TestLateMessagesShareOneBackfillRevisionPerDeviceAndCommit",
+          "TestSQLiteBulkIngestTasksBudget",
+          "TestControlEvidenceAtomicReceiptAndImmutableIdentity",
+          "TestDeliveryBatchCommitFailurePreservesAllResults",
+          "TestMultiMessageIngestFailureDoesNotAcknowledgeEarlierMessages",
+          "TestGapQueriesRespectTimeAndDeviceScopeAndReplay",
+          "TestTelemetryDedupExpiresWhileBusinessIdentityRemains",
+          "TestNumberedMigrationsAdoptLegacySQLiteAndPreserveHistory",
+          "TestNumberedMigrationsRejectChangedAndMissingChecksums/checksum_mismatch",
+          "TestNumberedMigrationsRejectChangedAndMissingChecksums/checksum_unavailable",
+          "TestNumberedMigrationsRejectChangedAndMissingChecksums/newer_than_this_binary",
+          "TestNumberedMigrationsRejectChangedAndMissingChecksums",
+          "TestMigrationFailureRollsBackDDLVersionAndChecksum",
+          "TestRecentQueryPreservesRawEventsAndLatestDerivedRevision",
+          "TestPartialMinuteRebuildPreservesUnchangedObservations",
+          "TestRetentionTiersQuarantineAndPermanentHistory",
+          "TestRiverMigrationHandoffResumesSQLite",
+          "TestRiverSQLiteTransactionalEnqueue",
+          "TestExpiredRiverHistoryKeepsBusinessIdentity",
+          "TestTaskCancellationDoesNotReplaceNewerRecomputeGeneration",
+          "TestDurableInboxConflictRollbackAndRestart",
+          "TestAuditDetectsModificationDeletionInsertionAndReorder/UPDATE_audit_SET_data=replace(data,'change','tamper')_WHERE_sequence=2",
+          "TestAuditDetectsModificationDeletionInsertionAndReorder/DELETE_FROM_audit_WHERE_sequence=2",
+          "TestAuditDetectsModificationDeletionInsertionAndReorder/UPDATE_audit_SET_sequence=9_WHERE_sequence=2",
+          "TestAuditDetectsModificationDeletionInsertionAndReorder/UPDATE_audit_SET_previous_hash='altered'_WHERE_sequence=2",
+          "TestAuditDetectsModificationDeletionInsertionAndReorder/DELETE_FROM_audit_WHERE_sequence=3",
+          "TestAuditDetectsModificationDeletionInsertionAndReorder",
+          "TestAuditPreservesStructFieldOrderAndExactNumbers",
+          "TestLateQualityRollupAndRetention",
+          "TestDistinctEventsAtSameTimestampAreCounted",
+          "TestFenceCommitContentionDoesNotAuthorizeDegradedActions"
+        ],
+        "failed_tests": [],
+        "skipped_tests": [
+          "TestPostgresDeadlockReturnsHTTP409WithoutRepeatingCallback",
+          "TestPostgresLegacyAndTaskRetryConcurrentRequestsShareOneAttempt",
+          "TestPostgresControlAtomicTransitionsAndConcurrentIntervention",
+          "TestPostgresControlReceiptEvidenceOrderingAndLegacyCompatibility",
+          "TestPostgresArchiveCASAndTransactionDuration",
+          "TestPostgresArchiveRetirementAndCreationRace",
+          "TestPostgresArchiveCapacityAndLatePartitionRecovery",
+          "TestPostgresBulkIngestTasksBudget",
+          "TestPostgresIndependentObjectsAndContendedIdentity",
+          "TestPostgresLateCommitSyncAuditAndAtomicFinalization",
+          "TestPostgresDeadlockIsRecognizableWithoutCallbackReplay",
+          "TestPostgresControlEvidenceAtomicReceiptAndImmutableIdentity",
+          "TestPostgresNumberedMigrationsPreserveExistingSchema",
+          "TestPostgresRetentionDropsExpiredPartitionBeforeRowDeletion",
+          "TestPostgresRiverMigrationHandoffResumes",
+          "TestPostgresRiverTransactionalEnqueue",
+          "TestControlledPostgresUpgradeFixture",
+          "TestPersistentThreeReplicaUpgrade",
+          "TestRealThreeReplicaCoordination",
+          "TestRealThreeReplicaReadOnlyReconcileAndManualResume",
+          "TestRealConcurrentOperationDeliveryKeepsLeaseContentionRetryable"
+        ],
+        "package_results": [
+          {
+            "package": "competition2026/product/platform/internal/api",
+            "action": "pass",
+            "elapsed_seconds": 26.15
+          },
+          {
+            "package": "competition2026/product/platform/internal/control",
+            "action": "pass",
+            "elapsed_seconds": 1.074
+          },
+          {
+            "package": "competition2026/product/platform/internal/cloudsync",
+            "action": "pass",
+            "elapsed_seconds": 2.511
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "action": "pass",
+            "elapsed_seconds": 8.323
+          },
+          {
+            "package": "competition2026/product/platform/internal/coordination",
+            "action": "pass",
+            "elapsed_seconds": 0.015
+          }
+        ]
+      },
+      {
+        "log": {
+          "path": ".local/evolution/control-evidence/c05/contract-state-final.jsonl",
+          "sha256": "90d03761789583ecaa6eed772eb9f8da6b75fc875b40e7fb7861e7b5d1e341b4",
+          "bytes": 89189
+        },
+        "command": "go test -json -p 1 ./internal/control ./pkg/contracts ./pkg/compatibility ./cmd/sf-contracts -count=1",
+        "cwd": "Platform",
+        "exit_code": 0,
+        "stage": "final",
+        "passed_tests_and_subtests": [
+          "TestCurrentAuthorizationAndResourceVersionsBeforeExecution/device_moved",
+          "TestCurrentAuthorizationAndResourceVersionsBeforeExecution/team_removed",
+          "TestCurrentAuthorizationAndResourceVersionsBeforeExecution/grant_changed",
+          "TestCurrentAuthorizationAndResourceVersionsBeforeExecution/principal_disabled",
+          "TestCurrentAuthorizationAndResourceVersionsBeforeExecution/session_revoked",
+          "TestCurrentAuthorizationAndResourceVersionsBeforeExecution/reference_changed",
+          "TestCurrentAuthorizationAndResourceVersionsBeforeExecution",
+          "TestInterventionRequiresHistoricalConditionResources",
+          "TestUpdatedConfirmationCountsApplyBeforeDispatch",
+          "TestOrganizationMoveInvalidatesLeaderApproval",
+          "TestInterlockIsRecheckedBetweenDeviceSteps",
+          "TestApprovalExecutionAndRestartDeduplication",
+          "TestUnknownResultNeverResends",
+          "TestExpiredAndRevokedApprovalsAndInterlock/expired",
+          "TestExpiredAndRevokedApprovalsAndInterlock/revoked",
+          "TestExpiredAndRevokedApprovalsAndInterlock/interlocked",
+          "TestExpiredAndRevokedApprovalsAndInterlock/old-version",
+          "TestExpiredAndRevokedApprovalsAndInterlock",
+          "TestSafetyOverrideRequiresDesignatedLocalSecondFactor",
+          "TestCrashWindowsRecoverWithoutRepeatingReservedCommands/before_reserve",
+          "TestCrashWindowsRecoverWithoutRepeatingReservedCommands/after_reserve",
+          "TestCrashWindowsRecoverWithoutRepeatingReservedCommands/after_send",
+          "TestCrashWindowsRecoverWithoutRepeatingReservedCommands/before_result_save",
+          "TestCrashWindowsRecoverWithoutRepeatingReservedCommands/after_result_save",
+          "TestCrashWindowsRecoverWithoutRepeatingReservedCommands",
+          "TestChineseColonIdentityReconcileAndResumeRemainingSteps",
+          "TestUntrustedFeedbackCannotAuthorizeResume/unbound_legacy",
+          "TestUntrustedFeedbackCannotAuthorizeResume/future",
+          "TestUntrustedFeedbackCannotAuthorizeResume/missing_source",
+          "TestUntrustedFeedbackCannotAuthorizeResume/unknown",
+          "TestUntrustedFeedbackCannotAuthorizeResume/wrong_command",
+          "TestUntrustedFeedbackCannotAuthorizeResume/stale",
+          "TestUntrustedFeedbackCannotAuthorizeResume/missing_hash",
+          "TestUntrustedFeedbackCannotAuthorizeResume/missing",
+          "TestUntrustedFeedbackCannotAuthorizeResume/wrong_device",
+          "TestUntrustedFeedbackCannotAuthorizeResume/wrong_content",
+          "TestUntrustedFeedbackCannotAuthorizeResume",
+          "TestCancelDuringCommandRetainsLateResultAndSkipsRemaining",
+          "TestConcurrentManualOperationsHaveSingleVersionWinner",
+          "TestHistoricalExecutionAndOperationReadChecksOriginalResources",
+          "TestMigrationFourExecutionAndActionJournalRemainRecoverable",
+          "TestOperationStartSurvivesDuplicateAfterDeadline",
+          "TestStartedOperationResumesAfterDatabaseReopenBeyondDeadline",
+          "TestOperationDeadlineUsesStartTimeAndCloudAcceptsLateCompletion/starts_before_deadline_finishes_after",
+          "TestOperationDeadlineUsesStartTimeAndCloudAcceptsLateCompletion/expired_before_start",
+          "TestOperationDeadlineUsesStartTimeAndCloudAcceptsLateCompletion",
+          "TestCloudPendingConflictAndCurrentPermissionAreCheckedAtEdge/revision_changed",
+          "TestCloudPendingConflictAndCurrentPermissionAreCheckedAtEdge/permission_revoked",
+          "TestCloudPendingConflictAndCurrentPermissionAreCheckedAtEdge",
+          "TestLocalOperationSurvivesCommitBeforeProcessingAndSameIDRetry/worker_delivery",
+          "TestLocalOperationSurvivesCommitBeforeProcessingAndSameIDRetry/same_id_retry",
+          "TestLocalOperationSurvivesCommitBeforeProcessingAndSameIDRetry",
+          "TestReceiptAndCheckpointPreserveConfirmedEvidenceIdentity/replacement=",
+          "TestReceiptAndCheckpointPreserveConfirmedEvidenceIdentity/replacement=another-evidence",
+          "TestReceiptAndCheckpointPreserveConfirmedEvidenceIdentity",
+          "TestStateEventsEnforcePersistenceAndImmutableRequest/approval",
+          "TestStateEventsEnforcePersistenceAndImmutableRequest/queue",
+          "TestStateEventsEnforcePersistenceAndImmutableRequest/degraded_execution",
+          "TestStateEventsEnforcePersistenceAndImmutableRequest/uncertain_feedback",
+          "TestStateEventsEnforcePersistenceAndImmutableRequest/cancel_unknown",
+          "TestStateEventsEnforcePersistenceAndImmutableRequest/reconcile_before_resume",
+          "TestStateEventsEnforcePersistenceAndImmutableRequest/resume_remaining",
+          "TestStateEventsEnforcePersistenceAndImmutableRequest/late_cancel_feedback",
+          "TestStateEventsEnforcePersistenceAndImmutableRequest/unapproved_dispatch",
+          "TestStateEventsEnforcePersistenceAndImmutableRequest/automatic_unknown_restart",
+          "TestStateEventsEnforcePersistenceAndImmutableRequest/resume_unknown",
+          "TestStateEventsEnforcePersistenceAndImmutableRequest/completed_restart",
+          "TestStateEventsEnforcePersistenceAndImmutableRequest/cancelled_resume",
+          "TestStateEventsEnforcePersistenceAndImmutableRequest/unknown_event",
+          "TestStateEventsEnforcePersistenceAndImmutableRequest",
+          "TestProcessRecoveryFaultPreservesReservedCommand",
+          "TestNodeCatalogFeedsSchemaAndCompilerParameterRules",
+          "TestCurrentAndLegacyCloudEdgeCombinations",
+          "TestManifestCopiesAndPublishedFile",
+          "TestDatabaseMigrationRange",
+          "TestCompatibilityDatabaseRangeMatchesEmbeddedMigrations",
+          "TestGeneratedContractsMatchLiveRegistration"
+        ],
+        "failed_tests": [],
+        "skipped_tests": [
+          "TestPostgresControlAtomicTransitionsAndConcurrentIntervention"
+        ],
+        "package_results": [
+          {
+            "package": "competition2026/product/platform/internal/control",
+            "action": "pass",
+            "elapsed_seconds": 1.08
+          },
+          {
+            "package": "competition2026/product/platform/pkg/contracts",
+            "action": "pass",
+            "elapsed_seconds": 0.005
+          },
+          {
+            "package": "competition2026/product/platform/pkg/compatibility",
+            "action": "pass",
+            "elapsed_seconds": 0.018
+          },
+          {
+            "package": "competition2026/product/platform/cmd/sf-contracts",
+            "action": "pass",
+            "elapsed_seconds": 0.052
+          }
+        ]
+      },
+      {
+        "log": {
+          "path": ".local/evolution/control-evidence/c05/postgres-final.jsonl",
+          "sha256": "c43a002e7df6d5ff45bd21b2a2ead1562c1548d3a9f7dd74ea35f84f1b5fc3d2",
+          "bytes": 4179
+        },
+        "command": "GOMAXPROCS=2 SF_TEST_POSTGRES_DATABASE=<private DSN from pg18-test.json> go test -json -p 1 ./internal/store ./internal/cloudsync -run ^TestPostgresControl(EvidenceAtomicReceiptAndImmutableIdentity|ReceiptEvidenceOrderingAndLegacyCompatibility)$ -count=1",
+        "cwd": "Platform",
+        "exit_code": 0,
+        "stage": "final",
+        "passed_tests_and_subtests": [
+          "TestPostgresControlEvidenceAtomicReceiptAndImmutableIdentity",
+          "TestPostgresControlReceiptEvidenceOrderingAndLegacyCompatibility"
+        ],
+        "failed_tests": [],
+        "skipped_tests": [],
+        "package_results": [
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "action": "pass",
+            "elapsed_seconds": 0.344
+          },
+          {
+            "package": "competition2026/product/platform/internal/cloudsync",
+            "action": "pass",
+            "elapsed_seconds": 0.392
+          }
+        ]
+      },
+      {
+        "log": {
+          "path": ".local/evolution/control-evidence/c05/race-final.jsonl",
+          "sha256": "783778cc2049d0888c51c740809df09871a891f55583d266931dab4d14a8a26d",
+          "bytes": 55433
+        },
+        "command": "GOMAXPROCS=2 go test -json -race -p 1 ./internal/control ./internal/cloudsync ./internal/coordination ./internal/store -run TestControl|TestReceipt|TestCancel|TestCloudPending|TestStartedOperation|TestLocalOperation|TestStateEvents|TestCheckpoint|TestExecutionReceipt|TestReadOnly -count=1",
+        "cwd": "Platform",
+        "exit_code": 0,
+        "stage": "final",
+        "passed_tests_and_subtests": [
+          "TestCancelDuringCommandRetainsLateResultAndSkipsRemaining",
+          "TestStartedOperationResumesAfterDatabaseReopenBeyondDeadline",
+          "TestCloudPendingConflictAndCurrentPermissionAreCheckedAtEdge/revision_changed",
+          "TestCloudPendingConflictAndCurrentPermissionAreCheckedAtEdge/permission_revoked",
+          "TestCloudPendingConflictAndCurrentPermissionAreCheckedAtEdge",
+          "TestLocalOperationSurvivesCommitBeforeProcessingAndSameIDRetry/worker_delivery",
+          "TestLocalOperationSurvivesCommitBeforeProcessingAndSameIDRetry/same_id_retry",
+          "TestLocalOperationSurvivesCommitBeforeProcessingAndSameIDRetry",
+          "TestReceiptAndCheckpointPreserveConfirmedEvidenceIdentity/replacement=",
+          "TestReceiptAndCheckpointPreserveConfirmedEvidenceIdentity/replacement=another-evidence",
+          "TestReceiptAndCheckpointPreserveConfirmedEvidenceIdentity",
+          "TestStateEventsEnforcePersistenceAndImmutableRequest/approval",
+          "TestStateEventsEnforcePersistenceAndImmutableRequest/queue",
+          "TestStateEventsEnforcePersistenceAndImmutableRequest/degraded_execution",
+          "TestStateEventsEnforcePersistenceAndImmutableRequest/uncertain_feedback",
+          "TestStateEventsEnforcePersistenceAndImmutableRequest/cancel_unknown",
+          "TestStateEventsEnforcePersistenceAndImmutableRequest/reconcile_before_resume",
+          "TestStateEventsEnforcePersistenceAndImmutableRequest/resume_remaining",
+          "TestStateEventsEnforcePersistenceAndImmutableRequest/late_cancel_feedback",
+          "TestStateEventsEnforcePersistenceAndImmutableRequest/unapproved_dispatch",
+          "TestStateEventsEnforcePersistenceAndImmutableRequest/automatic_unknown_restart",
+          "TestStateEventsEnforcePersistenceAndImmutableRequest/resume_unknown",
+          "TestStateEventsEnforcePersistenceAndImmutableRequest/completed_restart",
+          "TestStateEventsEnforcePersistenceAndImmutableRequest/cancelled_resume",
+          "TestStateEventsEnforcePersistenceAndImmutableRequest/unknown_event",
+          "TestStateEventsEnforcePersistenceAndImmutableRequest",
+          "TestControlReceiptEvidenceOrderingAndLegacyCompatibility",
+          "TestControlReceiptRejectsUnboundEvidenceAtomically/unresolved_trusted",
+          "TestControlReceiptRejectsUnboundEvidenceAtomically/source_schema",
+          "TestControlReceiptRejectsUnboundEvidenceAtomically/execution",
+          "TestControlReceiptRejectsUnboundEvidenceAtomically/journal_source",
+          "TestControlReceiptRejectsUnboundEvidenceAtomically/source_node",
+          "TestControlReceiptRejectsUnboundEvidenceAtomically/missing_source",
+          "TestControlReceiptRejectsUnboundEvidenceAtomically/device",
+          "TestControlReceiptRejectsUnboundEvidenceAtomically/step",
+          "TestControlReceiptRejectsUnboundEvidenceAtomically/payload",
+          "TestControlReceiptRejectsUnboundEvidenceAtomically/journal_content",
+          "TestControlReceiptRejectsUnboundEvidenceAtomically/collection_time",
+          "TestControlReceiptRejectsUnboundEvidenceAtomically/conflicting_reference",
+          "TestControlReceiptRejectsUnboundEvidenceAtomically/command",
+          "TestControlReceiptRejectsUnboundEvidenceAtomically/contradictory_trusted",
+          "TestControlReceiptRejectsUnboundEvidenceAtomically/source_version",
+          "TestControlReceiptRejectsUnboundEvidenceAtomically/source_time",
+          "TestControlReceiptRejectsUnboundEvidenceAtomically/journal_time",
+          "TestControlReceiptRejectsUnboundEvidenceAtomically",
+          "TestControlReceiptEvidenceMTLSResponseLossAndCurrentResources",
+          "TestControlEvidenceAtomicReceiptAndImmutableIdentity"
+        ],
+        "failed_tests": [],
+        "skipped_tests": [
+          "TestControlledPostgresUpgradeFixture"
+        ],
+        "package_results": [
+          {
+            "package": "competition2026/product/platform/internal/control",
+            "action": "pass",
+            "elapsed_seconds": 9.308
+          },
+          {
+            "package": "competition2026/product/platform/internal/cloudsync",
+            "action": "pass",
+            "elapsed_seconds": 4.591
+          },
+          {
+            "package": "competition2026/product/platform/internal/coordination",
+            "action": "pass",
+            "elapsed_seconds": 1.042
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "action": "pass",
+            "elapsed_seconds": 1.34
+          }
+        ]
+      },
+      {
+        "log": {
+          "path": ".local/evolution/control-evidence/c05/race-coordination-final.jsonl",
+          "sha256": "82fcd8d2e6595182722ec1388e47c5cb551884dee06ba5687fe004e8980cd9db",
+          "bytes": 1646
+        },
+        "command": "GOMAXPROCS=2 go test -json -race -p 1 ./internal/coordination -run ^TestFenceCommitContentionDoesNotAuthorizeDegradedActions$ -count=1",
+        "cwd": "Platform",
+        "exit_code": 0,
+        "stage": "final",
+        "passed_tests_and_subtests": [
+          "TestFenceCommitContentionDoesNotAuthorizeDegradedActions"
+        ],
+        "failed_tests": [],
+        "skipped_tests": [],
+        "package_results": [
+          {
+            "package": "competition2026/product/platform/internal/coordination",
+            "action": "pass",
+            "elapsed_seconds": 1.041
+          }
+        ]
+      },
+      {
+        "log": {
+          "path": ".local/evolution/control-evidence/c05/dual-app-final-binary.jsonl",
+          "sha256": "ae0caf2b4e45148ab0c34e3c8bb4b73ba405f3eb7a29b5c938b33bdc2f15eb64",
+          "bytes": 6525
+        },
+        "command": "SF_CONTROL_DEVICE_BINARY=/private/tmp/sf-control-c05-final-20261005/device-control.test SF_CONTROL_INTEGRATION_OUTPUT=/private/tmp/sf-control-c05-final-integration-20261005 go tool test2json -t -p competition2026/product/platform/internal/app /private/tmp/sf-control-c05-final-20261005/platform-control.test -test.run=^TestControlledCloudEdgeControlIntervention$ -test.v -test.timeout=90s",
+        "cwd": "Platform",
+        "exit_code": 0,
+        "stage": "final",
+        "passed_tests_and_subtests": [
+          "TestControlledCloudEdgeControlIntervention"
+        ],
+        "failed_tests": [],
+        "skipped_tests": [],
+        "package_results": [
+          {
+            "package": "competition2026/product/platform/internal/app",
+            "action": "pass",
+            "elapsed_seconds": 6.133
+          }
+        ]
+      }
+    ],
+    "database": {
+      "engine": "existing PostgreSQL 18 service",
+      "isolation": "two sequential unique schemas, cleaned by test helper",
+      "application_pool_max_open": 3,
+      "application_pool_max_idle": 1,
+      "management_pool_max_open": 1,
+      "migration_inputs_unchanged": [
+        {
+          "path": "/path/to/SmartFactory-2026/Platform/internal/store/migration00002.go",
+          "sha256": "d41f217a598789ec94a29fdcf9db03547eb5bc79cb1671bdc2211891ccc1b626",
+          "same_as_pre_c05": true
+        },
+        {
+          "path": "/path/to/SmartFactory-2026/Platform/internal/store/migration00003.go",
+          "sha256": "5b5c043c4d830ba6e77057b54654585e83fec0b0fb9e8e9b75e87e65bba9cfd4",
+          "same_as_pre_c05": true
+        },
+        {
+          "path": "/path/to/SmartFactory-2026/Platform/internal/store/migration00004.go",
+          "sha256": "1a69098a1f06a9659d5b6d2f0d967b88a1e29a7a677bbf3014714ab2856bf854",
+          "same_as_pre_c05": true
+        },
+        {
+          "path": "/path/to/SmartFactory-2026/Platform/internal/store/migration00005.go",
+          "sha256": "ef7dbe90ee1e57d318b600b2f7ff62416384f833031ba196fd238b45e8df16ac",
+          "same_as_pre_c05": true
+        },
+        {
+          "path": "/path/to/SmartFactory-2026/Platform/internal/store/migration00006.go",
+          "sha256": "cfc2e96ad04880f7081db6b62a179ed52f37269ac0e46fd60c84fc40aafc15aa",
+          "same_as_pre_c05": true
+        },
+        {
+          "path": "/path/to/SmartFactory-2026/Platform/internal/store/migrations.go",
+          "sha256": "c584ad4fe8c1f73b40dfb13d38801456acb14dbf27b00e02b9c610f9f7bf6f83",
+          "same_as_pre_c05": true
+        },
+        {
+          "path": "/path/to/SmartFactory-2026/Platform/internal/store/migrations/postgres/00001_baseline.sql",
+          "sha256": "b4f13649f266050f7b87cf9f0c7509b98af1fb40fd606666d1de5a91e02a7f62",
+          "same_as_pre_c05": true
+        },
+        {
+          "path": "/path/to/SmartFactory-2026/Platform/internal/store/migrations/sqlite/00001_baseline.sql",
+          "sha256": "8f8b3ff25cd9a9f55e99ab3abd851f20e8075d15242bec0e52ee4e2695a15631",
+          "same_as_pre_c05": true
+        }
+      ]
+    },
+    "actual_dual_application": {
+      "verification": {
+        "path": "/private/tmp/sf-control-c05-final-integration-20261005/verified.json",
+        "sha256": "98dcd7cdec8fedb458cb39a3e85cded12ca1b4ae4f559ece24ce10069fc03b36",
+        "bytes": 37475
+      },
+      "http_details": {
+        "path": "/private/tmp/sf-control-c05-final-integration-20261005/cloud-edge-evidence-details.json",
+        "sha256": "d4e47d2ccae4cb77c4155cb8b7ddd7d13e92ab39c2d745b208f88d9c3ddb392c",
+        "bytes": 131186
+      },
+      "traces": {
+        "path": "/private/tmp/sf-control-c05-final-integration-20261005/control-traces.json",
+        "sha256": "0cfa596579ccf9392238290ce52dd29e402ae756ea7c72090b755cea07ffd28f",
+        "bytes": 17178
+      },
+      "physical_actions": {
+        "cancel-integration:first": 1,
+        "recover-expired:first": 1,
+        "recover-integration:first": 1,
+        "recover-integration:remaining": 1,
+        "recover-permission_revoked:first": 1,
+        "recover-source_version_changed:first": 1
+      },
+      "cloud_edge_http_feedback_evidence_equal": true,
+      "actual_out_of_order_receipts": true,
+      "receipt_response_lost_and_retried": true,
+      "original_command_evidence": [
+        {
+          "id": "8690b22461a21836fd50a775b425c6d6",
+          "execution_id": "recover-integration",
+          "command_id": "recover-integration:first",
+          "device_id": "device-grpc",
+          "step_id": "first",
+          "source": "datatransfer.command_journal:edge-a",
+          "observed_ms": 1791149370949,
+          "collected_ms": 1791149372453,
+          "payload_hash": "e20649be77e42e31134fa7891f18e9232c26743a42522db46cd2d4bfe1e7ee9e",
+          "content_hash": "f699666f7c57511b1e9740067cb627aa76883f3fefc01ebbad106302cb6cd4f7",
+          "request_hash": "cf18d45bfc5bf9973f08bf4a46aa4343a582966c6ff51710f7f58cb9e57ad755",
+          "status": "SUCCESS",
+          "message": "success",
+          "trusted": true,
+          "actor": {
+            "user_id": "engineer",
+            "name": "engineer",
+            "department_id": "engineering",
+            "roles": [
+              "engineer"
+            ],
+            "source": "control-fixture",
+            "session_id": "5e909053531f07ec80a18a3a15042524",
+            "ai": false
+          },
+          "trace_id": "4e92a74623e6e7e47c90f0c9f6fd7d85"
+        }
+      ],
+      "late_cancel_evidence": [
+        {
+          "id": "8c19e403fdc6226b5854f4c2d6a050f0",
+          "execution_id": "cancel-integration",
+          "command_id": "cancel-integration:first",
+          "device_id": "device-grpc",
+          "step_id": "first",
+          "source": "control.action_journal:edge-a",
+          "observed_ms": 1791149373665,
+          "collected_ms": 1791149373665,
+          "payload_hash": "e20649be77e42e31134fa7891f18e9232c26743a42522db46cd2d4bfe1e7ee9e",
+          "content_hash": "4a1170ae98ed6c3a71a7fceafcd381c713655ddccf690c8f5e7d50320ffc9372",
+          "request_hash": "e20649be77e42e31134fa7891f18e9232c26743a42522db46cd2d4bfe1e7ee9e",
+          "status": "SUCCESS",
+          "message": "success",
+          "trusted": true,
+          "actor": {
+            "user_id": "engineer",
+            "name": "engineer",
+            "department_id": "engineering",
+            "roles": [
+              "engineer"
+            ],
+            "source": "control-fixture",
+            "session_id": "3f1d6e683078e29212f519b98fa0073c",
+            "ai": false
+          },
+          "trace_id": "7032db57cc2609a94dd4535909d9e084"
+        }
+      ],
+      "otlp_control_span_count": 44,
+      "data_directory": "/private/tmp/sf-control-c05-final-integration-20261005",
+      "execution": "actual cloud and edge Application.Run with separate SQLite files, actual mTLS exchange, separate DataTransfer process, generated gRPC and durable command journal, counted Modbus connector"
+    },
+    "implementation_attempts": [
+      {
+        "log": {
+          "path": ".local/evolution/control-evidence/c05/dual-app-first-fix.jsonl",
+          "sha256": "9a26d6847d0c44d99df2f548417091f86a66c0b705030769b5deff818ee9ce06",
+          "bytes": 1753
+        },
+        "command": "SF_CONTROL_DATATRANSFER_BINARY=<old device binary; wrong variable name> go test -json -p 1 ./internal/app -run ^TestControlledCloudEdgeControlIntervention$ -count=1",
+        "cwd": "Platform",
+        "exit_code": 0,
+        "stage": "setup_skipped_not_counted_as_verification",
+        "passed_tests_and_subtests": [],
+        "failed_tests": [],
+        "skipped_tests": [
+          "TestControlledCloudEdgeControlIntervention"
+        ],
+        "package_results": [
+          {
+            "package": "competition2026/product/platform/internal/app",
+            "action": "pass",
+            "elapsed_seconds": 0.02
+          }
+        ]
+      },
+      {
+        "log": {
+          "path": ".local/evolution/control-evidence/c05/dual-app-second-fix.jsonl",
+          "sha256": "b2fe51b1a8b7f9e5538bdf1073dcfda0420d8dc90cd45f3671bb3676eaf490a0",
+          "bytes": 6710
+        },
+        "command": "SF_CONTROL_DEVICE_BINARY=/private/tmp/sf-control-browser-final-v2-20261005/device-control.test SF_CONTROL_INTEGRATION_OUTPUT=/private/tmp/sf-control-c05-first-20261005 go test -json -p 1 ./internal/app -run ^TestControlledCloudEdgeControlIntervention$ -count=1",
+        "cwd": "Platform",
+        "exit_code": 0,
+        "stage": "intermediate_production_fix",
+        "passed_tests_and_subtests": [
+          "TestControlledCloudEdgeControlIntervention"
+        ],
+        "failed_tests": [],
+        "skipped_tests": [],
+        "package_results": [
+          {
+            "package": "competition2026/product/platform/internal/app",
+            "action": "pass",
+            "elapsed_seconds": 6.133
+          }
+        ]
+      },
+      {
+        "log": {
+          "path": ".local/evolution/control-evidence/c05/dual-app-details-first.jsonl",
+          "sha256": "18a0b41f529766312571d82df9a500f6bd76b50058851b5944543381ef690d7e",
+          "bytes": 6713
+        },
+        "command": "SF_CONTROL_DEVICE_BINARY=/private/tmp/sf-control-browser-final-v2-20261005/device-control.test SF_CONTROL_INTEGRATION_OUTPUT=/private/tmp/sf-control-c05-details-20261005 go test -json -p 1 ./internal/app -run ^TestControlledCloudEdgeControlIntervention$ -count=1",
+        "cwd": "Platform",
+        "exit_code": 0,
+        "stage": "intermediate_http_details_verification",
+        "passed_tests_and_subtests": [
+          "TestControlledCloudEdgeControlIntervention"
+        ],
+        "failed_tests": [],
+        "skipped_tests": [],
+        "package_results": [
+          {
+            "package": "competition2026/product/platform/internal/app",
+            "action": "pass",
+            "elapsed_seconds": 6.242
+          }
+        ]
+      }
+    ],
+    "not_repeated": [
+      {
+        "scope": "actual three-replica NATS cluster and persistent upgrade rehearsal",
+        "reason": "NATS transport/journal implementation and command transport payload are unchanged in C05; affected checkpoint evidence progression was tested directly, and fence-contention case passed ordinary and race tests. Prior actual NATS results remain in preserved original report."
+      },
+      {
+        "scope": "full DataTransfer suite",
+        "reason": "DataTransfer and protocol inputs are unchanged in C05; final actual application test exercises the same newly built DataTransfer gRPC command/result journal path. Original full suite remains preserved."
+      },
+      {
+        "scope": "24-hour limited-network and UOS environments",
+        "reason": "original phase exclusions continue; no new environment result claimed"
+      },
+      {
+        "scope": "frontend implementation and independent browser acceptance",
+        "reason": "owned by frontend and independent review roles; fresh fixture provided"
+      }
+    ]
+  },
+  "artifacts": {
+    "changed_source_manifest": {
+      "path": ".local/evolution/control-evidence/c05/source-manifest.json",
+      "sha256": "7bb678c8047bc80cb78813b35437ead8174b7947cd56d60f546153579bf8594d",
+      "bytes": 2329
+    },
+    "compiled_input_manifest": {
+      "path": "/private/tmp/sf-control-c05-final-20261005/build-inputs.json",
+      "sha256": "a11fdde581405910a6b6daeed7660cd64a0df04bf12275a8c075f72154cfe33c",
+      "bytes": 783322
+    },
+    "compiled_input_count": 3645,
+    "compiled_inputs_checked_after_final_binary_test": true,
+    "changed_compile_inputs_from_original_fixture": [
+      {
+        "path": "/path/to/SmartFactory-2026/Platform/internal/app/control_fixture_test.go",
+        "sha256": "54f186dce7ab4a2502d18cf27451b764cf6b8ea1b39c980039890a14cfd7e72f",
+        "bytes": 32113
+      },
+      {
+        "path": "/path/to/SmartFactory-2026/Platform/internal/cloudsync/control_receipts.go",
+        "sha256": "fa5371d6ef27f88e5c0a0344977777b0c098dac902a533e33cfcd87cd4938a4f",
+        "bytes": 4866
+      },
+      {
+        "path": "/path/to/SmartFactory-2026/Platform/internal/cloudsync/exchange.go",
+        "sha256": "f5ac07aeab0a9d70d7ddf3fdf7f494b0f1a9a0a3cf723ed44577730780586e48",
+        "bytes": 15290
+      },
+      {
+        "path": "/path/to/SmartFactory-2026/Platform/internal/control/evidence.go",
+        "sha256": "68f2e20a69be96b29a979cfb265d963e8aa89e95a5f6d13bf563048533b3b835",
+        "bytes": 1612
+      },
+      {
+        "path": "/path/to/SmartFactory-2026/Platform/internal/control/run.go",
+        "sha256": "0a61061f1a11558f93862ec063d613347bc545fd422800592576f464ce83ce02",
+        "bytes": 18707
+      },
+      {
+        "path": "/path/to/SmartFactory-2026/Platform/internal/control/state.go",
+        "sha256": "93c25aef120b9b0abbd2411e22178a34e833160360bfc724fe0c04a319f2f844",
+        "bytes": 8368
+      },
+      {
+        "path": "/path/to/SmartFactory-2026/Platform/internal/store/control.go",
+        "sha256": "52040d87e984dbe2ca5a923298c78e480f04b90d512cad54bf18afe2808d1b1d",
+        "bytes": 7608
+      },
+      {
+        "path": "/path/to/SmartFactory-2026/Platform/pkg/model/control.go",
+        "sha256": "c663abbb2f5529826888c7d7a1a58904ba4e969479e70d7e882ad5f87c083dd8",
+        "bytes": 5530
+      }
+    ],
+    "binary_manifest": {
+      "path": "/private/tmp/sf-control-c05-final-20261005/manifest.json",
+      "sha256": "311a4e518c60875f36855cbf9d35124bc566684c112c3d0ef36c29e5c74b43fc",
+      "bytes": 3982
+    },
+    "binary_comparison": {
+      "device": {
+        "before": {
+          "path": "/private/tmp/sf-control-browser-final-v2-20261005/device-control.test",
+          "sha256": "dc29f051ec8d1850fd2f27dcb198291fe864f56499d0904ec80d9fe57d060bc5",
+          "bytes": 25987858
+        },
+        "after": {
+          "path": "/private/tmp/sf-control-c05-final-20261005/device-control.test",
+          "sha256": "dc29f051ec8d1850fd2f27dcb198291fe864f56499d0904ec80d9fe57d060bc5",
+          "bytes": 25987858
+        },
+        "changed": false
+      },
+      "platform": {
+        "before": {
+          "path": "/private/tmp/sf-control-browser-final-v2-20261005/platform-control.test",
+          "sha256": "3dac33c927bea5feb1ecbd23dc6b6c3edaa700e39ae733721f53e45a06e3899e",
+          "bytes": 52342530
+        },
+        "after": {
+          "path": "/private/tmp/sf-control-c05-final-20261005/platform-control.test",
+          "sha256": "c4d3ed249ae46109353ab9e02157036d1aa44a480265a342680dce219c1adbb3",
+          "bytes": 52376562
+        },
+        "changed": true
+      },
+      "sf-cloud": {
+        "before": {
+          "path": "/private/tmp/sf-control-browser-final-v2-20261005/sf-cloud",
+          "sha256": "cf7f6eef7997d71c3ad2b91440959cde9518828ce7f4ec8abfe18f1a01449990",
+          "bytes": 51244082
+        },
+        "after": {
+          "path": "/private/tmp/sf-control-c05-final-20261005/sf-cloud",
+          "sha256": "02da6bddbe71c5318a7fd47c0ab23a341adf92c6e13897808e528f9a7878a47a",
+          "bytes": 51244786
+        },
+        "changed": true
+      },
+      "sf-edge": {
+        "before": {
+          "path": "/private/tmp/sf-control-browser-final-v2-20261005/sf-edge",
+          "sha256": "96c6cd512c9750c2ac704e81abb92c795c1137933836b07750652e67d7a400a9",
+          "bytes": 51244082
+        },
+        "after": {
+          "path": "/private/tmp/sf-control-c05-final-20261005/sf-edge",
+          "sha256": "1edb061dc4db55f688b26b935bf8bbeb0c831eb4093788db02ca1f9eb2c72c15",
+          "bytes": 51244786
+        },
+        "changed": true
+      },
+      "datatransfer": {
+        "before": {
+          "path": "/private/tmp/sf-control-browser-final-v2-20261005/datatransfer",
+          "sha256": "1c29ab30268760bf39a6eeda6ca203d03106ce04394f2914a203458717bbbc68",
+          "bytes": 36785970
+        },
+        "after": {
+          "path": "/private/tmp/sf-control-c05-final-20261005/datatransfer",
+          "sha256": "1c29ab30268760bf39a6eeda6ca203d03106ce04394f2914a203458717bbbc68",
+          "bytes": 36785970
+        },
+        "changed": false
+      }
+    },
+    "frontend_contract": {
+      "path": "docs/evolution/control-frontend-contract.md",
+      "sha256": "bb3b3dcc7680ff9f6e6e3ddae462be49814f47f81a20936977e353559d3746eb",
+      "bytes": 8965
+    }
+  },
+  "browser_handoff": {
+    "directory": "/private/tmp/sf-control-c05-final-20261005",
+    "startup": {
+      "access_file": "/private/tmp/sf-control-c05-final-20261005/runtime/private-access.json",
+      "approved_cancel_execution": "cancel-browser",
+      "cloud_url": "http://127.0.0.1:64486",
+      "driver_url": "http://127.0.0.1:64495",
+      "edge_url": "http://127.0.0.1:64487",
+      "stop_file": "/private/tmp/sf-control-c05-final-20261005/runtime/browser-stop",
+      "unknown_execution": "recover-browser"
+    },
+    "health": {
+      "cloud_url": 200,
+      "edge_url": 200
+    },
+    "serves_current_frontend": "/path/to/SmartFactory-2026/Frontends/dist",
+    "status": "running and reserved for frontend/independent review; stop coordinated by root",
+    "startup_command": "env GOTOOLCHAIN=local GOPATH=/private/tmp/smartfactory-evolution-gopath GOMODCACHE=/private/tmp/smartfactory-evolution-gomodcache GOCACHE=/private/tmp/smartfactory-evolution-go-cache GOPROXY=off python3 scripts/control-intervention-fixture.py start --output <new-empty-directory>",
+    "existing_services_preserved": [
+      "http://127.0.0.1:59107",
+      "http://127.0.0.1:59108",
+      "http://127.0.0.1:59114",
+      "http://127.0.0.1:19060"
+    ]
+  },
+  "resource_status": {
+    "postgres_connections_closed": true,
+    "owned_test_nats_containers_started_for_c05": false,
+    "large_artifacts_directory": "/private/tmp",
+    "working_volume_free_gib_at_last_check": 1.7
+  }
+}

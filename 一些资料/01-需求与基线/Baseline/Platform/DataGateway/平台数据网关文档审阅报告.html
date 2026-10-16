@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>&#x5e73;&#x53f0;&#x6570;&#x636e;&#x7f51;&#x5173;&#x300a;&#x8f6f;&#x4ef6;&#x8bbe;&#x8ba1;&#x300b;&#x300a;&#x63a5;&#x53e3;&#x6587;&#x6863;&#x300b;&#x5ba1;&#x9605;&#x62a5;&#x544a;</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <span id="markdown-mermaid" aria-hidden="true" data-config="{&quot;darkModeTheme&quot;:&quot;vscode&quot;,&quot;lightModeTheme&quot;:&quot;vscode&quot;,&quot;maxTextSize&quot;:50000,&quot;clickDrag&quot;:&quot;alt&quot;,&quot;showControls&quot;:&quot;onHoverOrFocus&quot;,&quot;resizable&quot;:true,&quot;maxHeight&quot;:&quot;&quot;}"></span>
+				<h1 id="平台数据网关软件设计接口文档审阅报告">平台数据网关《软件设计》《接口文档》审阅报告</h1>
+<blockquote>
+<p><strong>审阅对象：</strong> 《平台数据网关软件设计》v1.0、《平台数据网关接口文档》v1.0（作者提交稿，2026-06-24）
+<strong>审阅依据：</strong> 《平台数据网关需求基线》v1.0（含 2026-06-19 修订）、《智慧工厂云端平台需求基线》v1.0、《<a href="http://xn--2qq92f6o76pkpjfilnr2e.html">跨服务协作备忘.md</a>》（CSC-002/003/007/008/009/010）、边缘《数据传递微服务接口文档》v2.3（已冻结）
+<strong>审阅日期：</strong> 2026-07-07
+<strong>审阅结论：</strong> 本轮暂缓准入，修订后复审。两份文档的整体结构、职责边界与需求覆盖同基线的吻合度较高，值得肯定；但存在 5 项必须修正的问题（A 类），主要集中在「引用冻结契约的事实准确性」与「个别需求条款的落实」上。完成 A 类修正、并处理 B 类中的契约一致性问题后，即可复审入库。
+<strong>基线同步修正：</strong> 审阅中发现 2 处「修改基线比修改文档更划算」的情形（C 类，特殊标记），基线已由审阅方修正完毕，作者只需按新口径微调引用，详见第四节。</p>
+</blockquote>
+<hr>
+<h2 id="一审核结果">一、审核结果</h2>
+<h3 id="11-总体判定">1.1 总体判定</h3>
+<p>两份文档对平台数据网关的定位理解是准确的：把网关当作一个薄而可靠的数据面端点，不做业务建模、不持节点注册表、不解释业务语义，这与需求基线 §1.1 的边界澄清逐条对应。需求覆盖方面，需求基线的 24 条功能需求与 5 条非功能需求中，绝大多数都能在文档中找到明确落点（逐条核对结果见附录 A）；两档确认、下行分流、背压三档、回执配对、插件隔离、凭据分层这些主要设计，与基线的表述一致。</p>
+<p>未达准入的原因不在结构与方向，而在几处具体的事实与条款：文档引用边缘已冻结契约时出现了与事实不符的内容（proto 包名、STATUS 消息的语义），有一条平台级需求（有序性）整体没有着落，有一条服务级需求（投递失败处置可配置）的默认行为与基线相反，另有一处接口设计（downlink_id 允许网关代生成）与平台基线条款冲突。这些问题逐条列在第二节，每条都附了依据与具体的修正建议。</p>
+<h3 id="12-做得好的部分修订时请保留">1.2 做得好的部分（修订时请保留）</h3>
+<ol>
+<li><strong>DQ-GW-001 对 <code>downlink_id</code> 与 <code>command_id</code> 的区分是正确的。</strong> 「下行投递与回执配对用请求级标识、设备级指令生命周期归边缘 <code>command_id</code>、二者不混用」——这个理解与平台基线 FR-OC-002、备忘 CSC-007 完全一致。这一条同时暴露了需求基线 FR-GW-123 原措辞的歧义，基线已随本次审阅修正（见 C1）——作者的这项澄清直接促成了基线的改进。</li>
+<li><strong>职责边界自觉。</strong> 设计 §1.3「不纳入范围」表、§1.1 的「薄而可靠」定位、DQ-GW-002（不二次建模）、DQ-GW-006（准入事实来源只在资产管理），把基线里所有「网关不承担」的条目都落成了明确的设计约束。</li>
+<li><strong>渐进明细的纪律到位。</strong> 该留待的都留待了：传输协议选型、水位阈值默认值、其他微服务的接口 schema，两份文档都放进了开放项，没有替 PM 或其他微服务提前做决定。这正是基线编写说明所要求的做法。</li>
+<li><strong>自查意识。</strong> 接口 §16 验收对齐表、设计 §17 需求覆盖矩阵，说明作者是对照基线逐项写的（编号化的改进建议见 D2）。</li>
+<li><strong>工程细节完备。</strong> 示例数据自洽（时间戳都是 2026-06 附近的真实毫秒值）、错误码成体系、审计必发事件成清单、多实例部署考虑了会话唯一绑定与一致时钟源。</li>
+</ol>
+<h3 id="13-准入检查范围">1.3 准入检查范围</h3>
+<p>本次审阅按以下六个维度检查，供作者了解「准入标准」的构成：</p>
+<ol>
+<li><strong>需求覆盖：</strong> 《平台数据网关需求基线》FR-GW-101~145、NFR-GW-01~05，以及《智慧工厂云端平台需求基线》中与网关相关的 FR-GW-001~031、FR-OC-002、FR-CFG 各条；</li>
+<li><strong>冻结契约事实核对：</strong> 文档中所有引用边缘《数据传递微服务接口文档》v2.3 的内容，逐一与冻结原文比对；</li>
+<li><strong>跨服务备忘一致性：</strong> CSC-002/003/007/008/009/010 的约束是否被遵守、新产生的跨服务依赖是否需要登记；</li>
+<li><strong>渐进明细纪律：</strong> 是否存在替 PM 或其他微服务提前决定的内容；</li>
+<li><strong>两文档互相一致性：</strong> 设计与接口文档之间的命名、约定是否一致；</li>
+<li><strong>文档形式：</strong> 版本头、变更记录、目标读者、可追溯性。</li>
+</ol>
+<hr>
+<h2 id="二问题清单">二、问题清单</h2>
+<p>严重度分级：<strong>A = 必须修正</strong>（阻碍准入）；<strong>B = 应当修正</strong>（影响契约质量，随本轮修订一并处理）；<strong>C = 基线修正项</strong>（特殊标记——经权衡后修改的是基线而非文档，审阅方已完成，作者按新口径微调）；<strong>D = 细节与格式建议</strong>。</p>
+<h3 id="a-类必须修正">A 类：必须修正</h3>
+<h4 id="a1-引用的-protobuf-包名与冻结契约不符">A1 引用的 Protobuf 包名与冻结契约不符</h4>
+<ul>
+<li><strong>位置：</strong> 接口文档 §3（<code>import &quot;smartfactory/device/v1/device_message.proto&quot;</code>、<code>smartfactory.device.v1.DeviceMessage</code>）。</li>
+<li><strong>事实：</strong> 边缘已冻结契约的包声明是 <code>package datatransfer.v1;</code>（《数据传递微服务接口文档》v2.3 §2.1），不存在 <code>smartfactory.device.v1</code> 这个包。</li>
+<li><strong>问题：</strong> 正文以既成事实的口吻引用了一个不存在的包名。开放项 17.1 虽然写了「proto 的最终落库目录和包名需在 APIContracts 中确认」，但那句话针对的是网关自有的 proto；<code>DeviceMessage</code> 是<strong>已经冻结</strong>的契约，把它迁移到新命名空间意味着边缘侧所有 import 路径与生成代码都要变动，属于对冻结契约的破坏性变更，必须作为跨服务变更提案单独提出、由 PM 与边缘侧共同裁决，不能在接口文档里默认它已经发生。</li>
+<li><strong>修正建议：</strong> 正文引用一律改为 <code>datatransfer.v1.DeviceMessage</code>（import 路径相应调整）。如果作者确实想推动统一命名空间，请在开放项里单独写一条「包名迁移提案」，说明动机与影响面，等待裁决；在裁决之前，文档必须以冻结事实为准。</li>
+</ul>
+<h4 id="a2-status-心跳--状态变更的分档规则在冻结-schema-上无法执行">A2 「STATUS 心跳 / 状态变更」的分档规则在冻结 schema 上无法执行</h4>
+<ul>
+<li><strong>位置：</strong> 接口文档 §5.2 默认分类表（「STATUS 心跳 → TIMESERIES；STATUS 状态变更 → EVENT」）、软件设计 §3.4（「STATUS 是否按时序档处理由消息子类型和配置决定」）。</li>
+<li><strong>事实：</strong> 冻结契约中 <code>MessageType.STATUS</code> 的注释即「设备状态变更」，<code>StatusPayload</code> 只有 <code>state / reason / last_seen</code> 三个字段（《数据传递微服务接口文档》v2.3 §2.1、§2.3），没有任何「心跳子类型」字段；整套已冻结的边缘文档里没有出现「心跳」这个概念——设备侧的周期活性并不以 STATUS 消息表达。</li>
+<li><strong>问题：</strong> 「STATUS 心跳」这一行描述的是一种在现有契约下无法识别、甚至可能根本不存在的流量；设计 §3.4 所说的「消息子类型」在 schema 中没有着落。照现在的写法，实现阶段的工程师拿到一条 STATUS 消息，没有任何字段可以用来判断它该进时序档还是非时序档。</li>
+<li><strong>修正建议（两个方向，请作者选定其一并写成 DQ 决策记录）：</strong>
+<ul>
+<li><strong>方向一（与两侧文本最贴合）：</strong> STATUS 一律按非时序档处理。需求基线 FR-GW-115 本来就把「状态变更等事件」列在非时序；基线里作为时序例子的「设备心跳」，在云边链路上对应的是传输层的 Heartbeat 帧（接口文档 §4.1 已定义），它不进入 <code>DeviceMessage</code> 管线。文档写明「设备状态变更走非时序档；连接活性由传输层 Heartbeat 承担，与 DeviceMessage 无关」，分类问题即告消失。</li>
+<li><strong>方向二：</strong> 如果作者预期边缘将来会以周期性 STATUS 消息表达设备活性，那么须与边缘侧先行对齐判别方式（例如约定某个 <code>metadata</code> 键），在对齐完成之前，分类表中不应出现「心跳」行。</li>
+</ul>
+</li>
+<li><strong>附带一处收紧（与本条同源）：</strong> 分类表中 TELEMETRY、EVENT、CMD_RESPONSE 的映射与冻结枚举一致，可以保留。</li>
+</ul>
+<h4 id="a3-downlink_id-允许由网关生成与-fr-oc-002-冲突">A3 <code>downlink_id</code> 允许「由网关生成」与 FR-OC-002 冲突</h4>
+<ul>
+<li><strong>位置：</strong> 接口文档 §6.2 字段规则表（「必填或由网关生成」）、§3 <code>DownlinkRequest</code>。</li>
+<li><strong>依据：</strong> 平台基线 FR-OC-002——「云端的下行请求<strong>自带</strong>请求级标识（用于与边缘回执对应）」。标识由发起方随请求带来，网关不代为生成。</li>
+<li><strong>问题：</strong> 允许网关代生成之后，发起方要先从 <code>DownlinkAccept</code> 响应里取回一个网关生成的 id，再在自己这边登记映射，才能等待回执——「回执复用同一 id」在发起方视角就不闭环了，实际上多出了一套 id 对账。这正是基线想避免的事。</li>
+<li><strong>修正建议：</strong> <code>downlink_id</code> 改为发起方必填生成，删除「或由网关生成」分支；错误码表相应补「<code>downlink_id</code> 缺失则拒绝」（可并入 GW-DL-001 或新增编号）。<code>source_request_id</code> 作为发起方内部标识可以保留，但请在字段说明里写清它与 <code>downlink_id</code> 的分工，避免再添一层歧义。</li>
+</ul>
+<h4 id="a4-有序语义整体缺失">A4 「有序」语义整体缺失</h4>
+<ul>
+<li><strong>位置：</strong> 两份文档均无相关章节。</li>
+<li><strong>依据：</strong> 平台基线 FR-GW-011 要求边缘通道具备「<strong>有序</strong>、背压、断连续传的云端对端、以及传输层加密（mTLS）」四项能力。后三项在文档中都有明确落点，唯独顺序保证只字未提。</li>
+<li><strong>问题：</strong> 顺序不是可以默认的事情。举一个具体例子：同一台设备先后上报 <code>STATUS(OFFLINE)</code> 与 <code>STATUS(ONLINE)</code>，如果网关向数据处理中心的转发不保序，消费方就会得出「设备当前离线」的错误结论。重传与去重对到达顺序的影响、多实例部署（设计 §14.3）下的顺序边界，也都属于必须写明「保什么、不保什么」的内容。下行方向，设计 §6.6「按队列顺序投递」实际上已经隐含了每节点 FIFO，但同样需要明说。</li>
+<li><strong>修正建议：</strong> 接口文档与设计文档各补一节顺序语义，至少回答四个问题：① 单节点单连接内，上行转发是否保持接收顺序；② 重复消息返回既有 ACK 时，是否影响后续消息的顺序；③ 下行每节点队列的 FIFO 保证（配置类），以及控制类与配置类之间是否存在超越关系；④ 断连重连、多实例接管时的顺序边界。「跨会话不承诺顺序，消费方以消息 <code>timestamp</code> 为准」这样的答案也是明确答案——关键是把承诺写出来。</li>
+</ul>
+<h4 id="a5-fr-gw-117投递失败处置可配置未落实且设计默认行为与基线默认相反">A5 FR-GW-117「投递失败处置可配置」未落实，且设计默认行为与基线默认相反</h4>
+<ul>
+<li><strong>位置：</strong> 软件设计 §5.5/§5.6（非时序数据对下游「持续重试直至成功或人工介入」）、接口文档 §13.3 必备配置项表（没有对应配置键）。</li>
+<li><strong>依据：</strong> 需求基线 FR-GW-117——「投递失败的处置须暴露为可配置项（见 NFR-GW-03），由客户按实际需求选择。<strong>默认：超时即停投 + 触发告警</strong>。」</li>
+<li><strong>问题：</strong> 基线的默认行为是「重试超过阈值后停止投递、触发告警、等待人工处理」，设计写成了无限期持续重试；同时「处置动作」本身没有出现在配置项清单里，客户无从按需选择。数据不会因此丢失（Journal 仍持久保留，FR-GW-118 的底线没有破），但行为与基线写明的默认值相反。</li>
+<li><strong>修正建议：</strong> ① 接口 §13.3 增加配置键，例如 <code>gateway.upstream.event_delivery_failure_action</code>（取值 <code>stop_and_alert</code> / <code>retry_forever</code>，默认 <code>stop_and_alert</code>）与 <code>gateway.upstream.event_delivery_timeout_ms</code>（停投判定阈值）；② 设计 §5.5/§5.6 改写为「按该配置执行，默认超时停投并告警；数据持久保留、不确认丢弃，恢复投递由人工或自动信号触发」。</li>
+</ul>
+<h3 id="b-类应当修正">B 类：应当修正</h3>
+<h4 id="b1-补盖保留键前缀两文档不一致">B1 补盖保留键前缀，两文档不一致</h4>
+<p>接口 §5.4 规定保留键统一用 <code>gateway.</code> 前缀（并明令边缘不得主动写入），设计 §5.3 的表格却使用 <code>ingress.edge_node_id</code> 等 <code>ingress.</code> 前缀键名，正文还留着「统一使用 <code>gateway.</code> 或 <code>ingress.</code> 前缀」的两可表述。接口文档是对外契约的权威，请把设计 §5.3 统一改为 <code>gateway.*</code>，删去两可表述。</p>
+<h4 id="b2-回执状态字段命名两文档不一致">B2 回执状态字段命名，两文档不一致</h4>
+<p>设计 §7.2 称之为 <code>decision</code>（通过 / 拒绝 / 执行失败 / 超时），接口 §3 定义的是 <code>receipt_status</code>（<code>SUCCESS / FAILURE / REJECTED / TIMEOUT</code>）。语义相同、名称不同，请统一为接口文档的 <code>receipt_status</code>。</p>
+<h4 id="b3-downlinkpayloadtype-中-configmapping-两个取值缺少需求出处">B3 <code>DownlinkPayloadType</code> 中 CONFIG、MAPPING 两个取值缺少需求出处</h4>
+<p>需求基线 FR-GW-120/121 列举的下行内容是规则、策略、配置与直接控制。「MAPPING（映射更新）」下发到边缘，在基线中找不到对应需求——模型映射（FR-GW-145）属于外部接入面，在云端执行，不涉及边缘。CONFIG 也需要说明与平台基线 FR-CFG-007 第②层的关系（边缘节点配置由编排与控制中心治理，治理手段是下发规则与策略）。请为这两个取值补出处，或者删除，或者明确标注「预留、本期不启用」。</p>
+<h4 id="b4-配置键命名同一文档内不一致">B4 配置键命名，同一文档内不一致</h4>
+<p>接口 §13.1 示例用 <code>gateway.downlink.control.default_timeout_ms</code>，§13.3 表格用 <code>gateway.downlink.control_default_timeout_ms</code>（分隔符一个是点、一个是下划线）。请统一，并顺带检查全表的命名规律。</p>
+<h4 id="b5-配置订阅接口的归属需要注明">B5 配置订阅接口的归属需要注明</h4>
+<p>接口 §13.2 定义了 <code>GatewayConfigService.WatchConfig</code>。按平台基线 FR-CFG-001/002，配置的订阅与热更新协议应当由配置中心统一定义、各服务内嵌客户端，而不是每个服务各自定义一套。这份草案可以保留，但请标注「网关侧期望，最终以配置中心契约为准」，并列入开放项。此事已代为登记到跨服务协作备忘（CSC-014）。</p>
+<h4 id="b6-凭据接口与配置中心统一呈现的衔接未写明">B6 凭据接口与「配置中心统一呈现」的衔接未写明</h4>
+<p>需求基线 FR-GW-144 与平台基线 FR-CFG-005 要求凭据条目纳入配置中心统一呈现、值存加密密钥库。接口 §11 定义了网关侧的凭据管理接口，但没有说明：凭据条目如何出现在配置中心页面上、这些接口由谁调用（配置中心 UI？运维后台？）、权限校验经过权限与身份微服务的路径是什么。请补一段集成说明。此事并入 CSC-014 一并对齐。</p>
+<h4 id="b7-http-回调形态缺少登记机制">B7 HTTP 回调形态缺少登记机制</h4>
+<p>接口 §8.2 写「若发起方登记回调地址，网关按状态变化推送」，但全文没有回调地址的登记接口或配置方式。请补登记方式；或者本期只保留 gRPC <code>WatchDeliveryStatus</code> 订阅，把 HTTP 回调标注为预留形态。</p>
+<h4 id="b8-cmd_response-的-command_id-校验弱于冻结契约">B8 CMD_RESPONSE 的 <code>command_id</code> 校验弱于冻结契约</h4>
+<p>冻结信封对 <code>command_id</code> 的注释是「上行 CMD_RESPONSE 回填对应指令 ID」——必填语义。接口 §5.2 写的是「若存在设备级指令回执，应携带 <code>command_id</code>」，比冻结契约松。建议收紧为必填校验：CMD_RESPONSE 缺 <code>command_id</code> 按契约错误拒绝，并补对应错误码。</p>
+<h4 id="b9-fr-gw-116a-的设计裁决没有留下记录">B9 FR-GW-116a 的设计裁决没有留下记录</h4>
+<p>需求基线 FR-GW-116a 允许「事件档若实现代价过大，降级统一按时序处理，触发与否由设计阶段判断」。设计实际选择了完整实现两档、不降级——这正是基线交给设计阶段的判断，结论本身没有问题，但请补一条决策记录（例如 DQ-GW-007：不触发降级，附理由），让这个预留项有可追溯的闭环。</p>
+<h4 id="b10-上行批量能力未提及">B10 上行批量能力未提及</h4>
+<p>冻结契约定义了 <code>DeviceMessageBatch</code>（《数据传递微服务接口文档》v2.3 §2.4，「用于批量上报场景，将多条消息打包发送」），边缘聚合之后的上行流量很可能以批为单位。接口的 <code>UpstreamEnvelope</code> 目前只包裹单条 <code>DeviceMessage</code>。请评估是否需要批量形态的上行信封（或者说明由 gRPC 流式传输的帧化特性覆盖、批量问题在 CSC-008 对齐时一并确定），并把结论写进文档。</p>
+<h3 id="c-类基线修正项特殊标记">C 类：基线修正项（特殊标记）</h3>
+<blockquote>
+<p>这两条的处理方式与其他条目不同：经过权衡，修改基线比修改文档更划算，基线已由审阅方修正完毕。这是渐进明细在基线管理上的正常表现——设计阶段的深入暴露了需求表述的缺陷，经审核与权衡后回写基线。修改前后的原文见第四节 4.1。</p>
+</blockquote>
+<h4 id="c1-基线修正fr-gw-123-措辞歧义基线已修正文档只需微调引用">C1 【基线修正】FR-GW-123 措辞歧义——基线已修正，文档只需微调引用</h4>
+<ul>
+<li><strong>原基线措辞的问题：</strong> 「回执复用<strong>下发指令</strong>的同一 id（<strong>不另设请求标识</strong>）」有两处容易读反。其一，「指令」一词与边缘的指令级 <code>command_id</code> 直接冲突，容易被读成「回执复用 command_id」——这恰恰是 CSC-007 明令禁止混用的两个概念；其二，「不另设请求标识」的本义是「不为<strong>回执</strong>另设新标识」，却可能被读成「不设请求级标识」，与 FR-OC-002「下行请求自带请求级标识」表面矛盾。</li>
+<li><strong>权衡过程：</strong> 作者需要用一整条 DQ-GW-001 专门澄清才绕开了误读，而澄清之后的理解与平台基线 FR-OC-002、CSC-007 完全一致——这说明错的不是设计，而是基线那句话本身。修改一句基线措辞，一次性消除后续所有读者的误读可能；不改基线，则每一份下游文档都得自带一段澄清。前者的性价比明显更高。</li>
+<li><strong>基线新措辞（已生效）：</strong> 「回执复用其对应下行请求的同一请求级标识，不为回执另设新的标识……该请求级标识与边缘侧的指令级 <code>command_id</code> 不得混用（对齐 CSC-007；设计阶段将其命名为 <code>downlink_id</code>，见《平台数据网关软件设计》DQ-GW-001）。」</li>
+<li><strong>对文档的要求：</strong> DQ-GW-001 保留；其中引用基线原文「回执复用下发指令的同一 id」的地方，请更新为基线新措辞。</li>
+</ul>
+<h4 id="c2-基线修正fr-gw-110-补资产管理不可用的缺省行为fail-open-是否提供交-pm-裁决">C2 【基线修正】FR-GW-110 补「资产管理不可用」的缺省行为；fail-open 是否提供，交 PM 裁决</h4>
+<ul>
+<li><strong>背景：</strong> 基线原文只规定「未在册或处于停用的节点，不得接入」，没有回答「准入核验所依赖的资产管理服务不可用时怎么办」——这是基线的一处空白。两份文档给出的方案是「默认 fail-closed（拒绝接入）；是否允许短时 fail-open 作为高风险配置项并写审计」（设计 §4.2、接口 §4.3 UNKNOWN 行、§15.1 GW-AUTH-004）。</li>
+<li><strong>权衡过程：</strong> 「默认拒绝」与基线「未在册不得接入」的精神一致，属于把空白补实，值得固化为需求条款；而「是否提供 fail-open 配置」是安全性与可用性之间的取舍——一边是资产管理故障期间边缘节点全部无法接入的可用性风险，一边是核验缺位期间不可信节点混入的安全风险——这个决定涉及安全边界，信息不足，不是文档审阅可以代替 PM 做的。因此基线只固化「默认 fail-closed」，fail-open 列为需求层面待决项，由 PM 裁决。</li>
+<li><strong>对文档的要求：</strong> 涉及 fail-open 的三处表述（接口 §4.3 admission_status 表 UNKNOWN 行、§15.1 GW-AUTH-004、设计 §4.2 末条）请统一改为「默认拒绝；fail-open 配置是否提供，待 PM 裁决，裁决前不实现」的口径——现在「除非高风险配置允许短时 fail-open」的写法，读起来像这个配置已经存在。</li>
+</ul>
+<h3 id="d-类细节与格式建议">D 类：细节与格式建议</h3>
+<ul>
+<li><strong>D1</strong> 接口 §8.4 的表格分隔行缺行首竖线（<code>----------|</code> 应为 <code>|----------|</code>），部分渲染器下表格会断裂。</li>
+<li><strong>D2</strong> 接口 §16 验收对齐表与设计 §17 需求覆盖矩阵目前用描述性短语指代需求，建议改用 FR-GW-xxx / NFR-GW-xx 编号，并补 NFR 各条的行——编号化之后，逐条核对不再需要人工比对语句，追溯成本低得多（本报告附录 A 可直接取用）。</li>
+<li><strong>D3</strong> 设计 §1.3「不纳入范围」表建议补一行「预约执行调度 —— 归边缘（云端不持有预约调度，FR-GW-121）」，这是基线特意写明的边界，值得在设计里同样显式。</li>
+<li><strong>D4</strong> <code>RELIABILITY_CLASS_EVENT</code> 与 <code>MessageType.EVENT</code> 同名容易混淆——§5.2 的表里会出现「EVENT 类型对应 EVENT 档」这样的行。趁契约未冻结，建议将可靠性档位更名，例如 <code>RELIABILITY_CLASS_NON_TIMESERIES</code>。</li>
+</ul>
+<hr>
+<h2 id="三修正行动清单">三、修正行动清单</h2>
+<p>下表按优先级汇总所有条目的动作，方便逐项执行与回销。修订完成后，请连同「逐条回应」（哪条改了、怎么改的、哪条有异议）一起回传。</p>
+<table>
+<thead>
+<tr>
+<th>条目</th>
+<th>位置</th>
+<th>动作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A1</td>
+<td>接口 §3</td>
+<td><code>smartfactory.device.v1</code> 改为 <code>datatransfer.v1</code>；如有包名迁移意向，另立开放项提案</td>
+</tr>
+<tr>
+<td>A2</td>
+<td>接口 §5.2、设计 §3.4</td>
+<td>选定 STATUS 分档方向（建议方向一：一律非时序 + 写明与传输层 Heartbeat 的区分），写成 DQ 决策记录</td>
+</tr>
+<tr>
+<td>A3</td>
+<td>接口 §6.2、§3</td>
+<td><code>downlink_id</code> 改为发起方必填，删除网关代生成分支，补缺失校验错误码</td>
+</tr>
+<tr>
+<td>A4</td>
+<td>两文档新增章节</td>
+<td>补顺序语义：上行保序范围、去重与顺序、下行 FIFO、跨会话/多实例边界</td>
+</tr>
+<tr>
+<td>A5</td>
+<td>接口 §13.3、设计 §5.5/5.6</td>
+<td>新增投递失败处置配置键，默认改为「超时停投 + 告警」</td>
+</tr>
+<tr>
+<td>B1</td>
+<td>设计 §5.3</td>
+<td>保留键统一为 <code>gateway.*</code></td>
+</tr>
+<tr>
+<td>B2</td>
+<td>设计 §7.2</td>
+<td><code>decision</code> 改为 <code>receipt_status</code></td>
+</tr>
+<tr>
+<td>B3</td>
+<td>接口 §2.4</td>
+<td>CONFIG/MAPPING 补出处，或删除，或标注预留</td>
+</tr>
+<tr>
+<td>B4</td>
+<td>接口 §13.1/13.3</td>
+<td>配置键命名统一</td>
+</tr>
+<tr>
+<td>B5</td>
+<td>接口 §13.2</td>
+<td>标注「以配置中心契约为准」，列入开放项</td>
+</tr>
+<tr>
+<td>B6</td>
+<td>接口 §11</td>
+<td>补与配置中心呈现、调用方、权限路径的集成说明</td>
+</tr>
+<tr>
+<td>B7</td>
+<td>接口 §8.2</td>
+<td>补回调登记方式，或标注 HTTP 回调为预留</td>
+</tr>
+<tr>
+<td>B8</td>
+<td>接口 §5.2</td>
+<td>CMD_RESPONSE 的 <code>command_id</code> 收紧为必填校验</td>
+</tr>
+<tr>
+<td>B9</td>
+<td>设计 §16</td>
+<td>补 DQ：FR-GW-116a 不触发降级及理由</td>
+</tr>
+<tr>
+<td>B10</td>
+<td>接口 §5</td>
+<td>评估批量上行信封（对照冻结 <code>DeviceMessageBatch</code>），写明结论</td>
+</tr>
+<tr>
+<td>C1</td>
+<td>设计 DQ-GW-001</td>
+<td>引用基线原文处更新为新措辞（基线已改，见 4.1）</td>
+</tr>
+<tr>
+<td>C2</td>
+<td>接口 §4.3/§15.1、设计 §4.2</td>
+<td>fail-open 表述统一为「默认拒绝；是否提供待 PM 裁决」</td>
+</tr>
+<tr>
+<td>D1</td>
+<td>接口 §8.4</td>
+<td>修表格分隔行</td>
+</tr>
+<tr>
+<td>D2</td>
+<td>接口 §16、设计 §17</td>
+<td>追溯表改 FR/NFR 编号并补全</td>
+</tr>
+<tr>
+<td>D3</td>
+<td>设计 §1.3</td>
+<td>补「预约执行调度归边缘」行</td>
+</tr>
+<tr>
+<td>D4</td>
+<td>接口 §2.1</td>
+<td>评估 <code>RELIABILITY_CLASS_EVENT</code> 更名</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="四基线与协作记录的同步修正审阅方已完成">四、基线与协作记录的同步修正（审阅方已完成）</h2>
+<h3 id="41-平台数据网关需求基线v10-修订-22026-07-07">4.1 《平台数据网关需求基线》v1.0 修订 2（2026-07-07）</h3>
+<p><strong>FR-GW-123，修改前：</strong></p>
+<blockquote>
+<p>回执复用下发指令的同一 id（不另设请求标识）。发起方按该 id 等待、匹配回执、并做执行超时处理；网关据同一 id 将回执路由回发起方。</p>
+</blockquote>
+<p><strong>FR-GW-123，修改后：</strong></p>
+<blockquote>
+<p>回执复用其对应下行请求的同一请求级标识，不为回执另设新的标识。发起方按该标识等待、匹配回执、并做执行超时处理；网关据同一标识将回执路由回发起方。该请求级标识与边缘侧的指令级 <code>command_id</code> 不得混用（对齐 CSC-007；设计阶段将其命名为 <code>downlink_id</code>，见《平台数据网关软件设计》DQ-GW-001）。</p>
+</blockquote>
+<p><strong>FR-GW-110，追加一句：</strong></p>
+<blockquote>
+<p>资产管理准入核验不可用时，网关默认拒绝新接入（fail-closed）；是否提供「短时放行（fail-open）」的高风险配置项，列为需求层面待决、由 PM 裁决（见 §6）。</p>
+</blockquote>
+<p>同时在基线 §6 新增「需求层面待决（PM 裁决）」条目，并在变更记录表补充本次修订行。</p>
+<h3 id="42-跨服务协作备忘更新2026-07-07">4.2 《跨服务协作备忘》更新（2026-07-07）</h3>
+<p>两份文档产生或细化了若干跨服务依赖，按协作规则应登记入备忘、供各微服务会话认领。审阅方已代为登记，作者无需重复登记，但请知悉编号以便在修订稿中引用：</p>
+<ul>
+<li><strong>CSC-011（新增，目标：资产管理）</strong> 边缘节点准入核验接口与停用事件通知——接口 §4.3 的 <code>admission:check</code> 草案与设计 §4.2 的缓存驱逐期望，待资产管理迭代时确认最终 schema；</li>
+<li><strong>CSC-012（新增，目标：数据处理中心）</strong> 上行数据消费接口——接口开放项 17.4 的留白，含时序档速率匹配与非时序档消费确认（Journal 清理依据）；</li>
+<li><strong>CSC-013（新增，目标：审计微服务）</strong> 统一事件信封与哈希链归属——接口 §9.1 <code>AuditEventEnvelope</code> 草案作为输入，哈希链由谁生成待审计侧裁决（对应接口开放项 17.5）；</li>
+<li><strong>CSC-014（新增，目标：配置中心）</strong> 配置订阅协议与凭据条目呈现的衔接（对应本报告 B5、B6）；</li>
+<li><strong>CSC-007 / 008 / 009（补记进展）</strong> 网关侧契约草案已成文（回执结构、两档确认与去重、投递状态与背压），状态维持待讨论，等待对端微服务迭代时确认。</li>
+</ul>
+<h3 id="43-待-pm-裁决项汇总">4.3 待 PM 裁决项汇总</h3>
+<ol>
+<li><strong>fail-open 是否提供</strong>（C2）：资产管理不可用期间，是否允许以高风险配置换取边缘接入的可用性。基线当前口径为默认拒绝、配置项暂不提供。</li>
+<li><strong>包名统一提案</strong>（A1 附带）：若作者坚持将云边共享 proto 迁移到统一命名空间（如 <code>smartfactory.*</code>），因涉及冻结契约的破坏性变更，需要 PM 与边缘侧共同评估。若作者接受引用 <code>datatransfer.v1</code>，此项自动关闭。</li>
+</ol>
+<hr>
+<h2 id="五复审与入库流程">五、复审与入库流程</h2>
+<p>请作者按第三节清单修订两份文档，并附逐条回应回传。复审只核对 A、B、C 三类的闭环情况，通过后两份文档入库 <code>SmartFactory-2026/Baseline/Platform/DataGateway/</code>，与《平台数据网关需求基线》并列，文档状态由「草案」升为接口基线 / 设计基线。</p>
+<p>入库时有一件配套工作请一并考虑：<code>SmartFactory-2026/APIContracts</code> 目录当前为空，而平台基线 §2.3 已提示云边共享 proto 应尽早在此落成单一事实来源。网关的 <code>gateway.proto</code> 与其引用的 <code>datatransfer.v1</code> 冻结 proto，建议随定稿一起落入该目录（对应接口开放项 17.1），避免契约只存在于 Markdown 文档里。</p>
+<hr>
+<h2 id="附录-a需求覆盖逐条核对表">附录 A：需求覆盖逐条核对表</h2>
+<table>
+<thead>
+<tr>
+<th>基线条款</th>
+<th>主题</th>
+<th>文档落点</th>
+<th>判定</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-GW-101</td>
+<td>单租户、无租户维度</td>
+<td>设计 3.1/14.1，接口 §16</td>
+<td>达标</td>
+</tr>
+<tr>
+<td>FR-GW-102</td>
+<td>两种托管形态</td>
+<td>设计 §14</td>
+<td>达标</td>
+</tr>
+<tr>
+<td>FR-GW-110</td>
+<td>mTLS 终结 + 准入核验</td>
+<td>设计 §4，接口 §4</td>
+<td>达标（缺省行为空白已由 C2 补入基线）</td>
+</tr>
+<tr>
+<td>FR-GW-111</td>
+<td>不持节点注册表</td>
+<td>设计 DQ-GW-006</td>
+<td>达标</td>
+</tr>
+<tr>
+<td>FR-GW-112</td>
+<td>校验 + 透传，不二次建模</td>
+<td>设计 3.2/DQ-GW-002，接口 5.1</td>
+<td>达标（包名引用见 A1）</td>
+</tr>
+<tr>
+<td>FR-GW-113</td>
+<td>补盖接入侧标识</td>
+<td>设计 5.3，接口 5.4</td>
+<td>达标（前缀统一见 B1）</td>
+</tr>
+<tr>
+<td>FR-GW-114</td>
+<td>谁接收谁负责</td>
+<td>设计 1.2/5.4，接口 5.3</td>
+<td>达标</td>
+</tr>
+<tr>
+<td>FR-GW-115</td>
+<td>两档确认语义</td>
+<td>设计 3.4/5.5，接口 2.1/5.3</td>
+<td>达标（STATUS 判别见 A2）</td>
+</tr>
+<tr>
+<td>FR-GW-116</td>
+<td>去重键与重传复用</td>
+<td>设计 5.4，接口 5.3</td>
+<td>达标</td>
+</tr>
+<tr>
+<td>FR-GW-116a</td>
+<td>事件档降级预留</td>
+<td>——</td>
+<td>裁决未记录（B9）</td>
+</tr>
+<tr>
+<td>FR-GW-117</td>
+<td>投递失败处置可配置</td>
+<td>设计 5.6（部分）</td>
+<td>未达标（A5）</td>
+</tr>
+<tr>
+<td>FR-GW-118</td>
+<td>溢出分档处置</td>
+<td>设计 5.6，接口 15.2</td>
+<td>达标</td>
+</tr>
+<tr>
+<td>FR-GW-120</td>
+<td>下行内容为业务抽象层</td>
+<td>设计 6.1，接口 2.4</td>
+<td>达标（CONFIG/MAPPING 出处见 B3）</td>
+</tr>
+<tr>
+<td>FR-GW-121</td>
+<td>下行按紧迫度分流</td>
+<td>设计 6.2/DQ-GW-004，接口 6.2/6.4</td>
+<td>达标</td>
+</tr>
+<tr>
+<td>FR-GW-122</td>
+<td>按节点路由、离线缓冲</td>
+<td>设计 6.4/6.6</td>
+<td>达标</td>
+</tr>
+<tr>
+<td>FR-GW-123</td>
+<td>回执复用请求级标识</td>
+<td>设计 3.3/DQ-GW-001/7.1，接口 1.4/§7</td>
+<td>达标（网关代生成见 A3；基线措辞已修 C1）</td>
+</tr>
+<tr>
+<td>FR-GW-124</td>
+<td>直接控制回执入审计</td>
+<td>设计 7.2/7.3，接口 7.2/9.3</td>
+<td>达标</td>
+</tr>
+<tr>
+<td>FR-GW-127</td>
+<td>队列三档水位可配置</td>
+<td>设计 6.5，接口 2.6/13.3</td>
+<td>达标</td>
+</tr>
+<tr>
+<td>FR-GW-128</td>
+<td>投递状态四态回传</td>
+<td>设计 6.3，接口 2.5/8.1</td>
+<td>达标</td>
+</tr>
+<tr>
+<td>FR-GW-129</td>
+<td>背压三档回传上游</td>
+<td>设计 6.5，接口 8.3/8.4</td>
+<td>达标</td>
+</tr>
+<tr>
+<td>FR-GW-130</td>
+<td>断连期间分类处置</td>
+<td>设计 4.1/6.6</td>
+<td>达标</td>
+</tr>
+<tr>
+<td>FR-GW-140</td>
+<td>插件接口与 SDK</td>
+<td>设计 §8，接口 §10</td>
+<td>达标</td>
+</tr>
+<tr>
+<td>FR-GW-141</td>
+<td>插件进程级隔离</td>
+<td>设计 8.1/DQ-GW-005</td>
+<td>达标</td>
+</tr>
+<tr>
+<td>FR-GW-142</td>
+<td>只接入方向 + 方向位预留 + 人事插件范围</td>
+<td>设计 8.3，接口 10.1</td>
+<td>达标</td>
+</tr>
+<tr>
+<td>FR-GW-143</td>
+<td>推送为主拉取兜底、默认增量</td>
+<td>设计 8.3，接口 10.3/13.3</td>
+<td>达标</td>
+</tr>
+<tr>
+<td>FR-GW-144</td>
+<td>凭据统一管理、值入密钥库</td>
+<td>设计 §9，接口 §11</td>
+<td>达标（配置中心衔接见 B6）</td>
+</tr>
+<tr>
+<td>FR-GW-145</td>
+<td>映射版本化、snake_case</td>
+<td>设计 8.4，接口 §12</td>
+<td>达标</td>
+</tr>
+<tr>
+<td>NFR-GW-01</td>
+<td>断连恢复与续投</td>
+<td>设计 4.1/6.6/14.3</td>
+<td>达标</td>
+</tr>
+<tr>
+<td>NFR-GW-02</td>
+<td>安全</td>
+<td>设计 §13</td>
+<td>达标</td>
+</tr>
+<tr>
+<td>NFR-GW-03</td>
+<td>可配置性</td>
+<td>设计 §10，接口 §13</td>
+<td>达标（缺项见 A5、B4）</td>
+</tr>
+<tr>
+<td>NFR-GW-04</td>
+<td>信创与国密</td>
+<td>设计 9.3/11.2/14.2</td>
+<td>达标</td>
+</tr>
+<tr>
+<td>NFR-GW-05</td>
+<td>两种部署形态</td>
+<td>设计 §14</td>
+<td>达标</td>
+</tr>
+<tr>
+<td>平台 FR-GW-001/002</td>
+<td>唯一对边出口、对端为传输模块</td>
+<td>设计 1.1/2.1</td>
+<td>达标</td>
+</tr>
+<tr>
+<td>平台 FR-GW-003/004</td>
+<td>消费冻结信封、沿用关联键</td>
+<td>设计 3.2/3.3，接口 1.4</td>
+<td>达标（A1）</td>
+</tr>
+<tr>
+<td>平台 FR-GW-011</td>
+<td>有序、背压、续传、mTLS</td>
+<td>背压/续传/mTLS 达标</td>
+<td>有序缺失（A4）</td>
+</tr>
+<tr>
+<td>平台 FR-GW-020~022</td>
+<td>外部接入面</td>
+<td>设计 §8，接口 §10</td>
+<td>达标</td>
+</tr>
+<tr>
+<td>平台 FR-GW-030/031</td>
+<td>数据模型映射</td>
+<td>设计 8.4，接口 §12</td>
+<td>达标</td>
+</tr>
+<tr>
+<td>平台 FR-OC-002</td>
+<td>请求级标识由发起方自带</td>
+<td>接口 6.2</td>
+<td>冲突（A3）</td>
+</tr>
+<tr>
+<td>CSC-002</td>
+<td>snake_case、entity_revision</td>
+<td>全文，接口 1.3/1.4</td>
+<td>达标</td>
+</tr>
+<tr>
+<td>CSC-007</td>
+<td>直接控制回执结构</td>
+<td>接口 7.2/9.3</td>
+<td>达标（已在备忘补记进展）</td>
+</tr>
+<tr>
+<td>CSC-008</td>
+<td>对称可靠投递与去重</td>
+<td>接口 §2/§4/§5</td>
+<td>达标（已在备忘补记进展）</td>
+</tr>
+<tr>
+<td>CSC-009</td>
+<td>投递状态与背压</td>
+<td>接口 §6/§8</td>
+<td>达标（已在备忘补记进展）</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="变更记录">变更记录</h2>
+<table>
+<thead>
+<tr>
+<th>版本</th>
+<th>日期</th>
+<th>摘要</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>v1.0</td>
+<td>2026-07-07</td>
+<td>初版审阅报告。判定：暂缓准入，修订后复审。问题清单 A×5、B×10、C×2（基线修正，已完成）、D×4；同步登记 CSC-011~014，补记 CSC-007/008/009 进展。</td>
+</tr>
+</tbody>
+</table>
+
+            
+            
+        </body>
+        </html>

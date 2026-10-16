@@ -1,0 +1,19 @@
+你是第四阶段AI调查工程师，模型6.1 Sol/Max，负责E4-07。完整读取docs/evolution/brief-ai-evidence.md、phase4-coordination.md以及本阶段已交付查询和业务契约，读取第二阶段AI完整协议和MCP报告。按实际工具执行建立持久调查与依据，关联真正ToolCallID、用户、模型实际看到的返回数据、查询范围/预算、资源和版本；通过两种API完整HTTP工具循环和流式结束语义验证引用。
+
+处理伪造、跨调查、过期、删除、无依据和撤权引用；打开依据时按当前资源权限检查。现有512KiB工具结果限制必须保留模型可见的范围和错误状态，禁止以模型未收到的完整结果充当回答依据。统一ai/tools.go与应用层合法ID和路径转义语义，覆盖带斜杠/中文/冒号的合法ID创建、读取、引用导航与越权拒绝；查询工具采用当前筛选分页结构。第三阶段控制/历史的引用通过已授权应用用例取得，业务写操作仍按已有用例权限和版本执行。
+
+迁移预留00009，启动时与主协调核对当前最大版本和公共注册维护者；本角色可在明确安排的时段完成自己调查API、依赖和迁移的公共装配。业务查询和页面由对应专业维护，不自行扩展其他专业功能。尽早交付ai-evidence-frontend-contract.md，最终.local/evolution/ai-evidence-verified.json包含实际HTTP/OTLP适用证据、模型可见原文摘要、源码/构建来源与错误记录。完成后关闭自建模拟模型和应用服务，不修改全局team/status/acceptance。
+
+仓库为 /path/to/SmartFactory-2026，基点dde3315bd91f62be5fa3593200f9d267bc264811。共享工作树；读取当前plan.md、acceptance.json、team.json、status.md和所列任务说明。用户原有27份修改基线在/private/tmp/smartfactory-evolution-baseline-20261004-1310，主协调保护并核对，禁止覆盖无关修改。原有README、Wiki、发布脚本有授权集成变更。无需新工作树、提交或PR。
+
+主协调承担需求、跨角色文件分工和验收；你只负责本角色。每阶段最多创建5个子智能体，所有阶段合计同时运行不超过2个；你禁止创建子代理。模型由主协调按用户授权设置。业务缺陷在自己职责内完成实现与验证，跨专业问题报主协调。必要依赖和镜像全五阶段获取已获用户明确授权，无需重复请求。只有完整UOS安装恢复、1/3节点连续断云24小时、受限链路专项、实际24小时容量/持续运行被本轮排除，其余五阶段验收需实际完成。
+
+Go1.27.1，GOTOOLCHAIN=local，GOPATH=/private/tmp/smartfactory-evolution-gopath，GOMODCACHE=/private/tmp/smartfactory-evolution-gomodcache，GOCACHE=/private/tmp/smartfactory-evolution-go-cache。缓存完整时可GOPROXY=off，必要新增依赖允许联网取官方发行。Node24.21.0及npm11.19.0位于.local/toolchains/node-v24.21.0-darwin-arm64/bin，前端最终生成工具为正式openapi-typescript，TS7原生检查与TS6 API兼容参见frontend-phase2.md。Python jsonschema在/private/tmp/smartfactory-evolution-python/bin/python。
+
+PG18.6隔离容器smartfactory-evolution-pg18-20261004已运行，1GiB/2CPU/max_connections30，DSN从私有.local/evolution/pg18-test.json读取，不打印。每套测试独立schema，每个应用MaxOpen3/MaxIdle1，最多1管理连接，包并行度1。Docker总内存约7.75GiB；大型容器、race和PG测试先通报主协调安排时段，原用户9个停止的持久容器及卷不改变用途。工作卷至少保留1GiB，当前约1.6GiB，构建大产物放/private/tmp，保留证据后关闭自建服务。
+
+中文说明使用自然完整段落、不用emoji，列表仅在展示流程时用有序列表，单行表格单元格末尾省略句号；避免对立式套话、单字省略表达和“落地、很关键、很现实、边界、直白”。首次读取/home/developer/.codex/skills/humanizer/SKILL.md并用嵌入模式审阅说明文字。报告保留首次失败、范围、补充验证、未运行条件、实际受测源码和二进制摘要，凭据明文不得写进证据。
+
+报告的源码摘要覆盖实际编译输入、模块/锁文件和必要生成契约；验证夹具、运行参数、二进制及构建时间分别记录对应关系。Mac目录元数据与构建缓存不计入生产源码范围，避免无关元数据变化干扰后续组合审查。
+
+启动交接补充（2026-10-05 08:38）：查询专业结束后你继任API总注册、应用与worker装配、Go模块、迁移登记与契约汇合维护者；业务仍维护自己的业务实现与cloudsync业务注入。当前已有迁移7/8，两数据库兼容min/max均为8，你新增迁移使用9并同步兼容清单。查询专项冻结v2对应149项生成产物，业务后来增加TemplateInstance必填device_version/configuration_id/configuration_version；读取query-evidence/workspace-drift-after-freeze.json并与业务确认其最终模型后，从当前组合重新生成全部契约及api-types.ts，把源码、导出程序、生成物和后续页面的对应关系写入报告。历史查询报告按保存快照核对，不把后续业务改动误报为其验证失效。业务目前持有PG/原生/race资源时段，你先进行普通实现与SQLite/HTTP验证；需要大型或PG验证时通知主协调安排。

@@ -1,0 +1,205 @@
+Inspect result written to file: /path/to/SmartFactory-2026/.local/materials-build/candidate-03.pptx.inspect.ndjson
+file:///home/developer/.codex/plugins/cache/openai-primary-runtime/presentations/26.904.11930/skills/presentations/container_tools/artifact_tool_utils.mjs:483
+  const error = new Error(`${message}${details ? `\n${details.slice(0, 8000)}` : ""}`, {
+                ^
+
+Error: presentation-layout validator did not pass
+{
+  "finding_count": 2,
+  "findings": [
+    {
+      "font_family": "Calibri",
+      "kind": "unapproved_presentation_font",
+      "object_id": "chart-rich-text",
+      "script": "latin",
+      "slide": 11
+    },
+    {
+      "font_family": "Calibri",
+      "kind": "unapproved_presentation_font",
+      "object_id": "chart-rich-text",
+      "script": "latin",
+      "slide": 11
+    }
+  ],
+  "font_policy": {
+    "checked_text_script_count": 177,
+    "native_font_rendering_verified": false,
+    "observed_font_families": [
+      "Calibri",
+      "Heiti SC"
+    ],
+    "observed_font_use_counts": {
+      "Calibri": 2,
+      "Heiti SC": 175
+    },
+    "passed": false,
+    "performed": true
+  },
+  "slide_count": 14,
+  "slide_size_in": [
+    13.3333,
+    7.5
+  ],
+  "warning_count": 3,
+  "warnings": [
+    {
+      "connector_id": "47",
+      "connector_z": 16,
+      "kind": "connector_over_text",
+      "slide": 3,
+      "text_object_id": "9",
+      "text_z": 10
+    },
+    {
+      "connector_id": "53",
+      "connector_z": 22,
+      "kind": "connector_over_text",
+      "slide": 3,
+      "text_object_id": "9",
+      "text_z": 10
+    },
+    {
+      "connector_id": "59",
+      "connector_z": 28,
+      "kind": "connector_over_text",
+      "slide": 3,
+      "text_object_id": "9",
+      "text_z": 10
+    }
+  ]
+}
+    at processFailure (file:///home/developer/.codex/plugins/cache/openai-primary-runtime/presentations/26.904.11930/skills/presentations/container_tools/artifact_tool_utils.mjs:483:17)
+    at executeValidator (file:///home/developer/.codex/plugins/cache/openai-primary-runtime/presentations/26.904.11930/skills/presentations/container_tools/artifact_tool_utils.mjs:510:11)
+    at finalizePresentation (file:///home/developer/.codex/plugins/cache/openai-primary-runtime/presentations/26.904.11930/skills/presentations/container_tools/artifact_tool_utils.mjs:946:24)
+    at async file:///path/to/SmartFactory-2026/.local/materials-build/create-deck.mjs:149:14 {
+  code: 'PRESENTATION_VALIDATION_FAILED',
+  validator: 'presentation-layout',
+  exitCode: 1,
+  signal: null,
+  stdout: '{\n' +
+    '  "finding_count": 2,\n' +
+    '  "findings": [\n' +
+    '    {\n' +
+    '      "font_family": "Calibri",\n' +
+    '      "kind": "unapproved_presentation_font",\n' +
+    '      "object_id": "chart-rich-text",\n' +
+    '      "script": "latin",\n' +
+    '      "slide": 11\n' +
+    '    },\n' +
+    '    {\n' +
+    '      "font_family": "Calibri",\n' +
+    '      "kind": "unapproved_presentation_font",\n' +
+    '      "object_id": "chart-rich-text",\n' +
+    '      "script": "latin",\n' +
+    '      "slide": 11\n' +
+    '    }\n' +
+    '  ],\n' +
+    '  "font_policy": {\n' +
+    '    "checked_text_script_count": 177,\n' +
+    '    "native_font_rendering_verified": false,\n' +
+    '    "observed_font_families": [\n' +
+    '      "Calibri",\n' +
+    '      "Heiti SC"\n' +
+    '    ],\n' +
+    '    "observed_font_use_counts": {\n' +
+    '      "Calibri": 2,\n' +
+    '      "Heiti SC": 175\n' +
+    '    },\n' +
+    '    "passed": false,\n' +
+    '    "performed": true\n' +
+    '  },\n' +
+    '  "slide_count": 14,\n' +
+    '  "slide_size_in": [\n' +
+    '    13.3333,\n' +
+    '    7.5\n' +
+    '  ],\n' +
+    '  "warning_count": 3,\n' +
+    '  "warnings": [\n' +
+    '    {\n' +
+    '      "connector_id": "47",\n' +
+    '      "connector_z": 16,\n' +
+    '      "kind": "connector_over_text",\n' +
+    '      "slide": 3,\n' +
+    '      "text_object_id": "9",\n' +
+    '      "text_z": 10\n' +
+    '    },\n' +
+    '    {\n' +
+    '      "connector_id": "53",\n' +
+    '      "connector_z": 22,\n' +
+    '      "kind": "connector_over_text",\n' +
+    '      "slide": 3,\n' +
+    '      "text_object_id": "9",\n' +
+    '      "text_z": 10\n' +
+    '    },\n' +
+    '    {\n' +
+    '      "connector_id": "59",\n' +
+    '      "connector_z": 28,\n' +
+    '      "kind": "connector_over_text",\n' +
+    '      "slide": 3,\n' +
+    '      "text_object_id": "9",\n' +
+    '      "text_z": 10\n' +
+    '    }\n' +
+    '  ]\n' +
+    '}\n',
+  stderr: '',
+  report: {
+    finding_count: 2,
+    findings: [
+      {
+        font_family: 'Calibri',
+        kind: 'unapproved_presentation_font',
+        object_id: 'chart-rich-text',
+        script: 'latin',
+        slide: 11
+      },
+      {
+        font_family: 'Calibri',
+        kind: 'unapproved_presentation_font',
+        object_id: 'chart-rich-text',
+        script: 'latin',
+        slide: 11
+      }
+    ],
+    font_policy: {
+      checked_text_script_count: 177,
+      native_font_rendering_verified: false,
+      observed_font_families: [ 'Calibri', 'Heiti SC' ],
+      observed_font_use_counts: { Calibri: 2, 'Heiti SC': 175 },
+      passed: false,
+      performed: true
+    },
+    slide_count: 14,
+    slide_size_in: [ 13.3333, 7.5 ],
+    warning_count: 3,
+    warnings: [
+      {
+        connector_id: '47',
+        connector_z: 16,
+        kind: 'connector_over_text',
+        slide: 3,
+        text_object_id: '9',
+        text_z: 10
+      },
+      {
+        connector_id: '53',
+        connector_z: 22,
+        kind: 'connector_over_text',
+        slide: 3,
+        text_object_id: '9',
+        text_z: 10
+      },
+      {
+        connector_id: '59',
+        connector_z: 28,
+        kind: 'connector_over_text',
+        slide: 3,
+        text_object_id: '9',
+        text_z: 10
+      }
+    ]
+  },
+  [cause]: undefined
+}
+
+Node.js v24.19.0

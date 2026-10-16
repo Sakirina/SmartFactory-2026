@@ -1,0 +1,552 @@
+{
+  "checked_at": "2026-10-05T10:00:32.654905+00:00",
+  "passed": true,
+  "scope": "Original failure diagnosis and retained data; correction and release recovery remain pending",
+  "report": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/release-restore-followup-verified.json",
+    "sha256": "e8ca60e4208a7890d589164b2ca2182133d9573fc45710c8f90c904191fc2c40",
+    "bytes": 17524
+  },
+  "reference_checks": {
+    "physical_files_checked": 23,
+    "mismatches": []
+  },
+  "input_manifest": {
+    "path": "/private/tmp/smartfactory-release-restore-followup-20261005/original-probe-evidence/actual-inputs.json",
+    "sha256": "5427dd2f04a00ff2aadc41625c842266d7b7cb9ee3480a7ace929a07a01949df",
+    "bytes": 1064542
+  },
+  "input_checks": {
+    "physical_files_checked": 5715,
+    "mismatches": []
+  },
+  "minimum_reproduction_count": 3,
+  "actual_table_states": [
+    {
+      "database": "/private/tmp/smartfactory-release-interface-20261005/checkpoint-before-release-version-fix/private/original-a.db",
+      "tables": {
+        "action_journal": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "audit": {
+          "rows": 280,
+          "sha256": "eb4471344d4c3d6bbab17879fa549af3bdb6bcdc370baa9bb2f74189806ae5d7"
+        },
+        "audit_checkpoints": {
+          "rows": 280,
+          "sha256": "490a80a9dc94bf3f5635981a1fa256de8474bbbb70257b6359162849f1c4900d"
+        },
+        "control_evidence": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "data_gaps": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "document_versions": {
+          "rows": 473,
+          "sha256": "99f740f548bd6e5b5c40dd0794cbbdb4561dca1c5be00f869666de00a72ca7c5"
+        },
+        "documents": {
+          "rows": 319,
+          "sha256": "c87f372ba5b0b02898e1a46740c3f823850554522a59f7f08fa249c835491a3e"
+        },
+        "engine_checkpoints": {
+          "rows": 10,
+          "sha256": "9bf84cb7e13d5ad21705f0fb6d3bcc987b2f4412b09532910886d16585d2632a"
+        },
+        "execution_transitions": {
+          "rows": 8,
+          "sha256": "30d09982e083189f455abec1a011b01c911fdbc54faa6c7cd63ca3b9204505c8"
+        },
+        "goose_db_version": {
+          "rows": 12,
+          "sha256": "8336310b04d8d6eef8b1becb944124b2ddc0d977d78ef6365099724fc9569cc8"
+        },
+        "inbox": {
+          "rows": 37,
+          "sha256": "096b16766bffbe4e5dd13f173e1263be18f899273e95176d8075e9efcd43bd74"
+        },
+        "latest": {
+          "rows": 5,
+          "sha256": "662a3603a31c21461ba834cbbfcf14b19d076dbbecd64b9671f4b68af26ecc83"
+        },
+        "observation_archives": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "observations": {
+          "rows": 14,
+          "sha256": "eb0c9e63b3877af59843ad52950563b9e645d32ebc4e80ef140d74da5df29c90"
+        },
+        "outbox": {
+          "rows": 56,
+          "sha256": "4f77cd507aeb047645437fb323e540fce044de3f491403eb4325c512d90ecd40"
+        },
+        "river_job": {
+          "rows": 51,
+          "sha256": "dcb18af44dd4eb63744e600792dc38b55e247d26fd3451ec8559fcbca571ce2f"
+        },
+        "river_leader": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "river_migration": {
+          "rows": 8,
+          "sha256": "c7de4e1df95facd85769394b785d1a1590a6e3afe5e2a75b97fb2d2690e555b9"
+        },
+        "river_notification": {
+          "rows": 60,
+          "sha256": "647944526faa25c7bc815e2793aa8b76d469b1f09c5eed260e5c25a9bbc42bf5"
+        },
+        "river_queue": {
+          "rows": 4,
+          "sha256": "b4d4b10a356c5d3c2e8a64cedfd7372e2351fce67ae9cb2dc097727c7ba05927"
+        },
+        "rollups": {
+          "rows": 15,
+          "sha256": "b73e3568c16c71dd51090d8313275b886d67c92574009c7f187906b285520100"
+        },
+        "sf_ai_evidence": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "sf_ai_investigations": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "sf_alarm_operation_sources": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "sf_analysis_formal": {
+          "rows": 33,
+          "sha256": "3b109c628c8d729d6173bbbf7c21294c9ea69f57a2a6929099b6bc3288eeb698"
+        },
+        "sf_analysis_snapshots": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "sf_analysis_steps": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "sf_business_requests": {
+          "rows": 5,
+          "sha256": "5e3912f51cb7f7f723f4b1481d7f59d539650d53a88dc58d076012717628fd28"
+        },
+        "sf_business_source_sequence": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "sf_configuration_reports": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "sf_query_commits": {
+          "rows": 67,
+          "sha256": "dcf466da4f005314a4e71ad0d0360b97b23f2bee9dc5c8a16d8ebd1c5ab73568"
+        },
+        "sf_query_resources": {
+          "rows": 71,
+          "sha256": "3bf414ada1c7e575f592b0124651aae9e22e28906071104597695e0cb9329029"
+        },
+        "sf_query_rows": {
+          "rows": 63,
+          "sha256": "b12ab9900f16cd76e9084b05ad9858e1a3633c5e8e73cb581f02e64658b3e5bb"
+        },
+        "sf_query_state": {
+          "rows": 1,
+          "sha256": "b7138fbc2565c8990f8efd05c327b8795bca6a4f7cbf663245da4f3f77defcf4"
+        },
+        "sf_release_artifacts": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "sf_release_reports": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "sf_schema_migrations": {
+          "rows": 11,
+          "sha256": "364d1dd8513668427671abcadfb9e637422d8271814ab25bba048d710ef7e6e9"
+        },
+        "sf_shadow_inputs": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "sf_tasks": {
+          "rows": 50,
+          "sha256": "37cb7fbbf3546be68923e48043ccd9a2736e0d8f80bf1a7a0652561c064dce19"
+        },
+        "sf_workload_credentials": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "sqlite_sequence": {
+          "rows": 3,
+          "sha256": "3fa69a990e7abe15caa96e58232c2f5ab5304659298104ef2159a4e0a610d740"
+        },
+        "sync_changes": {
+          "rows": 193,
+          "sha256": "f28432bb23021436d2286795c3b5427a3fd99f340b42cef30c3db4024e55a612"
+        }
+      }
+    },
+    {
+      "database": "/private/tmp/smartfactory-release-restore-followup-20261005/private/original-reproduction.db",
+      "tables": {
+        "action_journal": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "audit": {
+          "rows": 280,
+          "sha256": "eb4471344d4c3d6bbab17879fa549af3bdb6bcdc370baa9bb2f74189806ae5d7"
+        },
+        "audit_checkpoints": {
+          "rows": 280,
+          "sha256": "490a80a9dc94bf3f5635981a1fa256de8474bbbb70257b6359162849f1c4900d"
+        },
+        "control_evidence": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "data_gaps": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "document_versions": {
+          "rows": 473,
+          "sha256": "99f740f548bd6e5b5c40dd0794cbbdb4561dca1c5be00f869666de00a72ca7c5"
+        },
+        "documents": {
+          "rows": 319,
+          "sha256": "c87f372ba5b0b02898e1a46740c3f823850554522a59f7f08fa249c835491a3e"
+        },
+        "engine_checkpoints": {
+          "rows": 10,
+          "sha256": "9bf84cb7e13d5ad21705f0fb6d3bcc987b2f4412b09532910886d16585d2632a"
+        },
+        "execution_transitions": {
+          "rows": 8,
+          "sha256": "30d09982e083189f455abec1a011b01c911fdbc54faa6c7cd63ca3b9204505c8"
+        },
+        "goose_db_version": {
+          "rows": 12,
+          "sha256": "8336310b04d8d6eef8b1becb944124b2ddc0d977d78ef6365099724fc9569cc8"
+        },
+        "inbox": {
+          "rows": 37,
+          "sha256": "096b16766bffbe4e5dd13f173e1263be18f899273e95176d8075e9efcd43bd74"
+        },
+        "latest": {
+          "rows": 5,
+          "sha256": "662a3603a31c21461ba834cbbfcf14b19d076dbbecd64b9671f4b68af26ecc83"
+        },
+        "observation_archives": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "observations": {
+          "rows": 14,
+          "sha256": "eb0c9e63b3877af59843ad52950563b9e645d32ebc4e80ef140d74da5df29c90"
+        },
+        "outbox": {
+          "rows": 56,
+          "sha256": "4f77cd507aeb047645437fb323e540fce044de3f491403eb4325c512d90ecd40"
+        },
+        "river_job": {
+          "rows": 51,
+          "sha256": "dcb18af44dd4eb63744e600792dc38b55e247d26fd3451ec8559fcbca571ce2f"
+        },
+        "river_leader": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "river_migration": {
+          "rows": 8,
+          "sha256": "c7de4e1df95facd85769394b785d1a1590a6e3afe5e2a75b97fb2d2690e555b9"
+        },
+        "river_notification": {
+          "rows": 60,
+          "sha256": "647944526faa25c7bc815e2793aa8b76d469b1f09c5eed260e5c25a9bbc42bf5"
+        },
+        "river_queue": {
+          "rows": 4,
+          "sha256": "b4d4b10a356c5d3c2e8a64cedfd7372e2351fce67ae9cb2dc097727c7ba05927"
+        },
+        "rollups": {
+          "rows": 15,
+          "sha256": "b73e3568c16c71dd51090d8313275b886d67c92574009c7f187906b285520100"
+        },
+        "sf_ai_evidence": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "sf_ai_investigations": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "sf_alarm_operation_sources": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "sf_analysis_formal": {
+          "rows": 33,
+          "sha256": "3b109c628c8d729d6173bbbf7c21294c9ea69f57a2a6929099b6bc3288eeb698"
+        },
+        "sf_analysis_snapshots": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "sf_analysis_steps": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "sf_business_requests": {
+          "rows": 5,
+          "sha256": "5e3912f51cb7f7f723f4b1481d7f59d539650d53a88dc58d076012717628fd28"
+        },
+        "sf_business_source_sequence": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "sf_configuration_reports": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "sf_query_commits": {
+          "rows": 67,
+          "sha256": "dcf466da4f005314a4e71ad0d0360b97b23f2bee9dc5c8a16d8ebd1c5ab73568"
+        },
+        "sf_query_resources": {
+          "rows": 71,
+          "sha256": "3bf414ada1c7e575f592b0124651aae9e22e28906071104597695e0cb9329029"
+        },
+        "sf_query_rows": {
+          "rows": 63,
+          "sha256": "b12ab9900f16cd76e9084b05ad9858e1a3633c5e8e73cb581f02e64658b3e5bb"
+        },
+        "sf_query_state": {
+          "rows": 1,
+          "sha256": "b7138fbc2565c8990f8efd05c327b8795bca6a4f7cbf663245da4f3f77defcf4"
+        },
+        "sf_release_artifacts": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "sf_release_reports": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "sf_schema_migrations": {
+          "rows": 11,
+          "sha256": "364d1dd8513668427671abcadfb9e637422d8271814ab25bba048d710ef7e6e9"
+        },
+        "sf_shadow_inputs": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "sf_tasks": {
+          "rows": 50,
+          "sha256": "37cb7fbbf3546be68923e48043ccd9a2736e0d8f80bf1a7a0652561c064dce19"
+        },
+        "sf_workload_credentials": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "sqlite_sequence": {
+          "rows": 3,
+          "sha256": "3fa69a990e7abe15caa96e58232c2f5ab5304659298104ef2159a4e0a610d740"
+        },
+        "sync_changes": {
+          "rows": 193,
+          "sha256": "f28432bb23021436d2286795c3b5427a3fd99f340b42cef30c3db4024e55a612"
+        }
+      }
+    },
+    {
+      "database": "/private/tmp/smartfactory-release-restore-followup-20261005/private/probe-backup.db",
+      "tables": {
+        "action_journal": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "audit": {
+          "rows": 280,
+          "sha256": "eb4471344d4c3d6bbab17879fa549af3bdb6bcdc370baa9bb2f74189806ae5d7"
+        },
+        "audit_checkpoints": {
+          "rows": 280,
+          "sha256": "490a80a9dc94bf3f5635981a1fa256de8474bbbb70257b6359162849f1c4900d"
+        },
+        "control_evidence": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "data_gaps": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "document_versions": {
+          "rows": 473,
+          "sha256": "99f740f548bd6e5b5c40dd0794cbbdb4561dca1c5be00f869666de00a72ca7c5"
+        },
+        "documents": {
+          "rows": 319,
+          "sha256": "c87f372ba5b0b02898e1a46740c3f823850554522a59f7f08fa249c835491a3e"
+        },
+        "engine_checkpoints": {
+          "rows": 10,
+          "sha256": "9bf84cb7e13d5ad21705f0fb6d3bcc987b2f4412b09532910886d16585d2632a"
+        },
+        "execution_transitions": {
+          "rows": 8,
+          "sha256": "30d09982e083189f455abec1a011b01c911fdbc54faa6c7cd63ca3b9204505c8"
+        },
+        "goose_db_version": {
+          "rows": 12,
+          "sha256": "8336310b04d8d6eef8b1becb944124b2ddc0d977d78ef6365099724fc9569cc8"
+        },
+        "inbox": {
+          "rows": 37,
+          "sha256": "096b16766bffbe4e5dd13f173e1263be18f899273e95176d8075e9efcd43bd74"
+        },
+        "latest": {
+          "rows": 5,
+          "sha256": "662a3603a31c21461ba834cbbfcf14b19d076dbbecd64b9671f4b68af26ecc83"
+        },
+        "observation_archives": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "observations": {
+          "rows": 14,
+          "sha256": "eb0c9e63b3877af59843ad52950563b9e645d32ebc4e80ef140d74da5df29c90"
+        },
+        "outbox": {
+          "rows": 56,
+          "sha256": "4f77cd507aeb047645437fb323e540fce044de3f491403eb4325c512d90ecd40"
+        },
+        "river_job": {
+          "rows": 51,
+          "sha256": "dcb18af44dd4eb63744e600792dc38b55e247d26fd3451ec8559fcbca571ce2f"
+        },
+        "river_leader": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "river_migration": {
+          "rows": 8,
+          "sha256": "c7de4e1df95facd85769394b785d1a1590a6e3afe5e2a75b97fb2d2690e555b9"
+        },
+        "river_notification": {
+          "rows": 60,
+          "sha256": "647944526faa25c7bc815e2793aa8b76d469b1f09c5eed260e5c25a9bbc42bf5"
+        },
+        "river_queue": {
+          "rows": 4,
+          "sha256": "b4d4b10a356c5d3c2e8a64cedfd7372e2351fce67ae9cb2dc097727c7ba05927"
+        },
+        "rollups": {
+          "rows": 15,
+          "sha256": "b73e3568c16c71dd51090d8313275b886d67c92574009c7f187906b285520100"
+        },
+        "sf_ai_evidence": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "sf_ai_investigations": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "sf_alarm_operation_sources": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "sf_analysis_formal": {
+          "rows": 33,
+          "sha256": "3b109c628c8d729d6173bbbf7c21294c9ea69f57a2a6929099b6bc3288eeb698"
+        },
+        "sf_analysis_snapshots": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "sf_analysis_steps": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "sf_business_requests": {
+          "rows": 5,
+          "sha256": "5e3912f51cb7f7f723f4b1481d7f59d539650d53a88dc58d076012717628fd28"
+        },
+        "sf_business_source_sequence": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "sf_configuration_reports": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "sf_query_commits": {
+          "rows": 67,
+          "sha256": "dcf466da4f005314a4e71ad0d0360b97b23f2bee9dc5c8a16d8ebd1c5ab73568"
+        },
+        "sf_query_resources": {
+          "rows": 71,
+          "sha256": "3bf414ada1c7e575f592b0124651aae9e22e28906071104597695e0cb9329029"
+        },
+        "sf_query_rows": {
+          "rows": 63,
+          "sha256": "b12ab9900f16cd76e9084b05ad9858e1a3633c5e8e73cb581f02e64658b3e5bb"
+        },
+        "sf_query_state": {
+          "rows": 1,
+          "sha256": "b7138fbc2565c8990f8efd05c327b8795bca6a4f7cbf663245da4f3f77defcf4"
+        },
+        "sf_release_artifacts": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "sf_release_reports": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "sf_schema_migrations": {
+          "rows": 11,
+          "sha256": "364d1dd8513668427671abcadfb9e637422d8271814ab25bba048d710ef7e6e9"
+        },
+        "sf_shadow_inputs": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "sf_tasks": {
+          "rows": 50,
+          "sha256": "37cb7fbbf3546be68923e48043ccd9a2736e0d8f80bf1a7a0652561c064dce19"
+        },
+        "sf_workload_credentials": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "sqlite_sequence": {
+          "rows": 3,
+          "sha256": "3fa69a990e7abe15caa96e58232c2f5ab5304659298104ef2159a4e0a610d740"
+        },
+        "sync_changes": {
+          "rows": 193,
+          "sha256": "f28432bb23021436d2286795c3b5427a3fd99f340b42cef30c3db4024e55a612"
+        }
+      }
+    }
+  ],
+  "all_database_tables_equal": true,
+  "summary": {
+    "compiled_inputs": 2929,
+    "tables": 42,
+    "database_copies": 3
+  },
+  "errors": []
+}

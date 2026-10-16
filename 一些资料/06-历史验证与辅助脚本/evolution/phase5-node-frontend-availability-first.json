@@ -1,0 +1,62 @@
+{
+  "checked_at": "2026-10-05T06:48:59.245824+00:00",
+  "status": "needs_review",
+  "fixture": "/private/tmp/smartfactory-phase5-node-frontend-live-20261005/frontend.json",
+  "fixture_sha256": "d539021d09c5ecaff3ecfb852725242bb78f5b3d60ae473720367104855529c1",
+  "checks": [
+    {
+      "name": "cloud",
+      "url": "http://127.0.0.1:60901/health",
+      "status": 200,
+      "result": {
+        "status": "ok",
+        "node_id": "cloud-1",
+        "mode": "cloud",
+        "contract_version": "1.0"
+      }
+    },
+    {
+      "name": "config",
+      "url": "https://127.0.0.1:60903/health",
+      "error": "[SSL: TLSV13_ALERT_CERTIFICATE_REQUIRED] tlsv13 alert certificate required (_ssl.c:2713)"
+    },
+    {
+      "name": "owner-edge-a",
+      "url": "http://127.0.0.1:60907/health",
+      "status": 200,
+      "result": {
+        "status": "ok",
+        "node_id": "edge-a",
+        "mode": "edge",
+        "contract_version": "1.0"
+      }
+    },
+    {
+      "name": "owner-edge-b",
+      "url": "http://127.0.0.1:60908/health",
+      "status": 200,
+      "result": {
+        "status": "ok",
+        "node_id": "edge-b",
+        "mode": "edge",
+        "contract_version": "1.0"
+      }
+    },
+    {
+      "name": "runtime-edge-a",
+      "url": "http://127.0.0.1:60904/health",
+      "status": 200,
+      "result": {
+        "status": "ok"
+      }
+    },
+    {
+      "name": "runtime-edge-b",
+      "url": "http://127.0.0.1:60905/health",
+      "status": 200,
+      "result": {
+        "status": "ok"
+      }
+    }
+  ]
+}

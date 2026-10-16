@@ -1,0 +1,56 @@
+[
+  {
+    "kind": "cloud",
+    "port": 19413,
+    "pid": 1085,
+    "command": [
+      "/private/tmp/smartfactory-ai-final-20261005-0952/bin/sf-cloud",
+      "-listen",
+      "127.0.0.1:19413",
+      "-node-id",
+      "precision-cloud",
+      "-database",
+      "/private/tmp/smartfactory-frontend-phase4-20261005/cloud-precision/app.db",
+      "-master-key",
+      "/private/tmp/smartfactory-frontend-phase4-20261005/cloud-precision/master.key",
+      "-static",
+      "/private/tmp/smartfactory-frontend-phase4-20261005/dist-first",
+      "-seed"
+    ],
+    "binary_sha256": "f74b503b00067243b3e04be888852ba636bc694fe4baf84507ad69b60e8ddf23",
+    "created_at": "2026-10-05T02:18:43Z",
+    "data_directory": "/private/tmp/smartfactory-frontend-phase4-20261005/cloud-precision",
+    "credentials": "/private/tmp/smartfactory-frontend-phase4-20261005/cloud-precision/private-credentials.json",
+    "credentials_mode": "0600",
+    "bootstrap_password": "private environment variable",
+    "session_id": 3304,
+    "process_verified": "ps -p matched exact isolated database and binary command on 2026-10-05; initial short-lived Popen attempt retained separately"
+  },
+  {
+    "kind": "edge",
+    "port": 19414,
+    "pid": 1093,
+    "command": [
+      "/private/tmp/smartfactory-ai-final-20261005-0952/bin/sf-edge",
+      "-listen",
+      "127.0.0.1:19414",
+      "-node-id",
+      "precision-edge",
+      "-database",
+      "/private/tmp/smartfactory-frontend-phase4-20261005/edge-precision/app.db",
+      "-master-key",
+      "/private/tmp/smartfactory-frontend-phase4-20261005/edge-precision/master.key",
+      "-static",
+      "/private/tmp/smartfactory-frontend-phase4-20261005/dist-first",
+      "-seed"
+    ],
+    "binary_sha256": "af022cee45335b5435266679864cdf9675322594917c3a8423bfd4710d1fa90f",
+    "created_at": "2026-10-05T02:18:44Z",
+    "data_directory": "/private/tmp/smartfactory-frontend-phase4-20261005/edge-precision",
+    "credentials": "/private/tmp/smartfactory-frontend-phase4-20261005/edge-precision/private-credentials.json",
+    "credentials_mode": "0600",
+    "bootstrap_password": "private environment variable",
+    "session_id": 75476,
+    "process_verified": "ps -p matched exact isolated database and binary command on 2026-10-05; initial short-lived Popen attempt retained separately"
+  }
+]

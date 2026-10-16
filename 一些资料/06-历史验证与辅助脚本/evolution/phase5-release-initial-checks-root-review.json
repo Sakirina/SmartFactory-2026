@@ -1,0 +1,299 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-10-05T06:02:09.478550+00:00",
+  "status": "passed_interim_log_and_assertion_review",
+  "scope": "Original PostgreSQL and second unit/race logs independently recounted; final frozen source relationship remains professional final report and independent review responsibility",
+  "records": [
+    {
+      "record": "/private/tmp/smartfactory-phase5-release-checks-first-20261005/postgres.json",
+      "record_sha256": "9a21d10a567f57799bfd40743739d32fc366e842772596c0804ba825d62dabcd",
+      "command": [
+        "go",
+        "test",
+        "-p",
+        "1",
+        "-count=1",
+        "./internal/application",
+        "-run",
+        "TestRelease.*Postgres",
+        "-v"
+      ],
+      "cwd": "/path/to/SmartFactory-2026/Platform",
+      "exit_code": 0,
+      "elapsed_seconds": 6.437267065048218,
+      "top_pass": [
+        "TestReleaseCoordinationPostgres",
+        "TestReleaseConcurrentReconciliationPostgres"
+      ],
+      "all_pass": [
+        "TestReleaseCoordinationPostgres",
+        "TestReleaseConcurrentReconciliationPostgres"
+      ],
+      "all_failed": [],
+      "all_skipped": [],
+      "race_warning": false,
+      "logs": [
+        {
+          "path": "/private/tmp/smartfactory-phase5-release-checks-first-20261005/postgres.stdout.log",
+          "sha256": "274027a439778fa51d1fef007ba6322dfb291ee599f450cd4336b6d107ffadb6",
+          "bytes": 436
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase5-release-checks-first-20261005/postgres.stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        }
+      ]
+    },
+    {
+      "record": "/private/tmp/smartfactory-phase5-release-checks-first-20261005/unit-http.json",
+      "record_sha256": "bb1a4d8a73d9b77aabecdfe909e696f5112b552e7a17881aa40a98b0548c8614",
+      "command": [
+        "go",
+        "test",
+        "-p",
+        "1",
+        "-count=1",
+        "./internal/releasebundle",
+        "./internal/releaseruntime",
+        "./internal/releaseagent",
+        "./internal/application",
+        "./internal/api",
+        "-run",
+        "TestRelease|TestTemplateEvolution|TestPrivateRelease|TestPreparationFailure|TestRuntimeConfiguration",
+        "-v"
+      ],
+      "cwd": "/path/to/SmartFactory-2026/Platform",
+      "exit_code": 1,
+      "elapsed_seconds": 9.414144039154053,
+      "top_pass": [
+        "TestReleaseBundleDependencyContentCompatibilityAndNodeScope",
+        "TestReleaseArtifactTamperIsExplicit",
+        "TestPrivateReleaseCacheAuthenticatedToNodeAndRelease",
+        "TestPreparationFailureSeparatesUnavailableServicesFromInvalidContent",
+        "TestRuntimeConfigurationRetainsOriginalStorageAndIntegrations",
+        "TestReleaseCoordinationSQLite",
+        "TestReleaseCoordinationPostgres",
+        "TestReleaseRequestIdentityAndRuntimeContent",
+        "TestTemplateEvolutionUsesExistingBindingsAndIndependentVersions",
+        "TestReleaseConcurrentReconciliationPostgres",
+        "TestReleaseHTTPRejectsUserAndSharedServiceTokenAsWorkload"
+      ],
+      "all_pass": [
+        "TestReleaseBundleDependencyContentCompatibilityAndNodeScope",
+        "TestReleaseBundleDependencyContentCompatibilityAndNodeScope/rule_content_changed",
+        "TestReleaseBundleDependencyContentCompatibilityAndNodeScope/dependency_absent",
+        "TestReleaseBundleDependencyContentCompatibilityAndNodeScope/dependency_version_changed",
+        "TestReleaseBundleDependencyContentCompatibilityAndNodeScope/cycle",
+        "TestReleaseBundleDependencyContentCompatibilityAndNodeScope/program_cannot_read_rule",
+        "TestReleaseBundleDependencyContentCompatibilityAndNodeScope/configuration_digest_changed",
+        "TestReleaseBundleDependencyContentCompatibilityAndNodeScope/cross_node_dependency",
+        "TestReleaseBundleDependencyContentCompatibilityAndNodeScope/missing_configuration",
+        "TestReleaseArtifactTamperIsExplicit",
+        "TestPrivateReleaseCacheAuthenticatedToNodeAndRelease",
+        "TestPreparationFailureSeparatesUnavailableServicesFromInvalidContent",
+        "TestRuntimeConfigurationRetainsOriginalStorageAndIntegrations",
+        "TestReleaseCoordinationSQLite",
+        "TestReleaseCoordinationPostgres",
+        "TestReleaseRequestIdentityAndRuntimeContent",
+        "TestTemplateEvolutionUsesExistingBindingsAndIndependentVersions",
+        "TestReleaseConcurrentReconciliationPostgres",
+        "TestReleaseHTTPRejectsUserAndSharedServiceTokenAsWorkload"
+      ],
+      "all_failed": [
+        "TestReleaseDeploymentRequiresApplicableConfigurationAndCurrentUser",
+        "TestReleaseHTTPRequiredFieldsAndRevokedSession"
+      ],
+      "all_skipped": [],
+      "race_warning": false,
+      "logs": [
+        {
+          "path": "/private/tmp/smartfactory-phase5-release-checks-first-20261005/unit-http.stdout.log",
+          "sha256": "699aeb174ec0ec14b6dc76047f8b569e39415fb4d650c51e30d1d33463901e2d",
+          "bytes": 4767
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase5-release-checks-first-20261005/unit-http.stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        }
+      ]
+    },
+    {
+      "record": "/private/tmp/smartfactory-phase5-release-checks-second-20261005/race.json",
+      "record_sha256": "ff1d9a78aa2b0a52aa6590654f6459f0484b08e9109000c61a6273272aadfc07",
+      "command": [
+        "go",
+        "test",
+        "-race",
+        "-p",
+        "1",
+        "-count=1",
+        "./internal/releasebundle",
+        "./internal/releaseruntime",
+        "./internal/releaseagent",
+        "./internal/application",
+        "./internal/api",
+        "-run",
+        "TestRelease|TestTemplateEvolution|TestPrivateRelease|TestPreparationFailure|TestRuntimeConfiguration",
+        "-v"
+      ],
+      "cwd": "/path/to/SmartFactory-2026/Platform",
+      "exit_code": 0,
+      "elapsed_seconds": 42.872493267059326,
+      "top_pass": [
+        "TestReleaseBundleDependencyContentCompatibilityAndNodeScope",
+        "TestReleaseArtifactTamperIsExplicit",
+        "TestPrivateReleaseCacheAuthenticatedToNodeAndRelease",
+        "TestPreparationFailureSeparatesUnavailableServicesFromInvalidContent",
+        "TestRuntimeConfigurationRetainsOriginalStorageAndIntegrations",
+        "TestReleaseCoordinationSQLite",
+        "TestReleaseCoordinationPostgres",
+        "TestReleaseRequestIdentityAndRuntimeContent",
+        "TestReleaseDeploymentRequiresApplicableConfigurationAndCurrentUser",
+        "TestTemplateEvolutionUsesExistingBindingsAndIndependentVersions",
+        "TestReleaseConcurrentReconciliationPostgres",
+        "TestReleaseHTTPRequiredFieldsAndRevokedSession",
+        "TestReleaseHTTPRejectsUserAndSharedServiceTokenAsWorkload"
+      ],
+      "all_pass": [
+        "TestReleaseBundleDependencyContentCompatibilityAndNodeScope",
+        "TestReleaseBundleDependencyContentCompatibilityAndNodeScope/rule_content_changed",
+        "TestReleaseBundleDependencyContentCompatibilityAndNodeScope/dependency_absent",
+        "TestReleaseBundleDependencyContentCompatibilityAndNodeScope/dependency_version_changed",
+        "TestReleaseBundleDependencyContentCompatibilityAndNodeScope/cycle",
+        "TestReleaseBundleDependencyContentCompatibilityAndNodeScope/program_cannot_read_rule",
+        "TestReleaseBundleDependencyContentCompatibilityAndNodeScope/configuration_digest_changed",
+        "TestReleaseBundleDependencyContentCompatibilityAndNodeScope/cross_node_dependency",
+        "TestReleaseBundleDependencyContentCompatibilityAndNodeScope/missing_configuration",
+        "TestReleaseArtifactTamperIsExplicit",
+        "TestPrivateReleaseCacheAuthenticatedToNodeAndRelease",
+        "TestPreparationFailureSeparatesUnavailableServicesFromInvalidContent",
+        "TestRuntimeConfigurationRetainsOriginalStorageAndIntegrations",
+        "TestReleaseCoordinationSQLite",
+        "TestReleaseCoordinationPostgres",
+        "TestReleaseRequestIdentityAndRuntimeContent",
+        "TestReleaseDeploymentRequiresApplicableConfigurationAndCurrentUser",
+        "TestTemplateEvolutionUsesExistingBindingsAndIndependentVersions",
+        "TestReleaseConcurrentReconciliationPostgres",
+        "TestReleaseHTTPRequiredFieldsAndRevokedSession",
+        "TestReleaseHTTPRejectsUserAndSharedServiceTokenAsWorkload"
+      ],
+      "all_failed": [],
+      "all_skipped": [],
+      "race_warning": false,
+      "logs": [
+        {
+          "path": "/private/tmp/smartfactory-phase5-release-checks-second-20261005/race.stdout.log",
+          "sha256": "21ff240700bd0411fac89adf967df1ab50e67b224946252c31a225546bc33a90",
+          "bytes": 3920
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase5-release-checks-second-20261005/race.stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        }
+      ]
+    },
+    {
+      "record": "/private/tmp/smartfactory-phase5-release-checks-second-20261005/unit-http.json",
+      "record_sha256": "935b4aed704130805a77549665363e74a162c578f9c89ee421ca64ec3c3a16df",
+      "command": [
+        "go",
+        "test",
+        "-p",
+        "1",
+        "-count=1",
+        "./internal/releasebundle",
+        "./internal/releaseruntime",
+        "./internal/releaseagent",
+        "./internal/application",
+        "./internal/api",
+        "-run",
+        "TestRelease|TestTemplateEvolution|TestPrivateRelease|TestPreparationFailure|TestRuntimeConfiguration",
+        "-v"
+      ],
+      "cwd": "/path/to/SmartFactory-2026/Platform",
+      "exit_code": 0,
+      "elapsed_seconds": 11.438567161560059,
+      "top_pass": [
+        "TestReleaseBundleDependencyContentCompatibilityAndNodeScope",
+        "TestReleaseArtifactTamperIsExplicit",
+        "TestPrivateReleaseCacheAuthenticatedToNodeAndRelease",
+        "TestPreparationFailureSeparatesUnavailableServicesFromInvalidContent",
+        "TestRuntimeConfigurationRetainsOriginalStorageAndIntegrations",
+        "TestReleaseCoordinationSQLite",
+        "TestReleaseCoordinationPostgres",
+        "TestReleaseRequestIdentityAndRuntimeContent",
+        "TestReleaseDeploymentRequiresApplicableConfigurationAndCurrentUser",
+        "TestTemplateEvolutionUsesExistingBindingsAndIndependentVersions",
+        "TestReleaseConcurrentReconciliationPostgres",
+        "TestReleaseHTTPRequiredFieldsAndRevokedSession",
+        "TestReleaseHTTPRejectsUserAndSharedServiceTokenAsWorkload"
+      ],
+      "all_pass": [
+        "TestReleaseBundleDependencyContentCompatibilityAndNodeScope",
+        "TestReleaseBundleDependencyContentCompatibilityAndNodeScope/rule_content_changed",
+        "TestReleaseBundleDependencyContentCompatibilityAndNodeScope/dependency_absent",
+        "TestReleaseBundleDependencyContentCompatibilityAndNodeScope/dependency_version_changed",
+        "TestReleaseBundleDependencyContentCompatibilityAndNodeScope/cycle",
+        "TestReleaseBundleDependencyContentCompatibilityAndNodeScope/program_cannot_read_rule",
+        "TestReleaseBundleDependencyContentCompatibilityAndNodeScope/configuration_digest_changed",
+        "TestReleaseBundleDependencyContentCompatibilityAndNodeScope/cross_node_dependency",
+        "TestReleaseBundleDependencyContentCompatibilityAndNodeScope/missing_configuration",
+        "TestReleaseArtifactTamperIsExplicit",
+        "TestPrivateReleaseCacheAuthenticatedToNodeAndRelease",
+        "TestPreparationFailureSeparatesUnavailableServicesFromInvalidContent",
+        "TestRuntimeConfigurationRetainsOriginalStorageAndIntegrations",
+        "TestReleaseCoordinationSQLite",
+        "TestReleaseCoordinationPostgres",
+        "TestReleaseRequestIdentityAndRuntimeContent",
+        "TestReleaseDeploymentRequiresApplicableConfigurationAndCurrentUser",
+        "TestTemplateEvolutionUsesExistingBindingsAndIndependentVersions",
+        "TestReleaseConcurrentReconciliationPostgres",
+        "TestReleaseHTTPRequiredFieldsAndRevokedSession",
+        "TestReleaseHTTPRejectsUserAndSharedServiceTokenAsWorkload"
+      ],
+      "all_failed": [],
+      "all_skipped": [],
+      "race_warning": false,
+      "logs": [
+        {
+          "path": "/private/tmp/smartfactory-phase5-release-checks-second-20261005/unit-http.stdout.log",
+          "sha256": "e9723086e2d27a7688a776e5fdf54443a3c1585b32c726d8a4e1a7893d967750",
+          "bytes": 3919
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase5-release-checks-second-20261005/unit-http.stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        }
+      ]
+    }
+  ],
+  "failed_test_corrections": [
+    {
+      "preserved": "/private/tmp/smartfactory-phase5-release-checks-first-20261005/failed-test-inputs/releases_test.go",
+      "preserved_sha256": "78e9af308f60dc89b5d1283b8b90e6bca925be5581a5a43e0d6b899c71f36632",
+      "current": "Platform/internal/application/releases_test.go",
+      "current_sha256": "c052b5584babf00adb2a483dde10387803f97c1344fa63b9b5f7ba4b8710b960",
+      "diff": "--- /private/tmp/smartfactory-phase5-release-checks-first-20261005/failed-test-inputs/releases_test.go\n+++ Platform/internal/application/releases_test.go\n@@ -300,7 +300,7 @@\n \tif err = f.business.Identity.Logout(ctx, f.business.Token); err != nil {\n \t\tt.Fatal(err)\n \t}\n-\tif _, err = f.service.Action(ctx, f.business.Principal, d.ID, application.ReleaseDeploymentActionInput{RequestID: \"revoked-pause\", ExpectedVersion: d.Version, Action: \"pause\", Reason: \"session was revoked after review\"}); !errors.Is(err, identity.ErrDenied) {\n+\tif _, err = f.service.Action(ctx, f.business.Principal, d.ID, application.ReleaseDeploymentActionInput{RequestID: \"revoked-pause\", ExpectedVersion: d.Version, Action: \"pause\", Reason: \"session was revoked after review\"}); !errors.Is(err, identity.ErrAuthentication) {\n \t\tt.Fatal(\"revoked captured principal mutated deployment\", err)\n \t}\n }\n"
+    },
+    {
+      "preserved": "/private/tmp/smartfactory-phase5-release-checks-first-20261005/failed-test-inputs/release_routes_test.go",
+      "preserved_sha256": "7bab73ca8d9925f0a376df264e7207c331b22d85fe60e69a80932805a3eaf890",
+      "current": "Platform/internal/api/release_routes_test.go",
+      "current_sha256": "fe2359846c998876d2f69ce1cca6c97a699dd8c2723325c2570a64cf4650346d",
+      "diff": "--- /private/tmp/smartfactory-phase5-release-checks-first-20261005/failed-test-inputs/release_routes_test.go\n+++ Platform/internal/api/release_routes_test.go\n@@ -20,7 +20,7 @@\n \t\t{\"/template-batches/b/evolve\", \"expected_version\", map[string]any{\"id\": \"e\", \"request_id\": \"e\", \"release_id\": \"r\", \"name\": \"evolution\", \"program_sha256\": strings.Repeat(\"a\", 64), \"targets\": []any{map[string]any{\"instance_id\": \"i\", \"template_version\": 2}}}},\n \t} {\n \t\tresponse := call(s, f.Token, \"POST\", \"/api/sf/v1\"+item.path, item.body)\n-\t\tif response.Code != 400 || !strings.Contains(response.Body.String(), item.missing) {\n+\t\tif response.Code != 422 || !strings.Contains(response.Body.String(), item.missing) {\n \t\t\tt.Fatalf(\"%s: missing %s was not required: %d %s\", item.path, item.missing, response.Code, response.Body.String())\n \t\t}\n \t}\n"
+    }
+  ],
+  "summary": {
+    "postgres_top_pass": 2,
+    "second_unit_top_pass": 13,
+    "second_unit_all_pass": 21,
+    "second_race_top_pass": 13,
+    "second_race_all_pass": 21,
+    "first_failed_top": 2,
+    "final_frozen_combination_pending": true
+  }
+}

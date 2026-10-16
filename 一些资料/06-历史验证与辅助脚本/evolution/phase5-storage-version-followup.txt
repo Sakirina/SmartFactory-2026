@@ -1,0 +1,15 @@
+恢复原存储与后台任务工程师，继续 6 Astra / Max 和原职责。当前工作为第五阶段 P5-R01 的公共存储修正，原发布协调工程师已经完成定位并结束本轮；另一位正在运行的是采集运行工程师。第五阶段累计新增四位，本次复用原角色，不新增智能体；全团队同时最多两位，请勿自行创建其他智能体。
+
+读取 .local/evolution/release-restore-followup-verified.json、docs/evolution/storage-lock-order.md、docs/evolution/brief-storage.md 及当前源码。后两份说明包含早期阶段状态，当前事实以最新恢复故障报告和本次说明为准。原程序用故障数据库一致副本、原主密钥及已验证发布缓存启动，在 24ms 内因 document_versions(kind,id,version) 唯一性约束退出1。确切首个调用为 app.Open -> configcenter.Put(expected=0) -> Tx.Put(parameter, heartbeat.interval_ms, 0)。当前参数文档缺失，历史本地版本最大值26且保留版本1，Tx.Put却从1开始。
+
+发布工程师还用未修改源码复现普通 Put(v1,v2)、Delete、Put(expected=0) 的同类冲突，以及 Put(v1,v2)、Delete、SetEphemeral(v1)、configcenter.Acknowledge -> Tx.Put(v2) 的冲突。最小复现、实际输入和41张表的内容证明都在报告中；原文件保持完整。你维护 Platform/internal/store 的公共版本分配、事务锁和必要回归测试，校验删除后重建、现有文档版本低于历史最大值、临时写入后普通写入、回滚与并发情形。expected=0 对缺失当前文档的创建语义、存在文档的 CAS、同步变更顺序、历史保留、对象锁和事务回滚继续一致。评估 ImportDocument 与已同步版本的既有语义，避免将本地修订变化错误地当成新的权威配置版本。
+
+Parameter.Version / ConfigurationReference.Version 是权威固定配置版本，允许退回较早版本；documents.version 是本地修改和CAS修订，两者分别处理。原备份还存在不可变 parameter_version heartbeat.interval_ms:1；公共存储修正之后，默认初始化与固定参数记录的后续问题交原发布或节点配置工程师处理。请不要改 app.go、configcenter、发布、前端或部署脚本；如果发现需要其配合，保存具体错误及最小复现并通知主协调。原发布工程师随后负责原数据缓存启动和正式发布组合恢复。
+
+在自己的私有目录复制原故障数据，路径见 /private/tmp/smartfactory-release-interface-20261005/checkpoint-before-release-version-fix/backup-manifest.json。保留原备份、主密钥、发布缓存、历史版本、审计和所有首次失败，禁止清空数据库或修改固定摘要。请先形成小范围修正和必要测试，保存固定源码及对应证据，再尽快交给原发布工程师完成组合恢复。
+
+验证使用 SQLite 及实际 PostgreSQL 18；读取0600的 .local/evolution/pg18-test.json，在新命名schema中运行，凭据不要输出。当前PG容器 smartfactory-evolution-pg18-final60-20261005 使用原持久数据、1GiB/2CPU和60连接上限。你可使用已有PG做有限存储专项；大型Docker窗口仍归采集运行工程师。race 检查先和主协调约定时段，GOMAXPROCS=2，go test -p 1；已通过的检查仅在源码或新问题需要时再执行。
+
+Go1.27.1，GOTOOLCHAIN=local，GOPATH=/private/tmp/smartfactory-evolution-gopath，GOMODCACHE=/private/tmp/smartfactory-evolution-gomodcache，GOCACHE=/private/tmp/smartfactory-evolution-go-cache。临时盘约5.4GiB、工作卷约1.4GiB，复用缓存，大型产物放 /private/tmp，工作卷保留至少1GiB。用户原始未提交修改和其他工程师的内容保持完整，不创建提交或发布。
+
+保存实际命令、原始失败和通过日志、前后完整编译输入及固定副本；最终报告为 .local/evolution/storage-version-r01-verified.json。明确公共存储修正已验证的条件，以及仍需原发布工程师、前端、最终Linux交付和独立审查继续验证的内容；完成本轮后结束运行释放名额。文字中角色称为工程师或专家，Secret译作密钥。

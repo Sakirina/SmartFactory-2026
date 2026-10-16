@@ -1,0 +1,424 @@
+{
+  "updated_at": "2026-10-04T23:20:21.607471+00:00",
+  "scope": "实施期间主协调需求与源码复核；状态由实际专业修正及后续独立审查更新",
+  "items": [
+    {
+      "id": "P3-C01",
+      "owner": "phase3_control_execution",
+      "status": "closed_verified",
+      "requirement": "E3-02",
+      "source": "Platform/internal/store/control.go",
+      "function": "executionActions",
+      "finding": "SQL substr前缀长度按字符解释，Go len(prefix)按UTF-8字节计数；现有downlink_id允许中文",
+      "verification": "中文和冒号执行ID的动作读取与核对，既有命令身份兼容",
+      "observed_source_sha256": "e3ae92b61d060a8067482cc0e1693696c71b57e2bd802cb3a167dae07264e22e",
+      "resolution": "控制专业已改为utf8.RuneCountInString，实际中文动作核对样本待专业验证",
+      "specialist_report": ".local/evolution/control-execution-verified.json",
+      "coordinator_evidence_review": ".local/evolution/control-execution-root-review.json",
+      "independent_checkpoint": ".local/evolution/phase3-independent-review-checkpoint.json",
+      "coordinator_checkpoint_review": ".local/evolution/phase3-independent-checkpoint-root-review.json",
+      "closed_at": "2026-10-04T23:20:21.607471+00:00",
+      "independent_conclusion": "中文及冒号执行身份按字符长度读取原动作，既有 command_id 原样核对，恢复只发送剩余步骤",
+      "final_verification_evidence": [
+        ".local/evolution/phase3-independent-review.json",
+        ".local/evolution/phase3-independent-root-review.json"
+      ]
+    },
+    {
+      "id": "P3-H01",
+      "owner": "phase3_history_analysis",
+      "status": "closed_verified",
+      "requirement": "E3-07",
+      "source": "Platform/internal/application/history.go",
+      "function": "History.Create",
+      "finding": "创建路径最初固定finish(nil)，错误路径也被追踪为成功",
+      "verification": "预算、权限或持久化失败时，追踪结果反映实际错误",
+      "observed_source_sha256": "7d7f32d62735f030f68fde153198f9fb425a6fc26039a326640387c16f280906",
+      "resolution": "History.Create使用命名operationErr交给finish；实际HTTP与OTLP专项包含create/run失败ERROR且通过，首次夹具版本未同步失败记录保留，等待专业最终报告与独立复核",
+      "reported_evidence": [
+        ".local/evolution/history-evidence/http-otlp-first.jsonl",
+        ".local/evolution/history-evidence/http-otlp-repair.jsonl"
+      ],
+      "specialist_report": ".local/evolution/history-analysis-verified.json",
+      "coordinator_evidence_review": ".local/evolution/history-analysis-root-review.json",
+      "independent_checkpoint": ".local/evolution/phase3-independent-review-checkpoint.json",
+      "coordinator_checkpoint_review": ".local/evolution/phase3-independent-checkpoint-root-review.json",
+      "closed_at": "2026-10-04T23:20:21.607471+00:00",
+      "independent_conclusion": "独立 HTTP/OTLP 用例确认缺失定义、权限拒绝和输入预算三类创建失败均导出 ERROR，执行失败也导出 ERROR",
+      "final_verification_evidence": [
+        ".local/evolution/phase3-independent-review.json",
+        ".local/evolution/phase3-independent-root-review.json"
+      ]
+    },
+    {
+      "id": "P3-H02",
+      "owner": "phase3_history_analysis",
+      "status": "closed_verified",
+      "requirement": "E3-06",
+      "source": "Platform/internal/store/history.go",
+      "function": "RecordAnalysisFormal / AnalysisSteps",
+      "finding": "首次实现只保留实时求值回执，派生修订和正式补算后的比较需要关联相应正式结果",
+      "verification": "实际派生修订/outbox/补算后读取对应正式结果，保留来源、版本、时钟及缺失状态",
+      "observed_source_sha256": "d90d7f107c0207676d4e6af343496b4227e5961c9351d29aced326b98272fdbc",
+      "resolution": "正式实时及补算回执按运行身份保留，比较读取相应正式版本和实际派生输出；真实迟到Ingest经Recompute及revision2 outbox进入候选的专项已有通过记录，等待最终报告和独立复核",
+      "corrected_source_sha256": "dd1bd902846e90cf03eae6f5b8bef296b99e7de32dd97b279246ebda3e7d5bb3",
+      "specialist_report": ".local/evolution/history-analysis-verified.json",
+      "coordinator_evidence_review": ".local/evolution/history-analysis-root-review.json",
+      "independent_checkpoint": ".local/evolution/phase3-independent-review-checkpoint.json",
+      "coordinator_checkpoint_review": ".local/evolution/phase3-independent-checkpoint-root-review.json",
+      "closed_at": "2026-10-04T23:20:21.607471+00:00",
+      "independent_conclusion": "生产迟到观测经补算与 revision2 outbox 后，影子步骤读取对应正式补算结果；页面呈现正式值 60、候选值 61 与来源",
+      "final_verification_evidence": [
+        ".local/evolution/phase3-independent-review.json",
+        ".local/evolution/phase3-independent-root-review.json"
+      ]
+    },
+    {
+      "id": "P3-H03",
+      "owner": "phase3_history_analysis",
+      "status": "closed_verified",
+      "requirement": "E3-06",
+      "source": "Platform/internal/store/history.go",
+      "function": "CaptureShadow / ShadowInputs",
+      "finding": "每条正常观测若新建完整前缀运行，累计计算与保存量随输入数呈平方增长",
+      "resolution_plan": "正常新增单点运行依赖上一已创建generation，前序未完成使用waiting_parent与River Snooze；首次执行生成固定实际初态的新snapshot_id，captured_snapshot_id保留入口快照，随后重试沿用已解析快照；乱序/修订重算必要历史",
+      "verification": "有限连续样本的实际计算步数/保存量、任务积压、前序失败和恢复时的状态与快照身份",
+      "observed_source_sha256": "d90d7f107c0207676d4e6af343496b4227e5961c9351d29aced326b98272fdbc",
+      "resolution": "普通输入保存单点运行并依赖上一创建代次，首次执行固定前序状态快照；20条单设备、单字段、窗口0的连续输入对应20个影子步骤，SQLite与PG保存量相同，40份快照共128531个UTF-8 payload字节且max points/history均为1；实际SIGKILL恢复保留已解析快照。报告与独立复核待完成",
+      "corrected_source_sha256": "dd1bd902846e90cf03eae6f5b8bef296b99e7de32dd97b279246ebda3e7d5bb3",
+      "reported_evidence": [
+        ".local/evolution/history-evidence/shadow-first.jsonl",
+        ".local/evolution/history-evidence/sigkill-first.jsonl",
+        ".local/evolution/history-evidence/storage-volume.jsonl"
+      ],
+      "storage_measurement_scope": "只计算各表UTF-8 payload，索引、WAL、任务与审计不在该字节统计内；普通窗口上下文按规则WindowMS及最新字段值保留",
+      "specialist_report": ".local/evolution/history-analysis-verified.json",
+      "coordinator_evidence_review": ".local/evolution/history-analysis-root-review.json",
+      "independent_checkpoint": ".local/evolution/phase3-independent-review-checkpoint.json",
+      "coordinator_checkpoint_review": ".local/evolution/phase3-independent-checkpoint-root-review.json",
+      "closed_at": "2026-10-04T23:20:21.607471+00:00",
+      "independent_conclusion": "普通连续输入使用上一已创建代际，首次执行固定实际初始状态；20 个窗口0单设备单字段输入产生20个影子步骤，SQLite/PG保存40份快照，共128531个UTF-8 payload字节；SIGKILL后保持已解析快照",
+      "final_verification_evidence": [
+        ".local/evolution/phase3-independent-review.json",
+        ".local/evolution/phase3-independent-root-review.json"
+      ]
+    },
+    {
+      "id": "P3-H04",
+      "owner": "phase3_history_analysis",
+      "status": "closed_verified",
+      "requirement": "E3-06",
+      "source": "Platform/internal/application/shadow.go",
+      "function": "Observe",
+      "finding": "捕获输入发生CAS冲突并读取替换后的active候选时，重试仅复查状态，未按新候选的显式设备和字段范围重新判断输入",
+      "verification": "在捕获提交前替换候选并缩小显式设备或字段范围，原输入不进入新epoch；保留原epoch数据",
+      "observed_source_sha256": "8c287497ac671b608d482ad8bf1f3affb932d487411921f0967e37c1a980d128",
+      "resolution": "observeCandidate每次调用复查当前候选状态与显式设备/字段范围，竞争测试已有首轮通过记录，最终报告与独立复核待完成",
+      "corrected_source_sha256": "36ddbea59cc0853178d38ceafc1186c976d79d56f0f9f1e24d59bbed2c2c5653",
+      "specialist_report": ".local/evolution/history-analysis-verified.json",
+      "coordinator_evidence_review": ".local/evolution/history-analysis-root-review.json",
+      "independent_checkpoint": ".local/evolution/phase3-independent-review-checkpoint.json",
+      "coordinator_checkpoint_review": ".local/evolution/phase3-independent-checkpoint-root-review.json",
+      "closed_at": "2026-10-04T23:20:21.607471+00:00",
+      "independent_conclusion": "独立竞争用例分别缩小显式设备和字段范围，新 epoch 输入数量为0，旧 epoch 已完成运行、输入及快照仍保存",
+      "final_verification_evidence": [
+        ".local/evolution/phase3-independent-review.json",
+        ".local/evolution/phase3-independent-root-review.json"
+      ]
+    },
+    {
+      "id": "P3-H05",
+      "owner": "phase3_history_analysis",
+      "status": "closed_verified",
+      "requirement": "E3-07",
+      "source": "Platform/internal/application/history.go",
+      "function": "History.Execute",
+      "finding": "版本比较在同一span中依次设置同名计划与定义版本属性，后一侧覆盖前一侧",
+      "verification": "实际导出的比较追踪可关联左右两个计划和定义版本，并与同一输入快照及计算记录核对",
+      "observed_source_sha256": "d47019563fc95eb8df66ad4941fd4b90f644a3a6c392ae7f3ffba3dd1b8f7703",
+      "resolution": "比较span使用plan_ids、definition_versions及analysis_sides数组保存两侧关联，实际HTTP与OTLP专项通过，等待专业最终报告与独立复核",
+      "corrected_source_sha256": "c1af3185e2a28ecc279742482dc9516a166bfc0148bfb0de979983255f0656ed",
+      "reported_evidence": [
+        ".local/evolution/history-evidence/http-otlp-repair.jsonl"
+      ],
+      "specialist_report": ".local/evolution/history-analysis-verified.json",
+      "coordinator_evidence_review": ".local/evolution/history-analysis-root-review.json",
+      "independent_checkpoint": ".local/evolution/phase3-independent-review-checkpoint.json",
+      "coordinator_checkpoint_review": ".local/evolution/phase3-independent-checkpoint-root-review.json",
+      "closed_at": "2026-10-04T23:20:21.607471+00:00",
+      "independent_conclusion": "独立导出 OTLP 中两侧 plan_ids、definition_versions、analysis_sides 与持久步骤逐项一致，并使用同一实际执行快照",
+      "final_verification_evidence": [
+        ".local/evolution/phase3-independent-review.json",
+        ".local/evolution/phase3-independent-root-review.json"
+      ]
+    },
+    {
+      "id": "P3-C02",
+      "owner": "phase3_control_execution",
+      "status": "closed_verified",
+      "requirement": "E3-03",
+      "source": "Platform/internal/control/receipts.go",
+      "function": "ProcessOperation / finishOperationTx / ReceiveOperationReceipt",
+      "finding": "边缘在期限前开始处理，完成时可能已越过期限；云端按完成时刻拒绝回执，导致已处理操作保留pending",
+      "verification": "明确统一的有效期判断时刻；可控时钟验证期限前开始且之后完成的云边一致结果，以及开始时已过期的拒绝结果",
+      "observed_source_sha256": "775ff1cb8cd37b228bfdb0d73cff8a0b46c42c3dab436073679d9241831b0db7",
+      "resolution": "首次started_ms及审计在设备查询前共同提交，重复领取和数据库重开沿用该开始时间，只有尚未开始的请求可按到期终结；并发跨期及重开专项已由专业验证，等待最终报告和独立复核；新增operation_started时间线及带来源版本的开始回执，最终回执之后的旧开始回执专项已由专业验证",
+      "corrected_source_sha256": "af9089d9bbd984106dedbe113d346a4ecab7945cd8823fe757016fff0d1265cc",
+      "followup": "开始时刻在完成时才保存，第一处理者跨期限等待反馈时，后到的重复领取仍可能把pending改为expired；已要求用可控时钟与阻塞查询验证这段组合行为",
+      "followup_status": "specialist_reports_combined_case_passed_final_review_pending",
+      "reported_evidence": [
+        ".local/evolution/control-evidence/operation-deadline-concurrent-first.jsonl",
+        ".local/evolution/control-evidence/operation-started-receipt-first.jsonl"
+      ],
+      "specialist_report": ".local/evolution/control-execution-verified.json",
+      "coordinator_evidence_review": ".local/evolution/control-execution-root-review.json",
+      "independent_checkpoint": ".local/evolution/phase3-independent-review-checkpoint.json",
+      "coordinator_checkpoint_review": ".local/evolution/phase3-independent-checkpoint-root-review.json",
+      "closed_at": "2026-10-04T23:20:21.607471+00:00",
+      "independent_conclusion": "开始时间在查询前持久保存，跨期限的重复领取、数据库重开和旧开始回执沿用首次开始语义，边缘与云端结果一致",
+      "final_verification_evidence": [
+        ".local/evolution/phase3-independent-review.json",
+        ".local/evolution/phase3-independent-root-review.json"
+      ]
+    },
+    {
+      "id": "P3-C03",
+      "owner": "phase3_control_execution",
+      "status": "closed_verified",
+      "requirement": "E3-01,E3-02",
+      "source": "Platform/internal/control/intervention.go",
+      "function": "Detail / Operation",
+      "finding": "详情及操作读取只根据最新定义检查权限，旧执行和操作结果中的快照、步骤和证据可能引用历史版本的其他资源",
+      "verification": "定义v1引用无权设备A、v2引用有权设备B，同定义下v1执行在直接应用和HTTP详情/操作查询均按历史及实际引用资源拒绝访问；覆盖资源迁移和停用",
+      "observed_source_sha256": "1f34b682d6f9e17927e4ae0a4904505c54c58d19736d43cd234560e3dc12a255",
+      "resolution": "executionReadAccess改按执行历史版本、快照及反馈资源检查读取权限，详情与人工操作结果均调用；专项验证待交付",
+      "corrected_source_sha256": "cad71f01aaaa2ae7b2bba5be3e550f707c6a215cebaf357facfa2132f1140b19",
+      "specialist_report": ".local/evolution/control-execution-verified.json",
+      "coordinator_evidence_review": ".local/evolution/control-execution-root-review.json",
+      "independent_checkpoint": ".local/evolution/phase3-independent-review-checkpoint.json",
+      "coordinator_checkpoint_review": ".local/evolution/phase3-independent-checkpoint-root-review.json",
+      "closed_at": "2026-10-04T23:20:21.607471+00:00",
+      "independent_conclusion": "历史定义、执行快照、反馈设备及当前资产归属共同决定详情与操作结果的读取权限；浏览器撤权后清除旧详情",
+      "final_verification_evidence": [
+        ".local/evolution/phase3-independent-review.json",
+        ".local/evolution/phase3-independent-root-review.json"
+      ]
+    },
+    {
+      "id": "P3-C04",
+      "owner": "phase3_control_execution",
+      "status": "closed_verified",
+      "requirement": "E3-03",
+      "source": "Platform/internal/control/operations.go",
+      "function": "SubmitOperation",
+      "finding": "现场请求只持久保存pending操作，提交后同步处理；在提交与处理之间中断时没有后台投递，重复operation_id又直接返回旧pending",
+      "verification": "现场pending提交后重启、同编号重试及同步处理与worker重复领取；暂时执行权竞争保持pending，最终结果和动作次数一致；处理开始后跨期限时的重复投递遵守开始时刻语义",
+      "observed_source_sha256": "d4f4a9dd90a607b7778797c960795c57702b3c48918095cac6dae6faaaa663f0",
+      "resolution": "现场操作与edge_control_operation共同提交，同编号pending请求继续处理；暂时ErrLeaseHeld保持可重试，首次处理时间跨重复领取和重启保留，动作次数在实际NATS及跨期用例中保持一致，等待最终报告和独立复核",
+      "corrected_source_sha256": "8f30f6a6689aa232d1feaa9dc46bb9ddff171045cdf376d3f03baf15db602012",
+      "specialist_report": ".local/evolution/control-execution-verified.json",
+      "coordinator_evidence_review": ".local/evolution/control-execution-root-review.json",
+      "independent_checkpoint": ".local/evolution/phase3-independent-review-checkpoint.json",
+      "coordinator_checkpoint_review": ".local/evolution/phase3-independent-checkpoint-root-review.json",
+      "closed_at": "2026-10-04T23:20:21.607471+00:00",
+      "independent_conclusion": "pending 操作与 edge_control_operation 在同一事务保存，同身份重试及后台领取可继续处理，执行权竞争保持可重试",
+      "final_verification_evidence": [
+        ".local/evolution/phase3-independent-review.json",
+        ".local/evolution/phase3-independent-root-review.json"
+      ]
+    },
+    {
+      "id": "P3-F01",
+      "owner": "phase2_frontend_foundation",
+      "status": "closed_verified",
+      "requirement": "E3-03",
+      "source": "Frontends/src/executions.tsx",
+      "function": "execution-operation-notice",
+      "finding": "pending请求等待边缘处理时使用绿色成功图标，标题与描述重复，页面状态应明确区分已受理、处理中与最终结果",
+      "verification": "pending与started使用信息态，completed根据最终结果显示，rejected与expired保持警告；核对状态映射测试和实际离线202浏览器截图",
+      "observed_source_sha256": "025fcf744ff5924a83f26ab3879bfe29d4d6841ef04cf9709ad7b345a44866f9",
+      "evidence": "output/playwright/frontend-phase3/control-cloud-pending.png",
+      "resolution": "已交前端专业修正，并通知独立审查核对最终构建",
+      "corrected_visual": {
+        "path": "output/playwright/frontend-phase3/control-cloud-pending-corrected.png",
+        "sha256": "fb5f25cd3e5f6560d9232d10261e7cb46b6d81000071d6a753823fae9cc43e82",
+        "coordinator_visual_check": "已查看当前截图，待独立审查复验全部状态与最终构建"
+      },
+      "independent_checkpoint": ".local/evolution/phase3-independent-review-checkpoint.json",
+      "coordinator_checkpoint_review": ".local/evolution/phase3-independent-checkpoint-root-review.json",
+      "closed_at": "2026-10-04T23:20:21.607471+00:00",
+      "independent_conclusion": "实际离线202显示信息状态，完成后依据执行结果显示；重复请求保留同一 operation_id 和请求内容",
+      "final_verification_evidence": [
+        ".local/evolution/phase3-independent-review.json",
+        ".local/evolution/phase3-independent-root-review.json"
+      ]
+    },
+    {
+      "id": "P3-F02",
+      "owner": "phase2_frontend_foundation",
+      "status": "closed_verified",
+      "requirement": "E3-05",
+      "source": "Frontends/src/history.tsx",
+      "function": "Difference",
+      "finding": "普通replay和shadow在difference未设置时显示行为一致，页面把没有比较数据解释为已比较一致",
+      "verification": "比较列按run.kind选择，compare明确区分有差异、一致和缺少比较数据，shadow仅在正式结果存在时使用formal_difference，replay显示自身结果；状态映射与实际浏览器验证",
+      "observed_source_sha256": "f36585a0bce63db9bf83be3a0e5c6980e72c6141850365544c0b365306c57800",
+      "evidence": ".playwright-cli/page-2026-10-04T20-59-43-856Z.yml",
+      "resolution": "独立审查复现并报告，主协调已交前端专业修正",
+      "corrected_visual": {
+        "path": "output/playwright/frontend-phase3/history-replay-result-corrected.png",
+        "sha256": "29176d647b5543c36a09fb5420a21e4485ea834ec413ad23ac2087ff1d55d653",
+        "coordinator_visual_check": "已查看当前截图，待独立审查复验全部状态与最终构建"
+      },
+      "independent_checkpoint": ".local/evolution/phase3-independent-review-checkpoint.json",
+      "coordinator_checkpoint_review": ".local/evolution/phase3-independent-checkpoint-root-review.json",
+      "closed_at": "2026-10-04T23:20:21.607471+00:00",
+      "independent_conclusion": "回放显示本次结果，比较显示差异或一致，影子显示对应正式结果比较；大整数在输入、节点输出和导出文件中保留",
+      "final_verification_evidence": [
+        ".local/evolution/phase3-independent-review.json",
+        ".local/evolution/phase3-independent-root-review.json"
+      ]
+    },
+    {
+      "id": "P3-C05",
+      "owner": "phase3_control_execution",
+      "status": "closed_verified",
+      "requirement": "E3-07",
+      "source": "Platform/internal/store/control.go",
+      "function": "cloud_receipt / Exchange / ExecutionEvidence",
+      "finding": "可信原命令核对证据未随云边执行回执同步，云端执行steps已有evidence_id但evidence为空且时间线缺feedback，云端浏览器无法查询实际证据",
+      "verification": "正式双应用在核对及恢复后，云端和边缘返回同一可信证据身份、原命令/设备/内容/来源及追踪，反馈时间线可查询；重复/乱序回执幂等并保留较新信息；当前授权检查继续覆盖证据资源",
+      "observed_source_sha256": "e3ae92b61d060a8067482cc0e1693696c71b57e2bd802cb3a167dae07264e22e",
+      "evidence": ".local/evolution/phase3-review-evidence/control-resume-backend.json",
+      "browser_evidence": ".local/evolution/phase3-review-evidence/control-trusted-evidence.json",
+      "resolution": "独立审查已交接并结束，原控制工程师恢复职责修复云边证据同步，前端继续原夹具页面验证",
+      "design_handoff": {
+        "receipt_compatibility": "Execution顶层原字段保留，新回执增加可选版本化来源和command_evidence；已存纯Execution回执继续读取",
+        "atomicity": "云端证据完整内容冲突校验、证据保存、来源审计和执行转换共同提交",
+        "late_receipt": "补充缺失证据，执行状态按来源版本处理",
+        "public_http_contract": "ExecutionDetail/CommandEvidence形状不变，前端无需再生成类型",
+        "verification_status": "specialist_tests_in_progress"
+      },
+      "functional_progress": "受影响普通包与实际双应用核对恢复、取消迟到反馈通过；新用例覆盖较旧来源版本和栅栏补证据、同ID内容冲突、旧格式、响应丢失重送、历史参数和当前权限；PG与有限race进行中",
+      "specialist_report": ".local/evolution/control-execution-c05-verified.json",
+      "coordinator_fixture_review": ".local/evolution/control-c05-final-fixture-root-review.json",
+      "coordinator_browser_review": ".local/evolution/control-c05-browser-root-review.json",
+      "fixture_cleanup_review": ".local/evolution/control-c05-final-cleanup-root-review.json",
+      "independent_checkpoint": ".local/evolution/phase3-independent-review-checkpoint.json",
+      "coordinator_checkpoint_review": ".local/evolution/phase3-independent-checkpoint-root-review.json",
+      "closed_at": "2026-10-04T23:20:21.607471+00:00",
+      "independent_conclusion": "可信原命令证据、反馈来源及追踪身份随执行回执共同保存，云边内容一致；旧来源版本补充证据且保持新状态，同证据身份改写被原子拒绝",
+      "final_verification_evidence": [
+        ".local/evolution/phase3-independent-review.json",
+        ".local/evolution/phase3-independent-root-review.json"
+      ]
+    },
+    {
+      "id": "P3-F03",
+      "owner": "phase2_frontend_foundation",
+      "status": "closed_verified",
+      "requirement": "E3-06",
+      "source": "Frontends/src/history.tsx",
+      "function": "shadow candidate re-enable modal",
+      "finding": "从候选详情抽屉打开重新启用对话框时，Modal和Drawer默认层级相同，抽屉遮挡对话框按钮，实际点击超时",
+      "verification": "明确对话框层级后通过普通浏览器点击完成重新启用、停止及权限变化，保留首轮失败和修正截图",
+      "observed_source_sha256": "29ce3d529681f9964b83b68109eb5d9383dc996646ea84c2f78596f206a8d410",
+      "evidence": ".local/evolution/frontend-phase3/browser-shadow-reenabled.json",
+      "resolution": "前端已提高候选编辑对话框层级，普通点击完成stopped v2到active v3 epoch2，再停止v4；第三次构建及20项测试通过，主协调已查看修正后状态截图",
+      "corrected_visual": {
+        "path": "output/playwright/frontend-phase3/shadow-reenabled-corrected.png",
+        "sha256": "5f778103d13e868d13a8250a693cdcb3da0bd59d94821999b4e82826de53779c"
+      },
+      "frontend_build_manifest": ".local/evolution/frontend-phase3/builds/third/manifest.json",
+      "independent_checkpoint": ".local/evolution/phase3-independent-review-checkpoint.json",
+      "coordinator_checkpoint_review": ".local/evolution/phase3-independent-checkpoint-root-review.json",
+      "closed_at": "2026-10-04T23:20:21.607471+00:00",
+      "independent_conclusion": "重新启用对话框位于详情抽屉上层，普通点击完成停止v2到active v3/epoch2；陈旧v3提交在并发停止v4后返回409，旧成功提示消失",
+      "final_verification_evidence": [
+        ".local/evolution/phase3-independent-review.json",
+        ".local/evolution/phase3-independent-root-review.json"
+      ]
+    },
+    {
+      "id": "P3-T01",
+      "owner": "phase2_storage_tasks",
+      "status": "closed_verified",
+      "requirement": [
+        "E3-04",
+        "E3-06",
+        "E3-07"
+      ],
+      "source": "Platform/internal/store/tasks.go; Platform/internal/store/history.go; Platform/internal/tasks/history.go",
+      "function": "fillTask/fillAnalysisTask/ChangeTask/historyWorker.Work",
+      "finding": "父代待完成的历史任务每500ms重调度，队列字段参与人工操作版本；实际鼠标或键盘确认需约848至883ms，四次普通取消均返回409，任务无法在正常页面确认流程中取消",
+      "verification": "修正后真实worker持续调度，读取一次版本并等待至少2至3秒再正常取消；保留业务变化/终态/撤权时的拒绝，以及同一任务、River行、运行与快照身份",
+      "evidence": [
+        ".local/evolution/phase3-review-evidence/v2-history-cancel-timing.json",
+        ".local/evolution/phase3-review-evidence/v2-history-cancel-keyboard-timing.json",
+        ".local/evolution/tasks-cancel-t01-evidence/before-http-cancel.json",
+        ".local/evolution/tasks-cancel-t01-verified.json",
+        ".local/evolution/tasks-cancel-t01-root-review.json",
+        ".local/evolution/tasks-cancel-t01-binary-root-review.json",
+        ".local/evolution/tasks-cancel-t01-source-scope-root-review.json"
+      ],
+      "followup": ".local/evolution/phase3-task-cancel-followup.txt",
+      "design_handoff": "操作版本按任务身份、资源、持久输入快照和运行代际、业务阶段、终态与内部人工操作代次计算；调度、snooze、当前尝试和纯进度更新不参与。取消和重试在同一事务推进River metadata内操作代次，既有任务默认代次明确，保留其他metadata及sf_trace，保持现有HTTP字段与已应用迁移",
+      "specialist_reproduction": "当前未修复的真实历史应用，读取版本后等待3.013秒，analysis_run版本2和waiting_parent状态保持相同、步骤数0，取消返回409",
+      "specialist_progress": "专业报告生产源码已固定，受影响5包82个顶层测试通过、23项按环境条件跳过，PostgreSQL11个专项与95个Schema及70个操作契约检查通过；有限race与最终报告整理继续。主协调核对146份编译输入、源码归档与新历史夹具二进制，独立审查使用该构建启动页面复验。",
+      "binary_review": ".local/evolution/tasks-cancel-t01-binary-root-review.json",
+      "closed_at": "2026-10-04T23:20:21.607471+00:00",
+      "independent_conclusion": "任务操作版本保留业务身份、快照、阶段、终态与人工操作代次；后台领取、Snooze及计算进度更新期间允许用户完成确认。当前页面手动刷新后只读取一次详情，17.260秒后正常确认取消200；实际业务或权限变化、旧代次及重复取消继续返回409或403",
+      "final_verification_evidence": [
+        ".local/evolution/phase3-independent-review.json",
+        ".local/evolution/phase3-independent-root-review.json"
+      ]
+    },
+    {
+      "id": "P3-T02",
+      "owner": "phase2_storage_tasks",
+      "status": "closed_verified",
+      "requirement": [
+        "E2-04",
+        "E2-09",
+        "E3-04",
+        "E3-06",
+        "E3-07"
+      ],
+      "source": "Platform/internal/store/tasks.go; River 0.48.0 JobRetry and JobSetStateIfRunning SQL",
+      "function": "ChangeTask retry and subsequent history-worker snooze",
+      "finding": "运行中取消留下River cancel_attempted_at，正常页面重试返回200并推进操作代次，后续生产调度仍读取旧取消标记并再次将River行置为cancelled，analysis_run则保持waiting_parent；同一独立夹具两次页面重试均复现",
+      "verification": "实际制造带取消标记的运行中取消，重试同一Task/River/run/快照后经过多次生产调度仍可运行并再次取消；SQLite/PG、有限race、旧代次/审计回滚与metadata保留",
+      "evidence": [
+        ".local/evolution/phase3-review-evidence/t01-single-read-task-and-river.json",
+        ".local/evolution/phase3-review-evidence/t01-retry-second-cancelled-with-waiting-parent.json",
+        ".local/evolution/phase3-review-evidence/t01-retry-second-backend.json",
+        ".local/evolution/phase3-review-evidence/t01-retry-second-river.json",
+        ".local/evolution/phase3-review-evidence/t01-retry-independent-reproduction.metadata.json",
+        ".local/evolution/tasks-retry-t02-verified.json",
+        ".local/evolution/tasks-retry-t02-root-review.json",
+        ".local/evolution/tasks-retry-t02-browser-root-review.json"
+      ],
+      "followup": ".local/evolution/phase3-task-retry-followup.txt",
+      "observed_identity": {
+        "river_id": 24,
+        "second_retry_operation_revision": 3,
+        "second_retry_snoozes": 389,
+        "business_state": "waiting_parent",
+        "river_state": "cancelled"
+      },
+      "root_cause_candidate": "JobRetryTx保留cancel_attempted_at，后续snooze/available状态转换受其影响；待存储专业沿当前驱动与事务核对",
+      "independent_checkpoint": ".local/evolution/phase3-independent-review-t01-checkpoint.json",
+      "specialist_reproduction": "实际River worker运行中取消产生cancel_attempted_at，重试200后首次后续snooze再次使River cancelled，业务run仍waiting_parent；专业已保留修复前日志",
+      "design_handoff": "已有事务和River行锁内读取当前metadata，用RawMessage保留其他字段，删除旧cancel_attempted_at，使用官方JobUpdateFull保存并推进操作代次及原子审计；两数据库不能用JSON null merge统一表达字段删除",
+      "binary_review": ".local/evolution/tasks-retry-t02-binary-root-review.json",
+      "specialist_progress": "专业修复和最终回归已完成；五个受影响包84个顶层通过、23个顶层按条件跳过，SQLite及PG共34个有限竞争检测叶子场景全部通过，主协调已核对211份摘要引用和252份当前源码",
+      "root_cause": "JobRetryTx保留cancel_attempted_at，后续worker状态更新继续使用取消意图；现有事务与行锁内读取最新metadata，删除此字段并推进操作代次，保留其他字段",
+      "closed_at": "2026-10-04T23:20:21.607471+00:00",
+      "independent_conclusion": "正式sf-cloud打开T01失败数据库的副本，原Task及River24完成正常页面重试，旧cancel_attempted_at被删除；实际Snooze计数494、496、498时任务持续可运行，随后同一次详情版本成功取消。代次3到4到5、原始快照、追踪数据和审计保持一致；SQLite与PG实际测试覆盖运行中取消、旧worker更新、并发重试、精确metadata和审计失败回滚",
+      "final_verification_evidence": [
+        ".local/evolution/phase3-independent-review.json",
+        ".local/evolution/phase3-independent-root-review.json"
+      ]
+    }
+  ]
+}

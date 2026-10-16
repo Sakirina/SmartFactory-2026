@@ -1,0 +1,36 @@
+=== RUN   TestArchiveCandidatePreservesConcurrentLateDataAndRejectsChangedRows
+=== RUN   TestArchiveCandidatePreservesConcurrentLateDataAndRejectsChangedRows/late
+=== RUN   TestArchiveCandidatePreservesConcurrentLateDataAndRejectsChangedRows/changed
+=== RUN   TestArchiveCandidatePreservesConcurrentLateDataAndRejectsChangedRows/new-block
+=== RUN   TestArchiveCandidatePreservesConcurrentLateDataAndRejectsChangedRows/changed-block
+=== RUN   TestArchiveCandidatePreservesConcurrentLateDataAndRejectsChangedRows/encode-failure
+=== RUN   TestArchiveCandidatePreservesConcurrentLateDataAndRejectsChangedRows/commit-failure
+--- PASS: TestArchiveCandidatePreservesConcurrentLateDataAndRejectsChangedRows (0.05s)
+    --- PASS: TestArchiveCandidatePreservesConcurrentLateDataAndRejectsChangedRows/late (0.01s)
+    --- PASS: TestArchiveCandidatePreservesConcurrentLateDataAndRejectsChangedRows/changed (0.01s)
+    --- PASS: TestArchiveCandidatePreservesConcurrentLateDataAndRejectsChangedRows/new-block (0.01s)
+    --- PASS: TestArchiveCandidatePreservesConcurrentLateDataAndRejectsChangedRows/changed-block (0.01s)
+    --- PASS: TestArchiveCandidatePreservesConcurrentLateDataAndRejectsChangedRows/encode-failure (0.01s)
+    --- PASS: TestArchiveCandidatePreservesConcurrentLateDataAndRejectsChangedRows/commit-failure (0.01s)
+=== RUN   TestPostgresArchiveCASAndTransactionDuration
+    archive_cas_test.go:200: equal series points=1536; legacy_plain_bytes=2408285; new_plain_bytes=2411359; legacy_write_transaction=125.482583ms; outside_preparation=98.502709ms; exact_CAS_write_transaction=109.11525ms; concurrent_late_retained=1
+--- PASS: TestPostgresArchiveCASAndTransactionDuration (2.60s)
+=== RUN   TestPostgresArchiveRetirementAndCreationRace
+    archive_cas_test.go:265: missing partition: one creator committed, one recognizable retryable deadlock; two retirees succeeded; later ingestion recreated partition
+--- PASS: TestPostgresArchiveRetirementAndCreationRace (0.36s)
+=== RUN   TestPostgresRiverTransactionalEnqueue
+    river_test.go:109: same *sql.Tx insertion; rollback=0 jobs; uncommitted acquisition=0; committed worker acquisition=1; repeated identity=1 job
+--- PASS: TestPostgresRiverTransactionalEnqueue (0.41s)
+PASS
+ok  	competition2026/product/platform/internal/store	3.437s
+=== RUN   TestPostgresRiverRetryAndRunningCancellation
+2026/10/04 23:39:37 INFO Driver does not support listener; entering poll only mode
+2026/10/04 23:39:37 INFO River client started client_id=YL-Tilly-MB-A_local_2026_10_04T15_39_37_883163
+2026/10/04 23:39:37 INFO jobexecutor.JobExecutor: Job errored; retrying error="injected external service failure" job_id=1 job_kind=smartfactory_task
+2026/10/04 23:39:39 WARN jobexecutor.JobExecutor: job cancelled remotely job_id=2
+    service_test.go:125: River external projection: attempts=2, first failure retained, completion/outbox deletion atomic; running cancellation observed; original cancelled outbox retained
+2026/10/04 23:39:39 INFO Client: Hard stop started; cancelling all work
+2026/10/04 23:39:39 INFO River client stopped client_id=YL-Tilly-MB-A_local_2026_10_04T15_39_37_883163
+--- PASS: TestPostgresRiverRetryAndRunningCancellation (2.38s)
+PASS
+ok  	competition2026/product/platform/internal/tasks	2.394s

@@ -1,0 +1,40 @@
+{
+  "checked_at": "2026-10-05T00:54:01.112880+00:00",
+  "scope": "Read-only raw-log review; specialist final source snapshot and independent verification pending",
+  "finding": "P4-B05",
+  "logs": [
+    {
+      "path": "/private/tmp/smartfactory-business-native-poll-first.log",
+      "sha256": "335e469101d6d2b540a09a7319cbbb43f934df69a7080051167479c2ee2de0a3",
+      "cases": [
+        {
+          "status": "pass",
+          "name": "TestBusinessNativePollFairnessRotationAndRecovery",
+          "seconds": 0.04
+        },
+        {
+          "status": "pass",
+          "name": "TestBusinessNativeWorkerImmediatePeriodicAndFailureRecovery",
+          "seconds": 5.23
+        }
+      ]
+    },
+    {
+      "path": "/private/tmp/smartfactory-business-native-deadline-first.log",
+      "sha256": "c89dea816718ee04b70dfa01d6a0406b496829e4ea50b526f74cdadd2f4d7d53",
+      "cases": [
+        {
+          "status": "pass",
+          "name": "TestBusinessNativePollDeadlineResumesAfterSlowMapping",
+          "seconds": 10.02
+        }
+      ]
+    }
+  ],
+  "verified_observations": [
+    "66 mapped records rotate across a bounded 64-record page; a damaged mapping, persistent HTTP404 and application failure leave retry records while later records synchronize",
+    "Formal startBusinessWorkers invoked immediately, persisted HTTP503 then recovered on a 5.003583542-second later attempt",
+    "Slow HTTP round hit its 10-second work deadline at 10.004237083 seconds and persisted its cursor for the next healthy mapping"
+  ],
+  "budget_notes": "The 10-second context bounds polling work; source uses separate bounded persistence contexts after work deadline to retain retry records and next cursor"
+}

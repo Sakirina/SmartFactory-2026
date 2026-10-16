@@ -1,0 +1,13 @@
+
+> smartfactory-frontends@0.1.0 typecheck
+> node node_modules/@typescript/native/bin/tsc --noEmit
+
+src/alarm-workbench.tsx(19,277): error TS2322: Type 'string' is not assignable to type '"acknowledge" | "assign" | "complete" | "note" | "reopen"'.
+src/alarm-workbench.tsx(29,1114): error TS2551: Property 'last_success_ms' does not exist on type '{ attempt_ms?: string | number | bigint | undefined; batch_limit?: string | number | bigint | undefined; cursor?: string | undefined; enabled?: boolean | undefined; failed_mappings?: string | ... 2 more ... | undefined; ... 6 more ...; timeout_ms?: string | ... 2 more ... | undefined; }'. Did you mean 'success_ms'?
+src/executions.tsx(90,106): error TS2322: Type '(options?: RefetchOptions | undefined) => Promise<QueryObserverResult<ExecutionRecord[], Error>>' is not assignable to type 'MouseEventHandler<HTMLElement>'.
+  Types of parameters 'options' and 'event' are incompatible.
+    Type 'MouseEvent<HTMLElement, MouseEvent>' has no properties in common with type 'RefetchOptions'.
+src/history.tsx(96,96): error TS2322: Type '(options?: RefetchOptions | undefined) => Promise<QueryObserverResult<ShadowCandidate, Error>>' is not assignable to type 'MouseEventHandler<HTMLElement>'.
+  Types of parameters 'options' and 'event' are incompatible.
+    Type 'MouseEvent<HTMLElement, MouseEvent>' has no properties in common with type 'RefetchOptions'.
+src/work-orders.tsx(34,166): error TS2322: Type 'string' is not assignable to type '"assign" | "complete" | "note" | "reopen" | "start" | "update"'.

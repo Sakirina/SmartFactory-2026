@@ -1,0 +1,2146 @@
+{
+  "schema_version": 1,
+  "completed_at": "2026-10-04T16:59:50.066792+00:00",
+  "status": "specialist_verification_complete_pending_coordinator_acceptance",
+  "scope": [
+    "E2-01",
+    "E2-02",
+    "E2-03",
+    "E2-04",
+    "E2-05",
+    "E2-09 task backend portion"
+  ],
+  "runtime": {
+    "go": "go1.27.1",
+    "river": "v0.48.0",
+    "postgres_source": "16.15",
+    "postgres_target": "18.6",
+    "postgres_data_directory": "/var/lib/postgresql/18/docker",
+    "postgres_test_container": "smartfactory-evolution-pg18-20261004",
+    "postgres_test_pool_budget": "3 application + 1 administration per isolated test; package parallelism 1",
+    "work_volume_available_at_final_verification": "2.0 GiB"
+  },
+  "checks": [
+    {
+      "name": "storage-platform-final.jsonl",
+      "cwd": "Platform",
+      "argv": [
+        "go",
+        "test",
+        "-json",
+        "./...",
+        "-count=1"
+      ],
+      "environment": {
+        "GOTOOLCHAIN": "local",
+        "GOPATH": "/private/tmp/smartfactory-evolution-gopath",
+        "GOMODCACHE": "/private/tmp/smartfactory-evolution-gomodcache",
+        "GOCACHE": "/private/tmp/smartfactory-evolution-go-cache",
+        "GOPROXY": "off"
+      },
+      "exit_code": 0,
+      "scope": "Full ordinary Platform suite before documented final small patches",
+      "evidence": {
+        "path": ".local/evolution/storage-evidence/storage-platform-final.jsonl",
+        "sha256": "55eef06303b8e37ebd40537fce888f15abd18d2fb7ed94426121268400424a7e",
+        "bytes": 375779
+      },
+      "counts": {
+        "top_level": {
+          "pass": 166,
+          "fail": 0,
+          "skip": 20
+        },
+        "leaf_cases": {
+          "pass": 244,
+          "fail": 0,
+          "skip": 20
+        },
+        "all_named_cases": {
+          "pass": 269,
+          "fail": 0,
+          "skip": 20
+        },
+        "packages": {
+          "pass": 21,
+          "fail": 0,
+          "skip": 15
+        }
+      },
+      "conditional_skips": [
+        {
+          "package": "competition2026/product/platform/internal/compiledplan",
+          "test": "TestPostgresPlanTransactionsAndConcurrentPublication",
+          "reason": "postgres_test.go:22: isolated PostgreSQL fixture required",
+          "disposition": "passed_in_rules_engineer_run",
+          "evidence": ".local/evolution/rules-postgres18.stdout.txt"
+        },
+        {
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestPostgresIndependentDraftsShareAuthorizationWithoutSerialization",
+          "reason": "concurrency_postgres_test.go:19: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/coordination",
+          "test": "TestRealThreeReplicaCoordination",
+          "reason": "integration_test.go:186: set SF_SITE_INTEGRATION to the prepared .local/site directory",
+          "disposition": "not_executed_requires_coordinator_review",
+          "note": "No successful run of this named external fixture test was found in inspected evidence; no user exclusion is inferred"
+        },
+        {
+          "package": "competition2026/product/platform/internal/plugins",
+          "test": "TestActualOrganizationProcessPullAndCrashIsolation",
+          "reason": "manager_test.go:36: set SF_HR_PLUGIN_BINARY to the built example process",
+          "disposition": "not_executed_requires_coordinator_review",
+          "note": "No successful run of this named external fixture test was found in inspected evidence; no user exclusion is inferred"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresArchiveCASAndTransactionDuration",
+          "reason": "archive_cas_test.go:100: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresArchiveRetirementAndCreationRace",
+          "reason": "archive_cas_test.go:204: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresArchiveCapacityAndLatePartitionRecovery",
+          "reason": "archive_postgres_test.go:21: isolated PostgreSQL fixture required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/thingsboard",
+          "test": "TestNativeCalculatedFieldAlarmAndRetention",
+          "reason": "native_test.go:22: set SF_NATIVE_URL and SF_NATIVE_CREDENTIALS for the pinned native integration",
+          "disposition": "exact_Go_test_not_executed_in_this_run_requires_coordinator_equivalence_review",
+          "related_evidence": [
+            ".local/evolution/native-full-roundtrip-after-repair.json",
+            ".local/evolution/toolchain-root-review.json"
+          ],
+          "note": "Related real CE/Edge evidence is retained; execution of this exact named test is not claimed"
+        },
+        {
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestPostgresDeadlockReturnsHTTP409WithoutRepeatingCallback",
+          "reason": "concurrency_postgres_test.go:19: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/tasks",
+          "test": "TestPostgresRiverRetryAndRunningCancellation",
+          "reason": "service_test.go:130: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/tasks",
+          "test": "TestTaskCrashProcess",
+          "reason": "service_test.go:136: subprocess helper",
+          "disposition": "helper_invoked_as_subprocess_by_passed_SIGKILL_tests",
+          "evidence": ".local/evolution/storage-evidence/storage-platform-reviewed.jsonl"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresBulkIngestTasksBudget",
+          "reason": "bulk_tasks_test.go:42: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresIndependentObjectsAndContendedIdentity",
+          "reason": "concurrency_postgres_test.go:39: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresLateCommitSyncAuditAndAtomicFinalization",
+          "reason": "concurrency_postgres_test.go:138: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresDeadlockIsRecognizableWithoutCallbackReplay",
+          "reason": "concurrency_postgres_test.go:245: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresNumberedMigrationsPreserveExistingSchema",
+          "reason": "migrations_test.go:159: set SF_TEST_POSTGRES_DATABASE to an isolated PostgreSQL fixture",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresRetentionDropsExpiredPartitionBeforeRowDeletion",
+          "reason": "postgres_retention_test.go:15: set SF_TEST_POSTGRES_DATABASE to an isolated PostgreSQL fixture",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresRiverMigrationHandoffResumes",
+          "reason": "river_migration_test.go:72: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresRiverTransactionalEnqueue",
+          "reason": "river_test.go:112: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestControlledPostgresUpgradeFixture",
+          "reason": "upgrade_fixture_test.go:33: controlled PostgreSQL 16 -> 18 fixture",
+          "disposition": "passed_in_controlled_seed_and_verify_runs",
+          "evidence": [
+            ".local/evolution/storage-evidence/storage-upgrade-seed.log",
+            ".local/evolution/storage-evidence/storage-upgrade-verify.log",
+            ".local/evolution/postgres-migration-root-review.json"
+          ]
+        }
+      ],
+      "verification_stage": "historical_before_legacy_retry_and_domain_interface_review"
+    },
+    {
+      "name": "storage-postgres-final.jsonl",
+      "cwd": "Platform",
+      "argv": [
+        "go",
+        "test",
+        "-p",
+        "1",
+        "-json",
+        "./internal/store",
+        "./internal/application",
+        "./internal/tasks",
+        "./internal/api",
+        "-run",
+        "TestPostgres",
+        "-count=1"
+      ],
+      "environment": {
+        "GOTOOLCHAIN": "local",
+        "GOPATH": "/private/tmp/smartfactory-evolution-gopath",
+        "GOMODCACHE": "/private/tmp/smartfactory-evolution-gomodcache",
+        "GOCACHE": "/private/tmp/smartfactory-evolution-go-cache",
+        "GOPROXY": "off"
+      },
+      "exit_code": 0,
+      "scope": "Four packages against actual PostgreSQL 18.6; each test isolated schema, business pool 3 and management pool 1",
+      "evidence": {
+        "path": ".local/evolution/storage-evidence/storage-postgres-final.jsonl",
+        "sha256": "b9f9337788808685b4444a7c48f6a292319b6a785493ef0a56b4d429e1b9b4d6",
+        "bytes": 26088
+      },
+      "counts": {
+        "top_level": {
+          "pass": 14,
+          "fail": 0,
+          "skip": 0
+        },
+        "leaf_cases": {
+          "pass": 14,
+          "fail": 0,
+          "skip": 0
+        },
+        "all_named_cases": {
+          "pass": 14,
+          "fail": 0,
+          "skip": 0
+        },
+        "packages": {
+          "pass": 4,
+          "fail": 0,
+          "skip": 0
+        }
+      },
+      "conditional_skips": [],
+      "postgres_environment": "SF_TEST_POSTGRES_DATABASE read from private .local/evolution/pg18-test.json dsn; value omitted",
+      "verification_stage": "historical_before_legacy_retry_and_domain_interface_review"
+    },
+    {
+      "name": "storage-race-final.jsonl",
+      "cwd": "Platform",
+      "argv": [
+        "go",
+        "test",
+        "-race",
+        "-json",
+        "./internal/store",
+        "./internal/application",
+        "./internal/tasks",
+        "./internal/api",
+        "./internal/engine",
+        "-count=1"
+      ],
+      "environment": {
+        "GOTOOLCHAIN": "local",
+        "GOPATH": "/private/tmp/smartfactory-evolution-gopath",
+        "GOMODCACHE": "/private/tmp/smartfactory-evolution-gomodcache",
+        "GOCACHE": "/private/tmp/smartfactory-evolution-go-cache",
+        "GOPROXY": "off"
+      },
+      "exit_code": 1,
+      "scope": "Initial broad race run, two formal wall-clock budget failures preserved",
+      "evidence": {
+        "path": ".local/evolution/storage-evidence/storage-race-final.jsonl",
+        "sha256": "357dd74a270ac91f0d0d665b0b44bd0c726cbaac77544cce54a76594532a95e0",
+        "bytes": 157202
+      },
+      "counts": {
+        "top_level": {
+          "pass": 74,
+          "fail": 2,
+          "skip": 16
+        },
+        "leaf_cases": {
+          "pass": 106,
+          "fail": 2,
+          "skip": 16
+        },
+        "all_named_cases": {
+          "pass": 116,
+          "fail": 2,
+          "skip": 16
+        },
+        "packages": {
+          "pass": 4,
+          "fail": 1,
+          "skip": 0
+        }
+      },
+      "conditional_skips": [
+        {
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestPostgresIndependentDraftsShareAuthorizationWithoutSerialization",
+          "reason": "concurrency_postgres_test.go:19: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresArchiveCASAndTransactionDuration",
+          "reason": "archive_cas_test.go:100: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresArchiveRetirementAndCreationRace",
+          "reason": "archive_cas_test.go:204: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresArchiveCapacityAndLatePartitionRecovery",
+          "reason": "archive_postgres_test.go:21: isolated PostgreSQL fixture required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/tasks",
+          "test": "TestPostgresRiverRetryAndRunningCancellation",
+          "reason": "service_test.go:130: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/tasks",
+          "test": "TestTaskCrashProcess",
+          "reason": "service_test.go:136: subprocess helper",
+          "disposition": "helper_invoked_as_subprocess_by_passed_SIGKILL_tests",
+          "evidence": ".local/evolution/storage-evidence/storage-platform-reviewed.jsonl"
+        },
+        {
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestPostgresDeadlockReturnsHTTP409WithoutRepeatingCallback",
+          "reason": "concurrency_postgres_test.go:19: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresBulkIngestTasksBudget",
+          "reason": "bulk_tasks_test.go:42: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresIndependentObjectsAndContendedIdentity",
+          "reason": "concurrency_postgres_test.go:39: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresLateCommitSyncAuditAndAtomicFinalization",
+          "reason": "concurrency_postgres_test.go:138: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresDeadlockIsRecognizableWithoutCallbackReplay",
+          "reason": "concurrency_postgres_test.go:245: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresNumberedMigrationsPreserveExistingSchema",
+          "reason": "migrations_test.go:159: set SF_TEST_POSTGRES_DATABASE to an isolated PostgreSQL fixture",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresRetentionDropsExpiredPartitionBeforeRowDeletion",
+          "reason": "postgres_retention_test.go:15: set SF_TEST_POSTGRES_DATABASE to an isolated PostgreSQL fixture",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresRiverMigrationHandoffResumes",
+          "reason": "river_migration_test.go:72: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresRiverTransactionalEnqueue",
+          "reason": "river_test.go:112: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestControlledPostgresUpgradeFixture",
+          "reason": "upgrade_fixture_test.go:33: controlled PostgreSQL 16 -> 18 fixture",
+          "disposition": "passed_in_controlled_seed_and_verify_runs",
+          "evidence": [
+            ".local/evolution/storage-evidence/storage-upgrade-seed.log",
+            ".local/evolution/storage-evidence/storage-upgrade-verify.log",
+            ".local/evolution/postgres-migration-root-review.json"
+          ]
+        }
+      ],
+      "verification_stage": "historical_before_legacy_retry_and_domain_interface_review"
+    },
+    {
+      "name": "storage-race-bounded.jsonl",
+      "cwd": "Platform",
+      "argv": [
+        "go",
+        "test",
+        "-race",
+        "-p",
+        "1",
+        "-json",
+        "./internal/store",
+        "./internal/application",
+        "./internal/tasks",
+        "./internal/api",
+        "./internal/engine",
+        "-skip",
+        "TestArchivePreservesFullObservationsRevisionsAndRollups|TestSQLiteBulkIngestTasksBudget",
+        "-count=1"
+      ],
+      "environment": {
+        "GOTOOLCHAIN": "local",
+        "GOPATH": "/private/tmp/smartfactory-evolution-gopath",
+        "GOMODCACHE": "/private/tmp/smartfactory-evolution-gomodcache",
+        "GOCACHE": "/private/tmp/smartfactory-evolution-go-cache",
+        "GOPROXY": "off"
+      },
+      "exit_code": 0,
+      "scope": "Race verification of five packages excluding two already measured high-volume budget cases",
+      "evidence": {
+        "path": ".local/evolution/storage-evidence/storage-race-bounded.jsonl",
+        "sha256": "0745a8340ad2dc1e2fd621a8d8e7d47981b2dcdd7449c41f48cb2e17d49df5b6",
+        "bytes": 153922
+      },
+      "counts": {
+        "top_level": {
+          "pass": 74,
+          "fail": 0,
+          "skip": 16
+        },
+        "leaf_cases": {
+          "pass": 106,
+          "fail": 0,
+          "skip": 16
+        },
+        "all_named_cases": {
+          "pass": 116,
+          "fail": 0,
+          "skip": 16
+        },
+        "packages": {
+          "pass": 5,
+          "fail": 0,
+          "skip": 0
+        }
+      },
+      "conditional_skips": [
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresArchiveCASAndTransactionDuration",
+          "reason": "archive_cas_test.go:100: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresArchiveRetirementAndCreationRace",
+          "reason": "archive_cas_test.go:204: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresArchiveCapacityAndLatePartitionRecovery",
+          "reason": "archive_postgres_test.go:21: isolated PostgreSQL fixture required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresBulkIngestTasksBudget",
+          "reason": "bulk_tasks_test.go:42: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresIndependentObjectsAndContendedIdentity",
+          "reason": "concurrency_postgres_test.go:39: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresLateCommitSyncAuditAndAtomicFinalization",
+          "reason": "concurrency_postgres_test.go:138: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresDeadlockIsRecognizableWithoutCallbackReplay",
+          "reason": "concurrency_postgres_test.go:245: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresNumberedMigrationsPreserveExistingSchema",
+          "reason": "migrations_test.go:159: set SF_TEST_POSTGRES_DATABASE to an isolated PostgreSQL fixture",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresRetentionDropsExpiredPartitionBeforeRowDeletion",
+          "reason": "postgres_retention_test.go:15: set SF_TEST_POSTGRES_DATABASE to an isolated PostgreSQL fixture",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresRiverMigrationHandoffResumes",
+          "reason": "river_migration_test.go:72: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresRiverTransactionalEnqueue",
+          "reason": "river_test.go:112: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestControlledPostgresUpgradeFixture",
+          "reason": "upgrade_fixture_test.go:33: controlled PostgreSQL 16 -> 18 fixture",
+          "disposition": "passed_in_controlled_seed_and_verify_runs",
+          "evidence": [
+            ".local/evolution/storage-evidence/storage-upgrade-seed.log",
+            ".local/evolution/storage-evidence/storage-upgrade-verify.log",
+            ".local/evolution/postgres-migration-root-review.json"
+          ]
+        },
+        {
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestPostgresIndependentDraftsShareAuthorizationWithoutSerialization",
+          "reason": "concurrency_postgres_test.go:19: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/tasks",
+          "test": "TestPostgresRiverRetryAndRunningCancellation",
+          "reason": "service_test.go:130: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/tasks",
+          "test": "TestTaskCrashProcess",
+          "reason": "service_test.go:136: subprocess helper",
+          "disposition": "helper_invoked_as_subprocess_by_passed_SIGKILL_tests",
+          "evidence": ".local/evolution/storage-evidence/storage-platform-reviewed.jsonl"
+        },
+        {
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestPostgresDeadlockReturnsHTTP409WithoutRepeatingCallback",
+          "reason": "concurrency_postgres_test.go:19: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        }
+      ],
+      "verification_stage": "historical_before_legacy_retry_and_domain_interface_review"
+    },
+    {
+      "name": "storage-final-followup.jsonl",
+      "cwd": "Platform",
+      "argv": [
+        "go",
+        "test",
+        "-json",
+        "./internal/store",
+        "./internal/api",
+        "./cmd/sf-contracts",
+        "-run",
+        "TestExpiredRiverHistoryKeepsBusinessIdentity|TestTask|TestRecomputeTask|TestGeneratedContractsMatchLiveRegistration",
+        "-count=1"
+      ],
+      "environment": {
+        "GOTOOLCHAIN": "local",
+        "GOPATH": "/private/tmp/smartfactory-evolution-gopath",
+        "GOMODCACHE": "/private/tmp/smartfactory-evolution-gomodcache",
+        "GOCACHE": "/private/tmp/smartfactory-evolution-go-cache",
+        "GOPROXY": "off"
+      },
+      "exit_code": 0,
+      "scope": "Final expired River history handling, task HTTP/authorization and OpenAPI exporter checks",
+      "evidence": {
+        "path": ".local/evolution/storage-evidence/storage-final-followup.jsonl",
+        "sha256": "b30046947106ed7ed46c9e98d40442baa0e8aad7a7bc3b07cf86734765026491",
+        "bytes": 7147
+      },
+      "counts": {
+        "top_level": {
+          "pass": 5,
+          "fail": 0,
+          "skip": 0
+        },
+        "leaf_cases": {
+          "pass": 5,
+          "fail": 0,
+          "skip": 0
+        },
+        "all_named_cases": {
+          "pass": 5,
+          "fail": 0,
+          "skip": 0
+        },
+        "packages": {
+          "pass": 3,
+          "fail": 0,
+          "skip": 0
+        }
+      },
+      "conditional_skips": [],
+      "verification_stage": "historical_before_legacy_retry_and_domain_interface_review"
+    },
+    {
+      "name": "storage-archive-total.jsonl",
+      "cwd": "Platform",
+      "argv": [
+        "go",
+        "test",
+        "-json",
+        "./internal/store",
+        "-run",
+        "TestPostgresArchiveCASAndTransactionDuration",
+        "-count=1"
+      ],
+      "environment": {
+        "GOTOOLCHAIN": "local",
+        "GOPATH": "/private/tmp/smartfactory-evolution-gopath",
+        "GOMODCACHE": "/private/tmp/smartfactory-evolution-gomodcache",
+        "GOCACHE": "/private/tmp/smartfactory-evolution-go-cache",
+        "GOPROXY": "off"
+      },
+      "exit_code": 0,
+      "scope": "Adds explicit total time including deliberate concurrent late ingestion; test instrumentation only",
+      "evidence": {
+        "path": ".local/evolution/storage-evidence/storage-archive-total.jsonl",
+        "sha256": "024fb23aa4a7817433d58a7245690fd388d005eb157d6e724f112759bcdcd852",
+        "bytes": 1997
+      },
+      "counts": {
+        "top_level": {
+          "pass": 1,
+          "fail": 0,
+          "skip": 0
+        },
+        "leaf_cases": {
+          "pass": 1,
+          "fail": 0,
+          "skip": 0
+        },
+        "all_named_cases": {
+          "pass": 1,
+          "fail": 0,
+          "skip": 0
+        },
+        "packages": {
+          "pass": 1,
+          "fail": 0,
+          "skip": 0
+        }
+      },
+      "conditional_skips": [],
+      "postgres_environment": "SF_TEST_POSTGRES_DATABASE read from private .local/evolution/pg18-test.json dsn; value omitted",
+      "verification_stage": "historical_before_legacy_retry_and_domain_interface_review"
+    },
+    {
+      "name": "deployment_postgres_layout",
+      "cwd": ".",
+      "argv": [
+        "python3",
+        "-m",
+        "unittest",
+        "tests.test_postgres_deploy",
+        "-v"
+      ],
+      "exit_code": 0,
+      "tests": 2,
+      "evidence": {
+        "path": ".local/evolution/storage-evidence/storage-deployment-final.log",
+        "sha256": "aec54341ea9d74e989e84ec7484a09dc2a4287db6ef4bd4979b6b631e59723b9",
+        "bytes": 966
+      },
+      "verification_stage": "historical_before_legacy_retry_and_domain_interface_review"
+    },
+    {
+      "name": "contract-validation",
+      "cwd": ".",
+      "argv": [
+        "/private/tmp/smartfactory-evolution-python/bin/python",
+        "scripts/check-contracts.py"
+      ],
+      "exit_code": 0,
+      "evidence": {
+        "path": ".local/evolution/storage-evidence/contract-validation.log",
+        "sha256": "8ec7738f4635835f3447ab28e05040c9313f5e90a8e3ed0b47560f884cf3abbf",
+        "bytes": 158
+      },
+      "verification_stage": "historical_before_legacy_retry_and_domain_interface_review"
+    },
+    {
+      "name": "diff-check",
+      "cwd": ".",
+      "argv": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0,
+      "evidence": {
+        "path": ".local/evolution/storage-evidence/diff-check.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "verification_stage": "historical_before_legacy_retry_and_domain_interface_review"
+    },
+    {
+      "name": "postgres-runtime-directory",
+      "cwd": ".",
+      "argv": [
+        "docker",
+        "exec",
+        "smartfactory-evolution-pg18-20261004",
+        "psql",
+        "-U",
+        "smartfactory_evolution",
+        "-d",
+        "smartfactory_evolution",
+        "-At",
+        "-c",
+        "SHOW server_version",
+        "-c",
+        "SHOW data_directory",
+        "-c",
+        "SHOW max_connections"
+      ],
+      "exit_code": 0,
+      "evidence": {
+        "path": ".local/evolution/storage-evidence/postgres-runtime-directory.log",
+        "sha256": "1e7562d9ad08c8c3a210bf84c5d4c822f60e87c8595b774b87235ccad4c9d93d",
+        "bytes": 63
+      },
+      "verification_stage": "historical_before_legacy_retry_and_domain_interface_review"
+    },
+    {
+      "name": "final-Go-contract-export",
+      "cwd": "Platform",
+      "argv": [
+        "go",
+        "run",
+        "./cmd/sf-contracts",
+        "-out",
+        "../contracts/1.0",
+        "-api-source",
+        "internal/api",
+        "-examples",
+        "../examples/factory/definitions.json"
+      ],
+      "environment": {
+        "GOTOOLCHAIN": "local",
+        "GOPATH": "/private/tmp/smartfactory-evolution-gopath",
+        "GOMODCACHE": "/private/tmp/smartfactory-evolution-gomodcache",
+        "GOCACHE": "/private/tmp/smartfactory-evolution-go-cache",
+        "GOPROXY": "off"
+      },
+      "exit_code": 0,
+      "evidence": {
+        "path": ".local/evolution/storage-evidence/storage-contract-final-generate.log",
+        "sha256": "b4d32c7acdcb42603dc026a3b5c57d23c439104948aef65148d27b62775a0bb6",
+        "bytes": 93
+      },
+      "generated_schema_types": 71,
+      "generated_operations": 56,
+      "example_definitions": 24,
+      "typescript_generation_owner": "frontend; official openapi-typescript; Go exporter no longer writes TypeScript",
+      "verification_stage": "historical_before_legacy_retry_and_domain_interface_review"
+    },
+    {
+      "name": "storage-platform-reviewed.jsonl",
+      "cwd": "Platform",
+      "argv": [
+        "go",
+        "test",
+        "-json",
+        "./...",
+        "-count=1"
+      ],
+      "environment": {
+        "GOTOOLCHAIN": "local",
+        "GOPATH": "/private/tmp/smartfactory-evolution-gopath",
+        "GOMODCACHE": "/private/tmp/smartfactory-evolution-gomodcache",
+        "GOCACHE": "/private/tmp/smartfactory-evolution-go-cache",
+        "GOPROXY": "off"
+      },
+      "exit_code": 0,
+      "scope": "Full ordinary Platform suite including legacy retry checkpoint recovery and actual domain repository consumers",
+      "verification_stage": "reviewed_final",
+      "evidence": {
+        "path": ".local/evolution/storage-evidence/storage-platform-reviewed.jsonl",
+        "sha256": "56e6cccb4bd20d97a7a031abfdadbd2e88cf979f2b2fa806ada206d4c72704e1",
+        "bytes": 403891
+      },
+      "counts": {
+        "top_level": {
+          "pass": 172,
+          "fail": 0,
+          "skip": 21
+        },
+        "leaf_cases": {
+          "pass": 256,
+          "fail": 0,
+          "skip": 21
+        },
+        "all_named_cases": {
+          "pass": 284,
+          "fail": 0,
+          "skip": 21
+        },
+        "packages": {
+          "pass": 21,
+          "fail": 0,
+          "skip": 15
+        }
+      },
+      "conditional_skips": [
+        {
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestPostgresIndependentDraftsShareAuthorizationWithoutSerialization",
+          "reason": "concurrency_postgres_test.go:19: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/compiledplan",
+          "test": "TestPostgresPlanTransactionsAndConcurrentPublication",
+          "reason": "postgres_test.go:22: isolated PostgreSQL fixture required",
+          "disposition": "passed_in_rules_engineer_run",
+          "evidence": ".local/evolution/rules-postgres18.stdout.txt"
+        },
+        {
+          "package": "competition2026/product/platform/internal/coordination",
+          "test": "TestRealThreeReplicaCoordination",
+          "reason": "integration_test.go:186: set SF_SITE_INTEGRATION to the prepared .local/site directory",
+          "disposition": "not_executed_requires_coordinator_review",
+          "note": "No successful run of this named external fixture test was found in inspected evidence; no user exclusion is inferred"
+        },
+        {
+          "package": "competition2026/product/platform/internal/plugins",
+          "test": "TestActualOrganizationProcessPullAndCrashIsolation",
+          "reason": "manager_test.go:36: set SF_HR_PLUGIN_BINARY to the built example process",
+          "disposition": "not_executed_requires_coordinator_review",
+          "note": "No successful run of this named external fixture test was found in inspected evidence; no user exclusion is inferred"
+        },
+        {
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestPostgresDeadlockReturnsHTTP409WithoutRepeatingCallback",
+          "reason": "concurrency_postgres_test.go:19: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/thingsboard",
+          "test": "TestNativeCalculatedFieldAlarmAndRetention",
+          "reason": "native_test.go:22: set SF_NATIVE_URL and SF_NATIVE_CREDENTIALS for the pinned native integration",
+          "disposition": "exact_Go_test_not_executed_in_this_run_requires_coordinator_equivalence_review",
+          "related_evidence": [
+            ".local/evolution/native-full-roundtrip-after-repair.json",
+            ".local/evolution/toolchain-root-review.json"
+          ],
+          "note": "Related real CE/Edge evidence is retained; execution of this exact named test is not claimed"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresArchiveCASAndTransactionDuration",
+          "reason": "archive_cas_test.go:100: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresArchiveRetirementAndCreationRace",
+          "reason": "archive_cas_test.go:205: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresArchiveCapacityAndLatePartitionRecovery",
+          "reason": "archive_postgres_test.go:21: isolated PostgreSQL fixture required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/tasks",
+          "test": "TestPostgresRiverRetryAndRunningCancellation",
+          "reason": "service_test.go:130: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/tasks",
+          "test": "TestTaskCrashProcess",
+          "reason": "service_test.go:136: subprocess helper",
+          "disposition": "helper_invoked_as_subprocess_by_passed_SIGKILL_tests",
+          "evidence": ".local/evolution/storage-evidence/storage-platform-reviewed.jsonl"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresBulkIngestTasksBudget",
+          "reason": "bulk_tasks_test.go:42: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresIndependentObjectsAndContendedIdentity",
+          "reason": "concurrency_postgres_test.go:39: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresLateCommitSyncAuditAndAtomicFinalization",
+          "reason": "concurrency_postgres_test.go:138: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresDeadlockIsRecognizableWithoutCallbackReplay",
+          "reason": "concurrency_postgres_test.go:245: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresNumberedMigrationsPreserveExistingSchema",
+          "reason": "migrations_test.go:159: set SF_TEST_POSTGRES_DATABASE to an isolated PostgreSQL fixture",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresRetentionDropsExpiredPartitionBeforeRowDeletion",
+          "reason": "postgres_retention_test.go:15: set SF_TEST_POSTGRES_DATABASE to an isolated PostgreSQL fixture",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresRiverMigrationHandoffResumes",
+          "reason": "river_migration_test.go:72: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresRiverTransactionalEnqueue",
+          "reason": "river_test.go:112: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestControlledPostgresUpgradeFixture",
+          "reason": "upgrade_fixture_test.go:33: controlled PostgreSQL 16 -> 18 fixture",
+          "disposition": "passed_in_controlled_seed_and_verify_runs",
+          "evidence": [
+            ".local/evolution/storage-evidence/storage-upgrade-seed.log",
+            ".local/evolution/storage-evidence/storage-upgrade-verify.log",
+            ".local/evolution/postgres-migration-root-review.json"
+          ]
+        },
+        {
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestPostgresLegacyAndTaskRetryConcurrentRequestsShareOneAttempt",
+          "reason": "jobs_retry_test.go:254: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-legacy-repair.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        }
+      ]
+    },
+    {
+      "name": "storage-postgres-reviewed.jsonl",
+      "cwd": "Platform",
+      "argv": [
+        "go",
+        "test",
+        "-p",
+        "1",
+        "-json",
+        "./internal/store",
+        "./internal/application",
+        "./internal/tasks",
+        "./internal/api",
+        "-run",
+        "TestPostgres",
+        "-count=1"
+      ],
+      "environment": {
+        "GOTOOLCHAIN": "local",
+        "GOPATH": "/private/tmp/smartfactory-evolution-gopath",
+        "GOMODCACHE": "/private/tmp/smartfactory-evolution-gomodcache",
+        "GOCACHE": "/private/tmp/smartfactory-evolution-go-cache",
+        "GOPROXY": "off"
+      },
+      "exit_code": 1,
+      "scope": "Four isolated-schema packages against PostgreSQL 18.6; existing 14 checks passed; new legacy retry fixture lacked required user Name",
+      "verification_stage": "reviewed_final",
+      "evidence": {
+        "path": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+        "sha256": "f0eb915c684ffc89167bb502d9b8147e1c2e929c1f9cef5fa27623756bb37315",
+        "bytes": 27740
+      },
+      "counts": {
+        "top_level": {
+          "pass": 14,
+          "fail": 1,
+          "skip": 0
+        },
+        "leaf_cases": {
+          "pass": 14,
+          "fail": 1,
+          "skip": 0
+        },
+        "all_named_cases": {
+          "pass": 14,
+          "fail": 1,
+          "skip": 0
+        },
+        "packages": {
+          "pass": 3,
+          "fail": 1,
+          "skip": 0
+        }
+      },
+      "conditional_skips": [],
+      "postgres_environment": "SF_TEST_POSTGRES_DATABASE read from private .local/evolution/pg18-test.json dsn; value omitted"
+    },
+    {
+      "name": "storage-postgres-legacy-repair.jsonl",
+      "cwd": "Platform",
+      "argv": [
+        "go",
+        "test",
+        "-json",
+        "./internal/api",
+        "-run",
+        "TestPostgresLegacyAndTaskRetryConcurrentRequestsShareOneAttempt",
+        "-count=1"
+      ],
+      "environment": {
+        "GOTOOLCHAIN": "local",
+        "GOPATH": "/private/tmp/smartfactory-evolution-gopath",
+        "GOMODCACHE": "/private/tmp/smartfactory-evolution-gomodcache",
+        "GOCACHE": "/private/tmp/smartfactory-evolution-go-cache",
+        "GOPROXY": "off"
+      },
+      "exit_code": 0,
+      "scope": "Required user Name added to the PostgreSQL-only fixture; actual concurrent old/new HTTP retry requests return one success and one 409",
+      "verification_stage": "reviewed_final",
+      "evidence": {
+        "path": ".local/evolution/storage-evidence/storage-postgres-legacy-repair.jsonl",
+        "sha256": "68a1456d2747c233aa60b41866ac977d73c6dbdb04d533226298f2afc30e4dd9",
+        "bytes": 1949
+      },
+      "counts": {
+        "top_level": {
+          "pass": 1,
+          "fail": 0,
+          "skip": 0
+        },
+        "leaf_cases": {
+          "pass": 1,
+          "fail": 0,
+          "skip": 0
+        },
+        "all_named_cases": {
+          "pass": 1,
+          "fail": 0,
+          "skip": 0
+        },
+        "packages": {
+          "pass": 1,
+          "fail": 0,
+          "skip": 0
+        }
+      },
+      "conditional_skips": [],
+      "postgres_environment": "SF_TEST_POSTGRES_DATABASE read from private .local/evolution/pg18-test.json dsn; value omitted"
+    },
+    {
+      "name": "storage-race-reviewed.jsonl",
+      "cwd": "Platform",
+      "argv": [
+        "go",
+        "test",
+        "-race",
+        "-p",
+        "1",
+        "-json",
+        "./internal/store",
+        "./internal/application",
+        "./internal/tasks",
+        "./internal/api",
+        "./internal/engine",
+        "-skip",
+        "TestArchivePreservesFullObservationsRevisionsAndRollups|TestSQLiteBulkIngestTasksBudget",
+        "-count=1"
+      ],
+      "environment": {
+        "GOTOOLCHAIN": "local",
+        "GOPATH": "/private/tmp/smartfactory-evolution-gopath",
+        "GOMODCACHE": "/private/tmp/smartfactory-evolution-gomodcache",
+        "GOCACHE": "/private/tmp/smartfactory-evolution-go-cache",
+        "GOPROXY": "off"
+      },
+      "exit_code": 0,
+      "scope": "Final race run of five changed packages, excluding the two documented high-volume wall-clock budget cases",
+      "verification_stage": "reviewed_final",
+      "evidence": {
+        "path": ".local/evolution/storage-evidence/storage-race-reviewed.jsonl",
+        "sha256": "57eb8d3811b101160f1a8b50fb65a79f51d9b8d6b9b264d6c3e09fc8bf1aa1ea",
+        "bytes": 181723
+      },
+      "counts": {
+        "top_level": {
+          "pass": 80,
+          "fail": 0,
+          "skip": 17
+        },
+        "leaf_cases": {
+          "pass": 118,
+          "fail": 0,
+          "skip": 17
+        },
+        "all_named_cases": {
+          "pass": 131,
+          "fail": 0,
+          "skip": 17
+        },
+        "packages": {
+          "pass": 5,
+          "fail": 0,
+          "skip": 0
+        }
+      },
+      "conditional_skips": [
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresArchiveCASAndTransactionDuration",
+          "reason": "archive_cas_test.go:100: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresArchiveRetirementAndCreationRace",
+          "reason": "archive_cas_test.go:205: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresArchiveCapacityAndLatePartitionRecovery",
+          "reason": "archive_postgres_test.go:21: isolated PostgreSQL fixture required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresBulkIngestTasksBudget",
+          "reason": "bulk_tasks_test.go:42: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresIndependentObjectsAndContendedIdentity",
+          "reason": "concurrency_postgres_test.go:39: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresLateCommitSyncAuditAndAtomicFinalization",
+          "reason": "concurrency_postgres_test.go:138: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresDeadlockIsRecognizableWithoutCallbackReplay",
+          "reason": "concurrency_postgres_test.go:245: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresNumberedMigrationsPreserveExistingSchema",
+          "reason": "migrations_test.go:159: set SF_TEST_POSTGRES_DATABASE to an isolated PostgreSQL fixture",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresRetentionDropsExpiredPartitionBeforeRowDeletion",
+          "reason": "postgres_retention_test.go:15: set SF_TEST_POSTGRES_DATABASE to an isolated PostgreSQL fixture",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresRiverMigrationHandoffResumes",
+          "reason": "river_migration_test.go:72: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestPostgresRiverTransactionalEnqueue",
+          "reason": "river_test.go:112: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestControlledPostgresUpgradeFixture",
+          "reason": "upgrade_fixture_test.go:33: controlled PostgreSQL 16 -> 18 fixture",
+          "disposition": "passed_in_controlled_seed_and_verify_runs",
+          "evidence": [
+            ".local/evolution/storage-evidence/storage-upgrade-seed.log",
+            ".local/evolution/storage-evidence/storage-upgrade-verify.log",
+            ".local/evolution/postgres-migration-root-review.json"
+          ]
+        },
+        {
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestPostgresIndependentDraftsShareAuthorizationWithoutSerialization",
+          "reason": "concurrency_postgres_test.go:19: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/tasks",
+          "test": "TestPostgresRiverRetryAndRunningCancellation",
+          "reason": "service_test.go:130: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/tasks",
+          "test": "TestTaskCrashProcess",
+          "reason": "service_test.go:136: subprocess helper",
+          "disposition": "helper_invoked_as_subprocess_by_passed_SIGKILL_tests",
+          "evidence": ".local/evolution/storage-evidence/storage-platform-reviewed.jsonl"
+        },
+        {
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestPostgresDeadlockReturnsHTTP409WithoutRepeatingCallback",
+          "reason": "concurrency_postgres_test.go:19: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        },
+        {
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestPostgresLegacyAndTaskRetryConcurrentRequestsShareOneAttempt",
+          "reason": "jobs_retry_test.go:254: isolated PostgreSQL integration DSN required",
+          "disposition": "passed_in_postgres_specialist_run",
+          "evidence": ".local/evolution/storage-evidence/storage-postgres-legacy-repair.jsonl",
+          "instrumentation": "Ordinary PostgreSQL run; PostgreSQL fixtures were not race-instrumented"
+        }
+      ]
+    },
+    {
+      "name": "storage-contract-reviewed.log",
+      "cwd": ".",
+      "argv": [
+        "/private/tmp/smartfactory-evolution-python/bin/python",
+        "scripts/check-contracts.py"
+      ],
+      "exit_code": 0,
+      "verification_stage": "reviewed_final",
+      "evidence": {
+        "path": ".local/evolution/storage-evidence/storage-contract-reviewed.log",
+        "sha256": "8ec7738f4635835f3447ab28e05040c9313f5e90a8e3ed0b47560f884cf3abbf",
+        "bytes": 158
+      }
+    },
+    {
+      "name": "storage-diff-reviewed.log",
+      "cwd": ".",
+      "argv": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0,
+      "verification_stage": "reviewed_final",
+      "evidence": {
+        "path": ".local/evolution/storage-evidence/storage-diff-reviewed.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
+      "name": "reviewed-Go-contract-export",
+      "cwd": "Platform",
+      "argv": [
+        "go",
+        "run",
+        "./cmd/sf-contracts",
+        "-out",
+        "../contracts/1.0",
+        "-api-source",
+        "internal/api",
+        "-examples",
+        "../examples/factory/definitions.json"
+      ],
+      "environment": {
+        "GOTOOLCHAIN": "local",
+        "GOPATH": "/private/tmp/smartfactory-evolution-gopath",
+        "GOMODCACHE": "/private/tmp/smartfactory-evolution-gomodcache",
+        "GOCACHE": "/private/tmp/smartfactory-evolution-go-cache",
+        "GOPROXY": "off"
+      },
+      "exit_code": 0,
+      "verification_stage": "reviewed_final",
+      "evidence": {
+        "path": ".local/evolution/storage-evidence/storage-contract-legacy-generate.log",
+        "sha256": "b4d32c7acdcb42603dc026a3b5c57d23c439104948aef65148d27b62775a0bb6",
+        "bytes": 93
+      },
+      "generated_schema_types": 71,
+      "generated_operations": 56,
+      "example_definitions": 24,
+      "change": "Legacy jobs create/retry responses declared as HTTP 202 Job; task replay_id/phase retained",
+      "typescript_generation_owner": "Frontend specialist; official openapi-typescript"
+    }
+  ],
+  "race_summary": {
+    "data_race_report_occurrences": 0,
+    "first_run_failures": [
+      {
+        "test": "TestArchivePreservesFullObservationsRevisionsAndRollups",
+        "elapsed_seconds": 8.93,
+        "output": "=== RUN   TestArchivePreservesFullObservationsRevisionsAndRollups\n    archive_test.go:79: {1 1 580 360} context deadline exceeded\n--- FAIL: TestArchivePreservesFullObservationsRevisionsAndRollups (8.93s)\n",
+        "resolution": "Keep production budgets unchanged; ordinary suite passed; race bounded suite excludes this case"
+      },
+      {
+        "test": "TestSQLiteBulkIngestTasksBudget",
+        "elapsed_seconds": 30.34,
+        "output": "=== RUN   TestSQLiteBulkIngestTasksBudget\n    bulk_tasks_test.go:41: {bulk-tasks false false 10000 0} 30.061366083s context deadline exceeded\n--- FAIL: TestSQLiteBulkIngestTasksBudget (30.34s)\n",
+        "resolution": "Keep production budgets unchanged; ordinary suite passed; race bounded suite excludes this case"
+      }
+    ],
+    "bounded_run_excluded_tests": [
+      "TestArchivePreservesFullObservationsRevisionsAndRollups",
+      "TestSQLiteBulkIngestTasksBudget"
+    ],
+    "production_timeout_changes": false,
+    "reviewed_run": "storage-race-reviewed.jsonl",
+    "reviewed_run_data_race_report_occurrences": 0
+  },
+  "migration_source_integrity": [
+    {
+      "path": "Platform/internal/store/migrations/postgres/00001_baseline.sql",
+      "before_sha256": "b4f13649f266050f7b87cf9f0c7509b98af1fb40fd606666d1de5a91e02a7f62",
+      "after_sha256": "b4f13649f266050f7b87cf9f0c7509b98af1fb40fd606666d1de5a91e02a7f62",
+      "identical": true
+    },
+    {
+      "path": "Platform/internal/store/migrations/sqlite/00001_baseline.sql",
+      "before_sha256": "8f8b3ff25cd9a9f55e99ab3abd851f20e8075d15242bec0e52ee4e2695a15631",
+      "after_sha256": "8f8b3ff25cd9a9f55e99ab3abd851f20e8075d15242bec0e52ee4e2695a15631",
+      "identical": true
+    },
+    {
+      "path": "Platform/internal/store/migration00002.go",
+      "before_sha256": "d41f217a598789ec94a29fdcf9db03547eb5bc79cb1671bdc2211891ccc1b626",
+      "after_sha256": "d41f217a598789ec94a29fdcf9db03547eb5bc79cb1671bdc2211891ccc1b626",
+      "identical": true
+    },
+    {
+      "path": "Platform/internal/store/migration00003.go",
+      "before_sha256": "5b5c043c4d830ba6e77057b54654585e83fec0b0fb9e8e9b75e87e65bba9cfd4",
+      "after_sha256": "5b5c043c4d830ba6e77057b54654585e83fec0b0fb9e8e9b75e87e65bba9cfd4",
+      "identical": true
+    }
+  ],
+  "migration_strategy": {
+    "goose_before_river": 3,
+    "river_target": 8,
+    "goose_bridge": 4,
+    "official_migrate_outside_goose_transaction": true,
+    "resumable_bridge_test": [
+      "TestRiverMigrationHandoffResumesSQLite",
+      "TestPostgresRiverMigrationHandoffResumes"
+    ]
+  },
+  "postgres_upgrade": {
+    "report": {
+      "path": ".local/evolution/pg16-to18-dump-restore.json",
+      "sha256": "f02868ad249c6e879041eec42436699204240d397e6cf88354b87c3e9bc4a534",
+      "bytes": 4510
+    },
+    "coordinator_review": {
+      "path": ".local/evolution/postgres-migration-root-review.json",
+      "sha256": "182ace571bc5e4e5d86e7495fe84b0f5841d4592bc992c7af551be10168c5408",
+      "bytes": 2356
+    },
+    "cleanup": {
+      "path": ".local/evolution/storage-fixture-cleanup.json",
+      "sha256": "2a8c8bb2f905a466dbe9fe31564bb30b664d57707537cd792bf612b1cad59886",
+      "bytes": 653
+    },
+    "retained_dump": {
+      "path": ".local/evolution/storage-evidence/storage-pg16-upgrade.dump",
+      "sha256": "f5f31d3b441050142a4a492722bfb04d08af3eef763b2cdf6feb9f0bcac7426f",
+      "bytes": 26615
+    },
+    "result": "Nine categories had identical rows and SHA256 before startup migrations; 128 exact full-field observations; source cursor 21; 3 signed audit records; pending job/outbox adopted; new read/write/archive and audit extension passed"
+  },
+  "archive_measurements": [
+    {
+      "evidence": ".local/evolution/storage-evidence/storage-archive-pg-first.log",
+      "points": "1536",
+      "legacy_plain_bytes": "2408285",
+      "new_plain_bytes": "2411359",
+      "legacy_write_transaction": "125.482583ms",
+      "outside_preparation": "98.502709ms",
+      "exact_CAS_write_transaction": "109.11525ms",
+      "concurrent_late_retained": "1"
+    },
+    {
+      "evidence": ".local/evolution/storage-evidence/storage-pg-final-specialized.log",
+      "points": "1536",
+      "legacy_plain_bytes": "2408285",
+      "new_plain_bytes": "2411359",
+      "legacy_write_transaction": "128.321459ms",
+      "outside_preparation": "98.759459ms",
+      "exact_CAS_write_transaction": "112.45225ms",
+      "concurrent_late_retained": "1"
+    },
+    {
+      "evidence": ".local/evolution/storage-evidence/storage-postgres-final.jsonl",
+      "points": "1536",
+      "legacy_plain_bytes": "2408285",
+      "new_plain_bytes": "2411359",
+      "legacy_write_transaction": "133.932666ms",
+      "outside_preparation": "104.926375ms",
+      "exact_CAS_write_transaction": "186.213875ms",
+      "concurrent_late_retained": "1"
+    },
+    {
+      "evidence": ".local/evolution/storage-evidence/storage-archive-total.jsonl",
+      "points": "1536",
+      "legacy_plain_bytes": "2408285",
+      "new_plain_bytes": "2411359",
+      "legacy_write_transaction": "126.803417ms",
+      "outside_preparation": "97.76475ms",
+      "exact_CAS_write_transaction": "109.195292ms",
+      "new_total_including_late_ingest": "209.604334ms",
+      "concurrent_late_retained": "1"
+    }
+  ],
+  "archive_timing_interpretation": "Encoding and full verification execute outside the write transaction. These are individual controlled samples, not a distribution or a stable speedup claim; the new total includes preparation, deliberate late-ingest interleaving and exact-CAS commit. Timings from the parallel race/PG run are preserved as observed.",
+  "recovery": {
+    "stable_identity_fields": [
+      "task_id",
+      "river_id",
+      "business_id",
+      "replay_id"
+    ],
+    "persisted_run_fields": [
+      "start_ms",
+      "end_ms",
+      "selected definitions",
+      "source devices",
+      "initial predecessor state"
+    ],
+    "cursor": "complete replay window only, preserving all same-timestamp inputs",
+    "parent_child_interruption": "exact output receipts committed with inbox and state; duplicate parent resumes child traversal",
+    "rollup_tail": "phase=rollups; progress=1; business_state=finalizing while active; every rollup write transaction checks business version; cancellation/new generation stop further commits",
+    "cross_day_proof": "15 committed rollups preserved through cancellation; same identities retried to 24; live state versions and exact replay output receipts unchanged",
+    "process_kill": "Actual child SIGKILL; official River rescue with injected attempted_at age 120s vs rescue threshold 90s; second attempt resumes 3 exact evaluations including two same-timestamp inputs, final counter 7"
+  },
+  "observability": {
+    "spans": [
+      "tasks.wait",
+      "tasks.execute",
+      "archive.prepare",
+      "archive.commit",
+      "store.transaction"
+    ],
+    "trace_identity_attributes": [
+      "task_id",
+      "task_kind",
+      "task_queue",
+      "task_attempt",
+      "business_id"
+    ],
+    "durable_propagation": "W3C traceparent/tracestate only; no arbitrary baggage persisted",
+    "metric_labels": "queue-only wait histogram; operation/result only for shared operation instruments",
+    "test": "TestTasksPreserveTraceIdentityAndBoundedMetricLabels"
+  },
+  "source_manifest": {
+    "path": ".local/evolution/storage-evidence/source-manifest-reviewed.json",
+    "sha256": "d4f3c983dce30973c075c9377d664c984458929b549241a453a88e8aced96606",
+    "bytes": 26721
+  },
+  "initial_failed_attempts": [
+    {
+      "log": {
+        "path": ".local/evolution/storage-evidence/storage-tasks-api-first.log",
+        "sha256": "25f0d722be287d07265362ef9c34caf76716e6cd3f986aba6cf0994a99359274",
+        "bytes": 2208
+      },
+      "argv": [
+        "go",
+        "test",
+        "./internal/api",
+        "./internal/application",
+        "./internal/store",
+        "-count=1"
+      ],
+      "exit_code": 1,
+      "resolution": "The compatibility endpoint test expected exactly 3 migrations; changed expectation to the current manifest maximum and reran API/full suite"
+    },
+    {
+      "log": {
+        "path": ".local/evolution/storage-evidence/storage-river-workers-first.log",
+        "sha256": "b76b77df5a4667e3d63afd45c4bd5f9fa250341cdfb01fcba3de5d702b9f4de7",
+        "bytes": 4113
+      },
+      "argv": [
+        "go",
+        "test",
+        "-p=1",
+        "-v",
+        "./internal/store",
+        "./internal/tasks",
+        "-run",
+        "TestRiver|TestTaskCancellation|TestSQLiteRiver|TestBudgets",
+        "-count=1"
+      ],
+      "exit_code": 1,
+      "resolution": "SQLite crash test used RFC3339 attempted_at instead of the official driver SQL timestamp format; corrected injected timestamp, actual SIGKILL/rescue then passed"
+    },
+    {
+      "log": {
+        "path": ".local/evolution/storage-evidence/storage-replay-checkpoint-first.log",
+        "sha256": "650692deeb6ccf6b7bb60035408121ca19e5370c64c512a00dc6de9e8e3f2eb0",
+        "bytes": 311
+      },
+      "argv": [
+        "go",
+        "test",
+        "./internal/engine",
+        "-run",
+        "TestReplayRestoresParent|TestReplayCancellation",
+        "-count=1",
+        "-v"
+      ],
+      "exit_code": 1,
+      "resolution": "Fixture SourceSequence literal was int64; corrected to uint64; no production arithmetic change"
+    },
+    {
+      "log": {
+        "path": ".local/evolution/storage-evidence/storage-recompute-process-crash.log",
+        "sha256": "cb836bc41db41b7f73ac830afc344f4a01b0906bfb06c9f65334291358c06180",
+        "bytes": 465
+      },
+      "argv": [
+        "go",
+        "test",
+        "./internal/tasks",
+        "-run",
+        "TestRiverRecoversRecomputeCheckpointAfterProcessKill",
+        "-count=1",
+        "-v"
+      ],
+      "exit_code": 1,
+      "resolution": "Fixture definition lacked required group_id; added factory group and then actual SIGKILL recovery passed"
+    },
+    {
+      "log": {
+        "path": ".local/evolution/storage-evidence/storage-deployment-tests.log",
+        "sha256": "93eeb8cc2bdbdde88babf7628c0508ee59e69c38ff26dc25ebbbf006feacd6fa",
+        "bytes": 1810
+      },
+      "argv": [
+        "python3",
+        "-m",
+        "unittest",
+        "tests.test_postgres_deploy",
+        "-v"
+      ],
+      "exit_code": 1,
+      "resolution": "Whole-compose assertion encountered a pre-existing Kafka healthcheck generator mismatch; narrowed this PostgreSQL test to postgres services and all volume references, notified coordinator about Kafka"
+    },
+    {
+      "log": {
+        "path": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+        "sha256": "f0eb915c684ffc89167bb502d9b8147e1c2e929c1f9cef5fa27623756bb37315",
+        "bytes": 27740
+      },
+      "argv": [
+        "go",
+        "test",
+        "-p",
+        "1",
+        "-json",
+        "./internal/store",
+        "./internal/application",
+        "./internal/tasks",
+        "./internal/api",
+        "-run",
+        "TestPostgres",
+        "-count=1"
+      ],
+      "exit_code": 1,
+      "failed_test": "TestPostgresLegacyAndTaskRetryConcurrentRequestsShareOneAttempt",
+      "resolution": "PostgreSQL-only user fixture omitted the required Name; added Name: \"Operator\". Exact HTTP concurrency test then passed, and its successful evidence is retained.",
+      "repair_evidence": {
+        "path": ".local/evolution/storage-evidence/storage-postgres-legacy-repair.jsonl",
+        "sha256": "68a1456d2747c233aa60b41866ac977d73c6dbdb04d533226298f2afc30e4dd9",
+        "bytes": 1949
+      }
+    }
+  ],
+  "review_followups": [
+    {
+      "item": "Legacy /jobs/{id}/retry",
+      "status": "implemented_and_verified",
+      "details": "Authenticated Tasks.RetryJob reuses the mapped task/River/replay identity, window and cursor through the same ChangeTask transaction as /tasks retry. Unmapped failed legacy jobs are adopted once with authorization/version guards, task insert and audit in the same transaction. HTTP 202 Job is preserved.",
+      "evidence": [
+        ".local/evolution/storage-evidence/storage-platform-reviewed.jsonl",
+        ".local/evolution/storage-evidence/storage-postgres-legacy-repair.jsonl"
+      ]
+    },
+    {
+      "item": "Actual domain storage interfaces",
+      "status": "implemented_and_consumed",
+      "details": "Definitions.Store uses DefinitionRepository; Tasks.Store uses TaskRepository; authorizationReader uses DocumentQueries; definitioncommit uses Repository. tasks.Service.Store uses Repository; Backend adds the composition-time official River client factory. SQL/driver choice is in Store.",
+      "paths": [
+        "Platform/internal/application/repositories.go",
+        "Platform/internal/application/definitioncommit/publish.go",
+        "Platform/internal/tasks/repository.go",
+        "Platform/internal/store/revisions.go",
+        "Platform/internal/store/task_runtime.go"
+      ]
+    },
+    {
+      "item": "External conditional tests",
+      "status": "three_exact_named_tests_require_coordinator_disposition",
+      "details": "TestRealThreeReplicaCoordination, TestActualOrganizationProcessPullAndCrashIsolation and TestNativeCalculatedFieldAlarmAndRetention remain explicitly classified in conditional_skips. Related native evidence is linked; no user exclusion is inferred."
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".local/evolution/storage-evidence/contract-validation.log",
+      "sha256": "8ec7738f4635835f3447ab28e05040c9313f5e90a8e3ed0b47560f884cf3abbf",
+      "bytes": 158
+    },
+    {
+      "path": ".local/evolution/storage-evidence/diff-check.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".local/evolution/storage-evidence/postgres-runtime-directory.log",
+      "sha256": "1e7562d9ad08c8c3a210bf84c5d4c822f60e87c8595b774b87235ccad4c9d93d",
+      "bytes": 63
+    },
+    {
+      "path": ".local/evolution/storage-evidence/source-manifest-reviewed.json",
+      "sha256": "d4f3c983dce30973c075c9377d664c984458929b549241a453a88e8aced96606",
+      "bytes": 26721
+    },
+    {
+      "path": ".local/evolution/storage-evidence/source-manifest.json",
+      "sha256": "affdf9832022458b820d6f561bbd22a5f2a74f00fa7b9f576ce885de4836693b",
+      "bytes": 30501
+    },
+    {
+      "path": ".local/evolution/storage-evidence/storage-archive-first.log",
+      "sha256": "8295d1ba28b2b232ad795e8bb4d512c499ca02a28f48eb4a5cc60eae8b6e5637",
+      "bytes": 121
+    },
+    {
+      "path": ".local/evolution/storage-evidence/storage-archive-pg-first.log",
+      "sha256": "a5f30b5e02188f4d9651220bea4d73e7d83651510068be12f183eef8220fb1ac",
+      "bytes": 3253
+    },
+    {
+      "path": ".local/evolution/storage-evidence/storage-archive-total.jsonl",
+      "sha256": "024fb23aa4a7817433d58a7245690fd388d005eb157d6e724f112759bcdcd852",
+      "bytes": 1997
+    },
+    {
+      "path": ".local/evolution/storage-evidence/storage-contract-final-generate.log",
+      "sha256": "b4d32c7acdcb42603dc026a3b5c57d23c439104948aef65148d27b62775a0bb6",
+      "bytes": 93
+    },
+    {
+      "path": ".local/evolution/storage-evidence/storage-contract-generate.log",
+      "sha256": "b8a6fbb8be3c0ee5f71159d2277d21e443a9956158ea8803504d5002d329a008",
+      "bytes": 121
+    },
+    {
+      "path": ".local/evolution/storage-evidence/storage-contract-legacy-generate.log",
+      "sha256": "b4d32c7acdcb42603dc026a3b5c57d23c439104948aef65148d27b62775a0bb6",
+      "bytes": 93
+    },
+    {
+      "path": ".local/evolution/storage-evidence/storage-contract-reviewed.log",
+      "sha256": "8ec7738f4635835f3447ab28e05040c9313f5e90a8e3ed0b47560f884cf3abbf",
+      "bytes": 158
+    },
+    {
+      "path": ".local/evolution/storage-evidence/storage-control-budget-first.log",
+      "sha256": "0d01428ee93181a9ef7df7858b106c057870bc6d913d7430338dbb380614fffe",
+      "bytes": 1205
+    },
+    {
+      "path": ".local/evolution/storage-evidence/storage-crash-repair.log",
+      "sha256": "447340150379b58c4bd49984ba2974af8f80e65f614b9deae1bf4968c4f02963",
+      "bytes": 825
+    },
+    {
+      "path": ".local/evolution/storage-evidence/storage-deployment-final.log",
+      "sha256": "aec54341ea9d74e989e84ec7484a09dc2a4287db6ef4bd4979b6b631e59723b9",
+      "bytes": 966
+    },
+    {
+      "path": ".local/evolution/storage-evidence/storage-deployment-tests-repair.log",
+      "sha256": "7bc66c449f8c7ab50e5b7cebf3bebece6170a826cfa956a8af60a66430d93ada",
+      "bytes": 966
+    },
+    {
+      "path": ".local/evolution/storage-evidence/storage-deployment-tests.log",
+      "sha256": "93eeb8cc2bdbdde88babf7628c0508ee59e69c38ff26dc25ebbbf006feacd6fa",
+      "bytes": 1810
+    },
+    {
+      "path": ".local/evolution/storage-evidence/storage-diff-check.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".local/evolution/storage-evidence/storage-diff-reviewed.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".local/evolution/storage-evidence/storage-domain-first.jsonl",
+      "sha256": "852b7fe77544ed98bdb30cf643f15974faaaa4cfaf65695f7bc916d162ad725f",
+      "bytes": 18837
+    },
+    {
+      "path": ".local/evolution/storage-evidence/storage-final-followup.jsonl",
+      "sha256": "b30046947106ed7ed46c9e98d40442baa0e8aad7a7bc3b07cf86734765026491",
+      "bytes": 7147
+    },
+    {
+      "path": ".local/evolution/storage-evidence/storage-legacy-first.jsonl",
+      "sha256": "8e37ab4ba9054f74dc692311e02dde8714b9366c7f62436298f547585beb8856",
+      "bytes": 22524
+    },
+    {
+      "path": ".local/evolution/storage-evidence/storage-legacy-guards.jsonl",
+      "sha256": "d021fd54aab8072a5ef69159fe557e1cfd8af7beadf390a079db76e4e8b7b62d",
+      "bytes": 11225
+    },
+    {
+      "path": ".local/evolution/storage-evidence/storage-lock-first.log",
+      "sha256": "d9346b055b2041fa4e581f7ab8a6e1d4bb91e852b090b3e6f27502b6c28e0c16",
+      "bytes": 189
+    },
+    {
+      "path": ".local/evolution/storage-evidence/storage-migration-handoff-sqlite.log",
+      "sha256": "b83d95ebb2b740350a3e3345e71440c706c3e36ee34ebe8f468c134ae0d4aa7d",
+      "bytes": 347
+    },
+    {
+      "path": ".local/evolution/storage-evidence/storage-observability-build.log",
+      "sha256": "0af70b905a1836949271d7fc5e2534e6dee76a87cf1bba1913bff3826f7cc29f",
+      "bytes": 120
+    },
+    {
+      "path": ".local/evolution/storage-evidence/storage-pg-final-specialized.log",
+      "sha256": "5b52e11f6dea60999815f326a4472839227a5405de7c4a5f7106b600c23dc73f",
+      "bytes": 5414
+    },
+    {
+      "path": ".local/evolution/storage-evidence/storage-pg-first.log",
+      "sha256": "6faea2a0a65f90389cd480251d07f83fbd8671d32ef326481242853da08b8d8b",
+      "bytes": 1331
+    },
+    {
+      "path": ".local/evolution/storage-evidence/storage-pg16-upgrade.dump",
+      "sha256": "f5f31d3b441050142a4a492722bfb04d08af3eef763b2cdf6feb9f0bcac7426f",
+      "bytes": 26615
+    },
+    {
+      "path": ".local/evolution/storage-evidence/storage-platform-final.jsonl",
+      "sha256": "55eef06303b8e37ebd40537fce888f15abd18d2fb7ed94426121268400424a7e",
+      "bytes": 375779
+    },
+    {
+      "path": ".local/evolution/storage-evidence/storage-platform-full.jsonl",
+      "sha256": "f0b26c6811fc9a54d859960d0ebe15a29994a287a0dd300bd402352e65d7bdfe",
+      "bytes": 373275
+    },
+    {
+      "path": ".local/evolution/storage-evidence/storage-platform-reviewed.jsonl",
+      "sha256": "56e6cccb4bd20d97a7a031abfdadbd2e88cf979f2b2fa806ada206d4c72704e1",
+      "bytes": 403891
+    },
+    {
+      "path": ".local/evolution/storage-evidence/storage-postgres-final.jsonl",
+      "sha256": "b9f9337788808685b4444a7c48f6a292319b6a785493ef0a56b4d429e1b9b4d6",
+      "bytes": 26088
+    },
+    {
+      "path": ".local/evolution/storage-evidence/storage-postgres-legacy-repair.jsonl",
+      "sha256": "68a1456d2747c233aa60b41866ac977d73c6dbdb04d533226298f2afc30e4dd9",
+      "bytes": 1949
+    },
+    {
+      "path": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+      "sha256": "f0eb915c684ffc89167bb502d9b8147e1c2e929c1f9cef5fa27623756bb37315",
+      "bytes": 27740
+    },
+    {
+      "path": ".local/evolution/storage-evidence/storage-race-bounded.jsonl",
+      "sha256": "0745a8340ad2dc1e2fd621a8d8e7d47981b2dcdd7449c41f48cb2e17d49df5b6",
+      "bytes": 153922
+    },
+    {
+      "path": ".local/evolution/storage-evidence/storage-race-final.jsonl",
+      "sha256": "357dd74a270ac91f0d0d665b0b44bd0c726cbaac77544cce54a76594532a95e0",
+      "bytes": 157202
+    },
+    {
+      "path": ".local/evolution/storage-evidence/storage-race-reviewed.jsonl",
+      "sha256": "57eb8d3811b101160f1a8b50fb65a79f51d9b8d6b9b264d6c3e09fc8bf1aa1ea",
+      "bytes": 181723
+    },
+    {
+      "path": ".local/evolution/storage-evidence/storage-recompute-process-crash-repair.log",
+      "sha256": "bfc63d4e5844b26ab6a1c3025952ff16e5d4363363f1022c9578cbebe5caf365",
+      "bytes": 929
+    },
+    {
+      "path": ".local/evolution/storage-evidence/storage-recompute-process-crash.log",
+      "sha256": "cb836bc41db41b7f73ac830afc344f4a01b0906bfb06c9f65334291358c06180",
+      "bytes": 465
+    },
+    {
+      "path": ".local/evolution/storage-evidence/storage-replay-adaptation-first.log",
+      "sha256": "27e2459eecfc0f1ca168669c22f13567e6cd454c2c4708db6404ab587cc9cd3f",
+      "bytes": 240
+    },
+    {
+      "path": ".local/evolution/storage-evidence/storage-replay-checkpoint-first.log",
+      "sha256": "650692deeb6ccf6b7bb60035408121ca19e5370c64c512a00dc6de9e8e3f2eb0",
+      "bytes": 311
+    },
+    {
+      "path": ".local/evolution/storage-evidence/storage-replay-checkpoint-repair.log",
+      "sha256": "492348e74f866689346079647940d0a1e077a1f6e3107e4d57ba718e0929bdcc",
+      "bytes": 1002
+    },
+    {
+      "path": ".local/evolution/storage-evidence/storage-replay-cross-day.jsonl",
+      "sha256": "62a84e627c9b61b769f0b6c305fb1e06d30f57f3d98b55e4ee5bc5b9f8f6e628",
+      "bytes": 12294
+    },
+    {
+      "path": ".local/evolution/storage-evidence/storage-replay-finalize-followup.jsonl",
+      "sha256": "e0a753c3b20592327410623de65795c7c0f29186d4eec7813b0b592d905fa8b9",
+      "bytes": 15853
+    },
+    {
+      "path": ".local/evolution/storage-evidence/storage-river-first.log",
+      "sha256": "37e6abf0d9401adbdf7c207b79f7ef10eb77a8482df33602d2ff8c8427cdf0ff",
+      "bytes": 60
+    },
+    {
+      "path": ".local/evolution/storage-evidence/storage-river-workers-first.log",
+      "sha256": "b76b77df5a4667e3d63afd45c4bd5f9fa250341cdfb01fcba3de5d702b9f4de7",
+      "bytes": 4113
+    },
+    {
+      "path": ".local/evolution/storage-evidence/storage-store-first.log",
+      "sha256": "8ae1de743404ffb4260986e17da684a12bcf45b4a36e957e865ac4e3ad725867",
+      "bytes": 60
+    },
+    {
+      "path": ".local/evolution/storage-evidence/storage-task-api-trace.log",
+      "sha256": "e8c7b1a2e750f1a9366fa08b1f9fd793a9cca165eb2f788c2fbca52cf022f770",
+      "bytes": 1314
+    },
+    {
+      "path": ".local/evolution/storage-evidence/storage-task-resource-followup.jsonl",
+      "sha256": "a2673419e9b6a9041047f3396c10efa109783c8255a43a4cbf0838482ce32382",
+      "bytes": 22345
+    },
+    {
+      "path": ".local/evolution/storage-evidence/storage-tasks-api-first.log",
+      "sha256": "25f0d722be287d07265362ef9c34caf76716e6cd3f986aba6cf0994a99359274",
+      "bytes": 2208
+    },
+    {
+      "path": ".local/evolution/storage-evidence/storage-upgrade-seed.log",
+      "sha256": "fc63523574ca436555dafd17853ead5e2a2e5f714e9c9206f90b2317b188a45d",
+      "bytes": 496
+    },
+    {
+      "path": ".local/evolution/storage-evidence/storage-upgrade-verify.log",
+      "sha256": "a2c249e1f5685e0f8357465d3cd1cabd0f91e1993d00497e4212e49bc0d1ab5e",
+      "bytes": 550
+    },
+    {
+      "path": ".local/evolution/storage-evidence/storage-workers-first.log",
+      "sha256": "e9b66c7a95fdc004a185e93196377fc4c2e1812c7c12bcf34672c26038a6ec5c",
+      "bytes": 185
+    }
+  ],
+  "historical_source_manifest": {
+    "path": ".local/evolution/storage-evidence/source-manifest.json",
+    "sha256": "affdf9832022458b820d6f561bbd22a5f2a74f00fa7b9f576ce885de4836693b",
+    "bytes": 30501
+  },
+  "historical_post_full_followup_files": [
+    {
+      "path": "Platform/internal/store/tasks.go",
+      "ordinary_full_sha256": "8a0dda7ecf7ff6ad0247240e21a701318b28d8629f4c2984dd8887ca4f2744f8",
+      "final_sha256": "3e00fe255b250f9370dd1fa4b118c8f3360345230e79635a237d7659b199ebdb",
+      "saved_previous_bytes": ".local/evolution/storage-evidence/pre-final-followup/Platform/internal/store/tasks.go"
+    },
+    {
+      "path": "Platform/internal/store/river_test.go",
+      "ordinary_full_sha256": "54b5f63d281eacacd59db0434dfc06073b507d3edcd6d8b8b9ded702f31602f0",
+      "final_sha256": "d100147ea2b8f741852d3f4e61f718dd98485b3cd5b21932db92eeb0aedba015",
+      "saved_previous_bytes": ".local/evolution/storage-evidence/pre-final-followup/Platform/internal/store/river_test.go"
+    },
+    {
+      "path": "Platform/internal/store/archive_cas_test.go",
+      "ordinary_full_sha256": "56fae61b7c302892eae1844fb76b051852fdabffd61a14d6579fe26ce0af753b",
+      "final_sha256": "beab2e4fd4e4be42d43aaa937448f3acdfcb096297453fed6c295964be44a00d",
+      "saved_previous_bytes": ".local/evolution/storage-evidence/pre-final-followup/Platform/internal/store/archive_cas_test.go"
+    }
+  ],
+  "changes_after_reviewed_snapshot": [
+    {
+      "path": "Platform/internal/api/jobs_retry_test.go",
+      "before_run_sha256": "91833afcd5f01f88970fc6e6c14d39ef0a964ffb14fce2ddee380c056041378a",
+      "final_sha256": "aea25d28243ea2565ed25870d5a8b115ed8cce445681053e75d105a152725464",
+      "change": "Add Name: \"Operator\" to required PostgreSQL test CreateUser fixture",
+      "production_source_change": false,
+      "validated_by": ".local/evolution/storage-evidence/storage-postgres-legacy-repair.jsonl"
+    }
+  ],
+  "legacy_retry": {
+    "http_status": 202,
+    "response": "Job",
+    "mapped_task": "same task_id, river_id, replay_id, fixed window, complete-window cursor and phase",
+    "unmapped_failed_job": "single atomic authorized adoption; first execution creates missing fixed replay snapshot",
+    "conflicts": [
+      "superseded generation",
+      "changed authorization membership",
+      "changed definition version",
+      "concurrent old/new retry",
+      "stale task version"
+    ],
+    "expired_river_history_status": 404,
+    "rollup_resume": "rollups only; committed engine state versions and replay output receipts preserved",
+    "actual_postgres_concurrent_http_retry": "one success and one 409; one original task/River identity"
+  },
+  "postgres_reviewed_summary": {
+    "unique_passed_tests": 15,
+    "ordinary_instrumentation": true,
+    "race_instrumentation": false,
+    "coverage": {
+      "TestPostgresArchiveCASAndTransactionDuration": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+      "TestPostgresArchiveRetirementAndCreationRace": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+      "TestPostgresArchiveCapacityAndLatePartitionRecovery": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+      "TestPostgresBulkIngestTasksBudget": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+      "TestPostgresIndependentObjectsAndContendedIdentity": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+      "TestPostgresLateCommitSyncAuditAndAtomicFinalization": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+      "TestPostgresDeadlockIsRecognizableWithoutCallbackReplay": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+      "TestPostgresNumberedMigrationsPreserveExistingSchema": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+      "TestPostgresRetentionDropsExpiredPartitionBeforeRowDeletion": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+      "TestPostgresRiverMigrationHandoffResumes": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+      "TestPostgresRiverTransactionalEnqueue": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+      "TestPostgresIndependentDraftsShareAuthorizationWithoutSerialization": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+      "TestPostgresRiverRetryAndRunningCancellation": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+      "TestPostgresDeadlockReturnsHTTP409WithoutRepeatingCallback": ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+      "TestPostgresLegacyAndTaskRetryConcurrentRequestsShareOneAttempt": ".local/evolution/storage-evidence/storage-postgres-legacy-repair.jsonl"
+    },
+    "pool_budget": "3 application + 1 management; package parallelism 1"
+  },
+  "counting": {
+    "top_level": "Named Test events without a slash; terminal pass/fail/skip action",
+    "leaf_cases": "Named Test events with no named descendant; terminal action",
+    "packages": "Terminal package events without Test; skip means no tests, counted separately from skipped named tests",
+    "historical_correction": "All JSONL package counts recomputed from materialized terminal events; initial race report now correctly records 4 passed packages and 1 failed package"
+  }
+}

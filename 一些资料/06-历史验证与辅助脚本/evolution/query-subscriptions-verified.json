@@ -1,0 +1,1042 @@
+{
+  "schema_version": 1,
+  "role": "phase4_query_subscriptions",
+  "completed_at": "2026-10-05T00:41:38.172574+00:00",
+  "objectives": [
+    "E4-01",
+    "E4-02"
+  ],
+  "status": "specialist_verification_passed_on_recorded_snapshots",
+  "acceptance_scope": "Query/store/application/API verification and selected adjacent control/cloud receipt regressions are complete; the coordinator performs later combined-source, frontend, business-flow, and independent phase acceptance",
+  "summary": {
+    "normal_leaf_test_passes": 131,
+    "race_leaf_test_passes": 34,
+    "final_failed": 0,
+    "final_skipped": 0,
+    "test_count_method": "Count only terminal test names without child test names; omit package and parent-suite pass events",
+    "compiled_packages_in_input_manifest": 682,
+    "source_inputs": 3304,
+    "local_inputs": 248,
+    "generated_artifacts": 149,
+    "contracts": {
+      "api_operations": 91,
+      "example_definitions": 24,
+      "references_valid": true,
+      "schemas": 146,
+      "unknown_nodes_rejected": true,
+      "unknown_versions_rejected": true
+    }
+  },
+  "implementation": {
+    "queries": [
+      "entities",
+      "alarms",
+      "executions",
+      "trend"
+    ],
+    "entrypoints": [
+      "POST /api/sf/v1/queries/{kind}",
+      "POST /api/sf/v1/queries/{kind}/events",
+      "GET /events compatibility route delegates to the same query service"
+    ],
+    "storage": "Migration 00007 adds historical projection intervals, resource candidates, a committed log and generation/authentication state. Business writes, projection changes and query log records commit in one transaction after the global commit-order lock. Migration 00008 and business API/worker/model registration were integrated for the business specialist",
+    "pagination": "Database-side filters and resource candidates, sort_ms DESC/id ASC with SQLite BINARY and PostgreSQL C collation, snapshot-bound signed keyset tokens, current resource and execution authorization before return",
+    "rebuild": "Current documents, hot/archive observations, rollups, revisions and gaps recreate the projection in one atomic generation switch; version precedence preserves the newest derived observation; cancellation or error preserves the previous generation",
+    "subscriptions": "One per-service poller shares current windows only for matching canonical query and current identity/session/grant scope. Snapshot, coalesced committed-window delta, checkpoint and reset events use signed opaque cursor strings. Deletion/removal uses a newer commit revision. Reconnect reconstructs the prior window before comparing the current window",
+    "permissions": "Database candidates require all row resources within currently authorized ancestry; final entity/observation checks and Control.Detail cover current and historical execution resources. User, session, delegation, grant/bundle and ancestry changes invalidate the bound query scope and clear obsolete cache",
+    "write_paths": {
+      "direct_and_http": "Entity and business application writes flow through Tx.Put, SetEphemeral and Delete hooks",
+      "native_alarm": "native_alarm_state updates reproject the linked alarm and expose independent native state",
+      "cloud_receipts": "Immutable command evidence inserts mark the execution projection even when its business status/version remains unchanged",
+      "task_recovery": "Execution and business task recovery uses the same domain writes; existing entire-control-package recovery regressions passed on v2",
+      "revisions_and_retention": "Observation inserts, revisions, rollups, raw retention, archive expiry and rebuild preserve query history and invalidate superseded or deleted current rows"
+    },
+    "precision": "Projection payloads retain exact JSON numbers; tests preserve 9007199254740993 and 18446744073709551615 through query/rebuild paths. Decimal query revision strings and opaque cursor strings avoid JavaScript number conversion",
+    "public_registration_files": [
+      "Platform/internal/api/definition_routes.go",
+      "Platform/internal/api/contracts.go",
+      "Platform/internal/api/server.go",
+      "Platform/internal/api/business.go",
+      "Platform/internal/app/workers.go",
+      "Platform/internal/store/migrations.go",
+      "Platform/pkg/compatibility/manifest.json",
+      "Platform/cmd/sf-contracts/main.go"
+    ]
+  },
+  "finite_operating_budgets": {
+    "default_page_rows": 100,
+    "ordinary_page_rows_max": 500,
+    "trend_page_rows_max": 2000,
+    "resource_filters_max": 256,
+    "trend_keys_max": 128,
+    "trend_range_max_days": 1095,
+    "auxiliary_rows_per_type_max": 2000,
+    "retained_commits": 4096,
+    "history_compaction_interval_seconds": 60,
+    "shared_query_groups_max": 128,
+    "subscribers_max": 256,
+    "queued_events_per_subscriber": 32,
+    "poll_milliseconds": 250,
+    "heartbeat_seconds": 15,
+    "write_and_flush_deadline_seconds": 3,
+    "rebuild_timeout_seconds": 30,
+    "rebuild_fact_batch_rows": 256
+  },
+  "measured_cases": {
+    "shared_subscribers": {
+      "subscribers": 12,
+      "initial_page_reads": 1,
+      "changed_window_page_reads": 1,
+      "databases": [
+        "SQLite",
+        "PostgreSQL"
+      ],
+      "evidence": {
+        "path": ".local/evolution/query-evidence/final-application.jsonl",
+        "sha256": "3c3b663be27f5776215e912bba4ec96985f3abb0228c65210e8fa88f50616c1d",
+        "bytes": 30001
+      }
+    },
+    "competing_queue_drain": {
+      "interleavings": 10000,
+      "result": "completed without stranded sender/receiver in normal and race runs"
+    },
+    "wire_idle_recovery": {
+      "protocols": [
+        "HTTP/1.1",
+        "HTTP/2.0"
+      ],
+      "normal_observed_idle_seconds": [
+        15.001697458,
+        15.001820042
+      ],
+      "checks": [
+        "same connection survives idle heartbeat",
+        "subsequent HTTP mutation yields delta",
+        "Last-Event-ID recovers a disconnected update",
+        "current user revocation yields clear reset",
+        "parallel clients share window reads"
+      ],
+      "evidence": {
+        "path": ".local/evolution/query-evidence/final-api.jsonl",
+        "sha256": "23d1f05997cd729e5942f5db08d1152283e46b50dc3ac4f193949794e584f6ce",
+        "bytes": 7523
+      }
+    },
+    "slow_socket": {
+      "snapshot_approximate_mb": 8.4,
+      "normal_release_seconds": 3.005962167,
+      "race_release_seconds": 3.002328167,
+      "other_client_received_delta": true,
+      "evidence": {
+        "path": ".local/evolution/query-evidence/final-race-api.jsonl",
+        "sha256": "f84781e303f4459849196fd2e2d95fd55ca3c0bc69ac5f1fc672a55a0e1bd073",
+        "bytes": 6643
+      }
+    },
+    "rebuild_cancel_and_writer": {
+      "database": "PostgreSQL 18",
+      "seed_rows": 400,
+      "controlled_writer_barrier_milliseconds": 50,
+      "observed_cancel_milliseconds": 87.411833,
+      "observed_writer_commit_after_release_milliseconds": 694.043458,
+      "old_snapshot_visible_during_rebuild": true,
+      "cancel_rollback_preserved_old_snapshot": true,
+      "writer_finalized_in_new_generation": true,
+      "evidence": {
+        "path": ".local/evolution/query-evidence/final-store.jsonl",
+        "sha256": "628e23fb33b64b6eb884051c244c0e0e47cca7f7a93f3c5986b4d8d82a26a736",
+        "bytes": 27865
+      }
+    },
+    "late_prepared_commit": {
+      "observed_old_sequence": 5,
+      "generation_switch_sequence": 6,
+      "late_commit_sequence": 7,
+      "actual_postgres_sse_stream_verified": true
+    }
+  },
+  "source_and_build_provenance": {
+    "v1_manifest": {
+      "path": ".local/evolution/query-evidence/final-input-manifest-initial.json",
+      "sha256": "af5cf166fc6226e7bb819f2f9d077c756611a48887584b745779b57fc947d4ae",
+      "bytes": 1029030
+    },
+    "v2_manifest": {
+      "path": ".local/evolution/query-evidence/final-input-manifest-v2.json",
+      "sha256": "cde57b93c56fb20701d258fca5b06f88b93f15de9d3e8c664ae804186c7b3033",
+      "bytes": 1029721
+    },
+    "snapshot_relationship": {
+      "v1": "/private/tmp/smartfactory-query-final-20261005-082007",
+      "v1_all_248_local_inputs_verified_against_original_manifest": true,
+      "v1_manifest_sha256": "af5cf166fc6226e7bb819f2f9d077c756611a48887584b745779b57fc947d4ae",
+      "v2": "/private/tmp/smartfactory-query-final-20261005-082007-v2",
+      "differences": [
+        "Platform/internal/control/legacy_test.go"
+      ],
+      "v2_manifest_sha256": "cde57b93c56fb20701d258fca5b06f88b93f15de9d3e8c664ae804186c7b3033",
+      "reason": "Restore the simulated migration-four table set before exercising migrations five through eight"
+    },
+    "initial_failed_control_binary_preserved": true,
+    "normal_run_binding": "Store, application, API and cloudsync normal runs used v1; the final full control rerun, application binary builds, contract generator and all race runs used v2. The sole v1/v2 source difference is the historical control migration test fixture",
+    "source_selection": "go list -deps -test -json selected Go/C/assembly/embed compilation inputs, augmented by both module/lock sets and validation/contract inputs; non-source macOS metadata and build caches excluded",
+    "all_local_and_external_input_hashes_rechecked": [
+      {
+        "manifest": ".local/evolution/query-evidence/final-input-manifest-initial.json",
+        "manifest_sha256": "af5cf166fc6226e7bb819f2f9d077c756611a48887584b745779b57fc947d4ae",
+        "mismatches": [],
+        "verified": 248
+      },
+      {
+        "manifest": ".local/evolution/query-evidence/final-input-manifest-v2.json",
+        "manifest_sha256": "cde57b93c56fb20701d258fca5b06f88b93f15de9d3e8c664ae804186c7b3033",
+        "mismatches": [],
+        "verified": 248
+      },
+      {
+        "mismatches": [],
+        "verified": 3056
+      }
+    ],
+    "build_and_test_commands": {
+      "path": ".local/evolution/query-evidence/final-verification-runs.json",
+      "sha256": "811dc8e8c30b46af803b1486e7666cfd4bf5b0c6aeaf26109d6cf033e2146c06",
+      "bytes": 25072
+    },
+    "go_list": {
+      "path": ".local/evolution/query-evidence/final-go-list.jsonstream",
+      "sha256": "3a3d5d63bd7087aca37b5012d63641df257df05b5bdc5c0fcc04040d8e4c4247",
+      "bytes": 3142047
+    },
+    "binaries": {
+      "/private/tmp/smartfactory-query-final-20261005-082007/binaries/store.test": {
+        "sha256": "936ecf579be3178273310e0b682c68fcd30d135ab0d8dff68193391022c8caaf",
+        "bytes": 37505042,
+        "role": "normal test binary",
+        "recorded_at": "2026-10-05T00:22:34.942952+00:00"
+      },
+      "/private/tmp/smartfactory-query-final-20261005-082007/binaries/application.test": {
+        "sha256": "877c6beb10c6446aad2ae70c2177923f04a270138622ce40e7f3f689249f9fd1",
+        "bytes": 39500546,
+        "role": "normal test binary",
+        "recorded_at": "2026-10-05T00:22:41.351970+00:00"
+      },
+      "/private/tmp/smartfactory-query-final-20261005-082007/binaries/api.test": {
+        "sha256": "1ca73db73b4696f230cc626cc0a8c2f62836d871e9b7fdbae5fabd4735fd1f30",
+        "bytes": 47049570,
+        "role": "normal test binary",
+        "recorded_at": "2026-10-05T00:22:45.634862+00:00"
+      },
+      "/private/tmp/smartfactory-query-final-20261005-082007/binaries/cloudsync.test": {
+        "sha256": "2b721f44e6137093eef223137c372bc5e43fe007e94c0e151faed78d05d72df0",
+        "bytes": 40117938,
+        "role": "normal test binary",
+        "recorded_at": "2026-10-05T00:23:20.308341+00:00"
+      },
+      "/private/tmp/smartfactory-query-final-20261005-082007/binaries/control.test": {
+        "sha256": "ee97eb8ddb6de7f1457424182b23e263bcbb56dd45701902ffe4e388c69f6173",
+        "bytes": 37940994,
+        "role": "normal test binary",
+        "recorded_at": "2026-10-05T00:23:20.991120+00:00"
+      },
+      "/private/tmp/smartfactory-query-final-20261005-082007/binaries/control-initial.test": {
+        "sha256": "ee97eb8ddb6de7f1457424182b23e263bcbb56dd45701902ffe4e388c69f6173",
+        "bytes": 37940994,
+        "role": "initial control regression binary with incomplete v4 fixture",
+        "recorded_at": "2026-10-05T00:23:20.991120+00:00"
+      },
+      "/private/tmp/smartfactory-query-final-20261005-082007-v2/binaries/control.test": {
+        "sha256": "4d1db835fab6b3aa44be98372e6139b84d0282637ac0acd781b2e97053341119",
+        "bytes": 37940994,
+        "role": "normal control regression binary with complete migration-four fixture",
+        "recorded_at": "2026-10-05T00:27:46.975669+00:00"
+      },
+      "/private/tmp/smartfactory-query-final-20261005-082007-v2/binaries/sf-cloud": {
+        "sha256": "26564e8bfab2c038f9e753451a3c359e9c9ae561589aece38b3aabb39e27963e",
+        "bytes": 52888466,
+        "role": "application binary",
+        "recorded_at": "2026-10-05T00:27:54.204069+00:00"
+      },
+      "/private/tmp/smartfactory-query-final-20261005-082007-v2/binaries/sf-edge": {
+        "sha256": "903fcb2923c0ca0b8470ccc9161ac73ee0365d69fb74fa7f381c530332f2d36b",
+        "bytes": 52888466,
+        "role": "application binary",
+        "recorded_at": "2026-10-05T00:27:55.144489+00:00"
+      },
+      "/private/tmp/smartfactory-query-final-20261005-082007-v2/binaries/sf-contracts": {
+        "sha256": "99c186da9b7d14f2ec3af09806d07cc13dfc23e8dca714f1c9ff0565021b4340",
+        "bytes": 45371938,
+        "role": "application binary",
+        "recorded_at": "2026-10-05T00:27:56.009272+00:00"
+      },
+      "/private/tmp/smartfactory-query-final-20261005-082007-v2/binaries/race/application.test": {
+        "sha256": "6be3a6b91a1bf81ddd5af6a67506f2539620c3435bdcd54315d6f2c2346fadf6",
+        "bytes": 52019810,
+        "role": "race test binary",
+        "recorded_at": "2026-10-05T00:30:37.046208+00:00"
+      },
+      "/private/tmp/smartfactory-query-final-20261005-082007-v2/binaries/race/api.test": {
+        "sha256": "b3d7da50ba3541cfbad0cb13ea0a8a26dd6199eeecac965b81a6df60e29dff04",
+        "bytes": 61368146,
+        "role": "race test binary",
+        "recorded_at": "2026-10-05T00:30:46.860003+00:00"
+      },
+      "/private/tmp/smartfactory-query-final-20261005-082007-v2/binaries/race/store.test": {
+        "sha256": "b92b3035f04de389fb2a47e2d62f1eb2126977983ce926e5c5a1fc2d17e68d02",
+        "bytes": 49463282,
+        "role": "race test binary",
+        "recorded_at": "2026-10-05T00:31:30.458036+00:00"
+      },
+      "/private/tmp/smartfactory-query-final-20261005-082007-v2/binaries/race/cloudsync.test": {
+        "sha256": "c4558111037f8495a63ac67ac7f55df092388a0f5d8aa7ec40d21a1ee8b4032e",
+        "bytes": 52654178,
+        "role": "race test binary",
+        "recorded_at": "2026-10-05T00:31:35.026746+00:00"
+      },
+      "/private/tmp/smartfactory-query-final-20261005-082007-v2/binaries/race/control.test": {
+        "sha256": "716beadbc68d3cff02aebda729f9969b0b10f05408075caf73138bb9049d91ed",
+        "bytes": 50080242,
+        "role": "race test binary",
+        "recorded_at": "2026-10-05T00:31:37.901230+00:00"
+      }
+    },
+    "runtime": {
+      "GOMAXPROCS": 2,
+      "GOPROXY": "off",
+      "package_parallelism": 1,
+      "postgres_database": "private isolated PostgreSQL DSN supplied through environment",
+      "max_application_connections": 3,
+      "max_idle_connections": 1,
+      "go": "go1.27.1 darwin/arm64",
+      "database_fixture": "isolated PostgreSQL 18.6 container; every fixture owns a schema and one management connection",
+      "credentials": "read privately into child-process environment; no plaintext credentials in evidence"
+    },
+    "helper_scripts": [
+      {
+        "path": ".local/evolution/query-evidence/sf-query-freeze.py",
+        "sha256": "96570582f644c22092218a2846d9921a0d0ebee03bcbe55c1d80f8f8b0bf4aa7",
+        "bytes": 4188
+      },
+      {
+        "path": ".local/evolution/query-evidence/sf-query-final-verify.py",
+        "sha256": "03c95b4505113726bfbdc7d1e7d86b8964d6d2379fcfbe1347b25f744863616f",
+        "bytes": 5616
+      },
+      {
+        "path": ".local/evolution/query-evidence/sf-query-final-artifacts.py",
+        "sha256": "568518f834bb82d2eaa6016ba64c2c20368fb77091e2223b38a925dba5487876",
+        "bytes": 3184
+      },
+      {
+        "path": ".local/evolution/query-evidence/sf-query-final-audit.py",
+        "sha256": "96c13a2b3f75abc1d51af57b688c3d54a99c16609c71812805147e110513b4af",
+        "bytes": 7660
+      },
+      {
+        "path": ".local/evolution/query-evidence/sf-query-report.py",
+        "sha256": "a264e26335d796a9e7e4b419f7398e0ff2746921c9a5d9e6fd26d169f398d7b2",
+        "bytes": 19357
+      }
+    ]
+  },
+  "tests": [
+    {
+      "name": "final-store",
+      "command": [
+        "go",
+        "tool",
+        "test2json",
+        "-t",
+        "-p",
+        "competition2026/product/platform/internal/store",
+        "/private/tmp/smartfactory-query-final-20261005-082007/binaries/store.test",
+        "-test.v=test2json",
+        "-test.timeout=120s",
+        "-test.run=^Test(Query|ControlEvidenceAtomicReceiptAndImmutableIdentity|PostgresControlEvidenceAtomicReceiptAndImmutableIdentity)",
+        "-test.count=1"
+      ],
+      "cwd": "/private/tmp/smartfactory-query-final-20261005-082007/Platform",
+      "started_at": "2026-10-05T00:22:34.943139+00:00",
+      "completed_at": "2026-10-05T00:22:41.327890+00:00",
+      "elapsed_seconds": 6.385,
+      "exit_code": 0,
+      "log": ".local/evolution/query-evidence/final-store.jsonl",
+      "log_sha256": "628e23fb33b64b6eb884051c244c0e0e47cca7f7a93f3c5986b4d8d82a26a736",
+      "input_manifest_sha256": "af5cf166fc6226e7bb819f2f9d077c756611a48887584b745779b57fc947d4ae",
+      "executed_binary_sha256": "936ecf579be3178273310e0b682c68fcd30d135ab0d8dff68193391022c8caaf",
+      "leaf_tests": {
+        "TestControlEvidenceAtomicReceiptAndImmutableIdentity": "pass",
+        "TestPostgresControlEvidenceAtomicReceiptAndImmutableIdentity": "pass",
+        "TestQueryProjectionSQLite/snapshot-paging-filter-atomic-delete": "pass",
+        "TestQueryProjectionSQLite/alarm-case-ephemeral-execution-evidence": "pass",
+        "TestQueryProjectionSQLite/trend-archive-rollup-revisions-rebuild": "pass",
+        "TestQueryProjectionSQLite/failure-cancel-compaction-import": "pass",
+        "TestQueryProjectionPostgres/snapshot-paging-filter-atomic-delete": "pass",
+        "TestQueryProjectionPostgres/alarm-case-ephemeral-execution-evidence": "pass",
+        "TestQueryProjectionPostgres/trend-archive-rollup-revisions-rebuild": "pass",
+        "TestQueryProjectionPostgres/failure-cancel-compaction-import": "pass",
+        "TestQueryLateCommitAndConcurrentRebuildPostgres": "pass",
+        "TestQueryRebuildPostgresCancellationAndBlockedWriter": "pass",
+        "TestQueryAllKindsStableKeyset/postgres=false/entities": "pass",
+        "TestQueryAllKindsStableKeyset/postgres=false/alarms": "pass",
+        "TestQueryAllKindsStableKeyset/postgres=false/executions": "pass",
+        "TestQueryAllKindsStableKeyset/postgres=false/trend": "pass",
+        "TestQueryAllKindsStableKeyset/postgres=true/entities": "pass",
+        "TestQueryAllKindsStableKeyset/postgres=true/alarms": "pass",
+        "TestQueryAllKindsStableKeyset/postgres=true/executions": "pass",
+        "TestQueryAllKindsStableKeyset/postgres=true/trend": "pass"
+      },
+      "leaf_counts": {
+        "pass": 20
+      },
+      "all_named_test_counts": {
+        "pass": 25
+      }
+    },
+    {
+      "name": "final-application",
+      "command": [
+        "go",
+        "tool",
+        "test2json",
+        "-t",
+        "-p",
+        "competition2026/product/platform/internal/application",
+        "/private/tmp/smartfactory-query-final-20261005-082007/binaries/application.test",
+        "-test.v=test2json",
+        "-test.timeout=120s",
+        "-test.run=^TestQuery",
+        "-test.count=1"
+      ],
+      "cwd": "/private/tmp/smartfactory-query-final-20261005-082007/Platform",
+      "started_at": "2026-10-05T00:22:41.352178+00:00",
+      "completed_at": "2026-10-05T00:22:45.609695+00:00",
+      "elapsed_seconds": 4.258,
+      "exit_code": 0,
+      "log": ".local/evolution/query-evidence/final-application.jsonl",
+      "log_sha256": "3c3b663be27f5776215e912bba4ec96985f3abb0228c65210e8fa88f50616c1d",
+      "input_manifest_sha256": "af5cf166fc6226e7bb819f2f9d077c756611a48887584b745779b57fc947d4ae",
+      "executed_binary_sha256": "877c6beb10c6446aad2ae70c2177923f04a270138622ce40e7f3f689249f9fd1",
+      "leaf_tests": {
+        "TestQueryDrainCompetingReader": "pass",
+        "TestQueryTrendExactValueHeartbeatAndIdentity": "pass",
+        "TestQueryApplicationSQLite/signed-paging-candidates-and-current-authorization": "pass",
+        "TestQueryApplicationSQLite/shared-window-deletion-and-restart-resume": "pass",
+        "TestQueryApplicationSQLite/identity-grant-session-reset-and-release/user": "pass",
+        "TestQueryApplicationSQLite/identity-grant-session-reset-and-release/grant": "pass",
+        "TestQueryApplicationSQLite/identity-grant-session-reset-and-release/session": "pass",
+        "TestQueryApplicationSQLite/identity-grant-session-reset-and-release/ancestry": "pass",
+        "TestQueryApplicationSQLite/identity-grant-session-reset-and-release/rebuild": "pass",
+        "TestQueryApplicationSQLite/identity-grant-session-reset-and-release/expiry": "pass",
+        "TestQueryApplicationSQLite/bounded-slow-consumer-and-monotonic-resume": "pass",
+        "TestQueryApplicationSQLite/execution-candidates-refresh-definition-and-evidence": "pass",
+        "TestQueryApplicationPostgres/signed-paging-candidates-and-current-authorization": "pass",
+        "TestQueryApplicationPostgres/shared-window-deletion-and-restart-resume": "pass",
+        "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/user": "pass",
+        "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/grant": "pass",
+        "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/session": "pass",
+        "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/ancestry": "pass",
+        "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/rebuild": "pass",
+        "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/expiry": "pass",
+        "TestQueryApplicationPostgres/bounded-slow-consumer-and-monotonic-resume": "pass",
+        "TestQueryApplicationPostgres/execution-candidates-refresh-definition-and-evidence": "pass"
+      },
+      "leaf_counts": {
+        "pass": 22
+      },
+      "all_named_test_counts": {
+        "pass": 26
+      }
+    },
+    {
+      "name": "final-api",
+      "command": [
+        "go",
+        "tool",
+        "test2json",
+        "-t",
+        "-p",
+        "competition2026/product/platform/internal/api",
+        "/private/tmp/smartfactory-query-final-20261005-082007/binaries/api.test",
+        "-test.v=test2json",
+        "-test.timeout=120s",
+        "-test.run=^TestQuery",
+        "-test.count=1"
+      ],
+      "cwd": "/private/tmp/smartfactory-query-final-20261005-082007/Platform",
+      "started_at": "2026-10-05T00:22:45.635098+00:00",
+      "completed_at": "2026-10-05T00:23:20.290591+00:00",
+      "elapsed_seconds": 34.655,
+      "exit_code": 0,
+      "log": ".local/evolution/query-evidence/final-api.jsonl",
+      "log_sha256": "23d1f05997cd729e5942f5db08d1152283e46b50dc3ac4f193949794e584f6ce",
+      "input_manifest_sha256": "af5cf166fc6226e7bb819f2f9d077c756611a48887584b745779b57fc947d4ae",
+      "executed_binary_sha256": "1ca73db73b4696f230cc626cc0a8c2f62836d871e9b7fdbae5fabd4735fd1f30",
+      "leaf_tests": {
+        "TestQueryHTTPPaginationErrorsAndContracts": "pass",
+        "TestQuerySSEHTTPIdleAndRecovery/HTTP/1.1": "pass",
+        "TestQuerySSEHTTPIdleAndRecovery/HTTP/2.0": "pass",
+        "TestQuerySSESlowSocketDoesNotBlockOtherClients": "pass",
+        "TestQuerySSEPostgresSnapshotDeltaResumeReset": "pass",
+        "TestQuerySSEExpiredCursor": "pass"
+      },
+      "leaf_counts": {
+        "pass": 6
+      },
+      "all_named_test_counts": {
+        "pass": 7
+      }
+    },
+    {
+      "name": "final-cloudsync",
+      "command": [
+        "go",
+        "tool",
+        "test2json",
+        "-t",
+        "-p",
+        "competition2026/product/platform/internal/cloudsync",
+        "/private/tmp/smartfactory-query-final-20261005-082007/binaries/cloudsync.test",
+        "-test.v=test2json",
+        "-test.timeout=120s",
+        "-test.run=^Test(PostgresControlReceipt|ControlReceipt)",
+        "-test.count=1"
+      ],
+      "cwd": "/private/tmp/smartfactory-query-final-20261005-082007/Platform",
+      "started_at": "2026-10-05T00:23:20.308542+00:00",
+      "completed_at": "2026-10-05T00:23:20.975358+00:00",
+      "elapsed_seconds": 0.667,
+      "exit_code": 0,
+      "log": ".local/evolution/query-evidence/final-cloudsync.jsonl",
+      "log_sha256": "912425b44f84ccc24fc64bae18e4601aab55c4840b1970a9542c51f3ba85439b",
+      "input_manifest_sha256": "af5cf166fc6226e7bb819f2f9d077c756611a48887584b745779b57fc947d4ae",
+      "executed_binary_sha256": "2b721f44e6137093eef223137c372bc5e43fe007e94c0e151faed78d05d72df0",
+      "leaf_tests": {
+        "TestControlReceiptEvidenceOrderingAndLegacyCompatibility": "pass",
+        "TestPostgresControlReceiptEvidenceOrderingAndLegacyCompatibility": "pass",
+        "TestControlReceiptRejectsUnboundEvidenceAtomically/journal_time": "pass",
+        "TestControlReceiptRejectsUnboundEvidenceAtomically/source_version": "pass",
+        "TestControlReceiptRejectsUnboundEvidenceAtomically/source_time": "pass",
+        "TestControlReceiptRejectsUnboundEvidenceAtomically/execution": "pass",
+        "TestControlReceiptRejectsUnboundEvidenceAtomically/journal_content": "pass",
+        "TestControlReceiptRejectsUnboundEvidenceAtomically/conflicting_reference": "pass",
+        "TestControlReceiptRejectsUnboundEvidenceAtomically/contradictory_trusted": "pass",
+        "TestControlReceiptRejectsUnboundEvidenceAtomically/source_schema": "pass",
+        "TestControlReceiptRejectsUnboundEvidenceAtomically/device": "pass",
+        "TestControlReceiptRejectsUnboundEvidenceAtomically/step": "pass",
+        "TestControlReceiptRejectsUnboundEvidenceAtomically/payload": "pass",
+        "TestControlReceiptRejectsUnboundEvidenceAtomically/journal_source": "pass",
+        "TestControlReceiptRejectsUnboundEvidenceAtomically/collection_time": "pass",
+        "TestControlReceiptRejectsUnboundEvidenceAtomically/unresolved_trusted": "pass",
+        "TestControlReceiptRejectsUnboundEvidenceAtomically/source_node": "pass",
+        "TestControlReceiptRejectsUnboundEvidenceAtomically/command": "pass",
+        "TestControlReceiptRejectsUnboundEvidenceAtomically/missing_source": "pass",
+        "TestControlReceiptEvidenceMTLSResponseLossAndCurrentResources": "pass"
+      },
+      "leaf_counts": {
+        "pass": 20
+      },
+      "all_named_test_counts": {
+        "pass": 21
+      }
+    },
+    {
+      "input_manifest_sha256": "cde57b93c56fb20701d258fca5b06f88b93f15de9d3e8c664ae804186c7b3033",
+      "snapshot": "/private/tmp/smartfactory-query-final-20261005-082007-v2",
+      "name": "final-v2-control",
+      "command": [
+        "go",
+        "tool",
+        "test2json",
+        "-t",
+        "-p",
+        "competition2026/product/platform/internal/control",
+        "/private/tmp/smartfactory-query-final-20261005-082007-v2/binaries/control.test",
+        "-test.v=test2json",
+        "-test.timeout=120s",
+        "-test.run=^Test",
+        "-test.count=1"
+      ],
+      "cwd": "/private/tmp/smartfactory-query-final-20261005-082007-v2/Platform",
+      "started_at": "2026-10-05T00:27:46.975909+00:00",
+      "completed_at": "2026-10-05T00:27:49.015658+00:00",
+      "elapsed_seconds": 2.04,
+      "exit_code": 0,
+      "log": ".local/evolution/query-evidence/final-v2-control.jsonl",
+      "log_sha256": "ed82d9809646901244344f7231df7f072f3c30bb73aba34e05b6161be7c9dc0d",
+      "executed_binary_sha256": "4d1db835fab6b3aa44be98372e6139b84d0282637ac0acd781b2e97053341119",
+      "leaf_tests": {
+        "TestCurrentAuthorizationAndResourceVersionsBeforeExecution/device_moved": "pass",
+        "TestCurrentAuthorizationAndResourceVersionsBeforeExecution/team_removed": "pass",
+        "TestCurrentAuthorizationAndResourceVersionsBeforeExecution/grant_changed": "pass",
+        "TestCurrentAuthorizationAndResourceVersionsBeforeExecution/principal_disabled": "pass",
+        "TestCurrentAuthorizationAndResourceVersionsBeforeExecution/session_revoked": "pass",
+        "TestCurrentAuthorizationAndResourceVersionsBeforeExecution/reference_changed": "pass",
+        "TestInterventionRequiresHistoricalConditionResources": "pass",
+        "TestUpdatedConfirmationCountsApplyBeforeDispatch": "pass",
+        "TestOrganizationMoveInvalidatesLeaderApproval": "pass",
+        "TestInterlockIsRecheckedBetweenDeviceSteps": "pass",
+        "TestApprovalExecutionAndRestartDeduplication": "pass",
+        "TestUnknownResultNeverResends": "pass",
+        "TestExpiredAndRevokedApprovalsAndInterlock/expired": "pass",
+        "TestExpiredAndRevokedApprovalsAndInterlock/revoked": "pass",
+        "TestExpiredAndRevokedApprovalsAndInterlock/interlocked": "pass",
+        "TestExpiredAndRevokedApprovalsAndInterlock/old-version": "pass",
+        "TestSafetyOverrideRequiresDesignatedLocalSecondFactor": "pass",
+        "TestCrashWindowsRecoverWithoutRepeatingReservedCommands/before_reserve": "pass",
+        "TestCrashWindowsRecoverWithoutRepeatingReservedCommands/after_reserve": "pass",
+        "TestCrashWindowsRecoverWithoutRepeatingReservedCommands/after_send": "pass",
+        "TestCrashWindowsRecoverWithoutRepeatingReservedCommands/before_result_save": "pass",
+        "TestCrashWindowsRecoverWithoutRepeatingReservedCommands/after_result_save": "pass",
+        "TestChineseColonIdentityReconcileAndResumeRemainingSteps": "pass",
+        "TestUntrustedFeedbackCannotAuthorizeResume/wrong_command": "pass",
+        "TestUntrustedFeedbackCannotAuthorizeResume/unbound_legacy": "pass",
+        "TestUntrustedFeedbackCannotAuthorizeResume/stale": "pass",
+        "TestUntrustedFeedbackCannotAuthorizeResume/missing_source": "pass",
+        "TestUntrustedFeedbackCannotAuthorizeResume/missing": "pass",
+        "TestUntrustedFeedbackCannotAuthorizeResume/wrong_device": "pass",
+        "TestUntrustedFeedbackCannotAuthorizeResume/wrong_content": "pass",
+        "TestUntrustedFeedbackCannotAuthorizeResume/future": "pass",
+        "TestUntrustedFeedbackCannotAuthorizeResume/missing_hash": "pass",
+        "TestUntrustedFeedbackCannotAuthorizeResume/unknown": "pass",
+        "TestCancelDuringCommandRetainsLateResultAndSkipsRemaining": "pass",
+        "TestConcurrentManualOperationsHaveSingleVersionWinner": "pass",
+        "TestHistoricalExecutionAndOperationReadChecksOriginalResources": "pass",
+        "TestMigrationFourExecutionAndActionJournalRemainRecoverable": "pass",
+        "TestOperationStartSurvivesDuplicateAfterDeadline": "pass",
+        "TestStartedOperationResumesAfterDatabaseReopenBeyondDeadline": "pass",
+        "TestOperationDeadlineUsesStartTimeAndCloudAcceptsLateCompletion/starts_before_deadline_finishes_after": "pass",
+        "TestOperationDeadlineUsesStartTimeAndCloudAcceptsLateCompletion/expired_before_start": "pass",
+        "TestCloudPendingConflictAndCurrentPermissionAreCheckedAtEdge/revision_changed": "pass",
+        "TestCloudPendingConflictAndCurrentPermissionAreCheckedAtEdge/permission_revoked": "pass",
+        "TestLocalOperationSurvivesCommitBeforeProcessingAndSameIDRetry/worker_delivery": "pass",
+        "TestLocalOperationSurvivesCommitBeforeProcessingAndSameIDRetry/same_id_retry": "pass",
+        "TestPostgresControlAtomicTransitionsAndConcurrentIntervention": "pass",
+        "TestReceiptAndCheckpointPreserveConfirmedEvidenceIdentity/replacement=": "pass",
+        "TestReceiptAndCheckpointPreserveConfirmedEvidenceIdentity/replacement=another-evidence": "pass",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/approval": "pass",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/queue": "pass",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/degraded_execution": "pass",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/uncertain_feedback": "pass",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/cancel_unknown": "pass",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/reconcile_before_resume": "pass",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/resume_remaining": "pass",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/late_cancel_feedback": "pass",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/unapproved_dispatch": "pass",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/automatic_unknown_restart": "pass",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/resume_unknown": "pass",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/completed_restart": "pass",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/cancelled_resume": "pass",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/unknown_event": "pass",
+        "TestProcessRecoveryFaultPreservesReservedCommand": "pass"
+      },
+      "leaf_counts": {
+        "pass": 63
+      },
+      "all_named_test_counts": {
+        "pass": 72
+      }
+    },
+    {
+      "input_manifest_sha256": "cde57b93c56fb20701d258fca5b06f88b93f15de9d3e8c664ae804186c7b3033",
+      "snapshot": "/private/tmp/smartfactory-query-final-20261005-082007-v2",
+      "name": "final-race-application",
+      "command": [
+        "go",
+        "tool",
+        "test2json",
+        "-t",
+        "-p",
+        "competition2026/product/platform/internal/application",
+        "/private/tmp/smartfactory-query-final-20261005-082007-v2/binaries/race/application.test",
+        "-test.v=test2json",
+        "-test.timeout=180s",
+        "-test.run=^TestQuery",
+        "-test.count=1"
+      ],
+      "cwd": "/private/tmp/smartfactory-query-final-20261005-082007-v2/Platform",
+      "started_at": "2026-10-05T00:30:37.046435+00:00",
+      "completed_at": "2026-10-05T00:30:46.795075+00:00",
+      "elapsed_seconds": 9.749,
+      "exit_code": 0,
+      "log": ".local/evolution/query-evidence/final-race-application.jsonl",
+      "log_sha256": "abac62471a8995aa7a27aa483075913ed77df6c9a328a6635714d70ad249a1a4",
+      "executed_binary_sha256": "6be3a6b91a1bf81ddd5af6a67506f2539620c3435bdcd54315d6f2c2346fadf6",
+      "leaf_tests": {
+        "TestQueryDrainCompetingReader": "pass",
+        "TestQueryTrendExactValueHeartbeatAndIdentity": "pass",
+        "TestQueryApplicationSQLite/signed-paging-candidates-and-current-authorization": "pass",
+        "TestQueryApplicationSQLite/shared-window-deletion-and-restart-resume": "pass",
+        "TestQueryApplicationSQLite/identity-grant-session-reset-and-release/user": "pass",
+        "TestQueryApplicationSQLite/identity-grant-session-reset-and-release/grant": "pass",
+        "TestQueryApplicationSQLite/identity-grant-session-reset-and-release/session": "pass",
+        "TestQueryApplicationSQLite/identity-grant-session-reset-and-release/ancestry": "pass",
+        "TestQueryApplicationSQLite/identity-grant-session-reset-and-release/rebuild": "pass",
+        "TestQueryApplicationSQLite/identity-grant-session-reset-and-release/expiry": "pass",
+        "TestQueryApplicationSQLite/bounded-slow-consumer-and-monotonic-resume": "pass",
+        "TestQueryApplicationSQLite/execution-candidates-refresh-definition-and-evidence": "pass",
+        "TestQueryApplicationPostgres/signed-paging-candidates-and-current-authorization": "pass",
+        "TestQueryApplicationPostgres/shared-window-deletion-and-restart-resume": "pass",
+        "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/user": "pass",
+        "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/grant": "pass",
+        "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/session": "pass",
+        "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/ancestry": "pass",
+        "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/rebuild": "pass",
+        "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/expiry": "pass",
+        "TestQueryApplicationPostgres/bounded-slow-consumer-and-monotonic-resume": "pass",
+        "TestQueryApplicationPostgres/execution-candidates-refresh-definition-and-evidence": "pass"
+      },
+      "leaf_counts": {
+        "pass": 22
+      },
+      "all_named_test_counts": {
+        "pass": 26
+      }
+    },
+    {
+      "input_manifest_sha256": "cde57b93c56fb20701d258fca5b06f88b93f15de9d3e8c664ae804186c7b3033",
+      "snapshot": "/private/tmp/smartfactory-query-final-20261005-082007-v2",
+      "name": "final-race-api",
+      "command": [
+        "go",
+        "tool",
+        "test2json",
+        "-t",
+        "-p",
+        "competition2026/product/platform/internal/api",
+        "/private/tmp/smartfactory-query-final-20261005-082007-v2/binaries/race/api.test",
+        "-test.v=test2json",
+        "-test.timeout=180s",
+        "-test.run=^TestQuerySSE",
+        "-test.count=1"
+      ],
+      "cwd": "/private/tmp/smartfactory-query-final-20261005-082007-v2/Platform",
+      "started_at": "2026-10-05T00:30:46.860294+00:00",
+      "completed_at": "2026-10-05T00:31:30.393062+00:00",
+      "elapsed_seconds": 43.533,
+      "exit_code": 0,
+      "log": ".local/evolution/query-evidence/final-race-api.jsonl",
+      "log_sha256": "f84781e303f4459849196fd2e2d95fd55ca3c0bc69ac5f1fc672a55a0e1bd073",
+      "executed_binary_sha256": "b3d7da50ba3541cfbad0cb13ea0a8a26dd6199eeecac965b81a6df60e29dff04",
+      "leaf_tests": {
+        "TestQuerySSEHTTPIdleAndRecovery/HTTP/1.1": "pass",
+        "TestQuerySSEHTTPIdleAndRecovery/HTTP/2.0": "pass",
+        "TestQuerySSESlowSocketDoesNotBlockOtherClients": "pass",
+        "TestQuerySSEPostgresSnapshotDeltaResumeReset": "pass",
+        "TestQuerySSEExpiredCursor": "pass"
+      },
+      "leaf_counts": {
+        "pass": 5
+      },
+      "all_named_test_counts": {
+        "pass": 6
+      }
+    },
+    {
+      "input_manifest_sha256": "cde57b93c56fb20701d258fca5b06f88b93f15de9d3e8c664ae804186c7b3033",
+      "snapshot": "/private/tmp/smartfactory-query-final-20261005-082007-v2",
+      "name": "final-race-store",
+      "command": [
+        "go",
+        "tool",
+        "test2json",
+        "-t",
+        "-p",
+        "competition2026/product/platform/internal/store",
+        "/private/tmp/smartfactory-query-final-20261005-082007-v2/binaries/race/store.test",
+        "-test.v=test2json",
+        "-test.timeout=180s",
+        "-test.run=^TestQuery(LateCommit|RebuildPostgres)",
+        "-test.count=1"
+      ],
+      "cwd": "/private/tmp/smartfactory-query-final-20261005-082007-v2/Platform",
+      "started_at": "2026-10-05T00:31:30.458267+00:00",
+      "completed_at": "2026-10-05T00:31:34.961105+00:00",
+      "elapsed_seconds": 4.503,
+      "exit_code": 0,
+      "log": ".local/evolution/query-evidence/final-race-store.jsonl",
+      "log_sha256": "37b091970dfc38b3196a149700ea33a22783054aa4995c73f9cdf015fd90b4dd",
+      "executed_binary_sha256": "b92b3035f04de389fb2a47e2d62f1eb2126977983ce926e5c5a1fc2d17e68d02",
+      "leaf_tests": {
+        "TestQueryLateCommitAndConcurrentRebuildPostgres": "pass",
+        "TestQueryRebuildPostgresCancellationAndBlockedWriter": "pass"
+      },
+      "leaf_counts": {
+        "pass": 2
+      },
+      "all_named_test_counts": {
+        "pass": 2
+      }
+    },
+    {
+      "input_manifest_sha256": "cde57b93c56fb20701d258fca5b06f88b93f15de9d3e8c664ae804186c7b3033",
+      "snapshot": "/private/tmp/smartfactory-query-final-20261005-082007-v2",
+      "name": "final-race-cloudsync",
+      "command": [
+        "go",
+        "tool",
+        "test2json",
+        "-t",
+        "-p",
+        "competition2026/product/platform/internal/cloudsync",
+        "/private/tmp/smartfactory-query-final-20261005-082007-v2/binaries/race/cloudsync.test",
+        "-test.v=test2json",
+        "-test.timeout=180s",
+        "-test.run=^Test(ControlReceiptEvidenceMTLSResponseLossAndCurrentResources|PostgresControlReceiptEvidenceOrderingAndLegacyCompatibility)$",
+        "-test.count=1"
+      ],
+      "cwd": "/private/tmp/smartfactory-query-final-20261005-082007-v2/Platform",
+      "started_at": "2026-10-05T00:31:35.027063+00:00",
+      "completed_at": "2026-10-05T00:31:37.838911+00:00",
+      "elapsed_seconds": 2.812,
+      "exit_code": 0,
+      "log": ".local/evolution/query-evidence/final-race-cloudsync.jsonl",
+      "log_sha256": "4b7e5910e7c1c8f2b2b6717009dbd0b03ddbb9f7406ef1793c005aacbc27272d",
+      "executed_binary_sha256": "c4558111037f8495a63ac67ac7f55df092388a0f5d8aa7ec40d21a1ee8b4032e",
+      "leaf_tests": {
+        "TestPostgresControlReceiptEvidenceOrderingAndLegacyCompatibility": "pass",
+        "TestControlReceiptEvidenceMTLSResponseLossAndCurrentResources": "pass"
+      },
+      "leaf_counts": {
+        "pass": 2
+      },
+      "all_named_test_counts": {
+        "pass": 2
+      }
+    },
+    {
+      "input_manifest_sha256": "cde57b93c56fb20701d258fca5b06f88b93f15de9d3e8c664ae804186c7b3033",
+      "snapshot": "/private/tmp/smartfactory-query-final-20261005-082007-v2",
+      "name": "final-race-control",
+      "command": [
+        "go",
+        "tool",
+        "test2json",
+        "-t",
+        "-p",
+        "competition2026/product/platform/internal/control",
+        "/private/tmp/smartfactory-query-final-20261005-082007-v2/binaries/race/control.test",
+        "-test.v=test2json",
+        "-test.timeout=180s",
+        "-test.run=^Test(PostgresControlAtomicTransitionsAndConcurrentIntervention|CancelDuringCommandRetainsLateResultAndSkipsRemaining|ConcurrentManualOperationsHaveSingleVersionWinner)$",
+        "-test.count=1"
+      ],
+      "cwd": "/private/tmp/smartfactory-query-final-20261005-082007-v2/Platform",
+      "started_at": "2026-10-05T00:31:37.901487+00:00",
+      "completed_at": "2026-10-05T00:31:40.874348+00:00",
+      "elapsed_seconds": 2.973,
+      "exit_code": 0,
+      "log": ".local/evolution/query-evidence/final-race-control.jsonl",
+      "log_sha256": "53746c5dde95419be3049aa1f3582dbff98a91c062d9e61d95fd5df89d21636a",
+      "executed_binary_sha256": "716beadbc68d3cff02aebda729f9969b0b10f05408075caf73138bb9049d91ed",
+      "leaf_tests": {
+        "TestCancelDuringCommandRetainsLateResultAndSkipsRemaining": "pass",
+        "TestConcurrentManualOperationsHaveSingleVersionWinner": "pass",
+        "TestPostgresControlAtomicTransitionsAndConcurrentIntervention": "pass"
+      },
+      "leaf_counts": {
+        "pass": 3
+      },
+      "all_named_test_counts": {
+        "pass": 3
+      }
+    }
+  ],
+  "first_failures": [
+    {
+      "id": "exploratory-shared-model-compile",
+      "kind": "concurrent_source_edit_compile_failure",
+      "evidence": {
+        "path": ".local/evolution/query-evidence/first-shared-build-transcribed.log",
+        "sha256": "abe77c2d5d8b1fa7b3feee9260d6e80651cd3dffdc19cf7bfb733fa57541160d",
+        "bytes": 533
+      },
+      "observation": "The first exploratory store compile encountered incomplete struct tags in business.go while the business specialist was editing that shared model",
+      "resolution": "The business specialist completed the model edit; subsequent migration, API, and frozen builds passed",
+      "provenance": "Transcribed prior command output; exploratory source and binary were not frozen"
+    },
+    {
+      "id": "query-fixture-archive-signature",
+      "kind": "test_compile_failure",
+      "evidence": {
+        "path": ".local/evolution/query-evidence/store-initial.jsonl",
+        "sha256": "3fa9c4925495040d559ef8c68a61d86fd48405e00286461cb02ab6518f777f28",
+        "bytes": 1636
+      },
+      "observation": "ArchiveObservations accepts context only; the initial new query test passed an additional policy argument",
+      "resolution": "Corrected the test call; final SQLite/PostgreSQL archive and rebuild cases passed"
+    },
+    {
+      "id": "query-fixture-expiry-floor",
+      "kind": "test_assertion_failure",
+      "evidence": {
+        "path": ".local/evolution/query-evidence/store-second.jsonl",
+        "sha256": "669b2d1d4ea97323f81114f70d3df1ac10f331dec3c5e313909465ad4194c96a",
+        "bytes": 6855
+      },
+      "observation": "The test expected a snapshot exactly at the inclusive retained floor to expire",
+      "resolution": "Advanced a further committed write before compacting so the tested cursor is below the retained floor; final expiry tests passed"
+    },
+    {
+      "id": "query-fixture-user-version",
+      "kind": "test_fixture_failure",
+      "evidence": {
+        "path": ".local/evolution/query-evidence/application-second.jsonl",
+        "sha256": "d0908ed94f88b9fc889594365ef7ce531c2b678cd2462733ee290de68cedc54d",
+        "bytes": 14776
+      },
+      "observation": "A direct test principal had user version zero while the stored document and final control authorization used version one",
+      "resolution": "Aligned the fixture with the stored identity and actual definition versions; final execution authorization cases passed"
+    },
+    {
+      "id": "P4-Q03",
+      "kind": "production_postgres_failure",
+      "evidence": {
+        "path": ".local/evolution/query-evidence/postgres-first.jsonl",
+        "sha256": "dd53a4a4519ae64f86371584d01dee2946cdc8b1746894adb946443a2741b135",
+        "bytes": 116809
+      },
+      "observation": "The recursive permitted-resource CTE used default collation for its parameter and C collation in its recursive term, causing SQLSTATE 42P21",
+      "resolution": "Cast the root parameter to text with the database-specific matching collation; final PostgreSQL filtering, pagination, authorization, and wire tests passed"
+    },
+    {
+      "id": "query-fixture-late-commit-block",
+      "kind": "test_fixture_deadlock",
+      "evidence": {
+        "path": ".local/evolution/query-evidence/postgres-first.jsonl",
+        "sha256": "dd53a4a4519ae64f86371584d01dee2946cdc8b1746894adb946443a2741b135",
+        "bytes": 116809
+      },
+      "observation": "Two newly inserted documents contended on the existing collection-membership lock before the intended late-finalization experiment",
+      "resolution": "Used updates of two pre-existing independent documents and a bounded context; captured the initial stack before terminating the stalled test and removed its isolated schema; final normal and race variants passed"
+    },
+    {
+      "id": "shared-registration-unused-import",
+      "kind": "compile_failure",
+      "evidence": {
+        "path": ".local/evolution/query-evidence/shared-registration-compile-first-transcribed.log",
+        "sha256": "5754c2650839a4188f68c788993754c1e60e4a67328b6e25881791359d5b905a",
+        "bytes": 1001
+      },
+      "observation": "The compatibility acknowledge route refactor left an unused fmt import",
+      "resolution": "Removed the import; frozen API and application builds passed",
+      "provenance": "Recorded tool output transcribed by the business specialist; not a rerun"
+    },
+    {
+      "id": "query-control-legacy-fixture",
+      "kind": "regression_test_failure",
+      "evidence": {
+        "path": ".local/evolution/query-evidence/final-control-initial.jsonl",
+        "sha256": "27d1669236ec7572ddc6794fbec83f04591242e1f484cfe30dd5e9eb2f4fcf88",
+        "bytes": 81623
+      },
+      "observation": "The simulated migration-four database retained migration-seven/eight tables after deleting their migration records; opening it failed because sf_query_state already existed",
+      "resolution": "Added every post-four query and business table to the historical fixture cleanup, created immutable snapshot v2, rebuilt and reran the entire control package",
+      "failed_input_manifest_sha256": "af5cf166fc6226e7bb819f2f9d077c756611a48887584b745779b57fc947d4ae",
+      "fixed_input_manifest_sha256": "cde57b93c56fb20701d258fca5b06f88b93f15de9d3e8c664ae804186c7b3033",
+      "production_source_change": false
+    }
+  ],
+  "review_findings": [
+    {
+      "id": "P4-Q01",
+      "observation_source": "coordinator source review before final verification",
+      "finding": "A write deadline left armed after a completed SSE event can expire an idle HTTP/2 stream",
+      "fix": "Clear the deadline when write/flush completes, including failure returns",
+      "verification": "Actual HTTP/1.1 and HTTP/2 connections cross the 15-second heartbeat and then deliver mutations in normal and race runs",
+      "pre_fix_runtime_failure_recorded": false
+    },
+    {
+      "id": "P4-Q02",
+      "observation_source": "coordinator source review before final verification",
+      "finding": "len(channel) followed by a blocking receive can deadlock against a competing consumer while holding the hub mutex",
+      "fix": "Use a nonblocking select drain before slow-consumer reset/close",
+      "verification": "10000 competing reader interleavings and real slow socket runs passed normally and under race",
+      "pre_fix_runtime_failure_recorded": false
+    },
+    {
+      "id": "P4-Q03",
+      "observation_source": "actual PostgreSQL test",
+      "finding": "Recursive resource candidate collation mismatch",
+      "verification": "Both stores produce the same stable Unicode keyset order and PostgreSQL permission filtering passes"
+    }
+  ],
+  "contracts": {
+    "state": "provisional_frozen_v2_contracts_pending_later_combined_source_refresh",
+    "generated_artifacts": {
+      "path": ".local/evolution/query-evidence/generated-artifacts.json",
+      "sha256": "39526464b607a8539bb1bc296a293f0b4b4397f9bf68b1b999a27447618f6d2d",
+      "bytes": 42541
+    },
+    "deterministic_generation": true,
+    "workspace_write": "Copied 149 artifacts from frozen v2 after verifying repeat generation byte for byte; workspace validation passed for 146 schemas, 24 examples and 91 API operations",
+    "query_frontend_contract": {
+      "change_after_freeze": "Clarified page quality counters versus whole-range missing/completeness semantics; production code unchanged by this clarification",
+      "path": "docs/evolution/query-frontend-contract.md",
+      "sha256": "5218d770cfd9f39eb35965abff0f55457244a144f8a2800228ebc4b4c6d85f6c"
+    },
+    "workspace_drift": {
+      "path": ".local/evolution/query-evidence/workspace-drift-after-freeze.json",
+      "sha256": "e49b644c5a1e884256186e4ad1d75f460cda2722f2c41596bb05174b70cc82c7",
+      "bytes": 3267
+    },
+    "later_public_type_changes": {
+      "file": "Platform/pkg/model/templates.go",
+      "type": "TemplateInstance",
+      "new_required_fields": [
+        "device_version",
+        "configuration_id",
+        "configuration_version"
+      ],
+      "affected_generated_types": [
+        "TemplateInstance",
+        "TemplateBatchInput",
+        "TemplateBatch",
+        "OpenAPI",
+        "api-types.ts"
+      ],
+      "owner_next": "The AI/public-registration successor regenerates from the business-final combined source before frontend integration"
+    },
+    "frontend_notes": "Use POST streaming fetch with Authorization and Last-Event-ID; parse exact JSON for pages and SSE; apply metadata even when a heartbeat status delta reuses the cursor; clear caches/details on reset clear=true; renew fixed trend time ranges as the visible live range moves; legacy GET /events now emits the new query event shape"
+  },
+  "historical_migrations": {
+    "versions_1_through_6": {
+      "all_still_match_accepted_phase3": true,
+      "files": 7
+    },
+    "per_file_evidence": {
+      "path": ".local/evolution/query-evidence/migrations-preserved.json",
+      "sha256": "1755f2c82cbe777dbf97e7b343e74b4a09eed3451091655cc418b71a94778029",
+      "bytes": 1296
+    },
+    "query_migration": 7,
+    "business_migration": 8,
+    "next_reserved_ai_migration": 9
+  },
+  "final_audit": {
+    "path": ".local/evolution/query-evidence/final-audit.json",
+    "sha256": "51f2755603bcc094384db6592224d58ee8377355349fdff9b80273b1d1998de0",
+    "bytes": 7930
+  },
+  "resource_cleanup": {
+    "tests_and_build_sessions_finished": true,
+    "owned_persistent_services_created": 0,
+    "remaining_query_test_schemas": [],
+    "postgres_race_slot_released_to_coordinator": true,
+    "workspace_free_bytes": 1679081472,
+    "preserved_test_binaries_location": "/private/tmp"
+  },
+  "remaining_phase_work": [
+    "Independent coordinator acceptance against the later combined source",
+    "Business specialist actual cloud/edge/native callbacks and operation workflows, with query projection observations included where applicable",
+    "Frontend migration and browser acceptance against the refreshed combined contracts",
+    "AI role implementation and next public registration/contract generation"
+  ],
+  "scope_limits": [
+    "Concurrency/cancellation measurements use finite controlled fixtures and are not a production throughput capacity test",
+    "Explorer runs before source freeze retain their first failure logs; only final recorded v1/v2 verification claims bind to immutable source and binary manifests",
+    "No tests were rerun to follow ongoing business edits after the agreed frozen capture",
+    "Full UOS installation/recovery, continuous one/three-node offline 24-hour tests, constrained-link specialist trials and actual 24-hour capacity/runtime were excluded by the user for this overall round"
+  ]
+}

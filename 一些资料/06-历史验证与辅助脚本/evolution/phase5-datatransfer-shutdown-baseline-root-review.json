@@ -1,0 +1,82 @@
+{
+  "checked_at": "2026-10-05T10:00:32.654905+00:00",
+  "passed": true,
+  "scope": "Controlled blocked-stream failure and goroutine diagnostic; corrected code and final Linux combination remain pending",
+  "cases": [
+    {
+      "command": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-stream-baseline-v1.command.json",
+        "sha256": "0e9d657227bb34d02174be86e9cee6d1001c7216283d53d199a19805335c217f",
+        "bytes": 1149
+      },
+      "stdout": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-stream-baseline-v1.stdout.log",
+        "sha256": "5342718d84a96230721013d608df9a7578f2d2f1fcfa35888b33ba963283404f",
+        "bytes": 2834
+      },
+      "input_count": 4174,
+      "before_after_equal": true,
+      "exit_code": 1,
+      "failure_events": [
+        {
+          "Time": "2026-10-05T17:48:24.42254+08:00",
+          "Action": "fail",
+          "Package": "competition2026/product/datatransfer/internal/bootstrap",
+          "Test": "TestShutdownWithBlockedGRPCStream",
+          "Elapsed": 5.13
+        },
+        {
+          "Time": "2026-10-05T17:48:24.425499+08:00",
+          "Action": "fail",
+          "Package": "competition2026/product/datatransfer/internal/bootstrap",
+          "Elapsed": 5.148
+        }
+      ]
+    },
+    {
+      "command": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-stream-diagnostic-v2.command.json",
+        "sha256": "703542c2cbec1616c095dc73c6f3375dea5ed3e247a292e439f98afcd0ce0961",
+        "bytes": 1155
+      },
+      "stdout": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-stream-diagnostic-v2.stdout.log",
+        "sha256": "ee9a4db8e569eb57f77790bf3d8db1a18bd4a6108d8379e35f305384087433b7",
+        "bytes": 59787
+      },
+      "input_count": 4174,
+      "before_after_equal": true,
+      "exit_code": 1,
+      "failure_events": [
+        {
+          "Time": "2026-10-05T17:49:11.583173+08:00",
+          "Action": "fail",
+          "Package": "competition2026/product/datatransfer/internal/bootstrap",
+          "Test": "TestShutdownWithBlockedGRPCStream",
+          "Elapsed": 5.13
+        },
+        {
+          "Time": "2026-10-05T17:49:11.586419+08:00",
+          "Action": "fail",
+          "Package": "competition2026/product/datatransfer/internal/bootstrap",
+          "Elapsed": 5.152
+        }
+      ]
+    }
+  ],
+  "input_checks": {
+    "physical_files_checked": 4124,
+    "mismatches": []
+  },
+  "selected_stacks": {
+    "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-stream-diagnostic-v2.selected-stacks.log",
+    "sha256": "875c2a0c7132397050e0d20b874d695df3e816dc39c1a400383780d4d88989ec",
+    "bytes": 5651
+  },
+  "summary": {
+    "controlled_failure_runs": 2,
+    "inputs_per_run": 4174
+  },
+  "historical_linux_failure_has_no_same_condition_goroutine_proof": true,
+  "errors": []
+}

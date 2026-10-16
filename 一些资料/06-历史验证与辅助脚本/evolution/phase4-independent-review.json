@@ -1,0 +1,1941 @@
+{
+  "schema": "smartfactory.phase4-independent-review/1",
+  "created_at": "2026-10-05T04:31:10.765785+00:00",
+  "reviewer": "phase4_independent_review",
+  "phase": 4,
+  "status": "independent_review_passed",
+  "all_applicable_checks_passed": true,
+  "open_product_findings": [],
+  "acceptance_recommendation": "eligible_for_coordinator_acceptance",
+  "final_acceptance_owner": "root",
+  "global_acceptance_files_modified": false,
+  "summary": "E4-01至E4-10及16项阶段发现完成独立验证。后端、实际PostgreSQL、有限race、正式HTTP和独立Chrome页面均有固定输入及运行证据；原28项页面流程和3项独立补充场景最终通过，R1样式变化另行完成受影响回归。8个自建服务及端口已关闭，PG测试会话和schema清理完成。",
+  "criteria": [
+    {
+      "id": "E4-01",
+      "title": "查询读模型与分页",
+      "independent_verification_status": "passed",
+      "conclusion": "SQLite和PostgreSQL实际筛选、稳定分页、投影重建、删除修订及当前授权验证通过；页面范围变化后采用新快照，旧页和旧HTTP结果不会恢复已移出的记录。",
+      "backend_checkpoint_criterion": {
+        "report": {
+          "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-independent-review-checkpoint.json",
+          "sha256": "6e5332b2d6a949a2c228d415e408535a4d3e646aa5c05e02455e21eaa67e6c46",
+          "bytes": 109615
+        },
+        "criterion_id": "E4-01",
+        "recorded_test_links": 107
+      },
+      "current_backend_reverification": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-a02/summary.json",
+        "sha256": "8686365f308cc226e3a5fef7c23e7ca29e477723697999914a90d3a8bbfcbd39",
+        "bytes": 9920
+      },
+      "browser_evidence": [
+        {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/browser-state-first/query-paging-scope-reset.json",
+          "sha256": "a081e4a2fdd90b3a98e56be7dcfe5fa76bc461020a12847cdc001a15e930f960",
+          "bytes": 184
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/browser-state-first/query-paging-error-new-snapshot.json",
+          "sha256": "25f16a5f3450fd54cc3b71067c6fb413d2c83b36e2fbf753b1f609505399796b",
+          "bytes": 4285
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/browser-state-first/F01-http-sse-snapshot-race.json",
+          "sha256": "a4586dd3321a85dbe1e4ef20eb8c70d15709546bbcac65b04a35ebde42fa3d44",
+          "bytes": 172341
+        }
+      ],
+      "source_version": "A02 backend plus formal frozen frontend bb13; style-only R1 verified separately with identical JavaScript, generated client, contracts and locked dependencies"
+    },
+    {
+      "id": "E4-02",
+      "title": "可恢复增量订阅",
+      "independent_verification_status": "passed",
+      "conclusion": "初始快照、提交可见游标、迟提交、过期恢复、撤权、多订阅者和并发队列清理通过；实际HTTP/1.1及HTTP/2空闲心跳和慢客户端预算通过，页面15167毫秒后取得心跳及新增量，再以原游标恢复成功。",
+      "backend_checkpoint_criterion": {
+        "report": {
+          "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-independent-review-checkpoint.json",
+          "sha256": "6e5332b2d6a949a2c228d415e408535a4d3e646aa5c05e02455e21eaa67e6c46",
+          "bytes": 109615
+        },
+        "criterion_id": "E4-02",
+        "recorded_test_links": 71
+      },
+      "current_backend_reverification": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-a02/summary.json",
+        "sha256": "8686365f308cc226e3a5fef7c23e7ca29e477723697999914a90d3a8bbfcbd39",
+        "bytes": 9920
+      },
+      "browser_evidence": [
+        {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/browser-state-first/F01-http-sse-snapshot-race.json",
+          "sha256": "a4586dd3321a85dbe1e4ef20eb8c70d15709546bbcac65b04a35ebde42fa3d44",
+          "bytes": 172341
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/browser-precision-first/query-heartbeat-resume.json",
+          "sha256": "bb9bd772df29e6c06b4b45dc397387f522c026734083211be596bad17bf1be52",
+          "bytes": 5536
+        }
+      ],
+      "source_version": "A02 backend plus formal frozen frontend bb13; style-only R1 verified separately with identical JavaScript, generated client, contracts and locked dependencies"
+    },
+    {
+      "id": "E4-03",
+      "title": "前端业务模块与状态组织",
+      "independent_verification_status": "passed",
+      "conclusion": "生成客户端和TanStack Query实际用于服务端读取与写入，缓存身份包含用户及授权信息；页面切换、并发冲突保留编辑，账号切换及会话失效清理缓存和编辑状态，迟到HTTP与SSE次序验证通过。",
+      "backend_checkpoint_criterion": {
+        "report": {
+          "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-independent-review-checkpoint.json",
+          "sha256": "6e5332b2d6a949a2c228d415e408535a4d3e646aa5c05e02455e21eaa67e6c46",
+          "bytes": 109615
+        },
+        "criterion_id": "E4-03",
+        "recorded_test_links": 0
+      },
+      "current_backend_reverification": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-a02/summary.json",
+        "sha256": "8686365f308cc226e3a5fef7c23e7ca29e477723697999914a90d3a8bbfcbd39",
+        "bytes": 9920
+      },
+      "browser_evidence": [
+        {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/browser-business-final/semantic-impact-and-retained-editor.json",
+          "sha256": "0471827df40eb211e8a58ef7cd35aad26365a746e6f31e94853074d747f5f155",
+          "bytes": 6534
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/browser-details-first/draft-conflict-preserved-edit.json",
+          "sha256": "add6697739213c02aec112d1a4d3641fe170d0eb892257daabb580a60971e22b",
+          "bytes": 11737
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/browser-ai-first/ai-user-isolation-and-editor-cleared.json",
+          "sha256": "88f5396b8b37fae7502c310123da39fe663b222ad9afc4d056e4c5db7840a7d5",
+          "bytes": 1307
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/browser-ai-first/ai-expired-session-login.json",
+          "sha256": "02dc4bbbc3581f79c72675329da006cdd1ff076ae6a90b1843eb11cfdfe0bc8b",
+          "bytes": 1617
+        }
+      ],
+      "source_version": "A02 backend plus formal frozen frontend bb13; style-only R1 verified separately with identical JavaScript, generated client, contracts and locked dependencies"
+    },
+    {
+      "id": "E4-04",
+      "title": "设备与节点参数表单",
+      "independent_verification_status": "passed",
+      "conclusion": "Modbus TCP、MQTT、OPC-UA及节点元数据的类型、单位、范围、枚举、必填和精确值往返通过；JSON修正、删除无效重复项和不同分区同名字段的错误状态正确更新，中文设备名称选择保存通过。",
+      "backend_checkpoint_criterion": {
+        "report": {
+          "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-independent-review-checkpoint.json",
+          "sha256": "6e5332b2d6a949a2c228d415e408535a4d3e646aa5c05e02455e21eaa67e6c46",
+          "bytes": 109615
+        },
+        "criterion_id": "E4-04",
+        "recorded_test_links": 7
+      },
+      "current_backend_reverification": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-a02/summary.json",
+        "sha256": "8686365f308cc226e3a5fef7c23e7ca29e477723697999914a90d3a8bbfcbd39",
+        "bytes": 9920
+      },
+      "browser_evidence": [
+        {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/browser-business-final/protocol-metadata-roundtrip.json",
+          "sha256": "ac9fb778fabfca7297a9c2eece49519c3847bfa76f3ee367b799d52cb57ef876",
+          "bytes": 5647
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/browser-details-first/three-protocol-roundtrips.json",
+          "sha256": "fe7c234c3388a913fd9381dda82b8cf3858d44b8d62b02ca689c767d4c97eb78",
+          "bytes": 6489
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/browser-details-first/node-metadata-exact-save.json",
+          "sha256": "949fee2c2c8e92715206c661d64f0a26a387f81d6bd012f18c34df16aa8ae0ec",
+          "bytes": 5658
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/browser-state-first/F02-raw-json-repair.json",
+          "sha256": "a7913ef4b31a0880feda3f280f8c46cade80f099c635e3908eb4a0e7709f4e3a",
+          "bytes": 3798
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/browser-state-first/F02-deleted-invalid-item.json",
+          "sha256": "4222fd17e9ee7647e53afbee33b2190491817a7d9fd4a86916d247a782c925ab",
+          "bytes": 3001
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/browser-state-first/F02-section-error-identity.json",
+          "sha256": "c0ae83e8146bfe2ab85ceb987fe44aea8eb09cce7a1c5ba5d188e0d8f9243f01",
+          "bytes": 35
+        }
+      ],
+      "source_version": "A02 backend plus formal frozen frontend bb13; style-only R1 verified separately with identical JavaScript, generated client, contracts and locked dependencies"
+    },
+    {
+      "id": "E4-05",
+      "title": "语义差异与影响分析",
+      "independent_verification_status": "passed",
+      "conclusion": "节点、连接和参数语义差异、依赖及资源影响的后端验证通过；页面显示身份与版本，冲突时保留本地输入，用户明确采用新版本后继续保存。",
+      "backend_checkpoint_criterion": {
+        "report": {
+          "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-independent-review-checkpoint.json",
+          "sha256": "6e5332b2d6a949a2c228d415e408535a4d3e646aa5c05e02455e21eaa67e6c46",
+          "bytes": 109615
+        },
+        "criterion_id": "E4-05",
+        "recorded_test_links": 4
+      },
+      "current_backend_reverification": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-a02/summary.json",
+        "sha256": "8686365f308cc226e3a5fef7c23e7ca29e477723697999914a90d3a8bbfcbd39",
+        "bytes": 9920
+      },
+      "browser_evidence": [
+        {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/browser-business-final/semantic-impact-and-retained-editor.json",
+          "sha256": "0471827df40eb211e8a58ef7cd35aad26365a746e6f31e94853074d747f5f155",
+          "bytes": 6534
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/browser-details-first/draft-conflict-adoption.json",
+          "sha256": "fa3c589a02ec064e4a7f6b15ccc4b2ad0a0f19cb53e944b737435587c7832a99",
+          "bytes": 2963
+        }
+      ],
+      "source_version": "A02 backend plus formal frozen frontend bb13; style-only R1 verified separately with identical JavaScript, generated client, contracts and locked dependencies"
+    },
+    {
+      "id": "E4-06",
+      "title": "告警处置工作台",
+      "independent_verification_status": "passed",
+      "conclusion": "持续规则输入后按已阅动作版本完成确认、分配和备注；普通观测更新允许人工处置，人工状态及权限变化仍触发正式校验。原生轮询的404、损坏内容、超过64项轮转、期限和worker周期恢复通过。",
+      "backend_checkpoint_criterion": {
+        "report": {
+          "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-independent-review-checkpoint.json",
+          "sha256": "6e5332b2d6a949a2c228d415e408535a4d3e646aa5c05e02455e21eaa67e6c46",
+          "bytes": 109615
+        },
+        "criterion_id": "E4-06",
+        "recorded_test_links": 10
+      },
+      "current_backend_reverification": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-a02/summary.json",
+        "sha256": "8686365f308cc226e3a5fef7c23e7ca29e477723697999914a90d3a8bbfcbd39",
+        "bytes": 9920
+      },
+      "browser_evidence": [
+        {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/browser-business-final/alarm-persisted.json",
+          "sha256": "12298ef9b994d22d6ef89b38e126eab6df41628dc66878b8ab5883061ff227c7",
+          "bytes": 5870
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/browser-business-final/alarm-continuous-confirmation.json",
+          "sha256": "08d33c5c370cb53803c98455589f95a04d906ab66a97252e0707036d325ee225",
+          "bytes": 10729
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/browser-details-first/alarm-conflict-explicit-adoption.json",
+          "sha256": "a0d4c77e16983b1cb1757c6c60e6f942bc45d54d4297c63e6549c1531094417c",
+          "bytes": 5241
+        }
+      ],
+      "source_version": "A02 backend plus formal frozen frontend bb13; style-only R1 verified separately with identical JavaScript, generated client, contracts and locked dependencies"
+    },
+    {
+      "id": "E4-07",
+      "title": "带依据的AI调查",
+      "independent_verification_status": "passed",
+      "conclusion": "实际本地模型五类工具的ToolCallID、查询范围、原文和SHA256对应，中文斜杠冒号标识导航通过；不存在、伪造、无权、到期、工具失败和预算状态正确处理，原资源删除后依据404，调查答案、消息、参数和资源内容清除，页面轮询同步隐藏旧内容。",
+      "backend_checkpoint_criterion": {
+        "report": {
+          "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-independent-review-checkpoint.json",
+          "sha256": "6e5332b2d6a949a2c228d415e408535a4d3e646aa5c05e02455e21eaa67e6c46",
+          "bytes": 109615
+        },
+        "criterion_id": "E4-07",
+        "recorded_test_links": 51
+      },
+      "current_backend_reverification": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-a02/summary.json",
+        "sha256": "8686365f308cc226e3a5fef7c23e7ca29e477723697999914a90d3a8bbfcbd39",
+        "bytes": 9920
+      },
+      "browser_evidence": [
+        {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/browser-ai-first/ai-byte-correspondence.json",
+          "sha256": "5cdaa6b3356a69aec2afb1bc7c1e71851579d72a14df2733bea6d182f7bd324f",
+          "bytes": 26246
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/browser-ai-first/ai-escaped-definition-navigation.json",
+          "sha256": "c3f7b61a0ca4a6db8dc2e91d06da5797ecffbdcebd1cf1eb7737d5f0f355711e",
+          "bytes": 6473
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/browser-ai-first/ai-reference-states.json",
+          "sha256": "44bd8d073a84750e8b574268ed6ea88a3e12eed2e6211657847d22ea49036689",
+          "bytes": 8037
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/browser-ai-first/ai-terminal-states.json",
+          "sha256": "34ebb2aa6305f6238f4113ce55cc991eaa14007295b3da594e236ade5b7728e9",
+          "bytes": 3227
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/browser-ai-first/ai-original-resource-deleted-cleared.json",
+          "sha256": "809c41f8f3b1b94df1c4c42000acc0e086086cf8fa8568023249d3dee5512c71",
+          "bytes": 4381
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/browser-extra-diagnostic/independent-ai-poll-deleted-cache.json",
+          "sha256": "9b2442e7328f4bb9a90977906f46630b0bfbb8f93fd666f83fe38bfafe570064",
+          "bytes": 1485
+        }
+      ],
+      "source_version": "A02 backend plus formal frozen frontend bb13; style-only R1 verified separately with identical JavaScript, generated client, contracts and locked dependencies"
+    },
+    {
+      "id": "E4-08",
+      "title": "工单与交接记录",
+      "independent_verification_status": "passed",
+      "conclusion": "工单创建、开始处理、责任人变更、完成和交接两项未完成事项通过，关联告警和执行保留审计；事务内完整执行证据资源授权与并发集合变化验证通过，原责任人的操作权限随交接更新。",
+      "backend_checkpoint_criterion": {
+        "report": {
+          "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-independent-review-checkpoint.json",
+          "sha256": "6e5332b2d6a949a2c228d415e408535a4d3e646aa5c05e02455e21eaa67e6c46",
+          "bytes": 109615
+        },
+        "criterion_id": "E4-08",
+        "recorded_test_links": 11
+      },
+      "current_backend_reverification": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-a02/summary.json",
+        "sha256": "8686365f308cc226e3a5fef7c23e7ca29e477723697999914a90d3a8bbfcbd39",
+        "bytes": 9920
+      },
+      "browser_evidence": [
+        {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/browser-business-final/handover-persisted.json",
+          "sha256": "98311a7bd7b5a16b64fc63ee0b742e6d2cc26ceed85f2e077ce919788e4e59a3",
+          "bytes": 4687
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/browser-details-first/work-order-completed.json",
+          "sha256": "77ca700646a20332c1f32c763c081744317188d3fc2e2b96739e6846d37a36e2",
+          "bytes": 5073
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/browser-details-first/work-order-former-owner-permission.json",
+          "sha256": "c6743e2a52cbdc7b459c5f1996be9a870013e23db3cc650dcedd5ee2f0b8f52e",
+          "bytes": 1399
+        }
+      ],
+      "source_version": "A02 backend plus formal frozen frontend bb13; style-only R1 verified separately with identical JavaScript, generated client, contracts and locked dependencies"
+    },
+    {
+      "id": "E4-09",
+      "title": "场景模板与批量准备",
+      "independent_verification_status": "passed",
+      "conclusion": "五类模板通过固定设备和配置版本批量准备25份草稿，引用授权、版本冲突、参数错误及重试通过；失败批次保留失败信息并避免留下部分草稿。",
+      "backend_checkpoint_criterion": {
+        "report": {
+          "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-independent-review-checkpoint.json",
+          "sha256": "6e5332b2d6a949a2c228d415e408535a4d3e646aa5c05e02455e21eaa67e6c46",
+          "bytes": 109615
+        },
+        "criterion_id": "E4-09",
+        "recorded_test_links": 9
+      },
+      "current_backend_reverification": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-a02/summary.json",
+        "sha256": "8686365f308cc226e3a5fef7c23e7ca29e477723697999914a90d3a8bbfcbd39",
+        "bytes": 9920
+      },
+      "browser_evidence": [
+        {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/browser-business-final/templates-persisted.json",
+          "sha256": "3cfa9af4ee8d13417dab778b70a44297d0ade308c86f35ae7c9ca0f87ed8b6c1",
+          "bytes": 56985
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/browser-details-first/template-conflict-and-retry.json",
+          "sha256": "ebe6aa8da6cbe02a8fd070548bc288898395649726f8c0f2cccd9bd48fb45a3b",
+          "bytes": 4194
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/browser-details-first/template-failed-retry.json",
+          "sha256": "09732065e8277702e32f6489679b3c915f4b550707bd7e47a743921593a96fd1",
+          "bytes": 5079
+        }
+      ],
+      "source_version": "A02 backend plus formal frozen frontend bb13; style-only R1 verified separately with identical JavaScript, generated client, contracts and locked dependencies"
+    },
+    {
+      "id": "E4-10",
+      "title": "图表与三套页面验证",
+      "independent_verification_status": "passed",
+      "conclusion": "ECharts6.1.0及锁定依赖完成独立安装、构建、类型和npm审计；云端、现场、大屏的1440×1000、1024×768、390×844实际图表和空数据页面均通过，九种空数据文档宽度等于视口且水平滚动为0，工具提示、表格及导出保持精确整数。",
+      "backend_checkpoint_criterion": {
+        "report": {
+          "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-independent-review-checkpoint.json",
+          "sha256": "6e5332b2d6a949a2c228d415e408535a4d3e646aa5c05e02455e21eaa67e6c46",
+          "bytes": 109615
+        },
+        "criterion_id": "E4-10",
+        "recorded_test_links": 0
+      },
+      "current_backend_reverification": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-a02/summary.json",
+        "sha256": "8686365f308cc226e3a5fef7c23e7ca29e477723697999914a90d3a8bbfcbd39",
+        "bytes": 9920
+      },
+      "browser_evidence": [
+        {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/r1-runtime/browser-precision/exact-values-browser.json",
+          "sha256": "9749860fef0888a920983191fb2db985305e63650ba22969bc8f0725f3204cb3",
+          "bytes": 655
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/r1-runtime/browser-precision/screen-exact-export.json",
+          "sha256": "9be2581726b45fbad8edff17a840f8547a4dcdfa94056f5307648ccd44081772",
+          "bytes": 8295
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/r1-runtime/browser-empty/independent-empty-surfaces.json",
+          "sha256": "39f91dfce46f289040b039c46b140f7722209df693c833f8bd55be69b4ea2a3f",
+          "bytes": 31180
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/r1-runtime/browser-mobile/mobile-export-actions.json",
+          "sha256": "5afe7b43c88ff4e8a8601c8b67f8952827b489c0c9a0160cf97d85f4ef149cde",
+          "bytes": 527
+        }
+      ],
+      "source_version": "A02 backend plus formal frozen frontend bb13; style-only R1 verified separately with identical JavaScript, generated client, contracts and locked dependencies"
+    }
+  ],
+  "findings": [
+    {
+      "id": "P4-B01",
+      "owner": "phase4_business_workflows",
+      "requirements": [
+        "E4-06",
+        "E4-03"
+      ],
+      "independent_status": "resolved_and_verified",
+      "original_problem": "告警持续输入推进普通业务版本，首版人工动作严格比较该版本，确认期间的普通观测可能导致反复冲突",
+      "conclusion": "普通测试、PG并发、race及持续采样页面操作通过，人工确认使用动作版本，后续人工状态冲突需要明确采用新的操作依据。",
+      "original_record": {
+        "ledger": {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/coordinator-findings-at-independent-completion.json",
+          "sha256": "51356666012da539375e90519d99fb6eb11f978aeb7830bc79420bdf098ff9d5",
+          "bytes": 25015
+        },
+        "finding_id": "P4-B01"
+      },
+      "backend_test_links": [
+        {
+          "run": "api-full-diagnostic",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestBusinessHTTPContinuousAlarmReviewAndNativeCallback",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-api",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestBusinessHTTPContinuousAlarmReviewAndNativeCallback",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestBusinessHandoverReviewedAlarmDuringContinuousSampling",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestBusinessConcurrentAlarmSQLite",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestBusinessConcurrentAlarmPostgres",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestBusinessHandoverReviewedAlarmDuringContinuousSampling",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestBusinessConcurrentAlarmSQLite",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestBusinessConcurrentAlarmPostgres",
+          "status": "pass"
+        }
+      ],
+      "browser_evidence": [
+        {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/browser-business-final/alarm-persisted.json",
+          "sha256": "12298ef9b994d22d6ef89b38e126eab6df41628dc66878b8ab5883061ff227c7",
+          "bytes": 5870
+        }
+      ],
+      "related_summary": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-independent-review-checkpoint.json",
+        "sha256": "6e5332b2d6a949a2c228d415e408535a4d3e646aa5c05e02455e21eaa67e6c46",
+        "bytes": 109615
+      }
+    },
+    {
+      "id": "P4-Q01",
+      "owner": "phase4_query_subscriptions",
+      "requirements": [
+        "E4-02",
+        "E4-10"
+      ],
+      "independent_status": "resolved_and_verified",
+      "original_problem": "订阅发送后保留3秒写入期限，HTTP/2空闲连接会在15秒心跳之前被结束",
+      "conclusion": "实际HTTP/1.1、HTTP/2空闲15秒心跳及后续提交通过，慢客户端写入预算和其他订阅继续运行；独立页面心跳及恢复另行通过。",
+      "original_record": {
+        "ledger": {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/coordinator-findings-at-independent-completion.json",
+          "sha256": "51356666012da539375e90519d99fb6eb11f978aeb7830bc79420bdf098ff9d5",
+          "bytes": 25015
+        },
+        "finding_id": "P4-Q01"
+      },
+      "backend_test_links": [
+        {
+          "run": "api-full-diagnostic",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestQuerySSEHTTPIdleAndRecovery/HTTP/1.1",
+          "status": "pass"
+        },
+        {
+          "run": "api-full-diagnostic",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestQuerySSEHTTPIdleAndRecovery/HTTP/2.0",
+          "status": "pass"
+        },
+        {
+          "run": "api-full-diagnostic",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestQuerySSEHTTPIdleAndRecovery",
+          "status": "pass"
+        },
+        {
+          "run": "api-full-diagnostic",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestQuerySSESlowSocketDoesNotBlockOtherClients",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-api",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestQuerySSEHTTPIdleAndRecovery/HTTP/1.1",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-api",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestQuerySSEHTTPIdleAndRecovery/HTTP/2.0",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-api",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestQuerySSEHTTPIdleAndRecovery",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-api",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestQuerySSESlowSocketDoesNotBlockOtherClients",
+          "status": "pass"
+        },
+        {
+          "run": "race-api",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestQuerySSEHTTPIdleAndRecovery/HTTP/1.1",
+          "status": "pass"
+        },
+        {
+          "run": "race-api",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestQuerySSEHTTPIdleAndRecovery/HTTP/2.0",
+          "status": "pass"
+        },
+        {
+          "run": "race-api",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestQuerySSEHTTPIdleAndRecovery",
+          "status": "pass"
+        },
+        {
+          "run": "race-api",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestQuerySSESlowSocketDoesNotBlockOtherClients",
+          "status": "pass"
+        }
+      ],
+      "browser_evidence": [],
+      "related_summary": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-independent-review-checkpoint.json",
+        "sha256": "6e5332b2d6a949a2c228d415e408535a4d3e646aa5c05e02455e21eaa67e6c46",
+        "bytes": 109615
+      }
+    },
+    {
+      "id": "P4-Q02",
+      "owner": "phase4_query_subscriptions",
+      "requirements": [
+        "E4-02"
+      ],
+      "independent_status": "resolved_and_verified",
+      "original_problem": "慢客户端队列清理以len判断后执行阻塞读取，与客户端恢复读取并发时可能永久等待并占用共同订阅锁",
+      "conclusion": "队列清理与客户端继续读取并发测试及race通过，共享订阅锁释放，其他订阅和取消能够结束。",
+      "original_record": {
+        "ledger": {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/coordinator-findings-at-independent-completion.json",
+          "sha256": "51356666012da539375e90519d99fb6eb11f978aeb7830bc79420bdf098ff9d5",
+          "bytes": 25015
+        },
+        "finding_id": "P4-Q02"
+      },
+      "backend_test_links": [
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryDrainCompetingReader",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationSQLite/shared-window-deletion-and-restart-resume",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/shared-window-deletion-and-restart-resume",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryDrainCompetingReader",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationSQLite/shared-window-deletion-and-restart-resume",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/shared-window-deletion-and-restart-resume",
+          "status": "pass"
+        }
+      ],
+      "browser_evidence": [],
+      "related_summary": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-independent-review-checkpoint.json",
+        "sha256": "6e5332b2d6a949a2c228d415e408535a4d3e646aa5c05e02455e21eaa67e6c46",
+        "bytes": 109615
+      }
+    },
+    {
+      "id": "P4-B02",
+      "owner": "phase4_business_workflows",
+      "requirements": [
+        "E4-04",
+        "E4-09"
+      ],
+      "independent_status": "resolved_and_verified",
+      "original_problem": "配置版本共用可覆盖的秘密引用，旧任务检查版本后可能读取新版完整载荷",
+      "conclusion": "每版本秘密引用、延迟旧任务、新版并发保存和新版先应用的普通与race验证通过。",
+      "original_record": {
+        "ledger": {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/coordinator-findings-at-independent-completion.json",
+          "sha256": "51356666012da539375e90519d99fb6eb11f978aeb7830bc79420bdf098ff9d5",
+          "bytes": 25015
+        },
+        "finding_id": "P4-B02"
+      },
+      "backend_test_links": [
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestBusinessConnectorSecretsAreFixedByVersion",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestBusinessConnectorSecretsAreFixedByVersion",
+          "status": "pass"
+        }
+      ],
+      "browser_evidence": [],
+      "related_summary": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-independent-review-checkpoint.json",
+        "sha256": "6e5332b2d6a949a2c228d415e408535a4d3e646aa5c05e02455e21eaa67e6c46",
+        "bytes": 109615
+      }
+    },
+    {
+      "id": "P4-Q03",
+      "owner": "phase4_query_subscriptions",
+      "requirements": [
+        "E4-01",
+        "E4-02"
+      ],
+      "independent_status": "resolved_and_verified",
+      "original_problem": "PostgreSQL递归权限查询的根参数与实体id排序规则不同，实际查询返回SQLSTATE 42P21",
+      "conclusion": "PostgreSQL受限权限查询、四类分页、订阅和两个独立对象迟提交测试通过，SQLite回归通过。",
+      "original_record": {
+        "ledger": {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/coordinator-findings-at-independent-completion.json",
+          "sha256": "51356666012da539375e90519d99fb6eb11f978aeb7830bc79420bdf098ff9d5",
+          "bytes": 25015
+        },
+        "finding_id": "P4-Q03"
+      },
+      "backend_test_links": [
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=false/entities",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=false/alarms",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=false/executions",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=false/trend",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=false",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=true",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-api",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestQuerySSEPostgresSnapshotDeltaResumeReset",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/signed-paging-candidates-and-current-authorization",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/shared-window-deletion-and-restart-resume",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/user",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/grant",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/session",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/ancestry",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/rebuild",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/expiry",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/bounded-slow-consumer-and-monotonic-resume",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/execution-candidates-refresh-definition-and-evidence",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryLateCommitAndConcurrentRebuildPostgres",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=false/entities",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=false/alarms",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=false/executions",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=false/trend",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=false",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=true/entities",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=true/alarms",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=true/executions",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=true/trend",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=true",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset",
+          "status": "pass"
+        },
+        {
+          "run": "race-api",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestQuerySSEPostgresSnapshotDeltaResumeReset",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/signed-paging-candidates-and-current-authorization",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/shared-window-deletion-and-restart-resume",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/user",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/grant",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/session",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/ancestry",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/rebuild",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/expiry",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/bounded-slow-consumer-and-monotonic-resume",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/execution-candidates-refresh-definition-and-evidence",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres",
+          "status": "pass"
+        },
+        {
+          "run": "race-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryLateCommitAndConcurrentRebuildPostgres",
+          "status": "pass"
+        },
+        {
+          "run": "race-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=false/entities",
+          "status": "pass"
+        },
+        {
+          "run": "race-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=false/alarms",
+          "status": "pass"
+        },
+        {
+          "run": "race-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=false/executions",
+          "status": "pass"
+        },
+        {
+          "run": "race-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=false/trend",
+          "status": "pass"
+        },
+        {
+          "run": "race-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=false",
+          "status": "pass"
+        },
+        {
+          "run": "race-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=true/entities",
+          "status": "pass"
+        },
+        {
+          "run": "race-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=true/alarms",
+          "status": "pass"
+        },
+        {
+          "run": "race-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=true/executions",
+          "status": "pass"
+        },
+        {
+          "run": "race-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=true/trend",
+          "status": "pass"
+        },
+        {
+          "run": "race-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=true",
+          "status": "pass"
+        },
+        {
+          "run": "race-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset",
+          "status": "pass"
+        }
+      ],
+      "browser_evidence": [],
+      "related_summary": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-independent-review-checkpoint.json",
+        "sha256": "6e5332b2d6a949a2c228d415e408535a4d3e646aa5c05e02455e21eaa67e6c46",
+        "bytes": 109615
+      }
+    },
+    {
+      "id": "P4-B03",
+      "owner": "phase4_business_workflows",
+      "requirements": [
+        "E4-08"
+      ],
+      "independent_status": "resolved_and_verified",
+      "original_problem": "工单执行引用授权遗漏命令证据DeviceID，与正式控制详情的完整资源范围不一致",
+      "conclusion": "命令证据设备授权、撤销成员和检查后新增证据在正式事务中拒绝，普通与race测试通过。",
+      "original_record": {
+        "ledger": {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/coordinator-findings-at-independent-completion.json",
+          "sha256": "51356666012da539375e90519d99fb6eb11f978aeb7830bc79420bdf098ff9d5",
+          "bytes": 25015
+        },
+        "finding_id": "P4-B03"
+      },
+      "backend_test_links": [
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestBusinessWorkOrderChecksExecutionEvidenceAndRevokedMember",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestBusinessWorkOrderRejectsEvidenceAddedAfterAuthorization",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestBusinessWorkOrderRejectsEvidenceAddedAfterAuthorization",
+          "status": "pass"
+        }
+      ],
+      "browser_evidence": [],
+      "related_summary": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-independent-review-checkpoint.json",
+        "sha256": "6e5332b2d6a949a2c228d415e408535a4d3e646aa5c05e02455e21eaa67e6c46",
+        "bytes": 109615
+      }
+    },
+    {
+      "id": "P4-B04",
+      "owner": "phase4_business_workflows",
+      "requirements": [
+        "E4-04"
+      ],
+      "independent_status": "resolved_and_verified",
+      "original_problem": "DataTransfer TLS结构只有YAML标签，正式连接器JSON中的下划线字段未映射到实际配置字段",
+      "conclusion": "规范JSON字段和旧Go字段名兼容往返、实际ConfigManager配置应用及旧版本拒绝通过。",
+      "original_record": {
+        "ledger": {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/coordinator-findings-at-independent-completion.json",
+          "sha256": "51356666012da539375e90519d99fb6eb11f978aeb7830bc79420bdf098ff9d5",
+          "bytes": 25015
+        },
+        "finding_id": "P4-B04"
+      },
+      "backend_test_links": [
+        {
+          "run": "ordinary-DataTransfer-internal-config",
+          "package": "competition2026/product/datatransfer/internal/config",
+          "test": "TestTLSJSONLegacyNamesAndCanonicalRoundTrip",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-DataTransfer-internal-configmanager",
+          "package": "competition2026/product/datatransfer/internal/configmanager",
+          "test": "TestConfigManagerAppliesDeviceUpdatesAndProtectsRevision",
+          "status": "pass"
+        },
+        {
+          "run": "race-dt-config",
+          "package": "competition2026/product/datatransfer/internal/config",
+          "test": "TestTLSJSONLegacyNamesAndCanonicalRoundTrip",
+          "status": "pass"
+        }
+      ],
+      "browser_evidence": [],
+      "related_summary": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-independent-review-checkpoint.json",
+        "sha256": "6e5332b2d6a949a2c228d415e408535a4d3e646aa5c05e02455e21eaa67e6c46",
+        "bytes": 109615
+      }
+    },
+    {
+      "id": "P4-B05",
+      "owner": "phase4_business_workflows",
+      "requirements": [
+        "E4-06"
+      ],
+      "independent_status": "resolved_and_verified",
+      "original_problem": "原生状态轮询遇到持续失败的映射时保持旧游标并提前结束，后续有效告警可能长期无法同步",
+      "conclusion": "404、损坏映射及慢映射后的有效告警继续同步，超过64项轮转和恢复通过；正式worker立即首轮及周期调用通过。",
+      "original_record": {
+        "ledger": {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/coordinator-findings-at-independent-completion.json",
+          "sha256": "51356666012da539375e90519d99fb6eb11f978aeb7830bc79420bdf098ff9d5",
+          "bytes": 25015
+        },
+        "finding_id": "P4-B05"
+      },
+      "backend_test_links": [
+        {
+          "run": "ordinary-Platform-internal-app",
+          "package": "competition2026/product/platform/internal/app",
+          "test": "TestBusinessNativeWorkerImmediatePeriodicAndFailureRecovery",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-thingsboard",
+          "package": "competition2026/product/platform/internal/thingsboard",
+          "test": "TestBusinessNativePollFairnessRotationAndRecovery",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-thingsboard",
+          "package": "competition2026/product/platform/internal/thingsboard",
+          "test": "TestBusinessNativePollDeadlineResumesAfterSlowMapping",
+          "status": "pass"
+        },
+        {
+          "run": "race-app",
+          "package": "competition2026/product/platform/internal/app",
+          "test": "TestBusinessNativeWorkerImmediatePeriodicAndFailureRecovery",
+          "status": "pass"
+        },
+        {
+          "run": "race-thingsboard",
+          "package": "competition2026/product/platform/internal/thingsboard",
+          "test": "TestBusinessNativePollFairnessRotationAndRecovery",
+          "status": "pass"
+        },
+        {
+          "run": "race-thingsboard",
+          "package": "competition2026/product/platform/internal/thingsboard",
+          "test": "TestBusinessNativePollDeadlineResumesAfterSlowMapping",
+          "status": "pass"
+        }
+      ],
+      "browser_evidence": [],
+      "related_summary": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-independent-review-checkpoint.json",
+        "sha256": "6e5332b2d6a949a2c228d415e408535a4d3e646aa5c05e02455e21eaa67e6c46",
+        "bytes": 109615
+      }
+    },
+    {
+      "id": "P4-B06",
+      "owner": "phase4_business_workflows",
+      "requirements": [
+        "E4-04",
+        "E4-08",
+        "E4-09",
+        "E4-03"
+      ],
+      "independent_status": "resolved_and_verified",
+      "original_problem": "共享Huma可选字段默认设置使新业务OpenAPI遗漏必填声明，与独立Schema及应用实际校验不一致",
+      "conclusion": "OpenAPI、独立Schema与实际HTTP必须字段、合法零值及省略默认参数一致，最终契约重新生成比较160项原文一致，17项发布部署检查通过。",
+      "original_record": {
+        "ledger": {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/coordinator-findings-at-independent-completion.json",
+          "sha256": "51356666012da539375e90519d99fb6eb11f978aeb7830bc79420bdf098ff9d5",
+          "bytes": 25015
+        },
+        "finding_id": "P4-B06"
+      },
+      "backend_test_links": [
+        {
+          "run": "api-full-diagnostic",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestBusinessHTTPRequiredInputFieldsAndDefaults",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-api",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestBusinessHTTPRequiredInputFieldsAndDefaults",
+          "status": "pass"
+        }
+      ],
+      "browser_evidence": [],
+      "related_summary": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-independent-review-checkpoint.json",
+        "sha256": "6e5332b2d6a949a2c228d415e408535a4d3e646aa5c05e02455e21eaa67e6c46",
+        "bytes": 109615
+      }
+    },
+    {
+      "id": "P4-A01",
+      "owner": "phase4_ai_evidence",
+      "requirements": [
+        "E4-07"
+      ],
+      "independent_status": "resolved_and_verified",
+      "original_problem": "仅授具体设备时，正式趋势查询成功；AI依据把SourceID来源节点加入权限对象后错误返回forbidden",
+      "conclusion": "只授权设备且未授权来源节点的趋势依据可读取，撤销设备权限后依据拒绝，普通及race验证通过。",
+      "original_record": {
+        "ledger": {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/coordinator-findings-at-independent-completion.json",
+          "sha256": "51356666012da539375e90519d99fb6eb11f978aeb7830bc79420bdf098ff9d5",
+          "bytes": 25015
+        },
+        "finding_id": "P4-A01"
+      },
+      "backend_test_links": [
+        {
+          "run": "ordinary-Platform-internal-ai",
+          "package": "competition2026/product/platform/internal/ai",
+          "test": "TestInvestigationDirectDevicePermissionUsesQueryAuthorization",
+          "status": "pass"
+        },
+        {
+          "run": "race-ai",
+          "package": "competition2026/product/platform/internal/ai",
+          "test": "TestInvestigationDirectDevicePermissionUsesQueryAuthorization",
+          "status": "pass"
+        }
+      ],
+      "browser_evidence": [],
+      "related_summary": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-independent-review-checkpoint.json",
+        "sha256": "6e5332b2d6a949a2c228d415e408535a4d3e646aa5c05e02455e21eaa67e6c46",
+        "bytes": 109615
+      }
+    },
+    {
+      "id": "P4-A02",
+      "owner": "phase4_ai_evidence",
+      "requirements": [
+        "E4-07"
+      ],
+      "independent_status": "resolved_and_verified",
+      "original_problem": "原始依据引用的资源删除后，授权条目仍存在时继续返回valid及工具原文",
+      "conclusion": "保留原v2/v3失败；独立核对最小JSON null断言修正后，以当前组合复验依据404、答案和消息清空、参数null及资源清空，普通119项、PG17项与race20项通过，页面删除失效及自动轮询隐藏通过。",
+      "original_record": {
+        "ledger": {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/coordinator-findings-at-independent-completion.json",
+          "sha256": "51356666012da539375e90519d99fb6eb11f978aeb7830bc79420bdf098ff9d5",
+          "bytes": 25015
+        },
+        "finding_id": "P4-A02"
+      },
+      "backend_test_links": [],
+      "browser_evidence": [
+        {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/browser-ai-first/ai-original-resource-deleted-cleared.json",
+          "sha256": "809c41f8f3b1b94df1c4c42000acc0e086086cf8fa8568023249d3dee5512c71",
+          "bytes": 4381
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/browser-extra-diagnostic/independent-ai-poll-deleted-cache.json",
+          "sha256": "9b2442e7328f4bb9a90977906f46630b0bfbb8f93fd666f83fe38bfafe570064",
+          "bytes": 1485
+        }
+      ],
+      "related_summary": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-a02/summary.json",
+        "sha256": "8686365f308cc226e3a5fef7c23e7ca29e477723697999914a90d3a8bbfcbd39",
+        "bytes": 9920
+      }
+    },
+    {
+      "id": "P4-F02",
+      "owner": "phase4_frontend",
+      "requirements": [
+        "E4-04"
+      ],
+      "independent_status": "resolved_and_verified",
+      "original_problem": "元数据字段错误在完整JSON修正和删除重复项后残留，分区同名字段的错误状态相互影响",
+      "conclusion": "完整JSON修正、删除含无效字段数据点及不同分区同名字段三个原始场景全部通过。",
+      "original_record": {
+        "ledger": {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/coordinator-findings-at-independent-completion.json",
+          "sha256": "51356666012da539375e90519d99fb6eb11f978aeb7830bc79420bdf098ff9d5",
+          "bytes": 25015
+        },
+        "finding_id": "P4-F02"
+      },
+      "backend_test_links": [],
+      "browser_evidence": [
+        {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/browser-state-first/F02-raw-json-repair.json",
+          "sha256": "a7913ef4b31a0880feda3f280f8c46cade80f099c635e3908eb4a0e7709f4e3a",
+          "bytes": 3798
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/browser-state-first/F02-deleted-invalid-item.json",
+          "sha256": "4222fd17e9ee7647e53afbee33b2190491817a7d9fd4a86916d247a782c925ab",
+          "bytes": 3001
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/browser-state-first/F02-section-error-identity.json",
+          "sha256": "c0ae83e8146bfe2ab85ceb987fe44aea8eb09cce7a1c5ba5d188e0d8f9243f01",
+          "bytes": 35
+        }
+      ],
+      "related_summary": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-browser/summary.json",
+        "sha256": "8776ac2662fc1816681668c72e09a366ff0d9d02cf2b17092d74a230685b08f6",
+        "bytes": 5289
+      }
+    },
+    {
+      "id": "P4-F01",
+      "owner": "phase4_frontend",
+      "requirements": [
+        "E4-02",
+        "E4-03"
+      ],
+      "independent_status": "resolved_and_verified",
+      "original_problem": "较早发起、较晚返回的HTTP查询快照覆盖更新的SSE状态，恢复已移出窗口的行并丢失新值和新记录",
+      "conclusion": "真实Ingest和100行窗口先取得9999、7777并移出81，延迟旧HTTP返回后页面保留更新结果和当前恢复游标；首次查询与手动刷新验证通过。",
+      "original_record": {
+        "ledger": {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/coordinator-findings-at-independent-completion.json",
+          "sha256": "51356666012da539375e90519d99fb6eb11f978aeb7830bc79420bdf098ff9d5",
+          "bytes": 25015
+        },
+        "finding_id": "P4-F01"
+      },
+      "backend_test_links": [],
+      "browser_evidence": [
+        {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/browser-state-first/F01-http-sse-snapshot-race.json",
+          "sha256": "a4586dd3321a85dbe1e4ef20eb8c70d15709546bbcac65b04a35ebde42fa3d44",
+          "bytes": 172341
+        }
+      ],
+      "related_summary": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-browser/summary.json",
+        "sha256": "8776ac2662fc1816681668c72e09a366ff0d9d02cf2b17092d74a230685b08f6",
+        "bytes": 5289
+      }
+    },
+    {
+      "id": "P4-F03",
+      "owner": "phase4_frontend",
+      "requirements": [
+        "E4-04",
+        "E4-03"
+      ],
+      "independent_status": "resolved_and_verified",
+      "original_problem": "定义编辑器按设备身份过滤多选搜索，输入页面显示的中文设备名称时原选项消失，无法按名称选择设备",
+      "conclusion": "使用完整中文设备名称搜索、选择并保存，草稿中的设备身份正确。",
+      "original_record": {
+        "ledger": {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/coordinator-findings-at-independent-completion.json",
+          "sha256": "51356666012da539375e90519d99fb6eb11f978aeb7830bc79420bdf098ff9d5",
+          "bytes": 25015
+        },
+        "finding_id": "P4-F03"
+      },
+      "backend_test_links": [],
+      "browser_evidence": [
+        {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/browser-details-first/node-metadata-exact-save.json",
+          "sha256": "949fee2c2c8e92715206c661d64f0a26a387f81d6bd012f18c34df16aa8ae0ec",
+          "bytes": 5658
+        }
+      ],
+      "related_summary": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-browser/summary.json",
+        "sha256": "8776ac2662fc1816681668c72e09a366ff0d9d02cf2b17092d74a230685b08f6",
+        "bytes": 5289
+      }
+    },
+    {
+      "id": "P4-F04",
+      "owner": "phase4_frontend",
+      "requirements": [
+        "E4-07",
+        "E4-03"
+      ],
+      "independent_status": "resolved_and_verified",
+      "original_problem": "原资源删除后依据读取404且调查轮询已显示deleted，已打开的依据抽屉仍渲染TanStack Query保留的上次成功正文",
+      "conclusion": "原资源删除404、到期410、撤权403及会话401隐藏已打开的旧内容；补充场景在删除后没有再次请求依据，调查轮询仍在2376毫秒内清除原文、参数、链接和答案。",
+      "original_record": {
+        "ledger": {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/coordinator-findings-at-independent-completion.json",
+          "sha256": "51356666012da539375e90519d99fb6eb11f978aeb7830bc79420bdf098ff9d5",
+          "bytes": 25015
+        },
+        "finding_id": "P4-F04"
+      },
+      "backend_test_links": [],
+      "browser_evidence": [
+        {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/browser-ai-first/ai-open-evidence-expired-cleared.json",
+          "sha256": "3bb9405001ee94cfa76a764767490d11acc73b3ddd1c765bc1fbf9f8263040f0",
+          "bytes": 4094
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/browser-ai-first/ai-revoked-cache-cleared.json",
+          "sha256": "b6107a686fc663738932cef97e4975de3c803c6f0cbbe1b414ec1933e33240ab",
+          "bytes": 3708
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/browser-ai-first/ai-expired-session-login.json",
+          "sha256": "02dc4bbbc3581f79c72675329da006cdd1ff076ae6a90b1843eb11cfdfe0bc8b",
+          "bytes": 1617
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/browser-extra-diagnostic/independent-ai-poll-deleted-cache.json",
+          "sha256": "9b2442e7328f4bb9a90977906f46630b0bfbb8f93fd666f83fe38bfafe570064",
+          "bytes": 1485
+        }
+      ],
+      "related_summary": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-browser/summary.json",
+        "sha256": "8776ac2662fc1816681668c72e09a366ff0d9d02cf2b17092d74a230685b08f6",
+        "bytes": 5289
+      }
+    },
+    {
+      "id": "P4-F05",
+      "owner": "phase4_frontend",
+      "requirements": [
+        "E4-10"
+      ],
+      "independent_status": "resolved_and_verified",
+      "original_problem": "390px数据监控空查询页面的标题操作区限制为125px，而导出按钮宽144px，按钮右缘到393px使整个文档横向溢出3px",
+      "conclusion": "保留原390px视口产生393px文档和3px水平滚动的九组合证据；R1只调整style.css，九种空数据及九种非空页面通过，手机导出按钮右缘160px且实际导出保留精确整数。",
+      "original_record": {
+        "ledger": {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/coordinator-findings-at-independent-completion.json",
+          "sha256": "51356666012da539375e90519d99fb6eb11f978aeb7830bc79420bdf098ff9d5",
+          "bytes": 25015
+        },
+        "finding_id": "P4-F05"
+      },
+      "backend_test_links": [],
+      "browser_evidence": [
+        {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/browser-empty-all-before-fix/independent-empty-surfaces.json",
+          "sha256": "a102e5d13be367da6f836036f7893f395c65439c0c088ce038ada8bf39aae42f",
+          "bytes": 31884
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/r1-runtime/browser-empty/independent-empty-surfaces.json",
+          "sha256": "39f91dfce46f289040b039c46b140f7722209df693c833f8bd55be69b4ea2a3f",
+          "bytes": 31180
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/r1-runtime/browser-mobile/mobile-export-actions.json",
+          "sha256": "5afe7b43c88ff4e8a8601c8b67f8952827b489c0c9a0160cf97d85f4ef149cde",
+          "bytes": 527
+        }
+      ],
+      "related_summary": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-browser/summary.json",
+        "sha256": "8776ac2662fc1816681668c72e09a366ff0d9d02cf2b17092d74a230685b08f6",
+        "bytes": 5289
+      }
+    }
+  ],
+  "fixed_evidence": {
+    "initial_backend_checkpoint": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-independent-review-checkpoint.json",
+      "sha256": "6e5332b2d6a949a2c228d415e408535a4d3e646aa5c05e02455e21eaa67e6c46",
+      "bytes": 109615
+    },
+    "a02_backend_summary": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-a02/summary.json",
+      "sha256": "8686365f308cc226e3a5fef7c23e7ca29e477723697999914a90d3a8bbfcbd39",
+      "bytes": 9920
+    },
+    "frontend_browser_summary": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-browser/summary.json",
+      "sha256": "8776ac2662fc1816681668c72e09a366ff0d9d02cf2b17092d74a230685b08f6",
+      "bytes": 5289
+    },
+    "frontend_specialist_audit": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-browser/specialist-final-audit.json",
+      "sha256": "612007bfa7e5e0ce691e62ec171858f7fb657661197bd434bc4bb76bd6fedbcd",
+      "bytes": 1643290
+    },
+    "frontend_specialist_report": {
+      "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/specialist-final-report.json",
+      "sha256": "991e16581c4033e778bd1c0753a7337e7bf2e90cb515407afb8f9323f5107524",
+      "bytes": 49602
+    },
+    "current_backend_snapshot": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-a02/snapshot.json",
+      "sha256": "db18a9879c7fcb0acf427446a32c219d0a53137aca8deb5a91cceb64f019cb3c",
+      "bytes": 276957
+    },
+    "current_backend_actual_build_inputs": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-a02/build-inputs.json",
+      "sha256": "ef45961ea2105d0802a5a27785475b16d7144d2ad84708aca043479f0c100891",
+      "bytes": 1735031
+    },
+    "frontend_formal_manifest": {
+      "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/specialist-final-inputs.json",
+      "sha256": "bb13eac761da19129837353b4ecf3ba0504d797d4c065083b267677038aca1ba",
+      "bytes": 15808580
+    },
+    "frontend_r1_manifest": {
+      "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/frontend-r1/specialist-final-inputs-r1.json",
+      "sha256": "acdab3ec47f97a2b2db1308d2d48ad5ccf6e98380e34705696d2cb874cc56361",
+      "bytes": 15810048
+    },
+    "r1_only_source_difference": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-browser/r1/revision-scope.json",
+      "sha256": "7ef2fc455647c3305be900f3c6dbc1bce5a66720143ad72aff735881561c49f5",
+      "bytes": 1714
+    },
+    "browser_artifact_index": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-browser/artifact-index.json",
+      "sha256": "b5c59c272eac0a38bfd236ef7cd1a771fb01a3a7a083d3c2185dcb08f0c11c25",
+      "bytes": 100554
+    },
+    "browser_integrity": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-browser/artifact-integrity.json",
+      "sha256": "3733d1561a1606f5e4247343bf9a0cd10deac729628ac669c4b63107ed5e3ad6",
+      "bytes": 561
+    }
+  },
+  "validation_counts": {
+    "counting": "Top-level Go executions and separately versioned browser scenarios; repeated runs are retained separately and are not presented as unique tests",
+    "initial_backend": {
+      "ordinary_platform_initial": {
+        "runs": [
+          "ordinary-Platform-cmd-sf-contracts",
+          "ordinary-Platform-internal-ai",
+          "ordinary-Platform-internal-api",
+          "ordinary-Platform-internal-app",
+          "ordinary-Platform-internal-application",
+          "ordinary-Platform-internal-cloudsync",
+          "ordinary-Platform-internal-compiledplan",
+          "ordinary-Platform-internal-configcenter",
+          "ordinary-Platform-internal-control",
+          "ordinary-Platform-internal-coordination",
+          "ordinary-Platform-internal-datatransfer",
+          "ordinary-Platform-internal-deviceconfig",
+          "ordinary-Platform-internal-engine",
+          "ordinary-Platform-internal-identity",
+          "ordinary-Platform-internal-notifications",
+          "ordinary-Platform-internal-plugins",
+          "ordinary-Platform-internal-rulecore",
+          "ordinary-Platform-internal-store",
+          "ordinary-Platform-internal-tasks",
+          "ordinary-Platform-internal-thingsboard",
+          "ordinary-Platform-pkg-compatibility",
+          "ordinary-Platform-pkg-contracts"
+        ],
+        "package_runs": 22,
+        "top_level": {
+          "pass": 256,
+          "fail": 2,
+          "skip": 43
+        },
+        "races": 0
+      },
+      "ordinary_datatransfer": {
+        "runs": [
+          "ordinary-DataTransfer-internal-acceptance",
+          "ordinary-DataTransfer-internal-bootstrap",
+          "ordinary-DataTransfer-internal-buffer",
+          "ordinary-DataTransfer-internal-command",
+          "ordinary-DataTransfer-internal-config",
+          "ordinary-DataTransfer-internal-configmanager",
+          "ordinary-DataTransfer-internal-connector-modbus",
+          "ordinary-DataTransfer-internal-connector-mqttdevice",
+          "ordinary-DataTransfer-internal-connector-opcua",
+          "ordinary-DataTransfer-internal-connector-sidecar",
+          "ordinary-DataTransfer-internal-connector",
+          "ordinary-DataTransfer-internal-northbound-grpc",
+          "ordinary-DataTransfer-internal-northbound-mqtt",
+          "ordinary-DataTransfer-internal-observability",
+          "ordinary-DataTransfer-internal-runtime",
+          "ordinary-DataTransfer-internal-simulator",
+          "ordinary-DataTransfer-internal-state",
+          "ordinary-DataTransfer-internal-strategy",
+          "ordinary-DataTransfer-observability",
+          "ordinary-DataTransfer-tests-acceptance",
+          "ordinary-DataTransfer-tests-contract"
+        ],
+        "package_runs": 21,
+        "top_level": {
+          "pass": 98,
+          "fail": 0,
+          "skip": 7
+        },
+        "races": 0
+      },
+      "postgres": {
+        "runs": [
+          "postgres-ai",
+          "postgres-api",
+          "postgres-application",
+          "postgres-cloudsync",
+          "postgres-compiledplan",
+          "postgres-control",
+          "postgres-store",
+          "postgres-tasks"
+        ],
+        "package_runs": 8,
+        "top_level": {
+          "pass": 36,
+          "fail": 0,
+          "skip": 1
+        },
+        "races": 0
+      },
+      "limited_race": {
+        "runs": [
+          "race-ai",
+          "race-api",
+          "race-app",
+          "race-application",
+          "race-cloudsync",
+          "race-dt-config",
+          "race-dt-configmanager",
+          "race-store",
+          "race-thingsboard"
+        ],
+        "package_runs": 9,
+        "top_level": {
+          "pass": 46,
+          "fail": 0,
+          "skip": 1
+        },
+        "races": 0
+      }
+    },
+    "supplemental_api_full": {
+      "run": "api-full-diagnostic",
+      "top_level": {
+        "pass": 35,
+        "fail": 0,
+        "skip": 4
+      }
+    },
+    "supplemental_cloudsync_full": {
+      "run": "cloudsync-full-idle-fixed",
+      "top_level": {
+        "pass": 20,
+        "fail": 0,
+        "skip": 1
+      }
+    },
+    "a02_backend": {
+      "ordinary": {
+        "runs": [
+          "a02-ordinary-ai",
+          "a02-ordinary-api",
+          "a02-ordinary-application"
+        ],
+        "top_level": {
+          "pass": 119,
+          "fail": 0,
+          "skip": 16
+        },
+        "races": 0
+      },
+      "postgres": {
+        "runs": [
+          "a02-postgres-ai",
+          "a02-postgres-api",
+          "a02-postgres-application"
+        ],
+        "top_level": {
+          "pass": 17,
+          "fail": 0,
+          "skip": 0
+        },
+        "races": 0
+      },
+      "limited_race": {
+        "runs": [
+          "a02-race-ai",
+          "a02-race-application"
+        ],
+        "top_level": {
+          "pass": 20,
+          "fail": 0,
+          "skip": 0
+        },
+        "races": 0
+      }
+    },
+    "release_deployment": {
+      "tests": 17,
+      "pass": 17,
+      "fail": 0,
+      "run": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-a02/a02-release-deployment-tests.metadata.json",
+        "sha256": "dcd271293d7608e62162174339c41fd9c2b64c51354002a12d6b44a40efdbe0a",
+        "bytes": 1584
+      }
+    },
+    "contract_regeneration": {
+      "compared_files": 160,
+      "mismatches": 0,
+      "comparison": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/contract-comparison.json",
+        "sha256": "0e4a00f650ba87c21173326fd03e89ac33b6b85118ce5e17242c12d1b9171cfb",
+        "bytes": 84975
+      }
+    },
+    "contract_validation": {
+      "schemas": 157,
+      "example_definitions": 24,
+      "api_operations": 96,
+      "run": "contract-validation"
+    },
+    "frontend": {
+      "standard_frozen_scenarios_passed": 28,
+      "additional_independent_scenarios_passed": 3,
+      "unique_scenarios_with_final_pass": 31,
+      "r1_affected_scenario_executions_passed": 5,
+      "r1_nonempty_layout_combinations": 9,
+      "r1_empty_layout_combinations": 9,
+      "unit_tests_each_fixed_build": 27,
+      "production_builds": 2,
+      "typecheck_compatibility_runs": 2,
+      "static_files_each_build": 15,
+      "npm_audit_vulnerabilities": 0,
+      "captured_pages_without_javascript_errors": 97
+    },
+    "recorded_runs": {
+      "initial_backend": 154,
+      "a02_backend": 25,
+      "frontend_and_browser": 21
+    }
+  },
+  "original_failures_and_resolutions": {
+    "initial_backend": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-independent-review-checkpoint.json",
+      "sha256": "6e5332b2d6a949a2c228d415e408535a4d3e646aa5c05e02455e21eaa67e6c46",
+      "bytes": 109615
+    },
+    "a02_original_v2_v3_and_null_assertion": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-a02/independent-null-correction.json",
+      "sha256": "8a1921e319aaf1485c4fd520477f1185cbdca25cbf39d2b67fbe8ed5c718e854",
+      "bytes": 1023
+    },
+    "frontend_specialist_originals": {
+      "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/specialist-final-report.json",
+      "sha256": "991e16581c4033e778bd1c0753a7337e7bf2e90cb515407afb8f9323f5107524",
+      "bytes": 49602
+    },
+    "independent_f05_and_extra_fixture_setup": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-browser/browser-test-outcomes.json",
+      "sha256": "0519ebed2f5c5ff02368177470f420e42e60c59e1b976ae911be2b84391f90a9",
+      "bytes": 30457
+    },
+    "supplemental_sources": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-browser/browser-source-retention.json",
+      "sha256": "7a88e1918ffdd6250da6cc605a87c85a6890728723c95263e55c2946be4dc006",
+      "bytes": 7758
+    },
+    "transition_manifest_clarification": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-browser/transition-manifest-retention.json",
+      "sha256": "0ea9e1549eeee884857cb9388363fb6bc0eb5fc3aed63fb14a65ce89504c703b",
+      "bytes": 1391
+    },
+    "final_audit_driver": {
+      "initial_error": "The audit helper used row['relative'] for the backend snapshot, whose actual key is 'path'; no validation result was written by that failed attempt",
+      "retained_original": {
+        "path": "/private/tmp/smartfactory-phase4-independent-browser-20261005/audit-frontend-first.py",
+        "sha256": "39c64d56b14d7b582df19edb15078612cd00b6c7e59d5c71bf091d2e0cd81efa",
+        "bytes": 4284
+      },
+      "corrected_driver": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/audit_frontend_final.py",
+        "sha256": "0c84520769d36347f3c9711a9b38c31d7b91b5e6d1a12373e33cca8f48f7c007",
+        "bytes": 4290
+      },
+      "retest": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-browser/specialist-final-audit.json",
+        "sha256": "612007bfa7e5e0ce691e62ec171858f7fb657661197bd434bc4bb76bd6fedbcd",
+        "bytes": 1643290
+      }
+    }
+  },
+  "conditional_tests_and_prior_stage_regressions": {
+    "initial_skip_index": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/skipped-test-audit.json",
+      "sha256": "e7f8aa2742c8913ae151f13cf05d2083d3c22d080d1478d42839340f439d8b00",
+      "bytes": 31807
+    },
+    "postgres": "Ordinary-mode PostgreSQL skips are linked to actual isolated PostgreSQL executions; initial36 and finalA0217 top-level tests passed",
+    "native_ce": {
+      "status": "specialist_actual_native_evidence_checked_with_current_affected_code_retested",
+      "evidence": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-a02/native-history-audit.json",
+        "sha256": "dc882cee51f2c5bda0d0ddc718aafeff96775d96afd288ad7735b7073461fa96",
+        "bytes": 129710
+      },
+      "scope": "Actual CE lifecycle keeps its original compiled source and binary. Current B05 adapter/worker changes were independently tested with controlled HTTP failures, rotation, deadlines, recovery and race; this review does not relabel that historical CE run as a current-binary CE execution"
+    },
+    "external_fixtures": "External OPC-UA, MQTT broker, sidecar-process, durable-process and controlled PostgreSQL-upgrade fixtures keep their documented condition skips and prior-stage evidence. Current affected TLS/configuration, collection, control, synchronization, authorization, task, exact-value and AI paths completed their applicable local regression.",
+    "browser_group_skips": "Shared business/surfaces test files use phase selectors; every selected logical scenario passed in its proper group",
+    "previous_stage_source_retention": "/path/to/SmartFactory-2026/.local/evolution/phase3-preserved-paths.json"
+  },
+  "nonblocking_observations": [
+    {
+      "topic": "control budget timing",
+      "detail": "The first five-second wait did not observe the second backlog worker. The original binary repeated successfully, five diagnostic repeats passed, and both complete API reruns passed with unchanged deadlines; the original timing cause remains unproven",
+      "evidence": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-independent-review-checkpoint.json",
+        "sha256": "6e5332b2d6a949a2c228d415e408535a4d3e646aa5c05e02455e21eaa67e6c46",
+        "bytes": 109615
+      }
+    },
+    {
+      "topic": "frontend bundle notice",
+      "detail": "Vite reports a main chunk over 500 kB; production builds and the required page behavior pass, and the original build logs preserve its actual size",
+      "evidence": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-browser/r1/build.run.json",
+        "sha256": "5f5478048abed2d367e6c7f65f4c962cce2b86f88ce24d063fc0640fc493dee2",
+        "bytes": 1820
+      }
+    }
+  ],
+  "excluded_by_user": [
+    "完整UOS安装恢复",
+    "1/3节点连续断云24小时",
+    "受限链路专项",
+    "实际24小时容量与持续运行"
+  ],
+  "resource_cleanup": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-browser/final-resource-cleanup.json",
+    "sha256": "0191090fa51d26f789e81e231305a8cb3b2bc7124e111d795580893b955d23a7",
+    "bytes": 4670
+  },
+  "resources_released": true,
+  "privacy": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-browser/privacy-check.json",
+    "sha256": "afaf1f2be69134dfd7fe6f2ac7911858e3682f4264acc7618843e2860d8f5a39",
+    "bytes": 185
+  },
+  "review_changes": {
+    "product_code_changes_by_reviewer": 0,
+    "test_only_repository_changes": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/review-test-changes.json",
+      "sha256": "32a5b5f3ade1de0c244d78a4c9aa14920e4b2944bf242c2bfb3ea60173a1deb3",
+      "bytes": 2305
+    },
+    "independent_test_material": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-browser/browser-source-retention.json",
+      "sha256": "7a88e1918ffdd6250da6cc605a87c85a6890728723c95263e55c2946be4dc006",
+      "bytes": 7758
+    },
+    "git_diff_check_exit_code": 0,
+    "global_status_updates_owner": "root"
+  },
+  "handoff": "Independent checks complete; root may apply phase acceptance and start phase five using the preserved final source combination."
+}

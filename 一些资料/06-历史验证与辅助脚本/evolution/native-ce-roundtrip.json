@@ -1,0 +1,76 @@
+{
+  "check": "native_cloud_edge_roundtrip",
+  "started_ms": 1791123370611,
+  "ce_version": "4.3.1.6",
+  "edge_version": "4.3.1.6EDGE",
+  "sources": {
+    "thingsboard": {
+      "tag": "v4.3.1.6",
+      "commit": "c77335f4a524bb9fe0209806672c6ec7aea76141"
+    },
+    "thingsboard_edge": {
+      "version": "4.3.1.6EDGE",
+      "docker_tag": "4.3.1.6EDGE",
+      "tag": "v4.3.1.6",
+      "commit": "634b1852d2479983e2eb9aafcfaecbc164220f63"
+    }
+  },
+  "profiles": [
+    {
+      "name": "cloud",
+      "message_id": "native-evidence-cloud-1791123370948",
+      "ingress": {
+        "message_id": "native-evidence-cloud-1791123370948",
+        "duplicate": false,
+        "committed": true,
+        "count": 1,
+        "late": 0
+      },
+      "repeat": {
+        "message_id": "native-evidence-cloud-1791123370948",
+        "duplicate": true,
+        "committed": true,
+        "count": 0,
+        "late": 0
+      },
+      "derived": [
+        {
+          "id": "ca18aca1b0fe98fbbffb09ae082effef7308289ba2820756cd9894273f3ca7e7",
+          "message_id": "evaluation:climate-average:1:native-evidence-cloud-1791123370948:0",
+          "source_id": "cloud-native-test",
+          "source_sequence": 0,
+          "device_id": "climate-1",
+          "key": "climate-average.temperature",
+          "value": 22.5,
+          "observed_ms": 1791123370948,
+          "received_ms": 1791123370987,
+          "quality": "GOOD",
+          "time_source": "analysis",
+          "unit": "°C",
+          "entity_revision": 0,
+          "asset_version": 0,
+          "rule_version": 1,
+          "definition_id": "climate-average",
+          "late": false,
+          "revision": 1
+        }
+      ],
+      "tb_timeseries": {
+        "temperature": [
+          {
+            "ts": 1791123370948,
+            "value": "22.5"
+          }
+        ],
+        "climate-average.temperature": [
+          {
+            "ts": 1791123370948,
+            "value": "22.5"
+          }
+        ]
+      },
+      "passed": true
+    }
+  ],
+  "finished_ms": 1791123389357
+}

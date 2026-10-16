@@ -1,0 +1,74 @@
+{
+  "label": "postgres-store",
+  "command": [
+    "go",
+    "tool",
+    "test2json",
+    "-t",
+    "-p",
+    "competition2026/product/platform/internal/store",
+    "/private/tmp/smartfactory-phase4-independent-20261005/bin/Platform-internal-store.test",
+    "-test.v=test2json",
+    "-test.count=1",
+    "-test.parallel=1",
+    "-test.timeout=240s",
+    "-test.run=^Test(.*Postgres.*|QueryAllKindsStableKeyset)$"
+  ],
+  "cwd": "/private/tmp/smartfactory-phase4-independent-20261005/workspace/Platform/internal/store",
+  "started_at": "2026-10-05T02:25:15.257859+00:00",
+  "completed_at": "2026-10-05T02:25:48.366565+00:00",
+  "elapsed_seconds": 33.108,
+  "exit_code": 0,
+  "postgres": true,
+  "stdout": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/postgres-store.stdout.log",
+    "sha256": "aaee93a2528f5dec5697546a47147505273b1e90469df94ecc783e0d2488f240",
+    "bytes": 39565
+  },
+  "stderr": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/postgres-store.stderr.log",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "counts": {
+    "top_level": {
+      "pass": 16,
+      "fail": 0,
+      "skip": 1
+    },
+    "leaf": {
+      "pass": 26,
+      "fail": 0,
+      "skip": 1
+    },
+    "all_named": {
+      "pass": 30,
+      "fail": 0,
+      "skip": 1
+    },
+    "packages": {
+      "pass": 1,
+      "fail": 0,
+      "skip": 0
+    },
+    "skips": [
+      {
+        "package": "competition2026/product/platform/internal/store",
+        "test": "TestControlledPostgresUpgradeFixture",
+        "reason": "=== RUN   TestControlledPostgresUpgradeFixture\n    upgrade_fixture_test.go:33: controlled PostgreSQL 16 -> 18 fixture\n--- SKIP: TestControlledPostgresUpgradeFixture (0.00s)\n"
+      }
+    ],
+    "failures": [],
+    "races": 0
+  },
+  "build_inputs": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/build-inputs.json",
+    "sha256": "88fdc87b09a840748a6cadc356b019dcf324905175ecb4f7fb3e38f7c7981643",
+    "bytes": 1717015
+  },
+  "binary": {
+    "path": "/private/tmp/smartfactory-phase4-independent-20261005/bin/Platform-internal-store.test",
+    "sha256": "d2a1a7a6f8ba332f605d8555e1b0c206f637463536c56f36c7e2ccc38485484d",
+    "bytes": 37604306
+  }
+}

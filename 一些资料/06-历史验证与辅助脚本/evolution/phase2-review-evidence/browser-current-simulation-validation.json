@@ -1,0 +1,65 @@
+{
+  "checks": [
+    {
+      "order": "event_time",
+      "input_indices": [
+        1,
+        0,
+        2
+      ],
+      "outputs": [
+        12,
+        9007199254741005,
+        9007199254741004
+      ],
+      "history_source": "database_snapshot",
+      "passed": true
+    },
+    {
+      "order": "provided",
+      "input_indices": [
+        0,
+        1,
+        2
+      ],
+      "outputs": [
+        9007199254741003,
+        9007199254741005,
+        9007199254741004
+      ],
+      "history_source": "provided",
+      "passed": true
+    }
+  ],
+  "export_reproduced": true,
+  "formal_database_unchanged": true,
+  "snapshot_scopes": [
+    "formal_documents",
+    "observations",
+    "latest",
+    "rollups"
+  ],
+  "integer_precision_preserved": true,
+  "console_messages": [
+    {
+      "level": "error",
+      "url": "/favicon.ico",
+      "status": 404,
+      "classification": "missing_favicon",
+      "simulation_impact": false
+    }
+  ],
+  "stale_revision": {
+    "http_statuses": [
+      200,
+      200,
+      409,
+      200
+    ],
+    "original_revision": 1,
+    "remote_revision": 2,
+    "recovery_revision": 3,
+    "inputs_and_initial_state_retained": true,
+    "conflict_visible": true
+  }
+}

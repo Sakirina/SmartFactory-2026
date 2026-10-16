@@ -1,0 +1,357 @@
+{
+  "captured_at": "2026-10-04T18:14:59.976424+00:00",
+  "evidence_root": "/private/tmp/sf-message-nats-20261005-final",
+  "raw_report": "/private/tmp/sf-message-nats-20261005-final/verification.json",
+  "checks": {
+    "rolling_upgrade_old_signed_checkpoint_preserved": true,
+    "fence_increase_and_stale_owner_rejected": true,
+    "persistent_data_survives_single_and_all_node_restart": true,
+    "current_code_real_coordination_including_quorum_fault": true
+  },
+  "all_checks_passed": true,
+  "stages": [
+    {
+      "stage": "source_2.11.9_checkpoint",
+      "at": "2026-10-04T17:49:54.487648+00:00",
+      "result": "source_2.11.9-checkpoint.json",
+      "fence": 1,
+      "revision": 1,
+      "sha256": "60855a0350da99521058590e3ea7fc93a716325d8b8ec62ee7518a5144b6bab9"
+    },
+    {
+      "stage": "source_2.11.9",
+      "at": "2026-10-04T17:49:54.565524+00:00",
+      "members": "source_2.11.9-members.json",
+      "versions": [
+        "2.11.9",
+        "2.11.9",
+        "2.11.9"
+      ],
+      "meta_leader": "nats-1",
+      "mem_bytes": [
+        35061760,
+        35115008,
+        34611200
+      ]
+    },
+    {
+      "stage": "source-cold-backup",
+      "at": "2026-10-04T17:49:54.969191+00:00",
+      "bytes": 62701,
+      "cold_copy": "/private/tmp/sf-message-nats-20261005-final/source-cold-backup"
+    },
+    {
+      "stage": "source-cold-backup_restart_checkpoint",
+      "at": "2026-10-04T17:50:01.379148+00:00",
+      "result": "source-cold-backup_restart-checkpoint.json",
+      "fence": 1,
+      "revision": 1,
+      "sha256": "60855a0350da99521058590e3ea7fc93a716325d8b8ec62ee7518a5144b6bab9"
+    },
+    {
+      "stage": "before_roll_2.12",
+      "at": "2026-10-04T17:50:01.442041+00:00",
+      "members": "before_roll_2.12-members.json",
+      "versions": [
+        "2.11.9",
+        "2.11.9",
+        "2.11.9"
+      ],
+      "meta_leader": "nats-3",
+      "mem_bytes": [
+        34603008,
+        34938880,
+        35127296
+      ]
+    },
+    {
+      "stage": "drained_nats-1",
+      "at": "2026-10-04T17:50:01.630843+00:00",
+      "duration_seconds": 0.167,
+      "exit_code": 0,
+      "oom_killed": false
+    },
+    {
+      "stage": "2.12_nats-1_checkpoint",
+      "at": "2026-10-04T17:50:04.926060+00:00",
+      "result": "2.12_nats-1-checkpoint.json",
+      "fence": 1,
+      "revision": 1,
+      "sha256": "60855a0350da99521058590e3ea7fc93a716325d8b8ec62ee7518a5144b6bab9"
+    },
+    {
+      "stage": "2.12_nats-1",
+      "at": "2026-10-04T17:50:04.985473+00:00",
+      "members": "2.12_nats-1-members.json",
+      "versions": [
+        "2.12.15",
+        "2.11.9",
+        "2.11.9"
+      ],
+      "meta_leader": "nats-3",
+      "mem_bytes": [
+        39243776,
+        37478400,
+        37900288
+      ]
+    },
+    {
+      "stage": "drained_nats-2",
+      "at": "2026-10-04T17:50:07.073385+00:00",
+      "duration_seconds": 2.067,
+      "exit_code": 0,
+      "oom_killed": false
+    },
+    {
+      "stage": "2.12_nats-2_checkpoint",
+      "at": "2026-10-04T17:50:10.372556+00:00",
+      "result": "2.12_nats-2-checkpoint.json",
+      "fence": 1,
+      "revision": 1,
+      "sha256": "60855a0350da99521058590e3ea7fc93a716325d8b8ec62ee7518a5144b6bab9"
+    },
+    {
+      "stage": "2.12_nats-2",
+      "at": "2026-10-04T17:50:10.432820+00:00",
+      "members": "2.12_nats-2-members.json",
+      "versions": [
+        "2.12.15",
+        "2.12.15",
+        "2.11.9"
+      ],
+      "meta_leader": "nats-3",
+      "mem_bytes": [
+        39374848,
+        39165952,
+        37900288
+      ]
+    },
+    {
+      "stage": "drained_nats-3",
+      "at": "2026-10-04T17:50:12.514871+00:00",
+      "duration_seconds": 2.06,
+      "exit_code": 0,
+      "oom_killed": false
+    },
+    {
+      "stage": "2.12_nats-3_checkpoint",
+      "at": "2026-10-04T17:50:15.832210+00:00",
+      "result": "2.12_nats-3-checkpoint.json",
+      "fence": 1,
+      "revision": 1,
+      "sha256": "60855a0350da99521058590e3ea7fc93a716325d8b8ec62ee7518a5144b6bab9"
+    },
+    {
+      "stage": "2.12_nats-3",
+      "at": "2026-10-04T17:50:15.893731+00:00",
+      "members": "2.12_nats-3-members.json",
+      "versions": [
+        "2.12.15",
+        "2.12.15",
+        "2.12.15"
+      ],
+      "meta_leader": "nats-2",
+      "mem_bytes": [
+        39374848,
+        41000960,
+        38797312
+      ]
+    },
+    {
+      "stage": "before_roll_2.14.7",
+      "at": "2026-10-04T17:50:15.951631+00:00",
+      "members": "before_roll_2.14.7-members.json",
+      "versions": [
+        "2.12.15",
+        "2.12.15",
+        "2.12.15"
+      ],
+      "meta_leader": "nats-2",
+      "mem_bytes": [
+        39505920,
+        41000960,
+        38797312
+      ]
+    },
+    {
+      "stage": "drained_nats-1",
+      "at": "2026-10-04T17:50:18.035061+00:00",
+      "duration_seconds": 2.063,
+      "exit_code": 0,
+      "oom_killed": false
+    },
+    {
+      "stage": "2.14.7_nats-1_checkpoint",
+      "at": "2026-10-04T17:50:21.374563+00:00",
+      "result": "2.14.7_nats-1-checkpoint.json",
+      "fence": 1,
+      "revision": 1,
+      "sha256": "60855a0350da99521058590e3ea7fc93a716325d8b8ec62ee7518a5144b6bab9"
+    },
+    {
+      "stage": "2.14.7_nats-1",
+      "at": "2026-10-04T17:50:21.433814+00:00",
+      "members": "2.14.7_nats-1-members.json",
+      "versions": [
+        "2.14.7",
+        "2.12.15",
+        "2.12.15"
+      ],
+      "meta_leader": "nats-2",
+      "mem_bytes": [
+        73052160,
+        41000960,
+        39321600
+      ]
+    },
+    {
+      "stage": "drained_nats-3",
+      "at": "2026-10-04T17:50:23.516172+00:00",
+      "duration_seconds": 2.061,
+      "exit_code": 0,
+      "oom_killed": false
+    },
+    {
+      "stage": "2.14.7_nats-3_checkpoint",
+      "at": "2026-10-04T17:50:26.830140+00:00",
+      "result": "2.14.7_nats-3-checkpoint.json",
+      "fence": 1,
+      "revision": 1,
+      "sha256": "60855a0350da99521058590e3ea7fc93a716325d8b8ec62ee7518a5144b6bab9"
+    },
+    {
+      "stage": "2.14.7_nats-3",
+      "at": "2026-10-04T17:50:26.891784+00:00",
+      "members": "2.14.7_nats-3-members.json",
+      "versions": [
+        "2.14.7",
+        "2.12.15",
+        "2.14.7"
+      ],
+      "meta_leader": "nats-2",
+      "mem_bytes": [
+        76632064,
+        41263104,
+        75190272
+      ]
+    },
+    {
+      "stage": "drained_nats-2",
+      "at": "2026-10-04T17:50:28.978120+00:00",
+      "duration_seconds": 2.064,
+      "exit_code": 0,
+      "oom_killed": false
+    },
+    {
+      "stage": "2.14.7_nats-2_checkpoint",
+      "at": "2026-10-04T17:50:32.287376+00:00",
+      "result": "2.14.7_nats-2-checkpoint.json",
+      "fence": 1,
+      "revision": 1,
+      "sha256": "60855a0350da99521058590e3ea7fc93a716325d8b8ec62ee7518a5144b6bab9"
+    },
+    {
+      "stage": "2.14.7_nats-2",
+      "at": "2026-10-04T17:50:32.347419+00:00",
+      "members": "2.14.7_nats-2-members.json",
+      "versions": [
+        "2.14.7",
+        "2.14.7",
+        "2.14.7"
+      ],
+      "meta_leader": "nats-1",
+      "mem_bytes": [
+        77025280,
+        73134080,
+        75452416
+      ]
+    },
+    {
+      "stage": "upgraded_takeover_checkpoint",
+      "at": "2026-10-04T17:50:32.426233+00:00",
+      "result": "upgraded_takeover-checkpoint.json",
+      "fence": 5,
+      "revision": 2,
+      "sha256": "776dcad5f88b4cb7e33f6a7614d6f7ce9f42809cc8ef57c32baadc8824700a1a"
+    },
+    {
+      "stage": "single_node_restart_checkpoint",
+      "at": "2026-10-04T17:50:36.787679+00:00",
+      "result": "single_node_restart-checkpoint.json",
+      "fence": 5,
+      "revision": 2,
+      "sha256": "776dcad5f88b4cb7e33f6a7614d6f7ce9f42809cc8ef57c32baadc8824700a1a"
+    },
+    {
+      "stage": "single_node_restart",
+      "at": "2026-10-04T17:50:36.850463+00:00",
+      "members": "single_node_restart-members.json",
+      "versions": [
+        "2.14.7",
+        "2.14.7",
+        "2.14.7"
+      ],
+      "meta_leader": "nats-1",
+      "mem_bytes": [
+        77549568,
+        75300864,
+        75714560
+      ]
+    },
+    {
+      "stage": "target-cold-backup",
+      "at": "2026-10-04T17:50:37.240054+00:00",
+      "bytes": 60007,
+      "cold_copy": "/private/tmp/sf-message-nats-20261005-final/target-cold-backup"
+    },
+    {
+      "stage": "target-cold-backup_restart_checkpoint",
+      "at": "2026-10-04T17:50:46.685095+00:00",
+      "result": "target-cold-backup_restart-checkpoint.json",
+      "fence": 5,
+      "revision": 2,
+      "sha256": "776dcad5f88b4cb7e33f6a7614d6f7ce9f42809cc8ef57c32baadc8824700a1a"
+    },
+    {
+      "stage": "all_node_restart",
+      "at": "2026-10-04T17:50:46.752426+00:00",
+      "members": "all_node_restart-members.json",
+      "versions": [
+        "2.14.7",
+        "2.14.7",
+        "2.14.7"
+      ],
+      "meta_leader": "nats-3",
+      "mem_bytes": [
+        74977280,
+        72900608,
+        72982528
+      ]
+    },
+    {
+      "stage": "after_quorum_fault_checkpoint",
+      "at": "2026-10-04T17:50:55.319657+00:00",
+      "result": "after_quorum_fault-checkpoint.json",
+      "fence": 5,
+      "revision": 2,
+      "sha256": "776dcad5f88b4cb7e33f6a7614d6f7ce9f42809cc8ef57c32baadc8824700a1a"
+    },
+    {
+      "stage": "after_quorum_fault",
+      "at": "2026-10-04T17:50:55.383406+00:00",
+      "members": "after_quorum_fault-members.json",
+      "versions": [
+        "2.14.7",
+        "2.14.7",
+        "2.14.7"
+      ],
+      "meta_leader": "nats-1",
+      "mem_bytes": [
+        82378752,
+        75329536,
+        75141120
+      ]
+    }
+  ],
+  "completed_at": "2026-10-04T17:50:55.949099+00:00"
+}

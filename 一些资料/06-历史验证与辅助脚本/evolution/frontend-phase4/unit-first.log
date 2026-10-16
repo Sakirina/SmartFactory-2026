@@ -1,0 +1,51 @@
+
+> smartfactory-frontends@0.1.0 test:unit
+> node --test tests/*.test.mjs
+
+✔ generated publish keeps unsafe integers, credentials, escaped IDs and draft revision (12.771459ms)
+✔ conflict status and message reach the editor without a retry or publication (0.360875ms)
+✔ generated legacy retry accepts HTTP 202 and keeps the linked task and exact business version (0.147375ms)
+✔ expired authentication reaches the shared session event (0.194917ms)
+✔ save preserves graph values while taking authoritative persistence metadata (0.199916ms)
+✔ continuous simulation preserves numeric identity, revision and explicit empty history (0.467542ms)
+✔ database history remains omitted and advanced fields cannot change selected inputs or revision (0.109041ms)
+✔ exact JSON roundtrip distinguishes integer values from quoted identifiers and rejects unsafe Numbers (0.141625ms)
+✔ task actions preserve the opaque version and escaped identity without coercion or automatic retry (0.156333ms)
+✔ task pagination follows the server cursor even when an authorized page is empty (0.1575ms)
+✔ task details keep exact queue IDs and actions returned for the current principal (0.2655ms)
+✔ full point progress continues to show active rollups, failures and running cancellation (0.055042ms)
+✔ task operation feedback follows refreshed detail while preserving conflict explanations (0.055417ms)
+✔ control requests retain exact local/source versions and asynchronous acceptance (0.241708ms)
+✔ operation feedback uses persisted start time and current execution outcome (0.083417ms)
+✔ history request preserves retained versus empty history, scope, versions and numeric observations (0.307ms)
+✔ analysis pagination permits empty authorized pages and preserves precise node values (0.262791ms)
+✔ shadow stop uses the read management version without retrying a conflict (0.130167ms)
+✔ formal source and waiting parent labels preserve independent comparison meaning (0.090667ms)
+✖ official generated types retain nullable collections, input parameters, response variants and failure statuses (218.201416ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 19
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 412.430583
+
+✖ failing tests:
+
+test at tests/generated-types.test.mjs:9:1
+✖ official generated types retain nullable collections, input parameters, response variants and failure statuses (218.201416ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  96 !== 70
+  
+      at TestContext.<anonymous> (file:///path/to/SmartFactory-2026/Frontends/tests/generated-types.test.mjs:46:12)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 96,
+    expected: 70,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

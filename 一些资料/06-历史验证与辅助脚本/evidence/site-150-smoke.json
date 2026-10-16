@@ -1,0 +1,162 @@
+{
+  "started_ms": 1789877476588,
+  "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "source_commit": "f4bd353dcd2f023e41355eb92698e252be6d4f73",
+  "binary_sha256": {
+    "sf-site-fixture": "f0a5b936d9465e0d70d9b7077f89322602dc2737a1e82c51610d9b2cd6972550",
+    "datatransfer": "80ee6965b7aa67b771abae40fcbf6244d0d8ab7e3c0aab51f38eb980044bee10",
+    "dt-simulator": "7f48fe40dbb65e5a67b6d410f01f0dd3d60ae59afbf761a47a3ee1f3dd7f194a"
+  },
+  "nodes": 3,
+  "devices_per_node": 50,
+  "protocol": "MQTT 5.0",
+  "sampling_ms": 5000,
+  "storage": "three PostgreSQL databases in one bounded tmpfs fixture; three in-memory DataTransfer journals and simulator stores; three independent NATS tmpfs stores",
+  "lease_ms": 2000,
+  "production_default_lease_ms": 15000,
+  "offline_ms": 15000,
+  "cloud_connected": false,
+  "tests": [
+    {
+      "number": 1,
+      "fault": "quorum_partition",
+      "execution_id": "site-fault-000",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 9489
+    }
+  ],
+  "passed": false,
+  "full_A09_24h": false,
+  "fixture": {
+    "definition_hash": "506d0f7e7050dafcaf8ef72ccbc387e74e0f2f53f0b161dccfa943d22ab8f043",
+    "devices_per_node": 50,
+    "lease_ms": 2000,
+    "nodes": 3,
+    "offline_ms": 15000
+  },
+  "baseline": {
+    "execution": {
+      "downlink_id": "site-baseline",
+      "definition_id": "site-gas-plan",
+      "definition_version": 1,
+      "params": {},
+      "status": "completed",
+      "override": false,
+      "risk_category": "",
+      "risk_level": 0,
+      "binding": "",
+      "created_ms": 0,
+      "approval_expires_ms": 0,
+      "start_deadline_ms": 1789877500461,
+      "approvals": [],
+      "steps": [
+        {
+          "step_id": "extract-edge-a",
+          "command_id": "site-baseline:extract-edge-a",
+          "status": "SUCCESS",
+          "message": "device state updated",
+          "started_ms": 1789877490658,
+          "finished_ms": 1789877491077
+        },
+        {
+          "step_id": "extract-edge-b",
+          "command_id": "site-baseline:extract-edge-b",
+          "status": "SUCCESS",
+          "message": "device state updated",
+          "started_ms": 1789877491101,
+          "finished_ms": 1789877491543
+        },
+        {
+          "step_id": "extract-edge-c",
+          "command_id": "site-baseline:extract-edge-c",
+          "status": "SUCCESS",
+          "message": "device state updated",
+          "started_ms": 1789877491712,
+          "finished_ms": 1789877492016
+        }
+      ],
+      "snapshot": [
+        {
+          "id": "edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789877486408690000:1:2",
+          "origin_id": "edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789877486408690000:1:2",
+          "message_id": "edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789877486408690000:1",
+          "source_id": "edge-a",
+          "source_sequence": 1,
+          "device_id": "edge-a-device-000",
+          "key": "interlock",
+          "value": false,
+          "observed_ms": 1789877486408,
+          "received_ms": 1789877486522,
+          "quality": "GOOD",
+          "time_source": "device",
+          "entity_revision": 1,
+          "asset_version": 1,
+          "late": false,
+          "revision": 1
+        },
+        {
+          "id": "site:edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789877486696071000:1:2:0",
+          "origin_id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789877486696071000:1:2",
+          "message_id": "site:edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789877486696071000:1:2",
+          "source_id": "edge-b",
+          "source_sequence": 1,
+          "device_id": "edge-b-device-000",
+          "key": "interlock",
+          "value": false,
+          "observed_ms": 1789877486696,
+          "received_ms": 1789877487628,
+          "quality": "GOOD",
+          "time_source": "device",
+          "entity_revision": 1,
+          "asset_version": 1,
+          "late": false,
+          "revision": 1
+        },
+        {
+          "id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789877486987081000:1:2:0",
+          "origin_id": "edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789877486987081000:1:2",
+          "message_id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789877486987081000:1:2",
+          "source_id": "edge-c",
+          "source_sequence": 1,
+          "device_id": "edge-c-device-000",
+          "key": "interlock",
+          "value": false,
+          "observed_ms": 1789877486987,
+          "received_ms": 1789877487666,
+          "quality": "GOOD",
+          "time_source": "device",
+          "entity_revision": 1,
+          "asset_version": 1,
+          "late": false,
+          "revision": 1
+        }
+      ],
+      "actor": {
+        "user_id": "published-policy",
+        "name": "",
+        "department_id": "",
+        "roles": null,
+        "source": "acceptance-fixture",
+        "session_id": "",
+        "ai": false
+      },
+      "fence": 1,
+      "coordinator_id": "edge-a",
+      "version": 6
+    },
+    "physical_actions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "error": "two-replica majority execution",
+  "finished_ms": 1789877549834
+}

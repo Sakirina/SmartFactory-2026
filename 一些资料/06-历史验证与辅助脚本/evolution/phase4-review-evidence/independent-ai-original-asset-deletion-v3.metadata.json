@@ -1,0 +1,72 @@
+{
+  "label": "independent-ai-original-asset-deletion-v3",
+  "command": [
+    "go",
+    "tool",
+    "test2json",
+    "-t",
+    "-p",
+    "competition2026/product/platform/internal/ai",
+    "/private/tmp/smartfactory-phase4-independent-20261005/bin/independent-ai-v3.test",
+    "-test.v=test2json",
+    "-test.run=^TestIndependentInvestigationDeletedOriginalAsset$",
+    "-test.timeout=60s"
+  ],
+  "cwd": "/private/tmp/smartfactory-phase4-independent-20261005/workspace/Platform/internal/ai",
+  "started_at": "2026-10-05T02:36:08.215973+00:00",
+  "completed_at": "2026-10-05T02:36:08.670377+00:00",
+  "elapsed_seconds": 0.454,
+  "exit_code": 1,
+  "postgres": false,
+  "stdout": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/independent-ai-original-asset-deletion-v3.stdout.log",
+    "sha256": "283856d1e0f4d551c4d0c033b111943c9bafe0a2d0964f83df91e1ee0381cac6",
+    "bytes": 2635
+  },
+  "stderr": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/independent-ai-original-asset-deletion-v3.stderr.log",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "counts": {
+    "top_level": {
+      "pass": 0,
+      "fail": 1,
+      "skip": 0
+    },
+    "leaf": {
+      "pass": 0,
+      "fail": 1,
+      "skip": 0
+    },
+    "all_named": {
+      "pass": 0,
+      "fail": 1,
+      "skip": 0
+    },
+    "packages": {
+      "pass": 0,
+      "fail": 1,
+      "skip": 0
+    },
+    "skips": [],
+    "failures": [
+      {
+        "package": "competition2026/product/platform/internal/ai",
+        "test": "TestIndependentInvestigationDeletedOriginalAsset",
+        "output": "=== RUN   TestIndependentInvestigationDeletedOriginalAsset\n    independent_ai_review_test.go:55: original_asset=private-factory original_status=200 after_deletion_status=200 content_bytes=1859 access=valid\n    independent_ai_review_test.go:61: investigation_status=200 answer_bytes=178 messages=1 evidence_arguments_bytes=29 evidence_resources=3 reference_status=valid\n    independent_ai_review_test.go:63: deleted original asset evidence remains accessible: HTTP 200\n    independent_ai_review_test.go:66: investigation retains content after an original asset was deleted\n--- FAIL: TestIndependentInvestigationDeletedOriginalAsset (0.39s)\n"
+      }
+    ],
+    "races": 0
+  },
+  "build_inputs": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/build-inputs.json",
+    "sha256": "88fdc87b09a840748a6cadc356b019dcf324905175ecb4f7fb3e38f7c7981643",
+    "bytes": 1717015
+  },
+  "binary": {
+    "path": "/private/tmp/smartfactory-phase4-independent-20261005/bin/independent-ai-v3.test",
+    "sha256": "5aade9c39ce78abab21e79747e2f1a5493f95b78aafefda5b2d0a3fc1377521c",
+    "bytes": 54274338
+  }
+}

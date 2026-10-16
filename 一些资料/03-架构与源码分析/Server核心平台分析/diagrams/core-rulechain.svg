@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1680" height="900" viewBox="0 0 1680 900" role="img" aria-labelledby="t d">
+  <title id="t">核心处理层 · 规则链的节点流转</title>
+  <desc id="d">ThingsBoard 规则链示例：上行消息进入后，依次经过富化、路由、转换、存储等节点；越限时分支到告警与外发。节点按类别划分，可在界面拖拽编排。</desc>
+  <defs>
+    <style>
+      .bg{fill:#f8fafc;}
+      .title{font:800 34px 'Inter',Arial,sans-serif;fill:#0f172a;}
+      .sub{font:400 16px 'Inter',Arial,sans-serif;fill:#475569;}
+      .bt{font:700 16px 'Inter',Arial,sans-serif;fill:#0f172a;}
+      .tg{font:700 11px 'Inter',Arial,sans-serif;}
+      .ti{font:400 12.5px 'Inter',Arial,sans-serif;fill:#475569;}
+      .h{font:800 17px 'Inter',Arial,sans-serif;fill:#0f172a;}
+      .tx{font:400 13.5px 'Inter',Arial,sans-serif;fill:#334155;}
+      .lg{font:600 13px 'Inter',Arial,sans-serif;fill:#334155;}
+      .node{fill:#ffffff;stroke-width:2.4;}
+      .panel{fill:#ffffff;stroke:#e2e8f0;stroke-width:1.6;}
+      .ar{fill:none;stroke:#64748b;stroke-width:2.4;marker-end:url(#m);}
+    </style>
+    <marker id="m" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M2,2 L9,5.5 L2,9 Z" fill="#64748b"/></marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="1680" height="900"/>
+
+  <text class="title" x="60" y="54">核心处理层 · 规则链的节点流转</text>
+  <text class="sub" x="62" y="84">一条消息进入规则链后，沿着连线在节点之间流动；每个节点属于某一类别</text>
+
+  <!-- main flow -->
+  <rect class="node" x="60" y="190" width="210" height="104" rx="12" stroke="#94a3b8"/>
+  <rect x="76" y="206" width="58" height="20" rx="6" fill="#94a3b8"/><text class="tg" x="105" y="220" text-anchor="middle" fill="#fff">输入</text>
+  <text class="bt" x="165" y="252" text-anchor="middle">进入规则链</text>
+  <text class="ti" x="165" y="276" text-anchor="middle">来自 DeviceActor</text>
+
+  <rect class="node" x="312" y="190" width="210" height="104" rx="12" stroke="#7c3aed"/>
+  <rect x="328" y="206" width="92" height="20" rx="6" fill="#7c3aed"/><text class="tg" x="374" y="220" text-anchor="middle" fill="#fff">ENRICHMENT</text>
+  <text class="bt" x="417" y="252" text-anchor="middle">富化</text>
+  <text class="ti" x="417" y="276" text-anchor="middle">关联设备属性与元数据</text>
+
+  <rect class="node" x="564" y="190" width="210" height="104" rx="12" stroke="#2563eb"/>
+  <rect x="580" y="206" width="58" height="20" rx="6" fill="#2563eb"/><text class="tg" x="609" y="220" text-anchor="middle" fill="#fff">FILTER</text>
+  <text class="bt" x="669" y="252" text-anchor="middle">路由</text>
+  <text class="ti" x="669" y="276" text-anchor="middle">按消息类型分流</text>
+
+  <rect class="node" x="816" y="190" width="210" height="104" rx="12" stroke="#0891b2"/>
+  <rect x="832" y="206" width="98" height="20" rx="6" fill="#0891b2"/><text class="tg" x="881" y="220" text-anchor="middle" fill="#fff">TRANSFORM</text>
+  <text class="bt" x="921" y="252" text-anchor="middle">转换</text>
+  <text class="ti" x="921" y="276" text-anchor="middle">改写消息 / 计算字段</text>
+
+  <rect class="node" x="1068" y="190" width="210" height="104" rx="12" stroke="#0d9488"/>
+  <rect x="1084" y="206" width="84" height="20" rx="6" fill="#0d9488"/><text class="tg" x="1126" y="220" text-anchor="middle" fill="#fff">TELEMETRY</text>
+  <text class="bt" x="1173" y="252" text-anchor="middle">Save Timeseries</text>
+  <text class="ti" x="1173" y="276" text-anchor="middle">遥测写入时序库</text>
+
+  <rect class="node" x="1320" y="190" width="300" height="104" rx="12" stroke="#059669"/>
+  <rect x="1336" y="206" width="62" height="20" rx="6" fill="#059669"/><text class="tg" x="1367" y="220" text-anchor="middle" fill="#fff">输出</text>
+  <text class="bt" x="1470" y="252" text-anchor="middle">订阅更新 → TB Core</text>
+  <text class="ti" x="1470" y="276" text-anchor="middle">触发 WebSocket 实时推送</text>
+
+  <!-- main arrows -->
+  <line class="ar" x1="270" y1="242" x2="306" y2="242"/>
+  <line class="ar" x1="522" y1="242" x2="558" y2="242"/>
+  <line class="ar" x1="774" y1="242" x2="810" y2="242"/>
+  <line class="ar" x1="1026" y1="242" x2="1062" y2="242"/>
+  <line class="ar" x1="1278" y1="242" x2="1314" y2="242"/>
+
+  <!-- branch down from filter -->
+  <path class="ar" d="M669,294 C 669,360 669,360 669,406"/>
+  <text class="ti" x="690" y="350" fill="#1d4ed8">越限分支</text>
+
+  <!-- alarm branch row -->
+  <rect class="node" x="564" y="410" width="210" height="104" rx="12" stroke="#2563eb"/>
+  <rect x="580" y="426" width="58" height="20" rx="6" fill="#2563eb"/><text class="tg" x="609" y="440" text-anchor="middle" fill="#fff">FILTER</text>
+  <text class="bt" x="669" y="472" text-anchor="middle">阈值判断</text>
+  <text class="ti" x="669" y="496" text-anchor="middle">是否越过告警门限</text>
+
+  <rect class="node" x="816" y="410" width="210" height="104" rx="12" stroke="#059669"/>
+  <rect x="832" y="426" width="58" height="20" rx="6" fill="#059669"/><text class="tg" x="861" y="440" text-anchor="middle" fill="#fff">ACTION</text>
+  <text class="bt" x="921" y="472" text-anchor="middle">Create Alarm</text>
+  <text class="ti" x="921" y="496" text-anchor="middle">生成或升级告警</text>
+
+  <rect class="node" x="1068" y="410" width="210" height="104" rx="12" stroke="#e11d48"/>
+  <rect x="1084" y="426" width="80" height="20" rx="6" fill="#e11d48"/><text class="tg" x="1124" y="440" text-anchor="middle" fill="#fff">EXTERNAL</text>
+  <text class="bt" x="1173" y="472" text-anchor="middle">外发 / 通知</text>
+  <text class="ti" x="1173" y="496" text-anchor="middle">推送 HTTP · Kafka · 短信</text>
+
+  <line class="ar" x1="774" y1="462" x2="810" y2="462"/>
+  <line class="ar" x1="1026" y1="462" x2="1062" y2="462"/>
+
+  <!-- legend -->
+  <rect class="panel" x="60" y="588" width="1560" height="270" rx="14"/>
+  <text class="h" x="86" y="624">规则链是一张可编排的有向图</text>
+  <text class="tx" x="86" y="656">消息从入口进入，沿着节点之间的连线流动，每经过一个节点就被处理一次。节点按职责分成若干类别，组合在一起，</text>
+  <text class="tx" x="86" y="680">就是一段业务编排。调整流程通常不必改动代码——在界面上拖拽节点、重连连线即可，规则的解释与执行交给规则引擎。</text>
+
+  <g transform="translate(86,712)">
+    <rect x="0" y="0" width="16" height="16" rx="4" fill="#2563eb"/><text class="lg" x="24" y="13">Filter · 过滤与路由</text>
+    <rect x="230" y="0" width="16" height="16" rx="4" fill="#7c3aed"/><text class="lg" x="254" y="13">Enrichment · 富化</text>
+    <rect x="430" y="0" width="16" height="16" rx="4" fill="#0891b2"/><text class="lg" x="454" y="13">Transform · 转换</text>
+    <rect x="620" y="0" width="16" height="16" rx="4" fill="#059669"/><text class="lg" x="644" y="13">Action · 动作</text>
+    <rect x="800" y="0" width="16" height="16" rx="4" fill="#e11d48"/><text class="lg" x="824" y="13">External · 外部</text>
+    <rect x="980" y="0" width="16" height="16" rx="4" fill="#d97706"/><text class="lg" x="1004" y="13">Flow · 流转</text>
+    <rect x="1140" y="0" width="16" height="16" rx="4" fill="#0d9488"/><text class="lg" x="1164" y="13">Telemetry · 存储</text>
+  </g>
+  <text class="ti" x="86" y="772">脚本类节点（例如自定义过滤、自定义转换）会把脚本下发给 JS Executor 沙箱执行，详见支撑服务。</text>
+  <text class="ti" x="86" y="800">源码：rule-engine/rule-engine-components — 每个类别下对应一组具体节点实现。</text>
+  <text class="ti" x="86" y="828">节点的执行由 RuleNodeActor 承载，落在前一张图的 Actor 体系之内。</text>
+</svg>

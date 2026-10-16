@@ -1,0 +1,246 @@
+{
+  "reviewed_at": "2026-10-04T22:05:53.748307+00:00",
+  "status": "frontend_specialist_delivery_verified_independent_phase_review_pending",
+  "specialist_report": {
+    "path": ".local/evolution/frontend-phase3-verified.json",
+    "original_path": ".local/evolution/frontend-phase3-verified.json",
+    "sha256": "343360007380ed39bf4823b5cb6b4762f4ab5bc7611b2ee8be3a061ba1da0e58",
+    "hashed_references": 53,
+    "matched": 50,
+    "different": [],
+    "referenced_files_checked": 49,
+    "missing_references": [],
+    "relative_artifact_resolution": [
+      {
+        "location": "/three_frontend_builds/0/javascript/assets/main-Bi59DXdo.js",
+        "resolved_path": ".local/evolution/frontend-phase3/builds/first/dist/assets/main-Bi59DXdo.js",
+        "expected": "5a915be5770ee9996e062fecd4bd7f619a6003d201409ca9d269c9613e8e3ebe",
+        "actual": "5a915be5770ee9996e062fecd4bd7f619a6003d201409ca9d269c9613e8e3ebe",
+        "identical": true
+      },
+      {
+        "location": "/three_frontend_builds/1/javascript/assets/main-C_SEIvAT.js",
+        "resolved_path": ".local/evolution/frontend-phase3/builds/second/dist/assets/main-C_SEIvAT.js",
+        "expected": "a958e628f0e85d75b81b657be9d37303adeda603c12b06dc81f2d642106c8a9c",
+        "actual": "a958e628f0e85d75b81b657be9d37303adeda603c12b06dc81f2d642106c8a9c",
+        "identical": true
+      },
+      {
+        "location": "/three_frontend_builds/2/javascript/assets/main-CiVE3bj4.js",
+        "resolved_path": ".local/evolution/frontend-phase3/builds/third/dist/assets/main-CiVE3bj4.js",
+        "expected": "f02c8f65921cac0ef95ce2e8f7d001188e11b60c8e89c35215ac4c625b0dc9cd",
+        "actual": "f02c8f65921cac0ef95ce2e8f7d001188e11b60c8e89c35215ac4c625b0dc9cd",
+        "identical": true
+      }
+    ],
+    "effective_matched": 53
+  },
+  "evidence_index": {
+    "checked": 154,
+    "different": []
+  },
+  "current_source": {
+    "files": 41,
+    "different": []
+  },
+  "current_dist": {
+    "files": 5,
+    "different": []
+  },
+  "saved_three_builds": {
+    "files": 15,
+    "different": []
+  },
+  "commands": [
+    {
+      "generation": "first",
+      "name": "unit",
+      "command": [
+        "npm",
+        "--prefix",
+        "Frontends",
+        "run",
+        "test:unit"
+      ],
+      "exit_code": 0,
+      "seconds": 0.474,
+      "log": ".local/evolution/frontend-phase3/unit.log",
+      "log_sha256": "5ba5eed8ff27e4b5763af8db4dc6a759684651c2c48818698339fc4a97c77124",
+      "reparsed_counts": {
+        "tests": 20,
+        "pass": 20,
+        "fail": 0,
+        "skipped": 0
+      }
+    },
+    {
+      "generation": "first",
+      "name": "compat",
+      "command": [
+        "npm",
+        "--prefix",
+        "Frontends",
+        "run",
+        "typecheck:compat"
+      ],
+      "exit_code": 0,
+      "seconds": 1.227,
+      "log": ".local/evolution/frontend-phase3/compat.log",
+      "log_sha256": "dbf8b195504f182a5e9d8670ea7a33528a7835c3f43b5d751ec4367ca5694b11"
+    },
+    {
+      "generation": "first",
+      "name": "build",
+      "command": [
+        "npm",
+        "--prefix",
+        "Frontends",
+        "run",
+        "build"
+      ],
+      "exit_code": 0,
+      "seconds": 1.266,
+      "log": ".local/evolution/frontend-phase3/build.log",
+      "log_sha256": "05f63be79c387cd67f2c36abcd9672c8f5bbdf7ea15ccb13635417bc5b3ee8ad"
+    },
+    {
+      "generation": "second",
+      "name": "unit",
+      "command": [
+        "npm",
+        "--prefix",
+        "Frontends",
+        "run",
+        "test:unit"
+      ],
+      "exit_code": 0,
+      "seconds": 0.441,
+      "log": ".local/evolution/frontend-phase3/second-unit.log",
+      "log_sha256": "470c964967af369d687c1cf5034218f8513195e326f3c1a6c263762aa362a819",
+      "reparsed_counts": {
+        "tests": 20,
+        "pass": 20,
+        "fail": 0,
+        "skipped": 0
+      }
+    },
+    {
+      "generation": "second",
+      "name": "compat",
+      "command": [
+        "npm",
+        "--prefix",
+        "Frontends",
+        "run",
+        "typecheck:compat"
+      ],
+      "exit_code": 0,
+      "seconds": 1.373,
+      "log": ".local/evolution/frontend-phase3/second-compat.log",
+      "log_sha256": "dbf8b195504f182a5e9d8670ea7a33528a7835c3f43b5d751ec4367ca5694b11"
+    },
+    {
+      "generation": "second",
+      "name": "build",
+      "command": [
+        "npm",
+        "--prefix",
+        "Frontends",
+        "run",
+        "build"
+      ],
+      "exit_code": 0,
+      "seconds": 1.193,
+      "log": ".local/evolution/frontend-phase3/second-build.log",
+      "log_sha256": "a9535e695b53196bc243b143b13a83f759e3f308e8a82a7ffe3444dc3525dccd"
+    },
+    {
+      "generation": "third",
+      "name": "unit",
+      "command": [
+        "npm",
+        "--prefix",
+        "Frontends",
+        "run",
+        "test:unit"
+      ],
+      "exit_code": 0,
+      "seconds": 0.455,
+      "log": ".local/evolution/frontend-phase3/third-unit.log",
+      "log_sha256": "484c05cf97790c150208352be0eb50236902c56e14b8806e4b1b9e243ea35169",
+      "reparsed_counts": {
+        "tests": 20,
+        "pass": 20,
+        "fail": 0,
+        "skipped": 0
+      }
+    },
+    {
+      "generation": "third",
+      "name": "compat",
+      "command": [
+        "npm",
+        "--prefix",
+        "Frontends",
+        "run",
+        "typecheck:compat"
+      ],
+      "exit_code": 0,
+      "seconds": 1.451,
+      "log": ".local/evolution/frontend-phase3/third-compat.log",
+      "log_sha256": "dbf8b195504f182a5e9d8670ea7a33528a7835c3f43b5d751ec4367ca5694b11"
+    },
+    {
+      "generation": "third",
+      "name": "build",
+      "command": [
+        "npm",
+        "--prefix",
+        "Frontends",
+        "run",
+        "build"
+      ],
+      "exit_code": 0,
+      "seconds": 1.212,
+      "log": ".local/evolution/frontend-phase3/third-build.log",
+      "log_sha256": "afdd70224359362df2a93d2257fc27451649ad6c79c8fabc23b8a7ef614479dc"
+    }
+  ],
+  "browser_cases": 37,
+  "browser_javascript_pageerrors": 0,
+  "reparsed_c05": {
+    "http_success": true,
+    "both_completed": true,
+    "same_evidence": true,
+    "trusted_success": true,
+    "counts": {
+      "recover-browser:first": 1,
+      "recover-browser:remaining": 1
+    },
+    "feedback_matches": true
+  },
+  "credential_scan": {
+    "scanned_utc": "2026-10-04T22:03:22.158347+00:00",
+    "private_source_file_count": 4,
+    "distinct_actual_password_or_token_count": 10,
+    "scanned_file_count": 313,
+    "scope": "Per-run actual passwords and bearer tokens from original v2/C05 control, own history and extra private credentials; saved frontend requests, browser command log, CLI snapshots/consoles, all three artifact snapshots, screenshots, source/evidence indexes, final report and page documentation",
+    "matching_file_count": 0,
+    "matching_occurrences": 0,
+    "matching_files": [],
+    "secret_values_emitted": false,
+    "screenshots": "Raw image bytes scanned for literal secrets; screenshots were visually checked for password fields or bearer tokens",
+    "request_policy": "Saved observer captures method/path/status/body/response and excludes authorization headers and authentication responses"
+  },
+  "ports": {
+    "19050": "closed",
+    "57807": "closed",
+    "57808": "closed",
+    "57815": "closed",
+    "64486": "closed",
+    "64487": "closed",
+    "64495": "closed"
+  },
+  "preexisting_files_review": ".local/evolution/phase3-preexisting-files-final-review.json",
+  "visual_review": ".local/evolution/control-c05-browser-root-review.json"
+}

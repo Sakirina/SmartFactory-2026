@@ -1,0 +1,179 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-04T15:15:04.993124+00:00",
+  "scope": "E1 toolchain and maintenance image locks; actual native CE/Edge callback and Envoy TLS/mTLS/SSE; application/use-case/store OpenTelemetry. Scoped build/test snapshots are explicit.",
+  "checks": [
+    {
+      "name": "centralized_toolchains",
+      "result": "passed",
+      "command": [
+        "python3",
+        "scripts/check-toolchains.py",
+        "--output",
+        ".local/evolution/toolchains-verified.json"
+      ],
+      "evidence": ".local/evolution/toolchains-verified.json"
+    },
+    {
+      "name": "toolchain_regressions",
+      "result": "passed",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_toolchains.py"
+      ],
+      "test_count": 5,
+      "evidence": ".local/evolution/toolchain-tests-final.log"
+    },
+    {
+      "name": "Go_binary_compiler_targets_and_SHA256",
+      "result": "passed",
+      "binary_count": 12,
+      "evidence": ".local/evolution/go-build-verification.json"
+    },
+    {
+      "name": "DataTransfer_all_tests_and_linux_amd64_build",
+      "result": "passed",
+      "evidence": ".local/evolution/datatransfer-tests-final.log",
+      "artifact": "/private/tmp/smartfactory-evolution-build/datatransfer"
+    },
+    {
+      "name": "OTel_and_bootstrap_race",
+      "result": "passed",
+      "command": [
+        "go",
+        "test",
+        "-race",
+        "./observability",
+        "./internal/bootstrap"
+      ],
+      "evidence": ".local/evolution/observability-race-final.log"
+    },
+    {
+      "name": "HTTP_to_definition_to_transaction_OTLP",
+      "result": "passed",
+      "test": "TestApplicationHTTPDraftAndTransactionTrace",
+      "evidence": ".local/evolution/app-otel-final.log"
+    },
+    {
+      "name": "browser_publication_identity_trace_and_audit",
+      "result": "passed",
+      "evidence": ".local/evolution/pilot-verified.json"
+    },
+    {
+      "name": "Node24_frontend_typecheck_and_build",
+      "result": "passed",
+      "evidence": ".local/evolution/architecture-contracts-verified.json",
+      "stdout": ".local/evolution/architecture-frontend-build-node24.stdout.txt"
+    },
+    {
+      "name": "eight_target_image_versions",
+      "result": "passed",
+      "evidence": ".local/evolution/image-versions.json"
+    },
+    {
+      "name": "CE_Edge_PG18_native_callback_duplicate_and_telemetry",
+      "result": "passed",
+      "evidence": ".local/evolution/native-controlled-roundtrip.json"
+    },
+    {
+      "name": "CE_Edge_original_message_and_audit_preserved",
+      "result": "passed",
+      "evidence": ".local/evolution/native-controlled-resources.json"
+    },
+    {
+      "name": "bounded_native_resource_repair",
+      "result": "passed",
+      "evidence": ".local/evolution/native-resource-repair.json",
+      "elapsed_seconds": 164.019,
+      "ce_cgroup_peak_bytes": 1854763008,
+      "ce_exit_code": 143,
+      "ce_oom_killed": false
+    },
+    {
+      "name": "Envoy_actual_TLS_mTLS_application_auth_and_unbuffered_SSE",
+      "result": "passed",
+      "evidence": ".local/evolution/envoy-runtime-verification.json"
+    },
+    {
+      "name": "PG18_numbered_migrations",
+      "result": "passed",
+      "evidence": ".local/evolution/architecture-postgres-migrations.stdout.txt"
+    },
+    {
+      "name": "PG18_numbered_migrations_storage_checkpoint",
+      "result": "passed",
+      "evidence": ".local/evolution/storage-checkpoint-postgres.log"
+    },
+    {
+      "name": "PG_fault_post_recovery_pilot_health_and_audit",
+      "result": "passed",
+      "evidence": ".local/evolution/pilot-post-resource-fault.json"
+    },
+    {
+      "name": "owned_fixture_cleanup_and_PG_retained",
+      "result": "passed",
+      "evidence": ".local/evolution/service-cleanup.json"
+    },
+    {
+      "name": "post_cleanup_PG_and_disk_resources",
+      "result": "passed",
+      "evidence": ".local/evolution/post-cleanup-resources.json"
+    }
+  ],
+  "acceptance_scope": {
+    "E1-01": {
+      "implementation": "complete",
+      "verification": "passed_scoped",
+      "remaining_final_review": "Full Platform ./... regression and final release artifacts must use the final combined code snapshot.",
+      "evidence": ".local/evolution/go-build-verification.json"
+    },
+    "E1-02": {
+      "implementation": "complete",
+      "verification": "passed_finite_actual_communication",
+      "evidence": ".local/evolution/native-controlled-resources.json"
+    },
+    "E1-03": {
+      "contribution": "toolchain and image/source lock consistency passed; overall compatibility manifest owned by root/architecture",
+      "evidence": ".local/evolution/toolchains-verified.json"
+    },
+    "E1-07": {
+      "implementation": "complete",
+      "verification": "passed",
+      "evidence": ".local/evolution/pilot-verified.json"
+    }
+  },
+  "pending_next_phase": [
+    "PostgreSQL16-to18 dataset transfer and production persistent queue/NATS cluster migration",
+    "Storage advisory lock concurrency/CAS/commit-visible cursor special tests and archive calculation outside transactions",
+    "River real compatibility trial, transactional insertion, migration and worker replacement; resource budgets",
+    "Final combined-code Platform regression and release verification",
+    "E5-04 Edge PID1 shell-to-Java stop signal forwarding and graceful stop/restart data verification"
+  ],
+  "handoff": {
+    "storage": "docs/evolution/handoff-storage.md",
+    "lock_order": "docs/evolution/storage-lock-order.md",
+    "delivery_stop": "docs/evolution/handoff-edge-stop.md"
+  },
+  "transfer_evidence": {
+    "images": ".local/evolution/image-fetch.json",
+    "node": ".local/evolution/node-download.json",
+    "go_cache": ".local/evolution/go-dependency-cache.json",
+    "base_runtime": ".local/evolution/runtime-image-current.json",
+    "note": "Compressed manifest and shared archive/cache byte counts; actual network retries and overhead are not separately measurable."
+  },
+  "resources": {
+    "workspace_free_bytes": 2201440256,
+    "tmp_docker_data_free_bytes": 43241902080,
+    "workspace_minimum_reserved_bytes": 1073741824,
+    "docker_memory_limit_bytes": 8319504384,
+    "postgres_memory_limit_bytes": 1073741824,
+    "post_cleanup_evidence": ".local/evolution/post-cleanup-resources.json"
+  },
+  "evidence_path_audit": ".local/evolution/toolchain-evidence-path-audit.json"
+}

@@ -1,0 +1,29 @@
+你继续担任第五阶段发布界面工程师，沿用原第四阶段角色、6.1 Sol / Max 与共享工作树。此次说明补充原 docs/evolution/brief-release-interface.md 和 .local/evolution/phase5-frontend-launch.txt；路径、运行时点和资源约定以本说明及最新恢复报告为准。主协调发出恢复任务之前，本文件仅用于准备交接。
+
+你已完成的 38 轮浏览器记录及原数据备份保留在 .local/evolution/release-interface-checkpoint.json。主协调检查点报告 .local/evolution/phase5-release-interface-checkpoint-root-review.json 核对了 15 份备份、282 份源码、19 份静态产物及各轮结果，身份停用、旧实例拒绝、轮换和实际新进程的四份状态对应。该次构建后已有目标适用性源码修改，最终报告需要给出最终源码与统一静态产物的对应关系。
+
+公共 Store 本地修订修正已完成，.local/evolution/storage-version-r01-verified.json 与 .local/evolution/phase5-storage-version-root-review.json 分别为工程师及主协调证据。原失败数据能够生成本地版本 27，固定参数版本保持 1，原历史、审计及其他记录完整。原发布工程师继续处理已验证运行配置的默认参数初始化、旧子程序启动失败后取得正式新期望，以及授权保持有效时的固定密钥缓存恢复。恢复结果、正式新工件、程序摘要与正在运行的进程必须从 .local/evolution/release-restore-recovery-verified.json 及其明确指向的记录取得；开始浏览器操作前核对报告状态和实际可用性。旧发布摘要及其工件缓存保留，使用正式登记的新发布完成恢复后继续页面操作。
+
+原发布实际夹具进程记录为 /private/tmp/smartfactory-phase5-release-process-tenth-20261005/evidence/processes.json，私有凭据在同一目录 private 下；随后恢复报告可能登记更新记录，以最新明确归属为准。节点配置夹具为 /private/tmp/smartfactory-phase5-node-frontend-live-20261005/frontend.json，实际进程在 private/running-processes.json，凭据在 private/a.token。节点轮换后需要使用该夹具最新凭据及代际，发布夹具和节点夹具各自的凭据、数据库与进程保持对应。
+
+采集运行工程师已提供 MQTT、Modbus、OPC UA 三协议隔离配置消费者，替换状态由检查点的 three_protocol_replacement 指向，程序摘要 bfa5fee4d9a42ef0f2de6bcc83b7d17387942fd56b0d9cd59199451db276b479。该夹具覆盖正式配置管理、配置消费者与实际采用回执，物理协议通信另有交付专项。你核对最新 PID、端口与能力后使用；原 MQTT 单协议数据目录和失败日志继续保存。正式 DataTransfer 五秒退出误报已修正并完成 Linux 前后对照、竞态和正式程序隔离退出，见 .local/evolution/phase5-datatransfer-runtime-root-review.json。
+
+按以下流程完成剩余页面工作：
+
+1. 在恢复后的后端和三协议消费者上完成五类模板版本演进，核对原绑定与参数、25 份规则和完整 29 组件、固定版本与摘要，并从实际消费者读取采用结果
+2. 完成实际程序失败、后续批次停止、合法重试、兼容退回及不兼容组合的恢复提示，使用正式人工操作并交叉核对业务版本、原持久数据、审计和当前进程状态
+3. 对模板页面复现与发布及身份页面相同的延迟 HTTP 刷新条件，保留用户新输入、当前对象及已读取的业务版本，完成正式提交；已有首次失败日志保留，避免把等待或定位错误记为产品通过
+4. 完成云端、现场、大屏三个入口的三种尺寸检查，核对坐标轴、图例、精确值、提示与完整导出；配置夹具没有 agv-1，选择正式存在的设备或独立正式 Seed 服务并记录准备过程
+5. 固定最终前端源码，完成生成客户端、类型检查、适用回归与生产构建，在同一套最终静态产物上完成剩余流程及涉及修正的组合复验；向构建交付工程师提供固定输入、产物摘要和构建对应记录，再提交 .local/evolution/release-interface-verified.json
+
+报告说明每轮结果、首次失败、补验条件、实际源码与二进制、浏览器请求、截图、数据库或审计核查。凭据明文只从私有文件读取，公开报告、trace、截图、页面和导出只呈现引用及状态。不得以修改 API 数据、重建原数据库或绕过正式权限来完成页面用例。后端功能问题交主协调安排原角色，你负责 Frontends、前端专项测试和页面操作说明。
+
+当前构建交付工程师同时运行，负责正式 Linux 组合及最终包，Docker、PG 和竞态时段由其使用。你使用现有 macOS SQLite 服务及浏览器；确需额外资源时告知主协调。PG 当前为 smartfactory-evolution-pg18-final60-20261005，实际 18.6、1GiB、2CPU、60 连接，私有 DSN 读取 .local/evolution/pg18-test.json。Node 24.21.0 位于 .local/toolchains/node-v24.21.0-darwin-arm64/bin。工作卷约 1.4GiB、临时卷约 4GiB，大型新产物放临时卷并复用已保存输入；保留原失败证据及仍被其他工程师使用的服务。
+
+本阶段已经新增四位智能体，你沿用原角色；同时最多两位子智能体运行，禁止自行创建子智能体。主协调负责需求、角色安排和最终验收。完成后结束自己启动的浏览器及服务，明确其他角色仍需的进程归属，并结束本轮以释放运行名额。
+
+中文采用完整自然段落，无 emoji，只有流程使用有序列表，单行表格单元格不加句号。提及成员使用“专家”或“工程师”，Secret 译为“密钥”。避免“落地、很关键、很现实、边界、直白”及单字省略表达。使用当前 Humanizer 的嵌入模式整理报告，保留技术条件、版本、单位和首次失败事实。
+
+补充 P5-R02：五模板实际应用后返回原发布，旧规则激活记录指向旧发布而当前 release_runtime 已属于模板发布，运行层曾拒绝启动。原发布工程师正在完成当前发布判定及不相交规则往返修正，原始证据见 .local/evolution/phase5-release-rule-roundtrip-failure-root-review.json。正常发布、失败恢复与兼容退回用例需使用最终恢复报告指定的新程序工件；先前旧工件继续保存自身行为记录，避免测试准备仍默认选中已确认有启动或返回缺陷的旧程序。最终页面验证把本地规则应用版本、来源固定版本和当前发布状态分别核对。
+
+最终恢复入口现已准备为 `/private/tmp/smartfactory-release-restore-recovery-20261005/frontend-fixture.json`，第六轮完成记录为同目录下 `process-final-sixth/result.json`，二十四项通过。实际程序为 `r02-final-v2`，摘要 `b02566d928858835502d2d0cd6aac04ef561335e0498f7675fb1d60b0e71f229`，代理摘要 `827e4d7fdf4d645a255f6163c641ea7267688bd53d6e068b199606c03d3f4cfc`；程序及代理必须与原发布夹具的数据库、主密钥和当前身份相对应。该入口已指定五模板发布 `recovery-r02-final-five-v2` 及其运行、正式任务、三协议消费者和进程记录，最终以发布工程师完成报告和启动前核对结果为准。

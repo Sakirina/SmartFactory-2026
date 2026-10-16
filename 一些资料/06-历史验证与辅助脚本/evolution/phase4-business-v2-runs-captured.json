@@ -1,0 +1,705 @@
+{
+  "snapshot": "/private/tmp/smartfactory-business-final-20261005-085650-v2",
+  "input_manifest": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-actual-inputs.json",
+  "input_manifest_sha256": "740b7e2ed1cdac974410f86a30caec41aee187e013488b112a3521ec39b65146",
+  "runtime": {
+    "GOMAXPROCS": 2,
+    "GOPROXY": "off",
+    "package_parallelism": 1,
+    "application_connections": 3,
+    "idle_connections": 1,
+    "management_connections": 1
+  },
+  "runs": [
+    {
+      "name": "final-build-platform-tests",
+      "command": [
+        "go",
+        "test",
+        "-c",
+        "-trimpath",
+        "-p",
+        "1",
+        "-o",
+        "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries",
+        "./internal/application",
+        "./internal/api",
+        "./internal/cloudsync",
+        "./internal/deviceconfig",
+        "./internal/thingsboard",
+        "./internal/app",
+        "./internal/store"
+      ],
+      "cwd": "/private/tmp/smartfactory-business-final-20261005-085650-v2/Platform",
+      "started_at": "2026-10-05T01:00:42.428774+00:00",
+      "completed_at": "2026-10-05T01:00:56.811824+00:00",
+      "elapsed_seconds": 14.383,
+      "exit_code": 0,
+      "log": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-build-platform-tests.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "final-application",
+      "command": [
+        "go",
+        "tool",
+        "test2json",
+        "-t",
+        "-p",
+        "competition2026/product/platform/internal/application",
+        "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/application.test",
+        "-test.v=test2json",
+        "-test.timeout=180s",
+        "-test.run=^TestBusiness",
+        "-test.count=1"
+      ],
+      "cwd": "/private/tmp/smartfactory-business-final-20261005-085650-v2/Platform",
+      "started_at": "2026-10-05T01:00:56.827991+00:00",
+      "completed_at": "2026-10-05T01:01:01.999532+00:00",
+      "elapsed_seconds": 5.171,
+      "exit_code": 0,
+      "log": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-application.log",
+      "log_sha256": "f12f88e96bd2f8f3b6cfce126085cdfe8675c5eb3562f266c2c530749b479d18",
+      "executed_binary_sha256": "e968a4f35605db450325f6169311a091539d06c437efa65c27143f6588ab01fe"
+    },
+    {
+      "name": "final-api",
+      "command": [
+        "go",
+        "tool",
+        "test2json",
+        "-t",
+        "-p",
+        "competition2026/product/platform/internal/api",
+        "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/api.test",
+        "-test.v=test2json",
+        "-test.timeout=180s",
+        "-test.run=^TestBusinessHTTP",
+        "-test.count=1"
+      ],
+      "cwd": "/private/tmp/smartfactory-business-final-20261005-085650-v2/Platform",
+      "started_at": "2026-10-05T01:01:02.035006+00:00",
+      "completed_at": "2026-10-05T01:01:04.687647+00:00",
+      "elapsed_seconds": 2.653,
+      "exit_code": 0,
+      "log": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-api.log",
+      "log_sha256": "8b15a5c3b6279128c05c51b7242f02354d5a7af02172484a655fd1d17abca150",
+      "executed_binary_sha256": "1406bc92b62e24a7198820ece51268913a08830af5d9f434fd1900bf09405583"
+    },
+    {
+      "name": "final-cloudsync",
+      "command": [
+        "go",
+        "tool",
+        "test2json",
+        "-t",
+        "-p",
+        "competition2026/product/platform/internal/cloudsync",
+        "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/cloudsync.test",
+        "-test.v=test2json",
+        "-test.timeout=180s",
+        "-test.run=^TestBusiness",
+        "-test.count=1"
+      ],
+      "cwd": "/private/tmp/smartfactory-business-final-20261005-085650-v2/Platform",
+      "started_at": "2026-10-05T01:01:04.721983+00:00",
+      "completed_at": "2026-10-05T01:01:05.419631+00:00",
+      "elapsed_seconds": 0.698,
+      "exit_code": 0,
+      "log": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-cloudsync.log",
+      "log_sha256": "d0c8248aa21e473d6a61466c7e57ccba811a14d1640183f004fe4d74bc323f84",
+      "executed_binary_sha256": "4656735355fe3e95f128f6b9c5506be71eb7ab9974f0b38e220dc3938ea7f370"
+    },
+    {
+      "name": "final-deviceconfig",
+      "command": [
+        "go",
+        "tool",
+        "test2json",
+        "-t",
+        "-p",
+        "competition2026/product/platform/internal/deviceconfig",
+        "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/deviceconfig.test",
+        "-test.v=test2json",
+        "-test.timeout=180s",
+        "-test.run=^TestConfigurationMetadata",
+        "-test.count=1"
+      ],
+      "cwd": "/private/tmp/smartfactory-business-final-20261005-085650-v2/Platform",
+      "started_at": "2026-10-05T01:01:05.445743+00:00",
+      "completed_at": "2026-10-05T01:01:05.499726+00:00",
+      "elapsed_seconds": 0.054,
+      "exit_code": 0,
+      "log": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-deviceconfig.log",
+      "log_sha256": "cb5ca7ede7a0295edb851f11ebd636230de5869471610ae46863d71ae793c431",
+      "executed_binary_sha256": "9c4ca8848d9228680e473036e79fade6861c8d7dcfed8d1518f3fb165307a592"
+    },
+    {
+      "name": "final-thingsboard",
+      "command": [
+        "go",
+        "tool",
+        "test2json",
+        "-t",
+        "-p",
+        "competition2026/product/platform/internal/thingsboard",
+        "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/thingsboard.test",
+        "-test.v=test2json",
+        "-test.timeout=180s",
+        "-test.run=^TestBusinessNativePoll",
+        "-test.count=1"
+      ],
+      "cwd": "/private/tmp/smartfactory-business-final-20261005-085650-v2/Platform",
+      "started_at": "2026-10-05T01:01:05.522899+00:00",
+      "completed_at": "2026-10-05T01:01:15.654194+00:00",
+      "elapsed_seconds": 10.131,
+      "exit_code": 0,
+      "log": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-thingsboard.log",
+      "log_sha256": "813094ebf19b4ba668451247895f27e677b0c1ad5efa616b4a18a3f5b8b898be",
+      "executed_binary_sha256": "6c871466dcc4ddfefa8ef51125920f5122082ea90cfab254ca388c70bdcb2d2b"
+    },
+    {
+      "name": "final-app",
+      "command": [
+        "go",
+        "tool",
+        "test2json",
+        "-t",
+        "-p",
+        "competition2026/product/platform/internal/app",
+        "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/app.test",
+        "-test.v=test2json",
+        "-test.timeout=180s",
+        "-test.run=^TestBusinessNativeWorker",
+        "-test.count=1"
+      ],
+      "cwd": "/private/tmp/smartfactory-business-final-20261005-085650-v2/Platform",
+      "started_at": "2026-10-05T01:01:15.719817+00:00",
+      "completed_at": "2026-10-05T01:01:21.006679+00:00",
+      "elapsed_seconds": 5.287,
+      "exit_code": 0,
+      "log": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-app.log",
+      "log_sha256": "f97d8cf9e0f9c41922771960982a610650a61b0c0d829134014a2f983c85b38f",
+      "executed_binary_sha256": "5d33718ca174e691d8b6ea84017fe78898a05b8f5cf427938fe8f6a512ca610b"
+    },
+    {
+      "name": "final-store",
+      "command": [
+        "go",
+        "tool",
+        "test2json",
+        "-t",
+        "-p",
+        "competition2026/product/platform/internal/store",
+        "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/store.test",
+        "-test.v=test2json",
+        "-test.timeout=180s",
+        "-test.run=^TestMigration",
+        "-test.count=1"
+      ],
+      "cwd": "/private/tmp/smartfactory-business-final-20261005-085650-v2/Platform",
+      "started_at": "2026-10-05T01:01:21.068356+00:00",
+      "completed_at": "2026-10-05T01:01:21.128253+00:00",
+      "elapsed_seconds": 0.06,
+      "exit_code": 0,
+      "log": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-store.log",
+      "log_sha256": "4145a34789770f1f92fc39ed5f6e1704c54322060153d2e71eae4c5a41ffa800",
+      "executed_binary_sha256": "6bfb15a7178ebae27184e244520b35a7c7a2154bd2fc8cecb00385daed98b7b6"
+    },
+    {
+      "name": "final-build-datatransfer-tests",
+      "command": [
+        "go",
+        "test",
+        "-c",
+        "-trimpath",
+        "-p",
+        "1",
+        "-o",
+        "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/datatransfer",
+        "./internal/config",
+        "./internal/configmanager"
+      ],
+      "cwd": "/private/tmp/smartfactory-business-final-20261005-085650-v2/DataTransfer",
+      "started_at": "2026-10-05T01:01:21.144219+00:00",
+      "completed_at": "2026-10-05T01:01:27.915558+00:00",
+      "elapsed_seconds": 6.771,
+      "exit_code": 0,
+      "log": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-build-datatransfer-tests.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "final-datatransfer-config",
+      "command": [
+        "go",
+        "tool",
+        "test2json",
+        "-t",
+        "-p",
+        "competition2026/product/datatransfer/internal/config",
+        "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/datatransfer/config.test",
+        "-test.v=test2json",
+        "-test.timeout=120s",
+        "-test.run=^TestTLSJSON",
+        "-test.count=1"
+      ],
+      "cwd": "/private/tmp/smartfactory-business-final-20261005-085650-v2/DataTransfer",
+      "started_at": "2026-10-05T01:01:27.918441+00:00",
+      "completed_at": "2026-10-05T01:01:27.968510+00:00",
+      "elapsed_seconds": 0.05,
+      "exit_code": 0,
+      "log": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-datatransfer-config.log",
+      "log_sha256": "74b926151b0ca2cdda5018978bd5a8841939989bbe4003cc3b89faf6d6125216",
+      "executed_binary_sha256": "5a6ecec4670b4a2266c012d4dfc83f147f5c11dc2f901c13d8d2993de6e0dce1"
+    },
+    {
+      "name": "final-datatransfer-configmanager",
+      "command": [
+        "go",
+        "tool",
+        "test2json",
+        "-t",
+        "-p",
+        "competition2026/product/datatransfer/internal/configmanager",
+        "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/datatransfer/configmanager.test",
+        "-test.v=test2json",
+        "-test.timeout=120s",
+        "-test.run=^Test(BusinessConnector|ConfigurationAndRevisionRestore)",
+        "-test.count=1"
+      ],
+      "cwd": "/private/tmp/smartfactory-business-final-20261005-085650-v2/DataTransfer",
+      "started_at": "2026-10-05T01:01:27.981531+00:00",
+      "completed_at": "2026-10-05T01:01:28.045610+00:00",
+      "elapsed_seconds": 0.064,
+      "exit_code": 0,
+      "log": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-datatransfer-configmanager.log",
+      "log_sha256": "b85ceed0ef23c84b39a3ae804113abfecc726d86ea4a4a2ca6ceacce77a12292",
+      "executed_binary_sha256": "894aa8fc7f3e51446f7f87c5bf224aaee60d8b14e519908b9dad4b5d19321d73"
+    },
+    {
+      "name": "final-build-sf-cloud",
+      "command": [
+        "go",
+        "build",
+        "-trimpath",
+        "-p",
+        "1",
+        "-o",
+        "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/sf-cloud",
+        "./cmd/sf-cloud"
+      ],
+      "cwd": "/private/tmp/smartfactory-business-final-20261005-085650-v2/Platform",
+      "started_at": "2026-10-05T01:01:28.057845+00:00",
+      "completed_at": "2026-10-05T01:01:30.029760+00:00",
+      "elapsed_seconds": 1.972,
+      "exit_code": 0,
+      "log": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-build-sf-cloud.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "executed_binary_sha256": "6ee000051dc1c64d2dde69167c640849ef25e19a9a965685a049939d0e27b552"
+    },
+    {
+      "name": "final-build-sf-edge",
+      "command": [
+        "go",
+        "build",
+        "-trimpath",
+        "-p",
+        "1",
+        "-o",
+        "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/sf-edge",
+        "./cmd/sf-edge"
+      ],
+      "cwd": "/private/tmp/smartfactory-business-final-20261005-085650-v2/Platform",
+      "started_at": "2026-10-05T01:01:30.071769+00:00",
+      "completed_at": "2026-10-05T01:01:30.947873+00:00",
+      "elapsed_seconds": 0.876,
+      "exit_code": 0,
+      "log": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-build-sf-edge.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "executed_binary_sha256": "231450cedfd49f05d53c6a825bc2ef91b8db5badf1450cb4840bb1bece16e6aa"
+    },
+    {
+      "name": "final-build-sf-contracts",
+      "command": [
+        "go",
+        "build",
+        "-trimpath",
+        "-p",
+        "1",
+        "-o",
+        "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/sf-contracts",
+        "./cmd/sf-contracts"
+      ],
+      "cwd": "/private/tmp/smartfactory-business-final-20261005-085650-v2/Platform",
+      "started_at": "2026-10-05T01:01:30.989328+00:00",
+      "completed_at": "2026-10-05T01:01:31.851939+00:00",
+      "elapsed_seconds": 0.863,
+      "exit_code": 0,
+      "log": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-build-sf-contracts.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "executed_binary_sha256": "508bfcb80ecb28b6ba867214011f8708a395c1b0ed3def073f604a5fb40a15d9"
+    },
+    {
+      "name": "final-build-sf-business-fixture",
+      "command": [
+        "go",
+        "build",
+        "-trimpath",
+        "-p",
+        "1",
+        "-o",
+        "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/sf-business-fixture",
+        "./cmd/sf-business-fixture"
+      ],
+      "cwd": "/private/tmp/smartfactory-business-final-20261005-085650-v2/Platform",
+      "started_at": "2026-10-05T01:01:31.890692+00:00",
+      "completed_at": "2026-10-05T01:01:32.796921+00:00",
+      "elapsed_seconds": 0.906,
+      "exit_code": 0,
+      "log": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-build-sf-business-fixture.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "executed_binary_sha256": "1536707f96d94e18e82638c743ead537fe6e7594b527f872501ad24d0665a80b"
+    },
+    {
+      "name": "final-contract-generation",
+      "command": [
+        "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/sf-contracts",
+        "-out",
+        "/private/tmp/smartfactory-business-final-20261005-085650-v2/contracts/1.0",
+        "-examples",
+        "/private/tmp/smartfactory-business-final-20261005-085650-v2/examples/factory/definitions.json"
+      ],
+      "cwd": "/private/tmp/smartfactory-business-final-20261005-085650-v2/Platform",
+      "started_at": "2026-10-05T01:01:32.833702+00:00",
+      "completed_at": "2026-10-05T01:01:32.881663+00:00",
+      "elapsed_seconds": 0.048,
+      "exit_code": 0,
+      "log": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-contract-generation.log",
+      "log_sha256": "522d8c1b10ce3db5b9c7f1ad93ea6432ca8434fb9597eaff362fa7dc235eb38c",
+      "executed_binary_sha256": "508bfcb80ecb28b6ba867214011f8708a395c1b0ed3def073f604a5fb40a15d9"
+    },
+    {
+      "name": "final-contract-validation",
+      "command": [
+        "/private/tmp/smartfactory-evolution-python/bin/python",
+        "/private/tmp/smartfactory-business-final-20261005-085650-v2/scripts/check-contracts.py"
+      ],
+      "cwd": "/private/tmp/smartfactory-business-final-20261005-085650-v2/Platform",
+      "started_at": "2026-10-05T01:01:32.900004+00:00",
+      "completed_at": "2026-10-05T01:01:33.755270+00:00",
+      "elapsed_seconds": 0.855,
+      "exit_code": 0,
+      "log": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-contract-validation.log",
+      "log_sha256": "c20510cd176b9c9da0aaa3f7223cbac941b95001491859378c340de61479fef6"
+    },
+    {
+      "name": "final-build-race-tests",
+      "command": [
+        "go",
+        "test",
+        "-c",
+        "-race",
+        "-trimpath",
+        "-p",
+        "1",
+        "-o",
+        "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/race",
+        "./internal/application",
+        "./internal/api",
+        "./internal/cloudsync",
+        "./internal/thingsboard",
+        "./internal/app"
+      ],
+      "cwd": "/private/tmp/smartfactory-business-final-20261005-085650-v2/Platform",
+      "started_at": "2026-10-05T01:02:01.267916+00:00",
+      "completed_at": "2026-10-05T01:02:21.796650+00:00",
+      "elapsed_seconds": 20.528,
+      "exit_code": 0,
+      "log": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-build-race-tests.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "final-race-application",
+      "command": [
+        "go",
+        "tool",
+        "test2json",
+        "-t",
+        "-p",
+        "competition2026/product/platform/internal/application",
+        "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/race/application.test",
+        "-test.v=test2json",
+        "-test.timeout=240s",
+        "-test.run=^TestBusiness(Concurrent|HandoverReviewed|WorkOrderRejects|ConnectorSecrets)",
+        "-test.count=1"
+      ],
+      "cwd": "/private/tmp/smartfactory-business-final-20261005-085650-v2/Platform",
+      "started_at": "2026-10-05T01:02:21.818194+00:00",
+      "completed_at": "2026-10-05T01:02:42.151911+00:00",
+      "elapsed_seconds": 20.333,
+      "exit_code": 0,
+      "log": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-race-application.log",
+      "log_sha256": "1371c322a0e9820fc497121b8efd9584e908ab53322d5e800e9307ea2f025514",
+      "executed_binary_sha256": "e0254cebaad1e68b0102c128cd28f8c0f6f9595907c7f0d7158deb364bb51e1e"
+    },
+    {
+      "name": "final-race-api",
+      "command": [
+        "go",
+        "tool",
+        "test2json",
+        "-t",
+        "-p",
+        "competition2026/product/platform/internal/api",
+        "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/race/api.test",
+        "-test.v=test2json",
+        "-test.timeout=240s",
+        "-test.run=^TestBusinessHTTPContinuous",
+        "-test.count=1"
+      ],
+      "cwd": "/private/tmp/smartfactory-business-final-20261005-085650-v2/Platform",
+      "started_at": "2026-10-05T01:02:42.217083+00:00",
+      "completed_at": "2026-10-05T01:02:48.307723+00:00",
+      "elapsed_seconds": 6.091,
+      "exit_code": 0,
+      "log": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-race-api.log",
+      "log_sha256": "184f2a97a73f64a178780e2a747395b7b0330afb4982247be13c49b3a3ebcddd",
+      "executed_binary_sha256": "417b649bffefb6dccd2fb373a956b6540494260042762d87fd0b5be989919328"
+    },
+    {
+      "name": "final-race-cloudsync",
+      "command": [
+        "go",
+        "tool",
+        "test2json",
+        "-t",
+        "-p",
+        "competition2026/product/platform/internal/cloudsync",
+        "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/race/cloudsync.test",
+        "-test.v=test2json",
+        "-test.timeout=240s",
+        "-test.run=^TestBusiness",
+        "-test.count=1"
+      ],
+      "cwd": "/private/tmp/smartfactory-business-final-20261005-085650-v2/Platform",
+      "started_at": "2026-10-05T01:02:48.368097+00:00",
+      "completed_at": "2026-10-05T01:02:58.762148+00:00",
+      "elapsed_seconds": 10.394,
+      "exit_code": 0,
+      "log": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-race-cloudsync.log",
+      "log_sha256": "8b8b78b588baaf09e6967811cd66693f1a96af5d93e692bebd3123d3f7ddf693",
+      "executed_binary_sha256": "0d2035c1eb5773d588b06b63c5fc4762139e98b56d33eaaa7a5fdc0b3b6b6517"
+    },
+    {
+      "name": "final-race-thingsboard",
+      "command": [
+        "go",
+        "tool",
+        "test2json",
+        "-t",
+        "-p",
+        "competition2026/product/platform/internal/thingsboard",
+        "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/race/thingsboard.test",
+        "-test.v=test2json",
+        "-test.timeout=240s",
+        "-test.run=^TestBusinessNativePoll",
+        "-test.count=1"
+      ],
+      "cwd": "/private/tmp/smartfactory-business-final-20261005-085650-v2/Platform",
+      "started_at": "2026-10-05T01:02:58.837573+00:00",
+      "completed_at": "2026-10-05T01:03:10.689450+00:00",
+      "elapsed_seconds": 11.852,
+      "exit_code": 0,
+      "log": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-race-thingsboard.log",
+      "log_sha256": "23817a650b3a33f31716de06e8d86f3ebcbe2e519f645658bec61ff6e21b4684",
+      "executed_binary_sha256": "644697cf72274db6dd0535e121c8a87670e282803c0619310a27ed4c8b920964"
+    },
+    {
+      "name": "final-race-app",
+      "command": [
+        "go",
+        "tool",
+        "test2json",
+        "-t",
+        "-p",
+        "competition2026/product/platform/internal/app",
+        "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/race/app.test",
+        "-test.v=test2json",
+        "-test.timeout=240s",
+        "-test.run=^TestBusinessNativeWorker",
+        "-test.count=1"
+      ],
+      "cwd": "/private/tmp/smartfactory-business-final-20261005-085650-v2/Platform",
+      "started_at": "2026-10-05T01:03:10.769633+00:00",
+      "completed_at": "2026-10-05T01:03:19.481510+00:00",
+      "elapsed_seconds": 8.712,
+      "exit_code": 0,
+      "log": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-race-app.log",
+      "log_sha256": "d4c7e9fc99e0493dcd47dd25783e17415ec379aef5a2dab29d6a99ee82a8c68f",
+      "executed_binary_sha256": "98a9a7a465505232a2be1db356eef22813c0a3e57ef12d54862d55ca901c6a47"
+    },
+    {
+      "name": "final-build-race-datatransfer",
+      "command": [
+        "go",
+        "test",
+        "-c",
+        "-race",
+        "-trimpath",
+        "-p",
+        "1",
+        "-o",
+        "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/race/datatransfer/configmanager.test",
+        "./internal/configmanager"
+      ],
+      "cwd": "/private/tmp/smartfactory-business-final-20261005-085650-v2/DataTransfer",
+      "started_at": "2026-10-05T01:03:19.534548+00:00",
+      "completed_at": "2026-10-05T01:03:29.576189+00:00",
+      "elapsed_seconds": 10.041,
+      "exit_code": 0,
+      "log": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-build-race-datatransfer.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "executed_binary_sha256": "d59a3bb6d441c1a0b832281ea0253ff3200ae08c01d03ce2873a4b06ff8e43ba"
+    },
+    {
+      "name": "final-race-datatransfer",
+      "command": [
+        "go",
+        "tool",
+        "test2json",
+        "-t",
+        "-p",
+        "competition2026/product/datatransfer/internal/configmanager",
+        "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/race/datatransfer/configmanager.test",
+        "-test.v=test2json",
+        "-test.timeout=180s",
+        "-test.run=^Test(BusinessConnector|ConcurrentPushes)",
+        "-test.count=1"
+      ],
+      "cwd": "/private/tmp/smartfactory-business-final-20261005-085650-v2/DataTransfer",
+      "started_at": "2026-10-05T01:03:29.604299+00:00",
+      "completed_at": "2026-10-05T01:03:30.711156+00:00",
+      "elapsed_seconds": 1.107,
+      "exit_code": 0,
+      "log": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-race-datatransfer.log",
+      "log_sha256": "bc1c5b8fd1a65baa636c83c12000ca387839a0ea7d816f2491150e4cf4b1ced7",
+      "executed_binary_sha256": "d59a3bb6d441c1a0b832281ea0253ff3200ae08c01d03ce2873a4b06ff8e43ba"
+    }
+  ],
+  "binaries": {
+    "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/application.test": {
+      "sha256": "e968a4f35605db450325f6169311a091539d06c437efa65c27143f6588ab01fe",
+      "bytes": 39653442,
+      "role": "normal business test binary",
+      "recorded_at": "2026-10-05T01:00:56.827822+00:00"
+    },
+    "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/api.test": {
+      "sha256": "1406bc92b62e24a7198820ece51268913a08830af5d9f434fd1900bf09405583",
+      "bytes": 47187986,
+      "role": "normal business test binary",
+      "recorded_at": "2026-10-05T01:01:02.034774+00:00"
+    },
+    "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/cloudsync.test": {
+      "sha256": "4656735355fe3e95f128f6b9c5506be71eb7ab9974f0b38e220dc3938ea7f370",
+      "bytes": 40274194,
+      "role": "normal business test binary",
+      "recorded_at": "2026-10-05T01:01:04.721767+00:00"
+    },
+    "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/deviceconfig.test": {
+      "sha256": "9c4ca8848d9228680e473036e79fade6861c8d7dcfed8d1518f3fb165307a592",
+      "bytes": 17558002,
+      "role": "normal business test binary",
+      "recorded_at": "2026-10-05T01:01:05.445578+00:00"
+    },
+    "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/thingsboard.test": {
+      "sha256": "6c871466dcc4ddfefa8ef51125920f5122082ea90cfab254ca388c70bdcb2d2b",
+      "bytes": 38534754,
+      "role": "normal business test binary",
+      "recorded_at": "2026-10-05T01:01:05.522740+00:00"
+    },
+    "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/app.test": {
+      "sha256": "5d33718ca174e691d8b6ea84017fe78898a05b8f5cf427938fe8f6a512ca610b",
+      "bytes": 54073410,
+      "role": "normal business test binary",
+      "recorded_at": "2026-10-05T01:01:15.719549+00:00"
+    },
+    "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/store.test": {
+      "sha256": "6bfb15a7178ebae27184e244520b35a7c7a2154bd2fc8cecb00385daed98b7b6",
+      "bytes": 37505042,
+      "role": "normal business test binary",
+      "recorded_at": "2026-10-05T01:01:21.068098+00:00"
+    },
+    "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/datatransfer/config.test": {
+      "sha256": "5a6ecec4670b4a2266c012d4dfc83f147f5c11dc2f901c13d8d2993de6e0dce1",
+      "bytes": 5785842,
+      "role": "configuration wire and effective manager test binary",
+      "recorded_at": "2026-10-05T01:01:27.918286+00:00"
+    },
+    "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/datatransfer/configmanager.test": {
+      "sha256": "894aa8fc7f3e51446f7f87c5bf224aaee60d8b14e519908b9dad4b5d19321d73",
+      "bytes": 24102946,
+      "role": "configuration wire and effective manager test binary",
+      "recorded_at": "2026-10-05T01:01:27.981354+00:00"
+    },
+    "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/sf-cloud": {
+      "sha256": "6ee000051dc1c64d2dde69167c640849ef25e19a9a965685a049939d0e27b552",
+      "bytes": 52906194,
+      "role": "application binary",
+      "recorded_at": "2026-10-05T01:01:30.071553+00:00"
+    },
+    "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/sf-edge": {
+      "sha256": "231450cedfd49f05d53c6a825bc2ef91b8db5badf1450cb4840bb1bece16e6aa",
+      "bytes": 52906194,
+      "role": "application binary",
+      "recorded_at": "2026-10-05T01:01:30.988828+00:00"
+    },
+    "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/sf-contracts": {
+      "sha256": "508bfcb80ecb28b6ba867214011f8708a395c1b0ed3def073f604a5fb40a15d9",
+      "bytes": 45389202,
+      "role": "application binary",
+      "recorded_at": "2026-10-05T01:01:31.890143+00:00"
+    },
+    "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/sf-business-fixture": {
+      "sha256": "1536707f96d94e18e82638c743ead537fe6e7594b527f872501ad24d0665a80b",
+      "bytes": 43264818,
+      "role": "application binary",
+      "recorded_at": "2026-10-05T01:01:32.833480+00:00"
+    },
+    "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/race/application.test": {
+      "sha256": "e0254cebaad1e68b0102c128cd28f8c0f6f9595907c7f0d7158deb364bb51e1e",
+      "bytes": 52255106,
+      "role": "race business test binary",
+      "recorded_at": "2026-10-05T01:02:21.817955+00:00"
+    },
+    "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/race/api.test": {
+      "sha256": "417b649bffefb6dccd2fb373a956b6540494260042762d87fd0b5be989919328",
+      "bytes": 61588978,
+      "role": "race business test binary",
+      "recorded_at": "2026-10-05T01:02:42.216855+00:00"
+    },
+    "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/race/cloudsync.test": {
+      "sha256": "0d2035c1eb5773d588b06b63c5fc4762139e98b56d33eaaa7a5fdc0b3b6b6517",
+      "bytes": 52843250,
+      "role": "race business test binary",
+      "recorded_at": "2026-10-05T01:02:48.367869+00:00"
+    },
+    "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/race/thingsboard.test": {
+      "sha256": "644697cf72274db6dd0535e121c8a87670e282803c0619310a27ed4c8b920964",
+      "bytes": 50610274,
+      "role": "race business test binary",
+      "recorded_at": "2026-10-05T01:02:58.837188+00:00"
+    },
+    "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/race/app.test": {
+      "sha256": "98a9a7a465505232a2be1db356eef22813c0a3e57ef12d54862d55ca901c6a47",
+      "bytes": 69909426,
+      "role": "race business test binary",
+      "recorded_at": "2026-10-05T01:03:10.769397+00:00"
+    },
+    "/private/tmp/smartfactory-business-final-20261005-085650-v2/binaries/race/datatransfer/configmanager.test": {
+      "sha256": "d59a3bb6d441c1a0b832281ea0253ff3200ae08c01d03ce2873a4b06ff8e43ba",
+      "bytes": 33389138,
+      "role": "race effective configuration manager test binary",
+      "recorded_at": "2026-10-05T01:03:29.604035+00:00"
+    }
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "checked_at": "2026-10-05T11:19:24.005252+00:00",
+  "finding": "P5-N04",
+  "confirmed": true,
+  "corrected": false,
+  "description": "Concurrent EnsureConnectorVersions calls read the same configuration_connector_source with shared document locks, then both SetEphemeral paths request the same exclusive document lock; actual PostgreSQL reports deadlock",
+  "database_oid": 208904,
+  "database": "sf_delivery_config_8cf197b3c9",
+  "lock_key": 5175393874658700308,
+  "lock_namespace": "document",
+  "document_kind": "configuration_connector_source",
+  "document_id": "edge-a/delivery-mqtt:2",
+  "lock_matches_postgres_log": true,
+  "current_source_matches_packaged_tested_source": true,
+  "failed_validation_requests": [
+    {
+      "at": "2026-10-05T11:07:46.434467+00:00",
+      "http_status": 200,
+      "duration_seconds": 1.111220291000791,
+      "response": {
+        "valid": false,
+        "sha256": "8cee8d02d22ce4c31b6ad50d052bcc8a6bb7e6202f79fe72a6256c496ab7a8ad",
+        "order": [
+          "program",
+          "heartbeat",
+          "mqtt",
+          "delivery-temperature"
+        ],
+        "issues": [
+          {
+            "component_id": "mqtt",
+            "code": "configuration",
+            "message": "configuration reference is unavailable from the authority",
+            "recovery": []
+          }
+        ]
+      }
+    }
+  ],
+  "retained_old_log": "09:19:00.002 UTC same lock coordinates, original database OID correlation pending delivery checkpoint",
+  "references": [
+    {
+      "path": "/private/tmp/smartfactory-phase5-config-deadlock-coordinator-20261005/verification.json",
+      "observed_source": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/verification.json",
+      "sha256": "04f306cdd0d49d8f3bdd03a7753e639b8bf9cf521aec731be6b0a26b66a24d83",
+      "bytes": 248178
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-config-deadlock-coordinator-20261005/postgres-failure-window.log",
+      "observed_source": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/postgres-failure-window.log",
+      "sha256": "62775be53e7229be009860d5042f477c169e1a46dd7841e40d15501977a173a2",
+      "bytes": 713
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-config-deadlock-coordinator-20261005/postgres-original-409-window.log",
+      "observed_source": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/postgres-original-409-window.log",
+      "sha256": "9ce4d3210a30d9116c906abd2679085ccee32b9200c8049d8bfb7ab45705fc82",
+      "bytes": 1256
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-config-deadlock-coordinator-20261005/advisory-deadlock-identification.json",
+      "observed_source": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/advisory-deadlock-identification.json",
+      "sha256": "1c4da0e7f6fa445774fca781938f53e194655806178b7b213f6f9342401aedd6",
+      "bytes": 806
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-config-deadlock-coordinator-20261005/config-document-lock-identities.log",
+      "observed_source": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/config-document-lock-identities.log",
+      "sha256": "0e5d2aacec205e565a628ba0048f6883e735aa45cd38c94fcadf791b4836eab3",
+      "bytes": 2579
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-config-deadlock-coordinator-20261005/connector_sources.go",
+      "observed_source": "/path/to/SmartFactory-2026/Platform/internal/configcenter/connector_sources.go",
+      "sha256": "b6c8c8e1eccd79a387f7b3893c07a842523b4fd212b4b42da03e3f143598c953",
+      "bytes": 13888
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-config-deadlock-coordinator-20261005/transaction.go",
+      "observed_source": "/path/to/SmartFactory-2026/Platform/internal/store/transaction.go",
+      "sha256": "be818c1d68a03a7bcc499ef1174e7bf62cd0aab33fdf1ecbeaad47afafd5408d",
+      "bytes": 6606
+    }
+  ],
+  "original_failure_preserved": true
+}

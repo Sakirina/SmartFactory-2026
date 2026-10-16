@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>IoT Gateway 架构深度拆解</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --ink:#0f172a;--ink2:#334155;--muted:#64748b;--subtle:#94a3b8;
+      --line:rgba(148,163,184,.18);--paper:#fff;--wash:#f8fafc;
+      --grad:linear-gradient(135deg,#0ea5e9,#6366f1,#a855f7);
+      --blue:#3b82f6;--teal:#0d9488;--violet:#7c3aed;--amber:#d97706;--rose:#e11d48;--emerald:#059669;
+      --r:10px;
+      font-family:'Inter',system-ui,sans-serif;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--wash);color:var(--ink);line-height:1.65;-webkit-font-smoothing:antialiased}
+    a{color:var(--blue);text-decoration:none}
+    code{font-family:'JetBrains Mono',monospace;font-size:.85em;background:rgba(99,102,241,.06);color:var(--violet);padding:2px 6px;border-radius:4px}
+
+    /* NAV */
+    header{position:sticky;top:0;z-index:50;border-bottom:1px solid var(--line);background:rgba(248,250,252,.85);backdrop-filter:blur(20px)}
+    nav{max-width:1200px;margin:0 auto;padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between}
+    .brand{font-weight:800;font-size:14px;color:var(--ink);display:flex;align-items:center;gap:8px;text-decoration:none}
+    .brand-dot{width:8px;height:8px;border-radius:50%;background:var(--grad)}
+    .nav-links{display:flex;gap:4px}
+    .nav-links a{font-size:12px;font-weight:500;color:var(--muted);padding:5px 10px;border-radius:6px;transition:all .2s}
+    .nav-links a:hover,.nav-links a.active{color:var(--ink);background:rgba(99,102,241,.06)}
+
+    /* HERO */
+    .hero{background:linear-gradient(135deg,#0f172a,#1e1b4b,#312e81);padding:56px 0 48px;position:relative;overflow:hidden}
+    .hero::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 40% 50%,rgba(14,165,233,.2),transparent),radial-gradient(ellipse 40% 50% at 80% 50%,rgba(168,85,247,.15),transparent)}
+    .hero-inner{position:relative;max-width:1200px;margin:0 auto;padding:0 24px}
+    .hero h1{font-size:36px;font-weight:900;letter-spacing:-.03em;color:#f1f5f9;line-height:1.1}
+    .hero h1 span{background:linear-gradient(135deg,#60a5fa,#818cf8,#c084fc);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+    .hero p{margin-top:12px;color:#94a3b8;font-size:15px;max-width:700px}
+
+    /* CONTENT */
+    .content{max-width:1200px;margin:0 auto;padding:0 24px}
+    section{padding:56px 0}
+    section+section{border-top:1px solid var(--line)}
+    .slabel{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--violet);margin-bottom:12px}
+    .slabel::before{content:"";width:20px;height:2px;border-radius:1px;background:var(--grad)}
+    h2{font-size:clamp(24px,3.5vw,32px);font-weight:800;letter-spacing:-.02em;margin-bottom:8px}
+    .sdesc{color:var(--muted);font-size:14px;max-width:680px;margin-bottom:28px}
+
+    /* PIPELINE */
+    .pipeline{display:flex;gap:0;align-items:stretch;overflow-x:auto;padding-bottom:8px}
+    .pipe-stage{flex:1;min-width:160px;position:relative;display:flex;flex-direction:column}
+    .pipe-header{padding:14px 16px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--paper);text-align:center;position:relative}
+    .pipe-body{flex:1;background:var(--paper);border:1px solid var(--line);border-top:none;padding:16px;font-size:12.5px;color:var(--ink2);line-height:1.6}
+    .pipe-body strong{display:block;font-size:13px;color:var(--ink);margin-bottom:4px}
+    .pipe-body ul{list-style:none;padding:0}
+    .pipe-body li{padding:3px 0;position:relative;padding-left:14px}
+    .pipe-body li::before{content:"";position:absolute;left:0;top:10px;width:6px;height:6px;border-radius:50%;background:var(--subtle);opacity:.4}
+    .pipe-arrow{position:absolute;right:-12px;top:50%;transform:translateY(-50%);z-index:1;width:24px;height:24px;background:var(--wash);border:1px solid var(--line);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--muted)}
+    .pipe-stage:last-child .pipe-arrow{display:none}
+
+    /* THREAD MODEL */
+    .thread-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+    .thread-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:18px;transition:all .25s;position:relative;overflow:hidden}
+    .thread-card::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--tc,var(--blue));opacity:.7}
+    .thread-card:hover{box-shadow:0 8px 24px rgba(15,23,42,.08);transform:translateY(-2px)}
+    .thread-card h4{font-size:14px;font-weight:700;margin-bottom:4px}
+    .thread-card .tag{display:inline-block;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:2px 7px;border-radius:4px;margin-bottom:8px}
+    .thread-card p{font-size:12px;color:var(--muted);line-height:1.55}
+
+    /* MODULE CARDS */
+    .mod-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+    .mod-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;transition:all .25s}
+    .mod-card:hover{box-shadow:0 12px 30px rgba(15,23,42,.08);transform:translateY(-2px)}
+    .mod-head{padding:20px 22px 16px;border-bottom:1px solid var(--line)}
+    .mod-head h3{font-size:18px;font-weight:800;letter-spacing:-.01em}
+    .mod-head .sub{font-size:12px;color:var(--muted);margin-top:2px}
+    .mod-body{padding:18px 22px}
+    .mod-body h5{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--subtle);margin-bottom:8px;margin-top:14px}
+    .mod-body h5:first-child{margin-top:0}
+    .mod-body .item{display:flex;gap:10px;padding:6px 0;border-bottom:1px solid var(--line)}
+    .mod-body .item:last-child{border-bottom:none}
+    .mod-body .item-name{font-size:13px;font-weight:600;color:var(--ink);min-width:120px;flex-shrink:0}
+    .mod-body .item-desc{font-size:12px;color:var(--muted)}
+
+    /* CONFIG MAP */
+    .config-table{width:100%;border-collapse:collapse;background:var(--paper);border-radius:var(--r);overflow:hidden;border:1px solid var(--line);box-shadow:0 4px 16px rgba(15,23,42,.04)}
+    .config-table th{background:linear-gradient(135deg,#f1f5f9,#e2e8f0);padding:12px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink2);text-align:left;border-bottom:1px solid var(--line)}
+    .config-table td{padding:12px 16px;font-size:13px;border-bottom:1px solid var(--line);vertical-align:top}
+    .config-table tr:last-child td{border-bottom:none}
+    .config-table tr:hover td{background:rgba(99,102,241,.02)}
+    .config-table td:first-child{font-weight:600;color:var(--ink);white-space:nowrap}
+
+    /* CALLOUT */
+    .insight{border-radius:var(--r);padding:20px 24px;background:linear-gradient(135deg,rgba(99,102,241,.04),rgba(14,165,233,.04));border:1px solid rgba(99,102,241,.15);margin-top:24px;font-size:13.5px;color:var(--ink2);line-height:1.65}
+    .insight strong{color:var(--ink)}
+
+    footer{border-top:1px solid var(--line);padding:28px 0 40px}
+    .footer-inner{max-width:1200px;margin:0 auto;padding:0 24px;color:var(--subtle);font-size:12px}
+
+    @media(max-width:900px){.mod-grid{grid-template-columns:1fr}.pipeline{flex-direction:column}.pipe-arrow{display:none!important}}
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <a class="brand" href="index.html"><span class="brand-dot"></span>ThingsBoard 架构拆解</a>
+      <div class="nav-links">
+        <a href="index.html">总览</a>
+        <a href="gateway-requirements.html">需求树</a>
+        <a href="gateway-deep-dive.html" class="active">Gateway 深潜</a>
+      </div>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <div class="hero-inner">
+      <h1>IoT Gateway <span>架构深潜</span></h1>
+      <p>从源码实际组织结构出发，拆解运行时线程模型、数据管道、每个模块的内部机制和配置映射。所有结论来自 <code style="background:rgba(255,255,255,.1);color:#c4b5fd">thingsboard-gateway</code> 源码。</p>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- 1. DATA PIPELINE -->
+    <section>
+      <div class="slabel">Data Pipeline</div>
+      <h2>数据管道：从设备到平台的完整链路</h2>
+      <p class="sdesc">一条数据从 Modbus 寄存器到 ThingsBoard 平台的完整旅程，经过 7 个阶段。每个阶段都有明确的输入输出边界。</p>
+
+      <div class="pipeline">
+        <div class="pipe-stage">
+          <div class="pipe-header" style="background:var(--teal)">1 · 协议采集</div>
+          <div class="pipe-body">
+            <strong>Connector.open()</strong>
+            <ul>
+              <li>每种协议一个 Connector 实例，独立线程运行</li>
+              <li>Modbus：asyncio 事件循环，pymodbus 读寄存器</li>
+              <li>OPC-UA：节点订阅回调</li>
+              <li>MQTT：桥接订阅第三方 broker</li>
+            </ul>
+          </div>
+          <div class="pipe-arrow">→</div>
+        </div>
+        <div class="pipe-stage">
+          <div class="pipe-header" style="background:var(--blue)">2 · 数据转换</div>
+          <div class="pipe-body">
+            <strong>Converter.convert()</strong>
+            <ul>
+              <li>Uplink：原始字节/寄存器值 → ConvertedData</li>
+              <li>绑定 deviceName + deviceType</li>
+              <li>拆分 telemetry（带 ts）和 attributes（无 ts）</li>
+              <li>每个数据点绑定 DatapointKey + ReportStrategy</li>
+            </ul>
+          </div>
+          <div class="pipe-arrow">→</div>
+        </div>
+        <div class="pipe-stage">
+          <div class="pipe-header" style="background:var(--violet)">3 · 设备过滤</div>
+          <div class="pipe-body">
+            <strong>DeviceFilter.validate_device()</strong>
+            <ul>
+              <li>connector 维度的 allow/deny 列表</li>
+              <li>正则匹配 deviceName</li>
+              <li>被拒绝的设备返回 FORBIDDEN_DEVICE</li>
+              <li>通过的数据进入下一阶段</li>
+            </ul>
+          </div>
+          <div class="pipe-arrow">→</div>
+        </div>
+        <div class="pipe-stage">
+          <div class="pipe-header" style="background:var(--amber)">4 · 上报策略</div>
+          <div class="pipe-body">
+            <strong>ReportStrategyService.filter_data_and_send()</strong>
+            <ul>
+              <li>逐数据点检查 ReportStrategy 配置</li>
+              <li>ON_CHANGE：缓存旧值，比较后决定</li>
+              <li>ON_REPORT_PERIOD：定时器触发批量发送</li>
+              <li>通过的数据 put 进 converted_data_queue</li>
+            </ul>
+          </div>
+          <div class="pipe-arrow">→</div>
+        </div>
+        <div class="pipe-stage">
+          <div class="pipe-header" style="background:var(--rose)">5 · 本地存储</div>
+          <div class="pipe-body">
+            <strong>EventStorage.put()</strong>
+            <ul>
+              <li>Storage fill thread 从队列消费</li>
+              <li>按 maxPayloadSizeBytes 拆大包</li>
+              <li>JSON 序列化后写入 Memory/File/SQLite</li>
+              <li>断网时数据安全积压在此</li>
+            </ul>
+          </div>
+          <div class="pipe-arrow">→</div>
+        </div>
+        <div class="pipe-stage">
+          <div class="pipe-header" style="background:var(--emerald)">6 · 批量发送</div>
+          <div class="pipe-body">
+            <strong>__read_data_from_storage()</strong>
+            <ul>
+              <li>Send data thread 循环读取 event_pack</li>
+              <li>按 deviceName 聚合 telemetry + attributes</li>
+              <li>等 MQTT 连接可用才发</li>
+              <li>发送后调 event_pack_processing_done()</li>
+            </ul>
+          </div>
+          <div class="pipe-arrow">→</div>
+        </div>
+        <div class="pipe-stage">
+          <div class="pipe-header" style="background:var(--blue)">7 · MQTT 上行</div>
+          <div class="pipe-body">
+            <strong>TBClient → ThingsBoard</strong>
+            <ul>
+              <li>TBGatewayMqttClient 发布</li>
+              <li>QoS 1 保证至少一次投递</li>
+              <li>等待 PUBACK 确认</li>
+              <li>失败时数据留在 storage 重发</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="insight">
+        <strong>对你项目的启发：</strong>管道的核心设计是「宽进严出」——前端尽量多收数据，中间层层过滤和策略判断，最后只把有价值的数据发出去。你的边缘控制节点可以照搬这个模式，但需要在第 3 步之后插入「指令安全研判」和「数据质量治理」两个阶段。
+      </div>
+    </section>
+
+    <!-- 2. THREAD MODEL -->
+    <section>
+      <div class="slabel">Runtime</div>
+      <h2>运行时线程模型</h2>
+      <p class="sdesc">Gateway 是一个多线程 Python 进程。<code>TBGatewayService.__init__</code> 在启动时拉起以下守护线程，每个线程有明确职责。</p>
+
+      <div class="thread-grid">
+        <div class="thread-card" style="--tc:var(--teal)">
+          <span class="tag" style="background:rgba(13,148,136,.1);color:var(--teal)">每协议一个</span>
+          <h4>Connector 线程</h4>
+          <p>每个 Connector 实例在独立线程/asyncio 事件循环中运行。Modbus connector 用 <code>asyncio.run()</code> 起自己的事件循环，独立于主线程。崩溃不影响其他 connector。</p>
+        </div>
+        <div class="thread-card" style="--tc:var(--violet)">
+          <span class="tag" style="background:rgba(124,58,237,.1);color:var(--violet)">核心线程</span>
+          <h4>Storage Fill Thread</h4>
+          <p>消费 <code>converted_data_queue</code>，批量处理（每批最多 1000 条或 500ms），按 maxPayloadSize 拆包后写入 EventStorage。名字叫 "Storage fill thread"。</p>
+        </div>
+        <div class="thread-card" style="--tc:var(--blue)">
+          <span class="tag" style="background:rgba(59,130,246,.1);color:var(--blue)">核心线程</span>
+          <h4>Send Data Thread</h4>
+          <p>循环调 <code>event_storage.get_event_pack()</code>，按 deviceName 聚合数据，通过 MQTT 发送到平台。发送成功后调 <code>event_pack_processing_done()</code> 确认。</p>
+        </div>
+        <div class="thread-card" style="--tc:var(--amber)">
+          <span class="tag" style="background:rgba(217,119,6,.1);color:var(--amber)">守护线程</span>
+          <h4>RPC Processing Thread</h4>
+          <p>处理 RPC reply 队列。网关执行完 RPC 后，回复通过这个线程发回平台，避免阻塞主数据管道。</p>
+        </div>
+        <div class="thread-card" style="--tc:var(--amber)">
+          <span class="tag" style="background:rgba(217,119,6,.1);color:var(--amber)">守护线程</span>
+          <h4>RPC to Devices Thread</h4>
+          <p>接收平台下发的 RPC 请求，路由到对应 Connector 的 <code>server_side_rpc_handler()</code>。有超时机制，超时未响应的 RPC 自动取消。</p>
+        </div>
+        <div class="thread-card" style="--tc:var(--emerald)">
+          <span class="tag" style="background:rgba(5,150,105,.1);color:var(--emerald)">守护线程</span>
+          <h4>Attributes Sync Thread</h4>
+          <p>新连接建立后，遍历所有已知设备，主动向平台请求最新 shared attributes。确保设备状态和平台同步。</p>
+        </div>
+        <div class="thread-card" style="--tc:var(--rose)">
+          <span class="tag" style="background:rgba(225,29,72,.1);color:var(--rose)">守护线程</span>
+          <h4>Device Idle Checker</h4>
+          <p>按 <code>inactivityCheckPeriodSeconds</code> 扫描所有设备，超过 <code>inactivityTimeoutSeconds</code> 未上报的标记离线。可关闭。</p>
+        </div>
+        <div class="thread-card" style="--tc:var(--teal)">
+          <span class="tag" style="background:rgba(13,148,136,.1);color:var(--teal)">守护线程</span>
+          <h4>Watchers Thread</h4>
+          <p>周期性检查连接器配置文件变更、清理无效连接器、处理远程配置更新。是 Gateway 的「管家」线程。</p>
+        </div>
+        <div class="thread-card" style="--tc:var(--violet)">
+          <span class="tag" style="background:rgba(124,58,237,.1);color:var(--violet)">可选</span>
+          <h4>Statistics Service Thread</h4>
+          <p>按 <code>statsSendPeriodInSeconds</code> 收集并上报网关自身运行指标。包括系统 CPU/内存、各 connector 的收发字节和消息计数。</p>
+        </div>
+        <div class="thread-card" style="--tc:var(--blue)">
+          <span class="tag" style="background:rgba(59,130,246,.1);color:var(--blue)">可选</span>
+          <h4>ReportStrategy Timer Thread</h4>
+          <p>当存在 ON_REPORT_PERIOD 策略时启动。定时遍历缓存数据点，到期的批量推入 converted_data_queue。</p>
+        </div>
+        <div class="thread-card" style="--tc:var(--subtle)">
+          <span class="tag" style="background:rgba(148,163,184,.1);color:var(--subtle)">后台</span>
+          <h4>MQTT Client Thread</h4>
+          <p>TBClient 继承 Thread，内部运行 <code>paho-mqtt</code> 的 network loop。处理 MQTT 协议层的收发和心跳。</p>
+        </div>
+        <div class="thread-card" style="--tc:var(--subtle)">
+          <span class="tag" style="background:rgba(148,163,184,.1);color:var(--subtle)">后台</span>
+          <h4>Async Device Actions Thread</h4>
+          <p>处理设备的异步上下线事件：<code>add_device_async()</code> / <code>del_device_async()</code>，避免 Connector 线程阻塞在设备注册上。</p>
+        </div>
+      </div>
+
+      <div class="insight">
+        <strong>对你项目的启发：</strong>线程间通过 <code>SimpleQueue</code> / <code>Queue</code> 解耦，没有共享可变状态。生产者只管 put，消费者只管 get。这个模式你在边缘控制节点的「聚合数据上下文」和「命令编排执行」之间也应该用——用队列隔离采集速率和处理速率的差异。
+      </div>
+    </section>
+
+    <!-- 3. MODULE DEEP DIVE -->
+    <section>
+      <div class="slabel">Modules</div>
+      <h2>模块内部结构</h2>
+      <p class="sdesc">每个模块的源码目录、核心类、关键方法和设计决策。</p>
+
+      <div class="mod-grid">
+        <div class="mod-card">
+          <div class="mod-head" style="border-left:3px solid var(--teal)">
+            <h3>Connector 层</h3>
+            <div class="sub">connectors/ · 18 种协议目录</div>
+          </div>
+          <div class="mod-body">
+            <h5>抽象接口 (connector.py)</h5>
+            <div class="item"><span class="item-name">open() / close()</span><span class="item-desc">启动/停止协议连接。每个 Connector 管理自己的生命周期。</span></div>
+            <div class="item"><span class="item-name">is_connected()</span><span class="item-desc">健康探测。Gateway Service 用它判断是否需要重连。</span></div>
+            <div class="item"><span class="item-name">on_attributes_update()</span><span class="item-desc">下行通道：平台属性变更推到设备。</span></div>
+            <div class="item"><span class="item-name">server_side_rpc_handler()</span><span class="item-desc">下行通道：平台 RPC 指令推到设备。</span></div>
+            <h5>具体实现模式 (以 Modbus 为例)</h5>
+            <div class="item"><span class="item-name">asyncio 事件循环</span><span class="item-desc">Modbus connector 在独立线程中跑 <code>asyncio.run()</code>，用 pymodbus 3.9 异步客户端。</span></div>
+            <div class="item"><span class="item-name">Slave 抽象</span><span class="item-desc"><code>slave.py</code> 封装单个 Modbus 从站的寄存器映射和轮询配置。</span></div>
+            <div class="item"><span class="item-name">Server 模式</span><span class="item-desc"><code>server.py</code> 可以让 Gateway 充当 Modbus 从站，被外部主站轮询。</span></div>
+          </div>
+        </div>
+
+        <div class="mod-card">
+          <div class="mod-head" style="border-left:3px solid var(--blue)">
+            <h3>Converter 层</h3>
+            <div class="sub">connectors/converter.py · 每种协议一对 Uplink/Downlink</div>
+          </div>
+          <div class="mod-body">
+            <h5>核心数据结构</h5>
+            <div class="item"><span class="item-name">ConvertedData</span><span class="item-desc">标准输出。<code>__slots__</code> 优化内存：deviceName, deviceType, telemetry[], attributes, metadata, ts_index。</span></div>
+            <div class="item"><span class="item-name">TelemetryEntry</span><span class="item-desc">一个时间点的数据。<code>ts</code>（毫秒时间戳）+ <code>values: Dict[DatapointKey, Any]</code>。</span></div>
+            <div class="item"><span class="item-name">DatapointKey</span><span class="item-desc">不只是 key 字符串——还绑定了 <code>ReportStrategyConfig</code>，实现按数据点的上报策略。</span></div>
+            <h5>设计决策</h5>
+            <div class="item"><span class="item-name">ts_index 快速合并</span><span class="item-desc">ConvertedData 内部维护 ts→index 字典，同一时间戳的数据点自动合并，避免重复 TelemetryEntry。</span></div>
+            <div class="item"><span class="item-name">大包拆分</span><span class="item-desc"><code>convert_to_objects_with_maximal_size()</code> 按字节限制切分，先放 attributes 再逐条塞 telemetry。</span></div>
+          </div>
+        </div>
+
+        <div class="mod-card">
+          <div class="mod-head" style="border-left:3px solid var(--amber)">
+            <h3>ReportStrategy 层</h3>
+            <div class="sub">gateway/report_strategy/ · 数据过滤与聚合引擎</div>
+          </div>
+          <div class="mod-body">
+            <h5>五种上报策略</h5>
+            <div class="item"><span class="item-name">ON_RECEIVED</span><span class="item-desc">默认。收到即转发，不做任何过滤。适合已经过前端预处理的数据。</span></div>
+            <div class="item"><span class="item-name">ON_CHANGE</span><span class="item-desc">缓存每个 DatapointKey 的上一个值，只有值变化才转发。适合状态型传感器。</span></div>
+            <div class="item"><span class="item-name">ON_REPORT_PERIOD</span><span class="item-desc">定时触发，周期内的数据按聚合函数计算后一次发送。适合高频采集场景。</span></div>
+            <div class="item"><span class="item-name">ON_CHANGE_OR_REPORT_PERIOD</span><span class="item-desc">值变化立即发 + 定时兜底。适合大多数工业传感器——变化了知道，没变化也定时报个平安。</span></div>
+            <div class="item"><span class="item-name">DISABLED</span><span class="item-desc">不上报。用于调试或临时屏蔽某些数据点。</span></div>
+            <h5>配置层级（低覆盖高）</h5>
+            <div class="item"><span class="item-name">全局 → 连接器 → 数据点</span><span class="item-desc">全局设默认，连接器可覆盖，单个 DatapointKey 可再覆盖。三级配置合并。</span></div>
+          </div>
+        </div>
+
+        <div class="mod-card">
+          <div class="mod-head" style="border-left:3px solid var(--rose)">
+            <h3>EventStorage 层</h3>
+            <div class="sub">storage/ · 三种实现，同一接口</div>
+          </div>
+          <div class="mod-body">
+            <h5>接口设计（event_storage.py）</h5>
+            <div class="item"><span class="item-name">put(event)</span><span class="item-desc">写入一条事件。JSON 字符串。</span></div>
+            <div class="item"><span class="item-name">get_event_pack()</span><span class="item-desc">读取一批。读取后数据不删除——等确认。</span></div>
+            <div class="item"><span class="item-name">event_pack_processing_done()</span><span class="item-desc">确认这批已处理。Storage 此时才能删除。两阶段提交语义。</span></div>
+            <h5>SQLite 实现亮点</h5>
+            <div class="item"><span class="item-name">读写分离</span><span class="item-desc">写库和读库分开的 SQLite 文件。写满后旋转成读库。避免读写锁竞争。</span></div>
+            <div class="item"><span class="item-name">数据库轮转</span><span class="item-desc"><code>max_db_count</code> 控制最多几个 db 文件。满了删最老的——天然的 TTL 实现。</span></div>
+            <div class="item"><span class="item-name">线程安全</span><span class="item-desc">写操作在独立 Thread 中，通过回调通知完成。</span></div>
+          </div>
+        </div>
+
+        <div class="mod-card">
+          <div class="mod-head" style="border-left:3px solid var(--emerald)">
+            <h3>TBClient 层</h3>
+            <div class="sub">gateway/tb_client.py · MQTT 连接管理</div>
+          </div>
+          <div class="mod-body">
+            <h5>连接能力</h5>
+            <div class="item"><span class="item-name">认证方式</span><span class="item-desc">Access Token / X.509 证书 / 设备 Provisioning 三选一。</span></div>
+            <div class="item"><span class="item-name">TLS</span><span class="item-desc">支持 CA 证书、客户端证书、私钥。ssl.CERT_REQUIRED。</span></div>
+            <div class="item"><span class="item-name">代理</span><span class="item-desc">通过 <code>socks</code> 库支持 HTTP/SOCKS 代理。受限网络环境必备。</span></div>
+            <h5>运行时行为</h5>
+            <div class="item"><span class="item-name">自动重连</span><span class="item-desc">继承 Thread，run() 中循环检测连接状态。断开后自动重连。</span></div>
+            <div class="item"><span class="item-name">Gateway 协议</span><span class="item-desc">用 <code>TBGatewayMqttClient</code>，一个 MQTT 连接代理多台设备。设备上下线通过 gateway API 管理。</span></div>
+          </div>
+        </div>
+
+        <div class="mod-card">
+          <div class="mod-head" style="border-left:3px solid var(--violet)">
+            <h3>配置与管理层</h3>
+            <div class="sub">tb_utility/ · 远程配置、日志、统计、Shell</div>
+          </div>
+          <div class="mod-body">
+            <h5>远程配置 (RemoteConfigurator)</h5>
+            <div class="item"><span class="item-name">配置版本对比</span><span class="item-desc">平台下发新配置时，和本地 <code>CONFIG_VERSION</code> 对比，不同才应用。</span></div>
+            <div class="item"><span class="item-name">10 版本备份</span><span class="item-desc"><code>ALLOWED_BACKUPS_AMOUNT = 10</code>。每次变更前备份当前配置。</span></div>
+            <div class="item"><span class="item-name">队列式处理</span><span class="item-desc">配置更新入 <code>RECEIVED_UPDATE_QUEUE</code>，串行处理避免并发冲突。</span></div>
+            <h5>统计服务 (StatisticsService)</h5>
+            <div class="item"><span class="item-name">全局指标</span><span class="item-desc">12 个核心指标：receivedBytes, convertedBytes, sentToTB, eventsAdded/Processed, msgs 等。</span></div>
+            <div class="item"><span class="item-name">装饰器埋点</span><span class="item-desc"><code>@CountMessage</code> / <code>@CollectStorageEventsStatistics</code> 等装饰器自动在关键路径计数。</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. CONFIG MAP -->
+    <section>
+      <div class="slabel">Configuration</div>
+      <h2>配置地图</h2>
+      <p class="sdesc"><code>tb_gateway.json</code> 中每个配置项的作用和影响范围。理解配置就是理解系统的调参空间。</p>
+
+      <div style="overflow-x:auto">
+        <table class="config-table">
+          <thead>
+            <tr><th>配置项</th><th>默认值</th><th>作用</th><th>影响模块</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>maxPayloadSizeBytes</code></td><td>8196</td><td>单条上行消息最大字节数。超过自动拆包。</td><td>Storage Fill Thread, ConvertedData</td></tr>
+            <tr><td><code>minPackSendDelayMS</code></td><td>50</td><td>两次读 storage 之间的最小间隔（ms）。控制上行发送节奏。</td><td>Send Data Thread</td></tr>
+            <tr><td><code>minPackSizeToSend</code></td><td>500</td><td>积攒到多少条才触发发送。和 delay 配合控制批量效率。</td><td>Send Data Thread</td></tr>
+            <tr><td><code>reportStrategy.type</code></td><td>ON_RECEIVED</td><td>全局默认上报策略。每个连接器/数据点可覆盖。</td><td>ReportStrategyService</td></tr>
+            <tr><td><code>reportStrategy.reportPeriod</code></td><td>10000</td><td>ON_REPORT_PERIOD 的上报周期（ms）。</td><td>ReportStrategyService Timer</td></tr>
+            <tr><td><code>storage.type</code></td><td>memory</td><td>memory / file / sqlite 三选一。决定断电数据是否持久。</td><td>EventStorage</td></tr>
+            <tr><td><code>storage.max_records_count</code></td><td>100000</td><td>内存存储最大记录数。满了丢新数据。</td><td>MemoryEventStorage</td></tr>
+            <tr><td><code>storage.messages_ttl_in_days</code></td><td>7</td><td>SQLite 模式下消息过期天数。到期自动清理。</td><td>SQLiteEventStorage</td></tr>
+            <tr><td><code>qos</code></td><td>1</td><td>MQTT QoS 等级。0=最多一次，1=至少一次。</td><td>TBClient</td></tr>
+            <tr><td><code>checkConnectorsConfigurationInSeconds</code></td><td>60</td><td>检查连接器配置文件变更的轮询间隔。</td><td>Watchers Thread</td></tr>
+            <tr><td><code>checkingDeviceActivity.inactivityTimeoutSeconds</code></td><td>300</td><td>设备超过这个秒数没上报，标记离线。</td><td>Device Idle Checker</td></tr>
+            <tr><td><code>rateLimits</code></td><td>DEFAULT</td><td>全局遥测消息速率限制。</td><td>TBClient</td></tr>
+            <tr><td><code>deviceFiltering.enable</code></td><td>false</td><td>是否启用设备名过滤。</td><td>DeviceFilter</td></tr>
+            <tr><td><code>remoteConfiguration</code></td><td>true</td><td>是否接受平台远程配置更新。关掉就只能本地改。</td><td>RemoteConfigurator</td></tr>
+            <tr><td><code>statistics.statsSendPeriodInSeconds</code></td><td>60</td><td>网关自身指标上报周期。</td><td>StatisticsService</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="insight">
+        <strong>对你项目的启发：</strong>配置地图揭示了一件事——Gateway 的几乎所有运行时行为都可以从配置调整，不需要改代码。你的边缘控制节点也应该做到这一点：上报周期、缓冲策略、速率限制、设备过滤规则，全部配置化，然后通过远程配置下发能力在云端统一管理。
+      </div>
+    </section>
+
+    <!-- 5. SOURCE LAYOUT -->
+    <section>
+      <div class="slabel">Source Layout</div>
+      <h2>源码目录结构</h2>
+      <p class="sdesc">源码的物理组织方式反映了模块边界。以下是 <code>thingsboard_gateway/</code> 的一级目录和核心文件。</p>
+
+      <div style="overflow-x:auto">
+        <table class="config-table">
+          <thead>
+            <tr><th>目录 / 文件</th><th>行数</th><th>职责</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>gateway/tb_gateway_service.py</code></td><td>~2370</td><td>主编排器。线程启动、数据管道串接、所有模块的初始化和生命周期管理。Gateway 的「大脑」。</td></tr>
+            <tr><td><code>gateway/tb_client.py</code></td><td>~700</td><td>MQTT 连接层。TLS、认证、代理、重连、Gateway MQTT 协议。</td></tr>
+            <tr><td><code>gateway/entities/</code></td><td>~350</td><td>核心数据模型：ConvertedData、TelemetryEntry、DatapointKey、ReportStrategyConfig。</td></tr>
+            <tr><td><code>gateway/report_strategy/</code></td><td>~290</td><td>上报策略引擎。filter_data_and_send()、定时触发、缓存比对。</td></tr>
+            <tr><td><code>gateway/statistics/</code></td><td>~300</td><td>运行统计服务。装饰器埋点 + 定时上报。</td></tr>
+            <tr><td><code>connectors/</code></td><td>18 子目录</td><td>每种协议一个目录。统一实现 Connector + Converter 接口。</td></tr>
+            <tr><td><code>storage/</code></td><td>~800</td><td>事件存储层。memory / file / sqlite 三种实现。SQLite 最复杂，读写分离+轮转。</td></tr>
+            <tr><td><code>tb_utility/</code></td><td>~600</td><td>远程配置、远程 Shell、日志工具、模块热加载。Gateway 的「工具箱」。</td></tr>
+            <tr><td><code>grpc_connectors/</code></td><td>~400</td><td>可选 gRPC 服务。让外部进程通过 gRPC 向 Gateway 推数据。</td></tr>
+            <tr><td><code>config/</code></td><td>21 个 JSON</td><td>每种 connector 的配置模板。新部署时的起点。</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <p>IoT Gateway 架构深潜 · 所有分析来自 <code>upstream/thingsboard-gateway</code> 源码</p>
+    </div>
+  </footer>
+</body>
+</html>

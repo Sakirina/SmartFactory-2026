@@ -1,0 +1,187 @@
+{
+  "config": {
+    "argv": [
+      "/path/to/SmartFactory-2026/.local/toolchains/node-v24.21.0-darwin-arm64/bin/node",
+      "/path/to/SmartFactory-2026/Frontends/node_modules/.bin/playwright",
+      "test",
+      "--config=playwright.phase4.config.ts",
+      "phase4-business-details.spec.ts",
+      "--grep=three protocol|node metadata",
+      "--timeout=30000"
+    ],
+    "configFile": "/path/to/SmartFactory-2026/Frontends/playwright.phase4.config.ts",
+    "rootDir": "/path/to/SmartFactory-2026/Frontends/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/private/tmp/smartfactory-frontend-phase4-20261005/playwright-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/path/to/SmartFactory-2026/Frontends/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "phase4*.spec.ts"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "../.local/evolution/frontend-phase4/browser-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "phase4-business-details.spec.ts",
+      "file": "phase4-business-details.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "three protocol metadata forms validate required fields enums units and preserve numeric extensions",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 21591,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.ant-descriptions').getByText('危气监测', { exact: true })\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" locator('.ant-descriptions').getByText('危气监测', { exact: true }) with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for locator('.ant-descriptions').getByText('危气监测', { exact: true })\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.ant-descriptions').getByText('危气监测', { exact: true })\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" locator('.ant-descriptions').getByText('危气监测', { exact: true }) with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for locator('.ant-descriptions').getByText('危气监测', { exact: true })\u001b[22m\n\n    at /path/to/SmartFactory-2026/Frontends/tests/phase4-business-details.spec.ts:69:93",
+                    "location": {
+                      "file": "/path/to/SmartFactory-2026/Frontends/tests/phase4-business-details.spec.ts",
+                      "column": 93,
+                      "line": 69
+                    },
+                    "snippet": "  67 |   for (const id of ['device-climate-ventilation', 'device-infrared-lighting', 'device-hazardous-gas']) {\n  68 |     await route(page, 'protocol-configurations'); const device = entities.find((entity: any) => entity.id === id); await choose(page, '参数设备', device.name);\n> 69 |     await expect(page.locator('.ant-descriptions').getByText(device.name, { exact: true })).toBeVisible(); await page.getByRole('button', { name: '编辑设备参数', exact: true }).click();\n     |                                                                                             ^\n  70 |     const drawer = page.getByRole('dialog', { name: '设备基础参数编辑' }); await drawer.getByRole('tab', { name: '数据点', exact: true }).click(); const key = drawer.getByLabel(/^数据点 1：数据字段/); const oldKey = await key.inputValue();\n  71 |     await key.fill(''); await drawer.getByRole('button', { name: /配置预检$/ }).click(); await expect(drawer.getByText('配置预检存在问题', { exact: true })).toBeVisible(); await key.fill(oldKey);\n  72 |     const quality = drawer.getByLabel(/^数据点 1：质量/); await quality.click(); await expect(page.locator('.ant-select-dropdown:visible').getByText('UNCERTAIN', { exact: true })).toBeVisible(); await page.locator('.ant-select-dropdown:visible .ant-select-item-option-content').getByText('GOOD', { exact: true }).click();"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/path/to/SmartFactory-2026/Frontends/tests/phase4-business-details.spec.ts",
+                        "column": 93,
+                        "line": 69
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.ant-descriptions').getByText('危气监测', { exact: true })\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" locator('.ant-descriptions').getByText('危气监测', { exact: true }) with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for locator('.ant-descriptions').getByText('危气监测', { exact: true })\u001b[22m\n\n\n  67 |   for (const id of ['device-climate-ventilation', 'device-infrared-lighting', 'device-hazardous-gas']) {\n  68 |     await route(page, 'protocol-configurations'); const device = entities.find((entity: any) => entity.id === id); await choose(page, '参数设备', device.name);\n> 69 |     await expect(page.locator('.ant-descriptions').getByText(device.name, { exact: true })).toBeVisible(); await page.getByRole('button', { name: '编辑设备参数', exact: true }).click();\n     |                                                                                             ^\n  70 |     const drawer = page.getByRole('dialog', { name: '设备基础参数编辑' }); await drawer.getByRole('tab', { name: '数据点', exact: true }).click(); const key = drawer.getByLabel(/^数据点 1：数据字段/); const oldKey = await key.inputValue();\n  71 |     await key.fill(''); await drawer.getByRole('button', { name: /配置预检$/ }).click(); await expect(drawer.getByText('配置预检存在问题', { exact: true })).toBeVisible(); await key.fill(oldKey);\n  72 |     const quality = drawer.getByLabel(/^数据点 1：质量/); await quality.click(); await expect(page.locator('.ant-select-dropdown:visible').getByText('UNCERTAIN', { exact: true })).toBeVisible(); await page.locator('.ant-select-dropdown:visible .ant-select-item-option-content').getByText('GOOD', { exact: true }).click();\n    at /path/to/SmartFactory-2026/Frontends/tests/phase4-business-details.spec.ts:69:93"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T03:18:57.541Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/private/tmp/smartfactory-frontend-phase4-20261005/playwright-results/phase4-business-details-th-103b8-preserve-numeric-extensions/error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/path/to/SmartFactory-2026/Frontends/tests/phase4-business-details.spec.ts",
+                    "column": 93,
+                    "line": 69
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "83d40bd4b7390d427b61-8fba450b7d6a688c05a4",
+          "file": "phase4-business-details.spec.ts",
+          "line": 65,
+          "column": 1
+        },
+        {
+          "title": "node metadata checks ranges units enums and exact extension before saving a draft",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2527,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T03:19:19.706Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "83d40bd4b7390d427b61-49813ce6102a95f751bb",
+          "file": "phase4-business-details.spec.ts",
+          "line": 84,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-05T03:18:57.325Z",
+    "duration": 25338.352,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

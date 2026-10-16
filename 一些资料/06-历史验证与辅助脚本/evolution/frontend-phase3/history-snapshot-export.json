@@ -1,0 +1,336 @@
+{
+  "run": {
+    "id": "fixture-replay-assets",
+    "kind": "replay",
+    "definition_id": "history-assets",
+    "snapshot_id": "snapshot:b040df463e43a60ee934e49792e444e09575a526f5476ff87d3178056e1c5376",
+    "captured_snapshot_id": "snapshot:b040df463e43a60ee934e49792e444e09575a526f5476ff87d3178056e1c5376",
+    "snapshot_sha256": "b040df463e43a60ee934e49792e444e09575a526f5476ff87d3178056e1c5376",
+    "input_sha256": "cc188b6ad1a033f9d5616182df1a4a27910141bba52773434bd195302660a831",
+    "task_id": "analysis:fixture-replay-assets",
+    "status": "completed",
+    "cursor": 2,
+    "total": 2,
+    "progress": 1,
+    "final_state": {
+      "version:1": {
+        "history-line-a": {
+          "value": {
+            "active": false,
+            "candidate": false,
+            "since_ms": 0,
+            "count": 0,
+            "previous": 9007199254740994,
+            "last_ms": 1791147202798
+          }
+        }
+      },
+      "version:2": {
+        "history-line-b": {
+          "value": {
+            "active": false,
+            "candidate": false,
+            "since_ms": 0,
+            "count": 0,
+            "previous": null,
+            "last_ms": 1791147204298
+          }
+        }
+      }
+    },
+    "resources": [
+      "history-device",
+      "history-factory",
+      "history-line-a",
+      "history-line-b"
+    ],
+    "created_ms": 1791147300801,
+    "updated_ms": 1791147300802,
+    "version": 4,
+    "initial_state_resolved": true
+  },
+  "snapshot": {
+    "id": "snapshot:b040df463e43a60ee934e49792e444e09575a526f5476ff87d3178056e1c5376",
+    "sha256": "b040df463e43a60ee934e49792e444e09575a526f5476ff87d3178056e1c5376",
+    "input_sha256": "cc188b6ad1a033f9d5616182df1a4a27910141bba52773434bd195302660a831",
+    "history_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "captured_ms": 1791147300801,
+    "from_ms": 1791147202298,
+    "to_ms": 1791147204798,
+    "source": "provided",
+    "data_version": 0,
+    "data_gaps": null,
+    "completeness": "",
+    "order": "event_time",
+    "clock": {},
+    "points": [
+      {
+        "id": "asset-before",
+        "message_id": "asset-before",
+        "source_id": "history-fixture-source",
+        "source_sequence": 2000,
+        "device_id": "history-device",
+        "key": "count",
+        "value": 9007199254740993,
+        "observed_ms": 1791147202798,
+        "received_ms": 1791147300798,
+        "quality": "GOOD",
+        "time_source": "device",
+        "unit": "piece",
+        "entity_revision": 0,
+        "asset_version": 1,
+        "late": false,
+        "revision": 1
+      },
+      {
+        "id": "asset-after",
+        "message_id": "asset-after",
+        "source_id": "history-fixture-source",
+        "source_sequence": 3500,
+        "device_id": "history-device",
+        "key": "count",
+        "value": 4,
+        "observed_ms": 1791147204298,
+        "received_ms": 1791147300798,
+        "quality": "UNCERTAIN",
+        "quality_reason": "source sent after affiliation changed",
+        "time_source": "device",
+        "unit": "piece",
+        "entity_revision": 0,
+        "asset_version": 2,
+        "late": true,
+        "revision": 1
+      }
+    ],
+    "history": [],
+    "asset_versions": [
+      {
+        "id": "history-device",
+        "version": 1,
+        "effective_ms": 1791147200798,
+        "parent_id": "history-line-a",
+        "sampling_ms": 1000
+      },
+      {
+        "id": "history-device",
+        "version": 2,
+        "effective_ms": 1791147203798,
+        "parent_id": "history-line-b",
+        "sampling_ms": 1000
+      },
+      {
+        "id": "history-factory",
+        "version": 1,
+        "effective_ms": 1791147200798,
+        "parent_id": "",
+        "sampling_ms": 0
+      },
+      {
+        "id": "history-line-a",
+        "version": 1,
+        "effective_ms": 1791147200798,
+        "parent_id": "history-factory",
+        "sampling_ms": 0
+      },
+      {
+        "id": "history-line-b",
+        "version": 1,
+        "effective_ms": 1791147200798,
+        "parent_id": "history-factory",
+        "sampling_ms": 0
+      }
+    ],
+    "initial_state": {},
+    "initial_state_source": "empty",
+    "rules": [
+      {
+        "definition": {
+          "id": "history-assets",
+          "name": "history-assets",
+          "kind": "analysis",
+          "schema_version": "1.0",
+          "version": 1,
+          "status": "published",
+          "effective_ms": 1791147201798,
+          "group_id": "history-factory",
+          "nodes": [
+            {
+              "id": "value",
+              "type": "expression",
+              "params": {
+                "code": "value+1"
+              }
+            }
+          ],
+          "connections": null,
+          "outputs": [
+            {
+              "key": "result",
+              "type": "number",
+              "unit": "piece",
+              "node_id": "value"
+            }
+          ],
+          "dependencies": null,
+          "selector": {
+            "device_ids": [
+              "history-device"
+            ],
+            "asset_id": "history-line-a",
+            "keys": [
+              "count"
+            ]
+          },
+          "policy": {}
+        },
+        "plan": {
+          "id": "history-assets:1:52481c7d971f01c0d639f542ca355e87afe5e9844da8800e7ca253b7b42474b6",
+          "format": "smartfactory.rules/1",
+          "definition_id": "history-assets",
+          "definition_version": 1,
+          "content_sha256": "52481c7d971f01c0d639f542ca355e87afe5e9844da8800e7ca253b7b42474b6",
+          "sha256": "ce8e9f1c32d12491aa927ac2ecd1ebc4a95b5f64e290fcd03f375d5eedb5952f",
+          "kind": "analysis",
+          "selector": {
+            "device_ids": [
+              "history-device"
+            ],
+            "asset_id": "history-line-a",
+            "keys": [
+              "count"
+            ]
+          },
+          "outputs": [
+            {
+              "key": "result",
+              "type": "number",
+              "unit": "piece",
+              "node_id": "value"
+            }
+          ],
+          "policy": {},
+          "dependencies": null,
+          "nodes": [
+            {
+              "id": "value",
+              "type": "expression",
+              "inputs": [],
+              "params": {},
+              "expression": {
+                "op": "+",
+                "args": [
+                  {
+                    "op": "variable",
+                    "name": "value"
+                  },
+                  {
+                    "op": "literal",
+                    "value": 1
+                  }
+                ]
+              },
+              "error_output": false
+            }
+          ]
+        }
+      },
+      {
+        "definition": {
+          "id": "history-assets",
+          "name": "history-assets",
+          "kind": "analysis",
+          "schema_version": "1.0",
+          "version": 2,
+          "status": "published",
+          "effective_ms": 1791147203798,
+          "group_id": "history-factory",
+          "nodes": [
+            {
+              "id": "value",
+              "type": "expression",
+              "params": {
+                "code": "value+2"
+              }
+            }
+          ],
+          "connections": null,
+          "outputs": [
+            {
+              "key": "result",
+              "type": "number",
+              "unit": "piece",
+              "node_id": "value"
+            }
+          ],
+          "dependencies": null,
+          "selector": {
+            "device_ids": [
+              "history-device"
+            ],
+            "asset_id": "history-line-b",
+            "keys": [
+              "count"
+            ]
+          },
+          "policy": {}
+        },
+        "plan": {
+          "id": "history-assets:2:0af31e0c1396c9fb7e2e51543cf8e3d84be79dd9542c6d366088434bc9f8bbcb",
+          "format": "smartfactory.rules/1",
+          "definition_id": "history-assets",
+          "definition_version": 2,
+          "content_sha256": "0af31e0c1396c9fb7e2e51543cf8e3d84be79dd9542c6d366088434bc9f8bbcb",
+          "sha256": "5ab265171a1f380bad1a7da7b1c6546c21a3b000b1c80f3ed618d6956269e5ea",
+          "kind": "analysis",
+          "selector": {
+            "device_ids": [
+              "history-device"
+            ],
+            "asset_id": "history-line-b",
+            "keys": [
+              "count"
+            ]
+          },
+          "outputs": [
+            {
+              "key": "result",
+              "type": "number",
+              "unit": "piece",
+              "node_id": "value"
+            }
+          ],
+          "policy": {},
+          "dependencies": null,
+          "nodes": [
+            {
+              "id": "value",
+              "type": "expression",
+              "inputs": [],
+              "params": {},
+              "expression": {
+                "op": "+",
+                "args": [
+                  {
+                    "op": "variable",
+                    "name": "value"
+                  },
+                  {
+                    "op": "literal",
+                    "value": 2
+                  }
+                ]
+              },
+              "error_output": false
+            }
+          ]
+        }
+      }
+    ],
+    "resources": [
+      "history-device",
+      "history-factory",
+      "history-line-a",
+      "history-line-b"
+    ]
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "label": "independent-ai-original-asset-deletion",
+  "command": [
+    "go",
+    "tool",
+    "test2json",
+    "-t",
+    "-p",
+    "competition2026/product/platform/internal/ai",
+    "/private/tmp/smartfactory-phase4-independent-20261005/bin/independent-ai-v2.test",
+    "-test.v=test2json",
+    "-test.run=^TestIndependentInvestigationDeletedOriginalAsset$",
+    "-test.timeout=60s"
+  ],
+  "cwd": "/private/tmp/smartfactory-phase4-independent-20261005/workspace/Platform/internal/ai",
+  "started_at": "2026-10-05T02:24:18.161380+00:00",
+  "completed_at": "2026-10-05T02:24:18.715527+00:00",
+  "elapsed_seconds": 0.554,
+  "exit_code": 1,
+  "postgres": false,
+  "stdout": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/independent-ai-original-asset-deletion.stdout.log",
+    "sha256": "caf33a3d363f8490c7b943131ebc83015528384e439b1b02e6d93ac360e09c0f",
+    "bytes": 1966
+  },
+  "stderr": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/independent-ai-original-asset-deletion.stderr.log",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "counts": {
+    "top_level": {
+      "pass": 0,
+      "fail": 1,
+      "skip": 0
+    },
+    "leaf": {
+      "pass": 0,
+      "fail": 1,
+      "skip": 0
+    },
+    "all_named": {
+      "pass": 0,
+      "fail": 1,
+      "skip": 0
+    },
+    "packages": {
+      "pass": 0,
+      "fail": 1,
+      "skip": 0
+    },
+    "skips": [],
+    "failures": [
+      {
+        "package": "competition2026/product/platform/internal/ai",
+        "test": "TestIndependentInvestigationDeletedOriginalAsset",
+        "output": "=== RUN   TestIndependentInvestigationDeletedOriginalAsset\n    independent_ai_review_test.go:35: original_asset=private-factory original_status=200 after_deletion_status=200 content_bytes=1859 access=valid\n    independent_ai_review_test.go:36: deleted original asset evidence remains accessible: HTTP 200\n--- FAIL: TestIndependentInvestigationDeletedOriginalAsset (0.49s)\n"
+      }
+    ],
+    "races": 0
+  },
+  "build_inputs": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/build-inputs.json",
+    "sha256": "88fdc87b09a840748a6cadc356b019dcf324905175ecb4f7fb3e38f7c7981643",
+    "bytes": 1717015
+  },
+  "binary": {
+    "path": "/private/tmp/smartfactory-phase4-independent-20261005/bin/independent-ai-v2.test",
+    "sha256": "a6674513c9d0cbfbcaf5ca2e13f5475c709019b9f1b40f864a8ddace947d2934",
+    "bytes": 54257826
+  }
+}

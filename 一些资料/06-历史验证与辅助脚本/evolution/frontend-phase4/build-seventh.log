@@ -1,0 +1,24 @@
+
+> smartfactory-frontends@0.1.0 build
+> npm run check:api && npm run typecheck && vite build
+
+
+> smartfactory-frontends@0.1.0 check:api
+> node scripts/generate-api.mjs --check
+
+{"source_sha256":"1245e77f2d1eda6dfa02ef50249d53148585e94216c04fd772d54d1bb07cd3d1","schemas":158,"operations":96,"compiler_api":"6.0.2","checked":true}
+
+> smartfactory-frontends@0.1.0 typecheck
+> node node_modules/@typescript/native/bin/tsc --noEmit
+
+src/protocol-configurations.tsx(43,120): error TS2339: Property 'entity' does not exist on type 'WindowState | { allowed_actions?: { action?: string | undefined; allowed?: boolean | undefined; reason?: string | undefined; }[] | null | undefined; configuration?: { ...; } | undefined; entity?: { ...; } | undefined; }'.
+  Property 'entity' does not exist on type 'WindowState'.
+src/protocol-configurations.tsx(43,167): error TS2339: Property 'entity' does not exist on type 'WindowState | { allowed_actions?: { action?: string | undefined; allowed?: boolean | undefined; reason?: string | undefined; }[] | null | undefined; configuration?: { ...; } | undefined; entity?: { ...; } | undefined; }'.
+  Property 'entity' does not exist on type 'WindowState'.
+src/protocol-configurations.tsx(43,199): error TS2339: Property 'allowed_actions' does not exist on type 'WindowState | { allowed_actions?: { action?: string | undefined; allowed?: boolean | undefined; reason?: string | undefined; }[] | null | undefined; configuration?: { ...; } | undefined; entity?: { ...; } | undefined; }'.
+  Property 'allowed_actions' does not exist on type 'WindowState'.
+src/protocol-configurations.tsx(43,221): error TS7006: Parameter 'action' implicitly has an 'any' type.
+src/protocol-configurations.tsx(44,87): error TS2339: Property 'find' does not exist on type '{ allowed_actions?: { action?: string | undefined; allowed?: boolean | undefined; reason?: string | undefined; }[] | null | undefined; configuration?: { actor?: { ai?: boolean | undefined; ... 5 more ...; user_id?: string | undefined; } | undefined; ... 8 more ...; version?: string | ... 2 more ... | undefined; } | ...'.
+  Property 'find' does not exist on type 'WindowState'.
+src/protocol-configurations.tsx(44,92): error TS7006: Parameter 'item' implicitly has an 'any' type.
+src/protocol-configurations.tsx(44,258): error TS7006: Parameter 'action' implicitly has an 'any' type.

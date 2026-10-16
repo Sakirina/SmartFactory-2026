@@ -1,0 +1,24 @@
+{
+  "finding_id": "P4-B04",
+  "recorded_at": "2026-10-05T00:34:39.401439+00:00",
+  "basis": "Business specialist reported connector TLS JSON decoding mismatch; coordinator verified original YAML-only tags against accepted source archive",
+  "original": {
+    "path": "/private/tmp/smartfactory-phase3-accepted-final-20261005/source/DataTransfer/internal/config/config.go",
+    "sha256": "557d94fdc77f680bba531079fd4a26c187e9556e5fe5d86012be6bdee465c42d",
+    "start_line": 80,
+    "excerpt": "type TLSConfig struct {\n\tEnabled            bool   `yaml:\"enabled\"`\n\tInsecureSkipVerify bool   `yaml:\"insecure_skip_verify\"`\n\tCertFile           string `yaml:\"cert_file\"`\n\tKeyFile            string `yaml:\"key_file\"`\n\tCAFile             string `yaml:\"ca_file\"`\n}"
+  },
+  "current": {
+    "path": "/path/to/SmartFactory-2026/DataTransfer/internal/config/config.go",
+    "sha256": "763330d36187a23d0b7b9d0cb2030351e029c779cc2d563f8c3ac654fbd15d22",
+    "start_line": 80,
+    "excerpt": "type TLSConfig struct {\n\tEnabled            bool   `yaml:\"enabled\" json:\"enabled\"`\n\tInsecureSkipVerify bool   `yaml:\"insecure_skip_verify\" json:\"insecure_skip_verify\"`\n\tCertFile           string `yaml:\"cert_file\" json:\"cert_file\"`\n\tKeyFile            string `yaml:\"key_file\" json:\"key_file\"`\n\tCAFile             string `yaml:\"ca_file\" json:\"ca_file\"`\n}"
+  },
+  "observation": "Snake-case JSON TLS fields insecure_skip_verify, cert_file, key_file and ca_file were not explicitly mapped to the actual TLSConfig structure",
+  "required_verification": [
+    "Canonical snake-case JSON fields survive actual ConfigManager apply and persisted round trip",
+    "Previously serialized Go field names, including InsecureSkipVerify/CertFile/KeyFile/CAFile, remain readable or have an explicit compatible conversion",
+    "Actual configuration version checks still reject delayed older application; TLS secret values are absent from public evidence"
+  ],
+  "status": "implementation_and_compatibility_validation_in_progress"
+}

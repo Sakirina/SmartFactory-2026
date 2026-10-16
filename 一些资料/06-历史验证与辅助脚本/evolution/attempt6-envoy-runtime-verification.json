@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "image": "envoyproxy/envoy@sha256:be87c8b52663c1164a5bdf3c5419017a269cb3d8c74be1ec93638a71f1ffbd4b",
+  "checks": [
+    {
+      "name": "tls_application_health",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "mtls_trusted_client",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "mtls_missing_client",
+      "passed": true,
+      "rejected_by_tls": true,
+      "error_type": "SSLError"
+    },
+    {
+      "name": "mtls_untrusted_client",
+      "passed": true,
+      "rejected_by_tls": true,
+      "error_type": "SSLError"
+    },
+    {
+      "name": "unauthenticated_response_preserved",
+      "passed": true,
+      "status": 401,
+      "request_id_present": true
+    },
+    {
+      "name": "application_sse_unbuffered",
+      "passed": true,
+      "frames": 3,
+      "arrival_seconds": [
+        0.0,
+        1.002,
+        2.003
+      ],
+      "payload_bytes": [
+        1239,
+        1239,
+        1239
+      ],
+      "request_id_present": true
+    }
+  ],
+  "resources": {
+    "cpu_limit": 0.5,
+    "memory_limit_bytes": 134217728
+  },
+  "configuration_sha256": "528aa0025b53003c73d00c7acd4108eb570dc70e6e5b6e53939a487a6357b52f",
+  "container_id": "acc3ebdafc1d932788735ccb601e0c11241907ac6625de6035a896afcf0ec2e9",
+  "health_error": {
+    "type": "URLError",
+    "message": "<urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1082)>"
+  },
+  "all_checks_passed": true,
+  "container_logs": "[2026-10-04 14:42:44.372][1][warning][main] [source/server/server.cc:1038] There is no configured limit to the number of allowed active downstream connections. Configure a limit in `envoy.resource_monitors.global_downstream_max_connections` resource monitor.\n",
+  "memory_observation": "57.1MiB / 128MiB"
+}

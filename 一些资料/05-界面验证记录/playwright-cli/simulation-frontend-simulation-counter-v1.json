@@ -1,0 +1,693 @@
+{
+  "draft_id": "frontend/simulation:counter",
+  "identities": {
+    "draft_revision": 1,
+    "plan_id": "frontend-counter-simulation:0:81ed742ca0ea04d4d02651f1c6e5fe543a9e1bc7e497b559a0d5538376a905c6",
+    "plan_sha256": "745272b0fb0610de2957a13d69a0997c287cd6d88250f691e505744e5fa2ef3c",
+    "content_sha256": "81ed742ca0ea04d4d02651f1c6e5fe543a9e1bc7e497b559a0d5538376a905c6",
+    "input_sha256": "939da773cb4d7506289d258cbff57748d0d9e74614421ef39917df64f6a4479f",
+    "history_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  },
+  "history_source": "provided",
+  "request": {
+    "clock": {
+      "freshness_ms": 5000
+    },
+    "initial_state": {
+      "counter-1": {
+        "count": {
+          "count": 10,
+          "active": false,
+          "candidate": false,
+          "since_ms": 0,
+          "previous": 0,
+          "last_ms": 1800000000000
+        }
+      }
+    },
+    "timeout_ms": 5000,
+    "points": [
+      {
+        "id": "input-b",
+        "message_id": "",
+        "source_id": "",
+        "source_sequence": 2,
+        "device_id": "counter-1",
+        "key": "pulse",
+        "value": 9007199254740993,
+        "observed_ms": 1800000001000,
+        "received_ms": 0,
+        "quality": "GOOD",
+        "time_source": "simulation",
+        "unit": "piece",
+        "entity_revision": 0,
+        "asset_version": 0,
+        "late": false,
+        "revision": 0
+      },
+      {
+        "id": "input-a",
+        "message_id": "",
+        "source_id": "",
+        "source_sequence": 1,
+        "device_id": "counter-1",
+        "key": "pulse",
+        "value": 2,
+        "observed_ms": 1800000001000,
+        "received_ms": 0,
+        "quality": "GOOD",
+        "time_source": "simulation",
+        "unit": "piece",
+        "entity_revision": 0,
+        "asset_version": 0,
+        "late": false,
+        "revision": 0
+      },
+      {
+        "id": "input-c",
+        "message_id": "",
+        "source_id": "",
+        "source_sequence": 3,
+        "device_id": "counter-1",
+        "key": "pulse",
+        "value": -1,
+        "observed_ms": 1800000002000,
+        "received_ms": 0,
+        "quality": "GOOD",
+        "time_source": "simulation",
+        "unit": "piece",
+        "entity_revision": 0,
+        "asset_version": 0,
+        "late": false,
+        "revision": 0
+      }
+    ],
+    "order": "event_time",
+    "history": [],
+    "expected_version": 1,
+    "asset_versions": [
+      {
+        "id": "counter-1",
+        "version": 1,
+        "effective_ms": 1791132168548,
+        "parent_id": "warehouse",
+        "sampling_ms": 1000
+      },
+      {
+        "id": "factory",
+        "version": 1,
+        "effective_ms": 1791132168513,
+        "parent_id": "",
+        "sampling_ms": 0
+      },
+      {
+        "id": "warehouse",
+        "version": 1,
+        "effective_ms": 1791132168520,
+        "parent_id": "factory",
+        "sampling_ms": 0
+      }
+    ]
+  },
+  "result": {
+    "draft_revision": 1,
+    "plan_id": "frontend-counter-simulation:0:81ed742ca0ea04d4d02651f1c6e5fe543a9e1bc7e497b559a0d5538376a905c6",
+    "plan_sha256": "745272b0fb0610de2957a13d69a0997c287cd6d88250f691e505744e5fa2ef3c",
+    "content_sha256": "81ed742ca0ea04d4d02651f1c6e5fe543a9e1bc7e497b559a0d5538376a905c6",
+    "order": "event_time",
+    "clock": {
+      "freshness_ms": 5000
+    },
+    "results": [
+      {
+        "input_index": 1,
+        "point": {
+          "id": "input-a",
+          "message_id": "",
+          "source_id": "",
+          "source_sequence": 1,
+          "device_id": "counter-1",
+          "key": "pulse",
+          "value": 2,
+          "observed_ms": 1800000001000,
+          "received_ms": 0,
+          "quality": "GOOD",
+          "time_source": "simulation",
+          "unit": "piece",
+          "entity_revision": 0,
+          "asset_version": 0,
+          "late": false,
+          "revision": 0
+        },
+        "clock_ms": 1800000001000,
+        "freshness_at_ms": 1800000001000,
+        "freshness_ms": 5000,
+        "evaluation": {
+          "definition_id": "frontend-counter-simulation",
+          "version": 0,
+          "plan_id": "frontend-counter-simulation:0:81ed742ca0ea04d4d02651f1c6e5fe543a9e1bc7e497b559a0d5538376a905c6",
+          "plan_sha256": "745272b0fb0610de2957a13d69a0997c287cd6d88250f691e505744e5fa2ef3c",
+          "entity_id": "counter-1",
+          "at_ms": 1800000001000,
+          "values": {
+            "count": 12,
+            "input": 2,
+            "output": 12
+          },
+          "states": {
+            "count": {
+              "active": false,
+              "candidate": false,
+              "since_ms": 0,
+              "count": 12,
+              "previous": 2,
+              "last_ms": 1800000001000
+            },
+            "input": {
+              "active": false,
+              "candidate": false,
+              "since_ms": 0,
+              "count": 0,
+              "previous": 2,
+              "last_ms": 1800000001000
+            },
+            "output": {
+              "active": false,
+              "candidate": false,
+              "since_ms": 0,
+              "count": 0,
+              "previous": 12,
+              "last_ms": 1800000001000
+            }
+          },
+          "trigger": false,
+          "severity": "WARNING",
+          "quality": {
+            "good": 1,
+            "bad": 0,
+            "uncertain": 0,
+            "excluded": 0,
+            "missing": null,
+            "completeness": "unknown"
+          },
+          "historical": true,
+          "input_ids": [
+            "input-a"
+          ],
+          "asset_versions": [
+            {
+              "id": "counter-1",
+              "version": 1,
+              "effective_ms": 1791132168548,
+              "parent_id": "warehouse",
+              "sampling_ms": 1000
+            },
+            {
+              "id": "warehouse",
+              "version": 1,
+              "effective_ms": 1791132168520,
+              "parent_id": "factory",
+              "sampling_ms": 0
+            },
+            {
+              "id": "factory",
+              "version": 1,
+              "effective_ms": 1791132168513,
+              "parent_id": "",
+              "sampling_ms": 0
+            }
+          ],
+          "trace": [
+            {
+              "node_id": "input",
+              "type": "input",
+              "input": 2,
+              "output": 2,
+              "before": {
+                "active": false,
+                "candidate": false,
+                "since_ms": 0,
+                "count": 0,
+                "previous": null,
+                "last_ms": 0
+              },
+              "after": {
+                "active": false,
+                "candidate": false,
+                "since_ms": 0,
+                "count": 0,
+                "previous": 2,
+                "last_ms": 1800000001000
+              },
+              "skipped": false
+            },
+            {
+              "node_id": "count",
+              "type": "counter",
+              "input": 2,
+              "output": 12,
+              "before": {
+                "active": false,
+                "candidate": false,
+                "since_ms": 0,
+                "count": 10,
+                "previous": 0,
+                "last_ms": 1800000000000
+              },
+              "after": {
+                "active": false,
+                "candidate": false,
+                "since_ms": 0,
+                "count": 12,
+                "previous": 2,
+                "last_ms": 1800000001000
+              },
+              "skipped": false
+            },
+            {
+              "node_id": "output",
+              "type": "output",
+              "input": 12,
+              "output": 12,
+              "before": {
+                "active": false,
+                "candidate": false,
+                "since_ms": 0,
+                "count": 0,
+                "previous": null,
+                "last_ms": 0
+              },
+              "after": {
+                "active": false,
+                "candidate": false,
+                "since_ms": 0,
+                "count": 0,
+                "previous": 12,
+                "last_ms": 1800000001000
+              },
+              "skipped": false
+            }
+          ]
+        }
+      },
+      {
+        "input_index": 0,
+        "point": {
+          "id": "input-b",
+          "message_id": "",
+          "source_id": "",
+          "source_sequence": 2,
+          "device_id": "counter-1",
+          "key": "pulse",
+          "value": 9007199254740993,
+          "observed_ms": 1800000001000,
+          "received_ms": 0,
+          "quality": "GOOD",
+          "time_source": "simulation",
+          "unit": "piece",
+          "entity_revision": 0,
+          "asset_version": 0,
+          "late": false,
+          "revision": 0
+        },
+        "clock_ms": 1800000001000,
+        "freshness_at_ms": 1800000001000,
+        "freshness_ms": 5000,
+        "evaluation": {
+          "definition_id": "frontend-counter-simulation",
+          "version": 0,
+          "plan_id": "frontend-counter-simulation:0:81ed742ca0ea04d4d02651f1c6e5fe543a9e1bc7e497b559a0d5538376a905c6",
+          "plan_sha256": "745272b0fb0610de2957a13d69a0997c287cd6d88250f691e505744e5fa2ef3c",
+          "entity_id": "counter-1",
+          "at_ms": 1800000001000,
+          "values": {
+            "count": 9007199254741005,
+            "input": 9007199254740993,
+            "output": 9007199254741005
+          },
+          "states": {
+            "count": {
+              "active": false,
+              "candidate": false,
+              "since_ms": 0,
+              "count": 9007199254741005,
+              "previous": 9007199254740993,
+              "last_ms": 1800000001000
+            },
+            "input": {
+              "active": false,
+              "candidate": false,
+              "since_ms": 0,
+              "count": 0,
+              "previous": 9007199254740993,
+              "last_ms": 1800000001000
+            },
+            "output": {
+              "active": false,
+              "candidate": false,
+              "since_ms": 0,
+              "count": 0,
+              "previous": 9007199254741005,
+              "last_ms": 1800000001000
+            }
+          },
+          "trigger": false,
+          "severity": "WARNING",
+          "quality": {
+            "good": 1,
+            "bad": 0,
+            "uncertain": 0,
+            "excluded": 0,
+            "missing": null,
+            "completeness": "unknown"
+          },
+          "historical": true,
+          "input_ids": [
+            "input-b"
+          ],
+          "asset_versions": [
+            {
+              "id": "counter-1",
+              "version": 1,
+              "effective_ms": 1791132168548,
+              "parent_id": "warehouse",
+              "sampling_ms": 1000
+            },
+            {
+              "id": "warehouse",
+              "version": 1,
+              "effective_ms": 1791132168520,
+              "parent_id": "factory",
+              "sampling_ms": 0
+            },
+            {
+              "id": "factory",
+              "version": 1,
+              "effective_ms": 1791132168513,
+              "parent_id": "",
+              "sampling_ms": 0
+            }
+          ],
+          "trace": [
+            {
+              "node_id": "input",
+              "type": "input",
+              "input": 9007199254740993,
+              "output": 9007199254740993,
+              "before": {
+                "active": false,
+                "candidate": false,
+                "since_ms": 0,
+                "count": 0,
+                "previous": 2,
+                "last_ms": 1800000001000
+              },
+              "after": {
+                "active": false,
+                "candidate": false,
+                "since_ms": 0,
+                "count": 0,
+                "previous": 9007199254740993,
+                "last_ms": 1800000001000
+              },
+              "skipped": false
+            },
+            {
+              "node_id": "count",
+              "type": "counter",
+              "input": 9007199254740993,
+              "output": 9007199254741005,
+              "before": {
+                "active": false,
+                "candidate": false,
+                "since_ms": 0,
+                "count": 12,
+                "previous": 2,
+                "last_ms": 1800000001000
+              },
+              "after": {
+                "active": false,
+                "candidate": false,
+                "since_ms": 0,
+                "count": 9007199254741005,
+                "previous": 9007199254740993,
+                "last_ms": 1800000001000
+              },
+              "skipped": false
+            },
+            {
+              "node_id": "output",
+              "type": "output",
+              "input": 9007199254741005,
+              "output": 9007199254741005,
+              "before": {
+                "active": false,
+                "candidate": false,
+                "since_ms": 0,
+                "count": 0,
+                "previous": 12,
+                "last_ms": 1800000001000
+              },
+              "after": {
+                "active": false,
+                "candidate": false,
+                "since_ms": 0,
+                "count": 0,
+                "previous": 9007199254741005,
+                "last_ms": 1800000001000
+              },
+              "skipped": false
+            }
+          ]
+        }
+      },
+      {
+        "input_index": 2,
+        "point": {
+          "id": "input-c",
+          "message_id": "",
+          "source_id": "",
+          "source_sequence": 3,
+          "device_id": "counter-1",
+          "key": "pulse",
+          "value": -1,
+          "observed_ms": 1800000002000,
+          "received_ms": 0,
+          "quality": "GOOD",
+          "time_source": "simulation",
+          "unit": "piece",
+          "entity_revision": 0,
+          "asset_version": 0,
+          "late": false,
+          "revision": 0
+        },
+        "clock_ms": 1800000002000,
+        "freshness_at_ms": 1800000002000,
+        "freshness_ms": 5000,
+        "evaluation": {
+          "definition_id": "frontend-counter-simulation",
+          "version": 0,
+          "plan_id": "frontend-counter-simulation:0:81ed742ca0ea04d4d02651f1c6e5fe543a9e1bc7e497b559a0d5538376a905c6",
+          "plan_sha256": "745272b0fb0610de2957a13d69a0997c287cd6d88250f691e505744e5fa2ef3c",
+          "entity_id": "counter-1",
+          "at_ms": 1800000002000,
+          "values": {
+            "count": 9007199254741004,
+            "input": -1,
+            "output": 9007199254741004
+          },
+          "states": {
+            "count": {
+              "active": false,
+              "candidate": false,
+              "since_ms": 0,
+              "count": 9007199254741004,
+              "previous": -1,
+              "last_ms": 1800000002000
+            },
+            "input": {
+              "active": false,
+              "candidate": false,
+              "since_ms": 0,
+              "count": 0,
+              "previous": -1,
+              "last_ms": 1800000002000
+            },
+            "output": {
+              "active": false,
+              "candidate": false,
+              "since_ms": 0,
+              "count": 0,
+              "previous": 9007199254741004,
+              "last_ms": 1800000002000
+            }
+          },
+          "trigger": false,
+          "severity": "WARNING",
+          "quality": {
+            "good": 1,
+            "bad": 0,
+            "uncertain": 0,
+            "excluded": 0,
+            "missing": null,
+            "completeness": "unknown"
+          },
+          "historical": true,
+          "input_ids": [
+            "input-c"
+          ],
+          "asset_versions": [
+            {
+              "id": "counter-1",
+              "version": 1,
+              "effective_ms": 1791132168548,
+              "parent_id": "warehouse",
+              "sampling_ms": 1000
+            },
+            {
+              "id": "warehouse",
+              "version": 1,
+              "effective_ms": 1791132168520,
+              "parent_id": "factory",
+              "sampling_ms": 0
+            },
+            {
+              "id": "factory",
+              "version": 1,
+              "effective_ms": 1791132168513,
+              "parent_id": "",
+              "sampling_ms": 0
+            }
+          ],
+          "trace": [
+            {
+              "node_id": "input",
+              "type": "input",
+              "input": -1,
+              "output": -1,
+              "before": {
+                "active": false,
+                "candidate": false,
+                "since_ms": 0,
+                "count": 0,
+                "previous": 9007199254740993,
+                "last_ms": 1800000001000
+              },
+              "after": {
+                "active": false,
+                "candidate": false,
+                "since_ms": 0,
+                "count": 0,
+                "previous": -1,
+                "last_ms": 1800000002000
+              },
+              "skipped": false
+            },
+            {
+              "node_id": "count",
+              "type": "counter",
+              "input": -1,
+              "output": 9007199254741004,
+              "before": {
+                "active": false,
+                "candidate": false,
+                "since_ms": 0,
+                "count": 9007199254741005,
+                "previous": 9007199254740993,
+                "last_ms": 1800000001000
+              },
+              "after": {
+                "active": false,
+                "candidate": false,
+                "since_ms": 0,
+                "count": 9007199254741004,
+                "previous": -1,
+                "last_ms": 1800000002000
+              },
+              "skipped": false
+            },
+            {
+              "node_id": "output",
+              "type": "output",
+              "input": 9007199254741004,
+              "output": 9007199254741004,
+              "before": {
+                "active": false,
+                "candidate": false,
+                "since_ms": 0,
+                "count": 0,
+                "previous": 9007199254741005,
+                "last_ms": 1800000001000
+              },
+              "after": {
+                "active": false,
+                "candidate": false,
+                "since_ms": 0,
+                "count": 0,
+                "previous": 9007199254741004,
+                "last_ms": 1800000002000
+              },
+              "skipped": false
+            }
+          ]
+        }
+      }
+    ],
+    "final_state": {
+      "counter-1": {
+        "count": {
+          "active": false,
+          "candidate": false,
+          "since_ms": 0,
+          "count": 9007199254741004,
+          "previous": -1,
+          "last_ms": 1800000002000
+        },
+        "input": {
+          "active": false,
+          "candidate": false,
+          "since_ms": 0,
+          "count": 0,
+          "previous": -1,
+          "last_ms": 1800000002000
+        },
+        "output": {
+          "active": false,
+          "candidate": false,
+          "since_ms": 0,
+          "count": 0,
+          "previous": 9007199254741004,
+          "last_ms": 1800000002000
+        }
+      }
+    },
+    "input_sha256": "939da773cb4d7506289d258cbff57748d0d9e74614421ef39917df64f6a4479f",
+    "history_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "history_source": "provided",
+    "history": [],
+    "asset_versions": [
+      {
+        "id": "counter-1",
+        "version": 1,
+        "effective_ms": 1791132168548,
+        "parent_id": "warehouse",
+        "sampling_ms": 1000
+      },
+      {
+        "id": "factory",
+        "version": 1,
+        "effective_ms": 1791132168513,
+        "parent_id": "",
+        "sampling_ms": 0
+      },
+      {
+        "id": "warehouse",
+        "version": 1,
+        "effective_ms": 1791132168520,
+        "parent_id": "factory",
+        "sampling_ms": 0
+      }
+    ],
+    "timeout_ms": 5000
+  }
+}

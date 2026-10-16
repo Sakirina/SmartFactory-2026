@@ -1,0 +1,11 @@
+继续你原有第三阶段控制执行工程师职责，修复独立审查发现的 P3-C05。当前第五/第六迁移已验收后端，保持已有迁移摘要。完整读取 .local/evolution/phase3-coordinator-findings.json 中 C05，以及独立原始证据 .local/evolution/phase3-review-evidence/control-resume-backend.json 和 control-trusted-evidence.json。
+
+实际缺口：云端对 recover-browser 核对并恢复后 cloud/edge execution 都 completed，first=1/remaining=1；边缘有一条可信原命令证据，云端 evidence=[]，timeline 无 feedback，两端 steps[0].evidence_id 都为88a77bcb633d3c9441f92cbeee3e79ff。当前 store.PersistExecution 将 model.Execution 作为 cloud_receipt，cloudsync.receive 仅解码 Execution，control_evidence 未同步。请在你负责的控制/云边同步实现中修正，按现有受验证身份传输并持久保存核对证据及必要来源/追踪，Detail 在云端展示同一原命令可信证据和反馈时间线。
+
+验收要求：证据与执行、原命令、设备、payload、来源节点和来源版本/时间保持绑定；处理重复、乱序、响应丢失、旧格式回执，以及同身份不同内容冲突，避免新证据被旧状态覆盖。云端按当前权限验证所有引用资源；读取详情、操作结果及证据后的页面能够追溯。用实际双应用+DataTransfer/gRPC原命令结果链验证云端和边缘证据一致，至少包含核对后恢复和取消后迟到反馈。现有 NATS/动作去重行为按实际影响验证，未变化的大型环境不需重复启动。补充有意义的 store/cloudsync/control/API回归、有限race和PG适用专项，保存首次失败和修复证据。
+
+根协调与独立审查角色均不修改生产功能，前端工程师继续你原57807/57808/57815夹具上的取消流程。不要停止或修改原夹具，除非主协调确认前端已完成。修复后的新正式二进制和新目录/端口由你建立，并提交 manifest、实际编译输入和启动方法，保持前端产物使用当前 Frontends/dist。独立审查现有59107/59108/59114及history19060服务与数据保留，不要直接替换它们；新C05夹具可供前端、独立审查后续另行启动。
+
+职责限定本控制/云边同步修正及验证。不得创建子代理，不修改全局team/status/acceptance，不接手前端功能。全局最多两个运行名额，当前为你与前端。必要依赖网络已授权，PG18独立schema与MaxOpen3/MaxIdle1，GOTOOLCHAINlocal及/private/tmp既有Go缓存；工作卷保留至少1GiB，大文件/tmp。重大容器/race/PG执行告知主协调，普通受影响测试直接执行。
+
+此前 .local/evolution/control-execution-verified.json 及其hash证据先保存历史副本，再追加修正报告或更新最终报告，清楚指出修复前后源码与二进制关系。尽早说明所选数据同步契约及兼容方式，如改变公开API须通知前端重新生成。完成后发送最终报告与可用夹具清单，并结束本次运行让独立审查复验。

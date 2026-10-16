@@ -1,0 +1,127 @@
+{
+  "checked_at": "2026-10-05T09:31:21.852560+00:00",
+  "status": "passed",
+  "scope": "Checkpoint file integrity, retained actual inputs and raw-result correspondence; all eight Linux rounds remain incomplete or failed",
+  "checkpoint": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-delivery-linux-preflight-checkpoint.json",
+    "sha256": "725c15d7472a0136dedab6c1827c74ce7a71401c4e7edda1723631381a317e3a"
+  },
+  "input_index": {
+    "path": "/private/tmp/smartfactory-delivery-linux-preflight-inputs-20261005/retained-inputs.json",
+    "sha256": "6470287efbdd7aaa863d54ead3bf51efcae428e4f9a3e4d99d455c956b6a862c"
+  },
+  "unique_input_paths": 5997,
+  "go_list_packages": 1146,
+  "go_list_selected_paths": 5993,
+  "physical_files_verified": 11915,
+  "builds": [
+    {
+      "path": "/private/tmp/smartfactory-delivery-linux-preflight-build-20261005/verification.json",
+      "inputs_before": 3627,
+      "binaries": 7,
+      "commands": 2
+    },
+    {
+      "path": "/private/tmp/smartfactory-delivery-linux-preflight-build-corrected-20261005/verification.json",
+      "inputs_before": 3627,
+      "binaries": 7,
+      "commands": 2
+    },
+    {
+      "path": "/private/tmp/smartfactory-delivery-linux-preflight-build-ready-20261005/verification.json",
+      "inputs_before": 3627,
+      "binaries": 7,
+      "commands": 2
+    },
+    {
+      "path": "/private/tmp/smartfactory-delivery-linux-preflight-build-signal-fixed-20261005/verification.json",
+      "inputs_before": 3627,
+      "binaries": 7,
+      "commands": 2
+    }
+  ],
+  "rounds": [
+    {
+      "path": "/private/tmp/smartfactory-delivery-linux-preflight-runtime-20261005/verification.json",
+      "status": "failed",
+      "error": "start-original-formal-business-services failed; see /private/tmp/smartfactory-delivery-linux-preflight-runtime-20261005/evidence/start-original-formal-business-services.log",
+      "passed_checks": 7,
+      "failed_checks": [],
+      "commands": 22
+    },
+    {
+      "path": "/private/tmp/smartfactory-delivery-linux-preflight-runtime-network-fixed-20261005/verification.json",
+      "status": "failed",
+      "error": "actual gateway readiness; last errors=['RemoteDisconnected: Remote end closed connection without response', 'RemoteDisconnected: Remote end closed connection without response', 'RemoteDisconnected: Remote end closed connection without response', 'RemoteDisconnected: Remote end closed connection without response', 'RemoteDisconnected: Remote end closed connection without response']",
+      "passed_checks": 6,
+      "failed_checks": [
+        "all-own-services-stopped-normally-without-oom"
+      ],
+      "commands": 32
+    },
+    {
+      "path": "/private/tmp/smartfactory-delivery-linux-preflight-runtime-ready-20261005/verification.json",
+      "status": "failed",
+      "error": "start-original-formal-business-services failed; see /private/tmp/smartfactory-delivery-linux-preflight-runtime-ready-20261005/evidence/start-original-formal-business-services.log",
+      "passed_checks": 6,
+      "failed_checks": [
+        "all-own-services-stopped-normally-without-oom"
+      ],
+      "commands": 26
+    },
+    {
+      "path": "/private/tmp/smartfactory-delivery-linux-preflight-runtime-signal-fixed-20261005/verification.json",
+      "status": "failed",
+      "error": "/api/sf/v1/connector-configurations: HTTP 409, expected 200: {\"error\": \"version or message content conflict\"}",
+      "passed_checks": 32,
+      "failed_checks": [],
+      "commands": 44
+    },
+    {
+      "path": "/private/tmp/smartfactory-delivery-linux-preflight-runtime-metadata-fixed-20261005/verification.json",
+      "status": "failed",
+      "error": "formal-prepare-first-target failed; see /private/tmp/smartfactory-delivery-linux-preflight-runtime-metadata-fixed-20261005/evidence/formal-prepare-first-target.log",
+      "passed_checks": 33,
+      "failed_checks": [
+        "all-own-services-stopped-normally-without-oom"
+      ],
+      "commands": 46
+    },
+    {
+      "path": "/private/tmp/smartfactory-delivery-linux-preflight-runtime-source-diagnostic-20261005/verification.json",
+      "status": "failed",
+      "error": "/api/sf/v1/release-deployments/delivery-prepared-two/actions: HTTP 409, expected 200: {\"error\": \"version or message content conflict\"}",
+      "passed_checks": 34,
+      "failed_checks": [
+        "all-own-services-stopped-normally-without-oom"
+      ],
+      "commands": 49
+    },
+    {
+      "path": "/private/tmp/smartfactory-delivery-linux-preflight-runtime-version-fixed-20261005/verification.json",
+      "status": "failed",
+      "error": "/internal/releases/runtime: HTTP 403, expected 200: {\"error\": \"permission denied\"}",
+      "passed_checks": 39,
+      "failed_checks": [],
+      "commands": 55
+    },
+    {
+      "path": "/private/tmp/smartfactory-delivery-linux-preflight-runtime-loopback-fixed-20261005/verification.json",
+      "status": "failed",
+      "error": "/api/sf/v1/release-deployments: HTTP 409, expected 200: {\"error\": \"configuration reference is unavailable from the authority\"}",
+      "passed_checks": 36,
+      "failed_checks": [],
+      "commands": 48
+    }
+  ],
+  "errors": [],
+  "final_linux_entrypoint_passed": false,
+  "remaining": [
+    "fixed version1 and version2 runtime consumer reads",
+    "actual later managed process transition",
+    "fixed maximum rule output20",
+    "authority/config-offline managed cached restart",
+    "formal subsequent managed start",
+    "duplicate and both audit chains after managed restart"
+  ]
+}

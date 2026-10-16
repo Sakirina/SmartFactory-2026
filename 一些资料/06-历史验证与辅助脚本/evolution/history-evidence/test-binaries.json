@@ -1,0 +1,48 @@
+[
+  {
+    "package": "./internal/application",
+    "binary_path": "/private/tmp/sf-history-application-verified-20261005.test",
+    "sha256": "760f5fa6c57de2f3df31fcf1850685535dca8f4dc0b4e9947f3a5bcb46e6c10d",
+    "bytes": 38188882,
+    "build_started_unix": 1791145719.3857448,
+    "build_command": [
+      "go",
+      "test",
+      "-c",
+      "-o",
+      "/private/tmp/sf-history-application-verified-20261005.test",
+      "./internal/application"
+    ],
+    "run_command": [
+      "/private/tmp/sf-history-application-verified-20261005.test",
+      "-test.v",
+      "-test.run=Test(HistoryReplay|HistoryCompare|HistoryCancellation|HistoryAuthorization|HistoryRiver|ShadowProduction|ShadowCalculation|ShadowCandidateStop|ShadowDeliveryInterruption|HistorySIGKILL|ShadowSIGKILL)",
+      "-test.timeout=150s"
+    ],
+    "run_exit_code": 0,
+    "verification_log": ".local/evolution/history-evidence/application-binary-verification.log"
+  },
+  {
+    "package": "./internal/api",
+    "binary_path": "/private/tmp/sf-history-api-verified-20261005.test",
+    "sha256": "ba6ba9832f1b0d96120c96344547028fc33d01c586e6bae56ca75548d45a32e8",
+    "bytes": 44790818,
+    "build_started_unix": 1791145759.625271,
+    "build_command": [
+      "go",
+      "test",
+      "-c",
+      "-o",
+      "/private/tmp/sf-history-api-verified-20261005.test",
+      "./internal/api"
+    ],
+    "run_command": [
+      "/private/tmp/sf-history-api-verified-20261005.test",
+      "-test.v",
+      "-test.run=TestHistoryHTTP",
+      "-test.timeout=150s"
+    ],
+    "run_exit_code": 0,
+    "verification_log": ".local/evolution/history-evidence/api-binary-verification.log"
+  }
+]

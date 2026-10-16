@@ -1,0 +1,40 @@
+{
+  "files": [
+    {
+      "path": "Platform/internal/api/control_budget_test.go",
+      "before": {
+        "path": "/private/tmp/smartfactory-phase4-independent-20261005/workspace/Platform/internal/api/control_budget_test.go",
+        "sha256": "a320b5b4458dbb9405c62ff9bd296a6fe3b38afaf929ab2ef0f28a02e10cae1c",
+        "bytes": 6646
+      },
+      "after": {
+        "path": "/private/tmp/smartfactory-phase4-independent-20261005/review-test-final/Platform/internal/api/control_budget_test.go",
+        "sha256": "eb7ae0a2c2ae2d32ef3fd53a8c87644f4fe2fe92d5b078e1a4824e1ee9b7a7c5",
+        "bytes": 7161
+      },
+      "current_path": "/path/to/SmartFactory-2026/Platform/internal/api/control_budget_test.go"
+    },
+    {
+      "path": "Platform/internal/cloudsync/idle_test.go",
+      "before": {
+        "path": "/private/tmp/smartfactory-phase4-independent-20261005/workspace/Platform/internal/cloudsync/idle_test.go",
+        "sha256": "8c3c5dd294aec2dc3c2c21eb364dbce361d0a5caa292aeaa3b5faa245656c18e",
+        "bytes": 1437
+      },
+      "after": {
+        "path": "/private/tmp/smartfactory-phase4-independent-20261005/review-test-final/Platform/internal/cloudsync/idle_test.go",
+        "sha256": "2c1e5d16e44994f325152844e8bb7cffd5233f3ac7c27f535ee53110cd8b27ce",
+        "bytes": 5203
+      },
+      "current_path": "/path/to/SmartFactory-2026/Platform/internal/cloudsync/idle_test.go"
+    }
+  ],
+  "patch": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/review-test-changes.patch",
+    "sha256": "e600c27a5eec71cb594a203a6e215a7af64198dde1f3c412a705e18c4e5bd5b9",
+    "bytes": 6064
+  },
+  "scope": "Only these two repository test files were changed by the independent reviewer; remaining reviewer files are local evidence and temporary test overlays.",
+  "control_budget": "Added task IDs, queue, scheduling, attempt and callback-entry diagnostics; retained the original deadlines and behavior assertions.",
+  "cloudsync_idle": "Retained zero writes across 25 idle exchanges. Heartbeat verifies the edge-a source version and timestamp, one sources commit, query watermark and revision, equal projected source payload, four permitted query-table changes and unchanged other domain rows."
+}

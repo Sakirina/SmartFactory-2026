@@ -1,0 +1,1886 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-10-07T05:35:21.819261+00:00",
+  "status": "passed",
+  "role": "第五阶段构建交付工程师",
+  "goals": [
+    "E5-06",
+    "E5-04 实际部署停止与恢复专项",
+    "前五阶段公开交付资料汇合"
+  ],
+  "result": "正式十四程序 Linux amd64 包完成构建、固定输入核对、静态验证、契约实际导出和 55 项正式入口运行；归档已保存到工作区并逐成员核对、解包验证，全部自建应用与验证 PostgreSQL 正常停止。",
+  "acceptance_scope": "本报告确认构建交付职责完成；45 项整体完成状态由主协调与独立验收报告共同确定。",
+  "deliverable": {
+    "application_version": "1.1.0-dev",
+    "target": "linux/amd64",
+    "source_commit": "dde3315bd91f62be5fa3593200f9d267bc264811",
+    "working_tree_included": true,
+    "source_sha256": "6c66570a31e7f921e4830fa2a0c16c6947a589c0d4cb0c57aab5fd8d4ba1fdbe",
+    "actual_source_directory": "/private/tmp/smartfactory-delivery-final-20261007/bundle/source",
+    "tested_directory": "/private/tmp/smartfactory-delivery-final-20261007/bundle",
+    "unpacked_archive_directory": "/private/tmp/smartfactory-delivery-final-20261007/archive-verification/extracted/SmartFactory-1.1.0-dev-linux-amd64-20261007-6c66570a31e7",
+    "archive": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/delivery/SmartFactory-1.1.0-dev-linux-amd64-20261007-6c66570a31e7.tar.gz",
+      "bytes": 137796066,
+      "sha256": "376f11ba9f0b1f6319b22bccdc7f704d55d0567b306ca72a133005fa82099218"
+    },
+    "checksum": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/delivery/SmartFactory-1.1.0-dev-linux-amd64-20261007-6c66570a31e7.tar.gz.sha256",
+      "bytes": 130,
+      "sha256": "fba18d8f53a714ba0906d3aa89d9693b29c839a6381403b59fee6e5ae329227e"
+    },
+    "directory_index": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/delivery/SmartFactory-1.1.0-dev-linux-amd64-20261007-6c66570a31e7.json",
+      "bytes": 1629,
+      "sha256": "cc61b435cb42523b0fec55735dd3c052b57767ac04684f040c110057478f735a"
+    },
+    "manifest": {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/bundle/release-manifest.json",
+      "bytes": 258464,
+      "sha256": "2232504edf3e704738f31360cf6de2e73c5b82d8181593e4a36191972dc6654e"
+    },
+    "manifest_files": 1533,
+    "manifest_bytes": 397158744,
+    "archive_regular_files": 1534,
+    "archive_extra_regular_file": "release-manifest.json",
+    "source_files": 894,
+    "linux_programs": 14,
+    "frontend_entries": [
+      "index.html",
+      "edge.html",
+      "screen.html"
+    ],
+    "frontend_static_files": 19,
+    "archive_contents_verified": "所有 1534 个普通成员与实际包逐字节摘要对应，路径安全、所有者字段归零，无符号链接；解包目录的 verify-release 返回 0。",
+    "container_images_included": false,
+    "container_image_preparation": "包内包含镜像锁、程序来源、组件及许可材料；按 Wiki/development/build.md 和 deploy/images.lock.json 准备对应锁定镜像。"
+  },
+  "build": {
+    "actual_command": {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/build-final-license-complete-command.json",
+      "bytes": 1200,
+      "sha256": "1e2a5585b788c04ab0d7ef7ac57034f06ba22eb7eea11a2f2860e49280fb4a47"
+    },
+    "cwd": "/path/to/SmartFactory-2026",
+    "argv": [
+      "python3",
+      "/path/to/SmartFactory-2026/scripts/build-release.py",
+      "--output",
+      "/private/tmp/smartfactory-delivery-final-20261007/bundle",
+      "--skip-frontend-build",
+      "--version",
+      "1.1.0-dev"
+    ],
+    "environment": {
+      "GOTOOLCHAIN": "local",
+      "GOPROXY": "off",
+      "GOPATH": "/private/tmp/smartfactory-evolution-gopath",
+      "GOMODCACHE": "/private/tmp/smartfactory-evolution-gomodcache",
+      "GOCACHE": "/private/tmp/smartfactory-evolution-go-cache",
+      "GOMAXPROCS": "2",
+      "PYTHONDONTWRITEBYTECODE": "1"
+    },
+    "exit_code": 0,
+    "duration_seconds": 12.668850917019881,
+    "actual_execution_groups": [
+      {
+        "name": "Platform",
+        "argv": [
+          "go",
+          "build",
+          "-p",
+          "1",
+          "-trimpath",
+          "-ldflags",
+          "-s -w -X competition2026/product/platform/pkg/buildinfo.Version=1.1.0-dev -X competition2026/product/platform/pkg/buildinfo.SourceSHA256=6c66570a31e7f921e4830fa2a0c16c6947a589c0d4cb0c57aab5fd8d4ba1fdbe",
+          "-o",
+          "<bundle>/bin/",
+          "./cmd/sf-cloud",
+          "./cmd/sf-edge",
+          "./cmd/sf-config",
+          "./cmd/sf-release-agent",
+          "./cmd/sf-pki",
+          "./cmd/sf-contracts",
+          "./cmd/sf-model-mock",
+          "./cmd/sf-hr-plugin",
+          "./cmd/sf-api-benchmark",
+          "./cmd/sf-site-fixture"
+        ],
+        "working_directory": "source/Platform",
+        "started_at": "2026-10-07T05:07:08.530230+00:00",
+        "finished_at": "2026-10-07T05:07:13.679330+00:00",
+        "exit_code": 0,
+        "log": "build-logs/Platform.log",
+        "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "DataTransfer",
+        "argv": [
+          "go",
+          "build",
+          "-p",
+          "1",
+          "-trimpath",
+          "-ldflags",
+          "-s -w",
+          "-o",
+          "<bundle>/bin/",
+          "./cmd/datatransfer",
+          "./cmd/dt-simulator",
+          "./cmd/dt-benchmark"
+        ],
+        "working_directory": "source/DataTransfer",
+        "started_at": "2026-10-07T05:07:13.679617+00:00",
+        "finished_at": "2026-10-07T05:07:14.728700+00:00",
+        "exit_code": 0,
+        "log": "build-logs/DataTransfer.log",
+        "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "http-plugin",
+        "argv": [
+          "go",
+          "build",
+          "-p",
+          "1",
+          "-trimpath",
+          "-ldflags=-s -w",
+          "-o",
+          "<bundle>/bin/http-plugin",
+          "./examples/http-plugin"
+        ],
+        "working_directory": "source/DataTransfer",
+        "started_at": "2026-10-07T05:07:14.728944+00:00",
+        "finished_at": "2026-10-07T05:07:14.982566+00:00",
+        "exit_code": 0,
+        "log": "build-logs/http-plugin.log",
+        "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ],
+    "go_version": "go version go1.27.1 darwin/arm64",
+    "observed_toolchains": {
+      "go": "1.27.1",
+      "node": "24.21.0",
+      "npm": "11.19.0",
+      "python": "Python 3.14.7"
+    },
+    "linux_target": "linux/amd64",
+    "cgo_enabled": false,
+    "parallel_build_packages": 1,
+    "gomaxprocs": 2,
+    "binary_index": {
+      "datatransfer": {
+        "bytes": 25440416,
+        "sha256": "da066002adfea17bd70541c08af8e0fa503561c88cb884594c2ffe7dc37796fb"
+      },
+      "dt-benchmark": {
+        "bytes": 19464352,
+        "sha256": "aaf1e520899e23273997101d38e651f1cd92a7e58425c72f7f6389ef6519949a"
+      },
+      "dt-simulator": {
+        "bytes": 17305760,
+        "sha256": "97b734f6012862c63d3963fcdebd18597a1c7b64ed6765658b253de5a8cb61a0"
+      },
+      "http-plugin": {
+        "bytes": 12538016,
+        "sha256": "f023fc9bdb4bcedbc6c527cd79ca3dcce3372a1ca0ee05bf733f69aa59f5a7a5"
+      },
+      "sf-api-benchmark": {
+        "bytes": 39428256,
+        "sha256": "a92a1bdabd197b1b76f1a02ad215dee21413437c3a67bffd72a5eb4ea465591a"
+      },
+      "sf-cloud": {
+        "bytes": 39293088,
+        "sha256": "bf1504af93727c4f70a4be5ac0ccf6812f0e31cc3adca3c10752aa66714cf8f6"
+      },
+      "sf-config": {
+        "bytes": 39293088,
+        "sha256": "a8a5e891e37509800463a7898bdd79804d70be13fe5bb647cf5034096dbbef40"
+      },
+      "sf-contracts": {
+        "bytes": 33296544,
+        "sha256": "4fbed9c5bd3f4be9338edc63c7846b48124dc31d03a4f6b28079ee0761e85c83"
+      },
+      "sf-edge": {
+        "bytes": 39293088,
+        "sha256": "d0a5f450809424146389e14ce24303144dd1ee8ad167284eeb5d70e8464bd41c"
+      },
+      "sf-hr-plugin": {
+        "bytes": 22491296,
+        "sha256": "a75a4a831d2c7623be9475390c8ac4da3fcc929049721d15bbd16732e01acae3"
+      },
+      "sf-model-mock": {
+        "bytes": 25235616,
+        "sha256": "dd0545e08f195ec79961d4ae8e688aec0f2604d46be972edac9f83e205042dbf"
+      },
+      "sf-pki": {
+        "bytes": 4489376,
+        "sha256": "08f7fb3a5742372f90ef4377b027727a2904d77cc2ae168b3324117b985ec9ab"
+      },
+      "sf-release-agent": {
+        "bytes": 23498912,
+        "sha256": "ed4f749102a553a3058a28f2788df7ce708c90314ca3e8b0f3073f6ede8f5574"
+      },
+      "sf-site-fixture": {
+        "bytes": 39317664,
+        "sha256": "3d552685be67b76b6bb1e7cc08fe06d3d6c50d07d08660f25a68c65ad3507469"
+      }
+    },
+    "actual_inputs": {
+      "portable_count": 6094,
+      "additional_toolchain_files": 7,
+      "total": 6101,
+      "before_after_equal": true,
+      "selection_fields": [
+        "GoFiles",
+        "CgoFiles",
+        "CFiles",
+        "CXXFiles",
+        "MFiles",
+        "HFiles",
+        "FFiles",
+        "SFiles",
+        "SwigFiles",
+        "SwigCXXFiles",
+        "SysoFiles",
+        "EmbedFiles",
+        "TestGoFiles",
+        "XTestGoFiles",
+        "TestEmbedFiles",
+        "XTestEmbedFiles",
+        "module_lock"
+      ],
+      "retained_index": {
+        "path": "/private/tmp/smartfactory-delivery-final-20261007/retained-final-build-inputs.json",
+        "bytes": 2506470,
+        "sha256": "9471921ff24957ea7345a4f425a57ea640a803e984881ac6146b4aef8e37d0a4"
+      }
+    },
+    "source_correspondence": {
+      "final_source": "6c66570a31e7f921e4830fa2a0c16c6947a589c0d4cb0c57aab5fd8d4ba1fdbe",
+      "seven_program_actual_source": "05a7b671665dfdc86473b2379e4598ce98a0de6da7872b6bb9fe6067cb00ea2b",
+      "go_production_and_test_changes_since_seven_program_preflight": [],
+      "fourteen_program_candidate_public_differences": 32,
+      "details": {
+        "path": "/private/tmp/smartfactory-delivery-final-20261007/static-verification-license-complete/verification.json",
+        "bytes": 240065,
+        "sha256": "237029964646709b6357f0058e6abd0e090aefbe477150ad303bb0d18d7666e5"
+      },
+      "historical_r02_reference": "candidate-r02-final/source 的 eb78474a…属于后端历史固定输入；N04 七程序实际从当前工作区复制的 05a7b671…构建，最终十四程序实际从当前 6c66570a…固定源码构建。原七程序报告与 driver 的历史字段保留，实际来源补充说明单独固定。"
+    }
+  },
+  "frontend": {
+    "specialist": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/release-interface-verified.json",
+      "bytes": 27971,
+      "sha256": "9d5d2324570bd535001c5a9cbe3938de78867e16842a4778a450f7e580f810d3"
+    },
+    "frozen_input_index": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/release-interface/final-inputs.json",
+      "bytes": 15478817,
+      "sha256": "5e860d20c919301964d14d6cb19b3c4660b3471133d850c21b96dee004e49a6e"
+    },
+    "all_frozen_inputs": 30931,
+    "frozen_workspace_inputs": 295,
+    "public_included_workspace_inputs": 291,
+    "public_frontend_source_files": 92,
+    "public_contract_files": 198,
+    "public_toolchain_lock_files": 1,
+    "excluded_frozen_inputs": [
+      "Frontends/.DS_Store",
+      "docs/evolution/node-configuration-contract.md",
+      "docs/evolution/release-frontend-contract.md",
+      "docs/evolution/release-interface-handoff.md"
+    ],
+    "source_sha256": "9fe37017efd60e1c5d49c12a1ca9ad5f7c266496eaee52d9662718e103a07399",
+    "static_sha256": "edd72b1d5876812601d1d5f3d1ad7ffe258eb480bcfd8b6062920cbd08958e25",
+    "static_files": 19,
+    "package_lock_matches": true,
+    "openapi_matches": true,
+    "correspondence": "全部 30931 份冻结输入在恢复时与当前字节对应；包中 291 份公开冻结工作区输入和 19 份静态产物逐项一致。前端专业原始报告中的等待最终 Linux 阶段保留历史语义，此报告引用已完成的最终 55 项。"
+  },
+  "contracts_and_migrations": {
+    "actual_linux_export": {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/final-contract-export/verification.json",
+      "bytes": 38538,
+      "sha256": "5be4333d0bd9571e94837de9b8f9c523a958a82f209dd57d02ba5e8482d1e432"
+    },
+    "exported_json_files": 199,
+    "standalone_schemas": 196,
+    "openapi_components": 197,
+    "openapi_operations": 116,
+    "editable_definitions": 24,
+    "actual_export_comparison": "使用最终 Linux sf-contracts 实际导出，199 份 JSON 与包中摘要一致。",
+    "migration_minimum": 11,
+    "migration_maximum": 11,
+    "numbered_migrations": {
+      "sqlite": [
+        {
+          "version": 1,
+          "path": "/private/tmp/smartfactory-delivery-final-20261007/bundle/source/Platform/internal/store/migrations/sqlite/00001_baseline.sql",
+          "bytes": 3829,
+          "sha256": "8f8b3ff25cd9a9f55e99ab3abd851f20e8075d15242bec0e52ee4e2695a15631"
+        },
+        {
+          "version": 2,
+          "path": "/private/tmp/smartfactory-delivery-final-20261007/bundle/source/Platform/internal/store/migration00002.go",
+          "bytes": 856,
+          "sha256": "d41f217a598789ec94a29fdcf9db03547eb5bc79cb1671bdc2211891ccc1b626"
+        },
+        {
+          "version": 3,
+          "path": "/private/tmp/smartfactory-delivery-final-20261007/bundle/source/Platform/internal/store/migration00003.go",
+          "bytes": 1221,
+          "sha256": "5b5c043c4d830ba6e77057b54654585e83fec0b0fb9e8e9b75e87e65bba9cfd4"
+        },
+        {
+          "version": 4,
+          "path": "/private/tmp/smartfactory-delivery-final-20261007/bundle/source/Platform/internal/store/migration00004.go",
+          "bytes": 1884,
+          "sha256": "1a69098a1f06a9659d5b6d2f0d967b88a1e29a7a677bbf3014714ab2856bf854"
+        },
+        {
+          "version": 5,
+          "path": "/private/tmp/smartfactory-delivery-final-20261007/bundle/source/Platform/internal/store/migration00005.go",
+          "bytes": 602,
+          "sha256": "ef7dbe90ee1e57d318b600b2f7ff62416384f833031ba196fd238b45e8df16ac"
+        },
+        {
+          "version": 6,
+          "path": "/private/tmp/smartfactory-delivery-final-20261007/bundle/source/Platform/internal/store/migration00006.go",
+          "bytes": 1318,
+          "sha256": "cfc2e96ad04880f7081db6b62a179ed52f37269ac0e46fd60c84fc40aafc15aa"
+        },
+        {
+          "version": 7,
+          "path": "/private/tmp/smartfactory-delivery-final-20261007/bundle/source/Platform/internal/store/migration00007.go",
+          "bytes": 2246,
+          "sha256": "fb1a506bcdaf9d716923f7f33d5027bf9a395e9b4a2eb86eea065dedcd0890a7"
+        },
+        {
+          "version": 8,
+          "path": "/private/tmp/smartfactory-delivery-final-20261007/bundle/source/Platform/internal/store/migration00008.go",
+          "bytes": 767,
+          "sha256": "553c464b689eb3324b413ab31bfaa71f7d7b5184ab6061e6415abfd3a2ae2302"
+        },
+        {
+          "version": 9,
+          "path": "/private/tmp/smartfactory-delivery-final-20261007/bundle/source/Platform/internal/store/migration00009.go",
+          "bytes": 798,
+          "sha256": "a56772048222088f233e0e139e411c606b58d2261a7b49234299148816523b7d"
+        },
+        {
+          "version": 10,
+          "path": "/private/tmp/smartfactory-delivery-final-20261007/bundle/source/Platform/internal/store/migration00010.go",
+          "bytes": 1732,
+          "sha256": "59d0c41e9a81e9e447254ce0b560706e324d1dbcbe9ae623b52c4d24e227a0c3"
+        },
+        {
+          "version": 11,
+          "path": "/private/tmp/smartfactory-delivery-final-20261007/bundle/source/Platform/internal/store/migration00011.go",
+          "bytes": 768,
+          "sha256": "9f1f12a44565e2079a84d548aae5fcc8e56eddc1d4a1e5f36ecfaf0af33275b9"
+        }
+      ],
+      "postgres": [
+        {
+          "version": 1,
+          "path": "/private/tmp/smartfactory-delivery-final-20261007/bundle/source/Platform/internal/store/migrations/postgres/00001_baseline.sql",
+          "bytes": 3862,
+          "sha256": "b4f13649f266050f7b87cf9f0c7509b98af1fb40fd606666d1de5a91e02a7f62"
+        },
+        {
+          "version": 2,
+          "path": "/private/tmp/smartfactory-delivery-final-20261007/bundle/source/Platform/internal/store/migration00002.go",
+          "bytes": 856,
+          "sha256": "d41f217a598789ec94a29fdcf9db03547eb5bc79cb1671bdc2211891ccc1b626"
+        },
+        {
+          "version": 3,
+          "path": "/private/tmp/smartfactory-delivery-final-20261007/bundle/source/Platform/internal/store/migration00003.go",
+          "bytes": 1221,
+          "sha256": "5b5c043c4d830ba6e77057b54654585e83fec0b0fb9e8e9b75e87e65bba9cfd4"
+        },
+        {
+          "version": 4,
+          "path": "/private/tmp/smartfactory-delivery-final-20261007/bundle/source/Platform/internal/store/migration00004.go",
+          "bytes": 1884,
+          "sha256": "1a69098a1f06a9659d5b6d2f0d967b88a1e29a7a677bbf3014714ab2856bf854"
+        },
+        {
+          "version": 5,
+          "path": "/private/tmp/smartfactory-delivery-final-20261007/bundle/source/Platform/internal/store/migration00005.go",
+          "bytes": 602,
+          "sha256": "ef7dbe90ee1e57d318b600b2f7ff62416384f833031ba196fd238b45e8df16ac"
+        },
+        {
+          "version": 6,
+          "path": "/private/tmp/smartfactory-delivery-final-20261007/bundle/source/Platform/internal/store/migration00006.go",
+          "bytes": 1318,
+          "sha256": "cfc2e96ad04880f7081db6b62a179ed52f37269ac0e46fd60c84fc40aafc15aa"
+        },
+        {
+          "version": 7,
+          "path": "/private/tmp/smartfactory-delivery-final-20261007/bundle/source/Platform/internal/store/migration00007.go",
+          "bytes": 2246,
+          "sha256": "fb1a506bcdaf9d716923f7f33d5027bf9a395e9b4a2eb86eea065dedcd0890a7"
+        },
+        {
+          "version": 8,
+          "path": "/private/tmp/smartfactory-delivery-final-20261007/bundle/source/Platform/internal/store/migration00008.go",
+          "bytes": 767,
+          "sha256": "553c464b689eb3324b413ab31bfaa71f7d7b5184ab6061e6415abfd3a2ae2302"
+        },
+        {
+          "version": 9,
+          "path": "/private/tmp/smartfactory-delivery-final-20261007/bundle/source/Platform/internal/store/migration00009.go",
+          "bytes": 798,
+          "sha256": "a56772048222088f233e0e139e411c606b58d2261a7b49234299148816523b7d"
+        },
+        {
+          "version": 10,
+          "path": "/private/tmp/smartfactory-delivery-final-20261007/bundle/source/Platform/internal/store/migration00010.go",
+          "bytes": 1732,
+          "sha256": "59d0c41e9a81e9e447254ce0b560706e324d1dbcbe9ae623b52c4d24e227a0c3"
+        },
+        {
+          "version": 11,
+          "path": "/private/tmp/smartfactory-delivery-final-20261007/bundle/source/Platform/internal/store/migration00011.go",
+          "bytes": 768,
+          "sha256": "9f1f12a44565e2079a84d548aae5fcc8e56eddc1d4a1e5f36ecfaf0af33275b9"
+        }
+      ]
+    },
+    "migration_layout": "每种数据库的编号 1 为独立 SQL baseline，编号 2 至 11 为两种数据库共用、编译并嵌入的 Go migration；实际运行的 migration_version 为 11。",
+    "compatibility_materials": "公开 contracts/1.0 及 deploy 兼容清单随包提供，静态契约检查与实际程序 build-info 均通过。"
+  },
+  "static_and_public_materials": {
+    "report": {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/static-verification-license-complete/verification.json",
+      "bytes": 240065,
+      "sha256": "237029964646709b6357f0058e6abd0e090aefbe477150ad303bb0d18d7666e5"
+    },
+    "commands_exit_zero": 6,
+    "release_unit_tests_passed": 21,
+    "program_metadata_checks": 14,
+    "documents": 58,
+    "public_source_files": 894,
+    "public_document_missing_links": 0,
+    "public_document_private_identity_or_path_matches": 0,
+    "source_personal_identity_or_credential_matches": 0,
+    "source_temporary_references": {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/source-temporary-reference-review.json",
+      "bytes": 17800,
+      "sha256": "da2d76ec0c506c4976ee9aab5bb9ea78cc193be310ddab7ab1692e947453b8d2"
+    },
+    "temporary_fixture_scope": "源码内通用临时目录及可覆盖的本地阶段夹具路径保留；报告列明生成前提和参数/环境覆盖方法。公开操作文档已分别检查私人称呼、个人目录、临时凭据与内部证据路径。",
+    "public_usage": "Wiki 汇合草稿、模拟、任务、控制核对、回放与影子计算、告警工单、模板、AI 依据、节点配置、首次工件登记与分批发布，并提供准备、转换、备份恢复及迁移操作步骤。"
+  },
+  "components_and_licenses": {
+    "components": 295,
+    "counts": {
+      "container": 10,
+      "go": 80,
+      "npm": 204,
+      "toolchain": 1
+    },
+    "installed_npm": 152,
+    "optional_uninstalled_npm": 52,
+    "npm_aliases": [
+      {
+        "id": "typescript@7.0.2#e7af62287170",
+        "package_id": "typescript@7.0.2",
+        "ecosystem": "npm",
+        "module": "typescript",
+        "version": "7.0.2",
+        "installation_path": "node_modules/@typescript/native",
+        "installation_name": "@typescript/native",
+        "license": "Apache-2.0",
+        "resolved": "https://registry.npmjs.org/typescript/-/typescript-7.0.2.tgz",
+        "integrity": "sha512-8FYau96o3NKOhbjKi/qNvG/W5jhzxkbdm5sj9AbZ/5T5sWqn3hJgLfGx27sRKZWTvyzCP8dLRBTf5tBTSRVUNA==",
+        "development": true,
+        "license_files": [
+          "licenses/npm__typescript@7.0.2__e7af62287170/LICENSE",
+          "licenses/npm__typescript@7.0.2__e7af62287170/NOTICE.txt"
+        ],
+        "alias": "@typescript/native",
+        "installed_for_build": true,
+        "optional": false
+      },
+      {
+        "id": "@typescript/typescript6@6.0.2#ab4a5bf0e7e1",
+        "package_id": "@typescript/typescript6@6.0.2",
+        "ecosystem": "npm",
+        "module": "@typescript/typescript6",
+        "version": "6.0.2",
+        "installation_path": "node_modules/typescript",
+        "installation_name": "typescript",
+        "license": "Apache-2.0",
+        "resolved": "https://registry.npmjs.org/@typescript/typescript6/-/typescript6-6.0.2.tgz",
+        "integrity": "sha512-mbCddXd+jm7hfx7w2YU64/Av4/NqqeG3GoRZgxPcgoTxYjhrcfJRw9ULch71SS4G+Q3bOXFhRvPqjguN0Hyp5w==",
+        "development": true,
+        "license_files": [
+          "licenses/npm__@typescript__typescript6@6.0.2__ab4a5bf0e7e1/LICENSE.txt"
+        ],
+        "alias": "typescript",
+        "installed_for_build": true,
+        "optional": false
+      },
+      {
+        "id": "typescript@6.0.2#a2093abf0ea2",
+        "package_id": "typescript@6.0.2",
+        "ecosystem": "npm",
+        "module": "typescript",
+        "version": "6.0.2",
+        "installation_path": "node_modules/typescript/node_modules/@typescript/old",
+        "installation_name": "@typescript/old",
+        "license": "Apache-2.0",
+        "resolved": "https://registry.npmjs.org/typescript/-/typescript-6.0.2.tgz",
+        "integrity": "sha512-bGdAIrZ0wiGDo5l8c++HWtbaNCWTS4UTv7RaTH/ThVIgjkveJt83m74bBHMJkuCbslY8ixgLBVZJIOiQlQTjfQ==",
+        "development": true,
+        "license_files": [
+          "licenses/npm__typescript@6.0.2__a2093abf0ea2/LICENSE.txt"
+        ],
+        "alias": "@typescript/old",
+        "installed_for_build": true,
+        "optional": false
+      }
+    ],
+    "actual_go_runtime": {
+      "id": "go@1.27.1",
+      "ecosystem": "toolchain",
+      "module": "go",
+      "version": "1.27.1",
+      "standard_library_and_runtime": true,
+      "source": "https://go.googlesource.com/go/+/refs/tags/go1.27.1",
+      "source_version": "go1.27.1",
+      "license": "BSD-3-Clause",
+      "license_files": [
+        "licenses/go__go1.27.1/LICENSE"
+      ],
+      "license_layout": "Homebrew formula root above GOROOT/libexec",
+      "distribution": "homebrew",
+      "distribution_version": "1.27.1",
+      "distribution_receipt_sha256": "d95a390108adda10e663ab6b8b24953b01b9ab1f38a1583684d2c0dbc4a81381",
+      "compiler_sha256": "548608a910c46de32c65a3934f461b1787acf6ddd371044826068d8503b8509b"
+    },
+    "first_party_modules_without_upstream_license": [
+      "competition2026/product/datatransfer@v0.0.0"
+    ],
+    "b02_report": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-container-licenses-verified.json",
+      "bytes": 48161,
+      "sha256": "6dd46986269c09a61f8a00edddf4f3e0791a298f18fdcdbafd5e9a1572f6ce6d"
+    },
+    "provenance_entries": 36,
+    "locked_image_components_with_source_license_and_scope": 10,
+    "b02_official_text_requests": 34,
+    "downloaded_text_bytes": 336986,
+    "runtime_apk_packages": 16,
+    "runtime_apk_origins": 10,
+    "license_scope": "Go 实际编译器、标准库及运行时来源按 Homebrew Go 1.27.1 与实际 LICENSE 记录；三个 npm 别名分别保留安装位置、发行名及独立许可目录。五个缺失镜像组件已补齐固定官方来源与文本，材料逐项标明主程序、发行版包或工具范围。",
+    "material_completion_status": "B02 创建时的 remaining_work 曾指向正在执行的最终 55 项，原报告字节保留；本报告的 final_runtime 已通过并固定。"
+  },
+  "final_runtime": {
+    "report": {
+      "path": "/private/tmp/smartfactory-delivery-final-runtime-20261007/verification.json",
+      "bytes": 1222613,
+      "sha256": "9d41f68450da5f33f063162275784afd0531f663ac801879f1ea9e9f795ab830"
+    },
+    "wrapper": {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/final-runtime-command.json",
+      "bytes": 1095,
+      "sha256": "2f2f981d2aa67b0339f8741f5f97c3a60dd9382fa21093117732b4f9a93b388b"
+    },
+    "actual_driver": {
+      "path": "/private/tmp/smartfactory-delivery-final-runtime-20261007/evidence/verify-delivery-runtime.py",
+      "sha256": "aac7008536d5876e3ca81761b66cb77e2ec35f468446a806da3d75b2f443cc31"
+    },
+    "started_at": "2026-10-07T05:09:51.741176+00:00",
+    "completed_at": "2026-10-07T05:13:50.577683+00:00",
+    "checks_passed": 55,
+    "checks_failed": 0,
+    "checks": [
+      {
+        "name": "actual-linux-executable-identity",
+        "passed": true
+      },
+      {
+        "name": "version-and-source-match-bundle",
+        "passed": true
+      },
+      {
+        "name": "all-formal-runtime-service-settings-retained",
+        "passed": true
+      },
+      {
+        "name": "original-database-master-and-static-settings",
+        "passed": true
+      },
+      {
+        "name": "distinct-generated-runtime-and-release-identities",
+        "passed": true
+      },
+      {
+        "name": "generated-config-legacy-disabled",
+        "passed": true
+      },
+      {
+        "name": "generated-config-tls-material-configured",
+        "passed": true
+      },
+      {
+        "name": "generated-config-separate-cloud-authority",
+        "passed": true
+      },
+      {
+        "name": "generated-cloud-legacy-disabled",
+        "passed": true
+      },
+      {
+        "name": "generated-cloud-tls-material-configured",
+        "passed": true
+      },
+      {
+        "name": "generated-cloud-https-center-url",
+        "passed": true
+      },
+      {
+        "name": "generated-edge-a-legacy-disabled",
+        "passed": true
+      },
+      {
+        "name": "generated-edge-a-tls-material-configured",
+        "passed": true
+      },
+      {
+        "name": "generated-edge-a-https-center-url",
+        "passed": true
+      },
+      {
+        "name": "generated-edge-a-separate-cloud-authority",
+        "passed": true
+      },
+      {
+        "name": "generated-config-service-server-certificate-valid",
+        "passed": true
+      },
+      {
+        "name": "generated-cloud-1-server-certificate-valid",
+        "passed": true
+      },
+      {
+        "name": "generated-edge-a-server-certificate-valid",
+        "passed": true
+      },
+      {
+        "name": "generated-config-service-client-certificate-valid",
+        "passed": true
+      },
+      {
+        "name": "generated-config-client-cloud-1-client-certificate-valid",
+        "passed": true
+      },
+      {
+        "name": "generated-edge-a-client-certificate-valid",
+        "passed": true
+      },
+      {
+        "name": "generated-independent-config-database",
+        "passed": true
+      },
+      {
+        "name": "generated-distinct-runtime-and-release-identities",
+        "passed": true
+      },
+      {
+        "name": "generated-distinct-private-workload-credentials",
+        "passed": true
+      },
+      {
+        "name": "generated-release-runtime-purpose",
+        "passed": true
+      },
+      {
+        "name": "generated-workloads.json-owner-only",
+        "passed": true
+      },
+      {
+        "name": "generated-workload-cloud-1.token-owner-only",
+        "passed": true
+      },
+      {
+        "name": "generated-workload-edge-a.token-owner-only",
+        "passed": true
+      },
+      {
+        "name": "generated-release-edge-a.token-owner-only",
+        "passed": true
+      },
+      {
+        "name": "initial-own-database-connections-zero",
+        "passed": true
+      },
+      {
+        "name": "both-packaged-frontend-portals-serve",
+        "passed": true
+      },
+      {
+        "name": "registered-connector-source-url-and-certificate-match",
+        "passed": true
+      },
+      {
+        "name": "fixed-release-valid-1",
+        "passed": true
+      },
+      {
+        "name": "fixed-release-valid-2",
+        "passed": true
+      },
+      {
+        "name": "prepare-only-leaves-original-service-online",
+        "passed": true
+      },
+      {
+        "name": "original-source-stops-normally",
+        "passed": true
+      },
+      {
+        "name": "conversion-rechecks-changed-current-assignment",
+        "passed": true
+      },
+      {
+        "name": "original-database-master-and-service-options-after-conversion",
+        "passed": true
+      },
+      {
+        "name": "actual-bundle-program-and-fixed-consumer-version-one",
+        "passed": true
+      },
+      {
+        "name": "secret-cache-encrypted-1",
+        "passed": true
+      },
+      {
+        "name": "secret-cache-encrypted-2",
+        "passed": true
+      },
+      {
+        "name": "actual-consumer-and-parameter-version-two",
+        "passed": true
+      },
+      {
+        "name": "managed-process-transition-recorded",
+        "passed": true
+      },
+      {
+        "name": "exact-message-commits-once",
+        "passed": true
+      },
+      {
+        "name": "fixed-rule-output-from-retained-business-database",
+        "passed": true
+      },
+      {
+        "name": "complete-rule-window-contains-only-declared-ingress",
+        "passed": true
+      },
+      {
+        "name": "compatible-rollback-keeps-database-and-reapplies-rule",
+        "passed": true
+      },
+      {
+        "name": "rule-and-configuration-round-trip",
+        "passed": true
+      },
+      {
+        "name": "offline-cached-program-and-database-preserved",
+        "passed": true
+      },
+      {
+        "name": "subsequent-start-keeps-original-direct-service-stopped",
+        "passed": true
+      },
+      {
+        "name": "duplicate-state-survives-managed-cached-restart",
+        "passed": true
+      },
+      {
+        "name": "audit-valid-cloud",
+        "passed": true
+      },
+      {
+        "name": "audit-valid-edge",
+        "passed": true
+      },
+      {
+        "name": "all-own-services-stopped-normally-without-oom",
+        "passed": true
+      },
+      {
+        "name": "all-own-database-connections-released",
+        "passed": true
+      }
+    ],
+    "command_count": 202,
+    "http_request_count": 136,
+    "http_status_counts": {
+      "None": 8,
+      "200": 124,
+      "409": 2,
+      "503": 1,
+      "403": 1
+    },
+    "expected_readiness_nonzero_commands": [
+      {
+        "name": "gateway-loopback-readiness-16",
+        "exit_code": 1,
+        "started_at": "2026-10-07T05:10:06.320367+00:00",
+        "duration_seconds": 0.06174966599792242,
+        "log": "/private/tmp/smartfactory-delivery-final-runtime-20261007/evidence/gateway-loopback-readiness-16.log"
+      },
+      {
+        "name": "managed-runtime-loopback-160",
+        "exit_code": 1,
+        "started_at": "2026-10-07T05:13:30.795208+00:00",
+        "duration_seconds": 0.04955399996833876,
+        "log": "/private/tmp/smartfactory-delivery-final-runtime-20261007/evidence/managed-runtime-loopback-160.log"
+      },
+      {
+        "name": "managed-runtime-loopback-163",
+        "exit_code": 1,
+        "started_at": "2026-10-07T05:13:31.435821+00:00",
+        "duration_seconds": 0.034352082991972566,
+        "log": "/private/tmp/smartfactory-delivery-final-runtime-20261007/evidence/managed-runtime-loopback-163.log"
+      }
+    ],
+    "non_200_http_observations": [
+      {
+        "started_at": "2026-10-07T05:09:56.147749+00:00",
+        "base": "http://127.0.0.1:20190",
+        "path": "/api/sf/v1/login",
+        "method": "POST",
+        "status": null,
+        "duration_seconds": 0.0029517500079236925,
+        "error_type": "RemoteDisconnected",
+        "error": "Remote end closed connection without response"
+      },
+      {
+        "started_at": "2026-10-07T05:09:56.659532+00:00",
+        "base": "http://127.0.0.1:20190",
+        "path": "/api/sf/v1/login",
+        "method": "POST",
+        "status": null,
+        "duration_seconds": 0.0007061249925754964,
+        "error_type": "RemoteDisconnected",
+        "error": "Remote end closed connection without response"
+      },
+      {
+        "started_at": "2026-10-07T05:09:57.169511+00:00",
+        "base": "http://127.0.0.1:20190",
+        "path": "/api/sf/v1/login",
+        "method": "POST",
+        "status": null,
+        "duration_seconds": 0.0007354170083999634,
+        "error_type": "RemoteDisconnected",
+        "error": "Remote end closed connection without response"
+      },
+      {
+        "started_at": "2026-10-07T05:09:57.678215+00:00",
+        "base": "http://127.0.0.1:20190",
+        "path": "/api/sf/v1/login",
+        "method": "POST",
+        "status": null,
+        "duration_seconds": 0.0010219580144621432,
+        "error_type": "RemoteDisconnected",
+        "error": "Remote end closed connection without response"
+      },
+      {
+        "started_at": "2026-10-07T05:09:58.187196+00:00",
+        "base": "http://127.0.0.1:20190",
+        "path": "/api/sf/v1/login",
+        "method": "POST",
+        "status": null,
+        "duration_seconds": 0.0006589170079678297,
+        "error_type": "RemoteDisconnected",
+        "error": "Remote end closed connection without response"
+      },
+      {
+        "started_at": "2026-10-07T05:09:58.697282+00:00",
+        "base": "http://127.0.0.1:20190",
+        "path": "/api/sf/v1/login",
+        "method": "POST",
+        "status": null,
+        "duration_seconds": 0.0005543750012293458,
+        "error_type": "RemoteDisconnected",
+        "error": "Remote end closed connection without response"
+      },
+      {
+        "started_at": "2026-10-07T05:10:10.152587+00:00",
+        "base": "http://127.0.0.1:20191",
+        "path": "/api/sf/v1/connector-configurations",
+        "method": "POST",
+        "status": 409,
+        "duration_seconds": 6.105190292000771,
+        "error_type": null,
+        "error": null
+      },
+      {
+        "started_at": "2026-10-07T05:11:05.658873+00:00",
+        "base": "http://127.0.0.1:20190",
+        "path": "/api/sf/v1/release-deployments/delivery-prepared-one/actions",
+        "method": "POST",
+        "status": 409,
+        "duration_seconds": 1.4898138749995269,
+        "error_type": null,
+        "error": null
+      },
+      {
+        "started_at": "2026-10-07T05:11:39.015111+00:00",
+        "base": "https://127.0.0.1:20292",
+        "path": "/internal/config/v2/credentials/resolve",
+        "method": "POST",
+        "status": 503,
+        "duration_seconds": 0.02115504100220278,
+        "error_type": null,
+        "error": null
+      },
+      {
+        "started_at": "2026-10-07T05:11:43.992526+00:00",
+        "base": "http://127.0.0.1:20191",
+        "path": "/internal/releases/runtime",
+        "method": "GET",
+        "status": 403,
+        "duration_seconds": 0.0011396249756217003,
+        "error_type": null,
+        "error": null
+      },
+      {
+        "started_at": "2026-10-07T05:13:33.163547+00:00",
+        "base": "http://127.0.0.1:20190",
+        "path": "/health",
+        "method": "GET",
+        "status": null,
+        "duration_seconds": 0.0012312079779803753,
+        "error_type": "RemoteDisconnected",
+        "error": "Remote end closed connection without response"
+      },
+      {
+        "started_at": "2026-10-07T05:13:33.682442+00:00",
+        "base": "http://127.0.0.1:20190",
+        "path": "/health",
+        "method": "GET",
+        "status": null,
+        "duration_seconds": 0.0006209159619174898,
+        "error_type": "RemoteDisconnected",
+        "error": "Remote end closed connection without response"
+      }
+    ],
+    "http_observation_scope": "8 次无 HTTP 响应属于首次登录及再次启动的就绪等待；连接器首次保存和按旧版本取消分别出现一次 409，驱动按有界保存循环或重新读取当前版本继续执行并成功。原服务停止后的密钥解析 503、普通服务令牌访问代理运行接口的 403 为显式验证条件；32 次固定 metadata 请求均为 200。",
+    "finite_workload": {
+      "managed_nodes": 1,
+      "program_artifacts": 1,
+      "fixed_releases": 2,
+      "deployments": 6,
+      "prepare_only_runs": 3,
+      "compatible_rollbacks": 1,
+      "rule_configuration_round_trips": 1,
+      "isolated_rule_device": "delivery-rule-device",
+      "new_ingress_messages": 1,
+      "duplicate_requests": 2,
+      "connector_source_versions": 2,
+      "managed_program_restart_with_cloud_and_config_offline": 1,
+      "real_protocol_simulation": "five seeded scenes, actual DataTransfer executable and persistent ConfigManager/gRPC consumer"
+    },
+    "database_identities": [
+      "sf_delivery_cloud_148b0fc1c4|sf_delivery_cloud_148b0fc1c4",
+      "sf_delivery_config_148b0fc1c4|sf_delivery_config_148b0fc1c4",
+      "sf_delivery_edge_a_148b0fc1c4|sf_delivery_edge_a_148b0fc1c4"
+    ],
+    "actual_generated_settings": "正式 prepare-runtime 的 24 项 SF/OTEL 设置、TLS、独立数据库与运行/发布身份保留；隔离夹具仅替换各库 DSN、端口、有限内存预算及省略已有专项的原生组合。",
+    "actual_program_scope": [
+      "sf-cloud",
+      "sf-config",
+      "sf-edge",
+      "sf-release-agent",
+      "sf-pki",
+      "datatransfer",
+      "dt-simulator"
+    ],
+    "additional_program_scope": "sf-contracts 单独实际导出；全部 14 程序完成构建和 ELF/Go 元数据核对，其他工具的功能结果沿用对应专业的实际测试。",
+    "initialization_scope": "本轮正式 Go 应用执行迁移、初始化和身份登记，有限夹具保存 installed.json 以进入已准备环境；CE/Edge/Kafka 原生安装与停止恢复引用独立已通过专项。",
+    "metadata_checkpoint_groups": 16,
+    "metadata_request_count": 32,
+    "rule_input_isolation": "为计算断言正式登记独立设备，核对完整 60 秒窗口只有 10、20 两份声明输入；连续模拟及实际采集消费者继续使用各自设备。",
+    "steady_container_limit_bytes_including_postgres": 2717908992,
+    "prepare_only_peak_container_limit_bytes_including_postgres": 2986344448,
+    "sample_count": 61,
+    "observed_cgroup_memory_peak_bytes_by_service": {
+      "config": 133918720,
+      "cloud": 197222400,
+      "edge-a-network": 18874368,
+      "edge-a": 163328000,
+      "web": 80175104,
+      "edge-a-simulator": 122535936,
+      "edge-a-gateway": 112480256,
+      "edge-a-release-agent": 268435456
+    },
+    "database_pool_budget": {
+      "max_connections": 60,
+      "default_max_open_per_store": 12,
+      "default_max_idle_per_store": 4,
+      "three_store_max_open": 36,
+      "reserved_connections": 24
+    },
+    "all_eight_services_exit_zero": true,
+    "all_eight_services_oom_false": true,
+    "final_own_business_connections": 0,
+    "fixture_restore_index": {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/fixture-restoration.json",
+      "bytes": 12024,
+      "sha256": "c17d73a958d5fe4d6cdcf6624a4ea30c261e3244db83d30ed2a38000b5034d77"
+    }
+  },
+  "regressions_and_specialties": {
+    "serial_scope_before_r02_and_n04": {
+      "Platform": {
+        "pass": 649,
+        "skip": 12
+      },
+      "DataTransfer": {
+        "pass": 109,
+        "skip": 7
+      }
+    },
+    "serial_report": {
+      "path": "/private/tmp/smartfactory-delivery-regressions-current-20261005/verification.json",
+      "bytes": 25282,
+      "sha256": "c09645b40669fb42d50159e0679d2f095328bba0d5680c3d0ff809cee16dd985"
+    },
+    "serial_commands_exit_zero": 16,
+    "serial_consumer_actual_exit_zero": true,
+    "serial_test_database_removed": true,
+    "serial_skip_correspondence": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-delivery-regressions-verified.json",
+      "bytes": 75721,
+      "sha256": "fe9269f71ff16a32a997bc10ebbb748e75e83ddf794d86631477589d3f9c7d14"
+    },
+    "ordinary_skips": {
+      "Platform": [
+        {
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestBusinessNativeCEAlarmLifecycle",
+          "classification": "dedicated_external_environment",
+          "explanation": "The accepted native CE lifecycle uses its preserved original API test binary. Later B05 worker fairness and B06 request/schema changes were tested by their own current HTTP/worker checks and this final regression.",
+          "counts_as_ordinary_pass": false
+        },
+        {
+          "package": "competition2026/product/platform/internal/app",
+          "test": "TestControlledCloudEdgeControlIntervention",
+          "classification": "dedicated_external_environment",
+          "explanation": "This case requires the dedicated actual service/process environment indicated by the condition and was executed in the referenced accepted specialty verification.",
+          "counts_as_ordinary_pass": false
+        },
+        {
+          "package": "competition2026/product/platform/internal/app",
+          "test": "TestControlBrowserFixture",
+          "classification": "subprocess_or_browser_auxiliary_entrypoint",
+          "explanation": "The entrypoint exposes actual cloud/Edge applications to the controlled browser and waits for its stop file; the accepted C05 browser evidence records this separate fixture lifecycle.",
+          "counts_as_ordinary_pass": false
+        },
+        {
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestHistoryCrashProcess",
+          "classification": "subprocess_or_browser_auxiliary_entrypoint",
+          "explanation": "The helper intentionally waits at a persisted stage. Three current parent tests launched this same test binary in helper mode, delivered actual SIGKILL and verified durable replay/shadow recovery; parent passes are recorded separately.",
+          "counts_as_ordinary_pass": false
+        },
+        {
+          "package": "competition2026/product/platform/internal/coordination",
+          "test": "TestPersistentThreeReplicaUpgrade",
+          "classification": "dedicated_external_environment",
+          "explanation": "The final cold-restore execution compiled the one-line corrected current migration fixture, restored all 151 old backup files into an independent three-node cluster and executed the post-backup reconcile/resume steps. The original failed immutable-Params fixture is retained.",
+          "counts_as_ordinary_pass": false
+        },
+        {
+          "package": "competition2026/product/platform/internal/coordination",
+          "test": "TestRealThreeReplicaCoordination",
+          "classification": "dedicated_external_environment",
+          "explanation": "This case requires the dedicated actual service/process environment indicated by the condition and was executed in the referenced accepted specialty verification.",
+          "counts_as_ordinary_pass": false
+        },
+        {
+          "package": "competition2026/product/platform/internal/coordination",
+          "test": "TestRealThreeReplicaReadOnlyReconcileAndManualResume",
+          "classification": "dedicated_external_environment",
+          "explanation": "This case requires the dedicated actual service/process environment indicated by the condition and was executed in the referenced accepted specialty verification.",
+          "counts_as_ordinary_pass": false
+        },
+        {
+          "package": "competition2026/product/platform/internal/coordination",
+          "test": "TestRealConcurrentOperationDeliveryKeepsLeaseContentionRetryable",
+          "classification": "dedicated_external_environment",
+          "explanation": "This case requires the dedicated actual service/process environment indicated by the condition and was executed in the referenced accepted specialty verification.",
+          "counts_as_ordinary_pass": false
+        },
+        {
+          "package": "competition2026/product/platform/internal/plugins",
+          "test": "TestActualOrganizationProcessPullAndCrashIsolation",
+          "classification": "dedicated_external_environment",
+          "explanation": "This case requires the dedicated actual service/process environment indicated by the condition and was executed in the referenced accepted specialty verification.",
+          "counts_as_ordinary_pass": false
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestControlledPostgresUpgradeFixture",
+          "classification": "dedicated_external_environment",
+          "explanation": "The accepted dedicated seed and verify executions surround the actual PG16 custom dump/PG18 restore. Native source database was later closed, and current PG is a new validation database; historical migration evidence and dump remain fixed.",
+          "counts_as_ordinary_pass": false
+        },
+        {
+          "package": "competition2026/product/platform/internal/tasks",
+          "test": "TestTaskCrashProcess",
+          "classification": "subprocess_or_browser_auxiliary_entrypoint",
+          "explanation": "The helper intentionally waits after starting an actual worker or persisting a recompute checkpoint. Two current parent tests launched the same test binary, killed it and verified official River rescue; parent passes are recorded separately.",
+          "counts_as_ordinary_pass": false
+        },
+        {
+          "package": "competition2026/product/platform/internal/thingsboard",
+          "test": "TestNativeCalculatedFieldAlarmAndRetention",
+          "classification": "dedicated_external_environment",
+          "explanation": "This case requires the dedicated actual service/process environment indicated by the condition and was executed in the referenced accepted specialty verification.",
+          "counts_as_ordinary_pass": false
+        }
+      ],
+      "DataTransfer": [
+        {
+          "package": "competition2026/product/datatransfer/internal/connector/opcua",
+          "test": "TestNativeClientExternalSmoke",
+          "classification": "dedicated_external_environment",
+          "explanation": "This case requires the dedicated actual service/process environment indicated by the condition and was executed in the referenced accepted specialty verification.",
+          "counts_as_ordinary_pass": false
+        },
+        {
+          "package": "competition2026/product/datatransfer/internal/connector/opcua",
+          "test": "TestNativeSignedEncryptedMethodAndCertificateValidation",
+          "classification": "dedicated_external_environment",
+          "explanation": "This case requires the dedicated actual service/process environment indicated by the condition and was executed in the referenced accepted specialty verification.",
+          "counts_as_ordinary_pass": false
+        },
+        {
+          "package": "competition2026/product/datatransfer/internal/connector/sidecar",
+          "test": "TestHTTPExampleProcessCollectsAndControlsSimulator",
+          "classification": "dedicated_external_environment",
+          "explanation": "This case requires the dedicated actual service/process environment indicated by the condition and was executed in the referenced accepted specialty verification.",
+          "counts_as_ordinary_pass": false
+        },
+        {
+          "package": "competition2026/product/datatransfer/internal/northbound/grpc",
+          "test": "TestControlledControlDeviceFixture",
+          "classification": "subprocess_or_browser_auxiliary_entrypoint",
+          "explanation": "This helper is started by the accepted cloud/Edge control integration in an actual separate process with generated gRPC, persistent command journal and a counted Modbus simulator.",
+          "counts_as_ordinary_pass": false
+        },
+        {
+          "package": "competition2026/product/datatransfer/internal/northbound/mqtt",
+          "test": "TestExternalBrokerSmoke",
+          "classification": "dedicated_external_environment",
+          "explanation": "This case requires the dedicated actual service/process environment indicated by the condition and was executed in the referenced accepted specialty verification.",
+          "counts_as_ordinary_pass": false
+        },
+        {
+          "package": "competition2026/product/datatransfer/tests/acceptance",
+          "test": "TestDurableProcessFixture",
+          "classification": "subprocess_or_browser_auxiliary_entrypoint",
+          "explanation": "The A06 parent launches this fixture executable in four actual processes with three sender hard restarts. Its no-environment ordinary invocation is skipped; the parent 100000-message result is separate.",
+          "counts_as_ordinary_pass": false
+        },
+        {
+          "package": "competition2026/product/datatransfer/tests/acceptance",
+          "test": "TestDurableMessagesFaultInjection",
+          "classification": "dedicated_external_environment",
+          "explanation": "This case requires the dedicated actual service/process environment indicated by the condition and was executed in the referenced accepted specialty verification.",
+          "counts_as_ordinary_pass": false
+        }
+      ]
+    },
+    "ordinary_skip_count": 19,
+    "ordinary_skip_policy": "19 项条件或辅助入口维持 skip，实际外部协议及父测试子进程在专项中核对；跳过条目不计入普通通过数。",
+    "final_independent_platform_ordinary": {
+      "counts": {
+        "pass": 589,
+        "skip": 93
+      },
+      "report": {
+        "path": "/private/tmp/smartfactory-final-independent-20261007/platform-ordinary/verification.json",
+        "bytes": 166757,
+        "sha256": "4946760780fbf952c7298dab589fa97a497e590179cc99d0f2195e4a5c7cceae"
+      }
+    },
+    "final_independent_postgres": {
+      "counts": {
+        "pass": 91
+      },
+      "report": {
+        "path": "/private/tmp/smartfactory-final-independent-20261007/platform-conditional/verification.json",
+        "bytes": 19016,
+        "sha256": "3e2fea2e8b93fc24d416ffce3549c0e46e458885413423f0766a22d3f3d2a0fe"
+      },
+      "cleanup": {
+        "path": "/private/tmp/smartfactory-final-independent-20261007/platform-conditional/cleanup-followup.json",
+        "bytes": 3708,
+        "sha256": "e858887868fa441c3c13ebdfd3f0dae11f1a212b0d8bf8b061c0ebdff1194e6b"
+      }
+    },
+    "final_independent_limited_race": {
+      "counts": {
+        "pass": 19
+      },
+      "report": {
+        "path": "/private/tmp/smartfactory-final-independent-20261007/platform-race/verification.json",
+        "bytes": 19936,
+        "sha256": "5925f9e6a736d28d0c6cdd52664522440eb537d1b30745bae2176d4a8e00046e"
+      }
+    },
+    "independent_cleanup_scope": "PostgreSQL 补测首次即时清理记录仍有 1 条连接，后续独立清理证明连接归零、schema 为空且库已删除；限定 race 清理完成。原首份报告保持原始结果。",
+    "current_datatransfer_correspondence": "独立验收核对当前 DataTransfer 的 596 个包、4268 个实际 Go 选择路径与 4318 项记录输入，确认与最近 109 项通过、7 项跳过的全量回归对应范围一致，沿用该实际结果。",
+    "later_backend_changes": "串行回归 candidate-final-second 之后由所属专业完成 R02 release_runtime 全局 active 核对与 N04 来源事务死锁修正，各自专项及有限竞态证明固定；最终独立全模块普通、91 项 PG 和 19 项 race 覆盖当前输入，最终 Linux 55 项覆盖正式配置采用和规则/配置往返。",
+    "external_protocols": {
+      "report": {
+        "path": "/private/tmp/smartfactory-delivery-protocols-final-20261005/result.json",
+        "bytes": 16142,
+        "sha256": "accf43bcb0fa746e436862a5255bf31516eaab22fdcf4b4d22e69014ba9b6a1b"
+      },
+      "opcua_top_level": 9,
+      "opcua_including_subtests": 12,
+      "http_actual_process": 1,
+      "mqtt_cases": 6,
+      "actual_binaries": 6,
+      "actual_commands": 13,
+      "fixed_original_inputs": 6276,
+      "supplemental_assembly_and_header_inputs": 61,
+      "scope": "真实 OPC UA 外部服务与签名加密/mTLS、真实 HTTP 插件进程、外部 MQTT broker，原始日志和全部输入固定。"
+    },
+    "durable_faults": {
+      "logical_messages": 100000,
+      "seed": 731,
+      "delivery_attempts": 114285,
+      "duplicate_attempts": 14285,
+      "actual_child_processes": 4,
+      "hard_restarts": 3,
+      "lost_or_false_ack_or_business_duplicate": 0,
+      "report": {
+        "path": "/private/tmp/smartfactory-delivery-protocols-final-20261005/result.json",
+        "bytes": 16142,
+        "sha256": "accf43bcb0fa746e436862a5255bf31516eaab22fdcf4b4d22e69014ba9b6a1b"
+      }
+    },
+    "nats_independent_old_cold_restore": {
+      "report": {
+        "path": "/private/tmp/smartfactory-delivery-nats-cold-restore-final-20261005/verification.json",
+        "bytes": 43790,
+        "sha256": "498526dff6eaee1999a6e68e74eabce9a74c1dadcaccd18b1f57a4a759ef8e6b"
+      },
+      "backup_files": 151,
+      "actual_inputs": 4944,
+      "packages": 607,
+      "replicas": 3,
+      "upgrade": [
+        "2.11.9",
+        "2.12.15",
+        "2.14.7"
+      ],
+      "scope": "独立三节点从旧冷备恢复，核对原服务器身份、签名、消息、执行权、旧 owner/旧 checkpoint 拒绝与第二步骤；首次等待超时及两次成功原字节保留，批准的单行 immutable Params 夹具修正与正式源码对应。"
+    },
+    "native_retained_data_restart": {
+      "report": {
+        "path": "/private/tmp/smartfactory-delivery-native-restart-verified-20261005/verification.json",
+        "bytes": 148314,
+        "sha256": "88feecd5b0d8906009132aac2aa9f21cbfbddc702872f0282ef48ce3e7aef132"
+      },
+      "checks_passed": 13,
+      "actual_inputs": 3226,
+      "drivers": 7,
+      "command_groups": 31,
+      "binaries": 3,
+      "edge_pid1": "Java",
+      "edge_stop_seconds": 4.90256,
+      "edge_exit_code": 143,
+      "oom": false,
+      "scope": "真实 CE/Edge/Kafka 组合使用 CE 3 GiB、Edge 2 GiB、Kafka 1 GiB（堆 512 MiB）及 PG 1 GiB，Java PID1 完整关闭与保留数据再次启动；原始和派生值、重复消息、两侧审计和连接释放均核对。"
+    },
+    "specialty_fixed_input_indexes": {
+      "protocol": {
+        "path": "/private/tmp/smartfactory-phase5-protocol-coordinator-evidence-20261005/retained-inputs.json",
+        "bytes": 2530486,
+        "sha256": "bf90ae2f2dfe3548fe7ef3b1f7a24dbe6b6dc403dca49611660e3955950f5891"
+      },
+      "nats": {
+        "path": "/private/tmp/smartfactory-phase5-nats-coordinator-evidence-20261005/retained-inputs.json",
+        "bytes": 2440727,
+        "sha256": "4fb9dde466e98bb2ebb39457f13a564c9163c7df9f5d7ea5a1f75cb003874263"
+      },
+      "native": {
+        "path": "/private/tmp/smartfactory-phase5-native-coordinator-evidence-20261005/retained-inputs.json",
+        "bytes": 1200671,
+        "sha256": "0df2b2e01c7cd81130313197b6004de2c47ec2fd1a3da21594990efb71123755"
+      }
+    }
+  },
+  "original_failures_and_later_results": [
+    {
+      "name": "rule_window_with_simulator",
+      "record": {
+        "path": "/private/tmp/smartfactory-delivery-linux-runtime-n04-20261007/verification.json",
+        "bytes": 699440,
+        "sha256": "dea9fd3d736d7d5e3ff9d4205d74a4d89008c41ba110e46f59fe03d230b8a568"
+      },
+      "resolution_and_scope": "首轮整体 failed，46 项检查通过；连续模拟消费者把额外观测加入同一设备窗口，实际 max 为 26。完整原窗口与输入保留，后续通过正式设备登记使用独立 delivery-rule-device，并核对窗口恰含两份声明输入及派生值 20，生产规则语义保持原实现。"
+    },
+    {
+      "name": "rule_window_original_inputs",
+      "record": {
+        "path": "/private/tmp/smartfactory-delivery-linux-runtime-n04-20261007/evidence/fixture-original-window-verification.json",
+        "bytes": 9391,
+        "sha256": "05deea05d0a93e6aa221605364e4b3dd631e8d1efd174f3f675c46cd3c9c14ca"
+      },
+      "resolution_and_scope": "保留首轮固定规则、两组完整 60 秒窗口、7 份原始点和输出 26 的对应关系。"
+    },
+    {
+      "name": "unprofiled_stop_after_conversion",
+      "record": {
+        "path": "/private/tmp/smartfactory-delivery-linux-runtime-isolated-rule-20261007/verification.json",
+        "bytes": 1169573,
+        "sha256": "5ce472a61ec3f3e93de5ee09660e6c79bde9e6f19ed8a52bdd9425a0f4ba784a"
+      },
+      "resolution_and_scope": "第二轮整体 failed，50 项检查通过；转换后未启用 release profile 的停止命令解析依赖图失败。修正验证驱动 profile 参数，第三轮 55 项通过；B01 同时修正正式 enable-release 逐节点停止及备份说明中的数据库启动命令，并保留 8 次解析证据。"
+    },
+    {
+      "name": "first_container_license_assertion",
+      "record": {
+        "path": "/private/tmp/smartfactory-delivery-final-20261007/static-verification/first-license-failure.json",
+        "bytes": 974,
+        "sha256": "e8c229cde90fb1d6a00c79b4b1f8881e8f7f64273da4da89388fa8d06e57ed8b"
+      },
+      "resolution_and_scope": "原候选的 postgres/envoy/go_builder/node_builder/runtime 来源和许可范围不完整，首次静态断言失败。B02 补齐官方固定文本、版本来源及各材料适用范围，最终包静态与实际 55 项均通过。"
+    },
+    {
+      "name": "overbroad_temporary_path_assertion",
+      "record": {
+        "path": "/private/tmp/smartfactory-delivery-final-20261007/before-license-build-verification/first-privacy-assertion-failure.json",
+        "bytes": 631,
+        "sha256": "580204af56b4f25310d996f310b383ff9d39d9920fc6a328a8f7e11e40984783"
+      },
+      "resolution_and_scope": "原扫描将源码内通用临时目录与阶段夹具路径一并判为私人信息。根据主协调确认的公开范围，逐项检查个人身份与凭据，保存 30 文件的 45 个临时目录引用、生成前提及覆盖方法；冻结前端和公开测试文件保留。"
+    }
+  ],
+  "historical_results_policy": "旧协议、原生、首次 Linux、旧候选与后端专业报告按各自实际输入、二进制、环境和时点引用，原始失败与历史 waiting/remaining_work 状态保持原字节；本次最终包与当前输入的完成结果单独记录。",
+  "final_cleanup": {
+    "resources_before_stop": {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/final-resource-state/verification.json",
+      "bytes": 17334,
+      "sha256": "34d15abdf525f63fd7c04fbf962ac7892eb1cafdfeb7f68bf4736539180b0101"
+    },
+    "identity_comparison": {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/final-resource-state/preserved-identities.json",
+      "bytes": 3833,
+      "sha256": "4335c6600f5466ae925ea3fc8fec616d95bf76984d14d2f7f064a1ccb10cea63"
+    },
+    "postgres_normal_stop": {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/final-postgres-stop/verification.json",
+      "bytes": 21805,
+      "sha256": "f6b5b046df6aa8da52ea95f485d60eaccf7287a1b6f23cd14fa1a1e77ac49d8d"
+    },
+    "postgres_container": "smartfactory-evolution-pg18-final60-20261005",
+    "postgres_state": {
+      "Dead": false,
+      "Error": "",
+      "ExitCode": 0,
+      "FinishedAt": "2026-10-07T05:29:39.982888388Z",
+      "OOMKilled": false,
+      "Paused": false,
+      "Pid": 0,
+      "Restarting": false,
+      "Running": false,
+      "StartedAt": "2026-10-07T04:18:37.11512272Z",
+      "Status": "exited"
+    },
+    "business_connections_before_stop": 0,
+    "non_template_databases_preserved": 45,
+    "cluster_system_identifier": "7693086358320861227",
+    "containers": 12,
+    "all_containers_exited": true,
+    "volumes": 52,
+    "data_retention": "验证 PG 容器、相同绑定数据目录、45 个非模板库与所有备份保留；三个本轮业务库、TLS、主密钥、正式身份和加密缓存保留供复核。原 9 个用户容器、其余历史 PG 容器及 52 个卷均保留。",
+    "live_owned_business_services": 0,
+    "go_pg_race_docker_window": "已归还主协调",
+    "workspace_free_bytes_at_report": 1361027072,
+    "temporary_free_bytes_at_report": 40970452992,
+    "minimum_workspace_reserve_bytes": 1073741824
+  },
+  "reverification_entrypoints": {
+    "checksum": [
+      "shasum",
+      "-a",
+      "256",
+      "-c",
+      "SmartFactory-1.1.0-dev-linux-amd64-20261007-6c66570a31e7.tar.gz.sha256"
+    ],
+    "checksum_cwd": "/path/to/SmartFactory-2026/.local/evolution/delivery",
+    "extract": [
+      "tar",
+      "-xzf",
+      "/path/to/SmartFactory-2026/.local/evolution/delivery/SmartFactory-1.1.0-dev-linux-amd64-20261007-6c66570a31e7.tar.gz",
+      "-C",
+      "<chosen-directory>"
+    ],
+    "verify_package": [
+      "python3",
+      "<extracted-package>/scripts/verify-release.py",
+      "<extracted-package>"
+    ],
+    "public_operations": "<extracted-package>/Wiki/installation.md 和 Wiki/user-guide/node-releases.md",
+    "repeat_finite_runtime_if_requested": [
+      "python3",
+      "/private/tmp/smartfactory-delivery-final-20261007/bundle/scripts/verify-delivery-runtime.py",
+      "--bundle",
+      "/private/tmp/smartfactory-delivery-final-20261007/bundle",
+      "--directory",
+      "<new-private-directory>",
+      "--postgres-description",
+      "/path/to/SmartFactory-2026/.local/evolution/pg18-test.json"
+    ],
+    "retained_fixture": {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/fixture-restoration.json",
+      "bytes": 12024,
+      "sha256": "c17d73a958d5fe4d6cdcf6624a4ea30c261e3244db83d30ed2a38000b5034d77"
+    }
+  },
+  "agreed_exclusions": [
+    "完整 UOS 安装恢复",
+    "连续 1/3 节点断云 24 小时",
+    "受限链路专项",
+    "实际 24 小时容量和持续运行"
+  ],
+  "remaining_work": {
+    "delivery_engineering": [],
+    "overall_acceptance": "主协调与独立验收工程师汇合 45 项最终结论"
+  },
+  "references": {
+    "release_manifest": {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/bundle/release-manifest.json",
+      "bytes": 258464,
+      "sha256": "2232504edf3e704738f31360cf6de2e73c5b82d8181593e4a36191972dc6654e"
+    },
+    "source_manifest": {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/bundle/source-manifest.json",
+      "bytes": 143953,
+      "sha256": "b82a38d5ce13f29bddad24f170f17806d6d87630b49ead018ba3c9bbde34a604"
+    },
+    "actual_build_inputs": {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/bundle/build-inputs.json",
+      "bytes": 2745090,
+      "sha256": "d9bace4c02efdad14799eecd5197fd4468443b2c870c43f44128404261b6ed5e"
+    },
+    "actual_build_commands": {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/bundle/build-commands.json",
+      "bytes": 2285,
+      "sha256": "5db6a2a4de8ad201114b060024a17615d3ac4efd105f7eae40b4ecae7681e650"
+    },
+    "components": {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/bundle/components.json",
+      "bytes": 205368,
+      "sha256": "4c5cfb9dbde5659cc6e0111a491221f39b019d81a5bd673c2bbb16466eb1ae4d"
+    },
+    "final_build_command": {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/build-final-license-complete-command.json",
+      "bytes": 1200,
+      "sha256": "1e2a5585b788c04ab0d7ef7ac57034f06ba22eb7eea11a2f2860e49280fb4a47"
+    },
+    "final_static_verification": {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/static-verification-license-complete/verification.json",
+      "bytes": 240065,
+      "sha256": "237029964646709b6357f0058e6abd0e090aefbe477150ad303bb0d18d7666e5"
+    },
+    "final_build_input_retention": {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/retained-final-build-inputs.json",
+      "bytes": 2506470,
+      "sha256": "9471921ff24957ea7345a4f425a57ea640a803e984881ac6146b4aef8e37d0a4"
+    },
+    "final_contract_export": {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/final-contract-export/verification.json",
+      "bytes": 38538,
+      "sha256": "5be4333d0bd9571e94837de9b8f9c523a958a82f209dd57d02ba5e8482d1e432"
+    },
+    "final_runtime_command": {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/final-runtime-command.json",
+      "bytes": 1095,
+      "sha256": "2f2f981d2aa67b0339f8741f5f97c3a60dd9382fa21093117732b4f9a93b388b"
+    },
+    "final_runtime": {
+      "path": "/private/tmp/smartfactory-delivery-final-runtime-20261007/verification.json",
+      "bytes": 1222613,
+      "sha256": "9d41f68450da5f33f063162275784afd0531f663ac801879f1ea9e9f795ab830"
+    },
+    "archive_verification": {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/archive-verification/verification.json",
+      "bytes": 311158,
+      "sha256": "adb3758a642b90f6c551b84218645f6105615f5a08403a8ef8e5062e3e2f2f94"
+    },
+    "final_resources_before_postgres_stop": {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/final-resource-state/verification.json",
+      "bytes": 17334,
+      "sha256": "34d15abdf525f63fd7c04fbf962ac7892eb1cafdfeb7f68bf4736539180b0101"
+    },
+    "preserved_container_and_volume_identities": {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/final-resource-state/preserved-identities.json",
+      "bytes": 3833,
+      "sha256": "4335c6600f5466ae925ea3fc8fec616d95bf76984d14d2f7f064a1ccb10cea63"
+    },
+    "postgres_normal_stop": {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/final-postgres-stop/verification.json",
+      "bytes": 21805,
+      "sha256": "f6b5b046df6aa8da52ea95f485d60eaccf7287a1b6f23cd14fa1a1e77ac49d8d"
+    },
+    "docker_engine_recovery": {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/docker-recovery/engine-after-recovery.json",
+      "bytes": 42153,
+      "sha256": "9232d64f6ed928e372ca903d527c166c00f0f285567ac4fd5e8a24cae1b8f388"
+    },
+    "postgres_recovery_and_backups": {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/docker-recovery/postgres/verification.json",
+      "bytes": 72392,
+      "sha256": "854812e16232d01417d5cd133d4199070e375856a33f8e58c3ef69b24bb708fd"
+    },
+    "resume_fixed_frontend_and_backend_inputs": {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/resume/fixed-input-verification.json",
+      "bytes": 5010,
+      "sha256": "945ee9e9864a03dbd21ea68861a7cafa1ef39d6c3ff673524ae4798b8dd07499"
+    },
+    "resume_backend_comparison": {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/resume/backend-fixed-comparison.json",
+      "bytes": 192972,
+      "sha256": "083abb1e41c77bff561c06857552758ef9869dab06984732406985008be3a272"
+    },
+    "source_temporary_reference_review": {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/source-temporary-reference-review.json",
+      "bytes": 17800,
+      "sha256": "da2d76ec0c506c4976ee9aab5bb9ea78cc193be310ddab7ab1692e947453b8d2"
+    },
+    "b01_profile_fleet": {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/profile-risk-fleet/verification.json",
+      "bytes": 5631,
+      "sha256": "e2368b08c2e4972f67558734663e35007c52ccc2442714bb9ca1ca53cec8ed82"
+    },
+    "b02_material_integration": {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/image-license-completion/integration.json",
+      "bytes": 9719,
+      "sha256": "e4ff7acb070cc49a2c6e6a1a3a3b400134e352fcb500c2b89483f9c64d3baa5a"
+    },
+    "b02_prebuild_verification": {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/before-license-build-verification-corrected/verification.json",
+      "bytes": 3686,
+      "sha256": "fcc7e006990a32f4054044d7b54cd7454054f0d45069f492ecbc836c6d30d5cf"
+    },
+    "seven_program_actual_source": {
+      "path": "/private/tmp/smartfactory-delivery-linux-preflight-build-n04-20261007/actual-source-provenance.json",
+      "bytes": 3497,
+      "sha256": "17fa348ad5460f7bb3f3aa5414662bd913a7c6f7caae4634aa4ff830085a11c2"
+    },
+    "seven_program_verification": {
+      "path": "/private/tmp/smartfactory-delivery-linux-preflight-build-n04-20261007/verification.json",
+      "bytes": 4795857,
+      "sha256": "0590bb8152b2740058eb9e2e3b598e16b8336ae5b930b01b4e65837198989cda"
+    },
+    "seven_program_retained_inputs": {
+      "path": "/private/tmp/smartfactory-delivery-linux-preflight-build-n04-20261007/retained-inputs.json",
+      "bytes": 2517359,
+      "sha256": "19d835aef4948671ba6f482d92f3888a7a09ce2aa4dc6f82b9b586f9c5a7b34a"
+    },
+    "current_serial_regressions": {
+      "path": "/private/tmp/smartfactory-delivery-regressions-current-20261005/verification.json",
+      "bytes": 25282,
+      "sha256": "c09645b40669fb42d50159e0679d2f095328bba0d5680c3d0ff809cee16dd985"
+    },
+    "external_protocols_and_durable_faults": {
+      "path": "/private/tmp/smartfactory-delivery-protocols-final-20261005/result.json",
+      "bytes": 16142,
+      "sha256": "accf43bcb0fa746e436862a5255bf31516eaab22fdcf4b4d22e69014ba9b6a1b"
+    },
+    "nats_independent_cold_restore": {
+      "path": "/private/tmp/smartfactory-delivery-nats-cold-restore-final-20261005/verification.json",
+      "bytes": 43790,
+      "sha256": "498526dff6eaee1999a6e68e74eabce9a74c1dadcaccd18b1f57a4a759ef8e6b"
+    },
+    "native_pid1_stop_retained_restart": {
+      "path": "/private/tmp/smartfactory-delivery-native-restart-verified-20261005/verification.json",
+      "bytes": 148314,
+      "sha256": "88feecd5b0d8906009132aac2aa9f21cbfbddc702872f0282ef48ce3e7aef132"
+    },
+    "retained_first_fourteen_candidate": {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/candidate-before-profile-fix.json",
+      "bytes": 2511878,
+      "sha256": "bb02254f73d3380144e8f45e2fcc5246863fe92bfbe5db2fab7354c3b3f60a45"
+    },
+    "retained_pre_license_candidate": {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/candidate-before-license-completion.json",
+      "bytes": 3453,
+      "sha256": "9ffb1074356407754cc7d5cc9222cdbac67438ca0dc61f484225b8ff04fefba9"
+    },
+    "frontend_specialist": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/release-interface-verified.json",
+      "bytes": 27971,
+      "sha256": "9d5d2324570bd535001c5a9cbe3938de78867e16842a4778a450f7e580f810d3"
+    },
+    "frontend_final_inputs": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/release-interface/final-inputs.json",
+      "bytes": 15478817,
+      "sha256": "5e860d20c919301964d14d6cb19b3c4660b3471133d850c21b96dee004e49a6e"
+    },
+    "node_configuration_specialist": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/node-configuration-verified.json",
+      "bytes": 5568603,
+      "sha256": "e30e43648c13c4f947816832dd4bc315977aff5812d674b8018731b705e0d76c"
+    },
+    "node_deadlock_specialist": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/node-connector-deadlock-verified.json",
+      "bytes": 58121,
+      "sha256": "187e74067a4c05d1513b463ec0fe1e8c1f4bc4b5311d3adc619aa02c9ccc6566"
+    },
+    "release_recovery_specialist": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/release-restore-recovery-verified.json",
+      "bytes": 174217,
+      "sha256": "6c26157445e3eaf60b4717d75222f027a7382438dcc5df59e2a485c54ff01e40"
+    },
+    "datatransfer_runtime_specialist": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/datatransfer-runtime-followup-verified.json",
+      "bytes": 80591,
+      "sha256": "9841f76976b4e640a6e6500f660e9efa187efa78d0c012a03e693b4642eb81eb"
+    },
+    "storage_version_specialist": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/storage-version-r01-verified.json",
+      "bytes": 65668,
+      "sha256": "37202073c6267bb81156444b68e3ec8cc9484fcb5ee3e069c425ccca6fc19b82"
+    },
+    "message_infrastructure_specialist": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/message-infrastructure-verified.json",
+      "bytes": 94862,
+      "sha256": "e186ba95d7c29ec1df031030d57f3b9bbb07d20ea8f70adb04ca514dccfa76aa"
+    },
+    "business_workflows_specialist": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/business-workflows-verified.json",
+      "bytes": 97429,
+      "sha256": "7c5733db0b1d300557b6809aa75cea52ab8ca837d242c14f45207d39502c722b"
+    },
+    "native_calculated_alarm_retention": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/native-calculated-alarm-retention-verified.json",
+      "bytes": 20330,
+      "sha256": "0ed5a9e3e83a97260f4f9b5e68832f62cfc7d2799741a4de2cfce703713e3555"
+    },
+    "ordinary_skip_correspondence": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-delivery-regressions-verified.json",
+      "bytes": 75721,
+      "sha256": "fe9269f71ff16a32a997bc10ebbb748e75e83ddf794d86631477589d3f9c7d14"
+    },
+    "native_delivery_scope": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-delivery-native-verified.json",
+      "bytes": 16326,
+      "sha256": "4431b0f3ab82028456a7c76d9147910cb48fea48bacbe86ada93720390be455e"
+    },
+    "b02_source_license_completion": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-container-licenses-verified.json",
+      "bytes": 48161,
+      "sha256": "6dd46986269c09a61f8a00edddf4f3e0791a298f18fdcdbafd5e9a1572f6ce6d"
+    },
+    "historical_linux_deadlock_checkpoint": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-delivery-config-deadlock-checkpoint.json",
+      "bytes": 89030,
+      "sha256": "ebb28f643ea6985c5559579f41f9e2bf93a00ebcc161a073ba1a42693402e22d"
+    },
+    "package_coordinator_review": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-final-package-root-review.json",
+      "bytes": 4734781,
+      "sha256": "0566457b779dbcb148b95e4b24453687e52297dc4370bdc948b6f4c86a10421d"
+    },
+    "archive_coordinator_review": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-final-archive-root-review.json",
+      "bytes": 1722,
+      "sha256": "c7ffcb5232684cae3c7320d8ec8647643c69c95e46f51154a4167ba2760a4cee"
+    },
+    "b01_coordinator_review": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-compose-profile-root-review.json",
+      "bytes": 4795,
+      "sha256": "695eea4d94c521e97373850c517c2b62c5b3cf3458d48b60efefc67835ad2bb1"
+    },
+    "b02_coordinator_review": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-container-provenance-root-review.json",
+      "bytes": 2800,
+      "sha256": "e03afb2f8b270c7e33a99135151f236299e4b1e2af0e1bba96c41f720e412a59"
+    },
+    "frontend_coordinator_review": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-frontend-final-root-review.json",
+      "bytes": 6429,
+      "sha256": "9be62310f5ba56f323d99e55dd17204681f791dafabe3f7bbe6933ddbccc30b3"
+    },
+    "frontend_input_coordinator_review": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-frontend-final-inputs-root-review.json",
+      "bytes": 4965,
+      "sha256": "3a8532fb7570ef8bbe5cc025572ac5adcac72a6824a2939bbea5e047753e1745"
+    },
+    "n04_coordinator_review": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-node-deadlock-root-review.json",
+      "bytes": 6039,
+      "sha256": "48e15ec612939cb2fe983678f348dd3a02af4edae6a772c7020373f6d73b884f"
+    },
+    "release_recovery_coordinator_review": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-release-recovery-root-review.json",
+      "bytes": 147781,
+      "sha256": "0a96e293ad59ecf548c073e9b77a14296c06d6a427ce6301c2d140cf611bbb84"
+    },
+    "datatransfer_coordinator_review": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-datatransfer-runtime-root-review.json",
+      "bytes": 17751,
+      "sha256": "39af070a22078f297b5feb7e42327ddaec429865281599d5ec5ee3597f48b6ac"
+    },
+    "protocol_coordinator_review": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-delivery-protocols-root-review.json",
+      "bytes": 14067,
+      "sha256": "52e8eab32acf2eca9a702076e5362f1a36e4e8c460caf74c7d44b35eb804fff0"
+    },
+    "nats_coordinator_review": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-nats-cold-restore-root-review.json",
+      "bytes": 15144,
+      "sha256": "2d7c2ae7cf5fb794c403881b016afd22fb4f8073f98d4b734be8b1381f82a629"
+    },
+    "native_coordinator_review": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-native-delivery-root-review.json",
+      "bytes": 3068,
+      "sha256": "617ae8194f3afb21aff6ecd746bb531b395655acae48d905bd82d11b53676396"
+    },
+    "current_regression_coordinator_review": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-delivery-current-regressions-root-review.json",
+      "bytes": 5318,
+      "sha256": "8198ae3365d9aad512764f7ecb84d6344435ef0d4edd9231b1c8f2f844b9a6b3"
+    },
+    "skip_correspondence_coordinator_review": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-delivery-regressions-correspondence-root-review.json",
+      "bytes": 28236,
+      "sha256": "d4e1b4bcaaa836603cd81351fab2aa71d484923a6b5ff26c8c5074e9b1cc90e3"
+    },
+    "final_platform_ordinary_coordinator_review": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-final-platform-ordinary-root-review.json",
+      "bytes": 789,
+      "sha256": "f4f553cc7b20bd152d60953ac469a46bd77c727263cef2932bc3ff33afa53a80"
+    },
+    "final_postgres_coordinator_review": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-final-pg-root-review.json",
+      "bytes": 9207,
+      "sha256": "9b59e4870cd4123ecc5ee7fa0b19d797ee98d1b744be8ff5497a31854a9a9ea2"
+    },
+    "final_race_coordinator_review": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-final-race-root-review.json",
+      "bytes": 686,
+      "sha256": "0fe24d72129b69f707930041ca50f8d03da7d1145da20df8e214a2007973b49d"
+    },
+    "docker_recovery_coordinator_review": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/docker-resume-20261007/engine-root-review.json",
+      "bytes": 2777,
+      "sha256": "879c944a587fb4fd50a157d8b43879beb6178859b5e34a3adda36ecfe4a3de33"
+    },
+    "postgres_recovery_coordinator_review": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/docker-resume-20261007/postgres-root-review.json",
+      "bytes": 43307,
+      "sha256": "087dbfe0d810d1da25a0d56eed37c3f50c8ea88aacdc7f4a47ee81b7de67d3cd"
+    },
+    "protocol_fixed_input_index": {
+      "path": "/private/tmp/smartfactory-phase5-protocol-coordinator-evidence-20261005/retained-inputs.json",
+      "bytes": 2530486,
+      "sha256": "bf90ae2f2dfe3548fe7ef3b1f7a24dbe6b6dc403dca49611660e3955950f5891"
+    },
+    "nats_fixed_input_index": {
+      "path": "/private/tmp/smartfactory-phase5-nats-coordinator-evidence-20261005/retained-inputs.json",
+      "bytes": 2440727,
+      "sha256": "4fb9dde466e98bb2ebb39457f13a564c9163c7df9f5d7ea5a1f75cb003874263"
+    },
+    "native_fixed_input_index": {
+      "path": "/private/tmp/smartfactory-phase5-native-coordinator-evidence-20261005/retained-inputs.json",
+      "bytes": 1200671,
+      "sha256": "0df2b2e01c7cd81130313197b6004de2c47ec2fd1a3da21594990efb71123755"
+    },
+    "independent_platform_ordinary": {
+      "path": "/private/tmp/smartfactory-final-independent-20261007/platform-ordinary/verification.json",
+      "bytes": 166757,
+      "sha256": "4946760780fbf952c7298dab589fa97a497e590179cc99d0f2195e4a5c7cceae"
+    },
+    "independent_postgres": {
+      "path": "/private/tmp/smartfactory-final-independent-20261007/platform-conditional/verification.json",
+      "bytes": 19016,
+      "sha256": "3e2fea2e8b93fc24d416ffce3549c0e46e458885413423f0766a22d3f3d2a0fe"
+    },
+    "independent_postgres_cleanup": {
+      "path": "/private/tmp/smartfactory-final-independent-20261007/platform-conditional/cleanup-followup.json",
+      "bytes": 3708,
+      "sha256": "e858887868fa441c3c13ebdfd3f0dae11f1a212b0d8bf8b061c0ebdff1194e6b"
+    },
+    "independent_limited_race": {
+      "path": "/private/tmp/smartfactory-final-independent-20261007/platform-race/verification.json",
+      "bytes": 19936,
+      "sha256": "5925f9e6a736d28d0c6cdd52664522440eb537d1b30745bae2176d4a8e00046e"
+    },
+    "failure_rule_window_with_simulator": {
+      "path": "/private/tmp/smartfactory-delivery-linux-runtime-n04-20261007/verification.json",
+      "bytes": 699440,
+      "sha256": "dea9fd3d736d7d5e3ff9d4205d74a4d89008c41ba110e46f59fe03d230b8a568"
+    },
+    "failure_rule_window_original_inputs": {
+      "path": "/private/tmp/smartfactory-delivery-linux-runtime-n04-20261007/evidence/fixture-original-window-verification.json",
+      "bytes": 9391,
+      "sha256": "05deea05d0a93e6aa221605364e4b3dd631e8d1efd174f3f675c46cd3c9c14ca"
+    },
+    "failure_unprofiled_stop_after_conversion": {
+      "path": "/private/tmp/smartfactory-delivery-linux-runtime-isolated-rule-20261007/verification.json",
+      "bytes": 1169573,
+      "sha256": "5ce472a61ec3f3e93de5ee09660e6c79bde9e6f19ed8a52bdd9425a0f4ba784a"
+    },
+    "failure_first_container_license_assertion": {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/static-verification/first-license-failure.json",
+      "bytes": 974,
+      "sha256": "e8c229cde90fb1d6a00c79b4b1f8881e8f7f64273da4da89388fa8d06e57ed8b"
+    },
+    "failure_overbroad_temporary_path_assertion": {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/before-license-build-verification/first-privacy-assertion-failure.json",
+      "bytes": 631,
+      "sha256": "580204af56b4f25310d996f310b383ff9d39d9920fc6a328a8f7e11e40984783"
+    },
+    "seven_program_release_profile_runtime": {
+      "path": "/private/tmp/smartfactory-delivery-linux-runtime-release-profile-20261007/verification.json",
+      "bytes": 1235422,
+      "sha256": "373c8c95be30a6fc0fb17f51e9c6e30b2060c0d2aa14376edf9dd0ac9d62a0a2"
+    },
+    "private_fixture_restoration": {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/fixture-restoration.json",
+      "bytes": 12024,
+      "sha256": "c17d73a958d5fe4d6cdcf6624a4ea30c261e3244db83d30ed2a38000b5034d77"
+    },
+    "delivered_archive": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/delivery/SmartFactory-1.1.0-dev-linux-amd64-20261007-6c66570a31e7.tar.gz",
+      "bytes": 137796066,
+      "sha256": "376f11ba9f0b1f6319b22bccdc7f704d55d0567b306ca72a133005fa82099218"
+    },
+    "delivered_checksum": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/delivery/SmartFactory-1.1.0-dev-linux-amd64-20261007-6c66570a31e7.tar.gz.sha256",
+      "bytes": 130,
+      "sha256": "fba18d8f53a714ba0906d3aa89d9693b29c839a6381403b59fee6e5ae329227e"
+    },
+    "delivery_directory_index": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/delivery/SmartFactory-1.1.0-dev-linux-amd64-20261007-6c66570a31e7.json",
+      "bytes": 1629,
+      "sha256": "cc61b435cb42523b0fec55735dd3c052b57767ac04684f040c110057478f735a"
+    }
+  },
+  "report_generator": {
+    "path": "/private/tmp/smartfactory-delivery-final-20261007/write-final-delivery-report.py",
+    "bytes": 36788,
+    "sha256": "12be7c146d6c0881127c65782ee3175da36fbcba3adc3ecdb89b2eeac9ebd57c"
+  }
+}

@@ -1,0 +1,27 @@
+你是第三阶段前端交互工程师，模型6.1 Sol/Max，负责E3-01至E3-07的浏览器交付。先完整读取docs/evolution/brief-frontend-phase3.md、control-frontend-contract.md、history-frontend-contract.md、tasks-frontend-contract.md，以及控制和历史专业已交付的最终报告与浏览器夹具交接。实施实际控制详情、审批/取消/核对/恢复、设备反馈时间线，以及独立回放、版本比较、影子候选与节点解释页面。使用当前正式生成契约、客户端和第二阶段精确数值处理。
+
+修改归属仅Frontends、前端测试和操作说明；后端行为缺陷请附复现步骤交主协调，由对应专业修复。共享的contracts生成产物与sf-contracts导出器由主协调安排时段，开始前确认后端契约交付版本，不并发覆盖。可以使用已有后端专业提供的双应用、模拟设备及观测夹具完成浏览器验证，测试场景不得伪造成功设备结果。
+
+云端人工请求202应显示待边缘处理，执行状态来自边缘回执；版本、操作身份、结果与原因分别核对。取消后原未知命令仍能查看反馈，核对采用只读证据，合法恢复只执行剩余步骤。历史页面应展示输入/历史快照和摘要、排序/时钟、采用的规则及资产版本、左右计划、进度、任务状态、节点解释与来源。影子普通新增运行可能waiting_parent，实际解析初态的snapshot_id与captured_snapshot_id分别保留；正式比较来源须显示实际realtime_evaluation或historical_recompute_projection及缺失状态。按服务端允许操作呈现按钮，资源撤权和过期版本要有明确页面行为。
+
+任务失败重试与取消继续使用第二阶段已核对的语义；任务顶部提示根据当前状态计算，避免再次出现已完成任务仍显示“继续查看处理结果”的问题。实际浏览器覆盖云端和现场两个应用、精确整数与后台任务状态，保存请求、截图、控制台、数据库/动作计数和对应源码/二进制/构建摘要。类型检查、14项既有回归及新增有效回归、契约一致性和生产构建均需实际验证。最终.local/evolution/frontend-phase3-verified.json和docs/evolution/frontend-phase3.md交主协调；不要自行修改全局acceptance或team。
+
+第一轮实施时提供页面方案和所需接口差距后继续执行；后端接口齐备后完成全部授权目标。第三阶段在本角色之前已创建控制、历史两个子智能体，运行名额由主协调检查后分配。
+
+仓库为 /path/to/SmartFactory-2026，基点dde3315bd91f62be5fa3593200f9d267bc264811。共享工作树；读取当前plan.md、acceptance.json、team.json、status.md和所列任务说明。用户原有27份修改基线在/private/tmp/smartfactory-evolution-baseline-20261004-1310，主协调保护并核对，禁止覆盖无关修改。原有README、Wiki、发布脚本有授权集成变更。无需新工作树、提交或PR。
+
+主协调承担需求、跨角色文件分工和验收；你只负责本角色。每阶段最多创建5个子智能体，所有阶段合计同时运行不超过2个；你禁止创建子代理。模型由主协调按用户授权设置。业务缺陷在自己职责内完成实现与验证，跨专业问题报主协调。必要依赖和镜像全五阶段获取已获用户明确授权，无需重复请求。只有完整UOS安装恢复、1/3节点连续断云24小时、受限链路专项、实际24小时容量/持续运行被本轮排除，其余五阶段验收需实际完成。
+
+Go1.27.1，GOTOOLCHAIN=local，GOPATH=/private/tmp/smartfactory-evolution-gopath，GOMODCACHE=/private/tmp/smartfactory-evolution-gomodcache，GOCACHE=/private/tmp/smartfactory-evolution-go-cache。缓存完整时可GOPROXY=off，必要新增依赖允许联网取官方发行。Node24.21.0及npm11.19.0位于.local/toolchains/node-v24.21.0-darwin-arm64/bin，前端最终生成工具为正式openapi-typescript，TS7原生检查与TS6 API兼容参见frontend-phase2.md。Python jsonschema在/private/tmp/smartfactory-evolution-python/bin/python。
+
+PG18.6隔离容器smartfactory-evolution-pg18-20261004已运行，1GiB/2CPU/max_connections30，DSN从私有.local/evolution/pg18-test.json读取，不打印。每套测试独立schema，每个应用MaxOpen3/MaxIdle1，最多1管理连接，包并行度1。Docker总内存约7.75GiB；大型容器、race和PG测试先通报主协调安排时段，原用户9个停止的持久容器及卷不改变用途。工作卷至少保留1GiB，当前约1.9GiB，构建大产物放/private/tmp，保留证据后关闭自建服务。
+
+中文说明使用自然完整段落、不用emoji，列表仅在展示流程时用有序列表，单行表格单元格末尾省略句号；避免对立式套话、单字省略表达和“落地、很关键、很现实、边界、直白”。首次读取/home/developer/.codex/skills/humanizer/SKILL.md并用嵌入模式审阅说明文字。报告保留首次失败、范围、补充验证、未运行条件、实际受测源码和二进制摘要，凭据明文不得写进证据。
+
+报告的源码摘要覆盖实际编译输入、模块/锁文件和必要生成契约；验证夹具、运行参数、二进制及构建时间分别记录对应关系。Mac目录元数据与构建缓存不计入生产源码范围，避免无关元数据变化干扰后续组合审查。
+
+控制浏览器夹具交接初始位置：云端http://127.0.0.1:56858，现场http://127.0.0.1:56859，受控驱动http://127.0.0.1:56871；私有访问配置为/private/tmp/sf-control-browser-20261005/runtime/private-access.json，保密读取并在日志省略凭据。recover-browser为结果未知样本，cancel-browser为已批准样本。启动脚本scripts/control-intervention-fixture.py，完整说明见control-frontend-contract.md。控制专业仍在修正期限与重复领取组合问题，已要求其最终交付前按最终源码重建并重启这套夹具；实际开始验证前读取最终报告和manifest确认二进制、源码及场景对应关系，不直接假定初始进程已经更新。
+
+控制生命周期已补充首次处理时间的持久语义与operation_started时间线：云端收到开始回执后，pending且started_ms>0显示已开始处理、等待结果；尚未收到开始回执时显示等待边缘处理。开始回执和最终回执均按来源版本处理，最终结果之后的旧开始回执保持最终状态。请以最终control-frontend-contract.md与生成类型实现，预备夹具后续将由控制专业按最新源码重建。
+
+控制专业最终夹具已于最终交付前重建：cloud http://127.0.0.1:57807，edge http://127.0.0.1:57808，driver http://127.0.0.1:57815；私有访问文件 /private/tmp/sf-control-browser-final-v2-20261005/runtime/private-access.json，构建manifest /private/tmp/sf-control-browser-final-v2-20261005/manifest.json。该环境替代上文初始环境，旧服务已经停止；必须以最终报告核对受测二进制与新页面产物关系。历史夹具为 Platform/cmd/sf-history-fixture，当前二进制 /private/tmp/sf-history-fixture-20261005，示例端口18094，可用新目录和-static指向前端dist启动实际app/River/workers；具体十份样例与操作流程在history-frontend-contract.md末节，历史服务交付时已关闭。

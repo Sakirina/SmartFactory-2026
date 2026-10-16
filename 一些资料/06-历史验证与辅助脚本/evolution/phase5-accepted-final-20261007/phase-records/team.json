@@ -1,0 +1,579 @@
+{
+  "schema_version": 1,
+  "updated_at": "2026-10-07T05:46:49.670743+00:00",
+  "limits": {
+    "created_per_phase": 6,
+    "running_concurrently": 3,
+    "preferred_running_concurrently": 2
+  },
+  "coordinator_role": "需求分析、接口与文件归属协调、证据复核、阶段验收",
+  "allowed_models": {
+    "gpt-6.1-sol": [
+      "max"
+    ],
+    "gpt-6-astra": [
+      "xhigh",
+      "max"
+    ]
+  },
+  "phases": [
+    {
+      "phase": 1,
+      "created": [
+        {
+          "name": "architecture_contracts",
+          "role": "架构与契约工程师",
+          "model": "gpt-6-astra",
+          "reasoning": "max",
+          "status": "handoff_complete"
+        },
+        {
+          "name": "toolchain_observability",
+          "role": "工具链、观测与原生集成工程师",
+          "model": "gpt-6.1-sol",
+          "reasoning": "max",
+          "status": "complete"
+        }
+      ],
+      "status": "accepted",
+      "final_confirmation_at": "2026-10-07T05:46:49.670743+00:00"
+    },
+    {
+      "phase": 2,
+      "created": [
+        {
+          "name": "phase2_rule_engineer",
+          "role": "规则计算工程师",
+          "model": "gpt-6-astra",
+          "reasoning": "max",
+          "status": "complete",
+          "requirements": [
+            "E2-06",
+            "E2-07",
+            "E2-08",
+            "E2-09(simulation)"
+          ],
+          "evidence": [
+            ".local/evolution/rules-verified.json",
+            ".local/evolution/rules-root-review.json"
+          ]
+        },
+        {
+          "name": "phase2_storage_tasks",
+          "role": "存储与后台任务工程师",
+          "model": "gpt-6-astra",
+          "reasoning": "max",
+          "status": "complete",
+          "requirements": [
+            "E2-01",
+            "E2-02",
+            "E2-03",
+            "E2-04",
+            "E2-05",
+            "E2-09(task details)"
+          ],
+          "evidence": [
+            ".local/evolution/storage-tasks-verified.json",
+            ".local/evolution/storage-root-review.json"
+          ]
+        },
+        {
+          "name": "phase2_ai_protocols",
+          "role": "AI协议工程师",
+          "model": "gpt-6.1-sol",
+          "reasoning": "max",
+          "status": "complete",
+          "requirements": [
+            "E2-10",
+            "E2-11"
+          ],
+          "evidence": [
+            ".local/evolution/ai-protocols-verified.json",
+            ".local/evolution/ai-protocols-root-review.json"
+          ]
+        },
+        {
+          "name": "phase2_frontend_foundation",
+          "role": "前端基础工程师",
+          "model": "gpt-6.1-sol",
+          "reasoning": "max",
+          "status": "complete",
+          "requirements": [
+            "E2-12",
+            "E2-09(frontend)"
+          ],
+          "brief": "docs/evolution/brief-frontend-phase2.md",
+          "evidence": [
+            ".local/evolution/frontend-phase2-verified.json",
+            ".local/evolution/frontend-phase2-root-review.json",
+            ".local/evolution/frontend-phase2-followup-root-review.json"
+          ]
+        },
+        {
+          "name": "phase2_independent_review",
+          "role": "阶段集成审查工程师",
+          "model": "gpt-6-astra",
+          "reasoning": "max",
+          "status": "complete",
+          "requirements": [
+            "E2-01..E2-12 verification"
+          ],
+          "brief": "docs/evolution/brief-phase2-review.md",
+          "evidence": [
+            ".local/evolution/phase2-independent-review.json",
+            ".local/evolution/phase2-independent-root-review.json"
+          ]
+        }
+      ],
+      "planned_roles": [],
+      "supporting_existing_roles": [
+        {
+          "name": "toolchain_observability",
+          "role": "工具链与消息基础设施工程师",
+          "status": "complete",
+          "scope": "Kafka与NATS持久数据迁移、目标版实际协调、部署锁与生成配置、当前源码原生计算/告警/保留用例",
+          "brief": "docs/evolution/brief-message-infrastructure.md",
+          "original_created_phase": 1,
+          "evidence": [
+            ".local/evolution/message-infrastructure-verified.json",
+            ".local/evolution/message-infrastructure-root-review.json"
+          ]
+        }
+      ],
+      "status": "accepted",
+      "final_confirmation_at": "2026-10-07T05:46:49.670743+00:00"
+    },
+    {
+      "phase": 3,
+      "created": [
+        {
+          "name": "phase3_control_execution",
+          "role": "控制执行工程师",
+          "model": "gpt-6-astra",
+          "reasoning": "max",
+          "status": "handoff_complete",
+          "requirements": [
+            "E3-01",
+            "E3-02",
+            "E3-03",
+            "E3-07(control)"
+          ],
+          "brief": "docs/evolution/brief-control.md",
+          "migration_reserved": 5,
+          "evidence": [
+            ".local/evolution/control-execution-verified.json",
+            ".local/evolution/control-final-fixture-root-review.json",
+            ".local/evolution/control-execution-root-review.json",
+            ".local/evolution/control-execution-c05-verified.json",
+            ".local/evolution/control-c05-final-fixture-root-review.json"
+          ],
+          "followup": ".local/evolution/phase3-control-evidence-followup.txt"
+        },
+        {
+          "name": "phase3_history_analysis",
+          "role": "历史计算工程师",
+          "model": "gpt-6-astra",
+          "reasoning": "max",
+          "status": "handoff_complete",
+          "requirements": [
+            "E3-04",
+            "E3-05",
+            "E3-06",
+            "E3-07(computation)"
+          ],
+          "brief": "docs/evolution/brief-history.md",
+          "migration_reserved": 6,
+          "evidence": [
+            ".local/evolution/history-analysis-verified.json",
+            ".local/evolution/history-analysis-root-review.json"
+          ]
+        }
+      ],
+      "planned_roles": [],
+      "supporting_existing_roles": [
+        {
+          "name": "phase2_frontend_foundation",
+          "role": "前端交互工程师",
+          "model": "gpt-6.1-sol",
+          "reasoning": "max",
+          "status": "handoff_complete",
+          "original_created_phase": 2,
+          "requirements": [
+            "E3-01..E3-07 browser"
+          ],
+          "brief": "docs/evolution/brief-frontend-phase3.md",
+          "launch": ".local/evolution/phase3-frontend-launch.txt",
+          "evidence": [
+            ".local/evolution/frontend-phase3-verified.json",
+            ".local/evolution/frontend-phase3-root-review.json"
+          ]
+        },
+        {
+          "name": "phase2_independent_review",
+          "role": "阶段集成审查工程师",
+          "model": "gpt-6-astra",
+          "reasoning": "max",
+          "status": "handoff_complete",
+          "original_created_phase": 2,
+          "requirements": [
+            "E3-01..E3-07 verification"
+          ],
+          "brief": "docs/evolution/brief-phase3-review.md",
+          "launch": ".local/evolution/phase3-review-launch.txt",
+          "checkpoint": ".local/evolution/phase3-independent-review-t01-checkpoint.json",
+          "resume_brief": ".local/evolution/phase3-review-resume-after-t02.txt",
+          "evidence": [
+            ".local/evolution/phase3-independent-review-checkpoint.json",
+            ".local/evolution/phase3-independent-checkpoint-root-review.json",
+            ".local/evolution/phase3-independent-review-t01-checkpoint.json",
+            ".local/evolution/phase3-independent-t01-checkpoint-root-review.json",
+            ".local/evolution/phase3-independent-review.json",
+            ".local/evolution/phase3-independent-root-review.json"
+          ]
+        },
+        {
+          "name": "phase2_storage_tasks",
+          "role": "存储与后台任务工程师",
+          "model": "gpt-6-astra",
+          "reasoning": "max",
+          "status": "handoff_complete",
+          "original_created_phase": 2,
+          "requirements": [
+            "P3-T01",
+            "E3-04/E3-06/E3-07 task cancellation",
+            "P3-T02"
+          ],
+          "brief": ".local/evolution/phase3-task-cancel-followup.txt",
+          "evidence": [
+            ".local/evolution/tasks-cancel-t01-verified.json",
+            ".local/evolution/tasks-cancel-t01-root-review.json",
+            ".local/evolution/tasks-cancel-t01-binary-root-review.json",
+            ".local/evolution/tasks-cancel-t01-source-scope-root-review.json",
+            ".local/evolution/tasks-retry-t02-verified.json",
+            ".local/evolution/tasks-retry-t02-root-review.json",
+            ".local/evolution/tasks-retry-t02-binary-root-review.json"
+          ],
+          "followup": ".local/evolution/phase3-task-retry-followup.txt"
+        }
+      ],
+      "coordination_note": "第三阶段七项目标通过，十五项问题全部完成修正及独立再验证；所有本阶段角色已结束，自建服务和浏览器已关闭，归档后进入第四阶段",
+      "status": "accepted",
+      "final_confirmation_at": "2026-10-07T05:46:49.670743+00:00"
+    },
+    {
+      "phase": 4,
+      "created": [
+        {
+          "name": "phase4_query_subscriptions",
+          "role": "查询与订阅工程师",
+          "model": "gpt-6-astra",
+          "reasoning": "max",
+          "status": "phase_accepted",
+          "requirements": [
+            "E4-01",
+            "E4-02"
+          ],
+          "brief": "docs/evolution/brief-query-subscriptions.md",
+          "launch": ".local/evolution/phase4-query-launch.txt",
+          "migration_reserved": 7,
+          "shared_registration_owner": false,
+          "evidence": [
+            ".local/evolution/query-subscriptions-verified.json",
+            ".local/evolution/query-subscriptions-root-review.json",
+            ".local/evolution/phase4-query-inputs-root-review.json"
+          ]
+        },
+        {
+          "name": "phase4_business_workflows",
+          "role": "业务流程工程师",
+          "model": "gpt-6-astra",
+          "reasoning": "max",
+          "status": "phase_accepted",
+          "requirements": [
+            "E4-04(metadata)",
+            "E4-05",
+            "E4-06",
+            "E4-08",
+            "E4-09"
+          ],
+          "brief": "docs/evolution/brief-business-workflows.md",
+          "launch": ".local/evolution/phase4-business-launch.txt",
+          "migration_reserved": 8,
+          "evidence": [
+            ".local/evolution/business-workflows-verified.json",
+            ".local/evolution/business-workflows-root-review.json"
+          ]
+        },
+        {
+          "name": "phase4_ai_evidence",
+          "role": "AI调查工程师",
+          "model": "gpt-6.1-sol",
+          "reasoning": "max",
+          "status": "phase_accepted",
+          "requirements": [
+            "E4-07"
+          ],
+          "brief": "docs/evolution/brief-ai-evidence.md",
+          "launch": ".local/evolution/phase4-ai-launch.txt",
+          "migration_reserved": 9,
+          "shared_registration_owner": true,
+          "evidence": [
+            ".local/evolution/ai-evidence-verified.json",
+            ".local/evolution/ai-evidence-root-review.json",
+            ".local/evolution/phase4-ai-build-provenance-root-review.json",
+            ".local/evolution/ai-evidence-a02-verified.json",
+            ".local/evolution/ai-evidence-a02-root-review.json",
+            ".local/evolution/phase4-ai-a02-build-provenance-root-review.json"
+          ],
+          "followup_status": "P4-A02 specialist, coordinator and independent final verification passed",
+          "followup": ".local/evolution/phase4-ai-a02-followup.txt"
+        },
+        {
+          "name": "phase4_frontend",
+          "role": "前端业务工程师",
+          "model": "gpt-6.1-sol",
+          "reasoning": "max",
+          "status": "phase_accepted",
+          "requirements": [
+            "E4-03",
+            "E4-04(forms)",
+            "E4-10",
+            "E4-01..E4-09 browser"
+          ],
+          "brief": "docs/evolution/brief-frontend-phase4.md",
+          "launch": ".local/evolution/phase4-frontend-launch.txt",
+          "evidence": [
+            ".local/evolution/frontend-phase4-verified.json",
+            ".local/evolution/frontend-phase4-root-review.json",
+            ".local/evolution/frontend-phase4-r1-build-provenance-root-review.json"
+          ]
+        },
+        {
+          "name": "phase4_independent_review",
+          "role": "阶段集成审查工程师",
+          "model": "gpt-6-astra",
+          "reasoning": "max",
+          "status": "phase_accepted",
+          "requirements": [
+            "E4-01..E4-10 verification"
+          ],
+          "brief": "docs/evolution/brief-phase4-review.md",
+          "launch": ".local/evolution/phase4-review-launch.txt",
+          "checkpoint": ".local/evolution/phase4-independent-review-checkpoint.json",
+          "evidence": [
+            ".local/evolution/phase4-independent-review.json",
+            ".local/evolution/phase4-independent-root-review.json",
+            ".local/evolution/phase4-independent-browser-root-review.json"
+          ],
+          "resume_brief": ".local/evolution/phase4-review-resume-after-a02.txt"
+        }
+      ],
+      "planned_roles": [],
+      "baseline": ".local/evolution/phase3-accepted-source.json",
+      "coordination_note": "第四阶段十项目标正式验收，十六项发现均已修复及独立验证；五位专家成员均结束当前轮，保存阶段源码后进入第五阶段。",
+      "status": "accepted",
+      "accepted_at": "2026-10-05T04:34:46.721481+00:00",
+      "final_confirmation_at": "2026-10-07T05:46:49.670743+00:00"
+    },
+    {
+      "phase": 5,
+      "created": [
+        {
+          "role": "发布协调工程师",
+          "requirements": [
+            "E5-01",
+            "E5-03",
+            "E5-04"
+          ],
+          "brief": "docs/evolution/brief-release-coordination.md",
+          "model": "gpt-6-astra",
+          "reasoning": "max",
+          "reuse_existing": false,
+          "migration_reserved": 11,
+          "name": "phase5_release_coordination",
+          "status": "phase_accepted",
+          "launch": ".local/evolution/phase5-release-launch.txt",
+          "shared_registration_owner": true,
+          "started_at": "2026-10-05T04:37:29.903145+00:00",
+          "completed_at": "2026-10-05T11:16:11.326971+00:00",
+          "evidence": [
+            ".local/evolution/release-coordination-verified.json",
+            ".local/evolution/release-restore-recovery-verified.json",
+            ".local/evolution/phase5-release-recovery-root-review.json",
+            ".local/evolution/phase5-release-recovered-database-root-review.json"
+          ],
+          "followup": ".local/evolution/phase5-release-restore-resume.txt",
+          "resumed_at": "2026-10-05T10:14:54.425679+00:00",
+          "checkpoint": ".local/evolution/release-restore-followup-verified.json",
+          "accepted_at": "2026-10-07T05:46:49.670743+00:00"
+        },
+        {
+          "role": "配置与节点身份工程师",
+          "requirements": [
+            "E5-02",
+            "E5-03(configuration status)"
+          ],
+          "brief": "docs/evolution/brief-node-configuration.md",
+          "model": "gpt-6.1-sol",
+          "reasoning": "max",
+          "reuse_existing": false,
+          "migration_reserved": 10,
+          "name": "phase5_node_configuration",
+          "status": "phase_accepted",
+          "launch": ".local/evolution/phase5-node-launch.txt",
+          "started_at": "2026-10-05T04:38:40.707063+00:00",
+          "completed_at": "2026-10-05T12:17:15.977146+00:00",
+          "evidence": [
+            ".local/evolution/node-configuration-verified.json",
+            ".local/evolution/node-connector-deadlock-verified.json",
+            ".local/evolution/phase5-node-deadlock-root-review.json"
+          ],
+          "resumed_at": "2026-10-05T11:24:45.825500+00:00",
+          "followup": ".local/evolution/phase5-node-deadlock-followup.txt",
+          "accepted_at": "2026-10-07T05:46:49.670743+00:00"
+        },
+        {
+          "role": "构建交付工程师",
+          "requirements": [
+            "E5-06",
+            "E5-04(Edge stop/restart)"
+          ],
+          "brief": "docs/evolution/brief-final-delivery.md",
+          "model": "gpt-6.1-sol",
+          "reasoning": "max",
+          "reuse_existing": false,
+          "name": "phase5_final_delivery",
+          "status": "phase_accepted",
+          "started_at": "2026-10-05T06:59:27.631271+00:00",
+          "launch": ".local/evolution/phase5-delivery-launch.txt",
+          "checkpoint": ".local/evolution/phase5-delivery-config-deadlock-checkpoint.json",
+          "checkpoint_at": "2026-10-05T11:24:45.825500+00:00",
+          "resumed_at": "2026-10-07T04:09:20.974939+00:00",
+          "followup": ".local/evolution/phase5-delivery-resume-after-n04.txt",
+          "current_scope": "正式操作脚本、最终十四程序包及包内入口验证",
+          "accepted_at": "2026-10-07T05:46:49.670743+00:00",
+          "completed_at": "2026-10-07T05:46:49.670743+00:00",
+          "evidence": [
+            ".local/evolution/final-delivery-verified.json",
+            ".local/evolution/phase5-final-root-review.json"
+          ]
+        },
+        {
+          "role": "采集运行工程师",
+          "name": "phase5_datatransfer_runtime",
+          "model": "gpt-6-astra",
+          "reasoning": "max",
+          "reuse_existing": false,
+          "status": "phase_accepted",
+          "started_at": "2026-10-05T09:29:00.454137+00:00",
+          "requirements": [
+            "E5-04",
+            "E5-05",
+            "E5-06"
+          ],
+          "brief": ".local/evolution/phase5-datatransfer-runtime-launch.txt",
+          "scope": "三种模板协议的隔离配置消费者、正式DataTransfer停止与工作协程生命周期",
+          "completed_at": "2026-10-05T10:14:54.425679+00:00",
+          "evidence": [
+            ".local/evolution/datatransfer-runtime-followup-verified.json",
+            ".local/evolution/phase5-datatransfer-runtime-root-review.json"
+          ],
+          "accepted_at": "2026-10-07T05:46:49.670743+00:00"
+        }
+      ],
+      "planned_roles": [],
+      "coordination_note": "第五阶段七项及五阶段45项全部正式验收；十四程序交付归档、55项Linux运行、39项独立浏览器及限定规模专项均有对应证据，14个问题和14项关注完成验证。本阶段新增四位，全部本轮任务已结束。",
+      "status": "accepted",
+      "baseline": ".local/evolution/phase4-accepted-source.json",
+      "node_start_attempt": {
+        "status": "not_created_capacity_pending",
+        "message": "agent thread limit reached",
+        "attempted_at": "2026-10-05T04:37:29.903145+00:00",
+        "resolved_at": "2026-10-05T04:38:40.707063+00:00",
+        "resolution": "Old completed business conversation ended; same requested new node role created successfully"
+      },
+      "supporting_existing_roles": [
+        {
+          "role": "发布界面工程师",
+          "requirements": [
+            "E5-05",
+            "E5-01..E5-04 browser"
+          ],
+          "brief": "docs/evolution/brief-release-interface.md",
+          "model": "gpt-6.1-sol",
+          "reasoning": "max",
+          "reuse_existing": true,
+          "original_created_phase": 4,
+          "name": "phase4_frontend",
+          "status": "phase_accepted",
+          "started_at": "2026-10-05T06:59:27.631271+00:00",
+          "launch": ".local/evolution/phase5-frontend-launch.txt",
+          "checkpoint": ".local/evolution/release-interface-checkpoint.json",
+          "checkpoint_at": "2026-10-05T09:53:25.117941+00:00",
+          "resumed_at": "2026-10-05T11:16:11.326971+00:00",
+          "followup": ".local/evolution/phase5-frontend-resume-after-recovery.txt",
+          "completed_at": "2026-10-05T12:33:47.407929+00:00",
+          "evidence": [
+            ".local/evolution/release-interface-verified.json",
+            ".local/evolution/phase5-frontend-final-inputs-root-review.json",
+            ".local/evolution/phase5-frontend-final-root-review.json"
+          ],
+          "accepted_at": "2026-10-07T05:46:49.670743+00:00"
+        },
+        {
+          "name": "phase2_storage_tasks",
+          "role": "存储与后台任务工程师",
+          "model": "gpt-6-astra",
+          "reasoning": "max",
+          "reuse_existing": true,
+          "original_created_phase": 2,
+          "requirements": [
+            "P5-R01",
+            "E5-03",
+            "E5-04",
+            "E5-06"
+          ],
+          "status": "phase_accepted",
+          "resumed_at": "2026-10-05T10:02:39.909334+00:00",
+          "followup": ".local/evolution/phase5-storage-version-followup.txt",
+          "completed_at": "2026-10-05T10:26:51.348614+00:00",
+          "evidence": [
+            ".local/evolution/storage-version-r01-verified.json",
+            ".local/evolution/phase5-storage-version-root-review.json"
+          ],
+          "verification_status": "accepted",
+          "accepted_at": "2026-10-07T05:46:49.670743+00:00"
+        },
+        {
+          "role": "独立验收工程师",
+          "requirements": [
+            "E5-07",
+            "E1..E5 final verification"
+          ],
+          "brief": "docs/evolution/brief-final-independent-review.md",
+          "model": "gpt-6-astra",
+          "reasoning": "max",
+          "reuse_existing": true,
+          "original_created_phase": 4,
+          "status": "phase_accepted",
+          "name": "phase4_independent_review",
+          "resumed_at": "2026-10-07T04:09:20.974939+00:00",
+          "followup": ".local/evolution/phase5-final-review-launch.txt",
+          "current_scope": "最终双节点、浏览器、PG专项及45项独立审查",
+          "accepted_at": "2026-10-07T05:46:49.670743+00:00",
+          "completed_at": "2026-10-07T05:46:49.670743+00:00",
+          "evidence": [
+            ".local/evolution/final-independent-review.json",
+            ".local/evolution/phase5-final-root-review.json"
+          ]
+        }
+      ],
+      "paused_at": "2026-10-05T12:33:47.407929+00:00",
+      "resumed_at": "2026-10-07T04:09:20.974939+00:00",
+      "final_confirmation_at": "2026-10-07T05:46:49.670743+00:00",
+      "accepted_at": "2026-10-07T05:46:49.670743+00:00"
+    }
+  ],
+  "overall_status": "complete",
+  "completed_at": "2026-10-07T05:46:49.670743+00:00"
+}

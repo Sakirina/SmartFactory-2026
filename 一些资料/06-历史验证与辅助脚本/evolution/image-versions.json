@@ -1,0 +1,102 @@
+{
+  "records": [
+    {
+      "component": "go_builder",
+      "image": "library/golang@sha256:cd9a32216aee5667f957a62d13a10032a63fd58e14b3f3d9cc8c2122f501e95e",
+      "command": [
+        "go",
+        "version"
+      ],
+      "exit_code": 0,
+      "version_output": "go version go1.27.1 linux/amd64",
+      "error": "",
+      "checked_at": "2026-10-04T13:36:08.004435+00:00"
+    },
+    {
+      "component": "node_builder",
+      "image": "library/node@sha256:83f1c388c31fb2e51f7cbd4dea949b96260798c98f206e8e4696bc93bd964e3a",
+      "command": [
+        "node",
+        "--version"
+      ],
+      "exit_code": 0,
+      "version_output": "v24.21.0",
+      "error": "",
+      "checked_at": "2026-10-04T13:36:08.200516+00:00"
+    },
+    {
+      "component": "envoy",
+      "image": "envoyproxy/envoy@sha256:be87c8b52663c1164a5bdf3c5419017a269cb3d8c74be1ec93638a71f1ffbd4b",
+      "command": [
+        "envoy",
+        "--version"
+      ],
+      "exit_code": 0,
+      "version_output": "envoy  version: b579d07d3ad7ee11d32b105e91a5a39ad24718d7/1.39.1/Clean/RELEASE/BoringSSL",
+      "error": "",
+      "checked_at": "2026-10-04T13:36:08.506792+00:00"
+    },
+    {
+      "component": "postgres",
+      "image": "library/postgres@sha256:0377e72c5289ed2f98cf61b1a9c2db9eb9d300317fe14244492fbc94343b3d04",
+      "command": [
+        "postgres",
+        "--version"
+      ],
+      "exit_code": 0,
+      "version_output": "postgres (PostgreSQL) 18.6 (Debian 18.6-1.pgdg13+2)",
+      "error": "",
+      "checked_at": "2026-10-04T13:36:08.776516+00:00"
+    },
+    {
+      "component": "kafka",
+      "image": "apache/kafka@sha256:ccd1314e47ec76909e01f86308b4dcf2064f19f7c89759234322314b0e319e26",
+      "command": [
+        "/opt/kafka/bin/kafka-topics.sh",
+        "--version"
+      ],
+      "exit_code": 0,
+      "version_output": "4.3.1",
+      "error": "",
+      "checked_at": "2026-10-04T13:36:11.632523+00:00"
+    },
+    {
+      "component": "nats",
+      "image": "library/nats@sha256:b2301863d84fda2cf8260d308203708f5231b2db34d821cc518d5c4c3c79780a",
+      "command": [
+        "nats-server",
+        "--version"
+      ],
+      "exit_code": 0,
+      "version_output": "nats-server: v2.14.7",
+      "error": "",
+      "checked_at": "2026-10-04T13:45:11.805343+00:00"
+    },
+    {
+      "component": "thingsboard",
+      "image": "thingsboard/tb-node@sha256:20636ba63175d4b680d4f00882c604723745006b8382770f373f546ff94f6254",
+      "command": [
+        "dpkg-query",
+        "-W",
+        "thingsboard"
+      ],
+      "exit_code": 0,
+      "version_output": "thingsboard\t4.3.1.6-1",
+      "error": "",
+      "checked_at": "2026-10-04T13:48:14.689381+00:00"
+    },
+    {
+      "component": "thingsboard_edge",
+      "image": "thingsboard/tb-edge@sha256:21d75ce523240bce0eef86ec3eabe289c09e3843059606bef9d24529fc0444f3",
+      "command": [
+        "dpkg-query",
+        "-W",
+        "tb-edge"
+      ],
+      "exit_code": 0,
+      "version_output": "tb-edge\t4.3.1.6EDGE-1",
+      "error": "",
+      "checked_at": "2026-10-04T13:48:14.845707+00:00"
+    }
+  ]
+}

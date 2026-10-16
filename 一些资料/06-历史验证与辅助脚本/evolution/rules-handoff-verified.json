@@ -1,0 +1,562 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-04T14:18:30.111378+00:00",
+  "status": "partial_handoff",
+  "checks": [
+    {
+      "name": "compilation",
+      "command": [
+        "go",
+        "test",
+        "-run",
+        "^$",
+        "./internal/rulecore",
+        "./internal/compiledplan",
+        "./internal/engine",
+        "./internal/application/...",
+        "./internal/api",
+        "./internal/app",
+        "./internal/cloudsync",
+        "./pkg/precise"
+      ],
+      "cwd": "/path/to/SmartFactory-2026/Platform",
+      "exit_code": 0,
+      "elapsed_seconds": 0.839,
+      "stdout": ".local/evolution/rules-handoff-compilation.stdout.txt",
+      "stderr": ".local/evolution/rules-handoff-compilation.stderr.txt"
+    },
+    {
+      "name": "regression",
+      "command": [
+        "go",
+        "test",
+        "-count=1",
+        "-json",
+        "./internal/rulecore",
+        "./internal/compiledplan",
+        "./internal/engine",
+        "./internal/application/...",
+        "./internal/api",
+        "./internal/app",
+        "./internal/cloudsync",
+        "./pkg/precise"
+      ],
+      "cwd": "/path/to/SmartFactory-2026/Platform",
+      "exit_code": 1,
+      "elapsed_seconds": 2.558,
+      "stdout": ".local/evolution/rules-handoff-regression.stdout.txt",
+      "stderr": ".local/evolution/rules-handoff-regression.stderr.txt",
+      "test_results": [
+        {
+          "Package": "competition2026/product/platform/internal/rulecore",
+          "Action": "skip",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/compiledplan",
+          "Action": "skip",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/engine",
+          "Test": "TestQueuedRealtimeObservationCreatesRecomputationBeforeAcknowledgement",
+          "Action": "fail",
+          "Elapsed": 0.01
+        },
+        {
+          "Package": "competition2026/product/platform/internal/engine",
+          "Test": "TestExpressionsResourceBudgetAndPrecision",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/engine",
+          "Test": "TestTypedGraphAndDerivedRevision",
+          "Action": "fail",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/engine",
+          "Test": "TestCounterSurvivesDuplicateAndRestart",
+          "Action": "fail",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/engine",
+          "Test": "TestExpressionNumericBudgetAndExactRounding",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/engine",
+          "Test": "TestReplayUsesMoreThanOneDayAndRestoresLiveCounter",
+          "Action": "fail",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/engine",
+          "Test": "TestHistoricalAlarmKeepsAcknowledgementAndCurrentEpisode",
+          "Action": "fail",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/engine",
+          "Test": "TestExpressionErrorUsesOnlyTheErrorBranch",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/engine",
+          "Test": "TestDraftSimulationIncludesSampleWithoutChangingStoredData",
+          "Action": "pass",
+          "Elapsed": 0.01
+        },
+        {
+          "Package": "competition2026/product/platform/internal/engine",
+          "Test": "TestStrategyContinuesWhileHistoricalMergeOwnsCalculationLock",
+          "Action": "fail",
+          "Elapsed": 0.01
+        },
+        {
+          "Package": "competition2026/product/platform/internal/engine",
+          "Action": "fail",
+          "Elapsed": 0.061
+        },
+        {
+          "Package": "competition2026/product/platform/internal/application/definitioncommit",
+          "Action": "skip",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/application",
+          "Test": "TestDefinitionUseCaseSavesValidatesPublishesWithAuditAndOutbox",
+          "Action": "pass",
+          "Elapsed": 0.01
+        },
+        {
+          "Package": "competition2026/product/platform/internal/application",
+          "Test": "TestDefinitionUseCaseChecksResourcesWithoutHTTP/group",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/application",
+          "Test": "TestDefinitionUseCaseChecksResourcesWithoutHTTP/selector",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/application",
+          "Test": "TestDefinitionUseCaseChecksResourcesWithoutHTTP/asset",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/application",
+          "Test": "TestDefinitionUseCaseChecksResourcesWithoutHTTP/condition",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/application",
+          "Test": "TestDefinitionUseCaseChecksResourcesWithoutHTTP/step",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/application",
+          "Test": "TestDefinitionUseCaseChecksResourcesWithoutHTTP/degraded",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/application",
+          "Test": "TestDefinitionUseCaseChecksResourcesWithoutHTTP/dependency",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/application",
+          "Test": "TestDefinitionUseCaseChecksResourcesWithoutHTTP",
+          "Action": "pass",
+          "Elapsed": 0.03
+        },
+        {
+          "Package": "competition2026/product/platform/internal/application",
+          "Test": "TestDefinitionUseCaseGuardsAIAndExistingOwnership",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/application",
+          "Test": "TestPublicationDetectsChangesAfterAuthorization/draft",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/application",
+          "Test": "TestPublicationDetectsChangesAfterAuthorization/dependency",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/application",
+          "Test": "TestPublicationDetectsChangesAfterAuthorization/transitive_dependency",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/application",
+          "Test": "TestPublicationDetectsChangesAfterAuthorization",
+          "Action": "pass",
+          "Elapsed": 0.01
+        },
+        {
+          "Package": "competition2026/product/platform/internal/application",
+          "Test": "TestPublicationPinsAuthorizationInputs/resource-move",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/application",
+          "Test": "TestPublicationPinsAuthorizationInputs/ancestor-move",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/application",
+          "Test": "TestPublicationPinsAuthorizationInputs/grant-change",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/application",
+          "Test": "TestPublicationPinsAuthorizationInputs/grant-delete",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/pkg/precise",
+          "Action": "skip",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/application",
+          "Test": "TestPublicationPinsAuthorizationInputs/grant-create",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/application",
+          "Test": "TestPublicationPinsAuthorizationInputs/user-revoke",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/application",
+          "Test": "TestPublicationPinsAuthorizationInputs",
+          "Action": "pass",
+          "Elapsed": 0.02
+        },
+        {
+          "Package": "competition2026/product/platform/internal/application",
+          "Test": "TestTransitiveDependenciesRequireEveryGroupPermission",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/application",
+          "Test": "TestPublicationRollsBackAllWritesWhenAuditFails",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/application",
+          "Action": "pass",
+          "Elapsed": 0.103
+        },
+        {
+          "Package": "competition2026/product/platform/internal/api",
+          "Test": "TestAssetProposalNeedsCloudReviewAndPreservesCurrentVersion",
+          "Action": "pass",
+          "Elapsed": 0.11
+        },
+        {
+          "Package": "competition2026/product/platform/internal/cloudsync",
+          "Test": "TestProposalAndDecisionRoundTripUnderNodeOwnership",
+          "Action": "pass",
+          "Elapsed": 0.06
+        },
+        {
+          "Package": "competition2026/product/platform/internal/cloudsync",
+          "Test": "TestIncompatibleExchangeDoesNotAdvanceCursorOrImportData",
+          "Action": "pass",
+          "Elapsed": 0.06
+        },
+        {
+          "Package": "competition2026/product/platform/internal/app",
+          "Test": "TestApplicationHTTPDraftAndTransactionTrace",
+          "Action": "pass",
+          "Elapsed": 0.13
+        },
+        {
+          "Package": "competition2026/product/platform/internal/api",
+          "Test": "TestDraftAndQueriesEnforceEveryReferencedResource/selector",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/api",
+          "Test": "TestDraftAndQueriesEnforceEveryReferencedResource/condition",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/api",
+          "Test": "TestDraftAndQueriesEnforceEveryReferencedResource/step",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/api",
+          "Test": "TestDraftAndQueriesEnforceEveryReferencedResource/degraded",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/api",
+          "Test": "TestDraftAndQueriesEnforceEveryReferencedResource",
+          "Action": "pass",
+          "Elapsed": 0.11
+        },
+        {
+          "Package": "competition2026/product/platform/internal/cloudsync",
+          "Test": "TestClientRejectsIncompatibleResponseBeforeApplyingChanges",
+          "Action": "pass",
+          "Elapsed": 0.05
+        },
+        {
+          "Package": "competition2026/product/platform/internal/cloudsync",
+          "Test": "TestCurrentClientAcceptsLegacyCloudResponse",
+          "Action": "pass",
+          "Elapsed": 0.06
+        },
+        {
+          "Package": "competition2026/product/platform/internal/api",
+          "Test": "TestAIIdentityCannotInvokePrivilegedRoutes",
+          "Action": "pass",
+          "Elapsed": 0.11
+        },
+        {
+          "Package": "competition2026/product/platform/internal/api",
+          "Test": "TestDashboardPermissionsVersionsAndReplication",
+          "Action": "pass",
+          "Elapsed": 0.11
+        },
+        {
+          "Package": "competition2026/product/platform/internal/cloudsync",
+          "Test": "TestMutualTLSSynchronizationReplayAndOfflinePermissions",
+          "Action": "pass",
+          "Elapsed": 0.19
+        },
+        {
+          "Package": "competition2026/product/platform/internal/cloudsync",
+          "Test": "TestAdmissionRequiresCertificateAndAvailableRegistry",
+          "Action": "pass",
+          "Elapsed": 0.06
+        },
+        {
+          "Package": "competition2026/product/platform/internal/api",
+          "Test": "TestTypedDraftRoutesRunReviewedPublicationAndPreserveJSONNumbers",
+          "Action": "pass",
+          "Elapsed": 0.11
+        },
+        {
+          "Package": "competition2026/product/platform/internal/cloudsync",
+          "Test": "TestChangedContentAndForeignOwnerAreNotAcknowledged",
+          "Action": "pass",
+          "Elapsed": 0.06
+        },
+        {
+          "Package": "competition2026/product/platform/internal/api",
+          "Test": "TestTypedDraftRoutesAllowIncompleteGraphsAndRejectMalformedBodies",
+          "Action": "pass",
+          "Elapsed": 0.11
+        },
+        {
+          "Package": "competition2026/product/platform/internal/cloudsync",
+          "Test": "TestIdleExchangesDoNotWriteUntilHeartbeat",
+          "Action": "pass",
+          "Elapsed": 0.07
+        },
+        {
+          "Package": "competition2026/product/platform/internal/app",
+          "Test": "TestStateBackupRestoresVersionsCredentialsAuditAndControlDedup",
+          "Action": "pass",
+          "Elapsed": 0.52
+        },
+        {
+          "Package": "competition2026/product/platform/internal/app",
+          "Test": "TestSceneTimersQualityHysteresisAndRecovery",
+          "Action": "fail",
+          "Elapsed": 0.01
+        },
+        {
+          "Package": "competition2026/product/platform/internal/cloudsync",
+          "Test": "TestPublicationWaitsForCommittedNodeCursor",
+          "Action": "fail",
+          "Elapsed": 0.06
+        },
+        {
+          "Package": "competition2026/product/platform/internal/api",
+          "Test": "TestTypedDraftRoutesPropagateRemoteTraceAndBusinessIdentity",
+          "Action": "pass",
+          "Elapsed": 0.11
+        },
+        {
+          "Package": "competition2026/product/platform/internal/app",
+          "Test": "TestWorkerBacksOffRemoteFailureAndCancelsPromptly",
+          "Action": "pass",
+          "Elapsed": 0.1
+        },
+        {
+          "Package": "competition2026/product/platform/internal/app",
+          "Action": "fail",
+          "Elapsed": 0.774
+        },
+        {
+          "Package": "competition2026/product/platform/internal/api",
+          "Test": "TestTypedCompatibilityEndpointReportsAppliedMigrations",
+          "Action": "pass",
+          "Elapsed": 0.11
+        },
+        {
+          "Package": "competition2026/product/platform/internal/api",
+          "Test": "TestLatestIndicatorsSurviveTrendWindowAndKeepResourceScope",
+          "Action": "pass",
+          "Elapsed": 0.11
+        },
+        {
+          "Package": "competition2026/product/platform/internal/api",
+          "Test": "TestStaticAndAIHandlersCanCoexist",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/api",
+          "Action": "pass",
+          "Elapsed": 0.997
+        },
+        {
+          "Package": "competition2026/product/platform/internal/cloudsync",
+          "Test": "TestNativeRelayCertificateAdmissionAndLiveRevocation",
+          "Action": "pass",
+          "Elapsed": 1.06
+        },
+        {
+          "Package": "competition2026/product/platform/internal/cloudsync",
+          "Test": "TestNativeRelayRejectsPublicCleartextListener",
+          "Action": "pass",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/cloudsync",
+          "Action": "fail",
+          "Elapsed": 1.741
+        }
+      ],
+      "failed_tests": [
+        {
+          "Package": "competition2026/product/platform/internal/engine",
+          "Test": "TestQueuedRealtimeObservationCreatesRecomputationBeforeAcknowledgement",
+          "Action": "fail",
+          "Elapsed": 0.01
+        },
+        {
+          "Package": "competition2026/product/platform/internal/engine",
+          "Test": "TestTypedGraphAndDerivedRevision",
+          "Action": "fail",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/engine",
+          "Test": "TestCounterSurvivesDuplicateAndRestart",
+          "Action": "fail",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/engine",
+          "Test": "TestReplayUsesMoreThanOneDayAndRestoresLiveCounter",
+          "Action": "fail",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/engine",
+          "Test": "TestHistoricalAlarmKeepsAcknowledgementAndCurrentEpisode",
+          "Action": "fail",
+          "Elapsed": 0
+        },
+        {
+          "Package": "competition2026/product/platform/internal/engine",
+          "Test": "TestStrategyContinuesWhileHistoricalMergeOwnsCalculationLock",
+          "Action": "fail",
+          "Elapsed": 0.01
+        },
+        {
+          "Package": "competition2026/product/platform/internal/app",
+          "Test": "TestSceneTimersQualityHysteresisAndRecovery",
+          "Action": "fail",
+          "Elapsed": 0.01
+        },
+        {
+          "Package": "competition2026/product/platform/internal/cloudsync",
+          "Test": "TestPublicationWaitsForCommittedNodeCursor",
+          "Action": "fail",
+          "Elapsed": 0.06
+        }
+      ],
+      "test_counts": {
+        "pass": 54,
+        "fail": 8,
+        "skip": 0
+      }
+    },
+    {
+      "name": "diff-check",
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "cwd": "/path/to/SmartFactory-2026",
+      "exit_code": 0,
+      "output": ""
+    }
+  ],
+  "generated_contracts_status": "stale_after_execution_plan_model_changes; regenerate after rule implementation is completed",
+  "source_sha256": {
+    "Platform/internal/rulecore/compile.go": "db5a843b9554e96004c3310cddb710bcdb2db8e8fe9ea48273f38993b3702b43",
+    "Platform/internal/rulecore/execute.go": "63cceffc0d48ab07e145112989deb25c0ad6ba06103bc62a49ea5602128aefaf",
+    "Platform/internal/rulecore/expression.go": "8cfa3f75ec1c0dc1206d973eb6d177e02f5466159aef64008a5ff9eb2c01a5e1",
+    "Platform/internal/rulecore/expression_types.go": "52b952f61403d704cda7c6536aa658f12cd30e044c06f2f2418dad945994d835",
+    "Platform/internal/compiledplan/store.go": "6cc431a62bc06f397c68ceee7cb62d32cd04fefb411882e57ced733a2ad1233f",
+    "Platform/pkg/precise/numbers.go": "ceed012b61b7209d87279d30bcc405c47404a91948eb8a00807b1e950b6654e2",
+    "Platform/pkg/model/execution_plan.go": "dac352c5d75c46df0ae8f09755ff70ee28368a203833dfd0f3d078d78b7e9c17",
+    "Platform/pkg/model/model.go": "51c133262eed9b1e08561ace1f0c8f9b73d5fd2518948ff7dd819a85810fd2c4",
+    "Platform/pkg/model/node_types.go": "cf628fd6dbe15fe0ab95bd2067c73e9007673f770a96a184882759c08976aa7f",
+    "Platform/internal/engine/definitions.go": "ff800ce428f597b6ea775f0d95c7808457b88c0ebb4054270b24f23ea3535ab9",
+    "Platform/internal/engine/expression.go": "03cf1afec3d9e02d884b0b4ccf2dd8c8783360aabbef825afeed321dedec4295",
+    "Platform/internal/engine/runtime.go": "cff573f76d86eb3671c4d2e048685e32f2bc0498d7b80782023a1f0d02e51829",
+    "Platform/internal/engine/timers.go": "0360f9770b236bd487ef9ae8f63c08ed16664cbab15dc11861149fdc5ea2123e",
+    "Platform/internal/engine/frame.go": "52f0e43ba4fb2235e57e12b5575723c7567a916ad17b4552acc3f0db670393fa",
+    "Platform/internal/engine/plans.go": "190724e5da5a5b53be4cd123beab94f151e737b1dd99984656aa971fd9a1c4ff",
+    "Platform/internal/store/retention.go": "33918b2c208dfaaa7aaefcc548ac141fa3164a2818838dc188ff9869a16a7aa6",
+    "Platform/internal/application/definitions.go": "fe91fafbc78918e010ff6951d932f93997334446a28ebc8d8bd62800026a300b",
+    "Platform/internal/application/definitioncommit/publish.go": "652b73409935adfbffbc5b917c6f089ce0945c2f53fb9f36998387553c2b33c6",
+    "Platform/internal/app/app.go": "3957bfd7f712a307502512b710aa82c1c25bd321a837849551dfc42e22e2a449",
+    "Platform/internal/cloudsync/exchange.go": "7821c4cdd533e81833f09402d548c25fe8d1f7b0199e9f098194aad31b1e0000"
+  },
+  "handoff_document": "docs/evolution/handoff-rules.md",
+  "source_changes_after_verification": [],
+  "coordination_update": "Storage engineer confirmed Tx.LockCollection(kind); CheckRevisions acquires sorted collection locks before membership queries. Read shared storage handoff before continuing."
+}

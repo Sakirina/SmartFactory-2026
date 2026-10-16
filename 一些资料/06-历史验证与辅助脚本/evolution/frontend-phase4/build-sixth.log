@@ -1,0 +1,39 @@
+
+> smartfactory-frontends@0.1.0 build
+> npm run check:api && npm run typecheck && vite build
+
+
+> smartfactory-frontends@0.1.0 check:api
+> node scripts/generate-api.mjs --check
+
+{"source_sha256":"1245e77f2d1eda6dfa02ef50249d53148585e94216c04fd772d54d1bb07cd3d1","schemas":158,"operations":96,"compiler_api":"6.0.2","checked":true}
+
+> smartfactory-frontends@0.1.0 typecheck
+> node node_modules/@typescript/native/bin/tsc --noEmit
+
+vite v8.1.5 building client environment for production...
+[2Ktransforming...✓ 2312 modules transformed.
+rendering chunks...
+computing gzip size...
+../../../../../private/tmp/smartfactory-frontend-phase4-20261005/dist-third/screen.html                                     0.43 kB │ gzip:   0.32 kB
+../../../../../private/tmp/smartfactory-frontend-phase4-20261005/dist-third/edge.html                                       0.43 kB │ gzip:   0.32 kB
+../../../../../private/tmp/smartfactory-frontend-phase4-20261005/dist-third/index.html                                      0.43 kB │ gzip:   0.33 kB
+../../../../../private/tmp/smartfactory-frontend-phase4-20261005/dist-third/assets/definitions-DLioOiRN.css                15.41 kB │ gzip:   2.56 kB
+../../../../../private/tmp/smartfactory-frontend-phase4-20261005/dist-third/assets/main-NJkLhln0.css                       22.38 kB │ gzip:   5.75 kB
+../../../../../private/tmp/smartfactory-frontend-phase4-20261005/dist-third/assets/resource-navigation-D5lMMONq.js          0.50 kB │ gzip:   0.27 kB
+../../../../../private/tmp/smartfactory-frontend-phase4-20261005/dist-third/assets/useMutation-B4SjOBdZ.js                  2.30 kB │ gzip:   0.95 kB
+../../../../../private/tmp/smartfactory-frontend-phase4-20261005/dist-third/assets/protocol-configurations-V9wkTF2M.js      5.90 kB │ gzip:   2.57 kB
+../../../../../private/tmp/smartfactory-frontend-phase4-20261005/dist-third/assets/metadata-form-taxTVLdu.js                6.29 kB │ gzip:   2.67 kB
+../../../../../private/tmp/smartfactory-frontend-phase4-20261005/dist-third/assets/alarm-workbench-DglJ3yrF.js              7.12 kB │ gzip:   3.06 kB
+../../../../../private/tmp/smartfactory-frontend-phase4-20261005/dist-third/assets/scene-templates-CjnHa9sc.js              7.46 kB │ gzip:   3.02 kB
+../../../../../private/tmp/smartfactory-frontend-phase4-20261005/dist-third/assets/assistant-BhBu5Q9N.js                    7.99 kB │ gzip:   3.50 kB
+../../../../../private/tmp/smartfactory-frontend-phase4-20261005/dist-third/assets/work-orders-CckeDzAY.js                  8.54 kB │ gzip:   3.06 kB
+../../../../../private/tmp/smartfactory-frontend-phase4-20261005/dist-third/assets/definitions-BKwVNhdu.js                205.14 kB │ gzip:  66.66 kB
+../../../../../private/tmp/smartfactory-frontend-phase4-20261005/dist-third/assets/main-BNVBHklQ.js                     1,805.45 kB │ gzip: 576.66 kB
+
+✓ built in 342ms
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.

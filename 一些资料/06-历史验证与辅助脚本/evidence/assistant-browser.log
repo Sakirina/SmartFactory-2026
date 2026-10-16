@@ -1,0 +1,47 @@
+
+> smartfactory-frontends@0.1.0 test:e2e
+> playwright test assistant.spec.ts
+
+
+Running 1 test using 1 worker
+
+(node:49117) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/assistant.spec.ts:8:1 › assistant creates and modifies all three draft kinds through the model simulator (2.0m)
+
+
+  1) tests/assistant.spec.ts:8:1 › assistant creates and modifies all three draft kinds through the model simulator 
+
+    Test timeout of 120000ms exceeded.
+
+    Error: locator.click: Test timeout of 120000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: '发送', exact: true })
+
+
+      19 |   const send = async (message:string) => {
+      20 |     await page.getByLabel('发送给 AI 助手的消息').fill(message);
+    > 21 |     await page.getByRole('button',{name:'发送',exact:true}).click();
+         |                                                           ^
+      22 |   };
+      23 |   for (const kind of ['analysis','alarm','strategy']) {
+      24 |     const prompt=`创建 ${kind} 草稿，验收编号 ${Date.now()}`;
+        at send (/path/to/SmartFactory-2026/Frontends/tests/assistant.spec.ts:21:59)
+        at /path/to/SmartFactory-2026/Frontends/tests/assistant.spec.ts:30:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/assistant-assistant-create-fbd41-through-the-model-simulator/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/assistant-assistant-create-fbd41-through-the-model-simulator/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/assistant-assistant-create-fbd41-through-the-model-simulator/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/assistant-assistant-create-fbd41-through-the-model-simulator/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/assistant.spec.ts:8:1 › assistant creates and modifies all three draft kinds through the model simulator 

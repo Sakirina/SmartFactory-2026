@@ -1,0 +1,28 @@
+
+Running 2 tests using 1 worker
+
+  ✘  1 tests/phase4-independent-extra.spec.ts:6:1 › independent empty queries render all three surfaces at every required viewport (2.2s)
+  ✓  2 tests/phase4-independent-extra.spec.ts:62:1 › independent deleted-original-resource polling clears cached drawer without another evidence request (3.9s)
+
+
+  1) tests/phase4-independent-extra.spec.ts:6:1 › independent empty queries render all three surfaces at every required viewport 
+
+    Error: expect(received).toBeLessThanOrEqual(expected)
+
+    Expected: <= 391
+    Received:    393
+
+      46 |         await capture(page, `empty-${kind}-${surface}-${width}x${height}`);
+      47 |         await writeFile(path.join(evidence, `empty-${kind}-${surface}-${width}x${height}-layout.json`), JSON.stringify(dimensions, null, 2));
+    > 48 |         expect(dimensions.document).toBeLessThanOrEqual(width + 1);
+         |                                     ^
+      49 |         records.push({ kind, surface, width, height, chart: box, dimensions, matching_rows: 0 });
+      50 |       } finally {
+      51 |         if (original && savedVersion !== undefined) {
+        at /private/tmp/smartfactory-phase4-independent-browser-20261005/frontend/Frontends/tests/phase4-independent-extra.spec.ts:48:37
+
+    Error Context: ../../playwright-results/phase4-independent-extra-i-eb069--at-every-required-viewport/error-context.md
+
+  1 failed
+    tests/phase4-independent-extra.spec.ts:6:1 › independent empty queries render all three surfaces at every required viewport 
+  1 passed (7.2s)

@@ -1,0 +1,12 @@
+=== RUN   TestHTTPAndBackgroundControlShareBudgetDuringTaskBacklog
+2026/10/05 00:02:54 INFO River client started client_id=YL-Tilly-MB-A_local_2026_10_04T16_02_54_238755
+2026/10/05 00:02:56 INFO maintenance.JobScheduler: Ran successfully num_jobs_scheduled=4
+    control_budget_test.go:184: real HTTP approval/dispatch queued in 621.041µs; manual delivery plus2 automatic executions shared max3; fourth waiter cancelled before DB work; ingestion committed in 1.064417ms while archive/recompute remained backlogged
+2026/10/05 00:02:56 INFO Client: Hard stop started; cancelling all work
+2026/10/05 00:02:56 INFO jobexecutor.JobExecutor: Job errored; retrying error="context canceled" job_id=1 job_kind=smartfactory_task
+2026/10/05 00:02:56 INFO jobexecutor.JobExecutor: Job errored; retrying error="context canceled" job_id=2 job_kind=smartfactory_task
+2026/10/05 00:02:56 ERROR maintenance.PeriodicJobEnqueuer: Error starting transaction error="context canceled"
+2026/10/05 00:02:56 INFO River client stopped client_id=YL-Tilly-MB-A_local_2026_10_04T16_02_54_238755
+--- PASS: TestHTTPAndBackgroundControlShareBudgetDuringTaskBacklog (2.64s)
+PASS
+ok  	competition2026/product/platform/internal/api	2.659s

@@ -1,0 +1,140 @@
+{
+  "observed_at": "2026-10-05T01:14:12.672813+00:00",
+  "finding": "P4-B06",
+  "source": "/private/tmp/smartfactory-business-final-20261005-085650-v2",
+  "openapi": "/private/tmp/smartfactory-business-final-20261005-085650-v2/contracts/1.0/openapi.json",
+  "openapi_sha256": "d84783f7a3e11a7c5eadf07699f34399f12d1e5fa22d1ee26a1cbb6d1e3391ab",
+  "schema_comparison": {
+    "AlarmActionInput": {
+      "openapi_required": [],
+      "json_schema_required": [
+        "request_id",
+        "expected_version",
+        "expected_action_version",
+        "action",
+        "reason"
+      ]
+    },
+    "CreateWorkOrderInput": {
+      "openapi_required": [],
+      "json_schema_required": [
+        "request_id",
+        "id",
+        "title",
+        "description",
+        "group_id",
+        "assignee_id",
+        "alarm_ids",
+        "execution_ids",
+        "reason"
+      ]
+    },
+    "WorkOrderActionInput": {
+      "openapi_required": [],
+      "json_schema_required": [
+        "request_id",
+        "expected_version",
+        "action",
+        "reason"
+      ]
+    },
+    "HandoverInput": {
+      "openapi_required": [],
+      "json_schema_required": [
+        "request_id",
+        "expected_version",
+        "from_user_id",
+        "to_user_id",
+        "pending_items",
+        "evidence",
+        "reason"
+      ]
+    },
+    "HandoverEvidence": {
+      "openapi_required": [],
+      "json_schema_required": [
+        "kind",
+        "id",
+        "version",
+        "description"
+      ]
+    },
+    "SemanticInput": {
+      "openapi_required": [],
+      "json_schema_required": [
+        "expected_version",
+        "published_version"
+      ]
+    },
+    "ImpactInput": {
+      "openapi_required": [],
+      "json_schema_required": [
+        "expected_version",
+        "budget"
+      ]
+    },
+    "SaveDeviceConfigurationInput": {
+      "openapi_required": [],
+      "json_schema_required": [
+        "id",
+        "request_id",
+        "expected_version",
+        "parameters"
+      ]
+    },
+    "SaveConnectorConfigurationInput": {
+      "openapi_required": [],
+      "json_schema_required": [
+        "request_id",
+        "expected_version",
+        "group_id",
+        "edge_id",
+        "protocol",
+        "parameters"
+      ]
+    },
+    "RetryTemplateBatchInput": {
+      "openapi_required": [],
+      "json_schema_required": [
+        "request_id",
+        "expected_version"
+      ]
+    },
+    "Parameters": {
+      "openapi_required": [],
+      "json_schema_required": [
+        "kind",
+        "connector_id"
+      ]
+    },
+    "Request": {
+      "openapi_required": [],
+      "json_schema_required": [
+        "protocol"
+      ]
+    },
+    "TemplateInstance": {
+      "openapi_required": [],
+      "json_schema_required": [
+        "id",
+        "name",
+        "template_id",
+        "template_version",
+        "device_id",
+        "device_version",
+        "configuration_id",
+        "configuration_version",
+        "parameters"
+      ]
+    },
+    "TemplateBatchInput": {
+      "openapi_required": [],
+      "json_schema_required": [
+        "id",
+        "request_id",
+        "group_id",
+        "instances"
+      ]
+    }
+  }
+}

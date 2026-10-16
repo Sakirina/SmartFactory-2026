@@ -1,0 +1,4249 @@
+{
+  "started_ms": 1789877966908,
+  "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "source_commit": "f4bd353dcd2f023e41355eb92698e252be6d4f73",
+  "binary_sha256": {
+    "sf-site-fixture": "ca9a8ab9aa8186b3457aa78480cf2beaa9aa8868af902d39bfc1543a6410636c",
+    "datatransfer": "80ee6965b7aa67b771abae40fcbf6244d0d8ab7e3c0aab51f38eb980044bee10",
+    "dt-simulator": "7f48fe40dbb65e5a67b6d410f01f0dd3d60ae59afbf761a47a3ee1f3dd7f194a"
+  },
+  "nodes": 3,
+  "devices_per_node": 50,
+  "protocol": "MQTT 5.0",
+  "sampling_ms": 5000,
+  "storage": "three PostgreSQL databases in one bounded tmpfs fixture; three in-memory DataTransfer journals and simulator stores; three independent NATS tmpfs stores",
+  "lease_ms": 5000,
+  "production_default_lease_ms": 15000,
+  "offline_ms": 15000,
+  "cloud_connected": false,
+  "tests": [
+    {
+      "number": 1,
+      "fault": "quorum_partition",
+      "execution_id": "site-fault-000",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 6266
+    },
+    {
+      "number": 2,
+      "fault": "single_replica_loss",
+      "execution_id": "site-fault-001",
+      "status": "completed",
+      "coordinator_id": "edge-a",
+      "fence": 23,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 7949
+    },
+    {
+      "number": 3,
+      "fault": "coordinator_process_loss",
+      "execution_id": "site-fault-002",
+      "status": "completed",
+      "coordinator_id": "edge-b",
+      "fence": 57,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 9742
+    },
+    {
+      "number": 4,
+      "fault": "participant_process_loss",
+      "execution_id": "site-fault-003",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 24235
+    },
+    {
+      "number": 5,
+      "fault": "quorum_partition",
+      "execution_id": "site-fault-004",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 8365
+    },
+    {
+      "number": 6,
+      "fault": "single_replica_loss",
+      "execution_id": "site-fault-005",
+      "status": "completed",
+      "coordinator_id": "edge-a",
+      "fence": 71,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 13598
+    },
+    {
+      "number": 7,
+      "fault": "coordinator_process_loss",
+      "execution_id": "site-fault-006",
+      "status": "completed",
+      "coordinator_id": "edge-b",
+      "fence": 105,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 9852
+    },
+    {
+      "number": 8,
+      "fault": "participant_process_loss",
+      "execution_id": "site-fault-007",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 24232
+    },
+    {
+      "number": 9,
+      "fault": "quorum_partition",
+      "execution_id": "site-fault-008",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 11735
+    },
+    {
+      "number": 10,
+      "fault": "single_replica_loss",
+      "execution_id": "site-fault-009",
+      "status": "completed",
+      "coordinator_id": "edge-a",
+      "fence": 119,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 14311
+    },
+    {
+      "number": 11,
+      "fault": "coordinator_process_loss",
+      "execution_id": "site-fault-010",
+      "status": "completed",
+      "coordinator_id": "edge-b",
+      "fence": 154,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 9972
+    },
+    {
+      "number": 12,
+      "fault": "participant_process_loss",
+      "execution_id": "site-fault-011",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 24315
+    },
+    {
+      "number": 13,
+      "fault": "quorum_partition",
+      "execution_id": "site-fault-012",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 7827
+    },
+    {
+      "number": 14,
+      "fault": "single_replica_loss",
+      "execution_id": "site-fault-013",
+      "status": "completed",
+      "coordinator_id": "edge-a",
+      "fence": 168,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 9013
+    },
+    {
+      "number": 15,
+      "fault": "coordinator_process_loss",
+      "execution_id": "site-fault-014",
+      "status": "completed",
+      "coordinator_id": "edge-b",
+      "fence": 203,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 10751
+    },
+    {
+      "number": 16,
+      "fault": "participant_process_loss",
+      "execution_id": "site-fault-015",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 24289
+    },
+    {
+      "number": 17,
+      "fault": "quorum_partition",
+      "execution_id": "site-fault-016",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 12844
+    },
+    {
+      "number": 18,
+      "fault": "single_replica_loss",
+      "execution_id": "site-fault-017",
+      "status": "completed",
+      "coordinator_id": "edge-a",
+      "fence": 217,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 9023
+    },
+    {
+      "number": 19,
+      "fault": "coordinator_process_loss",
+      "execution_id": "site-fault-018",
+      "status": "completed",
+      "coordinator_id": "edge-b",
+      "fence": 252,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 9781
+    },
+    {
+      "number": 20,
+      "fault": "participant_process_loss",
+      "execution_id": "site-fault-019",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 24208
+    },
+    {
+      "number": 21,
+      "fault": "quorum_partition",
+      "execution_id": "site-fault-020",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 12014
+    },
+    {
+      "number": 22,
+      "fault": "single_replica_loss",
+      "execution_id": "site-fault-021",
+      "status": "completed",
+      "coordinator_id": "edge-a",
+      "fence": 266,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 11461
+    },
+    {
+      "number": 23,
+      "fault": "coordinator_process_loss",
+      "execution_id": "site-fault-022",
+      "status": "completed",
+      "coordinator_id": "edge-b",
+      "fence": 300,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 10065
+    },
+    {
+      "number": 24,
+      "fault": "participant_process_loss",
+      "execution_id": "site-fault-023",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 24272
+    },
+    {
+      "number": 25,
+      "fault": "quorum_partition",
+      "execution_id": "site-fault-024",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 6595
+    },
+    {
+      "number": 26,
+      "fault": "single_replica_loss",
+      "execution_id": "site-fault-025",
+      "status": "completed",
+      "coordinator_id": "edge-a",
+      "fence": 314,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 12370
+    },
+    {
+      "number": 27,
+      "fault": "coordinator_process_loss",
+      "execution_id": "site-fault-026",
+      "status": "completed",
+      "coordinator_id": "edge-b",
+      "fence": 349,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 11032
+    },
+    {
+      "number": 28,
+      "fault": "participant_process_loss",
+      "execution_id": "site-fault-027",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 24248
+    },
+    {
+      "number": 29,
+      "fault": "quorum_partition",
+      "execution_id": "site-fault-028",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 14883
+    },
+    {
+      "number": 30,
+      "fault": "single_replica_loss",
+      "execution_id": "site-fault-029",
+      "status": "completed",
+      "coordinator_id": "edge-a",
+      "fence": 363,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 13986
+    },
+    {
+      "number": 31,
+      "fault": "coordinator_process_loss",
+      "execution_id": "site-fault-030",
+      "status": "completed",
+      "coordinator_id": "edge-b",
+      "fence": 398,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 11230
+    },
+    {
+      "number": 32,
+      "fault": "participant_process_loss",
+      "execution_id": "site-fault-031",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 24252
+    },
+    {
+      "number": 33,
+      "fault": "quorum_partition",
+      "execution_id": "site-fault-032",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 9655
+    },
+    {
+      "number": 34,
+      "fault": "single_replica_loss",
+      "execution_id": "site-fault-033",
+      "status": "completed",
+      "coordinator_id": "edge-a",
+      "fence": 412,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 11338
+    },
+    {
+      "number": 35,
+      "fault": "coordinator_process_loss",
+      "execution_id": "site-fault-034",
+      "status": "completed",
+      "coordinator_id": "edge-b",
+      "fence": 447,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 10273
+    },
+    {
+      "number": 36,
+      "fault": "participant_process_loss",
+      "execution_id": "site-fault-035",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 24307
+    },
+    {
+      "number": 37,
+      "fault": "quorum_partition",
+      "execution_id": "site-fault-036",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 10808
+    },
+    {
+      "number": 38,
+      "fault": "single_replica_loss",
+      "execution_id": "site-fault-037",
+      "status": "completed",
+      "coordinator_id": "edge-a",
+      "fence": 461,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 14501
+    },
+    {
+      "number": 39,
+      "fault": "coordinator_process_loss",
+      "execution_id": "site-fault-038",
+      "status": "completed",
+      "coordinator_id": "edge-b",
+      "fence": 496,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 10387
+    },
+    {
+      "number": 40,
+      "fault": "participant_process_loss",
+      "execution_id": "site-fault-039",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 24350
+    },
+    {
+      "number": 41,
+      "fault": "quorum_partition",
+      "execution_id": "site-fault-040",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 9539
+    },
+    {
+      "number": 42,
+      "fault": "single_replica_loss",
+      "execution_id": "site-fault-041",
+      "status": "completed",
+      "coordinator_id": "edge-a",
+      "fence": 510,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 11722
+    },
+    {
+      "number": 43,
+      "fault": "coordinator_process_loss",
+      "execution_id": "site-fault-042",
+      "status": "completed",
+      "coordinator_id": "edge-b",
+      "fence": 545,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 10739
+    },
+    {
+      "number": 44,
+      "fault": "participant_process_loss",
+      "execution_id": "site-fault-043",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 24277
+    },
+    {
+      "number": 45,
+      "fault": "quorum_partition",
+      "execution_id": "site-fault-044",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 13910
+    },
+    {
+      "number": 46,
+      "fault": "single_replica_loss",
+      "execution_id": "site-fault-045",
+      "status": "completed",
+      "coordinator_id": "edge-a",
+      "fence": 559,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 16097
+    },
+    {
+      "number": 47,
+      "fault": "coordinator_process_loss",
+      "execution_id": "site-fault-046",
+      "status": "completed",
+      "coordinator_id": "edge-c",
+      "fence": 594,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 9934
+    },
+    {
+      "number": 48,
+      "fault": "participant_process_loss",
+      "execution_id": "site-fault-047",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 24292
+    },
+    {
+      "number": 49,
+      "fault": "quorum_partition",
+      "execution_id": "site-fault-048",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 9580
+    },
+    {
+      "number": 50,
+      "fault": "single_replica_loss",
+      "execution_id": "site-fault-049",
+      "status": "completed",
+      "coordinator_id": "edge-a",
+      "fence": 608,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 14032
+    },
+    {
+      "number": 51,
+      "fault": "coordinator_process_loss",
+      "execution_id": "site-fault-050",
+      "status": "completed",
+      "coordinator_id": "edge-b",
+      "fence": 644,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 15048
+    },
+    {
+      "number": 52,
+      "fault": "participant_process_loss",
+      "execution_id": "site-fault-051",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 24692
+    },
+    {
+      "number": 53,
+      "fault": "quorum_partition",
+      "execution_id": "site-fault-052",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 10611
+    },
+    {
+      "number": 54,
+      "fault": "single_replica_loss",
+      "execution_id": "site-fault-053",
+      "status": "completed",
+      "coordinator_id": "edge-a",
+      "fence": 658,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 10762
+    },
+    {
+      "number": 55,
+      "fault": "coordinator_process_loss",
+      "execution_id": "site-fault-054",
+      "status": "completed",
+      "coordinator_id": "edge-b",
+      "fence": 694,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 10908
+    },
+    {
+      "number": 56,
+      "fault": "participant_process_loss",
+      "execution_id": "site-fault-055",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 24299
+    },
+    {
+      "number": 57,
+      "fault": "quorum_partition",
+      "execution_id": "site-fault-056",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 9508
+    },
+    {
+      "number": 58,
+      "fault": "single_replica_loss",
+      "execution_id": "site-fault-057",
+      "status": "completed",
+      "coordinator_id": "edge-a",
+      "fence": 708,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 9357
+    },
+    {
+      "number": 59,
+      "fault": "coordinator_process_loss",
+      "execution_id": "site-fault-058",
+      "status": "completed",
+      "coordinator_id": "edge-b",
+      "fence": 743,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 11682
+    },
+    {
+      "number": 60,
+      "fault": "participant_process_loss",
+      "execution_id": "site-fault-059",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 24503
+    },
+    {
+      "number": 61,
+      "fault": "quorum_partition",
+      "execution_id": "site-fault-060",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 14819
+    },
+    {
+      "number": 62,
+      "fault": "single_replica_loss",
+      "execution_id": "site-fault-061",
+      "status": "completed",
+      "coordinator_id": "edge-a",
+      "fence": 757,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 14967
+    },
+    {
+      "number": 63,
+      "fault": "coordinator_process_loss",
+      "execution_id": "site-fault-062",
+      "status": "completed",
+      "coordinator_id": "edge-c",
+      "fence": 792,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 10886
+    },
+    {
+      "number": 64,
+      "fault": "participant_process_loss",
+      "execution_id": "site-fault-063",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 24397
+    },
+    {
+      "number": 65,
+      "fault": "quorum_partition",
+      "execution_id": "site-fault-064",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 13612
+    },
+    {
+      "number": 66,
+      "fault": "single_replica_loss",
+      "execution_id": "site-fault-065",
+      "status": "completed",
+      "coordinator_id": "edge-a",
+      "fence": 806,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 11923
+    },
+    {
+      "number": 67,
+      "fault": "coordinator_process_loss",
+      "execution_id": "site-fault-066",
+      "status": "completed",
+      "coordinator_id": "edge-b",
+      "fence": 841,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 11825
+    },
+    {
+      "number": 68,
+      "fault": "participant_process_loss",
+      "execution_id": "site-fault-067",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 24271
+    },
+    {
+      "number": 69,
+      "fault": "quorum_partition",
+      "execution_id": "site-fault-068",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 9727
+    },
+    {
+      "number": 70,
+      "fault": "single_replica_loss",
+      "execution_id": "site-fault-069",
+      "status": "completed",
+      "coordinator_id": "edge-a",
+      "fence": 855,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 9127
+    },
+    {
+      "number": 71,
+      "fault": "coordinator_process_loss",
+      "execution_id": "site-fault-070",
+      "status": "completed",
+      "coordinator_id": "edge-b",
+      "fence": 890,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 10696
+    },
+    {
+      "number": 72,
+      "fault": "participant_process_loss",
+      "execution_id": "site-fault-071",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 24294
+    },
+    {
+      "number": 73,
+      "fault": "quorum_partition",
+      "execution_id": "site-fault-072",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 15768
+    },
+    {
+      "number": 74,
+      "fault": "single_replica_loss",
+      "execution_id": "site-fault-073",
+      "status": "completed",
+      "coordinator_id": "edge-a",
+      "fence": 904,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 12491
+    },
+    {
+      "number": 75,
+      "fault": "coordinator_process_loss",
+      "execution_id": "site-fault-074",
+      "status": "completed",
+      "coordinator_id": "edge-b",
+      "fence": 939,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 13977
+    },
+    {
+      "number": 76,
+      "fault": "participant_process_loss",
+      "execution_id": "site-fault-075",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 24286
+    },
+    {
+      "number": 77,
+      "fault": "quorum_partition",
+      "execution_id": "site-fault-076",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 7725
+    },
+    {
+      "number": 78,
+      "fault": "single_replica_loss",
+      "execution_id": "site-fault-077",
+      "status": "completed",
+      "coordinator_id": "edge-a",
+      "fence": 953,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 10461
+    },
+    {
+      "number": 79,
+      "fault": "coordinator_process_loss",
+      "execution_id": "site-fault-078",
+      "status": "completed",
+      "coordinator_id": "edge-b",
+      "fence": 988,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 10852
+    },
+    {
+      "number": 80,
+      "fault": "participant_process_loss",
+      "execution_id": "site-fault-079",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 24356
+    },
+    {
+      "number": 81,
+      "fault": "quorum_partition",
+      "execution_id": "site-fault-080",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 11564
+    },
+    {
+      "number": 82,
+      "fault": "single_replica_loss",
+      "execution_id": "site-fault-081",
+      "status": "completed",
+      "coordinator_id": "edge-a",
+      "fence": 1002,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 11801
+    },
+    {
+      "number": 83,
+      "fault": "coordinator_process_loss",
+      "execution_id": "site-fault-082",
+      "status": "completed",
+      "coordinator_id": "edge-b",
+      "fence": 1037,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 11737
+    },
+    {
+      "number": 84,
+      "fault": "participant_process_loss",
+      "execution_id": "site-fault-083",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 24340
+    },
+    {
+      "number": 85,
+      "fault": "quorum_partition",
+      "execution_id": "site-fault-084",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 8873
+    },
+    {
+      "number": 86,
+      "fault": "single_replica_loss",
+      "execution_id": "site-fault-085",
+      "status": "completed",
+      "coordinator_id": "edge-a",
+      "fence": 1051,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 10175
+    },
+    {
+      "number": 87,
+      "fault": "coordinator_process_loss",
+      "execution_id": "site-fault-086",
+      "status": "completed",
+      "coordinator_id": "edge-b",
+      "fence": 1086,
+      "physical_actions": [
+        1,
+        1,
+        1
+      ],
+      "elapsed_ms": 12038
+    },
+    {
+      "number": 88,
+      "fault": "participant_process_loss",
+      "execution_id": "site-fault-087",
+      "status": "degraded_completed",
+      "coordinator_id": null,
+      "fence": 0,
+      "physical_actions": [
+        1,
+        0,
+        0
+      ],
+      "elapsed_ms": 24488
+    }
+  ],
+  "passed": false,
+  "full_A09_24h": false,
+  "fixture": {
+    "definition_hash": "a4c18310ca25eb6cfa82a5cc08bc087cc09555dd2ece9a60d805dd0504978e5f",
+    "devices_per_node": 50,
+    "lease_ms": 5000,
+    "nodes": 3,
+    "offline_ms": 15000
+  },
+  "baseline": {
+    "execution": {
+      "downlink_id": "site-baseline",
+      "definition_id": "site-gas-plan",
+      "definition_version": 1,
+      "params": {},
+      "status": "completed",
+      "override": false,
+      "risk_category": "",
+      "risk_level": 0,
+      "binding": "",
+      "created_ms": 0,
+      "approval_expires_ms": 0,
+      "start_deadline_ms": 1789877990721,
+      "approvals": [],
+      "steps": [
+        {
+          "step_id": "extract-edge-a",
+          "command_id": "site-baseline:extract-edge-a",
+          "status": "SUCCESS",
+          "message": "device state updated",
+          "started_ms": 1789877980819,
+          "finished_ms": 1789877981243
+        },
+        {
+          "step_id": "extract-edge-b",
+          "command_id": "site-baseline:extract-edge-b",
+          "status": "SUCCESS",
+          "message": "device state updated",
+          "started_ms": 1789877981264,
+          "finished_ms": 1789877981709
+        },
+        {
+          "step_id": "extract-edge-c",
+          "command_id": "site-baseline:extract-edge-c",
+          "status": "SUCCESS",
+          "message": "device state updated",
+          "started_ms": 1789877981984,
+          "finished_ms": 1789877982217
+        }
+      ],
+      "snapshot": [
+        {
+          "id": "edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789877976666378000:1:2",
+          "origin_id": "edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789877976666378000:1:2",
+          "message_id": "edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789877976666378000:1",
+          "source_id": "edge-a",
+          "source_sequence": 1,
+          "device_id": "edge-a-device-000",
+          "key": "interlock",
+          "value": false,
+          "observed_ms": 1789877976666,
+          "received_ms": 1789877976894,
+          "quality": "GOOD",
+          "time_source": "device",
+          "entity_revision": 1,
+          "asset_version": 1,
+          "late": false,
+          "revision": 1
+        },
+        {
+          "id": "site:edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789877976883537000:1:2:0",
+          "origin_id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789877976883537000:1:2",
+          "message_id": "site:edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789877976883537000:1:2",
+          "source_id": "edge-b",
+          "source_sequence": 1,
+          "device_id": "edge-b-device-000",
+          "key": "interlock",
+          "value": false,
+          "observed_ms": 1789877976883,
+          "received_ms": 1789877979052,
+          "quality": "GOOD",
+          "time_source": "device",
+          "entity_revision": 1,
+          "asset_version": 1,
+          "late": false,
+          "revision": 1
+        },
+        {
+          "id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789877977193673000:1:2:0",
+          "origin_id": "edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789877977193673000:1:2",
+          "message_id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789877977193673000:1:2",
+          "source_id": "edge-c",
+          "source_sequence": 1,
+          "device_id": "edge-c-device-000",
+          "key": "interlock",
+          "value": false,
+          "observed_ms": 1789877977193,
+          "received_ms": 1789877979090,
+          "quality": "GOOD",
+          "time_source": "device",
+          "entity_revision": 1,
+          "asset_version": 1,
+          "late": false,
+          "revision": 1
+        }
+      ],
+      "actor": {
+        "user_id": "published-policy",
+        "name": "",
+        "department_id": "",
+        "roles": null,
+        "source": "acceptance-fixture",
+        "session_id": "",
+        "ai": false
+      },
+      "fence": 1,
+      "coordinator_id": "edge-a",
+      "version": 6
+    },
+    "physical_actions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "error": "local degraded execution",
+  "failure_state": {
+    "1": [
+      {
+        "downlink_id": "site-fault-002",
+        "definition_id": "site-gas-plan",
+        "definition_version": 1,
+        "params": {},
+        "status": "completed",
+        "override": false,
+        "risk_category": "",
+        "risk_level": 0,
+        "binding": "",
+        "created_ms": 0,
+        "approval_expires_ms": 0,
+        "start_deadline_ms": 1789878006623,
+        "approvals": [],
+        "steps": [
+          {
+            "step_id": "extract-edge-a",
+            "command_id": "site-fault-002:extract-edge-a",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789877996697,
+            "finished_ms": 1789877997107
+          },
+          {
+            "step_id": "extract-edge-b",
+            "command_id": "site-fault-002:extract-edge-b",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789877997144,
+            "finished_ms": 1789877997689
+          },
+          {
+            "step_id": "extract-edge-c",
+            "command_id": "site-fault-002:extract-edge-c",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878002231,
+            "finished_ms": 1789878002837
+          }
+        ],
+        "snapshot": [
+          {
+            "id": "site:edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789877996662854000:5:2:0",
+            "origin_id": "edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789877996662854000:5:2",
+            "message_id": "site:edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789877996662854000:5:2",
+            "source_id": "edge-a",
+            "source_sequence": 5,
+            "device_id": "edge-a-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789877996662,
+            "received_ms": 1789877997228,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878001880489000:6:2",
+            "origin_id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878001880489000:6:2",
+            "message_id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878001880489000:6",
+            "source_id": "edge-b",
+            "source_sequence": 6,
+            "device_id": "edge-b-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878001880,
+            "received_ms": 1789878001958,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789877997189908000:5:2:0",
+            "origin_id": "edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789877997189908000:5:2",
+            "message_id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789877997189908000:5:2",
+            "source_id": "edge-c",
+            "source_sequence": 5,
+            "device_id": "edge-c-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789877997189,
+            "received_ms": 1789877999117,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          }
+        ],
+        "actor": {
+          "user_id": "published-policy",
+          "name": "",
+          "department_id": "",
+          "roles": null,
+          "source": "acceptance-fixture",
+          "session_id": "",
+          "ai": false
+        },
+        "fence": 57,
+        "coordinator_id": "edge-b",
+        "version": 5
+      },
+      {
+        "downlink_id": "site-fault-006",
+        "definition_id": "site-gas-plan",
+        "definition_version": 1,
+        "params": {},
+        "status": "completed",
+        "override": false,
+        "risk_category": "",
+        "risk_level": 0,
+        "binding": "",
+        "created_ms": 0,
+        "approval_expires_ms": 0,
+        "start_deadline_ms": 1789878062553,
+        "approvals": [],
+        "steps": [
+          {
+            "step_id": "extract-edge-a",
+            "command_id": "site-fault-006:extract-edge-a",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878052667,
+            "finished_ms": 1789878053081
+          },
+          {
+            "step_id": "extract-edge-b",
+            "command_id": "site-fault-006:extract-edge-b",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878053188,
+            "finished_ms": 1789878053618
+          },
+          {
+            "step_id": "extract-edge-c",
+            "command_id": "site-fault-006:extract-edge-c",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878058238,
+            "finished_ms": 1789878058767
+          }
+        ],
+        "snapshot": [
+          {
+            "id": "site:edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878051609437000:16:2:0",
+            "origin_id": "edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878051609437000:16:2",
+            "message_id": "site:edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878051609437000:16:2",
+            "source_id": "edge-a",
+            "source_sequence": 16,
+            "device_id": "edge-a-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878051609,
+            "received_ms": 1789878053097,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878056828600000:17:2",
+            "origin_id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878056828600000:17:2",
+            "message_id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878056828600000:17",
+            "source_id": "edge-b",
+            "source_sequence": 17,
+            "device_id": "edge-b-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878056828,
+            "received_ms": 1789878056928,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878052145543000:16:2:0",
+            "origin_id": "edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878052145543000:16:2",
+            "message_id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878052145543000:16:2",
+            "source_id": "edge-c",
+            "source_sequence": 16,
+            "device_id": "edge-c-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878052145,
+            "received_ms": 1789878054062,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          }
+        ],
+        "actor": {
+          "user_id": "published-policy",
+          "name": "",
+          "department_id": "",
+          "roles": null,
+          "source": "acceptance-fixture",
+          "session_id": "",
+          "ai": false
+        },
+        "fence": 105,
+        "coordinator_id": "edge-b",
+        "version": 5
+      },
+      {
+        "downlink_id": "site-fault-010",
+        "definition_id": "site-gas-plan",
+        "definition_version": 1,
+        "params": {},
+        "status": "completed",
+        "override": false,
+        "risk_category": "",
+        "risk_level": 0,
+        "binding": "",
+        "created_ms": 0,
+        "approval_expires_ms": 0,
+        "start_deadline_ms": 1789878122830,
+        "approvals": [],
+        "steps": [
+          {
+            "step_id": "extract-edge-a",
+            "command_id": "site-fault-010:extract-edge-a",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878112909,
+            "finished_ms": 1789878113333
+          },
+          {
+            "step_id": "extract-edge-b",
+            "command_id": "site-fault-010:extract-edge-b",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878113421,
+            "finished_ms": 1789878113906
+          },
+          {
+            "step_id": "extract-edge-c",
+            "command_id": "site-fault-010:extract-edge-c",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878118223,
+            "finished_ms": 1789878118804
+          }
+        ],
+        "snapshot": [
+          {
+            "id": "site:edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878111610535000:28:2:0",
+            "origin_id": "edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878111610535000:28:2",
+            "message_id": "site:edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878111610535000:28:2",
+            "source_id": "edge-a",
+            "source_sequence": 28,
+            "device_id": "edge-a-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878111610,
+            "received_ms": 1789878113194,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878116826602000:29:2",
+            "origin_id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878116826602000:29:2",
+            "message_id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878116826602000:29",
+            "source_id": "edge-b",
+            "source_sequence": 29,
+            "device_id": "edge-b-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878116826,
+            "received_ms": 1789878116957,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878112143459000:28:2:0",
+            "origin_id": "edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878112143459000:28:2",
+            "message_id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878112143459000:28:2",
+            "source_id": "edge-c",
+            "source_sequence": 28,
+            "device_id": "edge-c-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878112143,
+            "received_ms": 1789878114262,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          }
+        ],
+        "actor": {
+          "user_id": "published-policy",
+          "name": "",
+          "department_id": "",
+          "roles": null,
+          "source": "acceptance-fixture",
+          "session_id": "",
+          "ai": false
+        },
+        "fence": 154,
+        "coordinator_id": "edge-b",
+        "version": 5
+      },
+      {
+        "downlink_id": "site-fault-014",
+        "definition_id": "site-gas-plan",
+        "definition_version": 1,
+        "params": {},
+        "status": "completed",
+        "override": false,
+        "risk_category": "",
+        "risk_level": 0,
+        "binding": "",
+        "created_ms": 0,
+        "approval_expires_ms": 0,
+        "start_deadline_ms": 1789878173922,
+        "approvals": [],
+        "steps": [
+          {
+            "step_id": "extract-edge-a",
+            "command_id": "site-fault-014:extract-edge-a",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878164107,
+            "finished_ms": 1789878164551
+          },
+          {
+            "step_id": "extract-edge-b",
+            "command_id": "site-fault-014:extract-edge-b",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878164625,
+            "finished_ms": 1789878165053
+          },
+          {
+            "step_id": "extract-edge-c",
+            "command_id": "site-fault-014:extract-edge-c",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878170202,
+            "finished_ms": 1789878170796
+          }
+        ],
+        "snapshot": [
+          {
+            "id": "site:edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878161615255000:38:2:0",
+            "origin_id": "edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878161615255000:38:2",
+            "message_id": "site:edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878161615255000:38:2",
+            "source_id": "edge-a",
+            "source_sequence": 38,
+            "device_id": "edge-a-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878161615,
+            "received_ms": 1789878164075,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878166833480000:39:2",
+            "origin_id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878166833480000:39:2",
+            "message_id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878166833480000:39",
+            "source_id": "edge-b",
+            "source_sequence": 39,
+            "device_id": "edge-b-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878166833,
+            "received_ms": 1789878167415,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878167144097000:39:2:0",
+            "origin_id": "edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878167144097000:39:2",
+            "message_id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878167144097000:39:2",
+            "source_id": "edge-c",
+            "source_sequence": 39,
+            "device_id": "edge-c-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878167144,
+            "received_ms": 1789878169103,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          }
+        ],
+        "actor": {
+          "user_id": "published-policy",
+          "name": "",
+          "department_id": "",
+          "roles": null,
+          "source": "acceptance-fixture",
+          "session_id": "",
+          "ai": false
+        },
+        "fence": 203,
+        "coordinator_id": "edge-b",
+        "version": 5
+      },
+      {
+        "downlink_id": "site-fault-018",
+        "definition_id": "site-gas-plan",
+        "definition_version": 1,
+        "params": {},
+        "status": "completed",
+        "override": false,
+        "risk_category": "",
+        "risk_level": 0,
+        "binding": "",
+        "created_ms": 0,
+        "approval_expires_ms": 0,
+        "start_deadline_ms": 1789878230819,
+        "approvals": [],
+        "steps": [
+          {
+            "step_id": "extract-edge-a",
+            "command_id": "site-fault-018:extract-edge-a",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878221014,
+            "finished_ms": 1789878221443
+          },
+          {
+            "step_id": "extract-edge-b",
+            "command_id": "site-fault-018:extract-edge-b",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878221488,
+            "finished_ms": 1789878221840
+          },
+          {
+            "step_id": "extract-edge-c",
+            "command_id": "site-fault-018:extract-edge-c",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878226262,
+            "finished_ms": 1789878226781
+          }
+        ],
+        "snapshot": [
+          {
+            "id": "site:edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878216619098000:49:2:0",
+            "origin_id": "edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878216619098000:49:2",
+            "message_id": "site:edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878216619098000:49:2",
+            "source_id": "edge-a",
+            "source_sequence": 49,
+            "device_id": "edge-a-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878216619,
+            "received_ms": 1789878219130,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878221838534000:50:2",
+            "origin_id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878221838534000:50:2",
+            "message_id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878221838534000:50",
+            "source_id": "edge-b",
+            "source_sequence": 50,
+            "device_id": "edge-b-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878221838,
+            "received_ms": 1789878222549,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878222145683000:50:2:0",
+            "origin_id": "edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878222145683000:50:2",
+            "message_id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878222145683000:50:2",
+            "source_id": "edge-c",
+            "source_sequence": 50,
+            "device_id": "edge-c-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878222145,
+            "received_ms": 1789878223539,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          }
+        ],
+        "actor": {
+          "user_id": "published-policy",
+          "name": "",
+          "department_id": "",
+          "roles": null,
+          "source": "acceptance-fixture",
+          "session_id": "",
+          "ai": false
+        },
+        "fence": 252,
+        "coordinator_id": "edge-b",
+        "version": 5
+      },
+      {
+        "downlink_id": "site-fault-022",
+        "definition_id": "site-gas-plan",
+        "definition_version": 1,
+        "params": {},
+        "status": "completed",
+        "override": false,
+        "risk_category": "",
+        "risk_level": 0,
+        "binding": "",
+        "created_ms": 0,
+        "approval_expires_ms": 0,
+        "start_deadline_ms": 1789878288287,
+        "approvals": [],
+        "steps": [
+          {
+            "step_id": "extract-edge-a",
+            "command_id": "site-fault-022:extract-edge-a",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878278529,
+            "finished_ms": 1789878278958
+          },
+          {
+            "step_id": "extract-edge-b",
+            "command_id": "site-fault-022:extract-edge-b",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878279001,
+            "finished_ms": 1789878279451
+          },
+          {
+            "step_id": "extract-edge-c",
+            "command_id": "site-fault-022:extract-edge-c",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878284180,
+            "finished_ms": 1789878284648
+          }
+        ],
+        "snapshot": [
+          {
+            "id": "site:edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878276607659000:61:2:0",
+            "origin_id": "edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878276607659000:61:2",
+            "message_id": "site:edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878276607659000:61:2",
+            "source_id": "edge-a",
+            "source_sequence": 61,
+            "device_id": "edge-a-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878276607,
+            "received_ms": 1789878279064,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878281834174000:62:2",
+            "origin_id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878281834174000:62:2",
+            "message_id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878281834174000:62",
+            "source_id": "edge-b",
+            "source_sequence": 62,
+            "device_id": "edge-b-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878281834,
+            "received_ms": 1789878282073,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878277138813000:61:2:0",
+            "origin_id": "edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878277138813000:61:2",
+            "message_id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878277138813000:61:2",
+            "source_id": "edge-c",
+            "source_sequence": 61,
+            "device_id": "edge-c-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878277138,
+            "received_ms": 1789878278476,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          }
+        ],
+        "actor": {
+          "user_id": "published-policy",
+          "name": "",
+          "department_id": "",
+          "roles": null,
+          "source": "acceptance-fixture",
+          "session_id": "",
+          "ai": false
+        },
+        "fence": 300,
+        "coordinator_id": "edge-b",
+        "version": 5
+      },
+      {
+        "downlink_id": "site-fault-026",
+        "definition_id": "site-gas-plan",
+        "definition_version": 1,
+        "params": {},
+        "status": "completed",
+        "override": false,
+        "risk_category": "",
+        "risk_level": 0,
+        "binding": "",
+        "created_ms": 0,
+        "approval_expires_ms": 0,
+        "start_deadline_ms": 1789878341572,
+        "approvals": [],
+        "steps": [
+          {
+            "step_id": "extract-edge-a",
+            "command_id": "site-fault-026:extract-edge-a",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878331827,
+            "finished_ms": 1789878332281
+          },
+          {
+            "step_id": "extract-edge-b",
+            "command_id": "site-fault-026:extract-edge-b",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878332401,
+            "finished_ms": 1789878333058
+          },
+          {
+            "step_id": "extract-edge-c",
+            "command_id": "site-fault-026:extract-edge-c",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878338164,
+            "finished_ms": 1789878338810
+          }
+        ],
+        "snapshot": [
+          {
+            "id": "site:edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878326608384000:71:2:0",
+            "origin_id": "edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878326608384000:71:2",
+            "message_id": "site:edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878326608384000:71:2",
+            "source_id": "edge-a",
+            "source_sequence": 71,
+            "device_id": "edge-a-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878326608,
+            "received_ms": 1789878327580,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878336827518000:73:2",
+            "origin_id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878336827518000:73:2",
+            "message_id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878336827518000:73",
+            "source_id": "edge-b",
+            "source_sequence": 73,
+            "device_id": "edge-b-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878336827,
+            "received_ms": 1789878337091,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878332144273000:72:2:0",
+            "origin_id": "edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878332144273000:72:2",
+            "message_id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878332144273000:72:2",
+            "source_id": "edge-c",
+            "source_sequence": 72,
+            "device_id": "edge-c-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878332144,
+            "received_ms": 1789878334279,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          }
+        ],
+        "actor": {
+          "user_id": "published-policy",
+          "name": "",
+          "department_id": "",
+          "roles": null,
+          "source": "acceptance-fixture",
+          "session_id": "",
+          "ai": false
+        },
+        "fence": 349,
+        "coordinator_id": "edge-b",
+        "version": 5
+      },
+      {
+        "downlink_id": "site-fault-030",
+        "definition_id": "site-gas-plan",
+        "definition_version": 1,
+        "params": {},
+        "status": "completed",
+        "override": false,
+        "risk_category": "",
+        "risk_level": 0,
+        "binding": "",
+        "created_ms": 0,
+        "approval_expires_ms": 0,
+        "start_deadline_ms": 1789878405727,
+        "approvals": [],
+        "steps": [
+          {
+            "step_id": "extract-edge-a",
+            "command_id": "site-fault-030:extract-edge-a",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878395874,
+            "finished_ms": 1789878396293
+          },
+          {
+            "step_id": "extract-edge-b",
+            "command_id": "site-fault-030:extract-edge-b",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878396398,
+            "finished_ms": 1789878396841
+          },
+          {
+            "step_id": "extract-edge-c",
+            "command_id": "site-fault-030:extract-edge-c",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878402460,
+            "finished_ms": 1789878403051
+          }
+        ],
+        "snapshot": [
+          {
+            "id": "site:edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878391610829000:84:2:0",
+            "origin_id": "edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878391610829000:84:2",
+            "message_id": "site:edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878391610829000:84:2",
+            "source_id": "edge-a",
+            "source_sequence": 84,
+            "device_id": "edge-a-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878391610,
+            "received_ms": 1789878394062,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878401835273000:86:2",
+            "origin_id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878401835273000:86:2",
+            "message_id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878401835273000:86",
+            "source_id": "edge-b",
+            "source_sequence": 86,
+            "device_id": "edge-b-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878401835,
+            "received_ms": 1789878402184,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878397141774000:85:2:0",
+            "origin_id": "edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878397141774000:85:2",
+            "message_id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878397141774000:85:2",
+            "source_id": "edge-c",
+            "source_sequence": 85,
+            "device_id": "edge-c-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878397141,
+            "received_ms": 1789878399072,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          }
+        ],
+        "actor": {
+          "user_id": "published-policy",
+          "name": "",
+          "department_id": "",
+          "roles": null,
+          "source": "acceptance-fixture",
+          "session_id": "",
+          "ai": false
+        },
+        "fence": 398,
+        "coordinator_id": "edge-b",
+        "version": 5
+      },
+      {
+        "downlink_id": "site-fault-034",
+        "definition_id": "site-gas-plan",
+        "definition_version": 1,
+        "params": {},
+        "status": "completed",
+        "override": false,
+        "risk_category": "",
+        "risk_level": 0,
+        "binding": "",
+        "created_ms": 0,
+        "approval_expires_ms": 0,
+        "start_deadline_ms": 1789878462542,
+        "approvals": [],
+        "steps": [
+          {
+            "step_id": "extract-edge-a",
+            "command_id": "site-fault-034:extract-edge-a",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878452723,
+            "finished_ms": 1789878453149
+          },
+          {
+            "step_id": "extract-edge-b",
+            "command_id": "site-fault-034:extract-edge-b",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878453228,
+            "finished_ms": 1789878453655
+          },
+          {
+            "step_id": "extract-edge-c",
+            "command_id": "site-fault-034:extract-edge-c",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878458189,
+            "finished_ms": 1789878458656
+          }
+        ],
+        "snapshot": [
+          {
+            "id": "site:edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878451610369000:96:2:0",
+            "origin_id": "edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878451610369000:96:2",
+            "message_id": "site:edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878451610369000:96:2",
+            "source_id": "edge-a",
+            "source_sequence": 96,
+            "device_id": "edge-a-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878451610,
+            "received_ms": 1789878453131,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878456829529000:97:2",
+            "origin_id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878456829529000:97:2",
+            "message_id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878456829529000:97",
+            "source_id": "edge-b",
+            "source_sequence": 97,
+            "device_id": "edge-b-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878456829,
+            "received_ms": 1789878456994,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878452138938000:96:2:0",
+            "origin_id": "edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878452138938000:96:2",
+            "message_id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878452138938000:96:2",
+            "source_id": "edge-c",
+            "source_sequence": 96,
+            "device_id": "edge-c-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878452138,
+            "received_ms": 1789878454074,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          }
+        ],
+        "actor": {
+          "user_id": "published-policy",
+          "name": "",
+          "department_id": "",
+          "roles": null,
+          "source": "acceptance-fixture",
+          "session_id": "",
+          "ai": false
+        },
+        "fence": 447,
+        "coordinator_id": "edge-b",
+        "version": 5
+      },
+      {
+        "downlink_id": "site-fault-038",
+        "definition_id": "site-gas-plan",
+        "definition_version": 1,
+        "params": {},
+        "status": "completed",
+        "override": false,
+        "risk_category": "",
+        "risk_level": 0,
+        "binding": "",
+        "created_ms": 0,
+        "approval_expires_ms": 0,
+        "start_deadline_ms": 1789878522401,
+        "approvals": [],
+        "steps": [
+          {
+            "step_id": "extract-edge-a",
+            "command_id": "site-fault-038:extract-edge-a",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878512529,
+            "finished_ms": 1789878512958
+          },
+          {
+            "step_id": "extract-edge-b",
+            "command_id": "site-fault-038:extract-edge-b",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878513077,
+            "finished_ms": 1789878513609
+          },
+          {
+            "step_id": "extract-edge-c",
+            "command_id": "site-fault-038:extract-edge-c",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878518180,
+            "finished_ms": 1789878518666
+          }
+        ],
+        "snapshot": [
+          {
+            "id": "site:edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878511619426000:108:2:0",
+            "origin_id": "edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878511619426000:108:2",
+            "message_id": "site:edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878511619426000:108:2",
+            "source_id": "edge-a",
+            "source_sequence": 108,
+            "device_id": "edge-a-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878511619,
+            "received_ms": 1789878514101,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878516831767000:109:2",
+            "origin_id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878516831767000:109:2",
+            "message_id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878516831767000:109",
+            "source_id": "edge-b",
+            "source_sequence": 109,
+            "device_id": "edge-b-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878516831,
+            "received_ms": 1789878517071,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878512146426000:108:2:0",
+            "origin_id": "edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878512146426000:108:2",
+            "message_id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878512146426000:108:2",
+            "source_id": "edge-c",
+            "source_sequence": 108,
+            "device_id": "edge-c-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878512146,
+            "received_ms": 1789878514131,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          }
+        ],
+        "actor": {
+          "user_id": "published-policy",
+          "name": "",
+          "department_id": "",
+          "roles": null,
+          "source": "acceptance-fixture",
+          "session_id": "",
+          "ai": false
+        },
+        "fence": 496,
+        "coordinator_id": "edge-b",
+        "version": 5
+      },
+      {
+        "downlink_id": "site-fault-042",
+        "definition_id": "site-gas-plan",
+        "definition_version": 1,
+        "params": {},
+        "status": "completed",
+        "override": false,
+        "risk_category": "",
+        "risk_level": 0,
+        "binding": "",
+        "created_ms": 0,
+        "approval_expires_ms": 0,
+        "start_deadline_ms": 1789878578140,
+        "approvals": [],
+        "steps": [
+          {
+            "step_id": "extract-edge-a",
+            "command_id": "site-fault-042:extract-edge-a",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878568240,
+            "finished_ms": 1789878568673
+          },
+          {
+            "step_id": "extract-edge-b",
+            "command_id": "site-fault-042:extract-edge-b",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878568734,
+            "finished_ms": 1789878569169
+          },
+          {
+            "step_id": "extract-edge-c",
+            "command_id": "site-fault-042:extract-edge-c",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878574449,
+            "finished_ms": 1789878574941
+          }
+        ],
+        "snapshot": [
+          {
+            "id": "site:edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878566610571000:119:2:0",
+            "origin_id": "edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878566610571000:119:2",
+            "message_id": "site:edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878566610571000:119:2",
+            "source_id": "edge-a",
+            "source_sequence": 119,
+            "device_id": "edge-a-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878566610,
+            "received_ms": 1789878568116,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878571838529000:120:2",
+            "origin_id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878571838529000:120:2",
+            "message_id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878571838529000:120",
+            "source_id": "edge-b",
+            "source_sequence": 120,
+            "device_id": "edge-b-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878571838,
+            "received_ms": 1789878572298,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878567140351000:119:2:0",
+            "origin_id": "edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878567140351000:119:2",
+            "message_id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878567140351000:119:2",
+            "source_id": "edge-c",
+            "source_sequence": 119,
+            "device_id": "edge-c-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878567140,
+            "received_ms": 1789878569133,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          }
+        ],
+        "actor": {
+          "user_id": "published-policy",
+          "name": "",
+          "department_id": "",
+          "roles": null,
+          "source": "acceptance-fixture",
+          "session_id": "",
+          "ai": false
+        },
+        "fence": 545,
+        "coordinator_id": "edge-b",
+        "version": 5
+      },
+      {
+        "downlink_id": "site-fault-050",
+        "definition_id": "site-gas-plan",
+        "definition_version": 1,
+        "params": {},
+        "status": "completed",
+        "override": false,
+        "risk_category": "",
+        "risk_level": 0,
+        "binding": "",
+        "created_ms": 0,
+        "approval_expires_ms": 0,
+        "start_deadline_ms": 1789878701584,
+        "approvals": [],
+        "steps": [
+          {
+            "step_id": "extract-edge-a",
+            "command_id": "site-fault-050:extract-edge-a",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878691993,
+            "finished_ms": 1789878693632
+          },
+          {
+            "step_id": "extract-edge-b",
+            "command_id": "site-fault-050:extract-edge-b",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878693902,
+            "finished_ms": 1789878694524
+          },
+          {
+            "step_id": "extract-edge-c",
+            "command_id": "site-fault-050:extract-edge-c",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878700744,
+            "finished_ms": 1789878701467
+          }
+        ],
+        "snapshot": [
+          {
+            "id": "site:edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878691616342000:144:2:0",
+            "origin_id": "edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878691616342000:144:2",
+            "message_id": "site:edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878691616342000:144:2",
+            "source_id": "edge-a",
+            "source_sequence": 144,
+            "device_id": "edge-a-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878691616,
+            "received_ms": 1789878694113,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878696842359000:145:2",
+            "origin_id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878696842359000:145:2",
+            "message_id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878696842359000:145",
+            "source_id": "edge-b",
+            "source_sequence": 145,
+            "device_id": "edge-b-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878696842,
+            "received_ms": 1789878697732,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878697139357000:145:2:0",
+            "origin_id": "edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878697139357000:145:2",
+            "message_id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878697139357000:145:2",
+            "source_id": "edge-c",
+            "source_sequence": 145,
+            "device_id": "edge-c-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878697139,
+            "received_ms": 1789878699176,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          }
+        ],
+        "actor": {
+          "user_id": "published-policy",
+          "name": "",
+          "department_id": "",
+          "roles": null,
+          "source": "acceptance-fixture",
+          "session_id": "",
+          "ai": false
+        },
+        "fence": 644,
+        "coordinator_id": "edge-b",
+        "version": 5
+      },
+      {
+        "downlink_id": "site-fault-054",
+        "definition_id": "site-gas-plan",
+        "definition_version": 1,
+        "params": {},
+        "status": "completed",
+        "override": false,
+        "risk_category": "",
+        "risk_level": 0,
+        "binding": "",
+        "created_ms": 0,
+        "approval_expires_ms": 0,
+        "start_deadline_ms": 1789878762752,
+        "approvals": [],
+        "steps": [
+          {
+            "step_id": "extract-edge-a",
+            "command_id": "site-fault-054:extract-edge-a",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878752902,
+            "finished_ms": 1789878753404
+          },
+          {
+            "step_id": "extract-edge-b",
+            "command_id": "site-fault-054:extract-edge-b",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878753521,
+            "finished_ms": 1789878753957
+          },
+          {
+            "step_id": "extract-edge-c",
+            "command_id": "site-fault-054:extract-edge-c",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878758528,
+            "finished_ms": 1789878759095
+          }
+        ],
+        "snapshot": [
+          {
+            "id": "site:edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878751618167000:156:2:0",
+            "origin_id": "edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878751618167000:156:2",
+            "message_id": "site:edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878751618167000:156:2",
+            "source_id": "edge-a",
+            "source_sequence": 156,
+            "device_id": "edge-a-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878751618,
+            "received_ms": 1789878753078,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878756834148000:157:2",
+            "origin_id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878756834148000:157:2",
+            "message_id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878756834148000:157",
+            "source_id": "edge-b",
+            "source_sequence": 157,
+            "device_id": "edge-b-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878756834,
+            "received_ms": 1789878757177,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878752147121000:156:2:0",
+            "origin_id": "edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878752147121000:156:2",
+            "message_id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878752147121000:156:2",
+            "source_id": "edge-c",
+            "source_sequence": 156,
+            "device_id": "edge-c-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878752147,
+            "received_ms": 1789878754270,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          }
+        ],
+        "actor": {
+          "user_id": "published-policy",
+          "name": "",
+          "department_id": "",
+          "roles": null,
+          "source": "acceptance-fixture",
+          "session_id": "",
+          "ai": false
+        },
+        "fence": 694,
+        "coordinator_id": "edge-b",
+        "version": 5
+      },
+      {
+        "downlink_id": "site-fault-058",
+        "definition_id": "site-gas-plan",
+        "definition_version": 1,
+        "params": {},
+        "status": "completed",
+        "override": false,
+        "risk_category": "",
+        "risk_level": 0,
+        "binding": "",
+        "created_ms": 0,
+        "approval_expires_ms": 0,
+        "start_deadline_ms": 1789878816188,
+        "approvals": [],
+        "steps": [
+          {
+            "step_id": "extract-edge-a",
+            "command_id": "site-fault-058:extract-edge-a",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878806336,
+            "finished_ms": 1789878806621
+          },
+          {
+            "step_id": "extract-edge-b",
+            "command_id": "site-fault-058:extract-edge-b",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878806777,
+            "finished_ms": 1789878806845
+          },
+          {
+            "step_id": "extract-edge-c",
+            "command_id": "site-fault-058:extract-edge-c",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878813298,
+            "finished_ms": 1789878813974
+          }
+        ],
+        "snapshot": [
+          {
+            "id": "site:edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878801614270000:166:2:0",
+            "origin_id": "edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878801614270000:166:2",
+            "message_id": "site:edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878801614270000:166:2",
+            "source_id": "edge-a",
+            "source_sequence": 166,
+            "device_id": "edge-a-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878801614,
+            "received_ms": 1789878804144,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878811829237000:168:2",
+            "origin_id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878811829237000:168:2",
+            "message_id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878811829237000:168",
+            "source_id": "edge-b",
+            "source_sequence": 168,
+            "device_id": "edge-b-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878811829,
+            "received_ms": 1789878811994,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878807148811000:167:2:0",
+            "origin_id": "edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878807148811000:167:2",
+            "message_id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878807148811000:167:2",
+            "source_id": "edge-c",
+            "source_sequence": 167,
+            "device_id": "edge-c-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878807148,
+            "received_ms": 1789878809091,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          }
+        ],
+        "actor": {
+          "user_id": "published-policy",
+          "name": "",
+          "department_id": "",
+          "roles": null,
+          "source": "acceptance-fixture",
+          "session_id": "",
+          "ai": false
+        },
+        "fence": 743,
+        "coordinator_id": "edge-b",
+        "version": 5
+      },
+      {
+        "downlink_id": "site-fault-062",
+        "definition_id": "site-gas-plan",
+        "definition_version": 1,
+        "params": {},
+        "status": "running",
+        "override": false,
+        "risk_category": "",
+        "risk_level": 0,
+        "binding": "",
+        "created_ms": 0,
+        "approval_expires_ms": 0,
+        "start_deadline_ms": 1789878882490,
+        "approvals": [],
+        "steps": [
+          {
+            "step_id": "extract-edge-a",
+            "command_id": "site-fault-062:extract-edge-a",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878872624,
+            "finished_ms": 1789878873048
+          }
+        ],
+        "snapshot": [
+          {
+            "id": "edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878871610801000:180:2",
+            "origin_id": "edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878871610801000:180:2",
+            "message_id": "edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878871610801000:180",
+            "source_id": "edge-a",
+            "source_sequence": 180,
+            "device_id": "edge-a-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878871610,
+            "received_ms": 1789878871751,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "site:edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878866840683000:179:2:0",
+            "origin_id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878866840683000:179:2",
+            "message_id": "site:edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878866840683000:179:2",
+            "source_id": "edge-b",
+            "source_sequence": 179,
+            "device_id": "edge-b-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878866840,
+            "received_ms": 1789878868444,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878867146413000:179:2:0",
+            "origin_id": "edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878867146413000:179:2",
+            "message_id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878867146413000:179:2",
+            "source_id": "edge-c",
+            "source_sequence": 179,
+            "device_id": "edge-c-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878867146,
+            "received_ms": 1789878868477,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          }
+        ],
+        "actor": {
+          "user_id": "published-policy",
+          "name": "",
+          "department_id": "",
+          "roles": null,
+          "source": "acceptance-fixture",
+          "session_id": "",
+          "ai": false
+        },
+        "fence": 780,
+        "coordinator_id": "edge-a",
+        "version": 1
+      },
+      {
+        "downlink_id": "site-fault-066",
+        "definition_id": "site-gas-plan",
+        "definition_version": 1,
+        "params": {},
+        "status": "completed",
+        "override": false,
+        "risk_category": "",
+        "risk_level": 0,
+        "binding": "",
+        "created_ms": 0,
+        "approval_expires_ms": 0,
+        "start_deadline_ms": 1789878943138,
+        "approvals": [],
+        "steps": [
+          {
+            "step_id": "extract-edge-a",
+            "command_id": "site-fault-066:extract-edge-a",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878933416,
+            "finished_ms": 1789878933836
+          },
+          {
+            "step_id": "extract-edge-b",
+            "command_id": "site-fault-066:extract-edge-b",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878933889,
+            "finished_ms": 1789878934330
+          },
+          {
+            "step_id": "extract-edge-c",
+            "command_id": "site-fault-066:extract-edge-c",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878940218,
+            "finished_ms": 1789878940709
+          }
+        ],
+        "snapshot": [
+          {
+            "id": "site:edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878931620239000:192:2:0",
+            "origin_id": "edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878931620239000:192:2",
+            "message_id": "site:edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878931620239000:192:2",
+            "source_id": "edge-a",
+            "source_sequence": 192,
+            "device_id": "edge-a-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878931620,
+            "received_ms": 1789878933125,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878936840655000:193:2",
+            "origin_id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878936840655000:193:2",
+            "message_id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878936840655000:193",
+            "source_id": "edge-b",
+            "source_sequence": 193,
+            "device_id": "edge-b-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878936840,
+            "received_ms": 1789878937405,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878937144549000:193:2:0",
+            "origin_id": "edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878937144549000:193:2",
+            "message_id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878937144549000:193:2",
+            "source_id": "edge-c",
+            "source_sequence": 193,
+            "device_id": "edge-c-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878937144,
+            "received_ms": 1789878939151,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          }
+        ],
+        "actor": {
+          "user_id": "published-policy",
+          "name": "",
+          "department_id": "",
+          "roles": null,
+          "source": "acceptance-fixture",
+          "session_id": "",
+          "ai": false
+        },
+        "fence": 841,
+        "coordinator_id": "edge-b",
+        "version": 5
+      },
+      {
+        "downlink_id": "site-fault-070",
+        "definition_id": "site-gas-plan",
+        "definition_version": 1,
+        "params": {},
+        "status": "completed",
+        "override": false,
+        "risk_category": "",
+        "risk_level": 0,
+        "binding": "",
+        "created_ms": 0,
+        "approval_expires_ms": 0,
+        "start_deadline_ms": 1789878997945,
+        "approvals": [],
+        "steps": [
+          {
+            "step_id": "extract-edge-a",
+            "command_id": "site-fault-070:extract-edge-a",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878988123,
+            "finished_ms": 1789878988543
+          },
+          {
+            "step_id": "extract-edge-b",
+            "command_id": "site-fault-070:extract-edge-b",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878988620,
+            "finished_ms": 1789878989052
+          },
+          {
+            "step_id": "extract-edge-c",
+            "command_id": "site-fault-070:extract-edge-c",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878994174,
+            "finished_ms": 1789878994651
+          }
+        ],
+        "snapshot": [
+          {
+            "id": "site:edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878986621262000:203:2:0",
+            "origin_id": "edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878986621262000:203:2",
+            "message_id": "site:edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878986621262000:203:2",
+            "source_id": "edge-a",
+            "source_sequence": 203,
+            "device_id": "edge-a-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878986621,
+            "received_ms": 1789878988076,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878991841183000:204:2",
+            "origin_id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878991841183000:204:2",
+            "message_id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878991841183000:204",
+            "source_id": "edge-b",
+            "source_sequence": 204,
+            "device_id": "edge-b-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878991841,
+            "received_ms": 1789878992512,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878987142891000:203:2:0",
+            "origin_id": "edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878987142891000:203:2",
+            "message_id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878987142891000:203:2",
+            "source_id": "edge-c",
+            "source_sequence": 203,
+            "device_id": "edge-c-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878987142,
+            "received_ms": 1789878989149,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          }
+        ],
+        "actor": {
+          "user_id": "published-policy",
+          "name": "",
+          "department_id": "",
+          "roles": null,
+          "source": "acceptance-fixture",
+          "session_id": "",
+          "ai": false
+        },
+        "fence": 890,
+        "coordinator_id": "edge-b",
+        "version": 5
+      },
+      {
+        "downlink_id": "site-fault-074",
+        "definition_id": "site-gas-plan",
+        "definition_version": 1,
+        "params": {},
+        "status": "completed",
+        "override": false,
+        "risk_category": "",
+        "risk_level": 0,
+        "binding": "",
+        "created_ms": 0,
+        "approval_expires_ms": 0,
+        "start_deadline_ms": 1789879063860,
+        "approvals": [],
+        "steps": [
+          {
+            "step_id": "extract-edge-a",
+            "command_id": "site-fault-074:extract-edge-a",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789879053986,
+            "finished_ms": 1789879054422
+          },
+          {
+            "step_id": "extract-edge-b",
+            "command_id": "site-fault-074:extract-edge-b",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789879054617,
+            "finished_ms": 1789879055137
+          },
+          {
+            "step_id": "extract-edge-c",
+            "command_id": "site-fault-074:extract-edge-c",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789879060667,
+            "finished_ms": 1789879061212
+          }
+        ],
+        "snapshot": [
+          {
+            "id": "site:edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789879051614788000:216:2:0",
+            "origin_id": "edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789879051614788000:216:2",
+            "message_id": "site:edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789879051614788000:216:2",
+            "source_id": "edge-a",
+            "source_sequence": 216,
+            "device_id": "edge-a-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789879051614,
+            "received_ms": 1789879054080,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789879056831515000:217:2",
+            "origin_id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789879056831515000:217:2",
+            "message_id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789879056831515000:217",
+            "source_id": "edge-b",
+            "source_sequence": 217,
+            "device_id": "edge-b-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789879056831,
+            "received_ms": 1789879057254,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789879057145407000:217:2:0",
+            "origin_id": "edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789879057145407000:217:2",
+            "message_id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789879057145407000:217:2",
+            "source_id": "edge-c",
+            "source_sequence": 217,
+            "device_id": "edge-c-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789879057145,
+            "received_ms": 1789879059174,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          }
+        ],
+        "actor": {
+          "user_id": "published-policy",
+          "name": "",
+          "department_id": "",
+          "roles": null,
+          "source": "acceptance-fixture",
+          "session_id": "",
+          "ai": false
+        },
+        "fence": 939,
+        "coordinator_id": "edge-b",
+        "version": 5
+      },
+      {
+        "downlink_id": "site-fault-078",
+        "definition_id": "site-gas-plan",
+        "definition_version": 1,
+        "params": {},
+        "status": "completed",
+        "override": false,
+        "risk_category": "",
+        "risk_level": 0,
+        "binding": "",
+        "created_ms": 0,
+        "approval_expires_ms": 0,
+        "start_deadline_ms": 1789879117666,
+        "approvals": [],
+        "steps": [
+          {
+            "step_id": "extract-edge-a",
+            "command_id": "site-fault-078:extract-edge-a",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789879107855,
+            "finished_ms": 1789879108275
+          },
+          {
+            "step_id": "extract-edge-b",
+            "command_id": "site-fault-078:extract-edge-b",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789879108438,
+            "finished_ms": 1789879108881
+          },
+          {
+            "step_id": "extract-edge-c",
+            "command_id": "site-fault-078:extract-edge-c",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789879114177,
+            "finished_ms": 1789879114664
+          }
+        ],
+        "snapshot": [
+          {
+            "id": "site:edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789879106610434000:227:2:0",
+            "origin_id": "edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789879106610434000:227:2",
+            "message_id": "site:edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789879106610434000:227:2",
+            "source_id": "edge-a",
+            "source_sequence": 227,
+            "device_id": "edge-a-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789879106610,
+            "received_ms": 1789879108246,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789879111830428000:228:2",
+            "origin_id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789879111830428000:228:2",
+            "message_id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789879111830428000:228",
+            "source_id": "edge-b",
+            "source_sequence": 228,
+            "device_id": "edge-b-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789879111830,
+            "received_ms": 1789879112015,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789879107141120000:227:2:0",
+            "origin_id": "edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789879107141120000:227:2",
+            "message_id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789879107141120000:227:2",
+            "source_id": "edge-c",
+            "source_sequence": 227,
+            "device_id": "edge-c-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789879107141,
+            "received_ms": 1789879109213,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          }
+        ],
+        "actor": {
+          "user_id": "published-policy",
+          "name": "",
+          "department_id": "",
+          "roles": null,
+          "source": "acceptance-fixture",
+          "session_id": "",
+          "ai": false
+        },
+        "fence": 988,
+        "coordinator_id": "edge-b",
+        "version": 5
+      },
+      {
+        "downlink_id": "site-fault-082",
+        "definition_id": "site-gas-plan",
+        "definition_version": 1,
+        "params": {},
+        "status": "completed",
+        "override": false,
+        "risk_category": "",
+        "risk_level": 0,
+        "binding": "",
+        "created_ms": 0,
+        "approval_expires_ms": 0,
+        "start_deadline_ms": 1789879176254,
+        "approvals": [],
+        "steps": [
+          {
+            "step_id": "extract-edge-a",
+            "command_id": "site-fault-082:extract-edge-a",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789879166420,
+            "finished_ms": 1789879166622
+          },
+          {
+            "step_id": "extract-edge-b",
+            "command_id": "site-fault-082:extract-edge-b",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789879166792,
+            "finished_ms": 1789879167282
+          },
+          {
+            "step_id": "extract-edge-c",
+            "command_id": "site-fault-082:extract-edge-c",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789879173455,
+            "finished_ms": 1789879173956
+          }
+        ],
+        "snapshot": [
+          {
+            "id": "site:edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789879161610486000:238:2:0",
+            "origin_id": "edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789879161610486000:238:2",
+            "message_id": "site:edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789879161610486000:238:2",
+            "source_id": "edge-a",
+            "source_sequence": 238,
+            "device_id": "edge-a-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789879161610,
+            "received_ms": 1789879163387,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789879171839745000:240:2",
+            "origin_id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789879171839745000:240:2",
+            "message_id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789879171839745000:240",
+            "source_id": "edge-b",
+            "source_sequence": 240,
+            "device_id": "edge-b-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789879171839,
+            "received_ms": 1789879172514,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789879167143261000:239:2:0",
+            "origin_id": "edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789879167143261000:239:2",
+            "message_id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789879167143261000:239:2",
+            "source_id": "edge-c",
+            "source_sequence": 239,
+            "device_id": "edge-c-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789879167143,
+            "received_ms": 1789879169128,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          }
+        ],
+        "actor": {
+          "user_id": "published-policy",
+          "name": "",
+          "department_id": "",
+          "roles": null,
+          "source": "acceptance-fixture",
+          "session_id": "",
+          "ai": false
+        },
+        "fence": 1037,
+        "coordinator_id": "edge-b",
+        "version": 5
+      },
+      {
+        "downlink_id": "site-fault-086",
+        "definition_id": "site-gas-plan",
+        "definition_version": 1,
+        "params": {},
+        "status": "completed",
+        "override": false,
+        "risk_category": "",
+        "risk_level": 0,
+        "binding": "",
+        "created_ms": 0,
+        "approval_expires_ms": 0,
+        "start_deadline_ms": 1789879231404,
+        "approvals": [],
+        "steps": [
+          {
+            "step_id": "extract-edge-a",
+            "command_id": "site-fault-086:extract-edge-a",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789879221609,
+            "finished_ms": 1789879222056
+          },
+          {
+            "step_id": "extract-edge-b",
+            "command_id": "site-fault-086:extract-edge-b",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789879222449,
+            "finished_ms": 1789879223595
+          },
+          {
+            "step_id": "extract-edge-c",
+            "command_id": "site-fault-086:extract-edge-c",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789879228227,
+            "finished_ms": 1789879228923
+          }
+        ],
+        "snapshot": [
+          {
+            "id": "site:edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789879221612058000:250:2:0",
+            "origin_id": "edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789879221612058000:250:2",
+            "message_id": "site:edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789879221612058000:250:2",
+            "source_id": "edge-a",
+            "source_sequence": 250,
+            "device_id": "edge-a-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789879221612,
+            "received_ms": 1789879223516,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789879226841858000:251:2",
+            "origin_id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789879226841858000:251:2",
+            "message_id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789879226841858000:251",
+            "source_id": "edge-b",
+            "source_sequence": 251,
+            "device_id": "edge-b-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789879226841,
+            "received_ms": 1789879227465,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789879222146663000:250:2:0",
+            "origin_id": "edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789879222146663000:250:2",
+            "message_id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789879222146663000:250:2",
+            "source_id": "edge-c",
+            "source_sequence": 250,
+            "device_id": "edge-c-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789879222146,
+            "received_ms": 1789879223534,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          }
+        ],
+        "actor": {
+          "user_id": "published-policy",
+          "name": "",
+          "department_id": "",
+          "roles": null,
+          "source": "acceptance-fixture",
+          "session_id": "",
+          "ai": false
+        },
+        "fence": 1086,
+        "coordinator_id": "edge-b",
+        "version": 5
+      }
+    ],
+    "2": [
+      {
+        "downlink_id": "site-fault-030",
+        "definition_id": "site-gas-plan",
+        "definition_version": 1,
+        "params": {},
+        "status": "running",
+        "override": false,
+        "risk_category": "",
+        "risk_level": 0,
+        "binding": "",
+        "created_ms": 0,
+        "approval_expires_ms": 0,
+        "start_deadline_ms": 1789878405727,
+        "approvals": [],
+        "steps": [
+          {
+            "step_id": "extract-edge-a",
+            "command_id": "site-fault-030:extract-edge-a",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878395874,
+            "finished_ms": 1789878396293
+          }
+        ],
+        "snapshot": [
+          {
+            "id": "edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878391610829000:84:2",
+            "origin_id": "edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878391610829000:84:2",
+            "message_id": "edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878391610829000:84",
+            "source_id": "edge-a",
+            "source_sequence": 84,
+            "device_id": "edge-a-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878391610,
+            "received_ms": 1789878391922,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "site:edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878391837710000:84:2:0",
+            "origin_id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878391837710000:84:2",
+            "message_id": "site:edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878391837710000:84:2",
+            "source_id": "edge-b",
+            "source_sequence": 84,
+            "device_id": "edge-b-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878391837,
+            "received_ms": 1789878393227,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878392144300000:84:2:0",
+            "origin_id": "edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878392144300000:84:2",
+            "message_id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878392144300000:84:2",
+            "source_id": "edge-c",
+            "source_sequence": 84,
+            "device_id": "edge-c-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878392144,
+            "received_ms": 1789878394267,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          }
+        ],
+        "actor": {
+          "user_id": "published-policy",
+          "name": "",
+          "department_id": "",
+          "roles": null,
+          "source": "acceptance-fixture",
+          "session_id": "",
+          "ai": false
+        },
+        "fence": 386,
+        "coordinator_id": "edge-a",
+        "version": 1
+      },
+      {
+        "downlink_id": "site-fault-046",
+        "definition_id": "site-gas-plan",
+        "definition_version": 1,
+        "params": {},
+        "status": "completed",
+        "override": false,
+        "risk_category": "",
+        "risk_level": 0,
+        "binding": "",
+        "created_ms": 0,
+        "approval_expires_ms": 0,
+        "start_deadline_ms": 1789878643172,
+        "approvals": [],
+        "steps": [
+          {
+            "step_id": "extract-edge-a",
+            "command_id": "site-fault-046:extract-edge-a",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878633331,
+            "finished_ms": 1789878633850
+          },
+          {
+            "step_id": "extract-edge-b",
+            "command_id": "site-fault-046:extract-edge-b",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878638499,
+            "finished_ms": 1789878638633
+          },
+          {
+            "step_id": "extract-edge-c",
+            "command_id": "site-fault-046:extract-edge-c",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878638660,
+            "finished_ms": 1789878639085
+          }
+        ],
+        "snapshot": [
+          {
+            "id": "site:edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878631617725000:132:2:0",
+            "origin_id": "edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878631617725000:132:2",
+            "message_id": "site:edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878631617725000:132:2",
+            "source_id": "edge-a",
+            "source_sequence": 132,
+            "device_id": "edge-a-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878631617,
+            "received_ms": 1789878634404,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "site:edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878631828681000:132:2:0",
+            "origin_id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878631828681000:132:2",
+            "message_id": "site:edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878631828681000:132:2",
+            "source_id": "edge-b",
+            "source_sequence": 132,
+            "device_id": "edge-b-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878631828,
+            "received_ms": 1789878633496,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878637144640000:133:2",
+            "origin_id": "edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878637144640000:133:2",
+            "message_id": "edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878637144640000:133",
+            "source_id": "edge-c",
+            "source_sequence": 133,
+            "device_id": "edge-c-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878637144,
+            "received_ms": 1789878637606,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          }
+        ],
+        "actor": {
+          "user_id": "published-policy",
+          "name": "",
+          "department_id": "",
+          "roles": null,
+          "source": "acceptance-fixture",
+          "session_id": "",
+          "ai": false
+        },
+        "fence": 594,
+        "coordinator_id": "edge-c",
+        "version": 5
+      },
+      {
+        "downlink_id": "site-fault-050",
+        "definition_id": "site-gas-plan",
+        "definition_version": 1,
+        "params": {},
+        "status": "running",
+        "override": false,
+        "risk_category": "",
+        "risk_level": 0,
+        "binding": "",
+        "created_ms": 0,
+        "approval_expires_ms": 0,
+        "start_deadline_ms": 1789878701584,
+        "approvals": [],
+        "steps": [
+          {
+            "step_id": "extract-edge-a",
+            "command_id": "site-fault-050:extract-edge-a",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878691993,
+            "finished_ms": 1789878693632
+          }
+        ],
+        "snapshot": [
+          {
+            "id": "edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878686627957000:143:2",
+            "origin_id": "edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878686627957000:143:2",
+            "message_id": "edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878686627957000:143",
+            "source_id": "edge-a",
+            "source_sequence": 143,
+            "device_id": "edge-a-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878686627,
+            "received_ms": 1789878688175,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "site:edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878686842566000:143:2:0",
+            "origin_id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878686842566000:143:2",
+            "message_id": "site:edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878686842566000:143:2",
+            "source_id": "edge-b",
+            "source_sequence": 143,
+            "device_id": "edge-b-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878686842,
+            "received_ms": 1789878689689,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878687172310000:143:2:0",
+            "origin_id": "edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878687172310000:143:2",
+            "message_id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878687172310000:143:2",
+            "source_id": "edge-c",
+            "source_sequence": 143,
+            "device_id": "edge-c-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878687172,
+            "received_ms": 1789878690647,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          }
+        ],
+        "actor": {
+          "user_id": "published-policy",
+          "name": "",
+          "department_id": "",
+          "roles": null,
+          "source": "acceptance-fixture",
+          "session_id": "",
+          "ai": false
+        },
+        "fence": 631,
+        "coordinator_id": "edge-a",
+        "version": 1
+      },
+      {
+        "downlink_id": "site-fault-058",
+        "definition_id": "site-gas-plan",
+        "definition_version": 1,
+        "params": {},
+        "status": "running",
+        "override": false,
+        "risk_category": "",
+        "risk_level": 0,
+        "binding": "",
+        "created_ms": 0,
+        "approval_expires_ms": 0,
+        "start_deadline_ms": 1789878816188,
+        "approvals": [],
+        "steps": [
+          {
+            "step_id": "extract-edge-a",
+            "command_id": "site-fault-058:extract-edge-a",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878806336,
+            "finished_ms": 1789878806621
+          }
+        ],
+        "snapshot": [
+          {
+            "id": "edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878801614270000:166:2",
+            "origin_id": "edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878801614270000:166:2",
+            "message_id": "edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878801614270000:166",
+            "source_id": "edge-a",
+            "source_sequence": 166,
+            "device_id": "edge-a-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878801614,
+            "received_ms": 1789878802285,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "site:edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878801839906000:166:2:0",
+            "origin_id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878801839906000:166:2",
+            "message_id": "site:edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878801839906000:166:2",
+            "source_id": "edge-b",
+            "source_sequence": 166,
+            "device_id": "edge-b-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878801839,
+            "received_ms": 1789878803650,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878802149928000:166:2:0",
+            "origin_id": "edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878802149928000:166:2",
+            "message_id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878802149928000:166:2",
+            "source_id": "edge-c",
+            "source_sequence": 166,
+            "device_id": "edge-c-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878802149,
+            "received_ms": 1789878803706,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          }
+        ],
+        "actor": {
+          "user_id": "published-policy",
+          "name": "",
+          "department_id": "",
+          "roles": null,
+          "source": "acceptance-fixture",
+          "session_id": "",
+          "ai": false
+        },
+        "fence": 731,
+        "coordinator_id": "edge-a",
+        "version": 1
+      },
+      {
+        "downlink_id": "site-fault-062",
+        "definition_id": "site-gas-plan",
+        "definition_version": 1,
+        "params": {},
+        "status": "completed",
+        "override": false,
+        "risk_category": "",
+        "risk_level": 0,
+        "binding": "",
+        "created_ms": 0,
+        "approval_expires_ms": 0,
+        "start_deadline_ms": 1789878882490,
+        "approvals": [],
+        "steps": [
+          {
+            "step_id": "extract-edge-a",
+            "command_id": "site-fault-062:extract-edge-a",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878872624,
+            "finished_ms": 1789878873048
+          },
+          {
+            "step_id": "extract-edge-b",
+            "command_id": "site-fault-062:extract-edge-b",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878878468,
+            "finished_ms": 1789878878753
+          },
+          {
+            "step_id": "extract-edge-c",
+            "command_id": "site-fault-062:extract-edge-c",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789878878785,
+            "finished_ms": 1789878879218
+          }
+        ],
+        "snapshot": [
+          {
+            "id": "site:edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878871610801000:180:2:0",
+            "origin_id": "edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878871610801000:180:2",
+            "message_id": "site:edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789878871610801000:180:2",
+            "source_id": "edge-a",
+            "source_sequence": 180,
+            "device_id": "edge-a-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878871610,
+            "received_ms": 1789878873356,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "site:edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878871833445000:180:2:0",
+            "origin_id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878871833445000:180:2",
+            "message_id": "site:edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789878871833445000:180:2",
+            "source_id": "edge-b",
+            "source_sequence": 180,
+            "device_id": "edge-b-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878871833,
+            "received_ms": 1789878873435,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878877142609000:181:2",
+            "origin_id": "edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878877142609000:181:2",
+            "message_id": "edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789878877142609000:181",
+            "source_id": "edge-c",
+            "source_sequence": 181,
+            "device_id": "edge-c-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789878877142,
+            "received_ms": 1789878877449,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          }
+        ],
+        "actor": {
+          "user_id": "published-policy",
+          "name": "",
+          "department_id": "",
+          "roles": null,
+          "source": "acceptance-fixture",
+          "session_id": "",
+          "ai": false
+        },
+        "fence": 792,
+        "coordinator_id": "edge-c",
+        "version": 5
+      },
+      {
+        "downlink_id": "site-fault-082",
+        "definition_id": "site-gas-plan",
+        "definition_version": 1,
+        "params": {},
+        "status": "running",
+        "override": false,
+        "risk_category": "",
+        "risk_level": 0,
+        "binding": "",
+        "created_ms": 0,
+        "approval_expires_ms": 0,
+        "start_deadline_ms": 1789879176254,
+        "approvals": [],
+        "steps": [
+          {
+            "step_id": "extract-edge-a",
+            "command_id": "site-fault-082:extract-edge-a",
+            "status": "SUCCESS",
+            "message": "device state updated",
+            "started_ms": 1789879166420,
+            "finished_ms": 1789879166622
+          }
+        ],
+        "snapshot": [
+          {
+            "id": "edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789879161610486000:238:2",
+            "origin_id": "edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789879161610486000:238:2",
+            "message_id": "edge-a-mqtt:edge-a-device-000:edge-a-device-000:1789879161610486000:238",
+            "source_id": "edge-a",
+            "source_sequence": 238,
+            "device_id": "edge-a-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789879161610,
+            "received_ms": 1789879161808,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "site:edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789879161831160000:238:2:0",
+            "origin_id": "edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789879161831160000:238:2",
+            "message_id": "site:edge-b-mqtt:edge-b-device-000:edge-b-device-000:1789879161831160000:238:2",
+            "source_id": "edge-b",
+            "source_sequence": 238,
+            "device_id": "edge-b-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789879161831,
+            "received_ms": 1789879163086,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          },
+          {
+            "id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789879162147082000:238:2:0",
+            "origin_id": "edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789879162147082000:238:2",
+            "message_id": "site:edge-c-mqtt:edge-c-device-000:edge-c-device-000:1789879162147082000:238:2",
+            "source_id": "edge-c",
+            "source_sequence": 238,
+            "device_id": "edge-c-device-000",
+            "key": "interlock",
+            "value": false,
+            "observed_ms": 1789879162147,
+            "received_ms": 1789879165190,
+            "quality": "GOOD",
+            "time_source": "device",
+            "entity_revision": 1,
+            "asset_version": 1,
+            "late": false,
+            "revision": 1
+          }
+        ],
+        "actor": {
+          "user_id": "published-policy",
+          "name": "",
+          "department_id": "",
+          "roles": null,
+          "source": "acceptance-fixture",
+          "session_id": "",
+          "ai": false
+        },
+        "fence": 1025,
+        "coordinator_id": "edge-a",
+        "version": 1
+      }
+    ]
+  },
+  "finished_ms": 1789879307375
+}

@@ -1,0 +1,40 @@
+
+Running 1 test using 1 worker
+
+  ✘  1 tests/phase4-independent-extra.spec.ts:6:1 › independent empty queries render all three surfaces at every required viewport (5.6s)
+
+
+  1) tests/phase4-independent-extra.spec.ts:6:1 › independent empty queries render all three surfaces at every required viewport 
+
+    Error: expect(received).toBeLessThanOrEqual(expected)
+
+    Expected: <= 391
+    Received:    393
+
+      47 |         await capture(page, `empty-${kind}-${surface}-${width}x${height}`);
+      48 |         await writeFile(path.join(evidence, `empty-${kind}-${surface}-${width}x${height}-layout.json`), JSON.stringify({ ...dimensions, horizontal }, null, 2));
+    > 49 |         expect.soft(dimensions.document).toBeLessThanOrEqual(width + 1);
+         |                                          ^
+      50 |         records.push({ kind, surface, width, height, chart: box, dimensions, horizontal, matching_rows: 0 });
+      51 |       } finally {
+      52 |         if (original && savedVersion !== undefined) {
+        at /private/tmp/smartfactory-phase4-independent-browser-20261005/frontend/Frontends/tests/phase4-independent-extra.spec.ts:49:42
+
+    Error: expect(received).toBeLessThanOrEqual(expected)
+
+    Expected: <= 391
+    Received:    393
+
+      47 |         await capture(page, `empty-${kind}-${surface}-${width}x${height}`);
+      48 |         await writeFile(path.join(evidence, `empty-${kind}-${surface}-${width}x${height}-layout.json`), JSON.stringify({ ...dimensions, horizontal }, null, 2));
+    > 49 |         expect.soft(dimensions.document).toBeLessThanOrEqual(width + 1);
+         |                                          ^
+      50 |         records.push({ kind, surface, width, height, chart: box, dimensions, horizontal, matching_rows: 0 });
+      51 |       } finally {
+      52 |         if (original && savedVersion !== undefined) {
+        at /private/tmp/smartfactory-phase4-independent-browser-20261005/frontend/Frontends/tests/phase4-independent-extra.spec.ts:49:42
+
+    Error Context: ../../playwright-results/phase4-independent-extra-i-eb069--at-every-required-viewport/error-context.md
+
+  1 failed
+    tests/phase4-independent-extra.spec.ts:6:1 › independent empty queries render all three surfaces at every required viewport 

@@ -1,0 +1,499 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>IoT Gateway 需求树</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #0f172a;
+      --ink2: #334155;
+      --muted: #64748b;
+      --subtle: #94a3b8;
+      --line: rgba(148,163,184,.2);
+      --paper: #fff;
+      --wash: #f8fafc;
+      --grad-start: #0ea5e9;
+      --grad-mid: #6366f1;
+      --grad-end: #a855f7;
+      --gradient: linear-gradient(135deg, var(--grad-start), var(--grad-mid), var(--grad-end));
+      --epic: #6366f1;
+      --feature: #0ea5e9;
+      --story-m: #f59e0b;
+      --story-v: #10b981;
+      --story-c: #3b82f6;
+      --story-s: #8b5cf6;
+      --task: #64748b;
+      --radius: 8px;
+      --shadow: 0 1px 3px rgba(15,23,42,.04), 0 1px 2px rgba(15,23,42,.06);
+      --shadow-md: 0 4px 16px rgba(15,23,42,.06);
+      font-family: 'Inter', system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--wash); color: var(--ink); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+    /* NAV */
+    header {
+      position: sticky; top: 0; z-index: 50;
+      border-bottom: 1px solid var(--line);
+      background: rgba(248,250,252,.85);
+      backdrop-filter: blur(20px);
+    }
+    nav {
+      max-width: 1200px; margin: 0 auto; padding: 0 24px; height: 56px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .brand { font-weight: 800; font-size: 14px; color: var(--ink); display: flex; align-items: center; gap: 8px; }
+    .brand-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gradient); }
+    .nav-links { display: flex; gap: 4px; }
+    .nav-links a {
+      font-size: 12px; font-weight: 500; color: var(--muted);
+      padding: 5px 10px; border-radius: 6px; text-decoration: none;
+      transition: all .2s;
+    }
+    .nav-links a:hover { color: var(--ink); background: rgba(99,102,241,.06); }
+
+    /* HERO */
+    .hero {
+      background: linear-gradient(135deg, #0f172a, #1e1b4b, #312e81);
+      padding: 56px 0 48px; position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ""; position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 60% at 30% 40%, rgba(14,165,233,.2), transparent),
+        radial-gradient(ellipse 40% 50% at 80% 60%, rgba(168,85,247,.15), transparent);
+    }
+    .hero-inner {
+      position: relative; max-width: 1200px; margin: 0 auto; padding: 0 24px; color: #e2e8f0;
+    }
+    .hero-inner h1 {
+      font-size: 36px; font-weight: 900; letter-spacing: -.03em; color: #f1f5f9; line-height: 1.1;
+    }
+    .hero-inner h1 span {
+      background: linear-gradient(135deg, #60a5fa, #818cf8, #c084fc);
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero-inner p { margin-top: 12px; color: #94a3b8; font-size: 15px; max-width: 700px; }
+
+    /* LEGEND */
+    .legend {
+      max-width: 1200px; margin: 0 auto; padding: 20px 24px;
+      display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+    }
+    .legend-item {
+      display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--ink2);
+    }
+    .legend-dot { width: 10px; height: 10px; border-radius: 3px; }
+
+    /* TOOLBAR */
+    .toolbar {
+      max-width: 1200px; margin: 0 auto; padding: 0 24px 16px;
+      display: flex; gap: 8px;
+    }
+    .toolbar button {
+      font-family: inherit; font-size: 12px; font-weight: 600;
+      padding: 6px 14px; border-radius: 6px; border: 1px solid var(--line);
+      background: var(--paper); color: var(--ink2); cursor: pointer;
+      transition: all .2s;
+    }
+    .toolbar button:hover { border-color: var(--grad-mid); color: var(--grad-mid); }
+
+    /* TREE */
+    .tree-container { max-width: 1200px; margin: 0 auto; padding: 0 24px 80px; }
+
+    .tree, .tree ul {
+      list-style: none; padding-left: 0;
+    }
+    .tree ul {
+      padding-left: 20px;
+      border-left: 1.5px solid var(--line);
+      margin-left: 11px;
+    }
+    .tree li { position: relative; }
+
+    .node {
+      display: flex; align-items: center; gap: 8px;
+      padding: 6px 8px; margin: 2px 0;
+      border-radius: var(--radius);
+      cursor: default;
+      transition: background .15s;
+      user-select: none;
+    }
+    .node:hover { background: rgba(99,102,241,.04); }
+
+    .node-toggle {
+      width: 20px; height: 20px; border-radius: 4px; border: none;
+      background: var(--wash); color: var(--muted);
+      font-size: 11px; font-weight: 800; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all .2s; flex-shrink: 0;
+    }
+    .node-toggle:hover { background: rgba(99,102,241,.1); color: var(--grad-mid); }
+    .node-toggle.leaf { visibility: hidden; }
+    .collapsed > .node .node-toggle { transform: rotate(-90deg); }
+
+    .node-badge {
+      font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: .06em;
+      padding: 2px 7px; border-radius: 4px; flex-shrink: 0; white-space: nowrap;
+    }
+    .badge-epic { background: rgba(99,102,241,.1); color: var(--epic); }
+    .badge-feature { background: rgba(14,165,233,.1); color: var(--feature); }
+    .badge-story-m { background: rgba(245,158,11,.1); color: var(--story-m); }
+    .badge-story-v { background: rgba(16,185,129,.1); color: var(--story-v); }
+    .badge-story-c { background: rgba(59,130,246,.1); color: var(--story-c); }
+    .badge-story-s { background: rgba(139,92,246,.1); color: var(--story-s); }
+    .badge-task { background: rgba(100,116,139,.08); color: var(--task); }
+
+    .node-label { font-size: 13.5px; font-weight: 600; color: var(--ink); }
+    .node-desc { font-size: 12px; color: var(--muted); font-weight: 400; margin-left: 4px; }
+    .node-source { font-size: 10px; color: var(--subtle); font-weight: 500; margin-left: auto; white-space: nowrap; padding-left: 12px; }
+
+    .level-epic > .node .node-label { font-size: 16px; font-weight: 800; }
+    .level-feature > .node .node-label { font-size: 14.5px; font-weight: 700; }
+    .level-feature > .node { padding: 8px; margin-top: 8px; }
+    .level-story > .node .node-label { font-weight: 600; }
+
+    .collapsed > ul { display: none; }
+
+    /* STATS */
+    .stats {
+      max-width: 1200px; margin: 0 auto; padding: 0 24px 24px;
+      display: flex; gap: 12px; flex-wrap: wrap;
+    }
+    .stat-card {
+      background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius);
+      padding: 14px 18px; min-width: 140px; box-shadow: var(--shadow);
+    }
+    .stat-card .num { font-size: 28px; font-weight: 800; color: var(--ink); letter-spacing: -.02em; }
+    .stat-card .lbl { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; margin-top: 2px; }
+
+    @media (max-width: 720px) {
+      .hero-inner h1 { font-size: 26px; }
+      .legend { gap: 12px; }
+      .tree ul { padding-left: 14px; margin-left: 9px; }
+      .node-desc, .node-source { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <a class="brand" href="index.html" style="text-decoration:none"><span class="brand-dot"></span>ThingsBoard 架构拆解</a>
+      <div class="nav-links">
+        <a href="index.html">总览</a>
+        <a href="gateway-requirements.html" style="color:var(--ink);background:rgba(99,102,241,.06)">Gateway 需求树</a>
+      </div>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <div class="hero-inner">
+      <h1>IoT Gateway <span>需求拆解树</span></h1>
+      <p>从 ThingsBoard IoT Gateway 源码反推需求，按 Epic → Feature → Story (MVCS) → Task 四级组织。标注 [TB] 的 Task 来自源码验证，标注 [扩展] 的是你的项目需要但 TB 没有的。</p>
+    </div>
+  </div>
+
+  <div class="stats" id="stats"></div>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--epic)"></div>Epic</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--feature)"></div>Feature</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--story-m)"></div>Story: Model</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--story-v)"></div>Story: View</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--story-c)"></div>Story: Controller</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--story-s)"></div>Story: Service</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--task)"></div>Task</div>
+  </div>
+
+  <div class="toolbar">
+    <button onclick="expandAll()">全部展开</button>
+    <button onclick="collapseAll()">全部折叠</button>
+    <button onclick="expandTo('feature')">展开到 Feature</button>
+    <button onclick="expandTo('story')">展开到 Story</button>
+  </div>
+
+  <div class="tree-container">
+    <ul class="tree" id="tree"></ul>
+  </div>
+
+  <script>
+const data = {
+  label: "IoT 协议网关", desc: "设备协议接入与数据归一化中枢", type: "epic",
+  children: [
+    {
+      label: "协议适配服务", desc: "Protocol Adapter Service", type: "feature",
+      children: [
+        { label: "Model — 连接器数据模型", type: "story-m", children: [
+          { label: "连接器基础抽象", desc: "生命周期接口 open/close/is_connected/is_stopped", type: "task", src: "TB" },
+          { label: "连接器身份标识", desc: "id / name / type / config 四元组", type: "task", src: "TB" },
+          { label: "连接器配置 Schema", desc: "每种协议独立 JSON Schema 校验", type: "task", src: "TB" },
+          { label: "连接器状态机", desc: "init → connecting → connected → error → stopped", type: "task", src: "扩展" },
+        ]},
+        { label: "View — 协议接口层", type: "story-v", children: [
+          { label: "Modbus TCP/RTU 接入", desc: "寄存器读写、功能码映射", type: "task", src: "TB" },
+          { label: "OPC-UA 接入", desc: "节点订阅、证书认证、安全策略", type: "task", src: "TB" },
+          { label: "BACnet 接入", desc: "楼宇自动化协议适配", type: "task", src: "TB" },
+          { label: "CAN 总线接入", desc: "工业控制总线协议", type: "task", src: "TB" },
+          { label: "MQTT 桥接接入", desc: "第三方 MQTT broker 数据桥接", type: "task", src: "TB" },
+          { label: "串口自定义协议接入", desc: "对应你设计中的「串口」连接", type: "task", src: "扩展" },
+          { label: "PLC 专用协议接入", desc: "S7、Fins 等 PLC 原生协议", type: "task", src: "扩展" },
+        ]},
+        { label: "Controller — 生命周期管理", type: "story-c", children: [
+          { label: "连接器动态加载", desc: "按配置实例化对应协议 Connector", type: "task", src: "TB" },
+          { label: "连接器启停控制", desc: "独立线程/进程运行、优雅停止", type: "task", src: "TB" },
+          { label: "健康检查与自动重连", desc: "连接丢失后按退避策略重连", type: "task", src: "TB" },
+          { label: "配置热更新", desc: "运行时变更连接器配置不停服", type: "task", src: "TB" },
+        ]},
+        { label: "Service — 数据流业务逻辑", type: "story-s", children: [
+          { label: "上行数据轮询/订阅调度", desc: "按配置周期拉取或实时订阅", type: "task", src: "TB" },
+          { label: "下行属性更新分发", desc: "平台属性变更 → 对应 Connector", type: "task", src: "TB" },
+          { label: "下行 RPC 指令分发", desc: "平台 RPC → Connector.server_side_rpc_handler", type: "task", src: "TB" },
+          { label: "指令安全审核层", desc: "下发指令需情景研判或多人审核后执行", type: "task", src: "扩展" },
+          { label: "连接器异常熔断", desc: "连续失败超阈值后暂停并告警", type: "task", src: "扩展" },
+        ]},
+      ]
+    },
+    {
+      label: "数据转换服务", desc: "Data Transform Service", type: "feature",
+      children: [
+        { label: "Model — 标准数据模型", type: "story-m", children: [
+          { label: "ConvertedData 结构", desc: "deviceName + deviceType + telemetry + attributes + metadata", type: "task", src: "TB" },
+          { label: "TelemetryEntry 时序模型", desc: "timestamp + Dict[DatapointKey, value]", type: "task", src: "TB" },
+          { label: "DatapointKey 数据点标识", desc: "key + reportStrategy 绑定", type: "task", src: "TB" },
+          { label: "Events 事件数据类型", desc: "离散事件：开机/停机/故障/换班", type: "task", src: "扩展" },
+          { label: "Commands 指令回执类型", desc: "指令 ID + 执行状态 + 响应值", type: "task", src: "扩展" },
+        ]},
+        { label: "View — 转换器接口层", type: "story-v", children: [
+          { label: "Uplink Converter 接口", desc: "convert(config, data) → ConvertedData", type: "task", src: "TB" },
+          { label: "Downlink Converter 接口", desc: "平台指令 → 协议原生消息", type: "task", src: "TB" },
+          { label: "自定义 Converter 扩展", desc: "用户可插入自定义转换逻辑", type: "task", src: "TB" },
+        ]},
+        { label: "Controller — 转换流程控制", type: "story-c", children: [
+          { label: "转换调度", desc: "Connector 输出 → Converter 输入的串接", type: "task", src: "TB" },
+          { label: "转换失败处理", desc: "格式异常数据进死信队列", type: "task", src: "扩展" },
+          { label: "大包自动拆分", desc: "按 maxPayloadSizeBytes 拆分后逐包发送", type: "task", src: "TB" },
+        ]},
+        { label: "Service — 数据治理逻辑", type: "story-s", children: [
+          { label: "数据质量校验", desc: "异常值检测、范围检查、空值处理", type: "task", src: "扩展" },
+          { label: "量纲与单位标准化", desc: "原始值 → 工程值转换", type: "task", src: "扩展" },
+          { label: "数据点元数据注入", desc: "来源 connector、采集时间、数据质量标记", type: "task", src: "扩展" },
+        ]},
+      ]
+    },
+    {
+      label: "上报策略服务", desc: "Report Strategy Service", type: "feature",
+      children: [
+        { label: "Model — 策略配置模型", type: "story-m", children: [
+          { label: "ReportStrategy 枚举", desc: "ON_RECEIVED / ON_CHANGE / ON_REPORT_PERIOD / ON_CHANGE_OR_REPORT_PERIOD / DISABLED", type: "task", src: "TB" },
+          { label: "ReportStrategyConfig", desc: "strategy + reportPeriod + aggregationFunction + TTL", type: "task", src: "TB" },
+          { label: "AggregationFunction 枚举", desc: "SUM / COUNT / MIN / MAX / AVERAGE / NONE", type: "task", src: "TB" },
+        ]},
+        { label: "View — 策略配置接口", type: "story-v", children: [
+          { label: "全局默认策略", desc: "网关级别的默认上报行为", type: "task", src: "TB" },
+          { label: "按连接器策略覆盖", desc: "每个 Connector 可独立配置", type: "task", src: "TB" },
+          { label: "按数据点策略覆盖", desc: "最细粒度：单个 DatapointKey 级别", type: "task", src: "TB" },
+        ]},
+        { label: "Controller — 策略执行控制", type: "story-c", children: [
+          { label: "变更检测", desc: "ON_CHANGE：对比新旧值是否变化", type: "task", src: "TB" },
+          { label: "定时上报调度", desc: "ON_REPORT_PERIOD：周期触发", type: "task", src: "TB" },
+          { label: "TTL 过期清理", desc: "超过 TTL 的未发送数据丢弃", type: "task", src: "TB" },
+        ]},
+        { label: "Service — 聚合计算", type: "story-s", children: [
+          { label: "周期内数据聚合", desc: "在 reportPeriod 内按聚合函数计算", type: "task", src: "TB" },
+          { label: "聚合结果输出与重置", desc: "到期后输出聚合值并清空窗口", type: "task", src: "TB" },
+        ]},
+      ]
+    },
+    {
+      label: "消息缓冲服务", desc: "Message Buffer Service", type: "feature",
+      children: [
+        { label: "Model — 存储抽象模型", type: "story-m", children: [
+          { label: "EventStorage 接口", desc: "put / get_event_pack / event_pack_processing_done / len", type: "task", src: "TB" },
+          { label: "事件序列化格式", desc: "JSON 序列化 + 大小计算", type: "task", src: "TB" },
+          { label: "消息优先级模型", desc: "告警 > 指令回执 > 遥测 > 日志", type: "task", src: "扩展" },
+        ]},
+        { label: "View — 存储实现层", type: "story-v", children: [
+          { label: "内存存储", desc: "MemoryEventStorage：高速、重启丢失", type: "task", src: "TB" },
+          { label: "SQLite 持久存储", desc: "SQLiteEventStorage：持久、查重、TTL", type: "task", src: "TB" },
+          { label: "文件存储", desc: "FileEventStorage：简单持久化方案", type: "task", src: "TB" },
+        ]},
+        { label: "Controller — 缓冲流控", type: "story-c", children: [
+          { label: "Pack 批量读取与确认", desc: "get_event_pack + done 两阶段提交", type: "task", src: "TB" },
+          { label: "容量监控与告警", desc: "积压超阈值触发告警", type: "task", src: "扩展" },
+          { label: "TTL 过期清理调度", desc: "messages_ttl_in_days 到期自动清理", type: "task", src: "TB" },
+        ]},
+        { label: "Service — 投递保障", type: "story-s", children: [
+          { label: "至少一次投递", desc: "确认前不删除、失败重发", type: "task", src: "TB" },
+          { label: "重复消息检测", desc: "SQLite 实现防重复插入", type: "task", src: "TB" },
+          { label: "优先级排序投递", desc: "高优先级消息优先出队", type: "task", src: "扩展" },
+        ]},
+      ]
+    },
+    {
+      label: "平台通信服务", desc: "Platform Communication Service", type: "feature",
+      children: [
+        { label: "Model — 通信配置模型", type: "story-m", children: [
+          { label: "连接配置", desc: "host / port / QoS / proxy / minPackSendDelayMS", type: "task", src: "TB" },
+          { label: "安全认证配置", desc: "accessToken / X.509 证书 / 双向 TLS", type: "task", src: "TB" },
+          { label: "设备凭据模型", desc: "provisioning：首次上线自动注册", type: "task", src: "TB" },
+          { label: "国密支持配置", desc: "SM2/SM3/SM4 TLS 支持", type: "task", src: "扩展" },
+        ]},
+        { label: "View — 通信协议层", type: "story-v", children: [
+          { label: "MQTT Client", desc: "连接、发布、订阅、QoS 保障", type: "task", src: "TB" },
+          { label: "TLS 安全传输", desc: "证书加载、握手、加密通道", type: "task", src: "TB" },
+          { label: "代理穿透", desc: "HTTP/SOCKS 代理支持", type: "task", src: "TB" },
+        ]},
+        { label: "Controller — 连接管理", type: "story-c", children: [
+          { label: "自动重连与退避", desc: "断连后指数退避重连", type: "task", src: "TB" },
+          { label: "连接状态监控", desc: "实时跟踪 MQTT 连接状态", type: "task", src: "TB" },
+          { label: "消息批量调度", desc: "按 minPackSendDelayMS / minPackSizeToSend 攒批发送", type: "task", src: "TB" },
+        ]},
+        { label: "Service — 消息处理", type: "story-s", children: [
+          { label: "上行消息发送", desc: "telemetry / attributes / events 发送到平台", type: "task", src: "TB" },
+          { label: "下行消息接收", desc: "attribute updates / RPC requests 从平台接收", type: "task", src: "TB" },
+          { label: "设备自动注册", desc: "新设备首次数据上报时自动 provisioning", type: "task", src: "TB" },
+          { label: "速率限制执行", desc: "全局 + 按设备的消息/数据点频率控制", type: "task", src: "TB" },
+        ]},
+      ]
+    },
+    {
+      label: "配置管理服务", desc: "Configuration Management Service", type: "feature",
+      children: [
+        { label: "Model — 配置数据模型", type: "story-m", children: [
+          { label: "网关主配置结构", desc: "tb_gateway.json 顶层结构", type: "task", src: "TB" },
+          { label: "连接器配置结构", desc: "每种协议独立 JSON 配置文件", type: "task", src: "TB" },
+          { label: "配置版本标识", desc: "版本号用于远程配置同步", type: "task", src: "TB" },
+        ]},
+        { label: "View — 配置接口层", type: "story-v", children: [
+          { label: "本地文件配置", desc: "YAML/JSON 文件加载", type: "task", src: "TB" },
+          { label: "远程配置接收", desc: "平台下发配置更新", type: "task", src: "TB" },
+          { label: "配置查询 API", desc: "运行时查询当前生效配置", type: "task", src: "TB" },
+        ]},
+        { label: "Controller — 配置生命周期", type: "story-c", children: [
+          { label: "启动加载与校验", desc: "启动时读配置 + Schema 校验", type: "task", src: "TB" },
+          { label: "配置变更检测", desc: "按 checkConnectorsConfigurationInSeconds 轮询", type: "task", src: "TB" },
+          { label: "版本备份与回滚", desc: "保留最近 10 个配置版本", type: "task", src: "TB" },
+        ]},
+        { label: "Service — 配置应用逻辑", type: "story-s", children: [
+          { label: "变更差异计算", desc: "新旧配置 diff 确定影响范围", type: "task", src: "TB" },
+          { label: "热更新执行", desc: "仅重启受影响的 Connector", type: "task", src: "TB" },
+          { label: "变更审计日志", desc: "每次配置变更写审计记录", type: "task", src: "扩展" },
+        ]},
+      ]
+    },
+    {
+      label: "监控统计服务", desc: "Monitoring & Statistics Service", type: "feature",
+      children: [
+        { label: "Model — 统计数据模型", type: "story-m", children: [
+          { label: "全局统计指标", desc: "收发字节数、消息数、事件积压量", type: "task", src: "TB" },
+          { label: "按连接器统计", desc: "每个 Connector 独立计数", type: "task", src: "TB" },
+          { label: "设备活跃度模型", desc: "inactivityTimeout 超时判定离线", type: "task", src: "TB" },
+        ]},
+        { label: "View — 统计上报接口", type: "story-v", children: [
+          { label: "定时上报", desc: "按 statsSendPeriodInSeconds 周期上报", type: "task", src: "TB" },
+          { label: "健康检查端点", desc: "存活探针 + 就绪探针", type: "task", src: "扩展" },
+        ]},
+        { label: "Controller — 采集调度", type: "story-c", children: [
+          { label: "统计指标采集", desc: "装饰器模式自动埋点统计", type: "task", src: "TB" },
+          { label: "设备活跃度检测", desc: "按 inactivityCheckPeriodSeconds 扫描", type: "task", src: "TB" },
+        ]},
+        { label: "Service — 监控业务逻辑", type: "story-s", children: [
+          { label: "设备离线判定", desc: "超过 inactivityTimeoutSeconds 标记离线", type: "task", src: "TB" },
+          { label: "连接器健康评分", desc: "综合连接率、错误率、延迟的评分", type: "task", src: "扩展" },
+          { label: "异常指标告警", desc: "积压过高 / 错误率飙升时触发", type: "task", src: "扩展" },
+        ]},
+      ]
+    }
+  ]
+};
+
+function renderTree(node, parent) {
+  const li = document.createElement('li');
+  li.className = `level-${node.type.startsWith('story') ? 'story' : node.type}`;
+  const hasChildren = node.children && node.children.length > 0;
+
+  const div = document.createElement('div');
+  div.className = 'node';
+
+  const toggle = document.createElement('button');
+  toggle.className = `node-toggle${hasChildren ? '' : ' leaf'}`;
+  toggle.textContent = '▾';
+  if (hasChildren) toggle.addEventListener('click', () => { li.classList.toggle('collapsed'); });
+  div.appendChild(toggle);
+
+  const badge = document.createElement('span');
+  const badgeType = node.type.startsWith('story') ? node.type : node.type;
+  badge.className = `node-badge badge-${badgeType}`;
+  const badgeLabels = {
+    'epic': 'Epic', 'feature': 'Feature',
+    'story-m': 'Model', 'story-v': 'View', 'story-c': 'Controller', 'story-s': 'Service',
+    'task': 'Task'
+  };
+  badge.textContent = badgeLabels[node.type] || node.type;
+  div.appendChild(badge);
+
+  const label = document.createElement('span');
+  label.className = 'node-label';
+  label.textContent = node.label;
+  div.appendChild(label);
+
+  if (node.desc) {
+    const desc = document.createElement('span');
+    desc.className = 'node-desc';
+    desc.textContent = `— ${node.desc}`;
+    div.appendChild(desc);
+  }
+
+  if (node.src) {
+    const src = document.createElement('span');
+    src.className = 'node-source';
+    src.textContent = `[${node.src}]`;
+    if (node.src === '扩展') src.style.color = '#a855f7';
+    div.appendChild(src);
+  }
+
+  li.appendChild(div);
+
+  if (hasChildren) {
+    const ul = document.createElement('ul');
+    node.children.forEach(child => renderTree(child, ul));
+    li.appendChild(ul);
+  }
+
+  parent.appendChild(li);
+}
+
+function countNodes(node, counts = { epic: 0, feature: 0, story: 0, task: 0, tb: 0, ext: 0 }) {
+  if (node.type === 'epic') counts.epic++;
+  else if (node.type === 'feature') counts.feature++;
+  else if (node.type.startsWith('story')) counts.story++;
+  else if (node.type === 'task') { counts.task++; if (node.src === 'TB') counts.tb++; if (node.src === '扩展') counts.ext++; }
+  if (node.children) node.children.forEach(c => countNodes(c, counts));
+  return counts;
+}
+
+function expandAll() { document.querySelectorAll('.tree li').forEach(li => li.classList.remove('collapsed')); }
+function collapseAll() { document.querySelectorAll('.tree li').forEach(li => { if (li.querySelector('ul')) li.classList.add('collapsed'); }); }
+function expandTo(level) {
+  const levels = { 'feature': ['level-epic'], 'story': ['level-epic', 'level-feature'] };
+  collapseAll();
+  (levels[level] || []).forEach(cls => {
+    document.querySelectorAll(`.${cls}`).forEach(li => li.classList.remove('collapsed'));
+  });
+}
+
+const tree = document.getElementById('tree');
+renderTree(data, tree);
+
+const c = countNodes(data);
+document.getElementById('stats').innerHTML = [
+  { n: c.feature, l: 'Features' }, { n: c.story, l: 'Stories' }, { n: c.task, l: 'Tasks' },
+  { n: c.tb, l: 'TB 源码验证' }, { n: c.ext, l: '项目扩展' },
+].map(s => `<div class="stat-card"><div class="num">${s.n}</div><div class="lbl">${s.l}</div></div>`).join('');
+  </script>
+</body>
+</html>

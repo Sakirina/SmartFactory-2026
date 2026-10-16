@@ -1,0 +1,36 @@
+{
+  "sample_ms": 1791149788696,
+  "database": "/private/tmp/smartfactory-evolution-frontend-phase3/history-runtime/history.db",
+  "queries": {
+    "formal_documents": {
+      "sql": "SELECT kind,id,version,updated_ms,data FROM documents WHERE kind IN ('definition','compiled_plan','entity','parameter','source','engine_state','recompute_outputs','recompute_run','recompute_state','recompute_state_info','revision') ORDER BY kind,id",
+      "rows": 51,
+      "sha256": "e40ae167e073ba3b3220d4865594f41a2b89d566bd102a79d936236709e0194c"
+    },
+    "observations": {
+      "sql": "SELECT * FROM observations ORDER BY id,observed_ms",
+      "rows": 15,
+      "sha256": "69114a8c0d5b073482febbb30a0da31e5f6cbd6a65cee4f15a9acb5719bd793c"
+    },
+    "latest": {
+      "sql": "SELECT * FROM latest ORDER BY device_id,key",
+      "rows": 5,
+      "sha256": "d9e21ba75f7ddc4d1fee102bfde66997c623d867bcd8509f1cea20642458db9d"
+    },
+    "rollups": {
+      "sql": "SELECT * FROM rollups ORDER BY device_id,key,granularity,bucket_ms",
+      "rows": 9,
+      "sha256": "8c76df5c53329f96e9dbbf707398780926521a06b20d97bab08942c9ecf8d369"
+    },
+    "action_journal": {
+      "sql": "SELECT * FROM action_journal ORDER BY command_id",
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "engine_checkpoints": {
+      "sql": "SELECT * FROM engine_checkpoints ORDER BY 1",
+      "rows": 3,
+      "sha256": "544cf17722f879ac26a847039f4f9f093924d42d5a8f53abc365514afcd73fcf"
+    }
+  }
+}

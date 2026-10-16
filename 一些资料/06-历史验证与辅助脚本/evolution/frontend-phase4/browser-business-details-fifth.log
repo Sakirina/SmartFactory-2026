@@ -1,0 +1,39 @@
+
+Running 2 tests using 1 worker
+
+(node:8971) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/phase4-business-details.spec.ts:65:1 › three protocol metadata forms validate required fields enums units and preserve numeric extensions (21.6s)
+(node:9017) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 tests/phase4-business-details.spec.ts:84:1 › node metadata checks ranges units enums and exact extension before saving a draft (2.5s)
+
+
+  1) tests/phase4-business-details.spec.ts:65:1 › three protocol metadata forms validate required fields enums units and preserve numeric extensions 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: locator('.ant-descriptions').getByText('危气监测', { exact: true })
+    Expected: visible
+    Timeout: 15000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" locator('.ant-descriptions').getByText('危气监测', { exact: true }) with timeout 15000ms
+      - waiting for locator('.ant-descriptions').getByText('危气监测', { exact: true })
+
+
+      67 |   for (const id of ['device-climate-ventilation', 'device-infrared-lighting', 'device-hazardous-gas']) {
+      68 |     await route(page, 'protocol-configurations'); const device = entities.find((entity: any) => entity.id === id); await choose(page, '参数设备', device.name);
+    > 69 |     await expect(page.locator('.ant-descriptions').getByText(device.name, { exact: true })).toBeVisible(); await page.getByRole('button', { name: '编辑设备参数', exact: true }).click();
+         |                                                                                             ^
+      70 |     const drawer = page.getByRole('dialog', { name: '设备基础参数编辑' }); await drawer.getByRole('tab', { name: '数据点', exact: true }).click(); const key = drawer.getByLabel(/^数据点 1：数据字段/); const oldKey = await key.inputValue();
+      71 |     await key.fill(''); await drawer.getByRole('button', { name: /配置预检$/ }).click(); await expect(drawer.getByText('配置预检存在问题', { exact: true })).toBeVisible(); await key.fill(oldKey);
+      72 |     const quality = drawer.getByLabel(/^数据点 1：质量/); await quality.click(); await expect(page.locator('.ant-select-dropdown:visible').getByText('UNCERTAIN', { exact: true })).toBeVisible(); await page.locator('.ant-select-dropdown:visible .ant-select-item-option-content').getByText('GOOD', { exact: true }).click();
+        at /path/to/SmartFactory-2026/Frontends/tests/phase4-business-details.spec.ts:69:93
+
+    Error Context: ../../../../../private/tmp/smartfactory-frontend-phase4-20261005/playwright-results/phase4-business-details-th-103b8-preserve-numeric-extensions/error-context.md
+
+  1 failed
+    tests/phase4-business-details.spec.ts:65:1 › three protocol metadata forms validate required fields enums units and preserve numeric extensions 
+  1 passed (25.3s)

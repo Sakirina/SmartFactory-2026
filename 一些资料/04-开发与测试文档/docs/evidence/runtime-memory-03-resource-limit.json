@@ -1,0 +1,44 @@
+{
+  "recorded_ms": 1789886423901,
+  "docker_vm_memory_bytes": 8319504384,
+  "ce_memory_limit_bytes": 4294967296,
+  "edge_memory_limit_bytes": 2147483648,
+  "reason": "combined memory pressure stalled the 8 GiB emulated Docker VM; native services deliberately stopped; scene video subsequently recorded with business services continuing",
+  "containers": [
+    {
+      "service": "thingsboard",
+      "state": "exited",
+      "exit_code": 137,
+      "oom_killed": false,
+      "memory_limit": 4294967296
+    },
+    {
+      "service": "edge-a-native",
+      "state": "exited",
+      "exit_code": 137,
+      "oom_killed": false,
+      "memory_limit": 2147483648
+    },
+    {
+      "service": "kafka",
+      "state": "exited",
+      "exit_code": 137,
+      "oom_killed": true,
+      "memory_limit": 1073741824
+    },
+    {
+      "service": "cloud-db",
+      "state": "running",
+      "exit_code": 0,
+      "oom_killed": false,
+      "memory_limit": 1073741824
+    },
+    {
+      "service": "edge-a-db",
+      "state": "running",
+      "exit_code": 0,
+      "oom_killed": false,
+      "memory_limit": 1073741824
+    }
+  ]
+}

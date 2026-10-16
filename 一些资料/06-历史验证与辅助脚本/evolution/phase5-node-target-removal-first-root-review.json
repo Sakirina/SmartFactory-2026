@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-10-05T06:12:44.032583+00:00",
+  "status": "passed",
+  "scope": "Evidence integrity, actual go-list coverage, archived inputs and raw-log recount",
+  "test_outcome": "failed",
+  "source_directory": "/private/tmp/smartfactory-phase5-node-target-removal-checks-20261005",
+  "result_sha256": "73272268532eaf263b0ab1848a07248f10c6d7f4c22bdc8a372bdb32ed9242e1",
+  "commands_sha256": "148eff4734b49cc4303454030bc79e3bf4492683ad46ed5958d0c994b5018fc4",
+  "commands": [
+    {
+      "name": "go-version",
+      "argv": [
+        "go",
+        "version"
+      ],
+      "cwd": "/path/to/SmartFactory-2026/Platform",
+      "exit_code": 0,
+      "started_unix": 1791180437.5867672,
+      "elapsed_seconds": 0.005756855010986328,
+      "stdout": "/private/tmp/smartfactory-phase5-node-target-removal-checks-20261005/go-version.stdout.log",
+      "stderr": "/private/tmp/smartfactory-phase5-node-target-removal-checks-20261005/go-version.stderr.log",
+      "source_before": null,
+      "source_after": null,
+      "input_unchanged": null,
+      "raw_log_sha256s": {
+        "stdout": "c528ba02b39880f1357f51dee70e41c1ef03e3a70c7a03055c080532b9635f58",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "top_pass": [],
+      "all_pass_count": 0,
+      "failed": [],
+      "skipped": [],
+      "race_warning": false
+    },
+    {
+      "name": "postgres-workloads",
+      "argv": [
+        "go",
+        "test",
+        "-count=1",
+        "-p",
+        "1",
+        "./internal/configcenter",
+        "-run",
+        "TestFixedReleaseConfiguration",
+        "-v"
+      ],
+      "cwd": "/path/to/SmartFactory-2026/Platform",
+      "exit_code": 1,
+      "started_unix": 1791180438.4812539,
+      "elapsed_seconds": 2.513211250305176,
+      "stdout": "/private/tmp/smartfactory-phase5-node-target-removal-checks-20261005/postgres-workloads.stdout.log",
+      "stderr": "/private/tmp/smartfactory-phase5-node-target-removal-checks-20261005/postgres-workloads.stderr.log",
+      "source_before": "/private/tmp/smartfactory-phase5-node-target-removal-checks-20261005/postgres-workloads-before.inputs.json",
+      "source_after": "/private/tmp/smartfactory-phase5-node-target-removal-checks-20261005/postgres-workloads-after.inputs.json",
+      "input_unchanged": true,
+      "raw_log_sha256s": {
+        "stdout": "b69caf9c8be7584917f09a3a1033da7e3e37510c88f007ec29a582df1f52402f",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "top_pass": [],
+      "all_pass_count": 0,
+      "failed": [
+        "--- FAIL: TestFixedReleaseConfigurationTargetSurvivesParallelLatestRead (0.85s)"
+      ],
+      "skipped": [],
+      "race_warning": false,
+      "verified_before_after_equal": true,
+      "input_count": 4847,
+      "input_manifest_sha256s": {
+        "before": "562ffb4522fef424188426c87894bad5311e4523f8b05f5087f92e1068ab4747",
+        "after": "562ffb4522fef424188426c87894bad5311e4523f8b05f5087f92e1068ab4747"
+      },
+      "go_list_coverage": [
+        {
+          "phase": "before",
+          "path": "/private/tmp/smartfactory-phase5-node-target-removal-checks-20261005/postgres-workloads-before.go-list.json",
+          "sha256": "0e05fee6653a35384e4899bb201df5133ce9e3ba439a37db149c76d6bf546451",
+          "packages": 591,
+          "missing": [],
+          "package_errors": []
+        },
+        {
+          "phase": "after",
+          "path": "/private/tmp/smartfactory-phase5-node-target-removal-checks-20261005/postgres-workloads-after.go-list.json",
+          "sha256": "afd34ba3b63393a6e3c867f6dc217fd0e3a625b29e0f599f5ebfc8e3f8fe9729",
+          "packages": 591,
+          "missing": [],
+          "package_errors": []
+        }
+      ]
+    }
+  ],
+  "binaries": [],
+  "unique_hashed_files": 4787,
+  "findings": []
+}

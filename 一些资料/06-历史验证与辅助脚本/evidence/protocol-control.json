@@ -1,0 +1,106 @@
+{
+  "check": "approved_native_modbus_control",
+  "passed": true,
+  "execution": {
+    "downlink_id": "a6e428486904785778be9d92e25549f3",
+    "definition_id": "ventilation-plan",
+    "definition_version": 1,
+    "params": null,
+    "status": "completed",
+    "override": false,
+    "risk_category": "business",
+    "risk_level": 2,
+    "binding": "eb41b28394e9bc0ff1f44fbb04c6b34978130c741c829355beb39bc89a8a68d4",
+    "created_ms": 1789851970751,
+    "approval_expires_ms": 1789852270751,
+    "start_deadline_ms": 1789851980755,
+    "approvals": [
+      {
+        "user_id": "engineer",
+        "role": "engineer",
+        "at_ms": 1789851970753,
+        "binding": "eb41b28394e9bc0ff1f44fbb04c6b34978130c741c829355beb39bc89a8a68d4",
+        "local": true,
+        "step_up": false,
+        "actor": {
+          "user_id": "engineer",
+          "name": "工程师一",
+          "department_id": "engineering",
+          "roles": [
+            "engineer"
+          ],
+          "source": "127.0.0.1:57679",
+          "session_id": "75e31bf46dbe98273f032d600199fab8",
+          "ai": false
+        }
+      },
+      {
+        "user_id": "leader",
+        "role": "leader",
+        "at_ms": 1789851970754,
+        "binding": "eb41b28394e9bc0ff1f44fbb04c6b34978130c741c829355beb39bc89a8a68d4",
+        "local": true,
+        "step_up": false,
+        "actor": {
+          "user_id": "leader",
+          "name": "生产负责人",
+          "department_id": "production",
+          "roles": [
+            "leader"
+          ],
+          "source": "127.0.0.1:57680",
+          "session_id": "738a4747f3dfb28dd434552d42c134a5",
+          "ai": false
+        }
+      }
+    ],
+    "steps": [
+      {
+        "step_id": "fan-on",
+        "command_id": "a6e428486904785778be9d92e25549f3:fan-on",
+        "status": "SUCCESS",
+        "message": "success",
+        "started_ms": 1789851970762,
+        "finished_ms": 1789851970766
+      }
+    ],
+    "snapshot": [
+      {
+        "id": "modbus-climate-1-1789851970499080000:3",
+        "message_id": "modbus-climate-1-1789851970499080000",
+        "source_id": "edge-a",
+        "source_sequence": 0,
+        "device_id": "climate-1",
+        "key": "interlock",
+        "value": false,
+        "observed_ms": 1789851970499,
+        "received_ms": 1789851970499,
+        "quality": "GOOD",
+        "time_source": "collector",
+        "entity_revision": 1,
+        "asset_version": 1,
+        "late": false,
+        "revision": 1
+      }
+    ],
+    "actor": {
+      "user_id": "engineer",
+      "name": "工程师一",
+      "department_id": "engineering",
+      "roles": [
+        "engineer"
+      ],
+      "source": "127.0.0.1:57679",
+      "session_id": "75e31bf46dbe98273f032d600199fab8",
+      "ai": false
+    },
+    "fence": 0,
+    "version": 7
+  },
+  "simulated_device": {
+    "fan": true,
+    "humidity": 55,
+    "interlock": false,
+    "temperature": 26
+  }
+}

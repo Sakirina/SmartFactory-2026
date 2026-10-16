@@ -1,0 +1,22 @@
+{
+  "formal_documents": {
+    "query": "SELECT kind,id,version,data FROM documents WHERE kind IN ('definition','engine_state','alarm','active_alarm','revision','entity','data_catalog','compiled_plan') ORDER BY kind,id",
+    "rows": 59,
+    "sha256": "70eb801b2267b19a60d2c5bf00ab55efbfe4e4a862b77ceae6b26c930a8b5139"
+  },
+  "observations": {
+    "query": "SELECT * FROM observations ORDER BY id,observed_ms",
+    "rows": 0,
+    "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  },
+  "latest": {
+    "query": "SELECT * FROM latest ORDER BY device_id,key",
+    "rows": 0,
+    "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  },
+  "rollups": {
+    "query": "SELECT * FROM rollups ORDER BY device_id,key,granularity,bucket_ms",
+    "rows": 0,
+    "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  }
+}

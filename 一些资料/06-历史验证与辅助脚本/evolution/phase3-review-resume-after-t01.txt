@@ -1,0 +1,15 @@
+你继续担任第三阶段独立审查工程师，模型沿用 6 Astra / Max。本轮继续你已保存的 .local/evolution/phase3-independent-review-checkpoint.json；主协调将在 T01 专业报告交付并完成摘要核对后启动你。仓库 /path/to/SmartFactory-2026，共享工作树。你负责独立验证、问题报告和专业审查记录，业务实现交原专业工程师；不得创建子代理或修改全局 team/status/acceptance。
+
+当前待验问题是 P3-T01：生产 River 调度原先使 waiting_parent 任务的操作版本在正常确认期间改变，四次普通页面操作均返回 409。旧检查点已通过十三项既有修正并保存原始失败，八个审查服务端口与两个浏览器会话已经关闭，原数据继续保留。请读取 .local/evolution/tasks-cancel-t01-verified.json、主协调的 T01 摘要复核报告及原检查点，确认新增二进制与实际编译源码的对应关系后，使用新名称的隔离数据目录启动当前历史夹具。
+
+存储专业的修正保持 Task.version/expected_version 公开字段和迁移 00001 至 00006，使用内部 sf_operation_revision 表示人工操作代次，既有任务缺少该字段时从 0 开始。取消、重试与审计在同一事务内推进代次；River 正常运行、等待、snooze、调度时间和纯进度变化保留当前操作版本。业务阶段、输入快照、实际代际、失败、终态、权限和资源变化仍需要相应校验。请根据最终源码与报告验证这些行为，以上说明供审查定位。
+
+独立浏览器验证需要保持生产 River 调度：从页面取得一次待取消任务版本，保留至少 3 秒正常阅读确认时间，再由普通页面确认按钮提交。保存实际 GET/POST 时间、请求中的原版本、返回结果及截图，核对同一 Task ID、River ID、run、输入快照、取消审计和后续无继续计算；不要用页面自动重试、更短的确认窗口或延长 worker 等待间隔改变验收条件。运行中已有进度的取消，需要保留已经提交的步骤和结果。实际业务变化、重复取消、重试代次、撤权与资源变化按当前权限及版本处理，结合必要 HTTP 与应用检查覆盖。
+
+按最终影响范围进行 SQLite、PostgreSQL、有限 race 和必要当前组合回归；既有独立检查点中的未变化范围继续保留其受测摘要。先核对受影响 Go 包和契约，完整 Platform 普通测试允许串行执行；DataTransfer 与前端源码、最终产物若摘要不变，可以引用已有实际通过的检查并注明组合来源。当前前端最终 bundle 为 main-CiVE3bj4.js，报告确认其摘要及浏览器使用产物。重新生成的兼容契约应与当前正式文件一致；若实际修改触及公开契约或前端，报告主协调安排对应专业处理。
+
+PostgreSQL 18.6 使用既有隔离容器 smartfactory-evolution-pg18-20261004，私有 DSN 仅私下读取 .local/evolution/pg18-test.json，独立 schema，每个应用 MaxOpen3/MaxIdle1 加最多一个管理连接，包并行度 1。PG 与较大 race 检查按顺序执行；原用户容器及持久卷保持原用途。Go1.27.1，GOTOOLCHAIN=local，GOPATH=/private/tmp/smartfactory-evolution-gopath，GOMODCACHE=/private/tmp/smartfactory-evolution-gomodcache，GOCACHE=/private/tmp/smartfactory-evolution-go-cache。当前工作卷约 1.6GiB，较大产物放 /private/tmp，工作卷保留至少 1GiB。
+
+最终提交 .local/evolution/phase3-independent-review.json，逐项说明 E3-01 至 E3-07 和十四项问题的验收结论，保留首次失败、原检查点、T01 修正后的实际证据及各次受测源码、二进制和前端摘要。原检查点保持原件，补充验证使用新路径；统计明确区分顶层测试、全部命名测试、子测试和条件跳过，不累加重复运行充当覆盖数量。完成后关闭本轮自建服务与浏览器，保留数据、截图和日志，核对报告引用和凭据扫描后结束本轮，主协调依据最终报告更新验收。
+
+用户授权主协调负责需求、协调和验收，每阶段最多创建五个子智能体，全局同时最多两个运行；本轮属于复用原审查角色。必要依赖与镜像获取已获全五阶段授权；排除项目仍仅为完整 UOS 安装恢复、单节点和三节点连续断云 24 小时、受限链路专项、实际 24 小时容量与持续运行测量。中文说明采用自然完整段落，不用 emoji，仅在展示流程时使用有序列表，按当前 Humanizer 技能在内部审阅后输出。

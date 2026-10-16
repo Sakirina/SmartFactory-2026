@@ -1,0 +1,1224 @@
+{
+  "finding": "P5-N04",
+  "status": "passed",
+  "verified_at": "2026-10-05T12:15:03.153084+00:00",
+  "scope": "配置服务 EnsureConnectorVersions 并发登记与实际配置快照读取专项",
+  "completed_specialty_scope": true,
+  "production_source": {
+    "path": "/path/to/SmartFactory-2026/Platform/internal/configcenter/connector_sources.go",
+    "relative_path": "Platform/internal/configcenter/connector_sources.go",
+    "sha256": "facec76f2194c930358119042723d4b2847031e16ad600eea7d99059c60f0dc4",
+    "bytes": 15231,
+    "fixed_copy": "/private/tmp/smartfactory-phase5-node-deadlock-20261005/final-source/Platform/internal/configcenter/connector_sources.go"
+  },
+  "test_source": {
+    "path": "/path/to/SmartFactory-2026/Platform/internal/configcenter/connector_sources_test.go",
+    "relative_path": "Platform/internal/configcenter/connector_sources_test.go",
+    "sha256": "1274cb6ec134f3ff8fd420d769e5550f048820641ed29e4c9434a12de477040e",
+    "bytes": 22980,
+    "fixed_copy": "/private/tmp/smartfactory-phase5-node-deadlock-20261005/final-source/Platform/internal/configcenter/connector_sources_test.go"
+  },
+  "fixed_source_index": {
+    "path": "/private/tmp/smartfactory-phase5-node-deadlock-20261005/final-source.json",
+    "sha256": "a7617635a32f1c22abca5eea1531215f4e08ed31a45c8372acdcf12eef8d9dac",
+    "bytes": 2311
+  },
+  "changes": [
+    "权威公开证明完整核对后，在配置事务中先取得连接器集合锁，再按连接器 ID 排序取得当前指针的读改写锁",
+    "既有不可变固定版本使用共享读取，缺失固定版本使用 Get 后插入；存在性检查与后续读取不一致时返回冲突，避免共享读取后写入",
+    "当前指针与来源记录采用 Get，来源 NodeVersion 回退返回冲突，较旧固定引用保持现有最新指针",
+    "多引用处理保持事务原子性；已有固定引用读取与登记共享版本依赖，普通快照先读取当前指针的锁定顺序得到保留"
+  ],
+  "source_scope_verified": {
+    "production_outside_function_unchanged": true,
+    "public_store_unchanged": [
+      {
+        "path": "/path/to/SmartFactory-2026/Platform/internal/store/transaction.go",
+        "sha256": "be818c1d68a03a7bcc499ef1174e7bf62cd0aab33fdf1ecbeaad47afafd5408d",
+        "original_fixed_copy": "/private/tmp/smartfactory-phase5-config-deadlock-coordinator-20261005/transaction.go"
+      },
+      {
+        "path": "/path/to/SmartFactory-2026/Platform/internal/store/store.go",
+        "sha256": "c9b343ab01e2ddd573b902b1c3f5a7a99c99416733f6c4d480ebaa9ff743d2c9",
+        "original_fixed_copy": "/private/tmp/smartfactory-phase5-config-deadlock-coordinator-20261005/c9b343ab01e2ddd573b902b1c3f5a7a99c99416733f6c4d480ebaa9ff743d2c9"
+      },
+      {
+        "path": "/path/to/SmartFactory-2026/Platform/internal/store/data.go",
+        "sha256": "4a41489d329b2332faf023aa48b2060c608667d0c175dd6a3aaa5051baf37315",
+        "original_fixed_copy": "/private/tmp/smartfactory-phase5-config-deadlock-coordinator-20261005/4a41489d329b2332faf023aa48b2060c608667d0c175dd6a3aaa5051baf37315"
+      }
+    ],
+    "no_migration_or_contract_change": true
+  },
+  "original_failure": {
+    "delivery_checkpoint": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-delivery-config-deadlock-checkpoint.json",
+      "sha256": "ebb28f643ea6985c5559579f41f9e2bf93a00ebcc161a073ba1a42693402e22d",
+      "bytes": 89030
+    },
+    "coordinator_review": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-config-deadlock-checkpoint-root-review.json",
+      "sha256": "dc5ee1fcb19c087c0d41c8f3aad34d3713101d2378a505dbda10ab80879257ab",
+      "bytes": 23489
+    },
+    "original_database_oid": 98437,
+    "current_database_oid": 208904,
+    "lock_key": 5175393874658700308,
+    "document_kind": "configuration_connector_source",
+    "document_id": "edge-a/delivery-mqtt:2",
+    "linux_checkpoint_counts": {
+      "passed": 35,
+      "failed": 1,
+      "retained_inputs": 6079,
+      "references_checked": 88
+    },
+    "old_production_sha256": "b6c8c8e1eccd79a387f7b3893c07a842523b4fd212b4b42da03e3f143598c953",
+    "local_reproduction": {
+      "log": {
+        "path": "/private/tmp/smartfactory-phase5-node-deadlock-first-20261005/postgres-workloads.stdout.log",
+        "sha256": "2f5f9d1a02c376ff88a97b398e61bd3e9d8a0c635750bb279d2939bf5709147f",
+        "bytes": 1923
+      },
+      "server_log": {
+        "path": "/private/tmp/smartfactory-phase5-node-deadlock-first-20261005/postgres-server.stderr.log",
+        "sha256": "579a80b4ff113106a1c49cef10fe6f80da8a63f3e5e427ce21b82de216ad7f3b",
+        "bytes": 1568
+      },
+      "postgres_database_oid": 16384,
+      "lock_key": 7609579796433166647,
+      "document_kind": "configuration_connector_source",
+      "document_id": "edge-a/shared:1",
+      "processes": [
+        13773,
+        13774
+      ],
+      "results": [
+        "success",
+        "PostgreSQL 40P01"
+      ]
+    }
+  },
+  "history": [
+    {
+      "name": "first",
+      "source_profile": "original-shared-read-upgrade",
+      "classification": "old production deadlock reproduced on actual PostgreSQL",
+      "result": {
+        "path": "/private/tmp/smartfactory-phase5-node-deadlock-first-20261005/result.json",
+        "sha256": "1541b189cc3356bec3fa613c0842976f353137ea1f7ea85b37a357af46712ba2",
+        "bytes": 577
+      },
+      "raw_commands": {
+        "path": "/private/tmp/smartfactory-phase5-node-deadlock-first-20261005/commands.json",
+        "sha256": "051ca371b9dad8862db6cbc59d8fda11985a53c151aa50ce1a873eb1c872dcef",
+        "bytes": 1476
+      },
+      "production_input": {
+        "path": "/path/to/SmartFactory-2026/Platform/internal/configcenter/connector_sources.go",
+        "sha256": "b6c8c8e1eccd79a387f7b3893c07a842523b4fd212b4b42da03e3f143598c953",
+        "bytes": 13888,
+        "archive": "/private/tmp/smartfactory-phase5-node-deadlock-first-20261005/fixed-inputs/b6c8c8e1eccd79a387f7b3893c07a842523b4fd212b4b42da03e3f143598c953"
+      },
+      "test_input": {
+        "path": "/path/to/SmartFactory-2026/Platform/internal/configcenter/connector_sources_test.go",
+        "sha256": "5af2133c7efc9d66f393a3f58670379604ef7092d46debd6556da63c47f61791",
+        "bytes": 19348,
+        "archive": "/private/tmp/smartfactory-phase5-node-deadlock-first-20261005/fixed-inputs/5af2133c7efc9d66f393a3f58670379604ef7092d46debd6556da63c47f61791"
+      },
+      "checks": [
+        {
+          "log": {
+            "path": "/private/tmp/smartfactory-phase5-node-deadlock-first-20261005/postgres-workloads.stdout.log",
+            "sha256": "2f5f9d1a02c376ff88a97b398e61bd3e9d8a0c635750bb279d2939bf5709147f",
+            "bytes": 1923
+          },
+          "top_level_passed": 0,
+          "total_passed_including_subtests": 0,
+          "failed_tests": [
+            "TestConnectorVersionRegistrationConcurrency",
+            "TestConnectorVersionRegistrationConcurrency/same-existing-source"
+          ],
+          "skipped_tests": [],
+          "postgres_40P01_report_count": 2
+        }
+      ],
+      "command_count": 2,
+      "command_inputs_unchanged": true,
+      "race_execution_completed": false
+    },
+    {
+      "name": "second",
+      "source_profile": "exclusive-all-candidate",
+      "classification": "registration PG passed; race compilation stopped before tests because ENOSPC",
+      "result": {
+        "path": "/private/tmp/smartfactory-phase5-node-deadlock-second-20261005/result.json",
+        "sha256": "e12ddd60469e062f3e610ae0d2b1f40770c8dd57b07c78459cfbb7dd526dc3cd",
+        "bytes": 583
+      },
+      "raw_commands": {
+        "path": "/private/tmp/smartfactory-phase5-node-deadlock-second-20261005/commands.json",
+        "sha256": "089f549cdd13d2a3d0f4b62a0884f2cd20bdf07117ed5d538642518b57b39e3e",
+        "bytes": 2390
+      },
+      "production_input": {
+        "path": "/path/to/SmartFactory-2026/Platform/internal/configcenter/connector_sources.go",
+        "sha256": "033ffa8297145bb053d920ac700d1ab69446570aaa9126502725007543e72b11",
+        "bytes": 15072,
+        "archive": "/private/tmp/smartfactory-phase5-node-deadlock-second-20261005/fixed-inputs/033ffa8297145bb053d920ac700d1ab69446570aaa9126502725007543e72b11"
+      },
+      "test_input": {
+        "path": "/path/to/SmartFactory-2026/Platform/internal/configcenter/connector_sources_test.go",
+        "sha256": "5af2133c7efc9d66f393a3f58670379604ef7092d46debd6556da63c47f61791",
+        "bytes": 19348,
+        "archive": "/private/tmp/smartfactory-phase5-node-deadlock-second-20261005/fixed-inputs/5af2133c7efc9d66f393a3f58670379604ef7092d46debd6556da63c47f61791"
+      },
+      "checks": [
+        {
+          "log": {
+            "path": "/private/tmp/smartfactory-phase5-node-deadlock-second-20261005/postgres-workloads.stdout.log",
+            "sha256": "d6d884504a08081a4a2d261a3fca7d95c51ae322940f78582a6459dceba53858",
+            "bytes": 7562
+          },
+          "top_level_passed": 3,
+          "total_passed_including_subtests": 16,
+          "failed_tests": [],
+          "skipped_tests": [],
+          "postgres_40P01_report_count": 0
+        },
+        {
+          "log": {
+            "path": "/private/tmp/smartfactory-phase5-node-deadlock-second-20261005/race-node-configuration.stdout.log",
+            "sha256": "05d67a1da865a0b0f6a1ee34a4ca206789d49ff82b48bf2a20b3f19296ce43a5",
+            "bytes": 80
+          },
+          "top_level_passed": 0,
+          "total_passed_including_subtests": 0,
+          "failed_tests": [],
+          "skipped_tests": [],
+          "postgres_40P01_report_count": 0
+        }
+      ],
+      "command_count": 3,
+      "command_inputs_unchanged": true,
+      "race_execution_completed": false
+    },
+    {
+      "name": "readers-first",
+      "source_profile": "exclusive-all-candidate",
+      "classification": "two actual envelope consumer cycles reproduced as PostgreSQL 40P01",
+      "result": {
+        "path": "/private/tmp/smartfactory-phase5-node-deadlock-readers-first-20261005/result.json",
+        "sha256": "ba70dc36971dab8efcc129a20c46dfe2f57967afa84b11726a3d63ca20be5d2f",
+        "bytes": 585
+      },
+      "raw_commands": {
+        "path": "/private/tmp/smartfactory-phase5-node-deadlock-readers-first-20261005/commands.json",
+        "sha256": "b5ed4d2bce3cb884e11ba78c1c300a79805c07a0e94b228cea3864724bb4c16b",
+        "bytes": 1499
+      },
+      "production_input": {
+        "path": "/path/to/SmartFactory-2026/Platform/internal/configcenter/connector_sources.go",
+        "sha256": "033ffa8297145bb053d920ac700d1ab69446570aaa9126502725007543e72b11",
+        "bytes": 15072,
+        "archive": "/private/tmp/smartfactory-phase5-node-deadlock-readers-first-20261005/fixed-inputs/033ffa8297145bb053d920ac700d1ab69446570aaa9126502725007543e72b11"
+      },
+      "test_input": {
+        "path": "/path/to/SmartFactory-2026/Platform/internal/configcenter/connector_sources_test.go",
+        "sha256": "42c676f408ab00b60d49471ddad6c8e889c4cb9e8d4149928048742674f08ecc",
+        "bytes": 22174,
+        "archive": "/private/tmp/smartfactory-phase5-node-deadlock-readers-first-20261005/fixed-inputs/42c676f408ab00b60d49471ddad6c8e889c4cb9e8d4149928048742674f08ecc"
+      },
+      "checks": [
+        {
+          "log": {
+            "path": "/private/tmp/smartfactory-phase5-node-deadlock-readers-first-20261005/postgres-workloads.stdout.log",
+            "sha256": "8c90413e381edcd279cf9190645f9065b5bb0597bd0885d789c9a9d6c6cc104e",
+            "bytes": 1060
+          },
+          "top_level_passed": 0,
+          "total_passed_including_subtests": 0,
+          "failed_tests": [
+            "TestConnectorVersionRegistrationReaders",
+            "TestConnectorVersionRegistrationReaders/latest-pointer-consumer",
+            "TestConnectorVersionRegistrationReaders/reverse-fixed-consumer"
+          ],
+          "skipped_tests": [],
+          "postgres_40P01_report_count": 2
+        }
+      ],
+      "command_count": 2,
+      "command_inputs_unchanged": true,
+      "race_execution_completed": false
+    },
+    {
+      "name": "final",
+      "source_profile": "final-production",
+      "classification": "all existing workload checks and both envelope readers passed; one simultaneous-start observer did not see both transactions",
+      "result": {
+        "path": "/private/tmp/smartfactory-phase5-node-deadlock-final-20261005/result.json",
+        "sha256": "65f857bd990a7f6ab05ae2b8318f067b165865ebe95cf408619f8e7eb15c4067",
+        "bytes": 577
+      },
+      "raw_commands": {
+        "path": "/private/tmp/smartfactory-phase5-node-deadlock-final-20261005/commands.json",
+        "sha256": "c92adf25cd5cd06aebdc01bfa42fc4f2c167ce110cfc901f09a5a4b659a94675",
+        "bytes": 1486
+      },
+      "production_input": {
+        "path": "/path/to/SmartFactory-2026/Platform/internal/configcenter/connector_sources.go",
+        "sha256": "facec76f2194c930358119042723d4b2847031e16ad600eea7d99059c60f0dc4",
+        "bytes": 15231,
+        "archive": "/private/tmp/smartfactory-phase5-node-deadlock-final-20261005/fixed-inputs/facec76f2194c930358119042723d4b2847031e16ad600eea7d99059c60f0dc4"
+      },
+      "test_input": {
+        "path": "/path/to/SmartFactory-2026/Platform/internal/configcenter/connector_sources_test.go",
+        "sha256": "42c676f408ab00b60d49471ddad6c8e889c4cb9e8d4149928048742674f08ecc",
+        "bytes": 22174,
+        "archive": "/private/tmp/smartfactory-phase5-node-deadlock-final-20261005/fixed-inputs/42c676f408ab00b60d49471ddad6c8e889c4cb9e8d4149928048742674f08ecc"
+      },
+      "checks": [
+        {
+          "log": {
+            "path": "/private/tmp/smartfactory-phase5-node-deadlock-final-20261005/postgres-workloads.stdout.log",
+            "sha256": "b3c8d5e1414ebd9b16acdc2444f283f025e5e1c3d3ac35230c3bd6571d7eb91b",
+            "bytes": 9195
+          },
+          "top_level_passed": 8,
+          "total_passed_including_subtests": 26,
+          "failed_tests": [
+            "TestConnectorVersionRegistrationConcurrency",
+            "TestConnectorVersionRegistrationConcurrency/same-connector-different-versions"
+          ],
+          "skipped_tests": [],
+          "postgres_40P01_report_count": 0
+        }
+      ],
+      "command_count": 2,
+      "command_inputs_unchanged": true,
+      "race_execution_completed": false
+    },
+    {
+      "name": "complete",
+      "source_profile": "final-production",
+      "classification": "sequential-start observer retained its pg_stat_activity transaction snapshot and omitted new connection; consumers passed",
+      "result": {
+        "path": "/private/tmp/smartfactory-phase5-node-deadlock-complete-20261005/result.json",
+        "sha256": "605fb24b2bbfb85a2f064ea21b5a922f20fd99691c6dc14735e86b937c8fa108",
+        "bytes": 580
+      },
+      "raw_commands": {
+        "path": "/private/tmp/smartfactory-phase5-node-deadlock-complete-20261005/commands.json",
+        "sha256": "f8e418aadad3c9e0c02915f516329817d8fd0acafdb442d1fede441f31269e17",
+        "bytes": 1478
+      },
+      "production_input": {
+        "path": "/path/to/SmartFactory-2026/Platform/internal/configcenter/connector_sources.go",
+        "sha256": "facec76f2194c930358119042723d4b2847031e16ad600eea7d99059c60f0dc4",
+        "bytes": 15231,
+        "archive": "/private/tmp/smartfactory-phase5-node-deadlock-complete-20261005/fixed-inputs/facec76f2194c930358119042723d4b2847031e16ad600eea7d99059c60f0dc4"
+      },
+      "test_input": {
+        "path": "/path/to/SmartFactory-2026/Platform/internal/configcenter/connector_sources_test.go",
+        "sha256": "d5a5b4d35a8eec2d5967bdb19edab6dd37911a6765244c3007622bcda1af24ba",
+        "bytes": 22642,
+        "archive": "/private/tmp/smartfactory-phase5-node-deadlock-complete-20261005/fixed-inputs/d5a5b4d35a8eec2d5967bdb19edab6dd37911a6765244c3007622bcda1af24ba"
+      },
+      "checks": [
+        {
+          "log": {
+            "path": "/private/tmp/smartfactory-phase5-node-deadlock-complete-20261005/postgres-workloads.stdout.log",
+            "sha256": "a0f8cae98334238224a2b5c3f448ef1ac9d5d564ccdf6ac1dc0355191b392296",
+            "bytes": 4145
+          },
+          "top_level_passed": 3,
+          "total_passed_including_subtests": 13,
+          "failed_tests": [
+            "TestConnectorVersionRegistrationConcurrency",
+            "TestConnectorVersionRegistrationConcurrency/same-existing-source",
+            "TestConnectorVersionRegistrationConcurrency/same-first-registration",
+            "TestConnectorVersionRegistrationConcurrency/same-latest-upgrade",
+            "TestConnectorVersionRegistrationConcurrency/reverse-overlapping-references",
+            "TestConnectorVersionRegistrationConcurrency/same-connector-different-versions"
+          ],
+          "skipped_tests": [],
+          "postgres_40P01_report_count": 0
+        }
+      ],
+      "command_count": 2,
+      "command_inputs_unchanged": true,
+      "race_execution_completed": false
+    },
+    {
+      "name": "verified",
+      "source_profile": "final-production",
+      "classification": "fresh statistics observations, both formal calls, actual readers, authority guards and atomic rollback passed under PG and race",
+      "result": {
+        "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/result.json",
+        "sha256": "cce942630a80bb810603d192c7730a602118f3ad22fe3745e14d9f74e1f8e194",
+        "bytes": 557
+      },
+      "raw_commands": {
+        "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/commands.json",
+        "sha256": "5720aea27edadf05899ca00a1defb5279725a500ebe23bd7a0882901fff7295d",
+        "bytes": 2439
+      },
+      "production_input": {
+        "path": "/path/to/SmartFactory-2026/Platform/internal/configcenter/connector_sources.go",
+        "sha256": "facec76f2194c930358119042723d4b2847031e16ad600eea7d99059c60f0dc4",
+        "bytes": 15231,
+        "archive": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/fixed-inputs/facec76f2194c930358119042723d4b2847031e16ad600eea7d99059c60f0dc4"
+      },
+      "test_input": {
+        "path": "/path/to/SmartFactory-2026/Platform/internal/configcenter/connector_sources_test.go",
+        "sha256": "1274cb6ec134f3ff8fd420d769e5550f048820641ed29e4c9434a12de477040e",
+        "bytes": 22980,
+        "archive": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/fixed-inputs/1274cb6ec134f3ff8fd420d769e5550f048820641ed29e4c9434a12de477040e"
+      },
+      "checks": [
+        {
+          "log": {
+            "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/postgres-workloads.stdout.log",
+            "sha256": "46e36d68a05d58b78c34875bc78fb65cea79e1c4d4725dcbf7a472ae64b3fcfa",
+            "bytes": 7590
+          },
+          "top_level_passed": 4,
+          "total_passed_including_subtests": 19,
+          "failed_tests": [],
+          "skipped_tests": [],
+          "postgres_40P01_report_count": 0
+        },
+        {
+          "log": {
+            "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/race-node-configuration.stdout.log",
+            "sha256": "fcdeeaf1921191622dbb26c7020b228715da47b9681c45e46fdbb43fede79274",
+            "bytes": 7590
+          },
+          "top_level_passed": 4,
+          "total_passed_including_subtests": 19,
+          "failed_tests": [],
+          "skipped_tests": [],
+          "postgres_40P01_report_count": 0
+        }
+      ],
+      "command_count": 3,
+      "command_inputs_unchanged": true,
+      "race_execution_completed": true
+    }
+  ],
+  "snapshot_review": {
+    "actual_pg_reproductions": [
+      "原共享读取升级同一来源排他锁循环",
+      "候选固定版本排他锁与最新指针消费者循环",
+      "候选固定版本排他锁与反向固定引用消费者循环"
+    ],
+    "call_relationship_checks": [
+      "当前指针集合读取先于固定版本读取",
+      "既有固定内容只读与缺失固定内容插入采用各自锁契约",
+      "相同来源、初次登记、当前指针升级、重叠反向引用、同一连接器不同版本登记"
+    ],
+    "final_actual_consumers": [
+      "TestConnectorVersionRegistrationReaders/latest-pointer-consumer",
+      "TestConnectorVersionRegistrationReaders/reverse-fixed-consumer"
+    ],
+    "observer_corrections": "第一调用实际等待后启动第二调用，每次查询前执行 pg_stat_clear_snapshot，再以当前锁表 PID 与刷新后的统计视图核对两事务；两次 observer 失败的 40P01 数量均为 0",
+    "candidate_server_log_collection": "候选快照循环的 PostgreSQL 40P01 由正式 Go 错误记录；补充 Docker 日志查询被终止，空输出未作为服务器日志证据"
+  },
+  "final_checks": {
+    "postgres": {
+      "top_level_passed": 4,
+      "total_passed_including_subtests": 19,
+      "skipped": 0,
+      "exit_code": 0
+    },
+    "race": {
+      "top_level_passed": 4,
+      "total_passed_including_subtests": 19,
+      "skipped": 0,
+      "exit_code": 0,
+      "race_warning_count": 0,
+      "actual_postgres_enabled": true
+    },
+    "authority": "夹具使用 TLS1.3 双向证书验证与正式 authority/connector-metadata 客户端路径，权威响应由 httptest 服务提供；覆盖 403 撤权、节点与来源证明错误、固定摘要冲突及旧节点版本拒绝",
+    "atomicity": "来源写入故障注入后固定版本、最新指针和来源完整回滚，取消故障后同一调用成功",
+    "key_material": "固定引用及 credential_ref 得到核对，登记文档只含公开内容",
+    "reused_unchanged_production_checks": {
+      "source_directory": "/private/tmp/smartfactory-phase5-node-deadlock-final-20261005",
+      "passed_top_level": 5,
+      "passed_including_subtests": 9,
+      "tests": [
+        "TestWorkloadStreamSlowHTTP1AndHTTP2ClientsReleaseHandler",
+        "TestWorkloadStreamSlowHTTP1AndHTTP2ClientsReleaseHandler/http1",
+        "TestWorkloadStreamSlowHTTP1AndHTTP2ClientsReleaseHandler/http2",
+        "TestWorkloadRevocationBetweenConnectionsClearsActualCachedPolicy",
+        "TestWorkloadRevocationBetweenConnectionsClearsActualCachedPolicy/cached-startup",
+        "TestWorkloadRevocationBetweenConnectionsClearsActualCachedPolicy/stream-reconnect",
+        "TestWorkloadConfigurationDynamicFailureStaticRestart",
+        "TestWorkloadIdentityScopeReportsRevocationAndRotation",
+        "TestFixedReleaseConfigurationTargetSurvivesParallelLatestRead"
+      ],
+      "input_difference_from_final_run": [
+        "Platform/internal/configcenter/connector_sources_test.go"
+      ],
+      "reason": "最终生产源码与所有既有工作负载测试输入一致，仅观察辅助函数调整，复用已通过结果"
+    }
+  },
+  "compiled_inputs": {
+    "go_environment": {
+      "CC": "cc",
+      "CGO_ENABLED": "1",
+      "GOARCH": "arm64",
+      "GOOS": "darwin",
+      "GOROOT": "/opt/homebrew/Cellar/go/1.27.1/libexec",
+      "GOVERSION": "go1.27.1"
+    },
+    "ordinary_before_after": {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/input-verification.json",
+      "sha256": "25baa7f9ac4287dfcf9436bfb63f53c8f4770e93ae236b21a80bc69da9d4dfdf",
+      "bytes": 837
+    },
+    "race_supplement": {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/race-actual-collection.json",
+      "sha256": "1e19f461929a7f5d335468a0515405bcb87e5714dd582de82037fde5a3283d4f",
+      "bytes": 3296
+    },
+    "race_actual_index": {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/race-actual.inputs.json",
+      "sha256": "6526487d9dc032cb415926c4156ef4f3c85810e9b8f8e3aeae0969e7f184aacc",
+      "bytes": 1818806
+    },
+    "combined_verification": {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/race-input-verification.json",
+      "sha256": "708d834f37a3541ddb122503633d43801143a0cc946b95dc825da62b91cd17e1",
+      "bytes": 622
+    },
+    "programs": [
+      {
+        "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/test-programs/postgres-configcenter.test",
+        "executed_path": "/var/folders/9j/tb1q6j457hd6fggl8vscg1f40000gn/T/go-build529146418/b001/configcenter.test",
+        "sha256": "db1a17bc2db0ebcca44e2794bebbc75f7a312907ac5e1a26df39496474b4b935",
+        "bytes": 26953122,
+        "work_directory": "/var/folders/9j/tb1q6j457hd6fggl8vscg1f40000gn/T/go-build529146418",
+        "argv": [
+          "go",
+          "test",
+          "-work",
+          "-count=1",
+          "-p",
+          "1",
+          "./internal/configcenter",
+          "-run",
+          "^TestConnectorVersionRegistration",
+          "-v"
+        ],
+        "exit_code": 0
+      },
+      {
+        "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/test-programs/race-configcenter.test",
+        "executed_path": "/var/folders/9j/tb1q6j457hd6fggl8vscg1f40000gn/T/go-build2763527464/b001/configcenter.test",
+        "sha256": "fabe23e8f22e4741d305ec35dcc032afe53eaea615baed0e36543e7e21dce198",
+        "bytes": 38567490,
+        "work_directory": "/var/folders/9j/tb1q6j457hd6fggl8vscg1f40000gn/T/go-build2763527464",
+        "argv": [
+          "go",
+          "test",
+          "-work",
+          "-race",
+          "-count=1",
+          "-p",
+          "1",
+          "./internal/configcenter",
+          "-run",
+          "^TestConnectorVersionRegistration",
+          "-v"
+        ],
+        "exit_code": 0
+      }
+    ],
+    "program_buildinfo": {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/test-program-buildinfo.json",
+      "sha256": "2129b70822519c8f344313f5e48d532130e412e373980a049187657d344f68b1",
+      "bytes": 1066
+    },
+    "provenance_note": "原 race 命令的执行旗标含 -race，实际程序 BuildInfo 已核对 -race=true；原前后 go-list 未带 -race。成功执行后补充带 -race 的实际依赖集合，保存 17 项专属输入，其中包括 darwin_arm64 race .syso，并核对 4838 项共同输入摘要一致"
+  },
+  "resources_and_cleanup": {
+    "postgres_instance": "smartfactory-evolution-pg18-final60-20261005",
+    "postgres_version": "18.6",
+    "application_pool": {
+      "max_open": 3,
+      "max_idle": 1
+    },
+    "administrative_max_open": 1,
+    "go_window_released": true,
+    "check_processes_exited_zero": true,
+    "process_observation": {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/cleanup-processes.json",
+      "sha256": "ea7a960d0b9d9dcb082a83f5e9d6c79232e8246f39d3a51f89c4a7315a701088",
+      "bytes": 144
+    },
+    "postgres_cleanup": "每个隔离 schema 的 DROP SCHEMA CASCADE 通过 testdb.Postgres 的 t.Cleanup 执行，错误会使测试失败；最终普通及 race 全部通过，应用 DB.Close 错误检查也全部通过，管理连接关闭",
+    "supplemental_docker_observation": {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/cleanup-docker-observation.json",
+      "sha256": "c0210a93ce3e3244cc50e28d2e7ddd745227e3db730ed88e44f03af56928336e",
+      "bytes": 793
+    },
+    "supplemental_docker_observation_usage": "只读 Docker exec 超时已保留，未用于清理结论",
+    "enospc": "第二轮 race 在编译阶段返回 no space left on device，未执行测试；原 stdout、stderr 与固定输入保持可定位",
+    "disk_recovery": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-disk-space-recovery.json",
+      "sha256": "c38afa651d3d7bc757db45eb135d1ea58915a8ddca61ac4066583ebf96835a9c",
+      "bytes": 239862
+    },
+    "disk_recovery_reference_roots": 140,
+    "frontend_services": "本轮没有结束前端服务或修改其持久数据",
+    "owned_test_programs_retained": true
+  },
+  "next_delivery": {
+    "state": "waiting_for_user_resume",
+    "handoff": {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-20261005/next-delivery.txt",
+      "sha256": "f9351e7bd1ba4c0a78ecc81d334474cdce704d2e77fde714fa1e203094abf1e2",
+      "bytes": 905
+    },
+    "required_source_sha256": "facec76f2194c930358119042723d4b2847031e16ad600eea7d99059c60f0dc4",
+    "remaining_work": "用户恢复目标后，原交付工程师采用本轮固定源码完成正式 Linux 全流程、十四程序包及最终独立审查",
+    "started_in_this_followup": false
+  },
+  "references": [
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-first-20261005/commands.json",
+      "sha256": "051ca371b9dad8862db6cbc59d8fda11985a53c151aa50ce1a873eb1c872dcef",
+      "bytes": 1476
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-first-20261005/go-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-first-20261005/go-version.stdout.log",
+      "sha256": "c528ba02b39880f1357f51dee70e41c1ef03e3a70c7a03055c080532b9635f58",
+      "bytes": 33
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-first-20261005/postgres-server-log-command.json",
+      "sha256": "5d78254b0a2c7fe9f4ac46f490b1187c387e142092140dc21da57dcfe5c669c0",
+      "bytes": 648
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-first-20261005/postgres-server.stderr.log",
+      "sha256": "579a80b4ff113106a1c49cef10fe6f80da8a63f3e5e427ce21b82de216ad7f3b",
+      "bytes": 1568
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-first-20261005/postgres-server.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-first-20261005/postgres-workloads-after.go-list.json",
+      "sha256": "75dfc6e7845d025562b29cf9093b41f2412b8af64308ca8fc8a607db1a618f8f",
+      "bytes": 2160366
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-first-20261005/postgres-workloads-after.go-list.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-first-20261005/postgres-workloads-after.inputs.json",
+      "sha256": "595e0528923b7b4575b7885c11e40fd15a2e868bdfb2e5aaa5e8e81d7bd7434f",
+      "bytes": 1802145
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-first-20261005/postgres-workloads-before.go-list.json",
+      "sha256": "90bf9de7e5ee22e481d3baf747d0fd59b3ddb475fbe4c4107c2f99c2893dca46",
+      "bytes": 2160474
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-first-20261005/postgres-workloads-before.go-list.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-first-20261005/postgres-workloads-before.inputs.json",
+      "sha256": "595e0528923b7b4575b7885c11e40fd15a2e868bdfb2e5aaa5e8e81d7bd7434f",
+      "bytes": 1802145
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-first-20261005/postgres-workloads.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-first-20261005/postgres-workloads.stdout.log",
+      "sha256": "2f5f9d1a02c376ff88a97b398e61bd3e9d8a0c635750bb279d2939bf5709147f",
+      "bytes": 1923
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-first-20261005/result.json",
+      "sha256": "1541b189cc3356bec3fa613c0842976f353137ea1f7ea85b37a357af46712ba2",
+      "bytes": 577
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-second-20261005/commands.json",
+      "sha256": "089f549cdd13d2a3d0f4b62a0884f2cd20bdf07117ed5d538642518b57b39e3e",
+      "bytes": 2390
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-second-20261005/go-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-second-20261005/go-version.stdout.log",
+      "sha256": "c528ba02b39880f1357f51dee70e41c1ef03e3a70c7a03055c080532b9635f58",
+      "bytes": 33
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-second-20261005/postgres-workloads-after.go-list.json",
+      "sha256": "f840da9a949517648addc14026eae303ab79ec784aa55b57827c754e889dbeb7",
+      "bytes": 2160419
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-second-20261005/postgres-workloads-after.go-list.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-second-20261005/postgres-workloads-after.inputs.json",
+      "sha256": "31af72885d83e4c107840b7a1f942a1121e7195e24cc0333e03e645e560b1ce9",
+      "bytes": 1806994
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-second-20261005/postgres-workloads-before.go-list.json",
+      "sha256": "713eb9856764d2d4df5a51851442cf148df50857669af2d33c2d6d9ac9c36b46",
+      "bytes": 2160527
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-second-20261005/postgres-workloads-before.go-list.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-second-20261005/postgres-workloads-before.inputs.json",
+      "sha256": "31af72885d83e4c107840b7a1f942a1121e7195e24cc0333e03e645e560b1ce9",
+      "bytes": 1806994
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-second-20261005/postgres-workloads.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-second-20261005/postgres-workloads.stdout.log",
+      "sha256": "d6d884504a08081a4a2d261a3fca7d95c51ae322940f78582a6459dceba53858",
+      "bytes": 7562
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-second-20261005/race-node-configuration-after.go-list.json",
+      "sha256": "f840da9a949517648addc14026eae303ab79ec784aa55b57827c754e889dbeb7",
+      "bytes": 2160419
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-second-20261005/race-node-configuration-after.go-list.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-second-20261005/race-node-configuration-after.inputs.json",
+      "sha256": "31af72885d83e4c107840b7a1f942a1121e7195e24cc0333e03e645e560b1ce9",
+      "bytes": 1806994
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-second-20261005/race-node-configuration-before.go-list.json",
+      "sha256": "f840da9a949517648addc14026eae303ab79ec784aa55b57827c754e889dbeb7",
+      "bytes": 2160419
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-second-20261005/race-node-configuration-before.go-list.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-second-20261005/race-node-configuration-before.inputs.json",
+      "sha256": "31af72885d83e4c107840b7a1f942a1121e7195e24cc0333e03e645e560b1ce9",
+      "bytes": 1806994
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-second-20261005/race-node-configuration.stderr.log",
+      "sha256": "f1c4dfdad37c9ff6867fea60dfc030c2b3c33258a2c9a0115a31a02baa6f1822",
+      "bytes": 681
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-second-20261005/race-node-configuration.stdout.log",
+      "sha256": "05d67a1da865a0b0f6a1ee34a4ca206789d49ff82b48bf2a20b3f19296ce43a5",
+      "bytes": 80
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-second-20261005/result.json",
+      "sha256": "e12ddd60469e062f3e610ae0d2b1f40770c8dd57b07c78459cfbb7dd526dc3cd",
+      "bytes": 583
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-readers-first-20261005/commands.json",
+      "sha256": "b5ed4d2bce3cb884e11ba78c1c300a79805c07a0e94b228cea3864724bb4c16b",
+      "bytes": 1499
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-readers-first-20261005/go-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-readers-first-20261005/go-version.stdout.log",
+      "sha256": "c528ba02b39880f1357f51dee70e41c1ef03e3a70c7a03055c080532b9635f58",
+      "bytes": 33
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-readers-first-20261005/postgres-server-log-command.json",
+      "sha256": "11a80fffc43bd7db4b022447abf8a6278d9e42f215bfce3ec26111a72c1e88c1",
+      "bytes": 210
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-readers-first-20261005/postgres-server.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-readers-first-20261005/postgres-server.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-readers-first-20261005/postgres-workloads-after.go-list.json",
+      "sha256": "eced469985285d81f534c8cd27789ae6f0999b39c62f1c7093d3c863512d0b85",
+      "bytes": 2160419
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-readers-first-20261005/postgres-workloads-after.go-list.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-readers-first-20261005/postgres-workloads-after.inputs.json",
+      "sha256": "4188e51c0b257919ee980b07c134ec3a112f27a2410dc604d242cd4fd0928b6e",
+      "bytes": 1840937
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-readers-first-20261005/postgres-workloads-before.go-list.json",
+      "sha256": "319de032964da9c8816b968dc5537db5255affd419df38fd8b69ef5121438fba",
+      "bytes": 2160527
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-readers-first-20261005/postgres-workloads-before.go-list.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-readers-first-20261005/postgres-workloads-before.inputs.json",
+      "sha256": "4188e51c0b257919ee980b07c134ec3a112f27a2410dc604d242cd4fd0928b6e",
+      "bytes": 1840937
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-readers-first-20261005/postgres-workloads.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-readers-first-20261005/postgres-workloads.stdout.log",
+      "sha256": "8c90413e381edcd279cf9190645f9065b5bb0597bd0885d789c9a9d6c6cc104e",
+      "bytes": 1060
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-readers-first-20261005/result.json",
+      "sha256": "ba70dc36971dab8efcc129a20c46dfe2f57967afa84b11726a3d63ca20be5d2f",
+      "bytes": 585
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-final-20261005/commands.json",
+      "sha256": "c92adf25cd5cd06aebdc01bfa42fc4f2c167ce110cfc901f09a5a4b659a94675",
+      "bytes": 1486
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-final-20261005/go-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-final-20261005/go-version.stdout.log",
+      "sha256": "c528ba02b39880f1357f51dee70e41c1ef03e3a70c7a03055c080532b9635f58",
+      "bytes": 33
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-final-20261005/postgres-workloads-after.go-list.json",
+      "sha256": "eced469985285d81f534c8cd27789ae6f0999b39c62f1c7093d3c863512d0b85",
+      "bytes": 2160419
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-final-20261005/postgres-workloads-after.go-list.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-final-20261005/postgres-workloads-after.inputs.json",
+      "sha256": "8875518bdb9e6b538e296b8b907c35216d9fc0f6906865f1b103bdc128d04932",
+      "bytes": 1802145
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-final-20261005/postgres-workloads-before.go-list.json",
+      "sha256": "319de032964da9c8816b968dc5537db5255affd419df38fd8b69ef5121438fba",
+      "bytes": 2160527
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-final-20261005/postgres-workloads-before.go-list.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-final-20261005/postgres-workloads-before.inputs.json",
+      "sha256": "8875518bdb9e6b538e296b8b907c35216d9fc0f6906865f1b103bdc128d04932",
+      "bytes": 1802145
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-final-20261005/postgres-workloads.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-final-20261005/postgres-workloads.stdout.log",
+      "sha256": "b3c8d5e1414ebd9b16acdc2444f283f025e5e1c3d3ac35230c3bd6571d7eb91b",
+      "bytes": 9195
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-final-20261005/result.json",
+      "sha256": "65f857bd990a7f6ab05ae2b8318f067b165865ebe95cf408619f8e7eb15c4067",
+      "bytes": 577
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-complete-20261005/commands.json",
+      "sha256": "f8e418aadad3c9e0c02915f516329817d8fd0acafdb442d1fede441f31269e17",
+      "bytes": 1478
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-complete-20261005/go-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-complete-20261005/go-version.stdout.log",
+      "sha256": "c528ba02b39880f1357f51dee70e41c1ef03e3a70c7a03055c080532b9635f58",
+      "bytes": 33
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-complete-20261005/postgres-workloads-after.go-list.json",
+      "sha256": "eced469985285d81f534c8cd27789ae6f0999b39c62f1c7093d3c863512d0b85",
+      "bytes": 2160419
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-complete-20261005/postgres-workloads-after.go-list.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-complete-20261005/postgres-workloads-after.inputs.json",
+      "sha256": "83271804a42894d7f836226222d7d89fa90285137c624034d2291ff530a6a070",
+      "bytes": 1816692
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-complete-20261005/postgres-workloads-before.go-list.json",
+      "sha256": "319de032964da9c8816b968dc5537db5255affd419df38fd8b69ef5121438fba",
+      "bytes": 2160527
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-complete-20261005/postgres-workloads-before.go-list.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-complete-20261005/postgres-workloads-before.inputs.json",
+      "sha256": "83271804a42894d7f836226222d7d89fa90285137c624034d2291ff530a6a070",
+      "bytes": 1816692
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-complete-20261005/postgres-workloads.stderr.log",
+      "sha256": "329f0d0409a8e05d1061c12c0e3187029083c479cfbbd94c9b8402972873f9fc",
+      "bytes": 73
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-complete-20261005/postgres-workloads.stdout.log",
+      "sha256": "a0f8cae98334238224a2b5c3f448ef1ac9d5d564ccdf6ac1dc0355191b392296",
+      "bytes": 4145
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-complete-20261005/result.json",
+      "sha256": "605fb24b2bbfb85a2f064ea21b5a922f20fd99691c6dc14735e86b937c8fa108",
+      "bytes": 580
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-complete-20261005/test-programs.json",
+      "sha256": "35ae54850ee50010d3a272c4c1327f84fe2d906da8c0bdb8845df98c6d32e96b",
+      "bytes": 669
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/cleanup-docker-observation.json",
+      "sha256": "c0210a93ce3e3244cc50e28d2e7ddd745227e3db730ed88e44f03af56928336e",
+      "bytes": 793
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/cleanup-processes.json",
+      "sha256": "ea7a960d0b9d9dcb082a83f5e9d6c79232e8246f39d3a51f89c4a7315a701088",
+      "bytes": 144
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/commands.json",
+      "sha256": "5720aea27edadf05899ca00a1defb5279725a500ebe23bd7a0882901fff7295d",
+      "bytes": 2439
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/go-environment.json",
+      "sha256": "11174fee250e3c4ce4083b47d805f226b8b1f3d51e2bc70ac32ed48ed1f9f9ae",
+      "bytes": 155
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/go-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/go-version.stdout.log",
+      "sha256": "c528ba02b39880f1357f51dee70e41c1ef03e3a70c7a03055c080532b9635f58",
+      "bytes": 33
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/input-verification.json",
+      "sha256": "25baa7f9ac4287dfcf9436bfb63f53c8f4770e93ae236b21a80bc69da9d4dfdf",
+      "bytes": 837
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/postgres-test-program-buildinfo.log",
+      "sha256": "4e14129508d0fcb529817bf2f4ec4c7d6656d707554878bda4d17bdb343ee577",
+      "bytes": 5650
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/postgres-workloads-after.go-list.json",
+      "sha256": "eced469985285d81f534c8cd27789ae6f0999b39c62f1c7093d3c863512d0b85",
+      "bytes": 2160419
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/postgres-workloads-after.go-list.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/postgres-workloads-after.inputs.json",
+      "sha256": "490ab4e4cf242092069fe9acdecdf1683e8a014d18b44f70ea6765fdf162c6f3",
+      "bytes": 1816692
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/postgres-workloads-before.go-list.json",
+      "sha256": "319de032964da9c8816b968dc5537db5255affd419df38fd8b69ef5121438fba",
+      "bytes": 2160527
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/postgres-workloads-before.go-list.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/postgres-workloads-before.inputs.json",
+      "sha256": "490ab4e4cf242092069fe9acdecdf1683e8a014d18b44f70ea6765fdf162c6f3",
+      "bytes": 1816692
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/postgres-workloads.stderr.log",
+      "sha256": "da4e5de33a9b0925d537c8c5cb0cd7000e041bdd2edda036288192f834aab0a6",
+      "bytes": 72
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/postgres-workloads.stdout.log",
+      "sha256": "46e36d68a05d58b78c34875bc78fb65cea79e1c4d4725dcbf7a472ae64b3fcfa",
+      "bytes": 7590
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/race-actual-collection.json",
+      "sha256": "1e19f461929a7f5d335468a0515405bcb87e5714dd582de82037fde5a3283d4f",
+      "bytes": 3296
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/race-actual.go-list.json",
+      "sha256": "60965eabbd8a9db5212949bfb537c3b9663239cb41d09992cc43b03c33995a02",
+      "bytes": 2161592
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/race-actual.go-list.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/race-actual.inputs.json",
+      "sha256": "6526487d9dc032cb415926c4156ef4f3c85810e9b8f8e3aeae0969e7f184aacc",
+      "bytes": 1818806
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/race-input-verification.json",
+      "sha256": "708d834f37a3541ddb122503633d43801143a0cc946b95dc825da62b91cd17e1",
+      "bytes": 622
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/race-node-configuration-after.go-list.json",
+      "sha256": "eced469985285d81f534c8cd27789ae6f0999b39c62f1c7093d3c863512d0b85",
+      "bytes": 2160419
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/race-node-configuration-after.go-list.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/race-node-configuration-after.inputs.json",
+      "sha256": "490ab4e4cf242092069fe9acdecdf1683e8a014d18b44f70ea6765fdf162c6f3",
+      "bytes": 1816692
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/race-node-configuration-before.go-list.json",
+      "sha256": "eced469985285d81f534c8cd27789ae6f0999b39c62f1c7093d3c863512d0b85",
+      "bytes": 2160419
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/race-node-configuration-before.go-list.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/race-node-configuration-before.inputs.json",
+      "sha256": "490ab4e4cf242092069fe9acdecdf1683e8a014d18b44f70ea6765fdf162c6f3",
+      "bytes": 1816692
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/race-node-configuration.stderr.log",
+      "sha256": "060f9b0c816505359f7761113cdd79c768403b98446b75f09d19905adc3c8822",
+      "bytes": 73
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/race-node-configuration.stdout.log",
+      "sha256": "fcdeeaf1921191622dbb26c7020b228715da47b9681c45e46fdbb43fede79274",
+      "bytes": 7590
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/race-test-program-buildinfo.log",
+      "sha256": "d7809b5fd63c3aced39ddcd5af44f24d4304ad57800b330a67b907d5350c0f84",
+      "bytes": 5664
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/result.json",
+      "sha256": "cce942630a80bb810603d192c7730a602118f3ad22fe3745e14d9f74e1f8e194",
+      "bytes": 557
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/test-program-buildinfo.json",
+      "sha256": "2129b70822519c8f344313f5e48d532130e412e373980a049187657d344f68b1",
+      "bytes": 1066
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/test-programs.json",
+      "sha256": "ae20eb85245500614df94fcad79578b64a2297022f983a4aee04d3d64133beb1",
+      "bytes": 1344
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-20261005/before-manifest.json",
+      "sha256": "b8218fe6dd53bbfd21c886fae9acfbf784db284708f5978c53164b738a8743bf",
+      "bytes": 1614
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-20261005/candidate-exclusive-all.go",
+      "sha256": "033ffa8297145bb053d920ac700d1ab69446570aaa9126502725007543e72b11",
+      "bytes": 15072
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-20261005/capture-race-inputs.py",
+      "sha256": "b1ebb02a9e8dd14c74f318f66b5993f25066952c3701759a793f1708e3f8f1e9",
+      "bytes": 3340
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-20261005/final-source-change.patch",
+      "sha256": "d147fa7f24118f54c2fb6c5d1ba7c246e35306b097c0bb5840a7f8f103959b81",
+      "bytes": 3690
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-20261005/final-source.json",
+      "sha256": "a7617635a32f1c22abca5eea1531215f4e08ed31a45c8372acdcf12eef8d9dac",
+      "bytes": 2311
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-20261005/next-delivery.txt",
+      "sha256": "f9351e7bd1ba4c0a78ecc81d334474cdce704d2e77fde714fa1e203094abf1e2",
+      "bytes": 905
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-20261005/run-final-registration.py",
+      "sha256": "446a81ecef974cf485b5af7e9d42c0793a01b96cf03b9276661b9103467242c4",
+      "bytes": 2147
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-20261005/run-verified-registration.py",
+      "sha256": "9512dee343d33efe11b9287261ce802fdc433ec68e1a50d5e81f61543ede29b9",
+      "bytes": 2147
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-20261005/final-source/Platform/internal/configcenter/connector_sources.go",
+      "sha256": "facec76f2194c930358119042723d4b2847031e16ad600eea7d99059c60f0dc4",
+      "bytes": 15231
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-20261005/final-source/Platform/internal/configcenter/connector_sources_test.go",
+      "sha256": "1274cb6ec134f3ff8fd420d769e5550f048820641ed29e4c9434a12de477040e",
+      "bytes": 22980
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/test-programs/postgres-configcenter.test",
+      "sha256": "db1a17bc2db0ebcca44e2794bebbc75f7a312907ac5e1a26df39496474b4b935",
+      "bytes": 26953122
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-node-deadlock-verified-20261005/test-programs/race-configcenter.test",
+      "sha256": "fabe23e8f22e4741d305ec35dcc032afe53eaea615baed0e36543e7e21dce198",
+      "bytes": 38567490
+    },
+    {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-config-deadlock-root-review.json",
+      "sha256": "5ea84bc04ca6477b0524323d3feec304b23acfc9da858cc365c67efe61899d55",
+      "bytes": 4051
+    },
+    {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-delivery-config-deadlock-checkpoint.json",
+      "sha256": "ebb28f643ea6985c5559579f41f9e2bf93a00ebcc161a073ba1a42693402e22d",
+      "bytes": 89030
+    },
+    {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-config-deadlock-checkpoint-root-review.json",
+      "sha256": "dc5ee1fcb19c087c0d41c8f3aad34d3713101d2378a505dbda10ab80879257ab",
+      "bytes": 23489
+    },
+    {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-disk-space-recovery.json",
+      "sha256": "c38afa651d3d7bc757db45eb135d1ea58915a8ddca61ac4066583ebf96835a9c",
+      "bytes": 239862
+    },
+    {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/release-restore-recovery-verified.json",
+      "sha256": "6c26157445e3eaf60b4717d75222f027a7382438dcc5df59e2a485c54ff01e40",
+      "bytes": 174217
+    },
+    {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-node-deadlock-root-review.json",
+      "sha256": "385f8ac39240a8a0a38ebfa2b82bd2cf2fe0c1fed0f3c153c736ffa184cd7d4d",
+      "bytes": 4961
+    }
+  ],
+  "coordinator_verification": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-node-deadlock-root-review.json",
+    "sha256": "385f8ac39240a8a0a38ebfa2b82bd2cf2fe0c1fed0f3c153c736ffa184cd7d4d",
+    "bytes": 4961
+  }
+}

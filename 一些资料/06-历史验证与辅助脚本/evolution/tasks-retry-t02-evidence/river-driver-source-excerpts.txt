@@ -1,0 +1,358 @@
+/private/tmp/smartfactory-evolution-gomodcache/github.com/riverqueue/river/riverdriver@v0.48.0/river_driver_interface.go:760-795
+760: 	ScheduledAt     []*time.Time
+761: 	Schema          string
+762: 	State           []rivertype.JobState
+763: }
+764: 
+765: type JobUpdateParams struct {
+766: 	ID              int64
+767: 	MetadataDoMerge bool
+768: 	Metadata        []byte
+769: 	Schema          string
+770: }
+771: 
+772: type JobUpdateFullParams struct {
+773: 	ID                  int64
+774: 	AttemptDoUpdate     bool
+775: 	Attempt             int
+776: 	AttemptedAtDoUpdate bool
+777: 	AttemptedAt         *time.Time
+778: 	AttemptedByDoUpdate bool
+779: 	AttemptedBy         []string
+780: 	ErrorsDoUpdate      bool
+781: 	Errors              [][]byte
+782: 	FinalizedAtDoUpdate bool
+783: 	FinalizedAt         *time.Time
+784: 	MaxAttemptsDoUpdate bool
+785: 	MaxAttempts         int
+786: 	MetadataDoUpdate    bool
+787: 	Metadata            []byte
+788: 	Schema              string
+789: 	StateDoUpdate       bool
+790: 	State               rivertype.JobState
+791: 	// Deprecated and will be removed when advisory lock unique path is removed.
+792: 	UniqueKeyDoUpdate bool
+793: 	// Deprecated and will be removed when advisory lock unique path is removed.
+794: 	UniqueKey []byte
+795: }
+
+/private/tmp/smartfactory-evolution-gomodcache/github.com/riverqueue/river/riverdriver/riverdatabasesql@v0.48.0/internal/dbsqlc/river_job.sql.go:1309-1344
+1309: const jobRetry = `-- name: JobRetry :one
+1310: WITH job_to_update AS (
+1311:     SELECT id
+1312:     FROM /* TEMPLATE: schema */river_job
+1313:     WHERE river_job.id = $1
+1314:     FOR UPDATE
+1315: ),
+1316: updated_job AS (
+1317:     UPDATE /* TEMPLATE: schema */river_job
+1318:     SET
+1319:         state = 'available',
+1320:         max_attempts = CASE WHEN attempt = max_attempts THEN max_attempts + 1 ELSE max_attempts END,
+1321:         finalized_at = NULL,
+1322:         scheduled_at = coalesce($2::timestamptz, now())
+1323:     FROM job_to_update
+1324:     WHERE river_job.id = job_to_update.id
+1325:         -- Do not touch running jobs:
+1326:         AND river_job.state != 'running'
+1327:         -- If the job is already available with a prior scheduled_at, leave it alone.
+1328:         AND NOT (
+1329:             river_job.state = 'available'
+1330:             AND river_job.scheduled_at < coalesce($2::timestamptz, now())
+1331:         )
+1332:     RETURNING river_job.id, river_job.args, river_job.attempt, river_job.attempted_at, river_job.attempted_by, river_job.created_at, river_job.errors, river_job.finalized_at, river_job.kind, river_job.max_attempts, river_job.metadata, river_job.priority, river_job.queue, river_job.state, river_job.scheduled_at, river_job.tags, river_job.unique_key, river_job.unique_states
+1333: )
+1334: SELECT id, args, attempt, attempted_at, attempted_by, created_at, errors, finalized_at, kind, max_attempts, metadata, priority, queue, state, scheduled_at, tags, unique_key, unique_states FROM (
+1335:     SELECT id, args, attempt, attempted_at, attempted_by, created_at, errors, finalized_at, kind, max_attempts, metadata, priority, queue, state, scheduled_at, tags, unique_key, unique_states
+1336:     FROM /* TEMPLATE: schema */river_job
+1337:     WHERE id = $1::bigint
+1338:     FOR UPDATE
+1339: ) AS fallback_job
+1340: WHERE fallback_job.id NOT IN (SELECT id FROM updated_job)
+1341: UNION
+1342: SELECT id, args, attempt, attempted_at, attempted_by, created_at, errors, finalized_at, kind, max_attempts, metadata, priority, queue, state, scheduled_at, tags, unique_key, unique_states
+1343: FROM updated_job
+1344: `
+
+/private/tmp/smartfactory-evolution-gomodcache/github.com/riverqueue/river/riverdriver/riverdatabasesql@v0.48.0/internal/dbsqlc/river_job.sql.go:1524-1578
+1524:         unnest($10::boolean[]) AS scheduled_at_do_update,
+1525:         unnest($11::timestamptz[])       AS scheduled_at,
+1526:         -- To avoid requiring pgx users to register the OID of the river_job_state[]
+1527:         -- type, we cast the array to text[] and then to river_job_state.
+1528:         unnest($12::text[])::/* TEMPLATE: schema */river_job_state AS state
+1529: ),
+1530: updated AS (
+1531:     UPDATE /* TEMPLATE: schema */river_job
+1532:     SET
+1533:         attempt = CASE
+1534:             WHEN river_job.state = 'running'
+1535:                  AND NOT (job_input.state IN ('available','retryable','scheduled') AND river_job.metadata ? 'cancel_attempted_at')
+1536:                  AND job_input.attempt_do_update
+1537:             THEN job_input.attempt
+1538:             ELSE river_job.attempt
+1539:         END,
+1540:         errors = CASE
+1541:             WHEN river_job.state = 'running'
+1542:                  AND job_input.errors_do_update
+1543:             THEN array_append(river_job.errors, job_input.errors)
+1544:             ELSE river_job.errors
+1545:         END,
+1546:         finalized_at = CASE
+1547:             WHEN river_job.state = 'running'
+1548:                  AND (job_input.state IN ('available','retryable','scheduled') AND river_job.metadata ? 'cancel_attempted_at')
+1549:             THEN coalesce($13::timestamptz, now())
+1550:             WHEN river_job.state = 'running'
+1551:                  AND job_input.finalized_at_do_update
+1552:             THEN job_input.finalized_at
+1553:             ELSE river_job.finalized_at
+1554:         END,
+1555:         metadata = CASE
+1556:             WHEN job_input.metadata_do_merge
+1557:             THEN river_job.metadata || job_input.metadata_updates
+1558:             ELSE river_job.metadata
+1559:         END,
+1560:         scheduled_at = CASE
+1561:             WHEN river_job.state = 'running'
+1562:                  AND NOT (job_input.state IN ('available','retryable','scheduled') AND river_job.metadata ? 'cancel_attempted_at')
+1563:                  AND job_input.scheduled_at_do_update
+1564:             THEN job_input.scheduled_at
+1565:             ELSE river_job.scheduled_at
+1566:         END,
+1567:         state = CASE
+1568:             WHEN river_job.state = 'running'
+1569:                  AND (job_input.state IN ('available','retryable','scheduled') AND river_job.metadata ? 'cancel_attempted_at')
+1570:             THEN 'cancelled'::/* TEMPLATE: schema */river_job_state
+1571:             WHEN river_job.state = 'running'
+1572:             THEN job_input.state
+1573:             ELSE river_job.state
+1574:         END
+1575:     FROM job_input
+1576:     WHERE river_job.id = job_input.id
+1577:       AND (river_job.state = 'running' OR job_input.metadata_do_merge)
+1578:     RETURNING river_job.id, river_job.args, river_job.attempt, river_job.attempted_at, river_job.attempted_by, river_job.created_at, river_job.errors, river_job.finalized_at, river_job.kind, river_job.max_attempts, river_job.metadata, river_job.priority, river_job.queue, river_job.state, river_job.scheduled_at, river_job.tags, river_job.unique_key, river_job.unique_states
+
+/private/tmp/smartfactory-evolution-gomodcache/github.com/riverqueue/river/riverdriver/riverdatabasesql@v0.48.0/internal/dbsqlc/river_job.sql.go:1655-1682
+1655: 		items = append(items, &i)
+1656: 	}
+1657: 	if err := rows.Close(); err != nil {
+1658: 		return nil, err
+1659: 	}
+1660: 	if err := rows.Err(); err != nil {
+1661: 		return nil, err
+1662: 	}
+1663: 	return items, nil
+1664: }
+1665: 
+1666: const jobUpdate = `-- name: JobUpdate :one
+1667: WITH locked_job AS (
+1668:     SELECT id
+1669:     FROM /* TEMPLATE: schema */river_job
+1670:     WHERE river_job.id = $3
+1671:     FOR UPDATE
+1672: )
+1673: UPDATE /* TEMPLATE: schema */river_job
+1674: SET
+1675:     metadata = CASE WHEN $1::boolean THEN metadata || $2::jsonb ELSE metadata END
+1676: FROM
+1677:     locked_job
+1678: WHERE river_job.id = locked_job.id
+1679: RETURNING river_job.id, river_job.args, river_job.attempt, river_job.attempted_at, river_job.attempted_by, river_job.created_at, river_job.errors, river_job.finalized_at, river_job.kind, river_job.max_attempts, river_job.metadata, river_job.priority, river_job.queue, river_job.state, river_job.scheduled_at, river_job.tags, river_job.unique_key, river_job.unique_states
+1680: `
+1681: 
+1682: type JobUpdateParams struct {
+
+/private/tmp/smartfactory-evolution-gomodcache/github.com/riverqueue/river/riverdriver/riverdatabasesql@v0.48.0/internal/dbsqlc/river_job.sql.go:1730-1760
+1730: 	AttemptDoUpdate     bool
+1731: 	Attempt             int16
+1732: 	AttemptedAtDoUpdate bool
+1733: 	AttemptedAt         *time.Time
+1734: 	AttemptedByDoUpdate bool
+1735: 	AttemptedBy         []string
+1736: 	ErrorsDoUpdate      bool
+1737: 	Errors              []string
+1738: 	FinalizedAtDoUpdate bool
+1739: 	FinalizedAt         *time.Time
+1740: 	MaxAttemptsDoUpdate bool
+1741: 	MaxAttempts         int16
+1742: 	MetadataDoUpdate    bool
+1743: 	Metadata            string
+1744: 	StateDoUpdate       bool
+1745: 	State               RiverJobState
+1746: 	ID                  int64
+1747: }
+1748: 
+1749: // A generalized update for any property on a job. This brings in a large number
+1750: // of parameters and therefore may be more suitable for testing than production.
+1751: func (q *Queries) JobUpdateFull(ctx context.Context, db DBTX, arg *JobUpdateFullParams) (*RiverJob, error) {
+1752: 	row := db.QueryRowContext(ctx, jobUpdateFull,
+1753: 		arg.AttemptDoUpdate,
+1754: 		arg.Attempt,
+1755: 		arg.AttemptedAtDoUpdate,
+1756: 		arg.AttemptedAt,
+1757: 		arg.AttemptedByDoUpdate,
+1758: 		pq.Array(arg.AttemptedBy),
+1759: 		arg.ErrorsDoUpdate,
+1760: 		pq.Array(arg.Errors),
+
+/private/tmp/smartfactory-evolution-gomodcache/github.com/riverqueue/river/riverdriver/riversqlite@v0.48.0/internal/dbsqlc/river_job.sql:39-53
+39: -- name: JobCancel :one
+40: UPDATE /* TEMPLATE: schema */river_job
+41: SET
+42:     -- If the job is actively running, we want to let its current client and
+43:     -- producer handle the cancellation. Otherwise, immediately cancel it.
+44:     state = CASE WHEN state = 'running' THEN state ELSE 'cancelled' END,
+45:     finalized_at = CASE WHEN state = 'running' THEN finalized_at ELSE coalesce(cast(sqlc.narg('now') AS text), datetime('now', 'subsec')) END,
+46:     -- Mark the job as cancelled by query so that the rescuer knows not to
+47:     -- rescue it, even if it gets stuck in the running state:
+48:     metadata = jsonb_set(metadata, '$.cancel_attempted_at', cast(@cancel_attempted_at AS text))
+49: WHERE id = @id
+50:     AND state NOT IN ('cancelled', 'completed', 'discarded')
+51:     AND finalized_at IS NULL
+52: RETURNING *;
+53: 
+
+/private/tmp/smartfactory-evolution-gomodcache/github.com/riverqueue/river/riverdriver/riversqlite@v0.48.0/internal/dbsqlc/river_job.sql:592-613
+592: -- name: JobRetry :one
+593: UPDATE /* TEMPLATE: schema */river_job
+594: SET
+595:     state = 'available',
+596:     max_attempts = CASE WHEN attempt = max_attempts THEN max_attempts + 1 ELSE max_attempts END,
+597:     finalized_at = NULL,
+598:     scheduled_at = coalesce(cast(sqlc.narg('now') AS text), datetime('now', 'subsec'))
+599: WHERE id = @id
+600:     -- Do not touch running jobs:
+601:     AND state != 'running'
+602:     -- If the job is already available with a prior scheduled_at, leave it alone.
+603:     --
+604:     -- I had to invert the original 'AND NOT' to 'AND'. Something about
+605:     -- sqlc's SQLite parser cannot detect a parameter inside an `AND NOT`. An
+606:     -- unfortunate bug that will hopefully be fixed in the future ...
+607:     AND (
+608:         state <> 'available'
+609:         OR scheduled_at > coalesce(cast(sqlc.narg('now') AS text), datetime('now', 'subsec'))
+610:     )
+611: RETURNING *;
+612: 
+613: -- Selects only the columns needed to schedule jobs so that a job with a JSON
+
+/private/tmp/smartfactory-evolution-gomodcache/github.com/riverqueue/river/riverdriver/riversqlite@v0.48.0/internal/dbsqlc/river_job.sql:735-774
+735: -- queries like JobSetMetadataIfNotRunning to do the fallback work.
+736: --
+737: -- Metadata that isn't valid JSON is treated as not having
+738: -- `cancel_attempted_at`, and is left in place instead of being merged into.
+739: -- Columns are listed out to tolerate values that aren't valid JSON. See
+740: -- JobGetAvailable.
+741: -- name: JobSetStateIfRunning :one
+742: UPDATE /* TEMPLATE: schema */river_job
+743: SET
+744:     -- should_cancel: (job_input.state IN ('available', 'retryable', 'scheduled') AND river_job.metadata ? 'cancel_attempted_at')
+745:     --
+746:     -- or inverted:   (cast(@state AS text) <> 'available' AND @state <> 'retryable' AND @state <> 'scheduled' OR NOT (metadata -> 'cancel_attempted_at'))
+747:     attempt      = CASE WHEN /* NOT should_cancel */(cast(@state AS text) <> 'available' AND @state <> 'retryable' AND @state <> 'scheduled' OR (CASE WHEN typeof(metadata) <> 'text' OR json_valid(metadata) THEN metadata -> 'cancel_attempted_at' END) IS NULL) AND cast(@attempt_do_update AS boolean)
+748:                         THEN @attempt
+749:                         ELSE attempt END,
+750:     -- The errors column is always an array unless it's been changed out of
+751:     -- band. If it has, wrap its value in an array (as a string if it's not
+752:     -- valid JSON) so that the new error is still appended without losing it.
+753:     errors       = CASE WHEN cast(@errors_do_update AS boolean) AND typeof(errors) = 'text' AND NOT json_valid(errors)
+754:                         THEN jsonb(json_array(errors, json(@error)))
+755:                         WHEN cast(@errors_do_update AS boolean) AND coalesce(json_type(errors), 'array') <> 'array'
+756:                         THEN jsonb(json_array(json(errors), json(@error)))
+757:                         WHEN cast(@errors_do_update AS boolean)
+758:                         THEN jsonb(json_insert(json(coalesce(errors, jsonb('[]'))), '$[#]', json(@error)))
+759:                         ELSE errors END,
+760:     finalized_at = CASE WHEN /* should_cancel */((@state = 'available' OR @state = 'retryable' OR @state = 'scheduled') AND (CASE WHEN typeof(metadata) <> 'text' OR json_valid(metadata) THEN metadata -> 'cancel_attempted_at' END) IS NOT NULL)
+761:                         THEN coalesce(cast(sqlc.narg('now') AS text), datetime('now', 'subsec'))
+762:                         WHEN cast(@finalized_at_do_update AS boolean)
+763:                         THEN cast(sqlc.narg('finalized_at') AS text)
+764:                         ELSE finalized_at END,
+765:     metadata     = CASE WHEN cast(@metadata_do_merge AS boolean) AND (typeof(metadata) <> 'text' OR json_valid(metadata))
+766:                         THEN jsonb_patch(json(metadata), json(@metadata_updates))
+767:                         ELSE metadata END,
+768:     scheduled_at = CASE WHEN /* NOT should_cancel */(cast(@state AS text) <> 'available' AND @state <> 'retryable' AND @state <> 'scheduled' OR (CASE WHEN typeof(metadata) <> 'text' OR json_valid(metadata) THEN metadata -> 'cancel_attempted_at' END) IS NULL) AND cast(@scheduled_at_do_update AS boolean)
+769:                         THEN cast(@scheduled_at AS text)
+770:                         ELSE scheduled_at END,
+771:     state        = CASE WHEN /* should_cancel */((@state = 'available' OR @state = 'retryable' OR @state = 'scheduled') AND (CASE WHEN typeof(metadata) <> 'text' OR json_valid(metadata) THEN metadata -> 'cancel_attempted_at' END) IS NOT NULL)
+772:                         THEN 'cancelled'
+773:                         ELSE @state END
+774: WHERE id = @id
+
+/private/tmp/smartfactory-evolution-gomodcache/github.com/riverqueue/river/riverdriver/riversqlite@v0.48.0/internal/dbsqlc/river_job.sql:796-817
+796: -- name: JobUpdate :one
+797: UPDATE /* TEMPLATE: schema */river_job
+798: SET
+799:     metadata = CASE WHEN cast(@metadata_do_merge AS boolean) THEN jsonb_patch(json(metadata), json(@metadata)) ELSE metadata END
+800: WHERE id = @id
+801: RETURNING *;
+802: 
+803: -- A generalized update for any property on a job. This brings in a large number
+804: -- of parameters and therefore may be more suitable for testing than production.
+805: -- name: JobUpdateFull :one
+806: UPDATE /* TEMPLATE: schema */river_job
+807: SET
+808:     attempt = CASE WHEN cast(@attempt_do_update AS boolean) THEN @attempt ELSE attempt END,
+809:     attempted_at = CASE WHEN cast(@attempted_at_do_update AS boolean) THEN cast(sqlc.narg('attempted_at') AS text) ELSE attempted_at END,
+810:     attempted_by = CASE WHEN cast(@attempted_by_do_update AS boolean) THEN jsonb(@attempted_by) ELSE attempted_by END,
+811:     errors = CASE WHEN cast(@errors_do_update AS boolean) THEN jsonb(@errors) ELSE errors END,
+812:     finalized_at = CASE WHEN cast(@finalized_at_do_update AS boolean) THEN cast(sqlc.narg('finalized_at') AS text) ELSE finalized_at END,
+813:     max_attempts = CASE WHEN cast(@max_attempts_do_update AS boolean) THEN @max_attempts ELSE max_attempts END,
+814:     metadata = CASE WHEN cast(@metadata_do_update AS boolean) THEN jsonb(@metadata) ELSE metadata END,
+815:     state = CASE WHEN cast(@state_do_update AS boolean) THEN @state ELSE state END
+816: WHERE id = @id
+817: RETURNING *;
+
+/private/tmp/smartfactory-evolution-gomodcache/github.com/riverqueue/river@v0.48.0/internal/jobexecutor/job_executor.go:402-455
+402: 	var snoozeErr *rivertype.JobSnoozeError
+403: 
+404: 	marshalMetadataUpdates := func(metadataUpdates map[string]any) ([]byte, error) {
+405: 		if len(metadataUpdates) == 0 {
+406: 			return nil, nil
+407: 		}
+408: 
+409: 		metadataUpdatesBytes, err := json.Marshal(metadataUpdates)
+410: 		if err != nil {
+411: 			return nil, err
+412: 		}
+413: 
+414: 		return metadataUpdatesBytes, nil
+415: 	}
+416: 
+417: 	if res.Err != nil && errors.As(res.Err, &snoozeErr) {
+418: 		e.Logger.DebugContext(ctx, e.Name+": Job snoozed",
+419: 			slog.Int64("job_id", jobRow.ID),
+420: 			slog.String("job_kind", jobRow.Kind),
+421: 			slog.Duration("duration", snoozeErr.Duration),
+422: 		)
+423: 		nextAttemptScheduledAt := e.Time.Now().Add(snoozeErr.Duration)
+424: 
+425: 		snoozesValue := gjson.GetBytes(jobRow.Metadata, "snoozes").Int()
+426: 		if res.MetadataUpdates == nil {
+427: 			res.MetadataUpdates = make(map[string]any)
+428: 		}
+429: 		// Set snooze count in the metadata map before marshaling so we avoid
+430: 		// rewriting a potentially large encoded metadata payload.
+431: 		res.MetadataUpdates["snoozes"] = snoozesValue + 1
+432: 
+433: 		metadataUpdatesBytes, err := marshalMetadataUpdates(res.MetadataUpdates)
+434: 		if err != nil {
+435: 			e.Logger.ErrorContext(ctx, e.Name+": Failed to marshal metadata updates", slog.String("error", err.Error()))
+436: 			return
+437: 		}
+438: 
+439: 		// Normally, snoozed jobs are set `scheduled` for the future and it's the
+440: 		// scheduler's job to set them back to `available` so they can be reworked.
+441: 		// Just as with retryable jobs, this isn't friendly for short snooze times
+442: 		// so we instead make the job immediately `available` if the snooze time is
+443: 		// smaller than the scheduler's run interval.
+444: 		var params *riverdriver.JobSetStateIfRunningParams
+445: 		if nextAttemptScheduledAt.Sub(e.Time.Now()) <= e.SchedulerInterval {
+446: 			params = riverdriver.JobSetStateSnoozedAvailable(jobRow.ID, nextAttemptScheduledAt, jobRow.Attempt-1, metadataUpdatesBytes)
+447: 		} else {
+448: 			params = riverdriver.JobSetStateSnoozed(jobRow.ID, nextAttemptScheduledAt, jobRow.Attempt-1, metadataUpdatesBytes)
+449: 		}
+450: 		if err := e.Completer.JobSetStateIfRunning(ctx, e.stats, params); err != nil {
+451: 			e.Logger.ErrorContext(ctx, e.Name+": Error snoozing job",
+452: 				slog.Int64("job_id", jobRow.ID),
+453: 			)
+454: 		}
+455: 		return

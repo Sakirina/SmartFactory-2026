@@ -1,0 +1,442 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "recorded_at": "2026-10-05T08:45:13.811201+00:00",
+  "scope": "E5-04 native PID1 normal stop and retained-data restart; formal Kafka 512MiB heap/1GiB finite combination",
+  "verification": {
+    "path": "/private/tmp/smartfactory-delivery-native-restart-verified-20261005/verification.json",
+    "sha256": "88feecd5b0d8906009132aac2aa9f21cbfbddc702872f0282ef48ce3e7aef132"
+  },
+  "checks": {
+    "edge_java_is_pid1": true,
+    "kafka_formal_heap_applied": true,
+    "cloud_and_edge_current_original_derived_duplicate_and_native_callback": true,
+    "edge_exits_before_stop_limit_without_oom": true,
+    "edge_database_connections_and_transactions_released": true,
+    "edge_application_shutdown_logged": true,
+    "native_original_and_derived_data_survive_restart": true,
+    "repeat_after_native_restart_is_duplicate": true,
+    "cloud_audit_chain_valid": true,
+    "edge_audit_chain_valid": true,
+    "stack_stopped_without_oom_or_forced_container_kill": true,
+    "compile_inputs_unchanged": true,
+    "business_processes_stopped_without_forced_kill": true
+  },
+  "compile_inputs": {
+    "before": {
+      "path": "/private/tmp/smartfactory-delivery-native-restart-verified-20261005/compile-inputs-before.json",
+      "sha256": "f637ac67f002e2710ae51259ebe7af69cf5799158c8ec68ffc7329ce0f27529d",
+      "count": 3226
+    },
+    "after": {
+      "path": "/private/tmp/smartfactory-delivery-native-restart-verified-20261005/compile-inputs-after.json",
+      "sha256": "1f9294f540cedc8adcf6cb639e08e4f34d012fea675941115248866ec7662333",
+      "count": 3226
+    },
+    "fixed_byte_index": "/private/tmp/smartfactory-phase5-native-coordinator-evidence-20261005/retained-inputs.json"
+  },
+  "binaries": {
+    "sf-pki": {
+      "path": "/private/tmp/smartfactory-delivery-native-restart-verified-20261005/bin/sf-pki",
+      "sha256": "9732f80b3a79aadc3ea512df24610b048b0c4793e19ae9aa9712e2bcaa6abeb3",
+      "bytes": 4262226
+    },
+    "sf-edge": {
+      "path": "/private/tmp/smartfactory-delivery-native-restart-verified-20261005/bin/sf-edge",
+      "sha256": "b939e7a24bc2521093e5a17171c981aed33d951cc7e3be3e47593272973fb994",
+      "bytes": 37666594
+    },
+    "sf-cloud": {
+      "path": "/private/tmp/smartfactory-delivery-native-restart-verified-20261005/bin/sf-cloud",
+      "sha256": "24b40c891fa8235d18f1e92cb225870f3a1cd4ed5d40ce3739fc14fd0ca20aa4",
+      "bytes": 37666594
+    }
+  },
+  "driver_inputs": [
+    {
+      "source": "scripts/verify-delivery-native.py",
+      "retained": "/private/tmp/smartfactory-delivery-native-restart-verified-20261005/driver-inputs/scripts/verify-delivery-native.py",
+      "sha256": "da36d594a0884eece7f7cb09cea367e819237d0ad4f74ad85653f5e74ecaa378"
+    },
+    {
+      "source": "scripts/build-release.py",
+      "retained": "/private/tmp/smartfactory-delivery-native-restart-verified-20261005/driver-inputs/scripts/build-release.py",
+      "sha256": "3ef0ea5cb20ca54efcee0d72a6bdf233602301e7e08e92ecb7569bbecd5b7532"
+    },
+    {
+      "source": "scripts/prepare-runtime.py",
+      "retained": "/private/tmp/smartfactory-delivery-native-restart-verified-20261005/driver-inputs/scripts/prepare-runtime.py",
+      "sha256": "0165e4e4747e5845f71a6b25e531c9b4cb0e4a231f7d2c58c2b73b824b25608b"
+    },
+    {
+      "source": "scripts/bootstrap-runtime.py",
+      "retained": "/private/tmp/smartfactory-delivery-native-restart-verified-20261005/driver-inputs/scripts/bootstrap-runtime.py",
+      "sha256": "55bc1fba90e1f8e25c97c8e44b20dcd8bae4f84f0ba14333a4c95e69b78cf541"
+    },
+    {
+      "source": "scripts/bootstrap-thingsboard.py",
+      "retained": "/private/tmp/smartfactory-delivery-native-restart-verified-20261005/driver-inputs/scripts/bootstrap-thingsboard.py",
+      "sha256": "17b0d6ca332fa5ed563048f1bdb0f3a82677e15c3ea93df8de6889f3e7ccef77"
+    },
+    {
+      "source": "scripts/check-native.py",
+      "retained": "/private/tmp/smartfactory-delivery-native-restart-verified-20261005/driver-inputs/scripts/check-native.py",
+      "sha256": "9932287dc1cf035af5f8133365bac89405cd15fd96c8e6ebef2834aaa6bd33a3"
+    },
+    {
+      "source": "deploy/images.lock.json",
+      "retained": "/private/tmp/smartfactory-delivery-native-restart-verified-20261005/driver-inputs/deploy/images.lock.json",
+      "sha256": "1610bddb8a95c19cb2d467a467a145303ccfdc01cb8a5f1ea4cec1f53fe74ca4"
+    }
+  ],
+  "invocation": {
+    "argv": [
+      "/path/to/SmartFactory-2026/scripts/verify-delivery-native.py",
+      "--directory",
+      "/private/tmp/smartfactory-delivery-native-restart-verified-20261005",
+      "--source",
+      "/private/tmp/smartfactory-delivery-native-retained-20261005",
+      "--reuse-native-databases"
+    ],
+    "cwd": "/path/to/SmartFactory-2026",
+    "toolchain_environment": {
+      "GOTOOLCHAIN": "local",
+      "GOPROXY": "off",
+      "GOMAXPROCS": "2",
+      "CGO_ENABLED": "0",
+      "GOPATH": "/private/tmp/smartfactory-evolution-gopath",
+      "GOMODCACHE": "/private/tmp/smartfactory-evolution-gomodcache",
+      "GOCACHE": "/private/tmp/smartfactory-evolution-go-cache"
+    }
+  },
+  "edge_stop_seconds": 4.902562667004531,
+  "retained_timeseries": {
+    "temperature": [
+      {
+        "ts": 1791188556373,
+        "value": "22.5"
+      }
+    ],
+    "climate-average.temperature": [
+      {
+        "ts": 1791188556373,
+        "value": "22.5"
+      }
+    ]
+  },
+  "post_restart_http": [
+    {
+      "at": "2026-10-05T08:24:31.537335+00:00",
+      "path": "/api/sf/v1/entities",
+      "status": 200,
+      "duration_seconds": 0.0023464999976567924,
+      "timeout_seconds": 20
+    },
+    {
+      "at": "2026-10-05T08:24:31.542212+00:00",
+      "path": "/api/plugins/telemetry/DEVICE/ce966630-c091-11f1-bdd3-c3306a85c578/values/timeseries?keys=temperature,climate-average.temperature&startTs=1791188556372&endTs=1791188556374&agg=NONE&limit=100",
+      "status": 200,
+      "duration_seconds": 20.313840624992736,
+      "timeout_seconds": 30
+    },
+    {
+      "at": "2026-10-05T08:24:51.861409+00:00",
+      "path": "/api/sf/v1/ingest",
+      "status": 200,
+      "duration_seconds": 0.00282175000756979,
+      "timeout_seconds": 20
+    },
+    {
+      "at": "2026-10-05T08:24:51.865582+00:00",
+      "path": "/api/sf/v1/audit/verify",
+      "status": 200,
+      "duration_seconds": 0.018660500005353242,
+      "timeout_seconds": 20
+    },
+    {
+      "at": "2026-10-05T08:24:51.885941+00:00",
+      "path": "/api/sf/v1/audit/verify",
+      "status": 200,
+      "duration_seconds": 0.014990750001743436,
+      "timeout_seconds": 20
+    },
+    {
+      "at": "2026-10-05T08:24:51.902466+00:00",
+      "path": "/api/auth/user",
+      "status": 200,
+      "duration_seconds": 4.080515457986621,
+      "timeout_seconds": 20
+    },
+    {
+      "at": "2026-10-05T08:24:55.984375+00:00",
+      "path": "/api/auth/user",
+      "status": 200,
+      "duration_seconds": 0.9620745420106687,
+      "timeout_seconds": 20
+    },
+    {
+      "at": "2026-10-05T08:24:57.952205+00:00",
+      "path": "/api/auth/user",
+      "status": 200,
+      "duration_seconds": 0.223848249996081,
+      "timeout_seconds": 20
+    },
+    {
+      "at": "2026-10-05T08:24:58.177531+00:00",
+      "path": "/api/auth/user",
+      "status": 200,
+      "duration_seconds": 0.128601999982493,
+      "timeout_seconds": 20
+    },
+    {
+      "at": "2026-10-05T08:24:59.310171+00:00",
+      "path": "/api/auth/user",
+      "status": 200,
+      "duration_seconds": 0.019443791010417044,
+      "timeout_seconds": 20
+    },
+    {
+      "at": "2026-10-05T08:24:59.330468+00:00",
+      "path": "/api/auth/user",
+      "status": 200,
+      "duration_seconds": 0.01521212499937974,
+      "timeout_seconds": 20
+    },
+    {
+      "at": "2026-10-05T08:25:00.347565+00:00",
+      "path": "/api/auth/user",
+      "status": 200,
+      "duration_seconds": 0.014918583008693531,
+      "timeout_seconds": 20
+    },
+    {
+      "at": "2026-10-05T08:25:00.363388+00:00",
+      "path": "/api/auth/user",
+      "status": 200,
+      "duration_seconds": 0.023523707990534604,
+      "timeout_seconds": 20
+    },
+    {
+      "at": "2026-10-05T08:25:01.390148+00:00",
+      "path": "/api/auth/user",
+      "status": 200,
+      "duration_seconds": 0.01492383299046196,
+      "timeout_seconds": 20
+    },
+    {
+      "at": "2026-10-05T08:25:01.406347+00:00",
+      "path": "/api/auth/user",
+      "status": 200,
+      "duration_seconds": 0.019600125000579283,
+      "timeout_seconds": 20
+    },
+    {
+      "at": "2026-10-05T08:25:02.430619+00:00",
+      "path": "/api/auth/user",
+      "status": 200,
+      "duration_seconds": 0.012870957987615839,
+      "timeout_seconds": 20
+    },
+    {
+      "at": "2026-10-05T08:25:02.444634+00:00",
+      "path": "/api/auth/user",
+      "status": 200,
+      "duration_seconds": 0.027190167020307854,
+      "timeout_seconds": 20
+    },
+    {
+      "at": "2026-10-05T08:25:03.482079+00:00",
+      "path": "/api/auth/user",
+      "status": 200,
+      "duration_seconds": 0.021671916998457164,
+      "timeout_seconds": 20
+    },
+    {
+      "at": "2026-10-05T08:25:03.504776+00:00",
+      "path": "/api/auth/user",
+      "status": 200,
+      "duration_seconds": 0.019076833996223286,
+      "timeout_seconds": 20
+    },
+    {
+      "at": "2026-10-05T08:25:04.525343+00:00",
+      "path": "/api/auth/user",
+      "status": 200,
+      "duration_seconds": 0.020351916988147423,
+      "timeout_seconds": 20
+    },
+    {
+      "at": "2026-10-05T08:25:04.546860+00:00",
+      "path": "/api/auth/user",
+      "status": 200,
+      "duration_seconds": 0.01868837501388043,
+      "timeout_seconds": 20
+    },
+    {
+      "at": "2026-10-05T08:25:05.573620+00:00",
+      "path": "/api/auth/user",
+      "status": 200,
+      "duration_seconds": 0.017897124984301627,
+      "timeout_seconds": 20
+    },
+    {
+      "at": "2026-10-05T08:25:05.592561+00:00",
+      "path": "/api/auth/user",
+      "status": 200,
+      "duration_seconds": 0.01585529200383462,
+      "timeout_seconds": 20
+    },
+    {
+      "at": "2026-10-05T08:25:06.615307+00:00",
+      "path": "/api/auth/user",
+      "status": 200,
+      "duration_seconds": 0.030725874996278435,
+      "timeout_seconds": 20
+    },
+    {
+      "at": "2026-10-05T08:25:06.647530+00:00",
+      "path": "/api/auth/user",
+      "status": 200,
+      "duration_seconds": 0.020467541995458305,
+      "timeout_seconds": 20
+    },
+    {
+      "at": "2026-10-05T08:25:07.674530+00:00",
+      "path": "/api/auth/user",
+      "status": 200,
+      "duration_seconds": 0.027368125010980293,
+      "timeout_seconds": 20
+    },
+    {
+      "at": "2026-10-05T08:25:07.702934+00:00",
+      "path": "/api/auth/user",
+      "status": 200,
+      "duration_seconds": 0.016452084004413337,
+      "timeout_seconds": 20
+    },
+    {
+      "at": "2026-10-05T08:25:08.723898+00:00",
+      "path": "/api/auth/user",
+      "status": 200,
+      "duration_seconds": 0.022666750010102987,
+      "timeout_seconds": 20
+    },
+    {
+      "at": "2026-10-05T08:25:08.747364+00:00",
+      "path": "/api/auth/user",
+      "status": 200,
+      "duration_seconds": 0.015300333994673565,
+      "timeout_seconds": 20
+    },
+    {
+      "at": "2026-10-05T08:25:09.773282+00:00",
+      "path": "/api/auth/user",
+      "status": 200,
+      "duration_seconds": 0.01123274999554269,
+      "timeout_seconds": 20
+    },
+    {
+      "at": "2026-10-05T08:25:09.785637+00:00",
+      "path": "/api/auth/user",
+      "status": 200,
+      "duration_seconds": 0.01751637499546632,
+      "timeout_seconds": 20
+    },
+    {
+      "at": "2026-10-05T08:25:10.811237+00:00",
+      "path": "/api/auth/user",
+      "status": 200,
+      "duration_seconds": 0.020195541001157835,
+      "timeout_seconds": 20
+    },
+    {
+      "at": "2026-10-05T08:25:10.832514+00:00",
+      "path": "/api/auth/user",
+      "status": 200,
+      "duration_seconds": 0.012370542011922225,
+      "timeout_seconds": 20
+    },
+    {
+      "at": "2026-10-05T08:25:11.855745+00:00",
+      "path": "/api/auth/user",
+      "status": 200,
+      "duration_seconds": 0.023712541005806997,
+      "timeout_seconds": 20
+    },
+    {
+      "at": "2026-10-05T08:25:11.880758+00:00",
+      "path": "/api/auth/user",
+      "status": 200,
+      "duration_seconds": 0.017606500012334436,
+      "timeout_seconds": 20
+    }
+  ],
+  "finite_workload": {
+    "new_ingress_messages": 2,
+    "same_message_duplicate_requests": 3,
+    "authenticated_native_reads_per_service": 15,
+    "native_edge_restart_count": 1,
+    "source_fixture_copied_databases_and_master_keys": true
+  },
+  "individual_memory_peaks_bytes": {
+    "thingsboard": 2387243008,
+    "edge-a-native": 1294729216,
+    "kafka": 1073750016
+  },
+  "maximum_sampled_simultaneous_native_current_bytes": 4707676160,
+  "budget": {
+    "ce_container_bytes": 3221225472,
+    "edge_container_bytes": 2147483648,
+    "kafka_container_bytes": 1073741824,
+    "existing_postgres_container_bytes": 1073741824,
+    "combined_container_limit_bytes": 7516192768,
+    "ce_and_edge_connection_pools": {
+      "maximum": 4,
+      "minimum_idle": 1
+    }
+  },
+  "original_failures": [
+    {
+      "report": "/private/tmp/smartfactory-delivery-native-20261005/verification.json",
+      "sha256": "848512a2ae51ee28f4d4eb7dcaad02be8db57cb625fdc5418356fd7c403790af",
+      "reason": "build-input identity collision when one file was both Go and embedded input",
+      "recorded_error": "Build input identity collision: source/Platform/internal/store/migration00002.go",
+      "all_checks_passed": false
+    },
+    {
+      "report": "/private/tmp/smartfactory-delivery-native-final-20261005/verification.json",
+      "sha256": "c43eba1d9e8e9cd733e478f1520867835de59e72cd4ede0f6121da1e5ef7b8ed",
+      "reason": "shared PostgreSQL tmpfs filled; native startup failed and shared server exited; original incident preserved",
+      "recorded_error": "Native CE exited1 during PostgreSQL18 tmpfs capacity failure; readiness interrupted for owned fixture cleanup",
+      "all_checks_passed": false
+    },
+    {
+      "report": "/private/tmp/smartfactory-delivery-native-fresh-20261005/verification.json",
+      "sha256": "320bde4980534d1e7de9b9ca8a9b5ebfe34ed57f24c4b85d8ec4c9448ba1fbfc",
+      "reason": "first 90-second native callback check ran before initial definition projections finished",
+      "recorded_error": "native-current-roundtrip failed; inspect /private/tmp/smartfactory-delivery-native-fresh-20261005/native-current-roundtrip.log",
+      "all_checks_passed": false
+    },
+    {
+      "report": "/private/tmp/smartfactory-delivery-native-retained-20261005/verification.json",
+      "sha256": "ef67f838c1417ce9f85432c2a996f9a0670f31c83e3490b8949bdb5a1eed1206",
+      "reason": "15-second request timeout after retained native Edge login succeeded",
+      "recorded_error": "timed out",
+      "all_checks_passed": false
+    },
+    {
+      "report": "/private/tmp/smartfactory-delivery-native-restart-final-20261005/verification.json",
+      "sha256": "44b1e03194e1054d901bb373c0db0282d815107d06f410b1fa9f357347e8d8b9",
+      "reason": "continuation referenced a generic env filename absent from the preceding prepared-node directory",
+      "recorded_error": "[Errno 2] No such file or directory: '/private/tmp/smartfactory-delivery-native-retained-20261005/tb-edge.env'",
+      "all_checks_passed": false
+    }
+  ],
+  "original_request_timeout_scope": "The earlier retained run stored the configured 15-second timeout and final error, without per-request path or exact request elapsed time. The successful driver records each request; retained native telemetry returned HTTP200 after20.313840625seconds with a30-second limit.",
+  "driver_changes": "Retain the actual driver/preparation inputs and per-request timing; wait for both22.5values at the original timestamp; use20-second general/30-second telemetry limits; obtain the retained env file from its actual prepared node path. Production business semantics unchanged.",
+  "root_review": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-native-delivery-root-review.json",
+    "sha256": "617ae8194f3afb21aff6ecd746bb531b395655acae48d905bd82d11b53676396"
+  },
+  "remaining_work": "Formal Linux bundle conversion and final package verification are recorded separately; overall45-objective acceptance is decided by the coordinator."
+}

@@ -1,0 +1,2727 @@
+{
+  "schema_version": 1,
+  "kind": "recoverable_checkpoint",
+  "phase": 4,
+  "reviewer": "phase4_independent_review",
+  "created_at": "2026-10-05T02:52:58.737613+00:00",
+  "status": "awaiting_AI_fix_and_frontend_freeze",
+  "final_acceptance": false,
+  "repository": "/path/to/SmartFactory-2026",
+  "snapshot": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/snapshot.json",
+    "sha256": "97864235f57881f1e8ac6ea6ddf1c9f5359dcae97f282f3747542f7654b46493",
+    "bytes": 273874
+  },
+  "build_inputs": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/build-inputs.json",
+    "sha256": "88fdc87b09a840748a6cadc356b019dcf324905175ecb4f7fb3e38f7c7981643",
+    "bytes": 1717015
+  },
+  "auxiliary_runtime_inputs": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/auxiliary-runtime-supplement.json",
+    "sha256": "ac610f004679f2b7cbea2d442af4906ab79b2ee42ebb8bc2085467b50d3e3e6c",
+    "bytes": 1516
+  },
+  "run_index": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/run-index.json",
+    "sha256": "feb68a7256cfead26c0378825e9e180a7fa71442e589eaf2bb1158060ad33278",
+    "bytes": 45394
+  },
+  "artifact_integrity": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/artifact-integrity.json",
+    "sha256": "db84c09955b2d725200c02bdf370547d1281ebb6f127eb807ea40a12ba39ad53",
+    "bytes": 1740682
+  },
+  "source_retention_supplement": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/source-retention-supplement.json",
+    "sha256": "9ec10204eda708d6bf2d94656be63b4af1537044ad90774584bbc7430bb95e4a",
+    "bytes": 1603
+  },
+  "review_test_changes": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/review-test-changes.json",
+    "sha256": "32a5b5f3ade1de0c244d78a4c9aa14920e4b2944bf242c2bfb3ea60173a1deb3",
+    "bytes": 2305
+  },
+  "specialist_evidence_audit": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/specialist-evidence-audit.json",
+    "sha256": "001c9660c1dee445077387a0e15644bb131e56ef0dc518ce39371a48a2c40501",
+    "bytes": 361234
+  },
+  "specialist_evidence_note": "Query 31, business 204 and AI 360 unique path/hash references matched, using the preserved mutable-source mappings where provided. Independent initial backend Go/module inputs match 412 files in the final AI backend snapshot. AI coordinator count 361 additionally includes its supplemental runtime script.",
+  "summary": {
+    "ordinary_platform_initial": {
+      "runs": [
+        "ordinary-Platform-cmd-sf-contracts",
+        "ordinary-Platform-internal-ai",
+        "ordinary-Platform-internal-api",
+        "ordinary-Platform-internal-app",
+        "ordinary-Platform-internal-application",
+        "ordinary-Platform-internal-cloudsync",
+        "ordinary-Platform-internal-compiledplan",
+        "ordinary-Platform-internal-configcenter",
+        "ordinary-Platform-internal-control",
+        "ordinary-Platform-internal-coordination",
+        "ordinary-Platform-internal-datatransfer",
+        "ordinary-Platform-internal-deviceconfig",
+        "ordinary-Platform-internal-engine",
+        "ordinary-Platform-internal-identity",
+        "ordinary-Platform-internal-notifications",
+        "ordinary-Platform-internal-plugins",
+        "ordinary-Platform-internal-rulecore",
+        "ordinary-Platform-internal-store",
+        "ordinary-Platform-internal-tasks",
+        "ordinary-Platform-internal-thingsboard",
+        "ordinary-Platform-pkg-compatibility",
+        "ordinary-Platform-pkg-contracts"
+      ],
+      "package_runs": 22,
+      "top_level": {
+        "pass": 256,
+        "fail": 2,
+        "skip": 43
+      },
+      "races": 0
+    },
+    "ordinary_datatransfer": {
+      "runs": [
+        "ordinary-DataTransfer-internal-acceptance",
+        "ordinary-DataTransfer-internal-bootstrap",
+        "ordinary-DataTransfer-internal-buffer",
+        "ordinary-DataTransfer-internal-command",
+        "ordinary-DataTransfer-internal-config",
+        "ordinary-DataTransfer-internal-configmanager",
+        "ordinary-DataTransfer-internal-connector-modbus",
+        "ordinary-DataTransfer-internal-connector-mqttdevice",
+        "ordinary-DataTransfer-internal-connector-opcua",
+        "ordinary-DataTransfer-internal-connector-sidecar",
+        "ordinary-DataTransfer-internal-connector",
+        "ordinary-DataTransfer-internal-northbound-grpc",
+        "ordinary-DataTransfer-internal-northbound-mqtt",
+        "ordinary-DataTransfer-internal-observability",
+        "ordinary-DataTransfer-internal-runtime",
+        "ordinary-DataTransfer-internal-simulator",
+        "ordinary-DataTransfer-internal-state",
+        "ordinary-DataTransfer-internal-strategy",
+        "ordinary-DataTransfer-observability",
+        "ordinary-DataTransfer-tests-acceptance",
+        "ordinary-DataTransfer-tests-contract"
+      ],
+      "package_runs": 21,
+      "top_level": {
+        "pass": 98,
+        "fail": 0,
+        "skip": 7
+      },
+      "races": 0
+    },
+    "postgres": {
+      "runs": [
+        "postgres-ai",
+        "postgres-api",
+        "postgres-application",
+        "postgres-cloudsync",
+        "postgres-compiledplan",
+        "postgres-control",
+        "postgres-store",
+        "postgres-tasks"
+      ],
+      "package_runs": 8,
+      "top_level": {
+        "pass": 36,
+        "fail": 0,
+        "skip": 1
+      },
+      "races": 0
+    },
+    "limited_race": {
+      "runs": [
+        "race-ai",
+        "race-api",
+        "race-app",
+        "race-application",
+        "race-cloudsync",
+        "race-dt-config",
+        "race-dt-configmanager",
+        "race-store",
+        "race-thingsboard"
+      ],
+      "package_runs": 9,
+      "top_level": {
+        "pass": 46,
+        "fail": 0,
+        "skip": 1
+      },
+      "races": 0
+    }
+  },
+  "supplemental_results": {
+    "commands_built": 15,
+    "commands_failed": [],
+    "contract_regeneration": {
+      "compared_files": 160,
+      "mismatches": 0,
+      "comparison": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/contract-comparison.json",
+        "sha256": "0e4a00f650ba87c21173326fd03e89ac33b6b85118ce5e17242c12d1b9171cfb",
+        "bytes": 84975
+      }
+    },
+    "contract_validation": {
+      "schemas": 157,
+      "example_definitions": 24,
+      "api_operations": 96,
+      "run": "contract-validation"
+    },
+    "actual_hr_plugin": "actual-hr-plugin",
+    "api_original_binary_repeat": "api-budget-reproduction",
+    "api_diagnostic_repeats": [
+      "api-budget-diagnostic-1",
+      "api-budget-diagnostic-2",
+      "api-budget-diagnostic-3",
+      "api-budget-diagnostic-4",
+      "api-budget-diagnostic-5"
+    ],
+    "api_full_diagnostic": {
+      "run": "api-full-diagnostic",
+      "top_level": {
+        "pass": 35,
+        "fail": 0,
+        "skip": 4
+      }
+    },
+    "cloudsync_full_with_updated_assertions": {
+      "run": "cloudsync-full-idle-fixed",
+      "top_level": {
+        "pass": 20,
+        "fail": 0,
+        "skip": 1
+      }
+    },
+    "release_deployment": {
+      "initial": {
+        "run": "release-deployment-tests",
+        "pass": 10,
+        "errors": 7
+      },
+      "runtime_inputs_supplemented": {
+        "run": "release-deployment-tests-supplemented",
+        "pass": 16,
+        "fail": 1
+      },
+      "remaining_failure": "Snapshot centralized toolchain record still describes the prior frontend dependency versions. Frontend has since reported synchronized records; independently rerun against its final frozen inputs."
+    }
+  },
+  "first_failures_and_resolutions": [
+    {
+      "run": "ordinary-Platform-internal-api",
+      "test": "TestHTTPAndBackgroundControlShareBudgetDuringTaskBacklog",
+      "failure": "Five-second wait did not observe the second backlog worker.",
+      "status": "isolated_original_repeat_and_diagnostic_full_package_passed_cause_unproven",
+      "notes": "Original same binary passed once; five diagnostic repeats and the full API package passed with unchanged deadlines. River scheduler uses a five-second interval and startup staggering, but the first-run timing cause was not established."
+    },
+    {
+      "run": "ordinary-Platform-internal-cloudsync",
+      "test": "TestIdleExchangesDoNotWriteUntilHeartbeat",
+      "failure": "The prior test expected one total changed row; query projection and commit updates now produce six.",
+      "status": "test_assertions_updated_and_full_package_passed",
+      "notes": "Idle zero-write behavior remains asserted; source and query changes are checked separately with other domain rows unchanged."
+    },
+    {
+      "run": "idle-regression-fixed",
+      "failure": "First revised assertion incorrectly expected an unchanged source version.",
+      "status": "test_corrected_to_one_version_increment_and_verified",
+      "retained_source": {
+        "build": "idle-regression-build",
+        "retained_source": {
+          "path": "/private/tmp/smartfactory-phase4-independent-20261005/overlays/idle-regression-build/idle_test.go",
+          "sha256": "952b8d0d41a4800b4a11ae725b287d21179bb115a556fb470c517f0efbc99264",
+          "bytes": 5201
+        },
+        "expected_sha256": "952b8d0d41a4800b4a11ae725b287d21179bb115a556fb470c517f0efbc99264",
+        "matched": true
+      }
+    },
+    {
+      "run": "independent-ai-build",
+      "failure": "Overlay test package name ai conflicted with the existing external ai_test fixture.",
+      "status": "compile_setup_corrected_in_v2"
+    },
+    {
+      "run": "independent-ai-original-asset-deletion",
+      "failure": "Original resource deletion keeps evidence and investigation detail accessible.",
+      "status": "P4-A02_awaiting_original_specialist"
+    },
+    {
+      "run": "release-deployment-tests",
+      "failure": "Frontend package declarations and CI workflow were not included in the first backend snapshot.",
+      "status": "three_runtime_files_added_and_preserved"
+    },
+    {
+      "run": "release-deployment-tests-supplemented",
+      "failure": "Frontend dependency declarations differ from the central lock record in the tested snapshot.",
+      "status": "frontend_reports_fixed_pending_final_freeze_retest"
+    },
+    {
+      "evidence": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/first-driver-failure.json",
+        "sha256": "93997d7877949a961a42152dcd552dcdf67194ae2c06debe46ef3eedec27b65f",
+        "bytes": 295
+      },
+      "failure": "The run statistics parser attempted dictionary access on non-dictionary JSON from go list.",
+      "status": "driver_parser_corrected_to_ignore_non_event_json"
+    },
+    {
+      "evidence": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/resource-inspection-first-environment-failure.json",
+        "sha256": "0822c677b8e2b3ded0e253735f229d2089602b52efa9a4840fb406dad3326900",
+        "bytes": 324
+      },
+      "failure": "Sandbox process inspection returned Operation not permitted.",
+      "status": "approved_read_only_host_inspection_completed"
+    }
+  ],
+  "criteria": [
+    {
+      "id": "E4-01",
+      "title": "查询读模型与分页",
+      "status": "backend_verified_pending_final_combination",
+      "note": "数据库与 HTTP 查询通过；最终页面筛选、缓存与授权切换随冻结版本继续检查",
+      "tests": [
+        {
+          "run": "api-full-diagnostic",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestQueryHTTPPaginationErrorsAndContracts",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-api",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestQueryHTTPPaginationErrorsAndContracts",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationSQLite/signed-paging-candidates-and-current-authorization",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationSQLite/shared-window-deletion-and-restart-resume",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationSQLite/identity-grant-session-reset-and-release/user",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationSQLite/identity-grant-session-reset-and-release/grant",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationSQLite/identity-grant-session-reset-and-release/session",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationSQLite/identity-grant-session-reset-and-release/ancestry",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationSQLite/identity-grant-session-reset-and-release/rebuild",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationSQLite/identity-grant-session-reset-and-release/expiry",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationSQLite/identity-grant-session-reset-and-release",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationSQLite/bounded-slow-consumer-and-monotonic-resume",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationSQLite/execution-candidates-refresh-definition-and-evidence",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationSQLite",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryProjectionSQLite/snapshot-paging-filter-atomic-delete",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryProjectionSQLite/alarm-case-ephemeral-execution-evidence",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryProjectionSQLite/trend-archive-rollup-revisions-rebuild",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryProjectionSQLite/failure-cancel-compaction-import",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryProjectionSQLite",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryProjectionPostgres",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=false/entities",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=false/alarms",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=false/executions",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=false/trend",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=false",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=true",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/signed-paging-candidates-and-current-authorization",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/shared-window-deletion-and-restart-resume",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/user",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/grant",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/session",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/ancestry",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/rebuild",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/expiry",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/bounded-slow-consumer-and-monotonic-resume",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/execution-candidates-refresh-definition-and-evidence",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryProjectionPostgres/snapshot-paging-filter-atomic-delete",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryProjectionPostgres/alarm-case-ephemeral-execution-evidence",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryProjectionPostgres/trend-archive-rollup-revisions-rebuild",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryProjectionPostgres/failure-cancel-compaction-import",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryProjectionPostgres",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryLateCommitAndConcurrentRebuildPostgres",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryRebuildPostgresCancellationAndBlockedWriter",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=false/entities",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=false/alarms",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=false/executions",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=false/trend",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=false",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=true/entities",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=true/alarms",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=true/executions",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=true/trend",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=true",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset",
+          "status": "pass"
+        },
+        {
+          "run": "race-api",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestQueryHTTPPaginationErrorsAndContracts",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationSQLite/signed-paging-candidates-and-current-authorization",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationSQLite/shared-window-deletion-and-restart-resume",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationSQLite/identity-grant-session-reset-and-release/user",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationSQLite/identity-grant-session-reset-and-release/grant",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationSQLite/identity-grant-session-reset-and-release/session",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationSQLite/identity-grant-session-reset-and-release/ancestry",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationSQLite/identity-grant-session-reset-and-release/rebuild",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationSQLite/identity-grant-session-reset-and-release/expiry",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationSQLite/identity-grant-session-reset-and-release",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationSQLite/bounded-slow-consumer-and-monotonic-resume",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationSQLite/execution-candidates-refresh-definition-and-evidence",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationSQLite",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/signed-paging-candidates-and-current-authorization",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/shared-window-deletion-and-restart-resume",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/user",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/grant",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/session",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/ancestry",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/rebuild",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/expiry",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/bounded-slow-consumer-and-monotonic-resume",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/execution-candidates-refresh-definition-and-evidence",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres",
+          "status": "pass"
+        },
+        {
+          "run": "race-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryProjectionSQLite/snapshot-paging-filter-atomic-delete",
+          "status": "pass"
+        },
+        {
+          "run": "race-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryProjectionSQLite/alarm-case-ephemeral-execution-evidence",
+          "status": "pass"
+        },
+        {
+          "run": "race-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryProjectionSQLite/trend-archive-rollup-revisions-rebuild",
+          "status": "pass"
+        },
+        {
+          "run": "race-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryProjectionSQLite/failure-cancel-compaction-import",
+          "status": "pass"
+        },
+        {
+          "run": "race-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryProjectionSQLite",
+          "status": "pass"
+        },
+        {
+          "run": "race-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryProjectionPostgres/snapshot-paging-filter-atomic-delete",
+          "status": "pass"
+        },
+        {
+          "run": "race-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryProjectionPostgres/alarm-case-ephemeral-execution-evidence",
+          "status": "pass"
+        },
+        {
+          "run": "race-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryProjectionPostgres/trend-archive-rollup-revisions-rebuild",
+          "status": "pass"
+        },
+        {
+          "run": "race-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryProjectionPostgres/failure-cancel-compaction-import",
+          "status": "pass"
+        },
+        {
+          "run": "race-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryProjectionPostgres",
+          "status": "pass"
+        },
+        {
+          "run": "race-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryLateCommitAndConcurrentRebuildPostgres",
+          "status": "pass"
+        },
+        {
+          "run": "race-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryRebuildPostgresCancellationAndBlockedWriter",
+          "status": "pass"
+        },
+        {
+          "run": "race-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=false/entities",
+          "status": "pass"
+        },
+        {
+          "run": "race-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=false/alarms",
+          "status": "pass"
+        },
+        {
+          "run": "race-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=false/executions",
+          "status": "pass"
+        },
+        {
+          "run": "race-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=false/trend",
+          "status": "pass"
+        },
+        {
+          "run": "race-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=false",
+          "status": "pass"
+        },
+        {
+          "run": "race-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=true/entities",
+          "status": "pass"
+        },
+        {
+          "run": "race-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=true/alarms",
+          "status": "pass"
+        },
+        {
+          "run": "race-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=true/executions",
+          "status": "pass"
+        },
+        {
+          "run": "race-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=true/trend",
+          "status": "pass"
+        },
+        {
+          "run": "race-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=true",
+          "status": "pass"
+        },
+        {
+          "run": "race-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "id": "E4-02",
+      "title": "可恢复增量订阅",
+      "status": "backend_verified_pending_browser",
+      "note": "HTTP/1.1、HTTP/2 经过心跳后的增量和慢连接测试通过；页面中 HTTP 与 SSE 次序等待独立复验",
+      "tests": [
+        {
+          "run": "api-full-diagnostic",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestQuerySSEHTTPIdleAndRecovery/HTTP/1.1",
+          "status": "pass"
+        },
+        {
+          "run": "api-full-diagnostic",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestQuerySSEHTTPIdleAndRecovery/HTTP/2.0",
+          "status": "pass"
+        },
+        {
+          "run": "api-full-diagnostic",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestQuerySSEHTTPIdleAndRecovery",
+          "status": "pass"
+        },
+        {
+          "run": "api-full-diagnostic",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestQuerySSESlowSocketDoesNotBlockOtherClients",
+          "status": "pass"
+        },
+        {
+          "run": "api-full-diagnostic",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestQuerySSEExpiredCursor",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-api",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestQuerySSEHTTPIdleAndRecovery/HTTP/1.1",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-api",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestQuerySSEHTTPIdleAndRecovery/HTTP/2.0",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-api",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestQuerySSEHTTPIdleAndRecovery",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-api",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestQuerySSESlowSocketDoesNotBlockOtherClients",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-api",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestQuerySSEExpiredCursor",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryDrainCompetingReader",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryTrendExactValueHeartbeatAndIdentity",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationSQLite/signed-paging-candidates-and-current-authorization",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationSQLite/shared-window-deletion-and-restart-resume",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationSQLite/identity-grant-session-reset-and-release/user",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationSQLite/identity-grant-session-reset-and-release/grant",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationSQLite/identity-grant-session-reset-and-release/session",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationSQLite/identity-grant-session-reset-and-release/ancestry",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationSQLite/identity-grant-session-reset-and-release/rebuild",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationSQLite/identity-grant-session-reset-and-release/expiry",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationSQLite/identity-grant-session-reset-and-release",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationSQLite/bounded-slow-consumer-and-monotonic-resume",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationSQLite/execution-candidates-refresh-definition-and-evidence",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationSQLite",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-api",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestQuerySSEPostgresSnapshotDeltaResumeReset",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/signed-paging-candidates-and-current-authorization",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/shared-window-deletion-and-restart-resume",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/user",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/grant",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/session",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/ancestry",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/rebuild",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/expiry",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/bounded-slow-consumer-and-monotonic-resume",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/execution-candidates-refresh-definition-and-evidence",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres",
+          "status": "pass"
+        },
+        {
+          "run": "race-api",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestQuerySSEHTTPIdleAndRecovery/HTTP/1.1",
+          "status": "pass"
+        },
+        {
+          "run": "race-api",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestQuerySSEHTTPIdleAndRecovery/HTTP/2.0",
+          "status": "pass"
+        },
+        {
+          "run": "race-api",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestQuerySSEHTTPIdleAndRecovery",
+          "status": "pass"
+        },
+        {
+          "run": "race-api",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestQuerySSESlowSocketDoesNotBlockOtherClients",
+          "status": "pass"
+        },
+        {
+          "run": "race-api",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestQuerySSEPostgresSnapshotDeltaResumeReset",
+          "status": "pass"
+        },
+        {
+          "run": "race-api",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestQuerySSEExpiredCursor",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryDrainCompetingReader",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryTrendExactValueHeartbeatAndIdentity",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationSQLite/signed-paging-candidates-and-current-authorization",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationSQLite/shared-window-deletion-and-restart-resume",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationSQLite/identity-grant-session-reset-and-release/user",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationSQLite/identity-grant-session-reset-and-release/grant",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationSQLite/identity-grant-session-reset-and-release/session",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationSQLite/identity-grant-session-reset-and-release/ancestry",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationSQLite/identity-grant-session-reset-and-release/rebuild",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationSQLite/identity-grant-session-reset-and-release/expiry",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationSQLite/identity-grant-session-reset-and-release",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationSQLite/bounded-slow-consumer-and-monotonic-resume",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationSQLite/execution-candidates-refresh-definition-and-evidence",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationSQLite",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/signed-paging-candidates-and-current-authorization",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/shared-window-deletion-and-restart-resume",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/user",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/grant",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/session",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/ancestry",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/rebuild",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/expiry",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/bounded-slow-consumer-and-monotonic-resume",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/execution-candidates-refresh-definition-and-evidence",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "id": "E4-03",
+      "title": "前端业务模块与状态组织",
+      "status": "waiting_frontend_freeze",
+      "note": "页面、生成客户端、TanStack Query、编辑保持和权限身份将在前端冻结后独立验证",
+      "tests": []
+    },
+    {
+      "id": "E4-04",
+      "title": "设备与节点参数表单",
+      "status": "backend_verified_pending_browser",
+      "note": "元数据、TLS 读取及往返通过；P4-F02 修正后表单仍待独立操作",
+      "tests": [
+        {
+          "run": "api-full-diagnostic",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestBusinessHTTPProtocolTemplatesSemanticAndHandover",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-DataTransfer-internal-config",
+          "package": "competition2026/product/datatransfer/internal/config",
+          "test": "TestTLSJSONLegacyNamesAndCanonicalRoundTrip",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-DataTransfer-internal-configmanager",
+          "package": "competition2026/product/datatransfer/internal/configmanager",
+          "test": "TestConfigManagerAppliesDeviceUpdatesAndProtectsRevision",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-api",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestBusinessHTTPProtocolTemplatesSemanticAndHandover",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestBusinessWorkflowSQLite",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestBusinessWorkflowPostgres",
+          "status": "pass"
+        },
+        {
+          "run": "race-dt-config",
+          "package": "competition2026/product/datatransfer/internal/config",
+          "test": "TestTLSJSONLegacyNamesAndCanonicalRoundTrip",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "id": "E4-05",
+      "title": "语义差异与影响分析",
+      "status": "backend_verified_pending_browser",
+      "note": "业务语义与资源授权回归通过，页面交互待检",
+      "tests": [
+        {
+          "run": "api-full-diagnostic",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestBusinessHTTPProtocolTemplatesSemanticAndHandover",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-api",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestBusinessHTTPProtocolTemplatesSemanticAndHandover",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestBusinessSemanticPermissionsAndDuplicateConnections",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestBusinessTemplateBatchesAndSemanticChanges",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "id": "E4-06",
+      "title": "告警处置工作台",
+      "status": "backend_verified_pending_browser_and_native_evidence_review",
+      "note": "本轮执行受控 HTTP 原生同步与 worker 检查；实际 CE 生命周期本轮条件跳过，专业固定版本证据另列，页面流程待检",
+      "tests": [
+        {
+          "run": "api-full-diagnostic",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestBusinessHTTPContinuousAlarmReviewAndNativeCallback",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-api",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestBusinessHTTPContinuousAlarmReviewAndNativeCallback",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-app",
+          "package": "competition2026/product/platform/internal/app",
+          "test": "TestBusinessNativeWorkerImmediatePeriodicAndFailureRecovery",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestBusinessHandoverReviewedAlarmDuringContinuousSampling",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestBusinessConcurrentAlarmSQLite",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestBusinessConcurrentAlarmPostgres",
+          "status": "pass"
+        },
+        {
+          "run": "race-app",
+          "package": "competition2026/product/platform/internal/app",
+          "test": "TestBusinessNativeWorkerImmediatePeriodicAndFailureRecovery",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestBusinessHandoverReviewedAlarmDuringContinuousSampling",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestBusinessConcurrentAlarmSQLite",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestBusinessConcurrentAlarmPostgres",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "id": "E4-07",
+      "title": "带依据的AI调查",
+      "status": "blocked_on_P4_A02",
+      "note": "P4-A02 仍可复现，原专业修正后需要复验依据、调查详情与页面导航",
+      "tests": [
+        {
+          "run": "ordinary-Platform-internal-ai",
+          "package": "competition2026/product/platform/internal/ai",
+          "test": "TestInvestigationActualHTTPProtocolAndVisibleEvidence/chat_completions/stream=false",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-ai",
+          "package": "competition2026/product/platform/internal/ai",
+          "test": "TestInvestigationActualHTTPProtocolAndVisibleEvidence/chat_completions/stream=true",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-ai",
+          "package": "competition2026/product/platform/internal/ai",
+          "test": "TestInvestigationActualHTTPProtocolAndVisibleEvidence/responses/stream=false",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-ai",
+          "package": "competition2026/product/platform/internal/ai",
+          "test": "TestInvestigationActualHTTPProtocolAndVisibleEvidence/responses/stream=true",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-ai",
+          "package": "competition2026/product/platform/internal/ai",
+          "test": "TestInvestigationActualHTTPProtocolAndVisibleEvidence",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-ai",
+          "package": "competition2026/product/platform/internal/ai",
+          "test": "TestInvestigationCitationAndFailureStates/伪造引用",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-ai",
+          "package": "competition2026/product/platform/internal/ai",
+          "test": "TestInvestigationCitationAndFailureStates/跨调查引用",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-ai",
+          "package": "competition2026/product/platform/internal/ai",
+          "test": "TestInvestigationCitationAndFailureStates/空查询",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-ai",
+          "package": "competition2026/product/platform/internal/ai",
+          "test": "TestInvestigationCitationAndFailureStates/查询失败",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-ai",
+          "package": "competition2026/product/platform/internal/ai",
+          "test": "TestInvestigationCitationAndFailureStates/超预算",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-ai",
+          "package": "competition2026/product/platform/internal/ai",
+          "test": "TestInvestigationCitationAndFailureStates/无依据回答",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-ai",
+          "package": "competition2026/product/platform/internal/ai",
+          "test": "TestInvestigationCitationAndFailureStates",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-ai",
+          "package": "competition2026/product/platform/internal/ai",
+          "test": "TestInvestigationOriginalResourcesSurviveDefinitionEdits",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-ai",
+          "package": "competition2026/product/platform/internal/ai",
+          "test": "TestInvestigationSQLiteRevocationExpiryAndDeletion",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-ai",
+          "package": "competition2026/product/platform/internal/ai",
+          "test": "TestInvestigationEscapedDraftIdentityAndSecretFiltering",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-ai",
+          "package": "competition2026/product/platform/internal/ai",
+          "test": "TestInvestigationDirectDevicePermissionUsesQueryAuthorization",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-ai",
+          "package": "competition2026/product/platform/internal/ai",
+          "test": "TestInvestigationSQLiteRestartPreservesHTTPResults",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-ai",
+          "package": "competition2026/product/platform/internal/ai",
+          "test": "TestInvestigationActualHTTPOTLPIdentity",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-ai",
+          "package": "competition2026/product/platform/internal/ai",
+          "test": "TestInvestigationActualHTTPDisconnectPersistsCancellation",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-ai",
+          "package": "competition2026/product/platform/internal/ai",
+          "test": "TestResponsesHTTPAssistantPreciseQueryToolOutput",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestInvestigationDocumentsAuthorizationPaginationAndOpaqueScope",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestInvestigationDocumentsEmptyPageAndFiniteScanBudget",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestInvestigationEvidenceAuditRollbackAndCAS",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestInvestigationResourceExtractionUsesTypedFields",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-ai",
+          "package": "competition2026/product/platform/internal/ai",
+          "test": "TestInvestigationPostgresRevocationExpiryAndDeletion",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-ai",
+          "package": "competition2026/product/platform/internal/ai",
+          "test": "TestInvestigationPostgresRestartPreservesHTTPResults",
+          "status": "pass"
+        },
+        {
+          "run": "race-ai",
+          "package": "competition2026/product/platform/internal/ai",
+          "test": "TestInvestigationActualHTTPProtocolAndVisibleEvidence/chat_completions/stream=false",
+          "status": "pass"
+        },
+        {
+          "run": "race-ai",
+          "package": "competition2026/product/platform/internal/ai",
+          "test": "TestInvestigationActualHTTPProtocolAndVisibleEvidence/chat_completions/stream=true",
+          "status": "pass"
+        },
+        {
+          "run": "race-ai",
+          "package": "competition2026/product/platform/internal/ai",
+          "test": "TestInvestigationActualHTTPProtocolAndVisibleEvidence/responses/stream=false",
+          "status": "pass"
+        },
+        {
+          "run": "race-ai",
+          "package": "competition2026/product/platform/internal/ai",
+          "test": "TestInvestigationActualHTTPProtocolAndVisibleEvidence/responses/stream=true",
+          "status": "pass"
+        },
+        {
+          "run": "race-ai",
+          "package": "competition2026/product/platform/internal/ai",
+          "test": "TestInvestigationActualHTTPProtocolAndVisibleEvidence",
+          "status": "pass"
+        },
+        {
+          "run": "race-ai",
+          "package": "competition2026/product/platform/internal/ai",
+          "test": "TestInvestigationCitationAndFailureStates/伪造引用",
+          "status": "pass"
+        },
+        {
+          "run": "race-ai",
+          "package": "competition2026/product/platform/internal/ai",
+          "test": "TestInvestigationCitationAndFailureStates/跨调查引用",
+          "status": "pass"
+        },
+        {
+          "run": "race-ai",
+          "package": "competition2026/product/platform/internal/ai",
+          "test": "TestInvestigationCitationAndFailureStates/空查询",
+          "status": "pass"
+        },
+        {
+          "run": "race-ai",
+          "package": "competition2026/product/platform/internal/ai",
+          "test": "TestInvestigationCitationAndFailureStates/查询失败",
+          "status": "pass"
+        },
+        {
+          "run": "race-ai",
+          "package": "competition2026/product/platform/internal/ai",
+          "test": "TestInvestigationCitationAndFailureStates/超预算",
+          "status": "pass"
+        },
+        {
+          "run": "race-ai",
+          "package": "competition2026/product/platform/internal/ai",
+          "test": "TestInvestigationCitationAndFailureStates/无依据回答",
+          "status": "pass"
+        },
+        {
+          "run": "race-ai",
+          "package": "competition2026/product/platform/internal/ai",
+          "test": "TestInvestigationCitationAndFailureStates",
+          "status": "pass"
+        },
+        {
+          "run": "race-ai",
+          "package": "competition2026/product/platform/internal/ai",
+          "test": "TestInvestigationOriginalResourcesSurviveDefinitionEdits",
+          "status": "pass"
+        },
+        {
+          "run": "race-ai",
+          "package": "competition2026/product/platform/internal/ai",
+          "test": "TestInvestigationSQLiteRevocationExpiryAndDeletion",
+          "status": "pass"
+        },
+        {
+          "run": "race-ai",
+          "package": "competition2026/product/platform/internal/ai",
+          "test": "TestInvestigationPostgresRevocationExpiryAndDeletion",
+          "status": "pass"
+        },
+        {
+          "run": "race-ai",
+          "package": "competition2026/product/platform/internal/ai",
+          "test": "TestInvestigationEscapedDraftIdentityAndSecretFiltering",
+          "status": "pass"
+        },
+        {
+          "run": "race-ai",
+          "package": "competition2026/product/platform/internal/ai",
+          "test": "TestInvestigationDirectDevicePermissionUsesQueryAuthorization",
+          "status": "pass"
+        },
+        {
+          "run": "race-ai",
+          "package": "competition2026/product/platform/internal/ai",
+          "test": "TestInvestigationSQLiteRestartPreservesHTTPResults",
+          "status": "pass"
+        },
+        {
+          "run": "race-ai",
+          "package": "competition2026/product/platform/internal/ai",
+          "test": "TestInvestigationPostgresRestartPreservesHTTPResults",
+          "status": "pass"
+        },
+        {
+          "run": "race-ai",
+          "package": "competition2026/product/platform/internal/ai",
+          "test": "TestInvestigationActualHTTPOTLPIdentity",
+          "status": "pass"
+        },
+        {
+          "run": "race-ai",
+          "package": "competition2026/product/platform/internal/ai",
+          "test": "TestInvestigationActualHTTPDisconnectPersistsCancellation",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestInvestigationDocumentsAuthorizationPaginationAndOpaqueScope",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestInvestigationDocumentsEmptyPageAndFiniteScanBudget",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestInvestigationEvidenceAuditRollbackAndCAS",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestInvestigationResourceExtractionUsesTypedFields",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "id": "E4-08",
+      "title": "工单与交接记录",
+      "status": "backend_verified_pending_browser",
+      "note": "当前资源、审计、并发版本及关联执行授权通过，完整页面流转待检",
+      "tests": [
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestBusinessHandoverReviewedAlarmDuringContinuousSampling",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestBusinessConcurrentHandoverSQLite",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestBusinessWorkflowSQLite",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestBusinessWorkOrderChecksExecutionEvidenceAndRevokedMember",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestBusinessWorkOrderRejectsEvidenceAddedAfterAuthorization",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestBusinessConcurrentHandoverPostgres",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestBusinessWorkflowPostgres",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestBusinessHandoverReviewedAlarmDuringContinuousSampling",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestBusinessConcurrentHandoverSQLite",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestBusinessConcurrentHandoverPostgres",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestBusinessWorkOrderRejectsEvidenceAddedAfterAuthorization",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "id": "E4-09",
+      "title": "场景模板与批量准备",
+      "status": "backend_verified_pending_browser",
+      "note": "模板验证、绑定权限、冲突与失败恢复回归通过，五类模板的独立页面操作待检",
+      "tests": [
+        {
+          "run": "api-full-diagnostic",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestBusinessHTTPProtocolTemplatesSemanticAndHandover",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-api",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestBusinessHTTPProtocolTemplatesSemanticAndHandover",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestBusinessTemplateValidationRecoveryAndPinnedInputs/wrong-protocol",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestBusinessTemplateValidationRecoveryAndPinnedInputs/private-binding",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestBusinessTemplateValidationRecoveryAndPinnedInputs/stale-device",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestBusinessTemplateValidationRecoveryAndPinnedInputs/stale-connector",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestBusinessTemplateValidationRecoveryAndPinnedInputs/invalid-parameter",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestBusinessTemplateValidationRecoveryAndPinnedInputs",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestBusinessTemplateBatchesAndSemanticChanges",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "id": "E4-10",
+      "title": "图表与三套页面验证",
+      "status": "waiting_frontend_freeze",
+      "note": "ECharts 6、三套页面三种尺寸、精确提示与导出仍待本角色浏览器验证",
+      "tests": []
+    }
+  ],
+  "coordinator_findings": [
+    {
+      "id": "P4-Q01",
+      "status": "backend_regression_passed_pending_final_combination",
+      "tests": [
+        {
+          "run": "api-full-diagnostic",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestQuerySSEHTTPIdleAndRecovery/HTTP/1.1",
+          "status": "pass"
+        },
+        {
+          "run": "api-full-diagnostic",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestQuerySSEHTTPIdleAndRecovery/HTTP/2.0",
+          "status": "pass"
+        },
+        {
+          "run": "api-full-diagnostic",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestQuerySSEHTTPIdleAndRecovery",
+          "status": "pass"
+        },
+        {
+          "run": "api-full-diagnostic",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestQuerySSESlowSocketDoesNotBlockOtherClients",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-api",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestQuerySSEHTTPIdleAndRecovery/HTTP/1.1",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-api",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestQuerySSEHTTPIdleAndRecovery/HTTP/2.0",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-api",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestQuerySSEHTTPIdleAndRecovery",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-api",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestQuerySSESlowSocketDoesNotBlockOtherClients",
+          "status": "pass"
+        },
+        {
+          "run": "race-api",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestQuerySSEHTTPIdleAndRecovery/HTTP/1.1",
+          "status": "pass"
+        },
+        {
+          "run": "race-api",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestQuerySSEHTTPIdleAndRecovery/HTTP/2.0",
+          "status": "pass"
+        },
+        {
+          "run": "race-api",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestQuerySSEHTTPIdleAndRecovery",
+          "status": "pass"
+        },
+        {
+          "run": "race-api",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestQuerySSESlowSocketDoesNotBlockOtherClients",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "id": "P4-Q02",
+      "status": "backend_regression_passed_pending_final_combination",
+      "tests": [
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryDrainCompetingReader",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationSQLite/shared-window-deletion-and-restart-resume",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/shared-window-deletion-and-restart-resume",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryDrainCompetingReader",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationSQLite/shared-window-deletion-and-restart-resume",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/shared-window-deletion-and-restart-resume",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "id": "P4-Q03",
+      "status": "backend_regression_passed_pending_final_combination",
+      "tests": [
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=false/entities",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=false/alarms",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=false/executions",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=false/trend",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=false",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=true",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-api",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestQuerySSEPostgresSnapshotDeltaResumeReset",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/signed-paging-candidates-and-current-authorization",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/shared-window-deletion-and-restart-resume",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/user",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/grant",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/session",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/ancestry",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/rebuild",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/expiry",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/bounded-slow-consumer-and-monotonic-resume",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/execution-candidates-refresh-definition-and-evidence",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryLateCommitAndConcurrentRebuildPostgres",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=false/entities",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=false/alarms",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=false/executions",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=false/trend",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=false",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=true/entities",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=true/alarms",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=true/executions",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=true/trend",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=true",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset",
+          "status": "pass"
+        },
+        {
+          "run": "race-api",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestQuerySSEPostgresSnapshotDeltaResumeReset",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/signed-paging-candidates-and-current-authorization",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/shared-window-deletion-and-restart-resume",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/user",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/grant",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/session",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/ancestry",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/rebuild",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/expiry",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/bounded-slow-consumer-and-monotonic-resume",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres/execution-candidates-refresh-definition-and-evidence",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestQueryApplicationPostgres",
+          "status": "pass"
+        },
+        {
+          "run": "race-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryLateCommitAndConcurrentRebuildPostgres",
+          "status": "pass"
+        },
+        {
+          "run": "race-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=false/entities",
+          "status": "pass"
+        },
+        {
+          "run": "race-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=false/alarms",
+          "status": "pass"
+        },
+        {
+          "run": "race-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=false/executions",
+          "status": "pass"
+        },
+        {
+          "run": "race-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=false/trend",
+          "status": "pass"
+        },
+        {
+          "run": "race-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=false",
+          "status": "pass"
+        },
+        {
+          "run": "race-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=true/entities",
+          "status": "pass"
+        },
+        {
+          "run": "race-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=true/alarms",
+          "status": "pass"
+        },
+        {
+          "run": "race-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=true/executions",
+          "status": "pass"
+        },
+        {
+          "run": "race-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=true/trend",
+          "status": "pass"
+        },
+        {
+          "run": "race-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset/postgres=true",
+          "status": "pass"
+        },
+        {
+          "run": "race-store",
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestQueryAllKindsStableKeyset",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "id": "P4-B01",
+      "status": "backend_regression_passed_pending_final_combination",
+      "tests": [
+        {
+          "run": "api-full-diagnostic",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestBusinessHTTPContinuousAlarmReviewAndNativeCallback",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-api",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestBusinessHTTPContinuousAlarmReviewAndNativeCallback",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestBusinessHandoverReviewedAlarmDuringContinuousSampling",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestBusinessConcurrentAlarmSQLite",
+          "status": "pass"
+        },
+        {
+          "run": "postgres-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestBusinessConcurrentAlarmPostgres",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestBusinessHandoverReviewedAlarmDuringContinuousSampling",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestBusinessConcurrentAlarmSQLite",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestBusinessConcurrentAlarmPostgres",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "id": "P4-B02",
+      "status": "backend_regression_passed_pending_final_combination",
+      "tests": [
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestBusinessConnectorSecretsAreFixedByVersion",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestBusinessConnectorSecretsAreFixedByVersion",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "id": "P4-B03",
+      "status": "backend_regression_passed_pending_final_combination",
+      "tests": [
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestBusinessWorkOrderChecksExecutionEvidenceAndRevokedMember",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestBusinessWorkOrderRejectsEvidenceAddedAfterAuthorization",
+          "status": "pass"
+        },
+        {
+          "run": "race-application",
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestBusinessWorkOrderRejectsEvidenceAddedAfterAuthorization",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "id": "P4-B04",
+      "status": "backend_regression_passed_pending_final_combination",
+      "tests": [
+        {
+          "run": "ordinary-DataTransfer-internal-config",
+          "package": "competition2026/product/datatransfer/internal/config",
+          "test": "TestTLSJSONLegacyNamesAndCanonicalRoundTrip",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-DataTransfer-internal-configmanager",
+          "package": "competition2026/product/datatransfer/internal/configmanager",
+          "test": "TestConfigManagerAppliesDeviceUpdatesAndProtectsRevision",
+          "status": "pass"
+        },
+        {
+          "run": "race-dt-config",
+          "package": "competition2026/product/datatransfer/internal/config",
+          "test": "TestTLSJSONLegacyNamesAndCanonicalRoundTrip",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "id": "P4-B05",
+      "status": "backend_regression_passed_pending_final_combination",
+      "tests": [
+        {
+          "run": "ordinary-Platform-internal-app",
+          "package": "competition2026/product/platform/internal/app",
+          "test": "TestBusinessNativeWorkerImmediatePeriodicAndFailureRecovery",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-thingsboard",
+          "package": "competition2026/product/platform/internal/thingsboard",
+          "test": "TestBusinessNativePollFairnessRotationAndRecovery",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-thingsboard",
+          "package": "competition2026/product/platform/internal/thingsboard",
+          "test": "TestBusinessNativePollDeadlineResumesAfterSlowMapping",
+          "status": "pass"
+        },
+        {
+          "run": "race-app",
+          "package": "competition2026/product/platform/internal/app",
+          "test": "TestBusinessNativeWorkerImmediatePeriodicAndFailureRecovery",
+          "status": "pass"
+        },
+        {
+          "run": "race-thingsboard",
+          "package": "competition2026/product/platform/internal/thingsboard",
+          "test": "TestBusinessNativePollFairnessRotationAndRecovery",
+          "status": "pass"
+        },
+        {
+          "run": "race-thingsboard",
+          "package": "competition2026/product/platform/internal/thingsboard",
+          "test": "TestBusinessNativePollDeadlineResumesAfterSlowMapping",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "id": "P4-B06",
+      "status": "backend_regression_passed_pending_final_combination",
+      "tests": [
+        {
+          "run": "api-full-diagnostic",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestBusinessHTTPRequiredInputFieldsAndDefaults",
+          "status": "pass"
+        },
+        {
+          "run": "ordinary-Platform-internal-api",
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestBusinessHTTPRequiredInputFieldsAndDefaults",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "id": "P4-A01",
+      "status": "backend_regression_passed_pending_final_combination",
+      "tests": [
+        {
+          "run": "ordinary-Platform-internal-ai",
+          "package": "competition2026/product/platform/internal/ai",
+          "test": "TestInvestigationDirectDevicePermissionUsesQueryAuthorization",
+          "status": "pass"
+        },
+        {
+          "run": "race-ai",
+          "package": "competition2026/product/platform/internal/ai",
+          "test": "TestInvestigationDirectDevicePermissionUsesQueryAuthorization",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "id": "P4-A02",
+      "status": "independently_reproduced_waiting_original_specialist_fix",
+      "reproductions": [
+        "independent-ai-original-asset-deletion",
+        "independent-ai-original-asset-deletion-v3"
+      ],
+      "retained_sources": [
+        {
+          "build": "independent-ai-build-v2",
+          "retained_source": {
+            "path": "/private/tmp/smartfactory-phase4-independent-20261005/overlays/independent-ai-build-v2/independent_ai_review_test.go",
+            "sha256": "381b8ba8eb2e7bda27f9b6b1e0f6c9b516db945df872b614d5d3d5f09ba0bed8",
+            "bytes": 1926
+          },
+          "expected_sha256": "381b8ba8eb2e7bda27f9b6b1e0f6c9b516db945df872b614d5d3d5f09ba0bed8",
+          "matched": true
+        },
+        {
+          "build": "independent-ai-build-v3",
+          "retained_source": {
+            "path": "/private/tmp/smartfactory-phase4-independent-20261005/overlays/independent-ai-build-v3/independent_ai_review_test.go",
+            "sha256": "b52e3c3a36f364aed1712384504072ed039e3daaf6dd5ca591626ab893d06f00",
+            "bytes": 2751
+          },
+          "expected_sha256": "b52e3c3a36f364aed1712384504072ed039e3daaf6dd5ca591626ab893d06f00",
+          "matched": true
+        }
+      ],
+      "observed": "After definition rebinding and deletion of its original resource, a still-present explicit grant leaves evidence access valid with HTTP 200 and 1859 response bytes. Investigation detail also retains 178 answer bytes, one input message, 29 argument bytes and three resources."
+    },
+    {
+      "id": "P4-F01",
+      "status": "specialist_reports_fixed_independent_browser_retest_pending",
+      "scope": "Delayed HTTP snapshot overwrites an already-applied SSE update/new row/removal; independently check initial query, manual refresh and the opaque resume cursor after freeze."
+    },
+    {
+      "id": "P4-F02",
+      "status": "specialist_reports_fixed_independent_browser_retest_pending",
+      "scope": "JSON correction, deletion of an invalid parameter row and same-name fields in different metadata sections require independent page verification after freeze."
+    }
+  ],
+  "skipped_test_audit": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/skipped-test-audit.json",
+    "sha256": "e7f8aa2742c8913ae151f13cf05d2083d3c22d080d1478d42839340f439d8b00",
+    "bytes": 31807
+  },
+  "resource_cleanup": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/resource-cleanup.json",
+    "sha256": "bf5f18ab4089bf9d00ba8afa9bb90045f0519a2e85327bcafb1f22bf9d90f7c8",
+    "bytes": 1232
+  },
+  "resource_window": {
+    "PG_and_race": "released",
+    "own_persistent_services": [],
+    "preserved_prior_stage_schema": "sf_pilot_20261004",
+    "work_volume_minimum_free_bytes": 1073741824
+  },
+  "next_actions": [
+    "主协调恢复原 AI 专业修正 P4-A02，并由前端完成冻结；本角色结束本轮运行以释放并发名额",
+    "恢复独立审查后读取两专业最终报告，保存新组合输入并核对与本检查点的源码关系",
+    "使用保留的 v2/v3 复现测试核对依据、调查详情及其失效内容；运行相关后端与 PG 回归",
+    "在自己的隔离端口完成前端生产构建与实际页面全部业务流程，独立复验 P4-F01/F02、三套页面和精确导出",
+    "核对最终前端依赖、中央工具链记录和发布部署回归，处理仍适用的条件验证，再生成 phase4-independent-review.json 供主协调验收"
+  ]
+}

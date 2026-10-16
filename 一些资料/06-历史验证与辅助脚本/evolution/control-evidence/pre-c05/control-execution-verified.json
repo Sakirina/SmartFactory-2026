@@ -1,0 +1,1652 @@
+{
+  "schema_version": 1,
+  "phase": 3,
+  "role": "control_execution",
+  "status": "verified_backend_frontend_handoff_ready",
+  "generated_at": "2026-10-04T20:33:30.703053+00:00",
+  "acceptance": {
+    "E3-01": {
+      "status": "verified_backend",
+      "behavior": "Single transition path is used by manual requests, automatic/scheduled workers, recovered journals, remote steps and cloud receipts. Immutable request identity and local CAS are checked, and execution/document revision, audit, transition, optional receipt and operation outcome commit atomically.",
+      "tests": [
+        "TestStateEventsEnforcePersistenceAndImmutableRequest",
+        "TestProcessRecoveryFaultPreservesReservedCommand",
+        "TestCrashWindowsRecoverWithoutRepeatingReservedCommands",
+        "TestPostgresControlAtomicTransitionsAndConcurrentIntervention",
+        "TestRealThreeReplicaReadOnlyReconcileAndManualResume"
+      ],
+      "fault_points": [
+        "before_reserve",
+        "after_reserve",
+        "after_send",
+        "before_result_save",
+        "after_result_save",
+        "process_recovery",
+        "after_operation_persist",
+        "after_operation_started"
+      ]
+    },
+    "E3-02": {
+      "status": "verified_backend",
+      "behavior": "Current principals, sessions, grants, team membership, original and current referenced resources, normal/degraded devices, published definitions and organization eligibility are validated; their revisions are checked again in the mutation transaction. Automatic/scheduled control requires published-policy identity. Historical read APIs check original resources.",
+      "tests": [
+        "TestCurrentAuthorizationAndResourceVersionsBeforeExecution",
+        "TestInterventionRequiresHistoricalConditionResources",
+        "TestOrganizationMoveInvalidatesLeaderApproval",
+        "TestExpiredAndRevokedApprovalsAndInterlock",
+        "TestInterlockIsRecheckedBetweenDeviceSteps",
+        "TestControlHTTPReadsHistoricalResourcesAndRechecksPrincipal",
+        "TestHistoricalExecutionAndOperationReadChecksOriginalResources"
+      ]
+    },
+    "E3-03": {
+      "status": "verified_backend",
+      "behavior": "Reconciliation queries original command journal over actual DataTransfer gRPC or signed NATS owner request, validates provenance and immutable binding, and persists trusted/rejected evidence. Manual cancellation/reconciliation/resume use expected versions; unknown actions never resend automatically. StartedMS is durably claimed before lookup and preserved across duplicate delivery/restart. Cloud acceptance is HTTP202 and keeps execution state until edge receipts.",
+      "tests": [
+        "TestChineseColonIdentityReconcileAndResumeRemainingSteps",
+        "TestUntrustedFeedbackCannotAuthorizeResume",
+        "TestCancelDuringCommandRetainsLateResultAndSkipsRemaining",
+        "TestConcurrentManualOperationsHaveSingleVersionWinner",
+        "TestOperationStartSurvivesDuplicateAfterDeadline",
+        "TestStartedOperationResumesAfterDatabaseReopenBeyondDeadline",
+        "TestOperationDeadlineUsesStartTimeAndCloudAcceptsLateCompletion",
+        "TestLocalOperationSurvivesCommitBeforeProcessingAndSameIDRetry",
+        "TestRealConcurrentOperationDeliveryKeepsLeaseContentionRetryable",
+        "TestControlledCloudEdgeControlIntervention"
+      ]
+    },
+    "E3-07-control": {
+      "status": "verified_backend_frontend_handoff_ready",
+      "behavior": "Execution detail exposes allowed actions, original-source timeline, approvals, atomic transitions, actions, feedback provenance, operation request/start/result times and trace IDs. Actual OTLP span export joins persisted transitions and command evidence.",
+      "tests": [
+        "TestMigrationFourExecutionAndActionJournalRemainRecoverable",
+        "TestControlledCloudEdgeControlIntervention",
+        "TestControlHTTPCloudPendingAndVersionContract"
+      ],
+      "frontend_owner": "phase3 frontend; browser implementation and independent acceptance are outside this role"
+    }
+  },
+  "implementation": {
+    "migration": 5,
+    "current_migration": 6,
+    "storage_interface": "internal/control.Repository used by production Service",
+    "typed_contracts": [
+      "ExecutionAction",
+      "ExecutionDetail",
+      "ExecutionTransition",
+      "CommandEvidence",
+      "ControlOperation"
+    ],
+    "protocol_addition": "datatransfer.v1.DataTransferService/GetCommandResult read-only journal lookup; original message field numbers and RPC signatures preserved",
+    "frontend_contract": {
+      "path": "docs/evolution/control-frontend-contract.md",
+      "sha256": "27451c4b3ad0f70c160e8696082245400c44d7eb10583fc15d3799dc0b40e010",
+      "bytes": 8235
+    }
+  },
+  "execution_environment": {
+    "go": "go1.27.1",
+    "ordinary_and_race": "GOMAXPROCS=2; go test -p 1; GOTOOLCHAIN=local; GOPROXY=off",
+    "postgres": "PostgreSQL18 isolated schema, each pool max3 idle1; management connection1, returned to coordinator after test",
+    "nats": {
+      "version": "2.14.7",
+      "replicas": 3,
+      "image": "library/nats@sha256:b2301863d84fda2cf8260d308203708f5231b2db34d821cc518d5c4c3c79780a",
+      "memory_limit_per_container": 268435456,
+      "transport": "actual mTLS NATS",
+      "state": "containers and fixture network stopped",
+      "legacy_checkpoint_source_versions": [
+        "2.11.9",
+        "2.12.15",
+        "2.14.7"
+      ],
+      "legacy_checkpoint_digest": "60855a0350da99521058590e3ea7fc93a716325d8b8ec62ee7518a5144b6bab9"
+    }
+  },
+  "commands": [
+    {
+      "log": {
+        "path": ".local/evolution/control-evidence/platform-final-ordinary.jsonl",
+        "sha256": "8655c3a67ab3c1f17c87215cb29ea8ded2b7f33c5798bf3863acf805c26de72b",
+        "bytes": 531597
+      },
+      "command": "go test -json -p 1 ./... -count=1",
+      "cwd": "Platform",
+      "exit_code": 1,
+      "stage": "final",
+      "passed_tests_and_subtests": [
+        "TestGeneratedContractsMatchLiveRegistration",
+        "TestModelRequestsPreserveContentBlocks/chat_completions",
+        "TestModelRequestsPreserveContentBlocks/responses",
+        "TestModelRequestsPreserveContentBlocks",
+        "TestResponsesInterleavedContentBlocksRetainItemAndContentIndexes",
+        "TestModelToolArgumentsRejectDuplicateKeysAndNestedConflicts",
+        "TestModelResponsesRejectMalformedContentAndContradictoryFinish",
+        "TestModelBudgetsRejectOverlongStreamsResponsesAndArguments/stream_bytes",
+        "TestModelBudgetsRejectOverlongStreamsResponsesAndArguments/stream_line",
+        "TestModelBudgetsRejectOverlongStreamsResponsesAndArguments",
+        "TestModelHTTPStreamCancellationAndDeadlines/cancel",
+        "TestModelHTTPStreamCancellationAndDeadlines/deadline",
+        "TestModelHTTPStreamCancellationAndDeadlines",
+        "TestModelCancellationRejectsAlreadyBufferedSuccessfulCompletion/stream=false",
+        "TestModelCancellationRejectsAlreadyBufferedSuccessfulCompletion/stream=true",
+        "TestModelCancellationRejectsAlreadyBufferedSuccessfulCompletion",
+        "TestModelHTTPErrorsAndResponseBudget/401",
+        "TestModelHTTPErrorsAndResponseBudget/429",
+        "TestModelHTTPErrorsAndResponseBudget/503",
+        "TestModelHTTPErrorsAndResponseBudget",
+        "TestModelRequiresExplicitStreamingMediaType",
+        "TestModelAdaptersCompleteAndStreamUseSameToolRound/chat_completions/stream=false",
+        "TestModelAdaptersCompleteAndStreamUseSameToolRound/chat_completions/stream=true",
+        "TestModelAdaptersCompleteAndStreamUseSameToolRound/responses/stream=false",
+        "TestModelAdaptersCompleteAndStreamUseSameToolRound/responses/stream=true",
+        "TestModelAdaptersCompleteAndStreamUseSameToolRound",
+        "TestResponsesIncompleteOrConflictingStreamsNeverYieldExecutableCalls/failed",
+        "TestResponsesIncompleteOrConflictingStreamsNeverYieldExecutableCalls/incomplete",
+        "TestResponsesIncompleteOrConflictingStreamsNeverYieldExecutableCalls/argument_conflict",
+        "TestResponsesIncompleteOrConflictingStreamsNeverYieldExecutableCalls/event_mismatch",
+        "TestResponsesIncompleteOrConflictingStreamsNeverYieldExecutableCalls/orphan_fragment",
+        "TestResponsesIncompleteOrConflictingStreamsNeverYieldExecutableCalls/truncated",
+        "TestResponsesIncompleteOrConflictingStreamsNeverYieldExecutableCalls",
+        "TestModelMessageBlocksAndNonStreamingErrors",
+        "TestChatStreamRequiresTerminalAndCompleteArguments",
+        "TestModelErrorClassificationAndCancellation",
+        "TestSSEMultilineCRLFAndBudget",
+        "TestInterleavedToolArgumentStreamingAndInterruptedResponses",
+        "TestMCPAndChatThreeDraftKindsAndAuthorization",
+        "TestLegacyAIModelStartupUpgradeRetainsEncryptedStateAndHistory",
+        "TestLegacyAIModelCustomSchemaAndSubscriberDoNotUpgrade/custom_schema",
+        "TestLegacyAIModelCustomSchemaAndSubscriberDoNotUpgrade/subscribed_node",
+        "TestLegacyAIModelCustomSchemaAndSubscriberDoNotUpgrade",
+        "TestLegacyAIModelUpgradeFailureRollsBackConfigurationAuditAndOutbox",
+        "TestLegacyAIModelUpgradeSubscriptionsKeepImmutableReceipts",
+        "TestOfficialMCPSDKProtocolsAndAuthorization/2026-07-28",
+        "TestOfficialMCPSDKProtocolsAndAuthorization/2025-11-25",
+        "TestOfficialMCPSDKProtocolsAndAuthorization/2025-06-18",
+        "TestOfficialMCPSDKProtocolsAndAuthorization/2025-03-26",
+        "TestOfficialMCPSDKProtocolsAndAuthorization/2024-11-05",
+        "TestOfficialMCPSDKProtocolsAndAuthorization",
+        "TestMCPSDKRechecksResourcePermissionsWithExistingClient",
+        "TestMCPCompatibilityMatchesOfficialSDK",
+        "TestMCPSDKRequestValidationAndReadOnlyTools/human_identity",
+        "TestMCPSDKRequestValidationAndReadOnlyTools/foreign_origin",
+        "TestMCPSDKRequestValidationAndReadOnlyTools/unsupported_version",
+        "TestMCPSDKRequestValidationAndReadOnlyTools/invalid_JSON",
+        "TestMCPSDKRequestValidationAndReadOnlyTools/stateless_GET",
+        "TestMCPSDKRequestValidationAndReadOnlyTools/stateless_DELETE",
+        "TestMCPSDKRequestValidationAndReadOnlyTools/missing_identity",
+        "TestMCPSDKRequestValidationAndReadOnlyTools/notification",
+        "TestMCPSDKRequestValidationAndReadOnlyTools/unsupported_content_type",
+        "TestMCPSDKRequestValidationAndReadOnlyTools/incomplete_accept",
+        "TestMCPSDKRequestValidationAndReadOnlyTools/request_budget",
+        "TestMCPSDKRequestValidationAndReadOnlyTools",
+        "TestResponsesHTTPAssistantThreeDraftKinds/analysis/stream=false",
+        "TestResponsesHTTPAssistantThreeDraftKinds/alarm/stream=false",
+        "TestResponsesHTTPAssistantThreeDraftKinds/strategy/stream=false",
+        "TestResponsesHTTPAssistantThreeDraftKinds/analysis/stream=true",
+        "TestResponsesHTTPAssistantThreeDraftKinds/alarm/stream=true",
+        "TestResponsesHTTPAssistantThreeDraftKinds/strategy/stream=true",
+        "TestResponsesHTTPAssistantThreeDraftKinds",
+        "TestResponsesHTTPAssistantPreciseQueryToolOutput",
+        "TestResponsesHTTPAssistantRejectsUnfinishedOrConflictingWriteCalls/truncated",
+        "TestResponsesHTTPAssistantRejectsUnfinishedOrConflictingWriteCalls/failed",
+        "TestResponsesHTTPAssistantRejectsUnfinishedOrConflictingWriteCalls/incomplete",
+        "TestResponsesHTTPAssistantRejectsUnfinishedOrConflictingWriteCalls/argument_conflict",
+        "TestResponsesHTTPAssistantRejectsUnfinishedOrConflictingWriteCalls/duplicate_argument",
+        "TestResponsesHTTPAssistantRejectsUnfinishedOrConflictingWriteCalls/final_item_identity_conflict",
+        "TestResponsesHTTPAssistantRejectsUnfinishedOrConflictingWriteCalls",
+        "TestResponsesHTTPAssistantReportsToolPermissionsAndVersionConflict/readonly_draft",
+        "TestResponsesHTTPAssistantReportsToolPermissionsAndVersionConflict/resource_permission",
+        "TestResponsesHTTPAssistantReportsToolPermissionsAndVersionConflict/version_conflict",
+        "TestResponsesHTTPAssistantReportsToolPermissionsAndVersionConflict",
+        "TestResponsesHTTPAssistantCancellationStopsBeforeToolExecution",
+        "TestResponsesHTTPAssistantModelTimeoutConfiguration",
+        "TestAssetProposalNeedsCloudReviewAndPreservesCurrentVersion",
+        "TestDraftAndQueriesEnforceEveryReferencedResource/selector",
+        "TestDraftAndQueriesEnforceEveryReferencedResource/condition",
+        "TestDraftAndQueriesEnforceEveryReferencedResource/step",
+        "TestDraftAndQueriesEnforceEveryReferencedResource/degraded",
+        "TestDraftAndQueriesEnforceEveryReferencedResource",
+        "TestAIIdentityCannotInvokePrivilegedRoutes",
+        "TestHTTPAndBackgroundControlShareBudgetDuringTaskBacklog",
+        "TestControlHTTPCloudPendingAndVersionContract",
+        "TestControlHTTPReadsHistoricalResourcesAndRechecksPrincipal",
+        "TestDashboardPermissionsVersionsAndReplication",
+        "TestTypedDraftRoutesRunReviewedPublicationAndPreserveJSONNumbers",
+        "TestTypedDraftRoutesAllowIncompleteGraphsAndRejectMalformedBodies",
+        "TestTypedDraftRoutesPropagateRemoteTraceAndBusinessIdentity",
+        "TestTypedCompatibilityEndpointReportsAppliedMigrations",
+        "TestHistoryHTTPTasksExactValuesAuthorizationAndOTLP",
+        "TestLegacyJobRetryResumesOriginalCheckpointAndRollupPhase/replaying",
+        "TestLegacyJobRetryResumesOriginalCheckpointAndRollupPhase/rollups",
+        "TestLegacyJobRetryResumesOriginalCheckpointAndRollupPhase",
+        "TestLegacyJobRetryAdoptsUnmappedJobAtomicallyAndChecksAllResources/adopt",
+        "TestLegacyJobRetryAdoptsUnmappedJobAtomicallyAndChecksAllResources/forbidden",
+        "TestLegacyJobRetryAdoptsUnmappedJobAtomicallyAndChecksAllResources/mapped-forbidden",
+        "TestLegacyJobRetryAdoptsUnmappedJobAtomicallyAndChecksAllResources/viewer",
+        "TestLegacyJobRetryAdoptsUnmappedJobAtomicallyAndChecksAllResources/audit-failure",
+        "TestLegacyJobRetryAdoptsUnmappedJobAtomicallyAndChecksAllResources",
+        "TestLegacyAndTaskRetryConcurrentRequestsShareOneAttempt",
+        "TestLegacyJobRetryReturnsNotFoundForExpiredRiverAttempt",
+        "TestLatestIndicatorsSurviveTrendWindowAndKeepResourceScope",
+        "TestContinuousSimulationAPIRevisionPrecisionPermissionsAndCompatibility/point",
+        "TestContinuousSimulationAPIRevisionPrecisionPermissionsAndCompatibility/history",
+        "TestContinuousSimulationAPIRevisionPrecisionPermissionsAndCompatibility/initial_state",
+        "TestContinuousSimulationAPIRevisionPrecisionPermissionsAndCompatibility/asset_parent",
+        "TestContinuousSimulationAPIRevisionPrecisionPermissionsAndCompatibility",
+        "TestNodeCatalogAndPlanDiagnosticsEnforceResourceAccess",
+        "TestStaticAndAIHandlersCanCoexist",
+        "TestTaskRoutesCheckResourcesRolesVersionsAndActualState",
+        "TestAITaskReaderCannotCancelOrRetry",
+        "TestRecomputeTaskResolvesDefinitionResourceScope",
+        "TestApplicationHTTPDraftAndTransactionTrace",
+        "TestStateBackupRestoresVersionsCredentialsAuditAndControlDedup",
+        "TestSceneTimersQualityHysteresisAndRecovery",
+        "TestWorkerBacksOffRemoteFailureAndCancelsPromptly",
+        "TestDefinitionUseCaseSavesValidatesPublishesWithAuditAndOutbox",
+        "TestDefinitionUseCaseChecksResourcesWithoutHTTP/group",
+        "TestDefinitionUseCaseChecksResourcesWithoutHTTP/selector",
+        "TestDefinitionUseCaseChecksResourcesWithoutHTTP/asset",
+        "TestDefinitionUseCaseChecksResourcesWithoutHTTP/condition",
+        "TestDefinitionUseCaseChecksResourcesWithoutHTTP/step",
+        "TestDefinitionUseCaseChecksResourcesWithoutHTTP/degraded",
+        "TestDefinitionUseCaseChecksResourcesWithoutHTTP/dependency",
+        "TestDefinitionUseCaseChecksResourcesWithoutHTTP",
+        "TestDefinitionUseCaseGuardsAIAndExistingOwnership",
+        "TestPublicationDetectsChangesAfterAuthorization/draft",
+        "TestPublicationDetectsChangesAfterAuthorization/dependency",
+        "TestPublicationDetectsChangesAfterAuthorization/transitive_dependency",
+        "TestPublicationDetectsChangesAfterAuthorization",
+        "TestPublicationPinsAuthorizationInputs/resource-move",
+        "TestPublicationPinsAuthorizationInputs/ancestor-move",
+        "TestPublicationPinsAuthorizationInputs/grant-change",
+        "TestPublicationPinsAuthorizationInputs/grant-delete",
+        "TestPublicationPinsAuthorizationInputs/grant-create",
+        "TestPublicationPinsAuthorizationInputs/user-revoke",
+        "TestPublicationPinsAuthorizationInputs",
+        "TestTransitiveDependenciesRequireEveryGroupPermission",
+        "TestPublicationRollsBackAllWritesWhenAuditFails",
+        "TestHistorySIGKILLResumesCommittedCheckpointUsingOfficialRiverRescue",
+        "TestShadowSIGKILLPreservesResolvedParentSnapshot",
+        "TestShadowSIGKILLAtProductionDeliveryStages/before-capture",
+        "TestShadowSIGKILLAtProductionDeliveryStages/after-capture",
+        "TestShadowSIGKILLAtProductionDeliveryStages/before-ack",
+        "TestShadowSIGKILLAtProductionDeliveryStages",
+        "TestHistoryReplayCrossVersionAssetsAndImmutableSnapshot",
+        "TestHistoryCompareSameInputClockPreciseWindowAndDifferences",
+        "TestHistoryCancellationRetryFreezesInputAndResumesCheckpoint",
+        "TestHistoryAuthorizationBudgetAndSnapshotCorruption",
+        "TestHistoryRiverWorkerExecutesDurableAnalysis",
+        "TestPublicationPersistsVerifiablePlanAndRejectsMissingDependencyAtomically/published_plan",
+        "TestPublicationPersistsVerifiablePlanAndRejectsMissingDependencyAtomically/missing_dependency",
+        "TestPublicationPersistsVerifiablePlanAndRejectsMissingDependencyAtomically",
+        "TestShadowProductionDerivedRevisionComparedWithCommittedRecompute",
+        "TestShadowCalculationFailurePreservesFormalStateAndIntentIsolation",
+        "TestShadowProductionDeliveriesDeduplicateContinueAndWaitForParent",
+        "TestShadowDeliveryInterruptionBeforeCaptureAfterCaptureAndBeforeAcknowledgement/before_capture",
+        "TestShadowDeliveryInterruptionBeforeCaptureAfterCaptureAndBeforeAcknowledgement/after_capture",
+        "TestShadowDeliveryInterruptionBeforeCaptureAfterCaptureAndBeforeAcknowledgement/before_ack",
+        "TestShadowDeliveryInterruptionBeforeCaptureAfterCaptureAndBeforeAcknowledgement",
+        "TestShadowCandidateStopAndReplacementRaceUsesCurrentScope/stop",
+        "TestShadowCandidateStopAndReplacementRaceUsesCurrentScope/replace_scope",
+        "TestShadowCandidateStopAndReplacementRaceUsesCurrentScope",
+        "TestLegacyTaskRetryPinsAuthorizationAndDefinitionRevisions/unmapped-definition",
+        "TestLegacyTaskRetryPinsAuthorizationAndDefinitionRevisions/mapped-grant-membership",
+        "TestLegacyTaskRetryPinsAuthorizationAndDefinitionRevisions",
+        "TestProposalAndDecisionRoundTripUnderNodeOwnership",
+        "TestIncompatibleExchangeDoesNotAdvanceCursorOrImportData",
+        "TestClientRejectsIncompatibleResponseBeforeApplyingChanges",
+        "TestCurrentClientAcceptsLegacyCloudResponse",
+        "TestMutualTLSSynchronizationReplayAndOfflinePermissions",
+        "TestAdmissionRequiresCertificateAndAvailableRegistry",
+        "TestChangedContentAndForeignOwnerAreNotAcknowledged",
+        "TestIdleExchangesDoNotWriteUntilHeartbeat",
+        "TestImportPreparesEarlierConsumerUsingLaterDependencyAndOriginalVersions",
+        "TestLegacyImportIsolatesInvalidDefinitionAndRecoversMissingDependency",
+        "TestCorruptImportedPlanRollsBackEarlierDefinitionsHistoriesCursorAndAudit/format",
+        "TestCorruptImportedPlanRollsBackEarlierDefinitionsHistoriesCursorAndAudit/checksum",
+        "TestCorruptImportedPlanRollsBackEarlierDefinitionsHistoriesCursorAndAudit/content",
+        "TestCorruptImportedPlanRollsBackEarlierDefinitionsHistoriesCursorAndAudit",
+        "TestPublicationWaitsForCommittedNodeCursor",
+        "TestNativeRelayCertificateAdmissionAndLiveRevocation",
+        "TestNativeRelayRejectsPublicCleartextListener",
+        "TestImmutablePlanSurvivesRestartAndRejectsConflictingContent",
+        "TestLegacyHistoricalIsolationAndDependencyRecovery",
+        "TestHistoricalDependencySelectionAndCycles",
+        "TestStorageFailureIsNotConvertedToRuleIsolation",
+        "TestCorruptPersistedPlanAbortsStartup",
+        "TestConfigVersionAfterAcknowledgementsAndMaskedSecret",
+        "TestSchemaRejectsRequiredUnknownAndIncorrectTypes",
+        "TestFailedApplicationRetainsEffectiveValue",
+        "TestIndependentSubscriptionAppliesDynamicAndDefersStatic",
+        "TestCurrentAuthorizationAndResourceVersionsBeforeExecution/device_moved",
+        "TestCurrentAuthorizationAndResourceVersionsBeforeExecution/team_removed",
+        "TestCurrentAuthorizationAndResourceVersionsBeforeExecution/grant_changed",
+        "TestCurrentAuthorizationAndResourceVersionsBeforeExecution/principal_disabled",
+        "TestCurrentAuthorizationAndResourceVersionsBeforeExecution/session_revoked",
+        "TestCurrentAuthorizationAndResourceVersionsBeforeExecution/reference_changed",
+        "TestCurrentAuthorizationAndResourceVersionsBeforeExecution",
+        "TestInterventionRequiresHistoricalConditionResources",
+        "TestUpdatedConfirmationCountsApplyBeforeDispatch",
+        "TestOrganizationMoveInvalidatesLeaderApproval",
+        "TestInterlockIsRecheckedBetweenDeviceSteps",
+        "TestApprovalExecutionAndRestartDeduplication",
+        "TestUnknownResultNeverResends",
+        "TestExpiredAndRevokedApprovalsAndInterlock/expired",
+        "TestExpiredAndRevokedApprovalsAndInterlock/revoked",
+        "TestExpiredAndRevokedApprovalsAndInterlock/interlocked",
+        "TestExpiredAndRevokedApprovalsAndInterlock/old-version",
+        "TestExpiredAndRevokedApprovalsAndInterlock",
+        "TestSafetyOverrideRequiresDesignatedLocalSecondFactor",
+        "TestCrashWindowsRecoverWithoutRepeatingReservedCommands/before_reserve",
+        "TestCrashWindowsRecoverWithoutRepeatingReservedCommands/after_reserve",
+        "TestCrashWindowsRecoverWithoutRepeatingReservedCommands/after_send",
+        "TestCrashWindowsRecoverWithoutRepeatingReservedCommands/before_result_save",
+        "TestCrashWindowsRecoverWithoutRepeatingReservedCommands/after_result_save",
+        "TestCrashWindowsRecoverWithoutRepeatingReservedCommands",
+        "TestChineseColonIdentityReconcileAndResumeRemainingSteps",
+        "TestUntrustedFeedbackCannotAuthorizeResume/wrong_command",
+        "TestUntrustedFeedbackCannotAuthorizeResume/wrong_content",
+        "TestUntrustedFeedbackCannotAuthorizeResume/stale",
+        "TestUntrustedFeedbackCannotAuthorizeResume/missing_source",
+        "TestUntrustedFeedbackCannotAuthorizeResume/missing_hash",
+        "TestUntrustedFeedbackCannotAuthorizeResume/unknown",
+        "TestUntrustedFeedbackCannotAuthorizeResume/missing",
+        "TestUntrustedFeedbackCannotAuthorizeResume/wrong_device",
+        "TestUntrustedFeedbackCannotAuthorizeResume/unbound_legacy",
+        "TestUntrustedFeedbackCannotAuthorizeResume/future",
+        "TestUntrustedFeedbackCannotAuthorizeResume",
+        "TestCancelDuringCommandRetainsLateResultAndSkipsRemaining",
+        "TestConcurrentManualOperationsHaveSingleVersionWinner",
+        "TestHistoricalExecutionAndOperationReadChecksOriginalResources",
+        "TestMigrationFourExecutionAndActionJournalRemainRecoverable",
+        "TestOperationStartSurvivesDuplicateAfterDeadline",
+        "TestStartedOperationResumesAfterDatabaseReopenBeyondDeadline",
+        "TestOperationDeadlineUsesStartTimeAndCloudAcceptsLateCompletion/starts_before_deadline_finishes_after",
+        "TestOperationDeadlineUsesStartTimeAndCloudAcceptsLateCompletion/expired_before_start",
+        "TestOperationDeadlineUsesStartTimeAndCloudAcceptsLateCompletion",
+        "TestCloudPendingConflictAndCurrentPermissionAreCheckedAtEdge/revision_changed",
+        "TestCloudPendingConflictAndCurrentPermissionAreCheckedAtEdge/permission_revoked",
+        "TestCloudPendingConflictAndCurrentPermissionAreCheckedAtEdge",
+        "TestLocalOperationSurvivesCommitBeforeProcessingAndSameIDRetry/worker_delivery",
+        "TestLocalOperationSurvivesCommitBeforeProcessingAndSameIDRetry/same_id_retry",
+        "TestLocalOperationSurvivesCommitBeforeProcessingAndSameIDRetry",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/approval",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/queue",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/degraded_execution",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/uncertain_feedback",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/cancel_unknown",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/reconcile_before_resume",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/resume_remaining",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/late_cancel_feedback",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/unapproved_dispatch",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/automatic_unknown_restart",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/resume_unknown",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/completed_restart",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/cancelled_resume",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/unknown_event",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest",
+        "TestProcessRecoveryFaultPreservesReservedCommand",
+        "TestFenceCommitContentionDoesNotAuthorizeDegradedActions",
+        "TestCommitBeforeAcknowledgementAndReplay",
+        "TestQueuedRealtimeObservationCreatesRecomputationBeforeAcknowledgement",
+        "TestExpressionsResourceBudgetAndPrecision",
+        "TestTypedGraphAndDerivedRevision",
+        "TestCounterSurvivesDuplicateAndRestart",
+        "TestExpressionNumericBudgetAndExactRounding",
+        "TestReplayUsesMoreThanOneDayAndRestoresLiveCounter",
+        "TestHistoricalAlarmKeepsAcknowledgementAndCurrentEpisode",
+        "TestExpressionErrorUsesOnlyTheErrorBranch",
+        "TestReplayRestoresParentOutputsAndContinuesCompleteWindows",
+        "TestReplayCancellationAndNewGenerationProtectCommittedResults/new-generation=false",
+        "TestReplayCancellationAndNewGenerationProtectCommittedResults/new-generation=true",
+        "TestReplayCancellationAndNewGenerationProtectCommittedResults",
+        "TestReplayResumesRollupsAfterCommittedFinalState",
+        "TestReplayRollupNewGenerationStopsOldWrites",
+        "TestSequenceSimulationCompilesOnceContinuesIndependentEntityState",
+        "TestSequenceWindowHistorySnapshotAndExactValues",
+        "TestSequenceExplicitClockMissingInputAndHistoricalAssets",
+        "TestSequenceBudgetsCancellationAndGivenOrder",
+        "TestRealtimeAndSimulationUseSamePreparedCoreWithoutParsing",
+        "TestExplicitSequenceRequiresNoDatabase",
+        "TestSimulationRequestRoundTripRetainsExplicitEmptySnapshots",
+        "TestDraftSimulationIncludesSampleWithoutChangingStoredData",
+        "TestStrategyContinuesWhileHistoricalMergeOwnsCalculationLock",
+        "TestPermissionsDeliverCredentialsOnlyToRegisteredEdge",
+        "TestAuthenticationRevocationAIAndTOTP",
+        "TestBundleSignatureExpiryAndCredentialEncryption",
+        "TestNewBundleRevokesAbsentUsersAndTeamGrants",
+        "TestRecipientsPermissionChangesAndEdgeChannels",
+        "TestActualHTTPChannelAcknowledgementRetryAndLostResponse",
+        "TestDatabaseFailurePreventsSendAndInterruptedAcknowledgementDoesNotResend",
+        "TestActualSMTPAcceptedAndUnacknowledgedMessage",
+        "TestPushCommitsBeforeAcknowledgementAndRejectsCredentialAndSequence",
+        "TestPlanSerializationIdentityAndExecutionReuse",
+        "TestIndependentStateIncludesCompositePreviousValues",
+        "TestCounterPrecisionQualityAndOverflow",
+        "TestWindowPrecisionQualityUnitsAndFreshness",
+        "TestCompilationLocatesParametersTypesPortsAndExpressionBudget",
+        "TestExecutionSharesOneGraphDeadlineAcrossExpressions",
+        "TestArchiveCandidatePreservesConcurrentLateDataAndRejectsChangedRows/late",
+        "TestArchiveCandidatePreservesConcurrentLateDataAndRejectsChangedRows/changed",
+        "TestArchiveCandidatePreservesConcurrentLateDataAndRejectsChangedRows/new-block",
+        "TestArchiveCandidatePreservesConcurrentLateDataAndRejectsChangedRows/changed-block",
+        "TestArchiveCandidatePreservesConcurrentLateDataAndRejectsChangedRows/encode-failure",
+        "TestArchiveCandidatePreservesConcurrentLateDataAndRejectsChangedRows/commit-failure",
+        "TestArchiveCandidatePreservesConcurrentLateDataAndRejectsChangedRows",
+        "TestArchivePreservesFullObservationsRevisionsAndRollups",
+        "TestArchiveRollbackCorruptionAndRetention",
+        "TestArchiveSurvivesBackupAndRestore",
+        "TestArchiveColumnFormatPreservesVariableTypesAndIdentifiers",
+        "TestBatchIngestPreservesOrderDeduplicationAndAtomicFailure",
+        "TestLateMessagesShareOneBackfillRevisionPerDeviceAndCommit",
+        "TestSQLiteBulkIngestTasksBudget",
+        "TestDeliveryBatchCommitFailurePreservesAllResults",
+        "TestMultiMessageIngestFailureDoesNotAcknowledgeEarlierMessages",
+        "TestGapQueriesRespectTimeAndDeviceScopeAndReplay",
+        "TestTelemetryDedupExpiresWhileBusinessIdentityRemains",
+        "TestNumberedMigrationsAdoptLegacySQLiteAndPreserveHistory",
+        "TestNumberedMigrationsRejectChangedAndMissingChecksums/checksum_mismatch",
+        "TestNumberedMigrationsRejectChangedAndMissingChecksums/checksum_unavailable",
+        "TestNumberedMigrationsRejectChangedAndMissingChecksums/newer_than_this_binary",
+        "TestNumberedMigrationsRejectChangedAndMissingChecksums",
+        "TestMigrationFailureRollsBackDDLVersionAndChecksum",
+        "TestRecentQueryPreservesRawEventsAndLatestDerivedRevision",
+        "TestPartialMinuteRebuildPreservesUnchangedObservations",
+        "TestRetentionTiersQuarantineAndPermanentHistory",
+        "TestRiverSQLiteTransactionalEnqueue",
+        "TestExpiredRiverHistoryKeepsBusinessIdentity",
+        "TestTaskCancellationDoesNotReplaceNewerRecomputeGeneration",
+        "TestDurableInboxConflictRollbackAndRestart",
+        "TestAuditDetectsModificationDeletionInsertionAndReorder/UPDATE_audit_SET_data=replace(data,'change','tamper')_WHERE_sequence=2",
+        "TestAuditDetectsModificationDeletionInsertionAndReorder/DELETE_FROM_audit_WHERE_sequence=2",
+        "TestAuditDetectsModificationDeletionInsertionAndReorder/UPDATE_audit_SET_sequence=9_WHERE_sequence=2",
+        "TestAuditDetectsModificationDeletionInsertionAndReorder/UPDATE_audit_SET_previous_hash='altered'_WHERE_sequence=2",
+        "TestAuditDetectsModificationDeletionInsertionAndReorder/DELETE_FROM_audit_WHERE_sequence=3",
+        "TestAuditDetectsModificationDeletionInsertionAndReorder",
+        "TestAuditPreservesStructFieldOrderAndExactNumbers",
+        "TestLateQualityRollupAndRetention",
+        "TestDistinctEventsAtSameTimestampAreCounted",
+        "TestTasksPreserveTraceIdentityAndBoundedMetricLabels",
+        "TestSQLiteRiverRetryAndRunningCancellation",
+        "TestRiverRecoversRecomputeCheckpointAfterProcessKill",
+        "TestRiverRecoversAfterProcessKill",
+        "TestBudgetsKeepIngestionAvailableDuringBacklog",
+        "TestProjectionSelectsNativeInputsAndBoundsCallbackBatches",
+        "TestNativeAbsentReadingsAndUnsignedIntegers",
+        "TestCurrentAndLegacyCloudEdgeCombinations",
+        "TestManifestCopiesAndPublishedFile",
+        "TestCompatibilityDatabaseRangeMatchesEmbeddedMigrations",
+        "TestNodeCatalogFeedsSchemaAndCompilerParameterRules"
+      ],
+      "package_results": [
+        {
+          "package": "competition2026/product/platform/cmd/sf-api-benchmark",
+          "action": "skip",
+          "elapsed_seconds": 0
+        },
+        {
+          "package": "competition2026/product/platform/cmd/sf-cloud",
+          "action": "skip",
+          "elapsed_seconds": 0
+        },
+        {
+          "package": "competition2026/product/platform/cmd/sf-config",
+          "action": "skip",
+          "elapsed_seconds": 0
+        },
+        {
+          "package": "competition2026/product/platform/cmd/sf-contracts",
+          "action": "pass",
+          "elapsed_seconds": 0.052
+        },
+        {
+          "package": "competition2026/product/platform/cmd/sf-edge",
+          "action": "skip",
+          "elapsed_seconds": 0
+        },
+        {
+          "package": "competition2026/product/platform/cmd/sf-history-fixture",
+          "action": "skip",
+          "elapsed_seconds": 0
+        },
+        {
+          "package": "competition2026/product/platform/cmd/sf-hr-plugin",
+          "action": "skip",
+          "elapsed_seconds": 0
+        },
+        {
+          "package": "competition2026/product/platform/cmd/sf-model-mock",
+          "action": "skip",
+          "elapsed_seconds": 0
+        },
+        {
+          "package": "competition2026/product/platform/cmd/sf-pki",
+          "action": "skip",
+          "elapsed_seconds": 0
+        },
+        {
+          "package": "competition2026/product/platform/cmd/sf-site-fixture",
+          "action": "skip",
+          "elapsed_seconds": 0
+        },
+        {
+          "package": "competition2026/product/platform/internal/acceptance",
+          "action": "skip",
+          "elapsed_seconds": 0
+        },
+        {
+          "package": "competition2026/product/platform/internal/ai",
+          "action": "pass",
+          "elapsed_seconds": 9.918
+        },
+        {
+          "package": "competition2026/product/platform/internal/aimock",
+          "action": "skip",
+          "elapsed_seconds": 0
+        },
+        {
+          "package": "competition2026/product/platform/internal/api",
+          "action": "pass",
+          "elapsed_seconds": 24.683
+        },
+        {
+          "package": "competition2026/product/platform/internal/app",
+          "action": "pass",
+          "elapsed_seconds": 0.815
+        },
+        {
+          "package": "competition2026/product/platform/internal/application",
+          "action": "pass",
+          "elapsed_seconds": 37.918
+        },
+        {
+          "package": "competition2026/product/platform/internal/application/definitioncommit",
+          "action": "skip",
+          "elapsed_seconds": 0
+        },
+        {
+          "package": "competition2026/product/platform/internal/cloudsync",
+          "action": "pass",
+          "elapsed_seconds": 2.22
+        },
+        {
+          "package": "competition2026/product/platform/internal/compiledplan",
+          "action": "pass",
+          "elapsed_seconds": 0.073
+        },
+        {
+          "package": "competition2026/product/platform/internal/configcenter",
+          "action": "pass",
+          "elapsed_seconds": 1.09
+        },
+        {
+          "package": "competition2026/product/platform/internal/control",
+          "action": "pass",
+          "elapsed_seconds": 0.984
+        },
+        {
+          "package": "competition2026/product/platform/internal/coordination",
+          "action": "pass",
+          "elapsed_seconds": 0.014
+        },
+        {
+          "package": "competition2026/product/platform/internal/datatransfer",
+          "action": "pass",
+          "elapsed_seconds": 0.027
+        },
+        {
+          "package": "competition2026/product/platform/internal/engine",
+          "action": "pass",
+          "elapsed_seconds": 0.424
+        },
+        {
+          "package": "competition2026/product/platform/internal/historymodel",
+          "action": "skip",
+          "elapsed_seconds": 0
+        },
+        {
+          "package": "competition2026/product/platform/internal/identity",
+          "action": "pass",
+          "elapsed_seconds": 0.312
+        },
+        {
+          "package": "competition2026/product/platform/internal/notifications",
+          "action": "pass",
+          "elapsed_seconds": 0.074
+        },
+        {
+          "package": "competition2026/product/platform/internal/observability",
+          "action": "skip",
+          "elapsed_seconds": 0
+        },
+        {
+          "package": "competition2026/product/platform/internal/plugins",
+          "action": "pass",
+          "elapsed_seconds": 0.028
+        },
+        {
+          "package": "competition2026/product/platform/internal/rulecore",
+          "action": "pass",
+          "elapsed_seconds": 0.006
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "action": "fail",
+          "elapsed_seconds": 8.292
+        },
+        {
+          "package": "competition2026/product/platform/internal/tasks",
+          "action": "pass",
+          "elapsed_seconds": 47.692
+        },
+        {
+          "package": "competition2026/product/platform/internal/testdb",
+          "action": "skip",
+          "elapsed_seconds": 0
+        },
+        {
+          "package": "competition2026/product/platform/internal/thingsboard",
+          "action": "pass",
+          "elapsed_seconds": 0.031
+        },
+        {
+          "package": "competition2026/product/platform/pkg/compatibility",
+          "action": "fail",
+          "elapsed_seconds": 0.014
+        },
+        {
+          "package": "competition2026/product/platform/pkg/contracts",
+          "action": "pass",
+          "elapsed_seconds": 0.005
+        },
+        {
+          "package": "competition2026/product/platform/pkg/model",
+          "action": "skip",
+          "elapsed_seconds": 0
+        },
+        {
+          "package": "competition2026/product/platform/pkg/precise",
+          "action": "skip",
+          "elapsed_seconds": 0
+        }
+      ],
+      "skipped_tests": [
+        "TestPostgresDeadlockReturnsHTTP409WithoutRepeatingCallback",
+        "TestPostgresLegacyAndTaskRetryConcurrentRequestsShareOneAttempt",
+        "TestControlledCloudEdgeControlIntervention",
+        "TestControlBrowserFixture",
+        "TestPostgresIndependentDraftsShareAuthorizationWithoutSerialization",
+        "TestHistoryCrashProcess",
+        "TestPostgresHistoryReplayCrossVersionAssetsAndImmutableSnapshot",
+        "TestPostgresHistoryRiverWorkerExecutesDurableAnalysis",
+        "TestPostgresShadowProductionDerivedRevisionComparedWithCommittedRecompute",
+        "TestPostgresShadowProductionDeliveriesDeduplicateContinueAndWaitForParent",
+        "TestPostgresPlanTransactionsAndConcurrentPublication",
+        "TestPostgresControlAtomicTransitionsAndConcurrentIntervention",
+        "TestPersistentThreeReplicaUpgrade",
+        "TestRealThreeReplicaCoordination",
+        "TestRealThreeReplicaReadOnlyReconcileAndManualResume",
+        "TestRealConcurrentOperationDeliveryKeepsLeaseContentionRetryable",
+        "TestActualOrganizationProcessPullAndCrashIsolation",
+        "TestPostgresArchiveCASAndTransactionDuration",
+        "TestPostgresArchiveRetirementAndCreationRace",
+        "TestPostgresArchiveCapacityAndLatePartitionRecovery",
+        "TestPostgresBulkIngestTasksBudget",
+        "TestPostgresIndependentObjectsAndContendedIdentity",
+        "TestPostgresLateCommitSyncAuditAndAtomicFinalization",
+        "TestPostgresDeadlockIsRecognizableWithoutCallbackReplay",
+        "TestPostgresNumberedMigrationsPreserveExistingSchema",
+        "TestPostgresRetentionDropsExpiredPartitionBeforeRowDeletion",
+        "TestPostgresRiverMigrationHandoffResumes",
+        "TestPostgresRiverTransactionalEnqueue",
+        "TestControlledPostgresUpgradeFixture",
+        "TestPostgresRiverRetryAndRunningCancellation",
+        "TestTaskCrashProcess",
+        "TestNativeCalculatedFieldAlarmAndRetention"
+      ],
+      "failed_tests": [
+        "TestRiverMigrationHandoffResumesSQLite",
+        "competition2026/product/platform/internal/store",
+        "TestDatabaseMigrationRange",
+        "competition2026/product/platform/pkg/compatibility"
+      ]
+    },
+    {
+      "log": {
+        "path": ".local/evolution/control-evidence/control-final-race.jsonl",
+        "sha256": "1feb5d9fedf36fbaca5138e3daebe5aafbe631906ff110a5f36233008f3a1287",
+        "bytes": 105174
+      },
+      "command": "go test -json -race -p 1 ./internal/control ./internal/cloudsync ./internal/coordination ./internal/datatransfer -count=1",
+      "cwd": "Platform",
+      "exit_code": 0,
+      "stage": "final",
+      "passed_tests_and_subtests": [
+        "TestCurrentAuthorizationAndResourceVersionsBeforeExecution/device_moved",
+        "TestCurrentAuthorizationAndResourceVersionsBeforeExecution/team_removed",
+        "TestCurrentAuthorizationAndResourceVersionsBeforeExecution/grant_changed",
+        "TestCurrentAuthorizationAndResourceVersionsBeforeExecution/principal_disabled",
+        "TestCurrentAuthorizationAndResourceVersionsBeforeExecution/session_revoked",
+        "TestCurrentAuthorizationAndResourceVersionsBeforeExecution/reference_changed",
+        "TestCurrentAuthorizationAndResourceVersionsBeforeExecution",
+        "TestInterventionRequiresHistoricalConditionResources",
+        "TestUpdatedConfirmationCountsApplyBeforeDispatch",
+        "TestOrganizationMoveInvalidatesLeaderApproval",
+        "TestInterlockIsRecheckedBetweenDeviceSteps",
+        "TestApprovalExecutionAndRestartDeduplication",
+        "TestUnknownResultNeverResends",
+        "TestExpiredAndRevokedApprovalsAndInterlock/expired",
+        "TestExpiredAndRevokedApprovalsAndInterlock/revoked",
+        "TestExpiredAndRevokedApprovalsAndInterlock/interlocked",
+        "TestExpiredAndRevokedApprovalsAndInterlock/old-version",
+        "TestExpiredAndRevokedApprovalsAndInterlock",
+        "TestSafetyOverrideRequiresDesignatedLocalSecondFactor",
+        "TestCrashWindowsRecoverWithoutRepeatingReservedCommands/before_reserve",
+        "TestCrashWindowsRecoverWithoutRepeatingReservedCommands/after_reserve",
+        "TestCrashWindowsRecoverWithoutRepeatingReservedCommands/after_send",
+        "TestCrashWindowsRecoverWithoutRepeatingReservedCommands/before_result_save",
+        "TestCrashWindowsRecoverWithoutRepeatingReservedCommands/after_result_save",
+        "TestCrashWindowsRecoverWithoutRepeatingReservedCommands",
+        "TestChineseColonIdentityReconcileAndResumeRemainingSteps",
+        "TestUntrustedFeedbackCannotAuthorizeResume/missing_source",
+        "TestUntrustedFeedbackCannotAuthorizeResume/missing_hash",
+        "TestUntrustedFeedbackCannotAuthorizeResume/unknown",
+        "TestUntrustedFeedbackCannotAuthorizeResume/missing",
+        "TestUntrustedFeedbackCannotAuthorizeResume/wrong_device",
+        "TestUntrustedFeedbackCannotAuthorizeResume/wrong_content",
+        "TestUntrustedFeedbackCannotAuthorizeResume/unbound_legacy",
+        "TestUntrustedFeedbackCannotAuthorizeResume/stale",
+        "TestUntrustedFeedbackCannotAuthorizeResume/wrong_command",
+        "TestUntrustedFeedbackCannotAuthorizeResume/future",
+        "TestUntrustedFeedbackCannotAuthorizeResume",
+        "TestCancelDuringCommandRetainsLateResultAndSkipsRemaining",
+        "TestConcurrentManualOperationsHaveSingleVersionWinner",
+        "TestHistoricalExecutionAndOperationReadChecksOriginalResources",
+        "TestMigrationFourExecutionAndActionJournalRemainRecoverable",
+        "TestOperationStartSurvivesDuplicateAfterDeadline",
+        "TestStartedOperationResumesAfterDatabaseReopenBeyondDeadline",
+        "TestOperationDeadlineUsesStartTimeAndCloudAcceptsLateCompletion/starts_before_deadline_finishes_after",
+        "TestOperationDeadlineUsesStartTimeAndCloudAcceptsLateCompletion/expired_before_start",
+        "TestOperationDeadlineUsesStartTimeAndCloudAcceptsLateCompletion",
+        "TestCloudPendingConflictAndCurrentPermissionAreCheckedAtEdge/revision_changed",
+        "TestCloudPendingConflictAndCurrentPermissionAreCheckedAtEdge/permission_revoked",
+        "TestCloudPendingConflictAndCurrentPermissionAreCheckedAtEdge",
+        "TestLocalOperationSurvivesCommitBeforeProcessingAndSameIDRetry/worker_delivery",
+        "TestLocalOperationSurvivesCommitBeforeProcessingAndSameIDRetry/same_id_retry",
+        "TestLocalOperationSurvivesCommitBeforeProcessingAndSameIDRetry",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/approval",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/queue",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/degraded_execution",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/uncertain_feedback",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/cancel_unknown",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/reconcile_before_resume",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/resume_remaining",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/late_cancel_feedback",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/unapproved_dispatch",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/automatic_unknown_restart",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/resume_unknown",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/completed_restart",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/cancelled_resume",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/unknown_event",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest",
+        "TestProcessRecoveryFaultPreservesReservedCommand",
+        "TestProposalAndDecisionRoundTripUnderNodeOwnership",
+        "TestIncompatibleExchangeDoesNotAdvanceCursorOrImportData",
+        "TestClientRejectsIncompatibleResponseBeforeApplyingChanges",
+        "TestCurrentClientAcceptsLegacyCloudResponse",
+        "TestMutualTLSSynchronizationReplayAndOfflinePermissions",
+        "TestAdmissionRequiresCertificateAndAvailableRegistry",
+        "TestChangedContentAndForeignOwnerAreNotAcknowledged",
+        "TestIdleExchangesDoNotWriteUntilHeartbeat",
+        "TestImportPreparesEarlierConsumerUsingLaterDependencyAndOriginalVersions",
+        "TestLegacyImportIsolatesInvalidDefinitionAndRecoversMissingDependency",
+        "TestCorruptImportedPlanRollsBackEarlierDefinitionsHistoriesCursorAndAudit/format",
+        "TestCorruptImportedPlanRollsBackEarlierDefinitionsHistoriesCursorAndAudit/checksum",
+        "TestCorruptImportedPlanRollsBackEarlierDefinitionsHistoriesCursorAndAudit/content",
+        "TestCorruptImportedPlanRollsBackEarlierDefinitionsHistoriesCursorAndAudit",
+        "TestPublicationWaitsForCommittedNodeCursor",
+        "TestNativeRelayCertificateAdmissionAndLiveRevocation",
+        "TestNativeRelayRejectsPublicCleartextListener",
+        "TestFenceCommitContentionDoesNotAuthorizeDegradedActions",
+        "TestCommitBeforeAcknowledgementAndReplay"
+      ],
+      "package_results": [
+        {
+          "package": "competition2026/product/platform/internal/control",
+          "action": "pass",
+          "elapsed_seconds": 24.882
+        },
+        {
+          "package": "competition2026/product/platform/internal/cloudsync",
+          "action": "pass",
+          "elapsed_seconds": 23.962
+        },
+        {
+          "package": "competition2026/product/platform/internal/coordination",
+          "action": "pass",
+          "elapsed_seconds": 1.035
+        },
+        {
+          "package": "competition2026/product/platform/internal/datatransfer",
+          "action": "pass",
+          "elapsed_seconds": 1.341
+        }
+      ],
+      "skipped_tests": [
+        "TestPostgresControlAtomicTransitionsAndConcurrentIntervention",
+        "TestPersistentThreeReplicaUpgrade",
+        "TestRealThreeReplicaCoordination",
+        "TestRealThreeReplicaReadOnlyReconcileAndManualResume",
+        "TestRealConcurrentOperationDeliveryKeepsLeaseContentionRetryable"
+      ],
+      "failed_tests": []
+    },
+    {
+      "log": {
+        "path": ".local/evolution/control-evidence/datatransfer-final-ordinary.jsonl",
+        "sha256": "f69c20574bc960e875001a0de7cd7f03d9a9f9bd408891c56be47aea40d150fe",
+        "bytes": 159459
+      },
+      "command": "go test -json -p 1 ./... -count=1",
+      "cwd": "DataTransfer",
+      "exit_code": 0,
+      "stage": "final",
+      "passed_tests_and_subtests": [
+        "TestSequenceRecorderDetectsReorderDuplicatesGapsAndUnexpectedValues",
+        "TestSequenceRecorderMemoryBudget",
+        "TestAppSmokeStartsManagementAndGRPC",
+        "TestFailedGRPCStartupReleasesManagementListener",
+        "TestGRPCReflectionOverTLSInDevelopment",
+        "TestGRPCReflectionDisabledByDefault",
+        "TestEvictionAndGapCommitTogetherAndCriticalEventsRemain",
+        "TestStoreEnqueueClaimCompleteAndRestart",
+        "TestStoreLeaseExpiryAndFailedRetry",
+        "TestStoreCleanupTTLAndCapacity",
+        "TestPersistentCommandSurvivesRestartAndRejectsConflictingContent",
+        "TestInterruptedCommandNeverReexecutes",
+        "TestNonIdempotentFailureIsNotRetriedAndExpiredCommandDoesNotStart",
+        "TestPersistenceFailurePreventsDeviceIO",
+        "TestReadOnlyResultUsesOriginalJournalAcrossRestart",
+        "TestReadOnlyResultDoesNotStartReservedCommand",
+        "TestRouterExecutesAndDeduplicatesCommandID",
+        "TestRouterReturnsTimeout",
+        "TestRouterAsyncPublishesCompletion",
+        "TestRouterRejectsInvalidPayload",
+        "TestRouterRetriesTransientErrorsPerOptions",
+        "TestRouterDoesNotRetryWhenRetryCountZero",
+        "TestRouterDoesNotRetryRejectedResponses",
+        "TestRetryPolicyIntervals",
+        "TestRouterRetriesWithFixedIntervalPolicy",
+        "TestLoadAppliesEnvironmentOverrides",
+        "TestLoadRejectsSplitWithoutBroker",
+        "TestLoadRejectsUnsupportedBufferStorage",
+        "TestLoadConnectorStaticConfig",
+        "TestLoadRejectsDuplicateDeviceID",
+        "TestEnvironmentAndReflectionValidation",
+        "TestExampleConfigsAreLoadable",
+        "TestConfigManagerAppliesDeviceUpdatesAndProtectsRevision",
+        "TestConcurrentPushesKeepRevisionOrder",
+        "TestConfigurationAndRevisionRestoreAcrossRestart",
+        "TestManagerDynamicConnectorAndDeviceReload",
+        "TestFailedReloadDoesNotCorruptStoredConfig",
+        "TestDynamicWatermarksAndInvalidUpdatePreservesPolicy",
+        "TestConnectorPollsTelemetry",
+        "TestConnectorExecutesMappedCommandsAndQuery",
+        "TestConverterBuildsTelemetryWithScaleAndMergedTags",
+        "TestEncodeAndDecodeFloat32RegisterPair",
+        "TestThousandIndependentRegisterConversions",
+        "TestReverseConversionAndInvalidOrdering",
+        "TestConnectorTelemetryAndCommandThroughBroker/3.1.1",
+        "TestConnectorTelemetryAndCommandThroughBroker/5.0",
+        "TestConnectorTelemetryAndCommandThroughBroker",
+        "TestMatchRouteSupportsCustomTopicTemplates",
+        "TestThousandJSONConversionsPreserveIntegersAndQuality",
+        "TestConnectorSubscriptionQueryWriteAndCall",
+        "TestObservationRetainsProtocolQualityAndTime/The_operation_succeeded._StatusGood_(0x0)",
+        "TestObservationRetainsProtocolQualityAndTime/Whatever_was_updating_this_value_has_stopped_doing_so._StatusUncertainLastUsableValue_(0x40900000)",
+        "TestObservationRetainsProtocolQualityAndTime/There_has_been_a_failure_in_the_sensor_from_which_the_value_is_derived_by_the_device/data_source._StatusBadSensorFailure_(0x808C0000)",
+        "TestObservationRetainsProtocolQualityAndTime",
+        "TestNativeProtocolReadWriteSubscribeAndBadStatus",
+        "TestNativeClientRejectsIncompleteSecurity",
+        "TestThousandNativeConversionsAndStatusCodes",
+        "TestNativeSubscriptionRecoversAfterProtocolServerRestart",
+        "TestNativeServerProcessFixture",
+        "TestMockSidecarLifecycleCommandAndStream",
+        "TestPluginProcessHelper",
+        "TestProcessCrashDoesNotStopAnotherConnector",
+        "TestSendCommandAndDuplicate",
+        "TestSubscribeEventsReceivesAsyncCommandResponse",
+        "TestPullMessages",
+        "TestModbusConnectorThroughGRPC",
+        "TestReliableAdapterPublishesThroughEmbeddedBroker",
+        "TestReplayWorkerPublishesPendingMessages",
+        "TestTopicsFollowBaseline",
+        "TestDeviceMessageBatchPayloadRoundTrip",
+        "TestMQTTV5SpikeUserPropertiesAndV3Compatibility",
+        "TestManagementEndpoints",
+        "TestConsumerBackpressureAndCancellation",
+        "TestDropOldestRecordsExactLoss",
+        "TestShutdownAndRestartPreserveRegisteredConsumerGaps",
+        "TestSubscribeAndPullMessages",
+        "TestCommandHandlingRejectsAndDeduplicates",
+        "TestAsyncCommandPublishesCommandResponse",
+        "TestSplitMetricsUsePersistentBufferSnapshot",
+        "TestPulseCommitReplayAndDeviceBoundAck",
+        "TestStorageFailureRollsBackSimulatorState",
+        "TestLegacyCommandResultPreservesOriginalDigestAndTime",
+        "TestGapSummarySurvivesRestartAndFailedOutboxCommit",
+        "TestOutboxRequiresMatchingBusinessAcknowledgementAfterRestart",
+        "TestOnReceivedPassesEverything",
+        "TestOnChangeFiltersUnchangedAndHonorsDeadband",
+        "TestOnReportPeriodThrottles",
+        "TestOnChangeOrPeriodPassesOnChange",
+        "TestPriorityDatapointOverConnectorOverGlobal",
+        "TestNonTelemetryNeverFiltered",
+        "TestPartialFilterRebuildsMessage",
+        "TestStrategyChangeRebuildsState",
+        "TestPeriodElapsedAllowsNextSample",
+        "TestIdentityCorrelationAndBoundedMetrics",
+        "TestHTTPPropagationPreservesRemoteParent",
+        "TestFailureDoesNotExportErrorBody",
+        "TestOTLPHTTPExportUsesSignalPaths",
+        "TestEnvironmentAndSamplerRules",
+        "TestDisabledSDKAndShutdown",
+        "TestHTTPContextRequestIDsRejectionsAndLocalParent",
+        "TestV22FieldNumbers"
+      ],
+      "package_results": [
+        {
+          "package": "competition2026/product/datatransfer/cmd/datatransfer",
+          "action": "skip",
+          "elapsed_seconds": 0
+        },
+        {
+          "package": "competition2026/product/datatransfer/cmd/dt-benchmark",
+          "action": "skip",
+          "elapsed_seconds": 0
+        },
+        {
+          "package": "competition2026/product/datatransfer/cmd/dt-simulator",
+          "action": "skip",
+          "elapsed_seconds": 0
+        },
+        {
+          "package": "competition2026/product/datatransfer/examples/http-plugin",
+          "action": "skip",
+          "elapsed_seconds": 0
+        },
+        {
+          "package": "competition2026/product/datatransfer/gen/datatransfer/plugin/v1",
+          "action": "skip",
+          "elapsed_seconds": 0
+        },
+        {
+          "package": "competition2026/product/datatransfer/gen/datatransfer/v1",
+          "action": "skip",
+          "elapsed_seconds": 0
+        },
+        {
+          "package": "competition2026/product/datatransfer/internal/acceptance",
+          "action": "pass",
+          "elapsed_seconds": 0.01
+        },
+        {
+          "package": "competition2026/product/datatransfer/internal/bootstrap",
+          "action": "pass",
+          "elapsed_seconds": 0.098
+        },
+        {
+          "package": "competition2026/product/datatransfer/internal/buffer",
+          "action": "pass",
+          "elapsed_seconds": 0.034
+        },
+        {
+          "package": "competition2026/product/datatransfer/internal/command",
+          "action": "pass",
+          "elapsed_seconds": 0.656
+        },
+        {
+          "package": "competition2026/product/datatransfer/internal/config",
+          "action": "pass",
+          "elapsed_seconds": 0.006
+        },
+        {
+          "package": "competition2026/product/datatransfer/internal/configmanager",
+          "action": "pass",
+          "elapsed_seconds": 0.017
+        },
+        {
+          "package": "competition2026/product/datatransfer/internal/connector",
+          "action": "pass",
+          "elapsed_seconds": 0.011
+        },
+        {
+          "package": "competition2026/product/datatransfer/internal/connector/modbus",
+          "action": "pass",
+          "elapsed_seconds": 0.012
+        },
+        {
+          "package": "competition2026/product/datatransfer/internal/connector/mqttdevice",
+          "action": "pass",
+          "elapsed_seconds": 1.044
+        },
+        {
+          "package": "competition2026/product/datatransfer/internal/connector/opcua",
+          "action": "pass",
+          "elapsed_seconds": 1.986
+        },
+        {
+          "package": "competition2026/product/datatransfer/internal/connector/sidecar",
+          "action": "pass",
+          "elapsed_seconds": 2.087
+        },
+        {
+          "package": "competition2026/product/datatransfer/internal/conversion",
+          "action": "skip",
+          "elapsed_seconds": 0
+        },
+        {
+          "package": "competition2026/product/datatransfer/internal/errors",
+          "action": "skip",
+          "elapsed_seconds": 0
+        },
+        {
+          "package": "competition2026/product/datatransfer/internal/northbound/grpc",
+          "action": "pass",
+          "elapsed_seconds": 0.027
+        },
+        {
+          "package": "competition2026/product/datatransfer/internal/northbound/mqtt",
+          "action": "pass",
+          "elapsed_seconds": 0.046
+        },
+        {
+          "package": "competition2026/product/datatransfer/internal/observability",
+          "action": "pass",
+          "elapsed_seconds": 0.011
+        },
+        {
+          "package": "competition2026/product/datatransfer/internal/runtime",
+          "action": "pass",
+          "elapsed_seconds": 0.047
+        },
+        {
+          "package": "competition2026/product/datatransfer/internal/security",
+          "action": "skip",
+          "elapsed_seconds": 0
+        },
+        {
+          "package": "competition2026/product/datatransfer/internal/simulator",
+          "action": "pass",
+          "elapsed_seconds": 0.022
+        },
+        {
+          "package": "competition2026/product/datatransfer/internal/state",
+          "action": "pass",
+          "elapsed_seconds": 0.025
+        },
+        {
+          "package": "competition2026/product/datatransfer/internal/storage",
+          "action": "skip",
+          "elapsed_seconds": 0
+        },
+        {
+          "package": "competition2026/product/datatransfer/internal/strategy",
+          "action": "pass",
+          "elapsed_seconds": 1.114
+        },
+        {
+          "package": "competition2026/product/datatransfer/observability",
+          "action": "pass",
+          "elapsed_seconds": 0.013
+        },
+        {
+          "package": "competition2026/product/datatransfer/pkg/plugin",
+          "action": "skip",
+          "elapsed_seconds": 0
+        },
+        {
+          "package": "competition2026/product/datatransfer/pkg/pluginapi",
+          "action": "skip",
+          "elapsed_seconds": 0
+        },
+        {
+          "package": "competition2026/product/datatransfer/tests/acceptance",
+          "action": "pass",
+          "elapsed_seconds": 0.011
+        },
+        {
+          "package": "competition2026/product/datatransfer/tests/contract",
+          "action": "pass",
+          "elapsed_seconds": 0.008
+        }
+      ],
+      "skipped_tests": [
+        "TestNativeClientExternalSmoke",
+        "TestNativeSignedEncryptedMethodAndCertificateValidation",
+        "TestHTTPExampleProcessCollectsAndControlsSimulator",
+        "TestControlledControlDeviceFixture",
+        "TestExternalBrokerSmoke",
+        "TestDurableProcessFixture",
+        "TestDurableMessagesFaultInjection"
+      ],
+      "failed_tests": []
+    },
+    {
+      "log": {
+        "path": ".local/evolution/control-evidence/contracts-final.jsonl",
+        "sha256": "6c6df99558e9fd908ab188ec0167284db0592d5d97badd5f9313cf5f413c4e5e",
+        "bytes": 7498
+      },
+      "command": "go test -json -p 1 ./pkg/compatibility ./pkg/contracts ./cmd/sf-contracts -count=1",
+      "cwd": "Platform",
+      "exit_code": 0,
+      "stage": "final",
+      "passed_tests_and_subtests": [
+        "TestCurrentAndLegacyCloudEdgeCombinations",
+        "TestManifestCopiesAndPublishedFile",
+        "TestDatabaseMigrationRange",
+        "TestCompatibilityDatabaseRangeMatchesEmbeddedMigrations",
+        "TestNodeCatalogFeedsSchemaAndCompilerParameterRules",
+        "TestGeneratedContractsMatchLiveRegistration"
+      ],
+      "package_results": [
+        {
+          "package": "competition2026/product/platform/pkg/compatibility",
+          "action": "pass",
+          "elapsed_seconds": 0.015
+        },
+        {
+          "package": "competition2026/product/platform/pkg/contracts",
+          "action": "pass",
+          "elapsed_seconds": 0.005
+        },
+        {
+          "package": "competition2026/product/platform/cmd/sf-contracts",
+          "action": "pass",
+          "elapsed_seconds": 0.049
+        }
+      ],
+      "skipped_tests": [],
+      "failed_tests": []
+    },
+    {
+      "log": {
+        "path": ".local/evolution/control-evidence/postgres-control-final.jsonl",
+        "sha256": "598596928d1aae3cf5c9b2615db93db51621dab66a143c9fc1751f4750f8841a",
+        "bytes": 2130
+      },
+      "command": "go test -json -p 1 ./internal/control -run ^TestPostgresControlAtomicTransitionsAndConcurrentIntervention$ -count=1",
+      "cwd": "Platform",
+      "exit_code": 0,
+      "stage": "final",
+      "passed_tests_and_subtests": [
+        "TestPostgresControlAtomicTransitionsAndConcurrentIntervention"
+      ],
+      "package_results": [
+        {
+          "package": "competition2026/product/platform/internal/control",
+          "action": "pass",
+          "elapsed_seconds": 0.773
+        }
+      ],
+      "skipped_tests": [],
+      "failed_tests": []
+    },
+    {
+      "log": {
+        "path": ".local/evolution/control-evidence/nats-final.jsonl",
+        "sha256": "09e4de0a1fd1322a71d98aa2213675d5d9d6b930dd19829fd3ee37f3e67ec5fe",
+        "bytes": 8126
+      },
+      "command": "go test -json -p 1 ./internal/coordination -run TestRealThreeReplicaReadOnlyReconcileAndManualResume|TestRealConcurrentOperationDeliveryKeepsLeaseContentionRetryable|TestPersistentThreeReplicaUpgrade -count=1",
+      "cwd": "Platform",
+      "exit_code": 0,
+      "stage": "final",
+      "passed_tests_and_subtests": [
+        "TestPersistentThreeReplicaUpgrade",
+        "TestRealThreeReplicaReadOnlyReconcileAndManualResume",
+        "TestRealConcurrentOperationDeliveryKeepsLeaseContentionRetryable"
+      ],
+      "package_results": [
+        {
+          "package": "competition2026/product/platform/internal/coordination",
+          "action": "pass",
+          "elapsed_seconds": 0.951
+        }
+      ],
+      "skipped_tests": [],
+      "failed_tests": []
+    },
+    {
+      "log": {
+        "path": ".local/evolution/control-evidence/dual-app-final-binary.jsonl",
+        "sha256": "c12cd49181a3630a6f308117b64802e910605f19d8bfc60a7a12a1a4060141ad",
+        "bytes": 6520
+      },
+      "command": [
+        "go",
+        "tool",
+        "test2json",
+        "-t",
+        "-p",
+        "competition2026/product/platform/internal/app",
+        "/private/tmp/sf-control-browser-final-v2-20261005/platform-control.test",
+        "-test.run=^TestControlledCloudEdgeControlIntervention$",
+        "-test.v=test2json",
+        "-test.timeout=60s"
+      ],
+      "cwd": "Platform",
+      "exit_code": 0,
+      "stage": "final",
+      "passed_tests_and_subtests": [
+        "TestControlledCloudEdgeControlIntervention"
+      ],
+      "package_results": [
+        {
+          "package": "competition2026/product/platform/internal/app",
+          "action": "pass",
+          "elapsed_seconds": 6.132
+        }
+      ],
+      "skipped_tests": [],
+      "failed_tests": []
+    },
+    {
+      "log": {
+        "path": ".local/evolution/control-evidence/operation-deadline-concurrent-first.jsonl",
+        "sha256": "e8086372c1bf2da68db5822d407334920a682dfadfeadf3edbf3a610cd3fe41e",
+        "bytes": 7634
+      },
+      "command": "go test -json -p 1 ./internal/control -run TestOperation|TestStartedOperation -count=1",
+      "cwd": "Platform",
+      "exit_code": 0,
+      "stage": "earlier_supported_by_final_race",
+      "passed_tests_and_subtests": [
+        "TestOperationStartSurvivesDuplicateAfterDeadline",
+        "TestStartedOperationResumesAfterDatabaseReopenBeyondDeadline",
+        "TestOperationDeadlineUsesStartTimeAndCloudAcceptsLateCompletion/starts_before_deadline_finishes_after",
+        "TestOperationDeadlineUsesStartTimeAndCloudAcceptsLateCompletion/expired_before_start",
+        "TestOperationDeadlineUsesStartTimeAndCloudAcceptsLateCompletion"
+      ],
+      "package_results": [
+        {
+          "package": "competition2026/product/platform/internal/control",
+          "action": "pass",
+          "elapsed_seconds": 0.15
+        }
+      ],
+      "skipped_tests": [],
+      "failed_tests": []
+    },
+    {
+      "log": {
+        "path": ".local/evolution/control-evidence/operation-started-receipt-first.jsonl",
+        "sha256": "e115fb06842ab87bff8b70f05cb1c90695b8b40bd2bd512137a516429a865e74",
+        "bytes": 14834
+      },
+      "command": "go test -json -p 1 ./internal/control -run TestOperation|TestStartedOperation|TestLocalOperation|TestCloudPending -count=1",
+      "cwd": "Platform",
+      "exit_code": 0,
+      "stage": "earlier_supported_by_final_race",
+      "passed_tests_and_subtests": [
+        "TestOperationStartSurvivesDuplicateAfterDeadline",
+        "TestStartedOperationResumesAfterDatabaseReopenBeyondDeadline",
+        "TestOperationDeadlineUsesStartTimeAndCloudAcceptsLateCompletion/starts_before_deadline_finishes_after",
+        "TestOperationDeadlineUsesStartTimeAndCloudAcceptsLateCompletion/expired_before_start",
+        "TestOperationDeadlineUsesStartTimeAndCloudAcceptsLateCompletion",
+        "TestCloudPendingConflictAndCurrentPermissionAreCheckedAtEdge/revision_changed",
+        "TestCloudPendingConflictAndCurrentPermissionAreCheckedAtEdge/permission_revoked",
+        "TestCloudPendingConflictAndCurrentPermissionAreCheckedAtEdge",
+        "TestLocalOperationSurvivesCommitBeforeProcessingAndSameIDRetry/worker_delivery",
+        "TestLocalOperationSurvivesCommitBeforeProcessingAndSameIDRetry/same_id_retry",
+        "TestLocalOperationSurvivesCommitBeforeProcessingAndSameIDRetry"
+      ],
+      "package_results": [
+        {
+          "package": "competition2026/product/platform/internal/control",
+          "action": "pass",
+          "elapsed_seconds": 0.237
+        }
+      ],
+      "skipped_tests": [],
+      "failed_tests": []
+    },
+    {
+      "log": {
+        "path": ".local/evolution/control-evidence/state-legacy-first.jsonl",
+        "sha256": "ccc4560c6762d964c6735fba704422b15f11c81a216a19cb023df600b4decb8a",
+        "bytes": 19112
+      },
+      "command": "go test -json -p 1 ./internal/control -run TestStateEvents|TestProcessRecovery|TestMigrationFour -count=1",
+      "cwd": "Platform",
+      "exit_code": 0,
+      "stage": "earlier_supported_by_final_race",
+      "passed_tests_and_subtests": [
+        "TestMigrationFourExecutionAndActionJournalRemainRecoverable",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/approval",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/queue",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/degraded_execution",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/uncertain_feedback",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/cancel_unknown",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/reconcile_before_resume",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/resume_remaining",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/late_cancel_feedback",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/unapproved_dispatch",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/automatic_unknown_restart",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/resume_unknown",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/completed_restart",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/cancelled_resume",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest/unknown_event",
+        "TestStateEventsEnforcePersistenceAndImmutableRequest",
+        "TestProcessRecoveryFaultPreservesReservedCommand"
+      ],
+      "package_results": [
+        {
+          "package": "competition2026/product/platform/internal/control",
+          "action": "pass",
+          "elapsed_seconds": 0.219
+        }
+      ],
+      "skipped_tests": [],
+      "failed_tests": []
+    },
+    {
+      "log": {
+        "path": ".local/evolution/control-evidence/authorization-first.jsonl",
+        "sha256": "66c20e3b4cacc9e6ac6159681b96f398237e8398d41fe3b42813c5306884022f",
+        "bytes": 10998
+      },
+      "command": "go test -json -p 1 ./internal/control -run TestCurrentAuthorization|TestInterventionRequires -count=1",
+      "cwd": "Platform",
+      "exit_code": 0,
+      "stage": "earlier_supported_by_final_race",
+      "passed_tests_and_subtests": [
+        "TestCurrentAuthorizationAndResourceVersionsBeforeExecution/device_moved",
+        "TestCurrentAuthorizationAndResourceVersionsBeforeExecution/team_removed",
+        "TestCurrentAuthorizationAndResourceVersionsBeforeExecution/grant_changed",
+        "TestCurrentAuthorizationAndResourceVersionsBeforeExecution/principal_disabled",
+        "TestCurrentAuthorizationAndResourceVersionsBeforeExecution/session_revoked",
+        "TestCurrentAuthorizationAndResourceVersionsBeforeExecution/reference_changed",
+        "TestCurrentAuthorizationAndResourceVersionsBeforeExecution",
+        "TestInterventionRequiresHistoricalConditionResources"
+      ],
+      "package_results": [
+        {
+          "package": "competition2026/product/platform/internal/control",
+          "action": "pass",
+          "elapsed_seconds": 0.117
+        }
+      ],
+      "skipped_tests": [],
+      "failed_tests": []
+    }
+  ],
+  "generation_evidence": [
+    {
+      "path": ".local/evolution/control-evidence/contracts-generation.txt",
+      "sha256": "cf93969704f881d029b11b62432e5189b72b9f2f14fdb174137b9b67349b5863",
+      "bytes": 93
+    },
+    {
+      "path": ".local/evolution/control-evidence/types-generation.txt",
+      "sha256": "6dbd7a6c1db6b63c5140b66793bc3b5333bc24bb9c33a19c188732cfcf360ff7",
+      "bytes": 231
+    },
+    {
+      "path": ".local/evolution/control-evidence/protocol-migrations-final.json",
+      "sha256": "b660deee9160ae2e98457907af6de6d5b0a9186aea79eed61570a891c147c80a",
+      "bytes": 923
+    }
+  ],
+  "full_module_result": {
+    "Platform": "363 tests/subtests passed; the first all-module command exited1 for two obsolete migration-count assertions. Both repaired packages were reverified; initial failure remains in evidence.",
+    "DataTransfer": "101 tests/subtests passed, no failures. Environment-gated cases are enumerated per command; actual control-device fixture was separately run in final dual-application test.",
+    "repairs_verified_by": [
+      {
+        "path": ".local/evolution/history-evidence/migration-compatibility-repair.jsonl",
+        "sha256": "68feb88ca3e9eaba16efa42dd00713c74bb3d488f2c95223c1d63ee302ac1421",
+        "bytes": 5543
+      },
+      {
+        "path": ".local/evolution/history-evidence/store-regression-repair.jsonl",
+        "sha256": "c3879fa32d0abd0885e25c35a8b9cd0e09eb4d7052b046f98689c9ff31ec22f2",
+        "bytes": 57191
+      },
+      {
+        "path": ".local/evolution/control-evidence/contracts-final.jsonl",
+        "sha256": "6c6df99558e9fd908ab188ec0167284db0592d5d97badd5f9313cf5f413c4e5e",
+        "bytes": 7498
+      }
+    ]
+  },
+  "actual_dual_application": {
+    "command": {
+      "path": ".local/evolution/control-evidence/dual-app-final-command.json",
+      "sha256": "9da7c5c346bdfff5a220d9fd933b8221ef7b097faf32a552d846042cece7cc21",
+      "bytes": 528
+    },
+    "results": {
+      "path": "/private/tmp/sf-control-integration-final-20261005/verified.json",
+      "sha256": "e880ab048011d540bd3ed5bcd91f42ea5a43d0d18640058e598fca746e905105",
+      "bytes": 35229
+    },
+    "traces": {
+      "path": "/private/tmp/sf-control-integration-final-20261005/control-traces.json",
+      "sha256": "e448e05b1730e556e55f91bd78f0928fa4c43854411d0b3f434918328ba4f46a",
+      "bytes": 17178
+    },
+    "uses_same_binaries_as_browser_fixture": true,
+    "http_pending": 202,
+    "same_operation_conflict_http": 409,
+    "receipt_order_actually_reversed": true,
+    "receipt_response_lost_and_retried": true,
+    "physical_actions": {
+      "cancel-integration:first": 1,
+      "recover-expired:first": 1,
+      "recover-integration:first": 1,
+      "recover-integration:remaining": 1,
+      "recover-permission_revoked:first": 1,
+      "recover-source_version_changed:first": 1
+    },
+    "rejected_operations": {
+      "expired": {
+        "status": "expired",
+        "error": "operation expired before edge processing",
+        "started_ms": 0
+      },
+      "permission_revoked": {
+        "status": "rejected",
+        "error": "permission denied",
+        "started_ms": 1791145722631
+      },
+      "source_version_changed": {
+        "status": "rejected",
+        "error": "version or message content conflict",
+        "started_ms": 1791145722030
+      }
+    },
+    "otlp_control_spans": 44,
+    "every_persisted_recovery_transition_and_feedback_has_exported_trace": true
+  },
+  "legacy_compatibility": {
+    "migration4_fixture": "Reconstructed actual SQLite schema with old execution fields, original approval/action records and audit; dropped new transition/evidence tables then reopened using current migrations. Missing action times stayed0, no historic transitions were fabricated; explicit reconciliation/resume sent only remaining step.",
+    "signed_NATS_fixture": {
+      "path": ".local/evolution/control-evidence/legacy-nats-source.json",
+      "sha256": "7d114b0b5ffc7cc56fa0061a1d0e74dc861d7423edfdeb03ea2ca0f0c9db4053",
+      "bytes": 483
+    },
+    "signed_NATS_result": {
+      "path": ".local/evolution/control-evidence/legacy-nats-verified.json",
+      "sha256": "99d919fb601efaa146b93ad5f256ea651842ff4fe0f8d9304532972f3fc9a375",
+      "bytes": 6731
+    },
+    "old_migration_and_protobuf_checks": {
+      "path": ".local/evolution/control-evidence/protocol-migrations-final.json",
+      "sha256": "b660deee9160ae2e98457907af6de6d5b0a9186aea79eed61570a891c147c80a",
+      "bytes": 923
+    }
+  },
+  "source": {
+    "final_test_and_source_manifest": {
+      "path": ".local/evolution/control-evidence/final-source-manifest.json",
+      "sha256": "dc68f412270d13d9f9a2cb75b46adb163c3af2d1afeac1d582c9205e451eb43b",
+      "bytes": 73616
+    },
+    "actual_binary_build_manifest": {
+      "path": "/private/tmp/sf-control-browser-final-v2-20261005/manifest.json",
+      "sha256": "44338befd4cd20f1d0c41ac1b8ea9fece72c472f348016bf5e6ba807a842a4e4",
+      "bytes": 4073
+    },
+    "compiled_inputs": {
+      "path": "/private/tmp/sf-control-browser-final-v2-20261005/build-inputs.json",
+      "sha256": "6431b5762fc5ada9638fb4b1a9a19e5825143e3e1599a634b94ef38ec0e92882",
+      "bytes": 782890
+    },
+    "compiled_input_count": 3643,
+    "compiled_input_scope": "Go list -deps -test selected package variants; source, assembly/C, embedded files, module go.mod and root module go.sum; test main is generated by recorded Go toolchain",
+    "binaries": {
+      "device": {
+        "path": "/private/tmp/sf-control-browser-final-v2-20261005/device-control.test",
+        "sha256": "dc29f051ec8d1850fd2f27dcb198291fe864f56499d0904ec80d9fe57d060bc5",
+        "bytes": 25987858
+      },
+      "platform": {
+        "path": "/private/tmp/sf-control-browser-final-v2-20261005/platform-control.test",
+        "sha256": "3dac33c927bea5feb1ecbd23dc6b6c3edaa700e39ae733721f53e45a06e3899e",
+        "bytes": 52342530
+      },
+      "sf-cloud": {
+        "path": "/private/tmp/sf-control-browser-final-v2-20261005/sf-cloud",
+        "sha256": "cf7f6eef7997d71c3ad2b91440959cde9518828ce7f4ec8abfe18f1a01449990",
+        "bytes": 51244082
+      },
+      "sf-edge": {
+        "path": "/private/tmp/sf-control-browser-final-v2-20261005/sf-edge",
+        "sha256": "96c6cd512c9750c2ac704e81abb92c795c1137933836b07750652e67d7a400a9",
+        "bytes": 51244082
+      },
+      "datatransfer": {
+        "path": "/private/tmp/sf-control-browser-final-v2-20261005/datatransfer",
+        "sha256": "1c29ab30268760bf39a6eeda6ca203d03106ce04394f2914a203458717bbbc68",
+        "bytes": 36785970
+      }
+    },
+    "coordinator_independent_rehash": {
+      "path": ".local/evolution/control-final-fixture-root-review.json",
+      "sha256": "dc11217caba2029943542b5a59b913ec5b05dd286dfcc3bf22b3e6abc312808b",
+      "bytes": 1775
+    }
+  },
+  "first_failures_and_repairs": [
+    {
+      "log": {
+        "path": ".local/evolution/control-evidence/first-integrated.jsonl",
+        "sha256": "915a8396ee816dc7397fbe97ccc804eca0fe4be1621c33fa05355d2537e50db4",
+        "bytes": 143330
+      },
+      "problem": "Automatic-worker budget fixture omitted the published-policy service identity, and was rejected before budget/send.",
+      "repair": "Fixture now uses the same automatic mode and service identity as the production worker; final all-module API package passed."
+    },
+    {
+      "log": {
+        "path": ".local/evolution/control-evidence/nats-manual-first.jsonl",
+        "sha256": "3d6f6327034b5b785eab02183a9125fb4c07cb564be1017a10c67e933002d350",
+        "bytes": 1380
+      },
+      "problem": "New NATS test had an unused import.",
+      "repair": "Removed unused import; final actual NATS three-node tests passed."
+    },
+    {
+      "log": {
+        "path": ".local/evolution/control-evidence/dual-app-first.jsonl",
+        "sha256": "3c914cbcbfee58bde8d9bc42f1bb44fab336aeacedb8be606affc09ea4e1ef59",
+        "bytes": 1474
+      },
+      "problem": "New dual-application fixture had two unused imports.",
+      "repair": "Removed unused imports; final built fixture passed actual integration."
+    },
+    {
+      "log": {
+        "path": ".local/evolution/control-evidence/nats-legacy.jsonl",
+        "sha256": "ac4a6920f6797114c1a1659d0e420467edb07128184f9b4f4236f0e51643f926",
+        "bytes": 1794
+      },
+      "problem": "Restored cluster had no metadata leader before the first connection deadline.",
+      "repair": "Retried after the restored cluster elected a metadata leader; preserved signed checkpoint digest verified again in final NATS run."
+    },
+    {
+      "log": {
+        "path": ".local/evolution/control-evidence/platform-final-ordinary.jsonl",
+        "sha256": "8655c3a67ab3c1f17c87215cb29ea8ded2b7f33c5798bf3863acf805c26de72b",
+        "bytes": 531597
+      },
+      "problem": "Two old tests hard-coded migration four after current migration minimum/maximum moved to six.",
+      "repair": "Updated migration-count and compatibility-range assertions against the declared migration manifest; full store package and targeted SQLite/PostgreSQL migration tests passed in history evidence, compatibility/contracts passed in this report."
+    }
+  ],
+  "historical_log_policy": "Earlier logs retain their original builds. Final ordinary/race, PG/NATS, final binary integration and fixture manifest identify the final production source; earlier focused evidence is retained for first failures and fault details.",
+  "not_run": [
+    {
+      "scope": "24-hour offline recovery and long-duration soak",
+      "reason": "Outside this phase bounded verification agreement"
+    },
+    {
+      "scope": "UOS host validation and constrained-link long-duration acceptance",
+      "reason": "Retained previously agreed dedicated acceptance scope"
+    },
+    {
+      "scope": "Frontend implementation/browser acceptance",
+      "reason": "Assigned to frontend role; actual services and immutable binary manifest provided here"
+    }
+  ],
+  "fixture": {
+    "directory": "/private/tmp/sf-control-browser-final-v2-20261005",
+    "manifest": {
+      "path": "/private/tmp/sf-control-browser-final-v2-20261005/manifest.json",
+      "sha256": "44338befd4cd20f1d0c41ac1b8ea9fece72c472f348016bf5e6ba807a842a4e4",
+      "bytes": 4073
+    },
+    "cloud_url": "http://127.0.0.1:57807",
+    "edge_url": "http://127.0.0.1:57808",
+    "driver_url": "http://127.0.0.1:57815",
+    "private_access_file": "/private/tmp/sf-control-browser-final-v2-20261005/runtime/private-access.json",
+    "credentials_in_report": false,
+    "initial_cases": {
+      "recover-browser": "result_unknown; reconcile then resume remaining step",
+      "cancel-browser": "approved; dispatch then cancel while first feedback waits"
+    },
+    "health_http": {
+      "cloud_url": 200,
+      "edge_url": 200
+    },
+    "initial_driver_state": {
+      "cloud_link_offline": false,
+      "physical_actions": {
+        "recover-browser:first": 1
+      }
+    },
+    "pid": 48541,
+    "running_for_frontend": true,
+    "maximum_test_lifetime": "2h from startup; restart with the fixture script when needed",
+    "stop_command": "python3 scripts/control-intervention-fixture.py stop --output /private/tmp/sf-control-browser-final-v2-20261005",
+    "original_fixtures": {
+      "/private/tmp/sf-control-browser-20261005": {
+        "pid": 45987,
+        "running": false,
+        "shutdown_evidence": "fixture log completed with PASS after application and DataTransfer cleanup",
+        "retained_logs": "/private/tmp/sf-control-browser-20261005/applications.log"
+      },
+      "/private/tmp/sf-control-browser-final-20261005": {
+        "pid": 48138,
+        "running": false,
+        "shutdown_evidence": "fixture log completed with PASS after application and DataTransfer cleanup",
+        "retained_logs": "/private/tmp/sf-control-browser-final-20261005/applications.log"
+      }
+    }
+  },
+  "working_tree_validation": {
+    "git_diff_check_exit_code": 0
+  }
+}

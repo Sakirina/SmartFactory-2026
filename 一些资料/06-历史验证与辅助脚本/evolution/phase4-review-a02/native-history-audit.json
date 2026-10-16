@@ -1,0 +1,2683 @@
+{
+  "created_at": "2026-10-05T03:38:37.390171+00:00",
+  "specialist_report": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/business-workflows-verified.json",
+    "sha256": "7c5733db0b1d300557b6809aa75cea52ab8ca837d242c14f45207d39502c722b",
+    "bytes": 97429
+  },
+  "specialist_native_binary": {
+    "path": "/private/tmp/smartfactory-business-native-20261005-retry/api-native.test",
+    "sha256": "84791b50e1d790a081d74b6ad1454c90acd5ac6edcfdd036aca11e07eb808976",
+    "bytes": 47286354
+  },
+  "specialist_native_log": {
+    "path": "/private/tmp/smartfactory-business-native-20261005-retry/native-test.log",
+    "sha256": "bf62ebf067a6c3da0a4967760bcb5d1808edce998607d06679804c0e0d5aade3",
+    "bytes": 336
+  },
+  "actual_inputs": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/native-actual-inputs.json",
+    "sha256": "5f50ab092693f1ff3bceb87fc06f7fb7126a30142d89e57815f4513cd8b52aa9",
+    "bytes": 925596
+  },
+  "retained_source": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source",
+  "current_independent_source": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace",
+  "local_input_count": 174,
+  "missing": [],
+  "changed_paths": [
+    "Platform/internal/api/contracts.go",
+    "Platform/internal/api/control_budget_test.go",
+    "Platform/internal/api/definition_routes.go",
+    "Platform/internal/application/business.go",
+    "Platform/internal/application/definitions.go",
+    "Platform/internal/application/deviceconfiguration.go",
+    "Platform/internal/application/native_alarm.go",
+    "Platform/internal/application/semantic.go",
+    "Platform/internal/application/templates.go",
+    "Platform/internal/application/workorders.go",
+    "Platform/internal/deviceconfig/configuration.go",
+    "Platform/internal/store/migrations.go",
+    "Platform/internal/thingsboard/adapter.go",
+    "Platform/internal/thingsboard/alarm_states.go",
+    "Platform/pkg/compatibility/manifest.json",
+    "Platform/pkg/model/business.go",
+    "Platform/pkg/model/native_alarm.go",
+    "Platform/pkg/model/templates.go"
+  ],
+  "input_correspondence": [
+    {
+      "relative": "DataTransfer/gen/datatransfer/v1/datatransfer.pb.go",
+      "original_input_sha256": "0dff26867b58cb0a44b6a88982d0dae3f6c802c2366c216569ecb06c8e9a71d5",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/DataTransfer/gen/datatransfer/v1/datatransfer.pb.go",
+        "sha256": "0dff26867b58cb0a44b6a88982d0dae3f6c802c2366c216569ecb06c8e9a71d5",
+        "bytes": 133836
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/DataTransfer/gen/datatransfer/v1/datatransfer.pb.go",
+        "sha256": "0dff26867b58cb0a44b6a88982d0dae3f6c802c2366c216569ecb06c8e9a71d5",
+        "bytes": 133836
+      },
+      "equal": true
+    },
+    {
+      "relative": "DataTransfer/gen/datatransfer/v1/datatransfer_grpc.pb.go",
+      "original_input_sha256": "e7be9a67346e53e9845627cf4346f4350e369901e67a4acb667f360b073da2ff",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/DataTransfer/gen/datatransfer/v1/datatransfer_grpc.pb.go",
+        "sha256": "e7be9a67346e53e9845627cf4346f4350e369901e67a4acb667f360b073da2ff",
+        "bytes": 23017
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/DataTransfer/gen/datatransfer/v1/datatransfer_grpc.pb.go",
+        "sha256": "e7be9a67346e53e9845627cf4346f4350e369901e67a4acb667f360b073da2ff",
+        "bytes": 23017
+      },
+      "equal": true
+    },
+    {
+      "relative": "DataTransfer/go.mod",
+      "original_input_sha256": "053c9834395a76c358e7e9ad2fc55e4c36af75f8a2447fb4f2c1f13d3ee72ef1",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/DataTransfer/go.mod",
+        "sha256": "053c9834395a76c358e7e9ad2fc55e4c36af75f8a2447fb4f2c1f13d3ee72ef1",
+        "bytes": 2258
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/DataTransfer/go.mod",
+        "sha256": "053c9834395a76c358e7e9ad2fc55e4c36af75f8a2447fb4f2c1f13d3ee72ef1",
+        "bytes": 2258
+      },
+      "equal": true
+    },
+    {
+      "relative": "DataTransfer/go.sum",
+      "original_input_sha256": "de149d0a44e71f8b948e111e5d65efebf316af1d574e72ed51b9ae7462956af2",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/DataTransfer/go.sum",
+        "sha256": "de149d0a44e71f8b948e111e5d65efebf316af1d574e72ed51b9ae7462956af2",
+        "bytes": 12871
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/DataTransfer/go.sum",
+        "sha256": "de149d0a44e71f8b948e111e5d65efebf316af1d574e72ed51b9ae7462956af2",
+        "bytes": 12871
+      },
+      "equal": true
+    },
+    {
+      "relative": "DataTransfer/observability/config.go",
+      "original_input_sha256": "d5ce1adf2c6632f9740ed37fd73c4308bc8c2dac266a448fcb1ec94f216b5332",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/DataTransfer/observability/config.go",
+        "sha256": "d5ce1adf2c6632f9740ed37fd73c4308bc8c2dac266a448fcb1ec94f216b5332",
+        "bytes": 4191
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/DataTransfer/observability/config.go",
+        "sha256": "d5ce1adf2c6632f9740ed37fd73c4308bc8c2dac266a448fcb1ec94f216b5332",
+        "bytes": 4191
+      },
+      "equal": true
+    },
+    {
+      "relative": "DataTransfer/observability/operation.go",
+      "original_input_sha256": "06c99ec9a103eb059bb6cd903e7c7933110cd883a18ad295323574519e534312",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/DataTransfer/observability/operation.go",
+        "sha256": "06c99ec9a103eb059bb6cd903e7c7933110cd883a18ad295323574519e534312",
+        "bytes": 4420
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/DataTransfer/observability/operation.go",
+        "sha256": "06c99ec9a103eb059bb6cd903e7c7933110cd883a18ad295323574519e534312",
+        "bytes": 4420
+      },
+      "equal": true
+    },
+    {
+      "relative": "DataTransfer/observability/runtime.go",
+      "original_input_sha256": "264315615287a3067c3db837110610950fe46bbc2fed10bdae07e452efb315e0",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/DataTransfer/observability/runtime.go",
+        "sha256": "264315615287a3067c3db837110610950fe46bbc2fed10bdae07e452efb315e0",
+        "bytes": 5699
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/DataTransfer/observability/runtime.go",
+        "sha256": "264315615287a3067c3db837110610950fe46bbc2fed10bdae07e452efb315e0",
+        "bytes": 5699
+      },
+      "equal": true
+    },
+    {
+      "relative": "DataTransfer/observability/transport.go",
+      "original_input_sha256": "465f870dc8974d7aab4a100bc2cf99746620bfff79db9435526c947b0e40931d",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/DataTransfer/observability/transport.go",
+        "sha256": "465f870dc8974d7aab4a100bc2cf99746620bfff79db9435526c947b0e40931d",
+        "bytes": 3100
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/DataTransfer/observability/transport.go",
+        "sha256": "465f870dc8974d7aab4a100bc2cf99746620bfff79db9435526c947b0e40931d",
+        "bytes": 3100
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/go.mod",
+      "original_input_sha256": "2f7d5d4dc739448b70c153035faefda74d64338e1060592cf605b93660d17d1c",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/go.mod",
+        "sha256": "2f7d5d4dc739448b70c153035faefda74d64338e1060592cf605b93660d17d1c",
+        "bytes": 3597
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/go.mod",
+        "sha256": "2f7d5d4dc739448b70c153035faefda74d64338e1060592cf605b93660d17d1c",
+        "bytes": 3597
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/go.sum",
+      "original_input_sha256": "36634757a1cfc78a1897afdc5d091a56401eba9c7268d34a63704f0902e7387f",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/go.sum",
+        "sha256": "36634757a1cfc78a1897afdc5d091a56401eba9c7268d34a63704f0902e7387f",
+        "bytes": 17326
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/go.sum",
+        "sha256": "36634757a1cfc78a1897afdc5d091a56401eba9c7268d34a63704f0902e7387f",
+        "bytes": 17326
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/api/assets.go",
+      "original_input_sha256": "c6c0a40106d7666445b03a94a60f0d16c0bbe01d1af2856b9e147222a5bf1709",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/api/assets.go",
+        "sha256": "c6c0a40106d7666445b03a94a60f0d16c0bbe01d1af2856b9e147222a5bf1709",
+        "bytes": 4160
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/api/assets.go",
+        "sha256": "c6c0a40106d7666445b03a94a60f0d16c0bbe01d1af2856b9e147222a5bf1709",
+        "bytes": 4160
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/api/assets_test.go",
+      "original_input_sha256": "47dd5b5111a302f6631eae1feef9c742561feb471f0d8226b3b9b35f613b2d3b",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/api/assets_test.go",
+        "sha256": "47dd5b5111a302f6631eae1feef9c742561feb471f0d8226b3b9b35f613b2d3b",
+        "bytes": 1825
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/api/assets_test.go",
+        "sha256": "47dd5b5111a302f6631eae1feef9c742561feb471f0d8226b3b9b35f613b2d3b",
+        "bytes": 1825
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/api/authorization_test.go",
+      "original_input_sha256": "b5e9ebdbb93a2570588fbaf544ec84a0b18b260bd353a7918d0ffd9439a864e7",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/api/authorization_test.go",
+        "sha256": "b5e9ebdbb93a2570588fbaf544ec84a0b18b260bd353a7918d0ffd9439a864e7",
+        "bytes": 4421
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/api/authorization_test.go",
+        "sha256": "b5e9ebdbb93a2570588fbaf544ec84a0b18b260bd353a7918d0ffd9439a864e7",
+        "bytes": 4421
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/api/business.go",
+      "original_input_sha256": "17756e32f5d38da1f4843bade32d102cea1c33076afd916df220b5718acff1c5",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/api/business.go",
+        "sha256": "17756e32f5d38da1f4843bade32d102cea1c33076afd916df220b5718acff1c5",
+        "bytes": 14321
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/api/business.go",
+        "sha256": "17756e32f5d38da1f4843bade32d102cea1c33076afd916df220b5718acff1c5",
+        "bytes": 14321
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/api/business_native_test.go",
+      "original_input_sha256": "c830b7d0e9d95ac5f54d37b13d8ed404c34c66421d7ca60c1b398fc8039eb86a",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/api/business_native_test.go",
+        "sha256": "c830b7d0e9d95ac5f54d37b13d8ed404c34c66421d7ca60c1b398fc8039eb86a",
+        "bytes": 5715
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/api/business_native_test.go",
+        "sha256": "c830b7d0e9d95ac5f54d37b13d8ed404c34c66421d7ca60c1b398fc8039eb86a",
+        "bytes": 5715
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/api/business_routes.go",
+      "original_input_sha256": "de4004a5a1f7d649faa98b93cf0cf828054f40da91b4e50c8bcb07dc91556c6c",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/api/business_routes.go",
+        "sha256": "de4004a5a1f7d649faa98b93cf0cf828054f40da91b4e50c8bcb07dc91556c6c",
+        "bytes": 10391
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/api/business_routes.go",
+        "sha256": "de4004a5a1f7d649faa98b93cf0cf828054f40da91b4e50c8bcb07dc91556c6c",
+        "bytes": 10391
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/api/business_routes_test.go",
+      "original_input_sha256": "fb13f00ad94f2394facb6aee0d95ae1719ec9b9939c6778af63b4bec341a9862",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/api/business_routes_test.go",
+        "sha256": "fb13f00ad94f2394facb6aee0d95ae1719ec9b9939c6778af63b4bec341a9862",
+        "bytes": 7866
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/api/business_routes_test.go",
+        "sha256": "fb13f00ad94f2394facb6aee0d95ae1719ec9b9939c6778af63b4bec341a9862",
+        "bytes": 7866
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/api/concurrency_postgres_test.go",
+      "original_input_sha256": "36d976843d09ab4065e3d85d74cf2576dbe8de4c04b84f766b0bd99fde229d99",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/api/concurrency_postgres_test.go",
+        "sha256": "36d976843d09ab4065e3d85d74cf2576dbe8de4c04b84f766b0bd99fde229d99",
+        "bytes": 3505
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/api/concurrency_postgres_test.go",
+        "sha256": "36d976843d09ab4065e3d85d74cf2576dbe8de4c04b84f766b0bd99fde229d99",
+        "bytes": 3505
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/api/contracts.go",
+      "original_input_sha256": "21720b09f0478b340e7a247eda2e12c7fa7c6f4377a03b3d94a39857f0c3d189",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/api/contracts.go",
+        "sha256": "21720b09f0478b340e7a247eda2e12c7fa7c6f4377a03b3d94a39857f0c3d189",
+        "bytes": 1361
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/api/contracts.go",
+        "sha256": "ad059605333bedbce96599c0119b16df61b9c5a72b58e0dedd5667404c3a26b2",
+        "bytes": 1440
+      },
+      "equal": false
+    },
+    {
+      "relative": "Platform/internal/api/control_budget_test.go",
+      "original_input_sha256": "a320b5b4458dbb9405c62ff9bd296a6fe3b38afaf929ab2ef0f28a02e10cae1c",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/api/control_budget_test.go",
+        "sha256": "a320b5b4458dbb9405c62ff9bd296a6fe3b38afaf929ab2ef0f28a02e10cae1c",
+        "bytes": 6646
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/api/control_budget_test.go",
+        "sha256": "eb7ae0a2c2ae2d32ef3fd53a8c87644f4fe2fe92d5b078e1a4824e1ee9b7a7c5",
+        "bytes": 7161
+      },
+      "equal": false
+    },
+    {
+      "relative": "Platform/internal/api/control_evidence_test.go",
+      "original_input_sha256": "36a078b2117ab2363faf6455d2c36ce1dddf1b13d148be73019b629962574c6c",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/api/control_evidence_test.go",
+        "sha256": "36a078b2117ab2363faf6455d2c36ce1dddf1b13d148be73019b629962574c6c",
+        "bytes": 4016
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/api/control_evidence_test.go",
+        "sha256": "36a078b2117ab2363faf6455d2c36ce1dddf1b13d148be73019b629962574c6c",
+        "bytes": 4016
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/api/control_routes.go",
+      "original_input_sha256": "443cd4303092794d9e0a144d60e8b2d1e5f37852fe2b9d54bb48f2f76fa5669f",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/api/control_routes.go",
+        "sha256": "443cd4303092794d9e0a144d60e8b2d1e5f37852fe2b9d54bb48f2f76fa5669f",
+        "bytes": 5354
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/api/control_routes.go",
+        "sha256": "443cd4303092794d9e0a144d60e8b2d1e5f37852fe2b9d54bb48f2f76fa5669f",
+        "bytes": 5354
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/api/control_routes_test.go",
+      "original_input_sha256": "52daab6df91cefd7e814e0b21df26b95daf3719151c5170deee6399f042aba6d",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/api/control_routes_test.go",
+        "sha256": "52daab6df91cefd7e814e0b21df26b95daf3719151c5170deee6399f042aba6d",
+        "bytes": 4725
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/api/control_routes_test.go",
+        "sha256": "52daab6df91cefd7e814e0b21df26b95daf3719151c5170deee6399f042aba6d",
+        "bytes": 4725
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/api/dashboards.go",
+      "original_input_sha256": "e5e347a051def6575e508c2395c4b865732442fa88f9b843fb5d668f8da58507",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/api/dashboards.go",
+        "sha256": "e5e347a051def6575e508c2395c4b865732442fa88f9b843fb5d668f8da58507",
+        "bytes": 3159
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/api/dashboards.go",
+        "sha256": "e5e347a051def6575e508c2395c4b865732442fa88f9b843fb5d668f8da58507",
+        "bytes": 3159
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/api/dashboards_test.go",
+      "original_input_sha256": "f5217216e47ca7b8f84e0f98959c038ab7f8b6995dd46aeb76f3967d237184ed",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/api/dashboards_test.go",
+        "sha256": "f5217216e47ca7b8f84e0f98959c038ab7f8b6995dd46aeb76f3967d237184ed",
+        "bytes": 2461
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/api/dashboards_test.go",
+        "sha256": "f5217216e47ca7b8f84e0f98959c038ab7f8b6995dd46aeb76f3967d237184ed",
+        "bytes": 2461
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/api/definition_routes.go",
+      "original_input_sha256": "3b7eecb9d85939daff0dec39e2e483f708827d0130c8b0f1b8d2fab1b8f63420",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/api/definition_routes.go",
+        "sha256": "3b7eecb9d85939daff0dec39e2e483f708827d0130c8b0f1b8d2fab1b8f63420",
+        "bytes": 8148
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/api/definition_routes.go",
+        "sha256": "22562a2c3ac7fa39bcefe0388d4e51b9f758e008e5a8418cf3d785271b1a97f1",
+        "bytes": 8227
+      },
+      "equal": false
+    },
+    {
+      "relative": "Platform/internal/api/definition_routes_test.go",
+      "original_input_sha256": "285ea7711db832ba0715b8fc786c224d661d4b0b452bd9cfe8424419a5f38fcd",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/api/definition_routes_test.go",
+        "sha256": "285ea7711db832ba0715b8fc786c224d661d4b0b452bd9cfe8424419a5f38fcd",
+        "bytes": 6152
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/api/definition_routes_test.go",
+        "sha256": "285ea7711db832ba0715b8fc786c224d661d4b0b452bd9cfe8424419a5f38fcd",
+        "bytes": 6152
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/api/history_routes.go",
+      "original_input_sha256": "bb776e9fede5c6c952ac45e223389b652c7e0ce36e0452b5f566b84059d1da21",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/api/history_routes.go",
+        "sha256": "bb776e9fede5c6c952ac45e223389b652c7e0ce36e0452b5f566b84059d1da21",
+        "bytes": 5572
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/api/history_routes.go",
+        "sha256": "bb776e9fede5c6c952ac45e223389b652c7e0ce36e0452b5f566b84059d1da21",
+        "bytes": 5572
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/api/history_routes_test.go",
+      "original_input_sha256": "4d32dcdd7acb3d275ad62eb6bfd5777901b59965528aa4420dc8e54e5e2de2f6",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/api/history_routes_test.go",
+        "sha256": "4d32dcdd7acb3d275ad62eb6bfd5777901b59965528aa4420dc8e54e5e2de2f6",
+        "bytes": 10554
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/api/history_routes_test.go",
+        "sha256": "4d32dcdd7acb3d275ad62eb6bfd5777901b59965528aa4420dc8e54e5e2de2f6",
+        "bytes": 10554
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/api/jobs.go",
+      "original_input_sha256": "2dd75b6583d367746b3b0ffe875c484f03a5195fa3973a6be77be7fd3b7155dd",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/api/jobs.go",
+        "sha256": "2dd75b6583d367746b3b0ffe875c484f03a5195fa3973a6be77be7fd3b7155dd",
+        "bytes": 1550
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/api/jobs.go",
+        "sha256": "2dd75b6583d367746b3b0ffe875c484f03a5195fa3973a6be77be7fd3b7155dd",
+        "bytes": 1550
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/api/jobs_retry_test.go",
+      "original_input_sha256": "aea25d28243ea2565ed25870d5a8b115ed8cce445681053e75d105a152725464",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/api/jobs_retry_test.go",
+        "sha256": "aea25d28243ea2565ed25870d5a8b115ed8cce445681053e75d105a152725464",
+        "bytes": 14009
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/api/jobs_retry_test.go",
+        "sha256": "aea25d28243ea2565ed25870d5a8b115ed8cce445681053e75d105a152725464",
+        "bytes": 14009
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/api/latest_test.go",
+      "original_input_sha256": "45dc8be4cd67d10d7279cf0eebf73896038b2b1dbbcbb696611678e814b9b88d",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/api/latest_test.go",
+        "sha256": "45dc8be4cd67d10d7279cf0eebf73896038b2b1dbbcbb696611678e814b9b88d",
+        "bytes": 1527
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/api/latest_test.go",
+        "sha256": "45dc8be4cd67d10d7279cf0eebf73896038b2b1dbbcbb696611678e814b9b88d",
+        "bytes": 1527
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/api/native.go",
+      "original_input_sha256": "9baa53a22848b478dd7c5190c43c464908edc7b4fedfe925cc06e6366df92c7e",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/api/native.go",
+        "sha256": "9baa53a22848b478dd7c5190c43c464908edc7b4fedfe925cc06e6366df92c7e",
+        "bytes": 3011
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/api/native.go",
+        "sha256": "9baa53a22848b478dd7c5190c43c464908edc7b4fedfe925cc06e6366df92c7e",
+        "bytes": 3011
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/api/native_alarm.go",
+      "original_input_sha256": "251fe10d04ec943494d0839140e7084d55e713c6510b78db9acfd224180a5d3f",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/api/native_alarm.go",
+        "sha256": "251fe10d04ec943494d0839140e7084d55e713c6510b78db9acfd224180a5d3f",
+        "bytes": 664
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/api/native_alarm.go",
+        "sha256": "251fe10d04ec943494d0839140e7084d55e713c6510b78db9acfd224180a5d3f",
+        "bytes": 664
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/api/notifications.go",
+      "original_input_sha256": "c08e1d21f8cf35a1d8c993c56b38f8ccbe8ae06c7b8c1b18480064943cecbeaa",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/api/notifications.go",
+        "sha256": "c08e1d21f8cf35a1d8c993c56b38f8ccbe8ae06c7b8c1b18480064943cecbeaa",
+        "bytes": 735
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/api/notifications.go",
+        "sha256": "c08e1d21f8cf35a1d8c993c56b38f8ccbe8ae06c7b8c1b18480064943cecbeaa",
+        "bytes": 735
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/api/plugins.go",
+      "original_input_sha256": "73126176162fbd74615e7968977d271afec0abba27d8f1361dd99922007582e3",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/api/plugins.go",
+        "sha256": "73126176162fbd74615e7968977d271afec0abba27d8f1361dd99922007582e3",
+        "bytes": 1389
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/api/plugins.go",
+        "sha256": "73126176162fbd74615e7968977d271afec0abba27d8f1361dd99922007582e3",
+        "bytes": 1389
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/api/query_routes.go",
+      "original_input_sha256": "c936b8ce749005e9914d25a5add13bcc11da03856d4443112bf39de7710893db",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/api/query_routes.go",
+        "sha256": "c936b8ce749005e9914d25a5add13bcc11da03856d4443112bf39de7710893db",
+        "bytes": 5008
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/api/query_routes.go",
+        "sha256": "c936b8ce749005e9914d25a5add13bcc11da03856d4443112bf39de7710893db",
+        "bytes": 5008
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/api/query_routes_test.go",
+      "original_input_sha256": "f0b467661c07e02fce42a5fdda32e1fdf6d2b18a17eb7f393aa6ac19877a4d16",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/api/query_routes_test.go",
+        "sha256": "f0b467661c07e02fce42a5fdda32e1fdf6d2b18a17eb7f393aa6ac19877a4d16",
+        "bytes": 14140
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/api/query_routes_test.go",
+        "sha256": "f0b467661c07e02fce42a5fdda32e1fdf6d2b18a17eb7f393aa6ac19877a4d16",
+        "bytes": 14140
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/api/rule_routes.go",
+      "original_input_sha256": "3c8e43f17f6aa4c153ee59292b9af75cac9443726745ef65b6cead4edd1cd8c5",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/api/rule_routes.go",
+        "sha256": "3c8e43f17f6aa4c153ee59292b9af75cac9443726745ef65b6cead4edd1cd8c5",
+        "bytes": 5965
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/api/rule_routes.go",
+        "sha256": "3c8e43f17f6aa4c153ee59292b9af75cac9443726745ef65b6cead4edd1cd8c5",
+        "bytes": 5965
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/api/rule_routes_test.go",
+      "original_input_sha256": "881cfb26be8c03a57940efb6361018afbf2e59229955440547a4ace89c25c296",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/api/rule_routes_test.go",
+        "sha256": "881cfb26be8c03a57940efb6361018afbf2e59229955440547a4ace89c25c296",
+        "bytes": 6273
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/api/rule_routes_test.go",
+        "sha256": "881cfb26be8c03a57940efb6361018afbf2e59229955440547a4ace89c25c296",
+        "bytes": 6273
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/api/server.go",
+      "original_input_sha256": "cd21492c7139bc897139e5e854a5b9ea4502988340446e1aff26e2fe915ee576",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/api/server.go",
+        "sha256": "cd21492c7139bc897139e5e854a5b9ea4502988340446e1aff26e2fe915ee576",
+        "bytes": 18987
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/api/server.go",
+        "sha256": "cd21492c7139bc897139e5e854a5b9ea4502988340446e1aff26e2fe915ee576",
+        "bytes": 18987
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/api/server_test.go",
+      "original_input_sha256": "56f476794cf8947446ddad440a9d25d92b86b391adbc04f72aa7700854417ba9",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/api/server_test.go",
+        "sha256": "56f476794cf8947446ddad440a9d25d92b86b391adbc04f72aa7700854417ba9",
+        "bytes": 667
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/api/server_test.go",
+        "sha256": "56f476794cf8947446ddad440a9d25d92b86b391adbc04f72aa7700854417ba9",
+        "bytes": 667
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/api/task_cancel_semantics_test.go",
+      "original_input_sha256": "23e293c1727692af4c534c49900c8d2f56cc2751496917b5e283bd75cf705852",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/api/task_cancel_semantics_test.go",
+        "sha256": "23e293c1727692af4c534c49900c8d2f56cc2751496917b5e283bd75cf705852",
+        "bytes": 22855
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/api/task_cancel_semantics_test.go",
+        "sha256": "23e293c1727692af4c534c49900c8d2f56cc2751496917b5e283bd75cf705852",
+        "bytes": 22855
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/api/task_retry_semantics_test.go",
+      "original_input_sha256": "7f21a8f200e792c47a8bb34b17bdb96210191c4355fe9afe9e2337dd62d4894d",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/api/task_retry_semantics_test.go",
+        "sha256": "7f21a8f200e792c47a8bb34b17bdb96210191c4355fe9afe9e2337dd62d4894d",
+        "bytes": 17287
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/api/task_retry_semantics_test.go",
+        "sha256": "7f21a8f200e792c47a8bb34b17bdb96210191c4355fe9afe9e2337dd62d4894d",
+        "bytes": 17287
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/api/task_routes.go",
+      "original_input_sha256": "7ae3c4e565b279c2c20497833a8840a051c45a468479df746bdf3d24c404fe8b",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/api/task_routes.go",
+        "sha256": "7ae3c4e565b279c2c20497833a8840a051c45a468479df746bdf3d24c404fe8b",
+        "bytes": 3019
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/api/task_routes.go",
+        "sha256": "7ae3c4e565b279c2c20497833a8840a051c45a468479df746bdf3d24c404fe8b",
+        "bytes": 3019
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/api/task_routes_test.go",
+      "original_input_sha256": "906acdd17868cf06e28be797bea3a110ba7df5c7ca7274e5927afcd667e30363",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/api/task_routes_test.go",
+        "sha256": "906acdd17868cf06e28be797bea3a110ba7df5c7ca7274e5927afcd667e30363",
+        "bytes": 4584
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/api/task_routes_test.go",
+        "sha256": "906acdd17868cf06e28be797bea3a110ba7df5c7ca7274e5927afcd667e30363",
+        "bytes": 4584
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/application/authorization.go",
+      "original_input_sha256": "f48c0eeb30869f9d5fb77cf41b88bb87c018fcc5906f7cbd36011c965d15bba7",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/application/authorization.go",
+        "sha256": "f48c0eeb30869f9d5fb77cf41b88bb87c018fcc5906f7cbd36011c965d15bba7",
+        "bytes": 2745
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/application/authorization.go",
+        "sha256": "f48c0eeb30869f9d5fb77cf41b88bb87c018fcc5906f7cbd36011c965d15bba7",
+        "bytes": 2745
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/application/business.go",
+      "original_input_sha256": "d9148e04da1e6e7678d32e06c56f49d19db7982b7123c3a5f388ee0d3d831bac",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/application/business.go",
+        "sha256": "d9148e04da1e6e7678d32e06c56f49d19db7982b7123c3a5f388ee0d3d831bac",
+        "bytes": 11469
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/application/business.go",
+        "sha256": "d975c6c97a9e4a58279a734590e3133f7a81ec562e7d952099fc18ccd37e1954",
+        "bytes": 11549
+      },
+      "equal": false
+    },
+    {
+      "relative": "Platform/internal/application/definitioncommit/publish.go",
+      "original_input_sha256": "49d54d3776978c89f7560b79231e15ba906f93523c4c5b17821f05fc81453d23",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/application/definitioncommit/publish.go",
+        "sha256": "49d54d3776978c89f7560b79231e15ba906f93523c4c5b17821f05fc81453d23",
+        "bytes": 2981
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/application/definitioncommit/publish.go",
+        "sha256": "49d54d3776978c89f7560b79231e15ba906f93523c4c5b17821f05fc81453d23",
+        "bytes": 2981
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/application/definitions.go",
+      "original_input_sha256": "3c61daafd893d9c103efc10111c75a329922cb9caae74ef572641ae0de294efe",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/application/definitions.go",
+        "sha256": "3c61daafd893d9c103efc10111c75a329922cb9caae74ef572641ae0de294efe",
+        "bytes": 11167
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/application/definitions.go",
+        "sha256": "07ce43ec68d8bff0b497e81307f2d30d50be8d317bd50f2b81f69a0d82e59665",
+        "bytes": 11199
+      },
+      "equal": false
+    },
+    {
+      "relative": "Platform/internal/application/deviceconfiguration.go",
+      "original_input_sha256": "4ef699bdafe540bce50ddcb78baf0adb0a3f30316641cb9e8fec8668e0eb5965",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/application/deviceconfiguration.go",
+        "sha256": "4ef699bdafe540bce50ddcb78baf0adb0a3f30316641cb9e8fec8668e0eb5965",
+        "bytes": 17879
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/application/deviceconfiguration.go",
+        "sha256": "9fdaed5bf1f4fd193fcaa97656e847db8982229c3fb64f57efc6f309f0d86bcd",
+        "bytes": 18039
+      },
+      "equal": false
+    },
+    {
+      "relative": "Platform/internal/application/history.go",
+      "original_input_sha256": "c1af3185e2a28ecc279742482dc9516a166bfc0148bfb0de979983255f0656ed",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/application/history.go",
+        "sha256": "c1af3185e2a28ecc279742482dc9516a166bfc0148bfb0de979983255f0656ed",
+        "bytes": 18742
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/application/history.go",
+        "sha256": "c1af3185e2a28ecc279742482dc9516a166bfc0148bfb0de979983255f0656ed",
+        "bytes": 18742
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/application/native_alarm.go",
+      "original_input_sha256": "c8a2064bab032752cfe729b5542cd68d3f5a64977cfdb0b15a70633ded06ce0a",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/application/native_alarm.go",
+        "sha256": "c8a2064bab032752cfe729b5542cd68d3f5a64977cfdb0b15a70633ded06ce0a",
+        "bytes": 3495
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/application/native_alarm.go",
+        "sha256": "5a7fae02f691141dccff65a3627b86b846d4b7e741208d847a37211ea2d5126f",
+        "bytes": 3560
+      },
+      "equal": false
+    },
+    {
+      "relative": "Platform/internal/application/queries.go",
+      "original_input_sha256": "1a664a37280229ae068ba7f4fdd08007dd2e497b8466a8b431a5b8d711539646",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/application/queries.go",
+        "sha256": "1a664a37280229ae068ba7f4fdd08007dd2e497b8466a8b431a5b8d711539646",
+        "bytes": 21138
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/application/queries.go",
+        "sha256": "1a664a37280229ae068ba7f4fdd08007dd2e497b8466a8b431a5b8d711539646",
+        "bytes": 21138
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/application/repositories.go",
+      "original_input_sha256": "73b1baa2204db29314c2a4cbea86691b60347496415e6cec29db82e16bc06ae6",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/application/repositories.go",
+        "sha256": "73b1baa2204db29314c2a4cbea86691b60347496415e6cec29db82e16bc06ae6",
+        "bytes": 1227
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/application/repositories.go",
+        "sha256": "73b1baa2204db29314c2a4cbea86691b60347496415e6cec29db82e16bc06ae6",
+        "bytes": 1227
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/application/semantic.go",
+      "original_input_sha256": "a0a4995313790498418dc1ccde40e3221df9bb5a34d0df9e03f5b4adde6256cf",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/application/semantic.go",
+        "sha256": "a0a4995313790498418dc1ccde40e3221df9bb5a34d0df9e03f5b4adde6256cf",
+        "bytes": 17994
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/application/semantic.go",
+        "sha256": "d5f897663a34b6bfccabf60f7bb9956be30f05bdfa58e3c53d23c08cc39997f0",
+        "bytes": 18369
+      },
+      "equal": false
+    },
+    {
+      "relative": "Platform/internal/application/shadow.go",
+      "original_input_sha256": "36ddbea59cc0853178d38ceafc1186c976d79d56f0f9f1e24d59bbed2c2c5653",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/application/shadow.go",
+        "sha256": "36ddbea59cc0853178d38ceafc1186c976d79d56f0f9f1e24d59bbed2c2c5653",
+        "bytes": 12107
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/application/shadow.go",
+        "sha256": "36ddbea59cc0853178d38ceafc1186c976d79d56f0f9f1e24d59bbed2c2c5653",
+        "bytes": 12107
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/application/tasks.go",
+      "original_input_sha256": "fcc102bb0f06ef0149585147c18803c4bf08e83e510608debbdb7b82aace2a2a",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/application/tasks.go",
+        "sha256": "fcc102bb0f06ef0149585147c18803c4bf08e83e510608debbdb7b82aace2a2a",
+        "bytes": 5048
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/application/tasks.go",
+        "sha256": "fcc102bb0f06ef0149585147c18803c4bf08e83e510608debbdb7b82aace2a2a",
+        "bytes": 5048
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/application/templates.go",
+      "original_input_sha256": "25e91523ef7820bdeef5d3919592346297a7be2c8b3a0f8bc90f5ff96dca19bb",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/application/templates.go",
+        "sha256": "25e91523ef7820bdeef5d3919592346297a7be2c8b3a0f8bc90f5ff96dca19bb",
+        "bytes": 15013
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/application/templates.go",
+        "sha256": "58d93899ce8414fe9dee8e3830eff46f82319f71f9fd9ca7b44fdb089abcc6bb",
+        "bytes": 15276
+      },
+      "equal": false
+    },
+    {
+      "relative": "Platform/internal/application/workorders.go",
+      "original_input_sha256": "22e6a339663da47373a086dcf044615736e7d8a0db00391b026a059316a19629",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/application/workorders.go",
+        "sha256": "22e6a339663da47373a086dcf044615736e7d8a0db00391b026a059316a19629",
+        "bytes": 20032
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/application/workorders.go",
+        "sha256": "e50a1da88a4a5b4b31f343598abe7386dd7f133a1f919622becc0ff86d7937e3",
+        "bytes": 21374
+      },
+      "equal": false
+    },
+    {
+      "relative": "Platform/internal/businessfixture/fixture.go",
+      "original_input_sha256": "3348ea81b033e851991807a83fe67b7087592e8c8ec8b0920ee3097505ba0e49",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/businessfixture/fixture.go",
+        "sha256": "3348ea81b033e851991807a83fe67b7087592e8c8ec8b0920ee3097505ba0e49",
+        "bytes": 7551
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/businessfixture/fixture.go",
+        "sha256": "3348ea81b033e851991807a83fe67b7087592e8c8ec8b0920ee3097505ba0e49",
+        "bytes": 7551
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/cloudsync/business.go",
+      "original_input_sha256": "06535263bf31825761bc7173fe9ec6cadf9dc7bb35e7c2b75e5655ea665fc3d0",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/cloudsync/business.go",
+        "sha256": "06535263bf31825761bc7173fe9ec6cadf9dc7bb35e7c2b75e5655ea665fc3d0",
+        "bytes": 7880
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/cloudsync/business.go",
+        "sha256": "06535263bf31825761bc7173fe9ec6cadf9dc7bb35e7c2b75e5655ea665fc3d0",
+        "bytes": 7880
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/cloudsync/client.go",
+      "original_input_sha256": "ca2936ce66c752f810b7f98270d62721c58b1f55c2cec15413705da91c456c20",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/cloudsync/client.go",
+        "sha256": "ca2936ce66c752f810b7f98270d62721c58b1f55c2cec15413705da91c456c20",
+        "bytes": 7499
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/cloudsync/client.go",
+        "sha256": "ca2936ce66c752f810b7f98270d62721c58b1f55c2cec15413705da91c456c20",
+        "bytes": 7499
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/cloudsync/control_receipts.go",
+      "original_input_sha256": "fa5371d6ef27f88e5c0a0344977777b0c098dac902a533e33cfcd87cd4938a4f",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/cloudsync/control_receipts.go",
+        "sha256": "fa5371d6ef27f88e5c0a0344977777b0c098dac902a533e33cfcd87cd4938a4f",
+        "bytes": 4866
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/cloudsync/control_receipts.go",
+        "sha256": "fa5371d6ef27f88e5c0a0344977777b0c098dac902a533e33cfcd87cd4938a4f",
+        "bytes": 4866
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/cloudsync/exchange.go",
+      "original_input_sha256": "4c1009272144d7b27c46ae3c0125994f4048406b83ed77280c6e7c560f94e272",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/cloudsync/exchange.go",
+        "sha256": "4c1009272144d7b27c46ae3c0125994f4048406b83ed77280c6e7c560f94e272",
+        "bytes": 15623
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/cloudsync/exchange.go",
+        "sha256": "4c1009272144d7b27c46ae3c0125994f4048406b83ed77280c6e7c560f94e272",
+        "bytes": 15623
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/cloudsync/progress.go",
+      "original_input_sha256": "279fc2f1918e9b3509bf7213f2be3099bd8440e7ff356406ba274de5df64e9f0",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/cloudsync/progress.go",
+        "sha256": "279fc2f1918e9b3509bf7213f2be3099bd8440e7ff356406ba274de5df64e9f0",
+        "bytes": 4007
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/cloudsync/progress.go",
+        "sha256": "279fc2f1918e9b3509bf7213f2be3099bd8440e7ff356406ba274de5df64e9f0",
+        "bytes": 4007
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/cloudsync/relay.go",
+      "original_input_sha256": "2550143b316bd9662f3359ccfef357f9b86cc28b186b075f2028a0be39edeb53",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/cloudsync/relay.go",
+        "sha256": "2550143b316bd9662f3359ccfef357f9b86cc28b186b075f2028a0be39edeb53",
+        "bytes": 3132
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/cloudsync/relay.go",
+        "sha256": "2550143b316bd9662f3359ccfef357f9b86cc28b186b075f2028a0be39edeb53",
+        "bytes": 3132
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/cloudsync/tls.go",
+      "original_input_sha256": "553ed6ce1ee781822bac954ba2f6108aa65b25acdf97296548c42fc79e02941c",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/cloudsync/tls.go",
+        "sha256": "553ed6ce1ee781822bac954ba2f6108aa65b25acdf97296548c42fc79e02941c",
+        "bytes": 3537
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/cloudsync/tls.go",
+        "sha256": "553ed6ce1ee781822bac954ba2f6108aa65b25acdf97296548c42fc79e02941c",
+        "bytes": 3537
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/compiledplan/preparation.go",
+      "original_input_sha256": "8b6fcf76d74369cb0146bcc84ee8958c537f22f040fda5f951454b06e1781d96",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/compiledplan/preparation.go",
+        "sha256": "8b6fcf76d74369cb0146bcc84ee8958c537f22f040fda5f951454b06e1781d96",
+        "bytes": 7670
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/compiledplan/preparation.go",
+        "sha256": "8b6fcf76d74369cb0146bcc84ee8958c537f22f040fda5f951454b06e1781d96",
+        "bytes": 7670
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/compiledplan/store.go",
+      "original_input_sha256": "2d4a8ffab96f767786107cb9b5c35a2276f440fd39ab0283de00a5f99dc08a6b",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/compiledplan/store.go",
+        "sha256": "2d4a8ffab96f767786107cb9b5c35a2276f440fd39ab0283de00a5f99dc08a6b",
+        "bytes": 2408
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/compiledplan/store.go",
+        "sha256": "2d4a8ffab96f767786107cb9b5c35a2276f440fd39ab0283de00a5f99dc08a6b",
+        "bytes": 2408
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/configcenter/ai_schema.go",
+      "original_input_sha256": "e8f105e9bd85f3f184986e95562f262c26538b7d0fd775327dbda4cc3d6a96d8",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/configcenter/ai_schema.go",
+        "sha256": "e8f105e9bd85f3f184986e95562f262c26538b7d0fd775327dbda4cc3d6a96d8",
+        "bytes": 2488
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/configcenter/ai_schema.go",
+        "sha256": "e8f105e9bd85f3f184986e95562f262c26538b7d0fd775327dbda4cc3d6a96d8",
+        "bytes": 2488
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/configcenter/config.go",
+      "original_input_sha256": "5d90cb0b9da46b0f6818fc89956efbc594874773f19d54097273dd8ccc508ca5",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/configcenter/config.go",
+        "sha256": "5d90cb0b9da46b0f6818fc89956efbc594874773f19d54097273dd8ccc508ca5",
+        "bytes": 11588
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/configcenter/config.go",
+        "sha256": "5d90cb0b9da46b0f6818fc89956efbc594874773f19d54097273dd8ccc508ca5",
+        "bytes": 11588
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/configcenter/policy.go",
+      "original_input_sha256": "43e84a044372d9347b6b58d0b7a80713ec1883e1d32e7f9a4f3ee0f673ba226d",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/configcenter/policy.go",
+        "sha256": "43e84a044372d9347b6b58d0b7a80713ec1883e1d32e7f9a4f3ee0f673ba226d",
+        "bytes": 6775
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/configcenter/policy.go",
+        "sha256": "43e84a044372d9347b6b58d0b7a80713ec1883e1d32e7f9a4f3ee0f673ba226d",
+        "bytes": 6775
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/configcenter/subscription.go",
+      "original_input_sha256": "4486af4e0b10050ee29da744b18a314038ea0111a3d0a81cbee9b6a816374d59",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/configcenter/subscription.go",
+        "sha256": "4486af4e0b10050ee29da744b18a314038ea0111a3d0a81cbee9b6a816374d59",
+        "bytes": 9041
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/configcenter/subscription.go",
+        "sha256": "4486af4e0b10050ee29da744b18a314038ea0111a3d0a81cbee9b6a816374d59",
+        "bytes": 9041
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/control/authorization.go",
+      "original_input_sha256": "92d4e3b75f51c054e70ab8648ba47849452ecaf0579ee9f840cd5949c775b606",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/control/authorization.go",
+        "sha256": "92d4e3b75f51c054e70ab8648ba47849452ecaf0579ee9f840cd5949c775b606",
+        "bytes": 10943
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/control/authorization.go",
+        "sha256": "92d4e3b75f51c054e70ab8648ba47849452ecaf0579ee9f840cd5949c775b606",
+        "bytes": 10943
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/control/control.go",
+      "original_input_sha256": "0e73b377d59cd280eeb6cb514ca11ee41d8b0483e5614ff77f22f459525993bd",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/control/control.go",
+        "sha256": "0e73b377d59cd280eeb6cb514ca11ee41d8b0483e5614ff77f22f459525993bd",
+        "bytes": 15026
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/control/control.go",
+        "sha256": "0e73b377d59cd280eeb6cb514ca11ee41d8b0483e5614ff77f22f459525993bd",
+        "bytes": 15026
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/control/evidence.go",
+      "original_input_sha256": "68f2e20a69be96b29a979cfb265d963e8aa89e95a5f6d13bf563048533b3b835",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/control/evidence.go",
+        "sha256": "68f2e20a69be96b29a979cfb265d963e8aa89e95a5f6d13bf563048533b3b835",
+        "bytes": 1612
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/control/evidence.go",
+        "sha256": "68f2e20a69be96b29a979cfb265d963e8aa89e95a5f6d13bf563048533b3b835",
+        "bytes": 1612
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/control/intervention.go",
+      "original_input_sha256": "eac79eb76e0157ff4c7fc3af80786d33ab11966bf2134bc1bee80e702037d6d0",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/control/intervention.go",
+        "sha256": "eac79eb76e0157ff4c7fc3af80786d33ab11966bf2134bc1bee80e702037d6d0",
+        "bytes": 20490
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/control/intervention.go",
+        "sha256": "eac79eb76e0157ff4c7fc3af80786d33ab11966bf2134bc1bee80e702037d6d0",
+        "bytes": 20490
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/control/operations.go",
+      "original_input_sha256": "8f30f6a6689aa232d1feaa9dc46bb9ddff171045cdf376d3f03baf15db602012",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/control/operations.go",
+        "sha256": "8f30f6a6689aa232d1feaa9dc46bb9ddff171045cdf376d3f03baf15db602012",
+        "bytes": 16101
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/control/operations.go",
+        "sha256": "8f30f6a6689aa232d1feaa9dc46bb9ddff171045cdf376d3f03baf15db602012",
+        "bytes": 16101
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/control/organization.go",
+      "original_input_sha256": "7185eab3a14b57a604d0b5b3f51598f792266c54fc1392d547f0ba49205bc4d6",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/control/organization.go",
+        "sha256": "7185eab3a14b57a604d0b5b3f51598f792266c54fc1392d547f0ba49205bc4d6",
+        "bytes": 1555
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/control/organization.go",
+        "sha256": "7185eab3a14b57a604d0b5b3f51598f792266c54fc1392d547f0ba49205bc4d6",
+        "bytes": 1555
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/control/receipts.go",
+      "original_input_sha256": "af9089d9bbd984106dedbe113d346a4ecab7945cd8823fe757016fff0d1265cc",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/control/receipts.go",
+        "sha256": "af9089d9bbd984106dedbe113d346a4ecab7945cd8823fe757016fff0d1265cc",
+        "bytes": 2871
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/control/receipts.go",
+        "sha256": "af9089d9bbd984106dedbe113d346a4ecab7945cd8823fe757016fff0d1265cc",
+        "bytes": 2871
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/control/remote.go",
+      "original_input_sha256": "26e3731d8ac0e5774ad097de90def74f0e057e970d5d162e6941e17c4d8cd1b3",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/control/remote.go",
+        "sha256": "26e3731d8ac0e5774ad097de90def74f0e057e970d5d162e6941e17c4d8cd1b3",
+        "bytes": 4446
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/control/remote.go",
+        "sha256": "26e3731d8ac0e5774ad097de90def74f0e057e970d5d162e6941e17c4d8cd1b3",
+        "bytes": 4446
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/control/remote_result.go",
+      "original_input_sha256": "1957623eec17b648fb0aa602fab7aa6dc8fddd69e5bab9cba4931315e89868a4",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/control/remote_result.go",
+        "sha256": "1957623eec17b648fb0aa602fab7aa6dc8fddd69e5bab9cba4931315e89868a4",
+        "bytes": 2651
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/control/remote_result.go",
+        "sha256": "1957623eec17b648fb0aa602fab7aa6dc8fddd69e5bab9cba4931315e89868a4",
+        "bytes": 2651
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/control/repository.go",
+      "original_input_sha256": "acf4d0af304e4bf65bb35b0bedb06b04dbef8df1e688043424e57dbfb0dd2f54",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/control/repository.go",
+        "sha256": "acf4d0af304e4bf65bb35b0bedb06b04dbef8df1e688043424e57dbfb0dd2f54",
+        "bytes": 1085
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/control/repository.go",
+        "sha256": "acf4d0af304e4bf65bb35b0bedb06b04dbef8df1e688043424e57dbfb0dd2f54",
+        "bytes": 1085
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/control/run.go",
+      "original_input_sha256": "0a61061f1a11558f93862ec063d613347bc545fd422800592576f464ce83ce02",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/control/run.go",
+        "sha256": "0a61061f1a11558f93862ec063d613347bc545fd422800592576f464ce83ce02",
+        "bytes": 18707
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/control/run.go",
+        "sha256": "0a61061f1a11558f93862ec063d613347bc545fd422800592576f464ce83ce02",
+        "bytes": 18707
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/control/state.go",
+      "original_input_sha256": "93c25aef120b9b0abbd2411e22178a34e833160360bfc724fe0c04a319f2f844",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/control/state.go",
+        "sha256": "93c25aef120b9b0abbd2411e22178a34e833160360bfc724fe0c04a319f2f844",
+        "bytes": 8368
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/control/state.go",
+        "sha256": "93c25aef120b9b0abbd2411e22178a34e833160360bfc724fe0c04a319f2f844",
+        "bytes": 8368
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/deviceconfig/capabilities.go",
+      "original_input_sha256": "2bf80c2f86ef144a3f6a855b4c22294d81144279e03e19cc76a12a95ba8d2a8a",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/deviceconfig/capabilities.go",
+        "sha256": "2bf80c2f86ef144a3f6a855b4c22294d81144279e03e19cc76a12a95ba8d2a8a",
+        "bytes": 5456
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/deviceconfig/capabilities.go",
+        "sha256": "2bf80c2f86ef144a3f6a855b4c22294d81144279e03e19cc76a12a95ba8d2a8a",
+        "bytes": 5456
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/deviceconfig/configuration.go",
+      "original_input_sha256": "2033c127919812da8fe282caaa6cb3a0c5b2256bf42c50772e6e7968fe04f4fb",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/deviceconfig/configuration.go",
+        "sha256": "2033c127919812da8fe282caaa6cb3a0c5b2256bf42c50772e6e7968fe04f4fb",
+        "bytes": 15991
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/deviceconfig/configuration.go",
+        "sha256": "f2cb7b4f04d3b19087c02d29c1271ede449b2359aa98cb65258557d0af25a521",
+        "bytes": 16104
+      },
+      "equal": false
+    },
+    {
+      "relative": "Platform/internal/deviceconfig/credentials.go",
+      "original_input_sha256": "e39dd76cea2c489c2190e05ec3a9d10e3a459044ffb9e103c79009e769c02a42",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/deviceconfig/credentials.go",
+        "sha256": "e39dd76cea2c489c2190e05ec3a9d10e3a459044ffb9e103c79009e769c02a42",
+        "bytes": 833
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/deviceconfig/credentials.go",
+        "sha256": "e39dd76cea2c489c2190e05ec3a9d10e3a459044ffb9e103c79009e769c02a42",
+        "bytes": 833
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/deviceconfig/metadata.go",
+      "original_input_sha256": "1fdbed4c9bf00f0cf4fe0bfefcddae845859ce1679047731c623548c9016d397",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/deviceconfig/metadata.go",
+        "sha256": "1fdbed4c9bf00f0cf4fe0bfefcddae845859ce1679047731c623548c9016d397",
+        "bytes": 8696
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/deviceconfig/metadata.go",
+        "sha256": "1fdbed4c9bf00f0cf4fe0bfefcddae845859ce1679047731c623548c9016d397",
+        "bytes": 8696
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/engine/analysis.go",
+      "original_input_sha256": "710174500082ad09087fa72e8d39b2db6043f255c2fc8d5acf449e0418a1020e",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/engine/analysis.go",
+        "sha256": "710174500082ad09087fa72e8d39b2db6043f255c2fc8d5acf449e0418a1020e",
+        "bytes": 10190
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/engine/analysis.go",
+        "sha256": "710174500082ad09087fa72e8d39b2db6043f255c2fc8d5acf449e0418a1020e",
+        "bytes": 10190
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/engine/deferred.go",
+      "original_input_sha256": "7617e3418de38a9d188def0a51b51a04da8cc56c953ab4a4e1a18da0b6dac6e9",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/engine/deferred.go",
+        "sha256": "7617e3418de38a9d188def0a51b51a04da8cc56c953ab4a4e1a18da0b6dac6e9",
+        "bytes": 2358
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/engine/deferred.go",
+        "sha256": "7617e3418de38a9d188def0a51b51a04da8cc56c953ab4a4e1a18da0b6dac6e9",
+        "bytes": 2358
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/engine/definitions.go",
+      "original_input_sha256": "7cb7ae98f6f84a00ac003eb28aab4a6046ba09e3356a74df1d0fe171684742e9",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/engine/definitions.go",
+        "sha256": "7cb7ae98f6f84a00ac003eb28aab4a6046ba09e3356a74df1d0fe171684742e9",
+        "bytes": 7144
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/engine/definitions.go",
+        "sha256": "7cb7ae98f6f84a00ac003eb28aab4a6046ba09e3356a74df1d0fe171684742e9",
+        "bytes": 7144
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/engine/expression.go",
+      "original_input_sha256": "03cf1afec3d9e02d884b0b4ccf2dd8c8783360aabbef825afeed321dedec4295",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/engine/expression.go",
+        "sha256": "03cf1afec3d9e02d884b0b4ccf2dd8c8783360aabbef825afeed321dedec4295",
+        "bytes": 540
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/engine/expression.go",
+        "sha256": "03cf1afec3d9e02d884b0b4ccf2dd8c8783360aabbef825afeed321dedec4295",
+        "bytes": 540
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/engine/frame.go",
+      "original_input_sha256": "52f0e43ba4fb2235e57e12b5575723c7567a916ad17b4552acc3f0db670393fa",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/engine/frame.go",
+        "sha256": "52f0e43ba4fb2235e57e12b5575723c7567a916ad17b4552acc3f0db670393fa",
+        "bytes": 2383
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/engine/frame.go",
+        "sha256": "52f0e43ba4fb2235e57e12b5575723c7567a916ad17b4552acc3f0db670393fa",
+        "bytes": 2383
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/engine/history.go",
+      "original_input_sha256": "1c69d696ae69e5ba7a8fc8db8312f2764476d4e79c4d5fc34494d69703d32abe",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/engine/history.go",
+        "sha256": "1c69d696ae69e5ba7a8fc8db8312f2764476d4e79c4d5fc34494d69703d32abe",
+        "bytes": 13149
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/engine/history.go",
+        "sha256": "1c69d696ae69e5ba7a8fc8db8312f2764476d4e79c4d5fc34494d69703d32abe",
+        "bytes": 13149
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/engine/plan_diagnostics.go",
+      "original_input_sha256": "790af4b3eb82e96c2520363cf7e059ed494d7f07ce4e19ebe7371da228f98393",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/engine/plan_diagnostics.go",
+        "sha256": "790af4b3eb82e96c2520363cf7e059ed494d7f07ce4e19ebe7371da228f98393",
+        "bytes": 2121
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/engine/plan_diagnostics.go",
+        "sha256": "790af4b3eb82e96c2520363cf7e059ed494d7f07ce4e19ebe7371da228f98393",
+        "bytes": 2121
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/engine/plans.go",
+      "original_input_sha256": "97fb4c5df18fab1c99756f10024c12f117e3c83ce471538e7c85ad2319f77805",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/engine/plans.go",
+        "sha256": "97fb4c5df18fab1c99756f10024c12f117e3c83ce471538e7c85ad2319f77805",
+        "bytes": 3774
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/engine/plans.go",
+        "sha256": "97fb4c5df18fab1c99756f10024c12f117e3c83ce471538e7c85ad2319f77805",
+        "bytes": 3774
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/engine/replay_checkpoint.go",
+      "original_input_sha256": "dd719036c5f5c11f21b3df1df0705996bcb03b3f139c13b1089b847a6adaef0d",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/engine/replay_checkpoint.go",
+        "sha256": "dd719036c5f5c11f21b3df1df0705996bcb03b3f139c13b1089b847a6adaef0d",
+        "bytes": 4096
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/engine/replay_checkpoint.go",
+        "sha256": "dd719036c5f5c11f21b3df1df0705996bcb03b3f139c13b1089b847a6adaef0d",
+        "bytes": 4096
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/engine/runtime.go",
+      "original_input_sha256": "68be249cf5d9a1ee79c3b41ddb7a6a37daee1399a79c8ec07610950147cd4ae7",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/engine/runtime.go",
+        "sha256": "68be249cf5d9a1ee79c3b41ddb7a6a37daee1399a79c8ec07610950147cd4ae7",
+        "bytes": 16446
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/engine/runtime.go",
+        "sha256": "68be249cf5d9a1ee79c3b41ddb7a6a37daee1399a79c8ec07610950147cd4ae7",
+        "bytes": 16446
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/engine/simulation.go",
+      "original_input_sha256": "111c13c5b06a24020ac3dd8e07af49603e374d9d396152d2a29178e28797c932",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/engine/simulation.go",
+        "sha256": "111c13c5b06a24020ac3dd8e07af49603e374d9d396152d2a29178e28797c932",
+        "bytes": 17624
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/engine/simulation.go",
+        "sha256": "111c13c5b06a24020ac3dd8e07af49603e374d9d396152d2a29178e28797c932",
+        "bytes": 17624
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/engine/timers.go",
+      "original_input_sha256": "0360f9770b236bd487ef9ae8f63c08ed16664cbab15dc11861149fdc5ea2123e",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/engine/timers.go",
+        "sha256": "0360f9770b236bd487ef9ae8f63c08ed16664cbab15dc11861149fdc5ea2123e",
+        "bytes": 3384
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/engine/timers.go",
+        "sha256": "0360f9770b236bd487ef9ae8f63c08ed16664cbab15dc11861149fdc5ea2123e",
+        "bytes": 3384
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/historymodel/compare.go",
+      "original_input_sha256": "0edc435291804d9f4dce7d932d0f1abfd6ff855ef29c23578acde1655eec4a3c",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/historymodel/compare.go",
+        "sha256": "0edc435291804d9f4dce7d932d0f1abfd6ff855ef29c23578acde1655eec4a3c",
+        "bytes": 1884
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/historymodel/compare.go",
+        "sha256": "0edc435291804d9f4dce7d932d0f1abfd6ff855ef29c23578acde1655eec4a3c",
+        "bytes": 1884
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/historymodel/digest.go",
+      "original_input_sha256": "282a6ab94e5a9fa44b756ae7dd1c942dc12d1edf71745498f94eb8f830127da0",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/historymodel/digest.go",
+        "sha256": "282a6ab94e5a9fa44b756ae7dd1c942dc12d1edf71745498f94eb8f830127da0",
+        "bytes": 1682
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/historymodel/digest.go",
+        "sha256": "282a6ab94e5a9fa44b756ae7dd1c942dc12d1edf71745498f94eb8f830127da0",
+        "bytes": 1682
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/historymodel/history.go",
+      "original_input_sha256": "ee9ac53091b22055f87f353f614b2a3d64a830ed5a8a4bdcd771e8913cb46645",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/historymodel/history.go",
+        "sha256": "ee9ac53091b22055f87f353f614b2a3d64a830ed5a8a4bdcd771e8913cb46645",
+        "bytes": 8945
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/historymodel/history.go",
+        "sha256": "ee9ac53091b22055f87f353f614b2a3d64a830ed5a8a4bdcd771e8913cb46645",
+        "bytes": 8945
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/identity/envelope.go",
+      "original_input_sha256": "fe514652770a0f31f316b5e054175504e43917991461e2a2b0e1ccb18a85b5c3",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/identity/envelope.go",
+        "sha256": "fe514652770a0f31f316b5e054175504e43917991461e2a2b0e1ccb18a85b5c3",
+        "bytes": 4165
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/identity/envelope.go",
+        "sha256": "fe514652770a0f31f316b5e054175504e43917991461e2a2b0e1ccb18a85b5c3",
+        "bytes": 4165
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/identity/identity.go",
+      "original_input_sha256": "d1091b04e7fca51d870c9efae81e5cf4056f69101cdcc2e5122df9a41c5d9722",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/identity/identity.go",
+        "sha256": "d1091b04e7fca51d870c9efae81e5cf4056f69101cdcc2e5122df9a41c5d9722",
+        "bytes": 14568
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/identity/identity.go",
+        "sha256": "d1091b04e7fca51d870c9efae81e5cf4056f69101cdcc2e5122df9a41c5d9722",
+        "bytes": 14568
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/notifications/channels.go",
+      "original_input_sha256": "d3c0cb10aa3c59dfaac29954bb96bbb2fb8ef71a7ccb374e8f67f5fb6ee2bfba",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/notifications/channels.go",
+        "sha256": "d3c0cb10aa3c59dfaac29954bb96bbb2fb8ef71a7ccb374e8f67f5fb6ee2bfba",
+        "bytes": 6635
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/notifications/channels.go",
+        "sha256": "d3c0cb10aa3c59dfaac29954bb96bbb2fb8ef71a7ccb374e8f67f5fb6ee2bfba",
+        "bytes": 6635
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/notifications/service.go",
+      "original_input_sha256": "78305f06c9d1d44e5c2f912ceb693efdd1419a51d230c2fd6c505a53513e84bb",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/notifications/service.go",
+        "sha256": "78305f06c9d1d44e5c2f912ceb693efdd1419a51d230c2fd6c505a53513e84bb",
+        "bytes": 5275
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/notifications/service.go",
+        "sha256": "78305f06c9d1d44e5c2f912ceb693efdd1419a51d230c2fd6c505a53513e84bb",
+        "bytes": 5275
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/observability/observability.go",
+      "original_input_sha256": "091ebee9950fcd501e1590b6fba1c92008da7e6d14d2a964c70449135c071e87",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/observability/observability.go",
+        "sha256": "091ebee9950fcd501e1590b6fba1c92008da7e6d14d2a964c70449135c071e87",
+        "bytes": 840
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/observability/observability.go",
+        "sha256": "091ebee9950fcd501e1590b6fba1c92008da7e6d14d2a964c70449135c071e87",
+        "bytes": 840
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/plugins/manager.go",
+      "original_input_sha256": "0aa2f971dfd55eab89aea536e8398bb59bd659699d72477d786d262cc934d8c3",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/plugins/manager.go",
+        "sha256": "0aa2f971dfd55eab89aea536e8398bb59bd659699d72477d786d262cc934d8c3",
+        "bytes": 7333
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/plugins/manager.go",
+        "sha256": "0aa2f971dfd55eab89aea536e8398bb59bd659699d72477d786d262cc934d8c3",
+        "bytes": 7333
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/plugins/organization.go",
+      "original_input_sha256": "57ca946d4f5538d3f4540563e175c70cc585d89351630aedbe676accf6e9dd30",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/plugins/organization.go",
+        "sha256": "57ca946d4f5538d3f4540563e175c70cc585d89351630aedbe676accf6e9dd30",
+        "bytes": 4159
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/plugins/organization.go",
+        "sha256": "57ca946d4f5538d3f4540563e175c70cc585d89351630aedbe676accf6e9dd30",
+        "bytes": 4159
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/rulecore/compile.go",
+      "original_input_sha256": "5310711e3f6e9670f62a113840a4d13507738c6d9a2d8b3bde677aef83c58d13",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/rulecore/compile.go",
+        "sha256": "5310711e3f6e9670f62a113840a4d13507738c6d9a2d8b3bde677aef83c58d13",
+        "bytes": 11006
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/rulecore/compile.go",
+        "sha256": "5310711e3f6e9670f62a113840a4d13507738c6d9a2d8b3bde677aef83c58d13",
+        "bytes": 11006
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/rulecore/execute.go",
+      "original_input_sha256": "c5c4fb0523f3425c4952105c6077248f48a986cd5473ca8276578715de4ad9b9",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/rulecore/execute.go",
+        "sha256": "c5c4fb0523f3425c4952105c6077248f48a986cd5473ca8276578715de4ad9b9",
+        "bytes": 9432
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/rulecore/execute.go",
+        "sha256": "c5c4fb0523f3425c4952105c6077248f48a986cd5473ca8276578715de4ad9b9",
+        "bytes": 9432
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/rulecore/expression.go",
+      "original_input_sha256": "1ba746440c0ab88d8631e24ddd3abe35b82a295dcb0f8e3d78f8c422888cd064",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/rulecore/expression.go",
+        "sha256": "1ba746440c0ab88d8631e24ddd3abe35b82a295dcb0f8e3d78f8c422888cd064",
+        "bytes": 8572
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/rulecore/expression.go",
+        "sha256": "1ba746440c0ab88d8631e24ddd3abe35b82a295dcb0f8e3d78f8c422888cd064",
+        "bytes": 8572
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/rulecore/expression_types.go",
+      "original_input_sha256": "52b952f61403d704cda7c6536aa658f12cd30e044c06f2f2418dad945994d835",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/rulecore/expression_types.go",
+        "sha256": "52b952f61403d704cda7c6536aa658f12cd30e044c06f2f2418dad945994d835",
+        "bytes": 1948
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/rulecore/expression_types.go",
+        "sha256": "52b952f61403d704cda7c6536aa658f12cd30e044c06f2f2418dad945994d835",
+        "bytes": 1948
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/rulecore/statistics.go",
+      "original_input_sha256": "cecd7f9d924744d217a9eb84d18613c7870f2cd1ed067d6df46124ff7910242e",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/rulecore/statistics.go",
+        "sha256": "cecd7f9d924744d217a9eb84d18613c7870f2cd1ed067d6df46124ff7910242e",
+        "bytes": 589
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/rulecore/statistics.go",
+        "sha256": "cecd7f9d924744d217a9eb84d18613c7870f2cd1ed067d6df46124ff7910242e",
+        "bytes": 589
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/scenetemplates/templates.go",
+      "original_input_sha256": "0f416c5722db84299eaac67cf4a0c375d93a6333f352f95bb9813a4612dc352c",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/scenetemplates/templates.go",
+        "sha256": "0f416c5722db84299eaac67cf4a0c375d93a6333f352f95bb9813a4612dc352c",
+        "bytes": 13623
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/scenetemplates/templates.go",
+        "sha256": "0f416c5722db84299eaac67cf4a0c375d93a6333f352f95bb9813a4612dc352c",
+        "bytes": 13623
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/store/archive.go",
+      "original_input_sha256": "cb7d575e9e0915b8a01dfdea2d5cf0a4bf3449846a3404e34270d5e1f4e48fd8",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/store/archive.go",
+        "sha256": "cb7d575e9e0915b8a01dfdea2d5cf0a4bf3449846a3404e34270d5e1f4e48fd8",
+        "bytes": 22214
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/store/archive.go",
+        "sha256": "cb7d575e9e0915b8a01dfdea2d5cf0a4bf3449846a3404e34270d5e1f4e48fd8",
+        "bytes": 22214
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/store/archive_codec.go",
+      "original_input_sha256": "83f5d0efe88be11aea18d44e34adbfed8503535bf6d725c60d2a508e93558ef3",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/store/archive_codec.go",
+        "sha256": "83f5d0efe88be11aea18d44e34adbfed8503535bf6d725c60d2a508e93558ef3",
+        "bytes": 6374
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/store/archive_codec.go",
+        "sha256": "83f5d0efe88be11aea18d44e34adbfed8503535bf6d725c60d2a508e93558ef3",
+        "bytes": 6374
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/store/audit.go",
+      "original_input_sha256": "a19ed234b5a287557d0bacd09f2d856f054eaf4e099d8616d267a9e911b41e17",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/store/audit.go",
+        "sha256": "a19ed234b5a287557d0bacd09f2d856f054eaf4e099d8616d267a9e911b41e17",
+        "bytes": 6514
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/store/audit.go",
+        "sha256": "a19ed234b5a287557d0bacd09f2d856f054eaf4e099d8616d267a9e911b41e17",
+        "bytes": 6514
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/store/audit_sync.go",
+      "original_input_sha256": "4c34e8516d21aec8039ea9d5d4c1b20b455e2b21e40926299fe1da92f785d5f1",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/store/audit_sync.go",
+        "sha256": "4c34e8516d21aec8039ea9d5d4c1b20b455e2b21e40926299fe1da92f785d5f1",
+        "bytes": 4153
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/store/audit_sync.go",
+        "sha256": "4c34e8516d21aec8039ea9d5d4c1b20b455e2b21e40926299fe1da92f785d5f1",
+        "bytes": 4153
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/store/batch.go",
+      "original_input_sha256": "e348092eccba6b51211c3e6a83f3b85daa494416817678614498fe50651ff337",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/store/batch.go",
+        "sha256": "e348092eccba6b51211c3e6a83f3b85daa494416817678614498fe50651ff337",
+        "bytes": 4186
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/store/batch.go",
+        "sha256": "e348092eccba6b51211c3e6a83f3b85daa494416817678614498fe50651ff337",
+        "bytes": 4186
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/store/budgets.go",
+      "original_input_sha256": "99f3adf7a9b1085c093b57d6f6a6bf2b3489aa3a907b3665b07c04494350fdf6",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/store/budgets.go",
+        "sha256": "99f3adf7a9b1085c093b57d6f6a6bf2b3489aa3a907b3665b07c04494350fdf6",
+        "bytes": 2957
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/store/budgets.go",
+        "sha256": "99f3adf7a9b1085c093b57d6f6a6bf2b3489aa3a907b3665b07c04494350fdf6",
+        "bytes": 2957
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/store/business.go",
+      "original_input_sha256": "41b98297ba04ba80a5f2519fc9d9c94c68a49be254ef23ebbf2b7c3ab7fe9676",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/store/business.go",
+        "sha256": "41b98297ba04ba80a5f2519fc9d9c94c68a49be254ef23ebbf2b7c3ab7fe9676",
+        "bytes": 9076
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/store/business.go",
+        "sha256": "41b98297ba04ba80a5f2519fc9d9c94c68a49be254ef23ebbf2b7c3ab7fe9676",
+        "bytes": 9076
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/store/control.go",
+      "original_input_sha256": "16d8f4d90c0a407631cd5d46251be7eff59f21fd0f819def5edaf6acb4f0e88a",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/store/control.go",
+        "sha256": "16d8f4d90c0a407631cd5d46251be7eff59f21fd0f819def5edaf6acb4f0e88a",
+        "bytes": 7835
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/store/control.go",
+        "sha256": "16d8f4d90c0a407631cd5d46251be7eff59f21fd0f819def5edaf6acb4f0e88a",
+        "bytes": 7835
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/store/data.go",
+      "original_input_sha256": "24559fc2aa78112231362caf57755803a72dcc470ab1bd9388926c01ad787f60",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/store/data.go",
+        "sha256": "24559fc2aa78112231362caf57755803a72dcc470ab1bd9388926c01ad787f60",
+        "bytes": 16854
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/store/data.go",
+        "sha256": "24559fc2aa78112231362caf57755803a72dcc470ab1bd9388926c01ad787f60",
+        "bytes": 16854
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/store/history.go",
+      "original_input_sha256": "f69d06987ef5e346c8819c8ab6731dd4feb4232c1f9344b3d27efbf9ebd122ba",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/store/history.go",
+        "sha256": "f69d06987ef5e346c8819c8ab6731dd4feb4232c1f9344b3d27efbf9ebd122ba",
+        "bytes": 19626
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/store/history.go",
+        "sha256": "f69d06987ef5e346c8819c8ab6731dd4feb4232c1f9344b3d27efbf9ebd122ba",
+        "bytes": 19626
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/store/latest.go",
+      "original_input_sha256": "67ff6ae43d3737a2739058f20dba3aa3188db953f898d0edf9be241f74b13735",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/store/latest.go",
+        "sha256": "67ff6ae43d3737a2739058f20dba3aa3188db953f898d0edf9be241f74b13735",
+        "bytes": 1026
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/store/latest.go",
+        "sha256": "67ff6ae43d3737a2739058f20dba3aa3188db953f898d0edf9be241f74b13735",
+        "bytes": 1026
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/store/migration00002.go",
+      "original_input_sha256": "d41f217a598789ec94a29fdcf9db03547eb5bc79cb1671bdc2211891ccc1b626",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/store/migration00002.go",
+        "sha256": "d41f217a598789ec94a29fdcf9db03547eb5bc79cb1671bdc2211891ccc1b626",
+        "bytes": 856
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/store/migration00002.go",
+        "sha256": "d41f217a598789ec94a29fdcf9db03547eb5bc79cb1671bdc2211891ccc1b626",
+        "bytes": 856
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/store/migration00003.go",
+      "original_input_sha256": "5b5c043c4d830ba6e77057b54654585e83fec0b0fb9e8e9b75e87e65bba9cfd4",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/store/migration00003.go",
+        "sha256": "5b5c043c4d830ba6e77057b54654585e83fec0b0fb9e8e9b75e87e65bba9cfd4",
+        "bytes": 1221
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/store/migration00003.go",
+        "sha256": "5b5c043c4d830ba6e77057b54654585e83fec0b0fb9e8e9b75e87e65bba9cfd4",
+        "bytes": 1221
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/store/migration00004.go",
+      "original_input_sha256": "1a69098a1f06a9659d5b6d2f0d967b88a1e29a7a677bbf3014714ab2856bf854",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/store/migration00004.go",
+        "sha256": "1a69098a1f06a9659d5b6d2f0d967b88a1e29a7a677bbf3014714ab2856bf854",
+        "bytes": 1884
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/store/migration00004.go",
+        "sha256": "1a69098a1f06a9659d5b6d2f0d967b88a1e29a7a677bbf3014714ab2856bf854",
+        "bytes": 1884
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/store/migration00005.go",
+      "original_input_sha256": "ef7dbe90ee1e57d318b600b2f7ff62416384f833031ba196fd238b45e8df16ac",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/store/migration00005.go",
+        "sha256": "ef7dbe90ee1e57d318b600b2f7ff62416384f833031ba196fd238b45e8df16ac",
+        "bytes": 602
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/store/migration00005.go",
+        "sha256": "ef7dbe90ee1e57d318b600b2f7ff62416384f833031ba196fd238b45e8df16ac",
+        "bytes": 602
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/store/migration00006.go",
+      "original_input_sha256": "cfc2e96ad04880f7081db6b62a179ed52f37269ac0e46fd60c84fc40aafc15aa",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/store/migration00006.go",
+        "sha256": "cfc2e96ad04880f7081db6b62a179ed52f37269ac0e46fd60c84fc40aafc15aa",
+        "bytes": 1318
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/store/migration00006.go",
+        "sha256": "cfc2e96ad04880f7081db6b62a179ed52f37269ac0e46fd60c84fc40aafc15aa",
+        "bytes": 1318
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/store/migration00007.go",
+      "original_input_sha256": "fb1a506bcdaf9d716923f7f33d5027bf9a395e9b4a2eb86eea065dedcd0890a7",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/store/migration00007.go",
+        "sha256": "fb1a506bcdaf9d716923f7f33d5027bf9a395e9b4a2eb86eea065dedcd0890a7",
+        "bytes": 2246
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/store/migration00007.go",
+        "sha256": "fb1a506bcdaf9d716923f7f33d5027bf9a395e9b4a2eb86eea065dedcd0890a7",
+        "bytes": 2246
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/store/migration00008.go",
+      "original_input_sha256": "553c464b689eb3324b413ab31bfaa71f7d7b5184ab6061e6415abfd3a2ae2302",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/store/migration00008.go",
+        "sha256": "553c464b689eb3324b413ab31bfaa71f7d7b5184ab6061e6415abfd3a2ae2302",
+        "bytes": 767
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/store/migration00008.go",
+        "sha256": "553c464b689eb3324b413ab31bfaa71f7d7b5184ab6061e6415abfd3a2ae2302",
+        "bytes": 767
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/store/migrations.go",
+      "original_input_sha256": "d2e93bb9d788079229bebd31cc6cfe3d86902332463ae706b81065a44c67801f",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/store/migrations.go",
+        "sha256": "d2e93bb9d788079229bebd31cc6cfe3d86902332463ae706b81065a44c67801f",
+        "bytes": 8079
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/store/migrations.go",
+        "sha256": "1867c6937b4a83b4eef2978da2eb8fc19923e4d555f7161465186e40f9b108c8",
+        "bytes": 8236
+      },
+      "equal": false
+    },
+    {
+      "relative": "Platform/internal/store/migrations/postgres/00001_baseline.sql",
+      "original_input_sha256": "b4f13649f266050f7b87cf9f0c7509b98af1fb40fd606666d1de5a91e02a7f62",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/store/migrations/postgres/00001_baseline.sql",
+        "sha256": "b4f13649f266050f7b87cf9f0c7509b98af1fb40fd606666d1de5a91e02a7f62",
+        "bytes": 3862
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/store/migrations/postgres/00001_baseline.sql",
+        "sha256": "b4f13649f266050f7b87cf9f0c7509b98af1fb40fd606666d1de5a91e02a7f62",
+        "bytes": 3862
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/store/migrations/sqlite/00001_baseline.sql",
+      "original_input_sha256": "8f8b3ff25cd9a9f55e99ab3abd851f20e8075d15242bec0e52ee4e2695a15631",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/store/migrations/sqlite/00001_baseline.sql",
+        "sha256": "8f8b3ff25cd9a9f55e99ab3abd851f20e8075d15242bec0e52ee4e2695a15631",
+        "bytes": 3829
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/store/migrations/sqlite/00001_baseline.sql",
+        "sha256": "8f8b3ff25cd9a9f55e99ab3abd851f20e8075d15242bec0e52ee4e2695a15631",
+        "bytes": 3829
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/store/policy.go",
+      "original_input_sha256": "a73887902aa3855ecc879d2a492037ddeff43c789f2fe5cfe7a95a99a431cc81",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/store/policy.go",
+        "sha256": "a73887902aa3855ecc879d2a492037ddeff43c789f2fe5cfe7a95a99a431cc81",
+        "bytes": 1599
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/store/policy.go",
+        "sha256": "a73887902aa3855ecc879d2a492037ddeff43c789f2fe5cfe7a95a99a431cc81",
+        "bytes": 1599
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/store/query_projection.go",
+      "original_input_sha256": "655296127bb23e721b8ce25fb4f0f2b41b1983c62aa2aea4796bb788a3da6fdc",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/store/query_projection.go",
+        "sha256": "655296127bb23e721b8ce25fb4f0f2b41b1983c62aa2aea4796bb788a3da6fdc",
+        "bytes": 27607
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/store/query_projection.go",
+        "sha256": "655296127bb23e721b8ce25fb4f0f2b41b1983c62aa2aea4796bb788a3da6fdc",
+        "bytes": 27607
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/store/query_read.go",
+      "original_input_sha256": "9435a811b580250dc28debf0a3312b6c286ddcd90f57881ee20b293941577485",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/store/query_read.go",
+        "sha256": "9435a811b580250dc28debf0a3312b6c286ddcd90f57881ee20b293941577485",
+        "bytes": 9491
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/store/query_read.go",
+        "sha256": "9435a811b580250dc28debf0a3312b6c286ddcd90f57881ee20b293941577485",
+        "bytes": 9491
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/store/retention.go",
+      "original_input_sha256": "ac09a54100137007fe41a69a027097877450c5feb9697f1428695af7032648b0",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/store/retention.go",
+        "sha256": "ac09a54100137007fe41a69a027097877450c5feb9697f1428695af7032648b0",
+        "bytes": 11891
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/store/retention.go",
+        "sha256": "ac09a54100137007fe41a69a027097877450c5feb9697f1428695af7032648b0",
+        "bytes": 11891
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/store/revisions.go",
+      "original_input_sha256": "3ca851a2ec8c8c68b366b5c9d062ca70102b8b48d024360933e087239e863533",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/store/revisions.go",
+        "sha256": "3ca851a2ec8c8c68b366b5c9d062ca70102b8b48d024360933e087239e863533",
+        "bytes": 1508
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/store/revisions.go",
+        "sha256": "3ca851a2ec8c8c68b366b5c9d062ca70102b8b48d024360933e087239e863533",
+        "bytes": 1508
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/store/store.go",
+      "original_input_sha256": "6ff9f6a9c115d4fd79a0dc7a9ba3ec7e80d10c48c810a533bce2ab3c7eac51a0",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/store/store.go",
+        "sha256": "6ff9f6a9c115d4fd79a0dc7a9ba3ec7e80d10c48c810a533bce2ab3c7eac51a0",
+        "bytes": 12374
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/store/store.go",
+        "sha256": "6ff9f6a9c115d4fd79a0dc7a9ba3ec7e80d10c48c810a533bce2ab3c7eac51a0",
+        "bytes": 12374
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/store/sync.go",
+      "original_input_sha256": "d876d5bef9f535a6405c4bd404f18cf203c87475145c1a9daba44dd710cb9434",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/store/sync.go",
+        "sha256": "d876d5bef9f535a6405c4bd404f18cf203c87475145c1a9daba44dd710cb9434",
+        "bytes": 3092
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/store/sync.go",
+        "sha256": "d876d5bef9f535a6405c4bd404f18cf203c87475145c1a9daba44dd710cb9434",
+        "bytes": 3092
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/store/task_runtime.go",
+      "original_input_sha256": "6a24e4a1ce80e9d636eed6a14ec83d0438c4ab3545466191b0632eb978123526",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/store/task_runtime.go",
+        "sha256": "6a24e4a1ce80e9d636eed6a14ec83d0438c4ab3545466191b0632eb978123526",
+        "bytes": 2360
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/store/task_runtime.go",
+        "sha256": "6a24e4a1ce80e9d636eed6a14ec83d0438c4ab3545466191b0632eb978123526",
+        "bytes": 2360
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/store/tasks.go",
+      "original_input_sha256": "ff1b3eba2d9b6bd9d68a3213629f24372cb7237371c5a17896ace2627d572ed0",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/store/tasks.go",
+        "sha256": "ff1b3eba2d9b6bd9d68a3213629f24372cb7237371c5a17896ace2627d572ed0",
+        "bytes": 22227
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/store/tasks.go",
+        "sha256": "ff1b3eba2d9b6bd9d68a3213629f24372cb7237371c5a17896ace2627d572ed0",
+        "bytes": 22227
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/store/transaction.go",
+      "original_input_sha256": "be818c1d68a03a7bcc499ef1174e7bf62cd0aab33fdf1ecbeaad47afafd5408d",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/store/transaction.go",
+        "sha256": "be818c1d68a03a7bcc499ef1174e7bf62cd0aab33fdf1ecbeaad47afafd5408d",
+        "bytes": 6606
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/store/transaction.go",
+        "sha256": "be818c1d68a03a7bcc499ef1174e7bf62cd0aab33fdf1ecbeaad47afafd5408d",
+        "bytes": 6606
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/tasks/history.go",
+      "original_input_sha256": "136e0f76f49612205e621ad4d1615012c9c8ab877afbd346658e09f532b16e74",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/tasks/history.go",
+        "sha256": "136e0f76f49612205e621ad4d1615012c9c8ab877afbd346658e09f532b16e74",
+        "bytes": 2029
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/tasks/history.go",
+        "sha256": "136e0f76f49612205e621ad4d1615012c9c8ab877afbd346658e09f532b16e74",
+        "bytes": 2029
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/tasks/repository.go",
+      "original_input_sha256": "8180229e7532ee56005b790128573139f9e5f8032d32097ce2c8d99089b3c6e4",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/tasks/repository.go",
+        "sha256": "8180229e7532ee56005b790128573139f9e5f8032d32097ce2c8d99089b3c6e4",
+        "bytes": 1169
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/tasks/repository.go",
+        "sha256": "8180229e7532ee56005b790128573139f9e5f8032d32097ce2c8d99089b3c6e4",
+        "bytes": 1169
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/tasks/service.go",
+      "original_input_sha256": "fb62560798502feb08d72ce59157e07901bfb39ef2043321d197fdbfcb5e17b7",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/tasks/service.go",
+        "sha256": "fb62560798502feb08d72ce59157e07901bfb39ef2043321d197fdbfcb5e17b7",
+        "bytes": 6666
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/tasks/service.go",
+        "sha256": "fb62560798502feb08d72ce59157e07901bfb39ef2043321d197fdbfcb5e17b7",
+        "bytes": 6666
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/testdb/postgres.go",
+      "original_input_sha256": "521a46bd90eaaabe780b019e2b9472eada4cb83f6ebfef095acb1a123ea0afce",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/testdb/postgres.go",
+        "sha256": "521a46bd90eaaabe780b019e2b9472eada4cb83f6ebfef095acb1a123ea0afce",
+        "bytes": 1351
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/testdb/postgres.go",
+        "sha256": "521a46bd90eaaabe780b019e2b9472eada4cb83f6ebfef095acb1a123ea0afce",
+        "bytes": 1351
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/thingsboard/adapter.go",
+      "original_input_sha256": "dd75877df8e936a2cf6275b5d547ab4eaa12ba1ca4303662b4b8c7b13c541605",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/thingsboard/adapter.go",
+        "sha256": "dd75877df8e936a2cf6275b5d547ab4eaa12ba1ca4303662b4b8c7b13c541605",
+        "bytes": 12374
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/thingsboard/adapter.go",
+        "sha256": "8c70c584621aed50ad2ebd77c7763ff9ebcbe736bbae8916fbefdd3e66a4cc76",
+        "bytes": 12412
+      },
+      "equal": false
+    },
+    {
+      "relative": "Platform/internal/thingsboard/alarm_states.go",
+      "original_input_sha256": "e74cab2eb0266f0ffff5555798043350da303a18c8b3860ebf7bbf29e24a931f",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/thingsboard/alarm_states.go",
+        "sha256": "e74cab2eb0266f0ffff5555798043350da303a18c8b3860ebf7bbf29e24a931f",
+        "bytes": 3814
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/thingsboard/alarm_states.go",
+        "sha256": "597cc51f926521a1a9f11c200126e3ca1960c14ed1fef6825db74809b84327b1",
+        "bytes": 5515
+      },
+      "equal": false
+    },
+    {
+      "relative": "Platform/internal/thingsboard/alarms.go",
+      "original_input_sha256": "343128a9c2ac1e2108bcaee68bdadd1706877da304702d2116d18d0460427fa8",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/thingsboard/alarms.go",
+        "sha256": "343128a9c2ac1e2108bcaee68bdadd1706877da304702d2116d18d0460427fa8",
+        "bytes": 3130
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/thingsboard/alarms.go",
+        "sha256": "343128a9c2ac1e2108bcaee68bdadd1706877da304702d2116d18d0460427fa8",
+        "bytes": 3130
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/thingsboard/client.go",
+      "original_input_sha256": "c2e1d8c05ca846fa4593d82b75e1cd57f2c495d51d311f9970f356d30f16b215",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/thingsboard/client.go",
+        "sha256": "c2e1d8c05ca846fa4593d82b75e1cd57f2c495d51d311f9970f356d30f16b215",
+        "bytes": 2985
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/thingsboard/client.go",
+        "sha256": "c2e1d8c05ca846fa4593d82b75e1cd57f2c495d51d311f9970f356d30f16b215",
+        "bytes": 2985
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/thingsboard/definitions.go",
+      "original_input_sha256": "a40d9283d31a8c38ad4946aadf2011dbc0f23698c90e657389146938906cd921",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/thingsboard/definitions.go",
+        "sha256": "a40d9283d31a8c38ad4946aadf2011dbc0f23698c90e657389146938906cd921",
+        "bytes": 6958
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/thingsboard/definitions.go",
+        "sha256": "a40d9283d31a8c38ad4946aadf2011dbc0f23698c90e657389146938906cd921",
+        "bytes": 6958
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/internal/thingsboard/retention.go",
+      "original_input_sha256": "6cf670f9d89dacda40d3fe0ef5827514160a901566c051ec0cc52d5a43b3ed19",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/internal/thingsboard/retention.go",
+        "sha256": "6cf670f9d89dacda40d3fe0ef5827514160a901566c051ec0cc52d5a43b3ed19",
+        "bytes": 1702
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/thingsboard/retention.go",
+        "sha256": "6cf670f9d89dacda40d3fe0ef5827514160a901566c051ec0cc52d5a43b3ed19",
+        "bytes": 1702
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/pkg/compatibility/compatibility.go",
+      "original_input_sha256": "9e87d2ef8c6ce7c893ca675ea13a9ab39a1e8895726657bcdddf61b7e5f3ffc6",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/pkg/compatibility/compatibility.go",
+        "sha256": "9e87d2ef8c6ce7c893ca675ea13a9ab39a1e8895726657bcdddf61b7e5f3ffc6",
+        "bytes": 3788
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/pkg/compatibility/compatibility.go",
+        "sha256": "9e87d2ef8c6ce7c893ca675ea13a9ab39a1e8895726657bcdddf61b7e5f3ffc6",
+        "bytes": 3788
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/pkg/compatibility/manifest.json",
+      "original_input_sha256": "0f7a917f19ef048c98f41fbf51319a085ce878d13046336132622a65713b0e28",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/pkg/compatibility/manifest.json",
+        "sha256": "0f7a917f19ef048c98f41fbf51319a085ce878d13046336132622a65713b0e28",
+        "bytes": 2925
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/pkg/compatibility/manifest.json",
+        "sha256": "a331336865440f45d5203c48dcdecbc7b06bf0bd003907e23b76ed79b5505941",
+        "bytes": 2925
+      },
+      "equal": false
+    },
+    {
+      "relative": "Platform/pkg/contracts/schema.go",
+      "original_input_sha256": "9f9014d79537c1849449d67fe97ac266bb71f19f0b6b7d79252d274519c91ac6",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/pkg/contracts/schema.go",
+        "sha256": "9f9014d79537c1849449d67fe97ac266bb71f19f0b6b7d79252d274519c91ac6",
+        "bytes": 6744
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/pkg/contracts/schema.go",
+        "sha256": "9f9014d79537c1849449d67fe97ac266bb71f19f0b6b7d79252d274519c91ac6",
+        "bytes": 6744
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/pkg/model/business.go",
+      "original_input_sha256": "ce9ca9037aebe71227fbae93af62e4760274e6a21557cd7f0a6c922e432876a6",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/pkg/model/business.go",
+        "sha256": "ce9ca9037aebe71227fbae93af62e4760274e6a21557cd7f0a6c922e432876a6",
+        "bytes": 4955
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/pkg/model/business.go",
+        "sha256": "09d033a396dcbe5590fac0a0818b949520262624af817b84ce04300e918922eb",
+        "bytes": 5077
+      },
+      "equal": false
+    },
+    {
+      "relative": "Platform/pkg/model/configuration.go",
+      "original_input_sha256": "73431847a0a1a91676eba5791370495af16e509824a1739ac46cf47d30313abc",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/pkg/model/configuration.go",
+        "sha256": "73431847a0a1a91676eba5791370495af16e509824a1739ac46cf47d30313abc",
+        "bytes": 1401
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/pkg/model/configuration.go",
+        "sha256": "73431847a0a1a91676eba5791370495af16e509824a1739ac46cf47d30313abc",
+        "bytes": 1401
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/pkg/model/control.go",
+      "original_input_sha256": "c663abbb2f5529826888c7d7a1a58904ba4e969479e70d7e882ad5f87c083dd8",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/pkg/model/control.go",
+        "sha256": "c663abbb2f5529826888c7d7a1a58904ba4e969479e70d7e882ad5f87c083dd8",
+        "bytes": 5530
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/pkg/model/control.go",
+        "sha256": "c663abbb2f5529826888c7d7a1a58904ba4e969479e70d7e882ad5f87c083dd8",
+        "bytes": 5530
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/pkg/model/execution_plan.go",
+      "original_input_sha256": "dac352c5d75c46df0ae8f09755ff70ee28368a203833dfd0f3d078d78b7e9c17",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/pkg/model/execution_plan.go",
+        "sha256": "dac352c5d75c46df0ae8f09755ff70ee28368a203833dfd0f3d078d78b7e9c17",
+        "bytes": 2453
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/pkg/model/execution_plan.go",
+        "sha256": "dac352c5d75c46df0ae8f09755ff70ee28368a203833dfd0f3d078d78b7e9c17",
+        "bytes": 2453
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/pkg/model/model.go",
+      "original_input_sha256": "eaeb5cf004b6079d010f93dd7482abc4d15c6c3657298f16b53e4e631604e6be",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/pkg/model/model.go",
+        "sha256": "eaeb5cf004b6079d010f93dd7482abc4d15c6c3657298f16b53e4e631604e6be",
+        "bytes": 13185
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/pkg/model/model.go",
+        "sha256": "eaeb5cf004b6079d010f93dd7482abc4d15c6c3657298f16b53e4e631604e6be",
+        "bytes": 13185
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/pkg/model/native_alarm.go",
+      "original_input_sha256": "7867af8c037839ee361612eeccbd13c2747d46f8414d025733deebe861c3caa8",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/pkg/model/native_alarm.go",
+        "sha256": "7867af8c037839ee361612eeccbd13c2747d46f8414d025733deebe861c3caa8",
+        "bytes": 1314
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/pkg/model/native_alarm.go",
+        "sha256": "c12125216567baa8f16612656843354326bfe347eb77ad8bd57feb627adb49ee",
+        "bytes": 1485
+      },
+      "equal": false
+    },
+    {
+      "relative": "Platform/pkg/model/node_types.go",
+      "original_input_sha256": "a3488f230e4f657a5db05e849d7b7f3837a926917b20e9f68925ebdeb50e2b2c",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/pkg/model/node_types.go",
+        "sha256": "a3488f230e4f657a5db05e849d7b7f3837a926917b20e9f68925ebdeb50e2b2c",
+        "bytes": 7825
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/pkg/model/node_types.go",
+        "sha256": "a3488f230e4f657a5db05e849d7b7f3837a926917b20e9f68925ebdeb50e2b2c",
+        "bytes": 7825
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/pkg/model/query.go",
+      "original_input_sha256": "6831d5d01ab87e6da5b37a7fd79631a501d86fe5e1340a2a4c60cc860cd4f656",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/pkg/model/query.go",
+        "sha256": "6831d5d01ab87e6da5b37a7fd79631a501d86fe5e1340a2a4c60cc860cd4f656",
+        "bytes": 2668
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/pkg/model/query.go",
+        "sha256": "6831d5d01ab87e6da5b37a7fd79631a501d86fe5e1340a2a4c60cc860cd4f656",
+        "bytes": 2668
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/pkg/model/semantic.go",
+      "original_input_sha256": "add38e67f38aea142108606dc9d92d4412a29547be4863a15d43a12b47bfe945",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/pkg/model/semantic.go",
+        "sha256": "add38e67f38aea142108606dc9d92d4412a29547be4863a15d43a12b47bfe945",
+        "bytes": 1541
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/pkg/model/semantic.go",
+        "sha256": "add38e67f38aea142108606dc9d92d4412a29547be4863a15d43a12b47bfe945",
+        "bytes": 1541
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/pkg/model/task.go",
+      "original_input_sha256": "f514a0afe835d143f7640a3e2d4d3c00f2c9a68ab6c807d7196e40b693dc30a6",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/pkg/model/task.go",
+        "sha256": "f514a0afe835d143f7640a3e2d4d3c00f2c9a68ab6c807d7196e40b693dc30a6",
+        "bytes": 1804
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/pkg/model/task.go",
+        "sha256": "f514a0afe835d143f7640a3e2d4d3c00f2c9a68ab6c807d7196e40b693dc30a6",
+        "bytes": 1804
+      },
+      "equal": true
+    },
+    {
+      "relative": "Platform/pkg/model/templates.go",
+      "original_input_sha256": "dcec9733962b7ad55a4af78f6084e5dec6276b70189bae988bc6c1a3ecf924f1",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/pkg/model/templates.go",
+        "sha256": "dcec9733962b7ad55a4af78f6084e5dec6276b70189bae988bc6c1a3ecf924f1",
+        "bytes": 2464
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/pkg/model/templates.go",
+        "sha256": "c0bae42af37d36aa6a068d7546f98e91cab30aa291096ae8f01013297f21421e",
+        "bytes": 2666
+      },
+      "equal": false
+    },
+    {
+      "relative": "Platform/pkg/precise/numbers.go",
+      "original_input_sha256": "ceed012b61b7209d87279d30bcc405c47404a91948eb8a00807b1e950b6654e2",
+      "retained": {
+        "path": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform/pkg/precise/numbers.go",
+        "sha256": "ceed012b61b7209d87279d30bcc405c47404a91948eb8a00807b1e950b6654e2",
+        "bytes": 3087
+      },
+      "current": {
+        "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/pkg/precise/numbers.go",
+        "sha256": "ceed012b61b7209d87279d30bcc405c47404a91948eb8a00807b1e950b6654e2",
+        "bytes": 3087
+      },
+      "equal": true
+    }
+  ],
+  "native_scope_diff": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-a02/native-history-to-current.diff",
+    "sha256": "8c3b3c63180407c09d20062cb0966290842a0de275f4f9bdcb96a9da0dca138b",
+    "bytes": 7661
+  },
+  "interpretation": {
+    "actual_native_ce_rerun_by_this_reviewer": false,
+    "actual_native_ce_specialist_pass_retained": true,
+    "unchanged": [
+      "native CE lifecycle integration test",
+      "native alarm projection and lifecycle payload decoder",
+      "formal worker immediate and periodic scheduling"
+    ],
+    "changes_since_actual_ce": [
+      "P4-B05 serializes polling, imposes a ten-second batch deadline, continues after failed mappings, preserves per-item failure state, and advances a persisted cursor over up to 64 mappings",
+      "native sync detail exposes batch and timeout values while hiding its internal cursor",
+      "business request tags and later AI registration evolved after this historical build"
+    ],
+    "independent_current_verification": [
+      "ordinary and race tests for fair native mapping rotation, 404 and malformed mappings, deadline recovery, immediate worker invocation and periodic retries",
+      "current business/API/store/query transactions, source versions, manual alarm action versions, projection revisions and cloud/edge synchronization"
+    ],
+    "counting_rule": "Historical actual CE test is cited as specialist evidence, never counted as an independent current CE rerun"
+  }
+}

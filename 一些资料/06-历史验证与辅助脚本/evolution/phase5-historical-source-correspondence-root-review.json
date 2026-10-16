@@ -1,0 +1,485 @@
+{
+  "checked_at": "2026-10-05T09:02:48.810380+00:00",
+  "status": "passed",
+  "scope": "The 49 selected source relationships in the final regression correspondence report compared with the fourth-phase accepted archive; earlier specialized tests keep their original source and execution scope",
+  "correspondence_report": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-delivery-regressions-verified.json",
+    "sha256": "fe9269f71ff16a32a997bc10ebbb748e75e83ddf794d86631477589d3f9c7d14"
+  },
+  "phase4_accepted_map": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-preserved-paths.json",
+    "sha256": "b64ed668cac1051ba5eeeaf29f7c537db38c8cae968366b5266b68e127cb7982"
+  },
+  "selected_relationships": 49,
+  "unique_source_paths": 44,
+  "earlier_specialist_difference_count": 12,
+  "same_as_phase4_accepted_count": 48,
+  "post_phase4_differences": [
+    {
+      "path": "Platform/internal/coordination/infrastructure_test.go",
+      "matches_correspondence_current_sha256": true,
+      "earlier_specialist_bytes_equal": false,
+      "phase4_accepted_source": "/private/tmp/smartfactory-phase4-accepted-final-20261005/source/Platform/internal/coordination/infrastructure_test.go",
+      "phase4_accepted_sha256": "c71b9eb6fe1425cd01cb0b5e2f9ddd55937e487ff111893003575735b6f1b4ae",
+      "current_sha256": "6ef7b13406040e7d119b9009f41bb96ec80ace3793586343be5015af2e2cb2da",
+      "same_as_phase4_accepted": false
+    }
+  ],
+  "post_phase4_fixture_diff": [
+    "--- phase4-accepted",
+    "+++ current",
+    "@@ -140,7 +140,6 @@",
+    " \t\t\tt.Fatal(\"stale coordinator rewrote the checkpoint\")",
+    " \t\t}",
+    " \t\texpected.CoordinatorID, expected.Fence = \"edge-b\", fence",
+    "-\t\texpected.Params[\"migration\"] = \"upgraded-server\"",
+    " \t\texpected.Steps = append(expected.Steps, model.StepResult{StepID: \"second\", CommandID: executionID + \":second\", Status: \"SUCCESS\"})",
+    " \t\tif e = nodes[1].Checkpoint(ctx, expected); e != nil {",
+    " \t\t\tt.Fatal(e)"
+  ],
+  "accepted_fixture_execution": ".local/evolution/phase5-nats-cold-restore-root-review.json",
+  "relationships": [
+    {
+      "path": "DataTransfer/internal/northbound/grpc/control_fixture_test.go",
+      "matches_correspondence_current_sha256": true,
+      "earlier_specialist_bytes_equal": true,
+      "phase4_accepted_source": "/private/tmp/smartfactory-phase4-accepted-final-20261005/source/DataTransfer/internal/northbound/grpc/control_fixture_test.go",
+      "phase4_accepted_sha256": "3bc6d1449c282b249ee953930adc59ef409666f705a9084805bced03bf885a32",
+      "current_sha256": "3bc6d1449c282b249ee953930adc59ef409666f705a9084805bced03bf885a32",
+      "same_as_phase4_accepted": true
+    },
+    {
+      "path": "Platform/internal/app/control_fixture_test.go",
+      "matches_correspondence_current_sha256": true,
+      "earlier_specialist_bytes_equal": false,
+      "phase4_accepted_source": "/private/tmp/smartfactory-phase4-accepted-final-20261005/source/Platform/internal/app/control_fixture_test.go",
+      "phase4_accepted_sha256": "54f186dce7ab4a2502d18cf27451b764cf6b8ea1b39c980039890a14cfd7e72f",
+      "current_sha256": "54f186dce7ab4a2502d18cf27451b764cf6b8ea1b39c980039890a14cfd7e72f",
+      "same_as_phase4_accepted": true
+    },
+    {
+      "path": "Platform/internal/control/authorization.go",
+      "matches_correspondence_current_sha256": true,
+      "earlier_specialist_bytes_equal": true,
+      "phase4_accepted_source": "/private/tmp/smartfactory-phase4-accepted-final-20261005/source/Platform/internal/control/authorization.go",
+      "phase4_accepted_sha256": "92d4e3b75f51c054e70ab8648ba47849452ecaf0579ee9f840cd5949c775b606",
+      "current_sha256": "92d4e3b75f51c054e70ab8648ba47849452ecaf0579ee9f840cd5949c775b606",
+      "same_as_phase4_accepted": true
+    },
+    {
+      "path": "Platform/internal/control/authorization_test.go",
+      "matches_correspondence_current_sha256": true,
+      "earlier_specialist_bytes_equal": true,
+      "phase4_accepted_source": "/private/tmp/smartfactory-phase4-accepted-final-20261005/source/Platform/internal/control/authorization_test.go",
+      "phase4_accepted_sha256": "ef2e7683f0a352554f52836cac40fc799f62d2724f92699aa231bc9516c775c8",
+      "current_sha256": "ef2e7683f0a352554f52836cac40fc799f62d2724f92699aa231bc9516c775c8",
+      "same_as_phase4_accepted": true
+    },
+    {
+      "path": "Platform/internal/control/control.go",
+      "matches_correspondence_current_sha256": true,
+      "earlier_specialist_bytes_equal": true,
+      "phase4_accepted_source": "/private/tmp/smartfactory-phase4-accepted-final-20261005/source/Platform/internal/control/control.go",
+      "phase4_accepted_sha256": "0e73b377d59cd280eeb6cb514ca11ee41d8b0483e5614ff77f22f459525993bd",
+      "current_sha256": "0e73b377d59cd280eeb6cb514ca11ee41d8b0483e5614ff77f22f459525993bd",
+      "same_as_phase4_accepted": true
+    },
+    {
+      "path": "Platform/internal/control/control_test.go",
+      "matches_correspondence_current_sha256": true,
+      "earlier_specialist_bytes_equal": true,
+      "phase4_accepted_source": "/private/tmp/smartfactory-phase4-accepted-final-20261005/source/Platform/internal/control/control_test.go",
+      "phase4_accepted_sha256": "ebf6e02c4fc9e567de41ff6faa48c9a0aac6c1ad6800df72a6cfe53c7081baa7",
+      "current_sha256": "ebf6e02c4fc9e567de41ff6faa48c9a0aac6c1ad6800df72a6cfe53c7081baa7",
+      "same_as_phase4_accepted": true
+    },
+    {
+      "path": "Platform/internal/control/intervention.go",
+      "matches_correspondence_current_sha256": true,
+      "earlier_specialist_bytes_equal": true,
+      "phase4_accepted_source": "/private/tmp/smartfactory-phase4-accepted-final-20261005/source/Platform/internal/control/intervention.go",
+      "phase4_accepted_sha256": "eac79eb76e0157ff4c7fc3af80786d33ab11966bf2134bc1bee80e702037d6d0",
+      "current_sha256": "eac79eb76e0157ff4c7fc3af80786d33ab11966bf2134bc1bee80e702037d6d0",
+      "same_as_phase4_accepted": true
+    },
+    {
+      "path": "Platform/internal/control/intervention_test.go",
+      "matches_correspondence_current_sha256": true,
+      "earlier_specialist_bytes_equal": false,
+      "phase4_accepted_source": "/private/tmp/smartfactory-phase4-accepted-final-20261005/source/Platform/internal/control/intervention_test.go",
+      "phase4_accepted_sha256": "e97f34e772c2ea5879a0fd2ff173e30c71c15d2c8ec9e5d1bde36e300ce510e2",
+      "current_sha256": "e97f34e772c2ea5879a0fd2ff173e30c71c15d2c8ec9e5d1bde36e300ce510e2",
+      "same_as_phase4_accepted": true
+    },
+    {
+      "path": "Platform/internal/control/legacy_test.go",
+      "matches_correspondence_current_sha256": true,
+      "earlier_specialist_bytes_equal": false,
+      "phase4_accepted_source": "/private/tmp/smartfactory-phase4-accepted-final-20261005/source/Platform/internal/control/legacy_test.go",
+      "phase4_accepted_sha256": "39bbdd9327cfab807946c9f675c0c9d51935ff807a4b21eafa6c76c54f8c423e",
+      "current_sha256": "39bbdd9327cfab807946c9f675c0c9d51935ff807a4b21eafa6c76c54f8c423e",
+      "same_as_phase4_accepted": true
+    },
+    {
+      "path": "Platform/internal/control/operations.go",
+      "matches_correspondence_current_sha256": true,
+      "earlier_specialist_bytes_equal": true,
+      "phase4_accepted_source": "/private/tmp/smartfactory-phase4-accepted-final-20261005/source/Platform/internal/control/operations.go",
+      "phase4_accepted_sha256": "8f30f6a6689aa232d1feaa9dc46bb9ddff171045cdf376d3f03baf15db602012",
+      "current_sha256": "8f30f6a6689aa232d1feaa9dc46bb9ddff171045cdf376d3f03baf15db602012",
+      "same_as_phase4_accepted": true
+    },
+    {
+      "path": "Platform/internal/control/operations_test.go",
+      "matches_correspondence_current_sha256": true,
+      "earlier_specialist_bytes_equal": true,
+      "phase4_accepted_source": "/private/tmp/smartfactory-phase4-accepted-final-20261005/source/Platform/internal/control/operations_test.go",
+      "phase4_accepted_sha256": "fca55aaa07e6bc6f058bf4d2b2b1c887c907ce17baa6568deae0c693acf73572",
+      "current_sha256": "fca55aaa07e6bc6f058bf4d2b2b1c887c907ce17baa6568deae0c693acf73572",
+      "same_as_phase4_accepted": true
+    },
+    {
+      "path": "Platform/internal/control/organization.go",
+      "matches_correspondence_current_sha256": true,
+      "earlier_specialist_bytes_equal": true,
+      "phase4_accepted_source": "/private/tmp/smartfactory-phase4-accepted-final-20261005/source/Platform/internal/control/organization.go",
+      "phase4_accepted_sha256": "7185eab3a14b57a604d0b5b3f51598f792266c54fc1392d547f0ba49205bc4d6",
+      "current_sha256": "7185eab3a14b57a604d0b5b3f51598f792266c54fc1392d547f0ba49205bc4d6",
+      "same_as_phase4_accepted": true
+    },
+    {
+      "path": "Platform/internal/control/postgres_test.go",
+      "matches_correspondence_current_sha256": true,
+      "earlier_specialist_bytes_equal": true,
+      "phase4_accepted_source": "/private/tmp/smartfactory-phase4-accepted-final-20261005/source/Platform/internal/control/postgres_test.go",
+      "phase4_accepted_sha256": "0cc3db2cbba1a36ed1710a735f40dad9f7d926c94ed40940241be339491dfcb3",
+      "current_sha256": "0cc3db2cbba1a36ed1710a735f40dad9f7d926c94ed40940241be339491dfcb3",
+      "same_as_phase4_accepted": true
+    },
+    {
+      "path": "Platform/internal/control/receipts.go",
+      "matches_correspondence_current_sha256": true,
+      "earlier_specialist_bytes_equal": true,
+      "phase4_accepted_source": "/private/tmp/smartfactory-phase4-accepted-final-20261005/source/Platform/internal/control/receipts.go",
+      "phase4_accepted_sha256": "af9089d9bbd984106dedbe113d346a4ecab7945cd8823fe757016fff0d1265cc",
+      "current_sha256": "af9089d9bbd984106dedbe113d346a4ecab7945cd8823fe757016fff0d1265cc",
+      "same_as_phase4_accepted": true
+    },
+    {
+      "path": "Platform/internal/control/remote.go",
+      "matches_correspondence_current_sha256": true,
+      "earlier_specialist_bytes_equal": true,
+      "phase4_accepted_source": "/private/tmp/smartfactory-phase4-accepted-final-20261005/source/Platform/internal/control/remote.go",
+      "phase4_accepted_sha256": "26e3731d8ac0e5774ad097de90def74f0e057e970d5d162e6941e17c4d8cd1b3",
+      "current_sha256": "26e3731d8ac0e5774ad097de90def74f0e057e970d5d162e6941e17c4d8cd1b3",
+      "same_as_phase4_accepted": true
+    },
+    {
+      "path": "Platform/internal/control/remote_result.go",
+      "matches_correspondence_current_sha256": true,
+      "earlier_specialist_bytes_equal": true,
+      "phase4_accepted_source": "/private/tmp/smartfactory-phase4-accepted-final-20261005/source/Platform/internal/control/remote_result.go",
+      "phase4_accepted_sha256": "1957623eec17b648fb0aa602fab7aa6dc8fddd69e5bab9cba4931315e89868a4",
+      "current_sha256": "1957623eec17b648fb0aa602fab7aa6dc8fddd69e5bab9cba4931315e89868a4",
+      "same_as_phase4_accepted": true
+    },
+    {
+      "path": "Platform/internal/control/repository.go",
+      "matches_correspondence_current_sha256": true,
+      "earlier_specialist_bytes_equal": true,
+      "phase4_accepted_source": "/private/tmp/smartfactory-phase4-accepted-final-20261005/source/Platform/internal/control/repository.go",
+      "phase4_accepted_sha256": "acf4d0af304e4bf65bb35b0bedb06b04dbef8df1e688043424e57dbfb0dd2f54",
+      "current_sha256": "acf4d0af304e4bf65bb35b0bedb06b04dbef8df1e688043424e57dbfb0dd2f54",
+      "same_as_phase4_accepted": true
+    },
+    {
+      "path": "Platform/internal/control/run.go",
+      "matches_correspondence_current_sha256": true,
+      "earlier_specialist_bytes_equal": false,
+      "phase4_accepted_source": "/private/tmp/smartfactory-phase4-accepted-final-20261005/source/Platform/internal/control/run.go",
+      "phase4_accepted_sha256": "0a61061f1a11558f93862ec063d613347bc545fd422800592576f464ce83ce02",
+      "current_sha256": "0a61061f1a11558f93862ec063d613347bc545fd422800592576f464ce83ce02",
+      "same_as_phase4_accepted": true
+    },
+    {
+      "path": "Platform/internal/control/state.go",
+      "matches_correspondence_current_sha256": true,
+      "earlier_specialist_bytes_equal": false,
+      "phase4_accepted_source": "/private/tmp/smartfactory-phase4-accepted-final-20261005/source/Platform/internal/control/state.go",
+      "phase4_accepted_sha256": "93c25aef120b9b0abbd2411e22178a34e833160360bfc724fe0c04a319f2f844",
+      "current_sha256": "93c25aef120b9b0abbd2411e22178a34e833160360bfc724fe0c04a319f2f844",
+      "same_as_phase4_accepted": true
+    },
+    {
+      "path": "Platform/internal/control/state_test.go",
+      "matches_correspondence_current_sha256": true,
+      "earlier_specialist_bytes_equal": false,
+      "phase4_accepted_source": "/private/tmp/smartfactory-phase4-accepted-final-20261005/source/Platform/internal/control/state_test.go",
+      "phase4_accepted_sha256": "969ac02ea4e96ac7d310b1ffbe5c06e514b3560e587736309c7e4d6f06a09587",
+      "current_sha256": "969ac02ea4e96ac7d310b1ffbe5c06e514b3560e587736309c7e4d6f06a09587",
+      "same_as_phase4_accepted": true
+    },
+    {
+      "path": "Platform/internal/coordination/commands.go",
+      "matches_correspondence_current_sha256": true,
+      "earlier_specialist_bytes_equal": true,
+      "phase4_accepted_source": "/private/tmp/smartfactory-phase4-accepted-final-20261005/source/Platform/internal/coordination/commands.go",
+      "phase4_accepted_sha256": "f437fa825832cbc19bb790060d1d4b809f3edc13db3c7f156ddd28546f3669a0",
+      "current_sha256": "f437fa825832cbc19bb790060d1d4b809f3edc13db3c7f156ddd28546f3669a0",
+      "same_as_phase4_accepted": true
+    },
+    {
+      "path": "Platform/internal/coordination/contention_test.go",
+      "matches_correspondence_current_sha256": true,
+      "earlier_specialist_bytes_equal": true,
+      "phase4_accepted_source": "/private/tmp/smartfactory-phase4-accepted-final-20261005/source/Platform/internal/coordination/contention_test.go",
+      "phase4_accepted_sha256": "57aaab3252375ecf750cc7b6a08d02d487bb70dce9b8db9050b7eae986d77287",
+      "current_sha256": "57aaab3252375ecf750cc7b6a08d02d487bb70dce9b8db9050b7eae986d77287",
+      "same_as_phase4_accepted": true
+    },
+    {
+      "path": "Platform/internal/coordination/coordinator.go",
+      "matches_correspondence_current_sha256": true,
+      "earlier_specialist_bytes_equal": true,
+      "phase4_accepted_source": "/private/tmp/smartfactory-phase4-accepted-final-20261005/source/Platform/internal/coordination/coordinator.go",
+      "phase4_accepted_sha256": "6cbf31d4c40aea71b11fd1eac85ae095945887bcea3bdcd29eddc3e1b233c0a7",
+      "current_sha256": "6cbf31d4c40aea71b11fd1eac85ae095945887bcea3bdcd29eddc3e1b233c0a7",
+      "same_as_phase4_accepted": true
+    },
+    {
+      "path": "Platform/internal/coordination/infrastructure_test.go",
+      "matches_correspondence_current_sha256": true,
+      "earlier_specialist_bytes_equal": false,
+      "phase4_accepted_source": "/private/tmp/smartfactory-phase4-accepted-final-20261005/source/Platform/internal/coordination/infrastructure_test.go",
+      "phase4_accepted_sha256": "c71b9eb6fe1425cd01cb0b5e2f9ddd55937e487ff111893003575735b6f1b4ae",
+      "current_sha256": "6ef7b13406040e7d119b9009f41bb96ec80ace3793586343be5015af2e2cb2da",
+      "same_as_phase4_accepted": false
+    },
+    {
+      "path": "Platform/internal/coordination/integration_test.go",
+      "matches_correspondence_current_sha256": true,
+      "earlier_specialist_bytes_equal": true,
+      "phase4_accepted_source": "/private/tmp/smartfactory-phase4-accepted-final-20261005/source/Platform/internal/coordination/integration_test.go",
+      "phase4_accepted_sha256": "b0c41efaa23940989d2f5356b11714333e3aa2d6bc701339b76de94a69669360",
+      "current_sha256": "b0c41efaa23940989d2f5356b11714333e3aa2d6bc701339b76de94a69669360",
+      "same_as_phase4_accepted": true
+    },
+    {
+      "path": "Platform/internal/coordination/intervention_test.go",
+      "matches_correspondence_current_sha256": true,
+      "earlier_specialist_bytes_equal": true,
+      "phase4_accepted_source": "/private/tmp/smartfactory-phase4-accepted-final-20261005/source/Platform/internal/coordination/intervention_test.go",
+      "phase4_accepted_sha256": "635023f249c6203904fdadc379ef6955a8d66fcc55e3a435b4e90aa249a1310c",
+      "current_sha256": "635023f249c6203904fdadc379ef6955a8d66fcc55e3a435b4e90aa249a1310c",
+      "same_as_phase4_accepted": true
+    },
+    {
+      "path": "Platform/internal/coordination/manager.go",
+      "matches_correspondence_current_sha256": true,
+      "earlier_specialist_bytes_equal": true,
+      "phase4_accepted_source": "/private/tmp/smartfactory-phase4-accepted-final-20261005/source/Platform/internal/coordination/manager.go",
+      "phase4_accepted_sha256": "5e92a6fe3f46c83867345e9667e93da4b02df4f6e9e124d36f038fc338bdd6c4",
+      "current_sha256": "5e92a6fe3f46c83867345e9667e93da4b02df4f6e9e124d36f038fc338bdd6c4",
+      "same_as_phase4_accepted": true
+    },
+    {
+      "path": "Platform/internal/coordination/results.go",
+      "matches_correspondence_current_sha256": true,
+      "earlier_specialist_bytes_equal": true,
+      "phase4_accepted_source": "/private/tmp/smartfactory-phase4-accepted-final-20261005/source/Platform/internal/coordination/results.go",
+      "phase4_accepted_sha256": "33083d6b2faac436bc92e63b3f9f65287198f9b0b365d1537a31e8bcb2e53f54",
+      "current_sha256": "33083d6b2faac436bc92e63b3f9f65287198f9b0b365d1537a31e8bcb2e53f54",
+      "same_as_phase4_accepted": true
+    },
+    {
+      "path": "Platform/internal/coordination/state.go",
+      "matches_correspondence_current_sha256": true,
+      "earlier_specialist_bytes_equal": true,
+      "phase4_accepted_source": "/private/tmp/smartfactory-phase4-accepted-final-20261005/source/Platform/internal/coordination/state.go",
+      "phase4_accepted_sha256": "1919c94356f781d53030a72ecded4d874ca90ed965bb41c220e5bba68faae40c",
+      "current_sha256": "1919c94356f781d53030a72ecded4d874ca90ed965bb41c220e5bba68faae40c",
+      "same_as_phase4_accepted": true
+    },
+    {
+      "path": "Platform/internal/store/control.go",
+      "matches_correspondence_current_sha256": true,
+      "earlier_specialist_bytes_equal": false,
+      "phase4_accepted_source": "/private/tmp/smartfactory-phase4-accepted-final-20261005/source/Platform/internal/store/control.go",
+      "phase4_accepted_sha256": "16d8f4d90c0a407631cd5d46251be7eff59f21fd0f819def5edaf6acb4f0e88a",
+      "current_sha256": "16d8f4d90c0a407631cd5d46251be7eff59f21fd0f819def5edaf6acb4f0e88a",
+      "same_as_phase4_accepted": true
+    },
+    {
+      "path": "Platform/internal/store/control_evidence_test.go",
+      "matches_correspondence_current_sha256": true,
+      "earlier_specialist_bytes_equal": true,
+      "phase4_accepted_source": "/private/tmp/smartfactory-phase4-accepted-final-20261005/source/Platform/internal/store/control_evidence_test.go",
+      "phase4_accepted_sha256": "68b185c13c27c8c7512d7d61983ad752d753d401550c10eaef4a1bc7a45c42a1",
+      "current_sha256": "68b185c13c27c8c7512d7d61983ad752d753d401550c10eaef4a1bc7a45c42a1",
+      "same_as_phase4_accepted": true
+    },
+    {
+      "path": "Platform/internal/control/run.go",
+      "matches_correspondence_current_sha256": true,
+      "earlier_specialist_bytes_equal": true,
+      "phase4_accepted_source": "/private/tmp/smartfactory-phase4-accepted-final-20261005/source/Platform/internal/control/run.go",
+      "phase4_accepted_sha256": "0a61061f1a11558f93862ec063d613347bc545fd422800592576f464ce83ce02",
+      "current_sha256": "0a61061f1a11558f93862ec063d613347bc545fd422800592576f464ce83ce02",
+      "same_as_phase4_accepted": true
+    },
+    {
+      "path": "Platform/internal/control/state.go",
+      "matches_correspondence_current_sha256": true,
+      "earlier_specialist_bytes_equal": true,
+      "phase4_accepted_source": "/private/tmp/smartfactory-phase4-accepted-final-20261005/source/Platform/internal/control/state.go",
+      "phase4_accepted_sha256": "93c25aef120b9b0abbd2411e22178a34e833160360bfc724fe0c04a319f2f844",
+      "current_sha256": "93c25aef120b9b0abbd2411e22178a34e833160360bfc724fe0c04a319f2f844",
+      "same_as_phase4_accepted": true
+    },
+    {
+      "path": "Platform/internal/control/evidence.go",
+      "matches_correspondence_current_sha256": true,
+      "earlier_specialist_bytes_equal": true,
+      "phase4_accepted_source": "/private/tmp/smartfactory-phase4-accepted-final-20261005/source/Platform/internal/control/evidence.go",
+      "phase4_accepted_sha256": "68f2e20a69be96b29a979cfb265d963e8aa89e95a5f6d13bf563048533b3b835",
+      "current_sha256": "68f2e20a69be96b29a979cfb265d963e8aa89e95a5f6d13bf563048533b3b835",
+      "same_as_phase4_accepted": true
+    },
+    {
+      "path": "Platform/internal/control/intervention_test.go",
+      "matches_correspondence_current_sha256": true,
+      "earlier_specialist_bytes_equal": true,
+      "phase4_accepted_source": "/private/tmp/smartfactory-phase4-accepted-final-20261005/source/Platform/internal/control/intervention_test.go",
+      "phase4_accepted_sha256": "e97f34e772c2ea5879a0fd2ff173e30c71c15d2c8ec9e5d1bde36e300ce510e2",
+      "current_sha256": "e97f34e772c2ea5879a0fd2ff173e30c71c15d2c8ec9e5d1bde36e300ce510e2",
+      "same_as_phase4_accepted": true
+    },
+    {
+      "path": "Platform/internal/control/state_test.go",
+      "matches_correspondence_current_sha256": true,
+      "earlier_specialist_bytes_equal": true,
+      "phase4_accepted_source": "/private/tmp/smartfactory-phase4-accepted-final-20261005/source/Platform/internal/control/state_test.go",
+      "phase4_accepted_sha256": "969ac02ea4e96ac7d310b1ffbe5c06e514b3560e587736309c7e4d6f06a09587",
+      "current_sha256": "969ac02ea4e96ac7d310b1ffbe5c06e514b3560e587736309c7e4d6f06a09587",
+      "same_as_phase4_accepted": true
+    },
+    {
+      "path": "Platform/internal/cloudsync/exchange.go",
+      "matches_correspondence_current_sha256": true,
+      "earlier_specialist_bytes_equal": false,
+      "phase4_accepted_source": "/private/tmp/smartfactory-phase4-accepted-final-20261005/source/Platform/internal/cloudsync/exchange.go",
+      "phase4_accepted_sha256": "4c1009272144d7b27c46ae3c0125994f4048406b83ed77280c6e7c560f94e272",
+      "current_sha256": "4c1009272144d7b27c46ae3c0125994f4048406b83ed77280c6e7c560f94e272",
+      "same_as_phase4_accepted": true
+    },
+    {
+      "path": "Platform/internal/cloudsync/control_receipts.go",
+      "matches_correspondence_current_sha256": true,
+      "earlier_specialist_bytes_equal": true,
+      "phase4_accepted_source": "/private/tmp/smartfactory-phase4-accepted-final-20261005/source/Platform/internal/cloudsync/control_receipts.go",
+      "phase4_accepted_sha256": "fa5371d6ef27f88e5c0a0344977777b0c098dac902a533e33cfcd87cd4938a4f",
+      "current_sha256": "fa5371d6ef27f88e5c0a0344977777b0c098dac902a533e33cfcd87cd4938a4f",
+      "same_as_phase4_accepted": true
+    },
+    {
+      "path": "Platform/internal/cloudsync/control_receipts_test.go",
+      "matches_correspondence_current_sha256": true,
+      "earlier_specialist_bytes_equal": true,
+      "phase4_accepted_source": "/private/tmp/smartfactory-phase4-accepted-final-20261005/source/Platform/internal/cloudsync/control_receipts_test.go",
+      "phase4_accepted_sha256": "914c7d23919f79c2dad03c7087b3de03169441170f1898e620a1fca833993d09",
+      "current_sha256": "914c7d23919f79c2dad03c7087b3de03169441170f1898e620a1fca833993d09",
+      "same_as_phase4_accepted": true
+    },
+    {
+      "path": "Platform/internal/api/control_evidence_test.go",
+      "matches_correspondence_current_sha256": true,
+      "earlier_specialist_bytes_equal": true,
+      "phase4_accepted_source": "/private/tmp/smartfactory-phase4-accepted-final-20261005/source/Platform/internal/api/control_evidence_test.go",
+      "phase4_accepted_sha256": "36a078b2117ab2363faf6455d2c36ce1dddf1b13d148be73019b629962574c6c",
+      "current_sha256": "36a078b2117ab2363faf6455d2c36ce1dddf1b13d148be73019b629962574c6c",
+      "same_as_phase4_accepted": true
+    },
+    {
+      "path": "Platform/internal/app/control_fixture_test.go",
+      "matches_correspondence_current_sha256": true,
+      "earlier_specialist_bytes_equal": true,
+      "phase4_accepted_source": "/private/tmp/smartfactory-phase4-accepted-final-20261005/source/Platform/internal/app/control_fixture_test.go",
+      "phase4_accepted_sha256": "54f186dce7ab4a2502d18cf27451b764cf6b8ea1b39c980039890a14cfd7e72f",
+      "current_sha256": "54f186dce7ab4a2502d18cf27451b764cf6b8ea1b39c980039890a14cfd7e72f",
+      "same_as_phase4_accepted": true
+    },
+    {
+      "path": "Platform/internal/api/business_native_test.go",
+      "matches_correspondence_current_sha256": true,
+      "earlier_specialist_bytes_equal": true,
+      "phase4_accepted_source": "/private/tmp/smartfactory-phase4-accepted-final-20261005/source/Platform/internal/api/business_native_test.go",
+      "phase4_accepted_sha256": "c830b7d0e9d95ac5f54d37b13d8ed404c34c66421d7ca60c1b398fc8039eb86a",
+      "current_sha256": "c830b7d0e9d95ac5f54d37b13d8ed404c34c66421d7ca60c1b398fc8039eb86a",
+      "same_as_phase4_accepted": true
+    },
+    {
+      "path": "Platform/internal/application/business.go",
+      "matches_correspondence_current_sha256": true,
+      "earlier_specialist_bytes_equal": false,
+      "phase4_accepted_source": "/private/tmp/smartfactory-phase4-accepted-final-20261005/source/Platform/internal/application/business.go",
+      "phase4_accepted_sha256": "d975c6c97a9e4a58279a734590e3133f7a81ec562e7d952099fc18ccd37e1954",
+      "current_sha256": "d975c6c97a9e4a58279a734590e3133f7a81ec562e7d952099fc18ccd37e1954",
+      "same_as_phase4_accepted": true
+    },
+    {
+      "path": "Platform/internal/thingsboard/adapter.go",
+      "matches_correspondence_current_sha256": true,
+      "earlier_specialist_bytes_equal": false,
+      "phase4_accepted_source": "/private/tmp/smartfactory-phase4-accepted-final-20261005/source/Platform/internal/thingsboard/adapter.go",
+      "phase4_accepted_sha256": "8c70c584621aed50ad2ebd77c7763ff9ebcbe736bbae8916fbefdd3e66a4cc76",
+      "current_sha256": "8c70c584621aed50ad2ebd77c7763ff9ebcbe736bbae8916fbefdd3e66a4cc76",
+      "same_as_phase4_accepted": true
+    },
+    {
+      "path": "Platform/internal/thingsboard/alarm_states.go",
+      "matches_correspondence_current_sha256": true,
+      "earlier_specialist_bytes_equal": false,
+      "phase4_accepted_source": "/private/tmp/smartfactory-phase4-accepted-final-20261005/source/Platform/internal/thingsboard/alarm_states.go",
+      "phase4_accepted_sha256": "597cc51f926521a1a9f11c200126e3ca1960c14ed1fef6825db74809b84327b1",
+      "current_sha256": "597cc51f926521a1a9f11c200126e3ca1960c14ed1fef6825db74809b84327b1",
+      "same_as_phase4_accepted": true
+    },
+    {
+      "path": "Platform/internal/thingsboard/alarms.go",
+      "matches_correspondence_current_sha256": true,
+      "earlier_specialist_bytes_equal": true,
+      "phase4_accepted_source": "/private/tmp/smartfactory-phase4-accepted-final-20261005/source/Platform/internal/thingsboard/alarms.go",
+      "phase4_accepted_sha256": "343128a9c2ac1e2108bcaee68bdadd1706877da304702d2116d18d0460427fa8",
+      "current_sha256": "343128a9c2ac1e2108bcaee68bdadd1706877da304702d2116d18d0460427fa8",
+      "same_as_phase4_accepted": true
+    },
+    {
+      "path": "Platform/internal/thingsboard/client.go",
+      "matches_correspondence_current_sha256": true,
+      "earlier_specialist_bytes_equal": true,
+      "phase4_accepted_source": "/private/tmp/smartfactory-phase4-accepted-final-20261005/source/Platform/internal/thingsboard/client.go",
+      "phase4_accepted_sha256": "c2e1d8c05ca846fa4593d82b75e1cd57f2c495d51d311f9970f356d30f16b215",
+      "current_sha256": "c2e1d8c05ca846fa4593d82b75e1cd57f2c495d51d311f9970f356d30f16b215",
+      "same_as_phase4_accepted": true
+    },
+    {
+      "path": "Platform/internal/thingsboard/definitions.go",
+      "matches_correspondence_current_sha256": true,
+      "earlier_specialist_bytes_equal": true,
+      "phase4_accepted_source": "/private/tmp/smartfactory-phase4-accepted-final-20261005/source/Platform/internal/thingsboard/definitions.go",
+      "phase4_accepted_sha256": "a40d9283d31a8c38ad4946aadf2011dbc0f23698c90e657389146938906cd921",
+      "current_sha256": "a40d9283d31a8c38ad4946aadf2011dbc0f23698c90e657389146938906cd921",
+      "same_as_phase4_accepted": true
+    },
+    {
+      "path": "Platform/internal/thingsboard/retention.go",
+      "matches_correspondence_current_sha256": true,
+      "earlier_specialist_bytes_equal": true,
+      "phase4_accepted_source": "/private/tmp/smartfactory-phase4-accepted-final-20261005/source/Platform/internal/thingsboard/retention.go",
+      "phase4_accepted_sha256": "6cf670f9d89dacda40d3fe0ef5827514160a901566c051ec0cc52d5a43b3ed19",
+      "current_sha256": "6cf670f9d89dacda40d3fe0ef5827514160a901566c051ec0cc52d5a43b3ed19",
+      "same_as_phase4_accepted": true
+    }
+  ],
+  "errors": []
+}

@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1680" height="1000" viewBox="0 0 1680 1000" role="img" aria-labelledby="t d">
+  <title id="t">接入层 · 南向设备与北向用户的两道入口</title>
+  <desc id="d">ThingsBoard 接入层内部结构：南向以五种设备协议进入传输层并完成凭据认证，北向以 REST 与 WebSocket 进入 Core 并完成会话鉴权。</desc>
+  <defs>
+    <style>
+      .bg { fill: #f8fafc; }
+      .title { font: 800 34px 'Inter', Arial, sans-serif; fill: #0f172a; }
+      .sub { font: 400 16px 'Inter', Arial, sans-serif; fill: #475569; }
+      .panel-tag { font: 800 19px 'Inter', Arial, sans-serif; }
+      .bt { font: 700 16px 'Inter', Arial, sans-serif; fill: #0f172a; }
+      .tx { font: 400 13.5px 'Inter', Arial, sans-serif; fill: #334155; }
+      .ti { font: 400 12px 'Inter', Arial, sans-serif; fill: #64748b; }
+      .cd { font: 600 12.5px Menlo, Consolas, monospace; fill: #334155; }
+      .amber { fill: #fffbeb; stroke: #d97706; stroke-width: 2; }
+      .blue { fill: #eff6ff; stroke: #2563eb; stroke-width: 2; }
+      .white { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.6; }
+      .panelA { fill: #fffdf7; stroke: #fcd9a0; stroke-width: 1.5; }
+      .panelB { fill: #f7faff; stroke: #bfdbfe; stroke-width: 1.5; }
+      .gate { fill: #f1f5f9; stroke: #475569; stroke-width: 2; }
+      .aAmber { fill:none; stroke:#d97706; stroke-width:2.4; marker-end:url(#ma); }
+      .aBlue { fill:none; stroke:#2563eb; stroke-width:2.4; marker-end:url(#mb); }
+    </style>
+    <marker id="ma" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M2,2 L9,5.5 L2,9 Z" fill="#d97706"/></marker>
+    <marker id="mb" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M2,2 L9,5.5 L2,9 Z" fill="#2563eb"/></marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="1680" height="1000"/>
+
+  <text class="title" x="60" y="54">接入层 · 两道入口</text>
+  <text class="sub" x="62" y="84">设备走南向、用户走北向，进入平台的方式与校验机制各不相同</text>
+
+  <!-- LEFT panel: 南向 -->
+  <rect class="panelA" x="60" y="118" width="740" height="652" rx="16"/>
+  <circle cx="92" cy="156" r="7" fill="#d97706"/>
+  <text class="panel-tag" x="110" y="162" fill="#b45309">南向 · 设备接入</text>
+  <text class="ti" x="110" y="186">面向高并发、长连接、协议多样的设备流量</text>
+
+  <!-- device sources -->
+  <rect class="amber" x="90" y="210" width="200" height="58" rx="10"/><text class="bt" x="190" y="237" text-anchor="middle">传感器</text><text class="ti" x="190" y="256" text-anchor="middle">温湿度 · 电流 · 振动</text>
+  <rect class="amber" x="306" y="210" width="200" height="58" rx="10"/><text class="bt" x="406" y="237" text-anchor="middle">PLC / 控制器</text><text class="ti" x="406" y="256" text-anchor="middle">现场逻辑控制</text>
+  <rect class="amber" x="522" y="210" width="248" height="58" rx="10"/><text class="bt" x="646" y="237" text-anchor="middle">网关 / Edge 实例</text><text class="ti" x="646" y="256" text-anchor="middle">协议转换 · 断网自治</text>
+
+  <!-- protocols -->
+  <text class="ti" x="110" y="306" fill="#92400e">五种协议适配器各自承接一类接入</text>
+  <rect class="white" x="90" y="320" width="130" height="78" rx="10"/><text class="bt" x="155" y="350" text-anchor="middle">MQTT</text><text class="ti" x="155" y="372" text-anchor="middle">长连接</text><text class="ti" x="155" y="389" text-anchor="middle">发布订阅</text>
+  <rect class="white" x="232" y="320" width="130" height="78" rx="10"/><text class="bt" x="297" y="350" text-anchor="middle">CoAP</text><text class="ti" x="297" y="372" text-anchor="middle">UDP 轻量</text><text class="ti" x="297" y="389" text-anchor="middle">低功耗</text>
+  <rect class="white" x="374" y="320" width="130" height="78" rx="10"/><text class="bt" x="439" y="350" text-anchor="middle">HTTP</text><text class="ti" x="439" y="372" text-anchor="middle">REST 上报</text><text class="ti" x="439" y="389" text-anchor="middle">兼容性好</text>
+  <rect class="white" x="516" y="320" width="130" height="78" rx="10"/><text class="bt" x="581" y="350" text-anchor="middle">LwM2M</text><text class="ti" x="581" y="372" text-anchor="middle">设备管理</text><text class="ti" x="581" y="389" text-anchor="middle">远程配置</text>
+  <rect class="white" x="658" y="320" width="112" height="78" rx="10"/><text class="bt" x="714" y="350" text-anchor="middle">SNMP</text><text class="ti" x="714" y="372" text-anchor="middle">轮询采集</text><text class="ti" x="714" y="389" text-anchor="middle">工业纳管</text>
+
+  <!-- arrows to entry -->
+  <line class="aAmber" x1="430" y1="398" x2="430" y2="452"/>
+
+  <!-- entry box -->
+  <rect class="gate" x="90" y="456" width="680" height="118" rx="12"/>
+  <text class="bt" x="430" y="488" text-anchor="middle">进入「传输层」</text>
+  <text class="tx" x="430" y="514" text-anchor="middle">协议解析 → 凭据认证（Transport API 往返 Core）→ 序列化</text>
+  <text class="ti" x="430" y="538" text-anchor="middle">认证通过后，遥测与属性被投递到规则引擎队列</text>
+  <text class="cd" x="430" y="560" text-anchor="middle">transport/mqtt · coap · http · lwm2m · snmp</text>
+
+  <!-- characteristics -->
+  <rect class="white" x="90" y="600" width="680" height="142" rx="12"/>
+  <text class="bt" x="116" y="630">这道入口要解决的核心问题</text>
+  <text class="tx" x="116" y="660">· 协议异构：每种协议的连接模型、编码方式都不一样，需要各自适配</text>
+  <text class="tx" x="116" y="686">· 身份可信：设备数量庞大，凭据校验结果需要缓存复用，降低往返开销</text>
+  <text class="tx" x="116" y="712">· 峰值缓冲：瞬时洪峰进入队列缓冲，处理层按自身节奏消费</text>
+
+  <!-- RIGHT panel: 北向 -->
+  <rect class="panelB" x="880" y="118" width="740" height="652" rx="16"/>
+  <circle cx="912" cy="156" r="7" fill="#2563eb"/>
+  <text class="panel-tag" x="930" y="162" fill="#1d4ed8">北向 · 用户与应用</text>
+  <text class="ti" x="930" y="186">面向会话、权限、实时回推的人与系统流量</text>
+
+  <rect class="blue" x="910" y="210" width="200" height="58" rx="10"/><text class="bt" x="1010" y="237" text-anchor="middle">浏览器 Web UI</text><text class="ti" x="1010" y="256" text-anchor="middle">Angular ui-ngx</text>
+  <rect class="blue" x="1126" y="210" width="200" height="58" rx="10"/><text class="bt" x="1226" y="237" text-anchor="middle">运营 / 业务系统</text><text class="ti" x="1226" y="256" text-anchor="middle">MES · ERP 对接</text>
+  <rect class="blue" x="1342" y="210" width="248" height="58" rx="10"/><text class="bt" x="1466" y="237" text-anchor="middle">第三方集成 / 移动端</text><text class="ti" x="1466" y="256" text-anchor="middle">开放接口调用</text>
+
+  <text class="ti" x="930" y="306" fill="#1e40af">两类接口承接所有北向请求</text>
+  <rect class="white" x="910" y="320" width="330" height="78" rx="10"/><text class="bt" x="1075" y="350" text-anchor="middle">REST API</text><text class="ti" x="1075" y="372" text-anchor="middle">实体管理 · 遥测查询 · RPC 下发</text><text class="ti" x="1075" y="389" text-anchor="middle">请求 / 响应式调用</text>
+  <rect class="white" x="1258" y="320" width="332" height="78" rx="10"/><text class="bt" x="1424" y="350" text-anchor="middle">WebSocket</text><text class="ti" x="1424" y="372" text-anchor="middle">订阅遥测 · 实时回推</text><text class="ti" x="1424" y="389" text-anchor="middle">长连接持续推送</text>
+
+  <line class="aBlue" x1="1250" y1="398" x2="1250" y2="452"/>
+
+  <rect class="gate" x="910" y="456" width="680" height="118" rx="12"/>
+  <text class="bt" x="1250" y="488" text-anchor="middle">进入「TB Core」对外接口</text>
+  <text class="tx" x="1250" y="514" text-anchor="middle">会话建立 → 用户鉴权与租户隔离 → 路由到具体服务</text>
+  <text class="ti" x="1250" y="538" text-anchor="middle">订阅类请求由 Subscription Manager 维护，数据变化时主动回推</text>
+  <text class="cd" x="1250" y="560" text-anchor="middle">application/controller · WebSocket Service</text>
+
+  <rect class="white" x="910" y="600" width="680" height="142" rx="12"/>
+  <text class="bt" x="936" y="630">这道入口要解决的核心问题</text>
+  <text class="tx" x="936" y="660">· 身份与权限：每个请求都要确认用户身份、所属租户与数据可见范围</text>
+  <text class="tx" x="936" y="686">· 实时一致：仪表盘需要在数据落库的同时收到推送，而非轮询拉取</text>
+  <text class="tx" x="936" y="712">· 接口稳定：对外契约要长期兼容，内部实现的变化不应外泄</text>
+
+  <!-- bottom unifying note -->
+  <rect x="60" y="800" width="1560" height="150" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+  <text class="bt" x="90" y="838">两道入口，同一个处理核心</text>
+  <text class="tx" x="90" y="870">南向与北向看似无关，最终都汇入同一套核心处理层。区别在于：设备这一侧从入口就为高并发、协议异构做了准备；</text>
+  <text class="tx" x="90" y="896">用户这一侧则把重心放在会话、权限与实时回推上。把两类流量从源头分开对待，让各自的扩展策略互不牵制——</text>
+  <text class="tx" x="90" y="922">设备规模增长时扩传输层，前端访问增长时扩 Core 与 WebSocket，两边各按各自的瓶颈伸缩。</text>
+</svg>

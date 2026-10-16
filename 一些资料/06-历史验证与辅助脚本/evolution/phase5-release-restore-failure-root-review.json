@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "captured_at": "2026-10-05T09:41:40.686080+00:00",
+  "status": "actual_cached_program_start_failure_verified_cause_pending",
+  "evidence": [
+    {
+      "path": "/private/tmp/smartfactory-phase5-release-restore-coordinator-evidence-20261005/program.log",
+      "sha256": "0812201633c001705e11e1d7d9abe08bd37db06ac7356ef0b1ecbdb7279a8cbd",
+      "bytes": 127876,
+      "observed_source": "/private/tmp/smartfactory-phase5-release-process-tenth-20261005/private/agent-a/program.log"
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-release-restore-coordinator-evidence-20261005/agent-cache-restore.state.json",
+      "sha256": "22f018808d37ec011bcb1be54be4ccf3f473955e692abe80654b10033ac86dde",
+      "bytes": 1251,
+      "observed_source": "/private/tmp/smartfactory-release-interface-20261005/browser-failure-rollback-fourth/agent-cache-restore.state.json"
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-release-restore-coordinator-evidence-20261005/agent-restore.stderr.log",
+      "sha256": "c93f8f87d54688963ed85bd576789b5f5b9e470c7a8b348df99ec508fba4492e",
+      "bytes": 56,
+      "observed_source": "/private/tmp/smartfactory-release-interface-20261005/browser-failure-rollback-fourth/agent-restore.stderr.log"
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-release-restore-coordinator-evidence-20261005/results.json",
+      "sha256": "22826937915c7795aba1d5c0259fb949a367c5adef5759f56942449eddad9369",
+      "bytes": 7949,
+      "observed_source": "/private/tmp/smartfactory-release-interface-20261005/browser-failure-rollback-fourth/results.json"
+    }
+  ],
+  "matching_log_lines": 117,
+  "first_matching_line": {
+    "line": 175,
+    "text": "2026/10/05 16:07:55 ERROR background task failed error=\"constraint failed: UNIQUE constraint failed: document_versions.kind, document_versions.id, document_versions.version (1555)\""
+  },
+  "last_matching_line": {
+    "line": 826,
+    "text": "constraint failed: UNIQUE constraint failed: document_versions.kind, document_versions.id, document_versions.version (1555)"
+  },
+  "observations": [
+    "The cached program restore exits before readiness with process status 1",
+    "Identical uniqueness errors appear earlier as background task failures, starting at local log time 16:07:55",
+    "Current release runtime disables removed rules with a new revision; a rule-deletion cause has not been established"
+  ],
+  "next_step": "Original release professional inspects the consistent SQLite backup, identifies kind/id and actual failing call, coordinates any separate storage ownership before correction"
+}

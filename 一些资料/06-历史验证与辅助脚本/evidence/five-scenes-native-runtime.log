@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "/path/to/SmartFactory-2026/scripts/check-scenes.py", line 112, in <module>
+    main()
+    ~~~~^^
+  File "/path/to/SmartFactory-2026/scripts/check-scenes.py", line 71, in main
+    transition(label, 'climate-1', inputs, output, expected)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/path/to/SmartFactory-2026/scripts/check-scenes.py", line 58, in transition
+    evidence = wait(lambda: observed(device, output, expected, since), label + ' cloud/edge feedback', timeout)
+  File "/path/to/SmartFactory-2026/scripts/check-scenes.py", line 38, in wait
+    raise TimeoutError(label)
+TimeoutError: temperature-high cloud/edge feedback

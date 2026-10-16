@@ -1,0 +1,154 @@
+{
+  "status": "passed",
+  "scope": "generated configuration and acceptance-plan validation; containers were not installed for these four profiles",
+  "profiles": [
+    {
+      "profile": "capacity",
+      "hosting": "self",
+      "nodes": 1,
+      "independent_node_networks": true,
+      "native_ce_limit_gib": 4,
+      "native_edge_limit_gib_each": 2,
+      "pinned_images": true,
+      "compose_valid": true,
+      "short_run_guard": true,
+      "long_plans": {
+        "offline": {
+          "profile": "capacity",
+          "mode": "offline",
+          "duration_seconds": 86400,
+          "full_duration_run": true,
+          "paused_during_offline": [
+            "cloud",
+            "config",
+            "thingsboard"
+          ],
+          "recovery_link": "100 Mbps aggregate, configured 20 ms round-trip delay; peer-filtered netem in cloud and node network namespaces",
+          "sample_interval_seconds": 60,
+          "backup_output": null
+        },
+        "storage": {
+          "profile": "capacity",
+          "mode": "storage",
+          "duration_seconds": 86400,
+          "full_duration_run": true,
+          "paused_during_offline": [],
+          "recovery_link": "100 Mbps aggregate, configured 20 ms round-trip delay; peer-filtered netem in cloud and node network namespaces",
+          "sample_interval_seconds": 60,
+          "backup_output": null
+        }
+      }
+    },
+    {
+      "profile": "capacity",
+      "hosting": "hosted",
+      "nodes": 1,
+      "independent_node_networks": true,
+      "native_ce_limit_gib": 4,
+      "native_edge_limit_gib_each": 2,
+      "pinned_images": true,
+      "compose_valid": true,
+      "short_run_guard": true,
+      "long_plans": {
+        "offline": {
+          "profile": "capacity",
+          "mode": "offline",
+          "duration_seconds": 86400,
+          "full_duration_run": true,
+          "paused_during_offline": [
+            "cloud",
+            "config",
+            "thingsboard"
+          ],
+          "recovery_link": "100 Mbps aggregate, configured 20 ms round-trip delay; peer-filtered netem in cloud and node network namespaces",
+          "sample_interval_seconds": 60,
+          "backup_output": null
+        },
+        "storage": {
+          "profile": "capacity",
+          "mode": "storage",
+          "duration_seconds": 86400,
+          "full_duration_run": true,
+          "paused_during_offline": [],
+          "recovery_link": "100 Mbps aggregate, configured 20 ms round-trip delay; peer-filtered netem in cloud and node network namespaces",
+          "sample_interval_seconds": 60,
+          "backup_output": null
+        }
+      }
+    },
+    {
+      "profile": "site",
+      "hosting": "self",
+      "nodes": 3,
+      "independent_node_networks": true,
+      "native_ce_limit_gib": 4,
+      "native_edge_limit_gib_each": 2,
+      "pinned_images": true,
+      "compose_valid": true,
+      "short_run_guard": true,
+      "long_plans": {
+        "offline": {
+          "profile": "site",
+          "mode": "offline",
+          "duration_seconds": 86400,
+          "full_duration_run": true,
+          "paused_during_offline": [
+            "cloud",
+            "config",
+            "thingsboard"
+          ],
+          "recovery_link": "100 Mbps aggregate, configured 20 ms round-trip delay; peer-filtered netem in cloud and node network namespaces",
+          "sample_interval_seconds": 60,
+          "backup_output": null
+        },
+        "storage": {
+          "profile": "site",
+          "mode": "storage",
+          "duration_seconds": 86400,
+          "full_duration_run": true,
+          "paused_during_offline": [],
+          "recovery_link": "100 Mbps aggregate, configured 20 ms round-trip delay; peer-filtered netem in cloud and node network namespaces",
+          "sample_interval_seconds": 60,
+          "backup_output": null
+        }
+      }
+    },
+    {
+      "profile": "site",
+      "hosting": "hosted",
+      "nodes": 3,
+      "independent_node_networks": true,
+      "native_ce_limit_gib": 4,
+      "native_edge_limit_gib_each": 2,
+      "pinned_images": true,
+      "compose_valid": true,
+      "short_run_guard": true,
+      "long_plans": {
+        "offline": {
+          "profile": "site",
+          "mode": "offline",
+          "duration_seconds": 86400,
+          "full_duration_run": true,
+          "paused_during_offline": [
+            "cloud",
+            "config",
+            "thingsboard"
+          ],
+          "recovery_link": "100 Mbps aggregate, configured 20 ms round-trip delay; peer-filtered netem in cloud and node network namespaces",
+          "sample_interval_seconds": 60,
+          "backup_output": null
+        },
+        "storage": {
+          "profile": "site",
+          "mode": "storage",
+          "duration_seconds": 86400,
+          "full_duration_run": true,
+          "paused_during_offline": [],
+          "recovery_link": "100 Mbps aggregate, configured 20 ms round-trip delay; peer-filtered netem in cloud and node network namespaces",
+          "sample_interval_seconds": 60,
+          "backup_output": null
+        }
+      }
+    }
+  ]
+}

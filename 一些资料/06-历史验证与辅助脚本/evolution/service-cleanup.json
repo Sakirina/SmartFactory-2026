@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "started_at": "2026-10-04T15:10:21.701667+00:00",
+  "scope": "Only fixtures created for this evolution verification. PostgreSQL18 remains running for other engineers.",
+  "steps": [
+    {
+      "name": "native-cloud",
+      "pid": 5857,
+      "signal": "SIGTERM",
+      "ended": true
+    },
+    {
+      "name": "native-edge",
+      "pid": 5858,
+      "signal": "SIGTERM",
+      "ended": true
+    },
+    {
+      "name": "sf-evolution-edge-20261004",
+      "container_id": "fd82569e5b38b254fb97d092a485489c286697b20038192f54463ca5dc378ecb",
+      "stop_exit_code": 0,
+      "log": "/private/tmp/smartfactory-evolution-native-20261004/sf-evolution-edge-20261004-final.log",
+      "auto_remove": true,
+      "container_exit_event": {
+        "name": "sf-evolution-edge-20261004",
+        "container_id": "fd82569e5b38b254fb97d092a485489c286697b20038192f54463ca5dc378ecb",
+        "exit_code": 137,
+        "at": "2026-10-04T15:10:52+00:00"
+      },
+      "stop_timeout_seconds": 30,
+      "oom_events_during_stop": [],
+      "stop_signal_forwarding_status": "unverified; E5-04 handoff",
+      "image_command": [
+        "start-tb-edge.sh"
+      ],
+      "actual_pid1_script": "/usr/bin/start-tb-edge.sh",
+      "actual_java_pid": 7,
+      "handoff": "docs/evolution/handoff-edge-stop.md"
+    },
+    {
+      "name": "sf-evolution-kafka-20261004",
+      "container_id": "bdb9780031d2a24e622d442f199b922fbbe3e54be058b8237f00605ac9bda483",
+      "stop_exit_code": 0,
+      "log": "/private/tmp/smartfactory-evolution-native-20261004/sf-evolution-kafka-20261004-final.log",
+      "auto_remove": true,
+      "container_exit_event": {
+        "name": "sf-evolution-kafka-20261004",
+        "container_id": "bdb9780031d2a24e622d442f199b922fbbe3e54be058b8237f00605ac9bda483",
+        "exit_code": 143,
+        "at": "2026-10-04T15:10:53+00:00"
+      }
+    },
+    {
+      "name": "smartfactory-evolution-native-20261004",
+      "remove_exit_code": 0
+    }
+  ],
+  "retained": [
+    "smartfactory-evolution-pg18-20261004",
+    "/private/tmp/smartfactory-evolution-native-20261004",
+    "/private/tmp/smartfactory-evolution-build"
+  ],
+  "original_persistent_containers": "Nine existing stopped containers preserved",
+  "postgres_retained": {
+    "container": "smartfactory-evolution-pg18-20261004",
+    "running": true,
+    "container_id": "e6d82021b0e86a4ad2d7f000990182fc8eda60272e337d9e9387ad18947c9306",
+    "memory_limit_bytes": 1073741824,
+    "credentials_file": ".local/evolution/pg18-test.json",
+    "credential_mode": "0o600"
+  },
+  "finished_at": "2026-10-04T15:10:53.938127+00:00",
+  "ce_completed_before_cleanup": {
+    "name": "sf-evolution-ce-20261004",
+    "exit_code": 143,
+    "oom_killed": false,
+    "evidence": ".local/evolution/native-controlled-resources.json"
+  },
+  "envoy_completed_before_cleanup": {
+    "all_temp_containers_removed": true,
+    "evidence": ".local/evolution/envoy-runtime-verification.json"
+  }
+}

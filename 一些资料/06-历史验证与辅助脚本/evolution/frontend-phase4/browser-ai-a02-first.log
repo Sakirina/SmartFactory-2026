@@ -1,0 +1,96 @@
+
+Running 7 tests using 1 worker
+
+(node:9165) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/phase4-ai.spec.ts:22:1 › AI five actual tools show byte-identical evidence and navigate escaped resource identities (3.2s)
+  ✓  2 tests/phase4-ai.spec.ts:32:1 › AI forged cross-investigation failed empty and budget references retain current statuses (2.7s)
+  ✓  3 tests/phase4-ai.spec.ts:39:1 › AI revoked permission clears visible answer and evidence then restores and expires current data (3.0s)
+  ✘  4 tests/phase4-ai.spec.ts:45:1 › AI user switch and expired session clear previous investigation and unsaved editor (45.1s)
+(node:9439) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  5 tests/phase4-ai.spec.ts:49:1 › AI interrupted and service-error streams show saved terminal investigation state (6.9s)
+  ✘  6 tests/phase4-ai.spec.ts:55:1 › AI original asset deletion after definition rebind clears the original cited content (16.9s)
+(node:9491) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  7 tests/phase4-ai.spec.ts:59:1 › AI deleted source and explicit investigation deletion remove stored visible content (1.8s)
+
+
+  1) tests/phase4-ai.spec.ts:45:1 › AI user switch and expired session clear previous investigation and unsaved editor 
+
+    Test timeout of 45000ms exceeded.
+
+    Error: locator.click: Test timeout of 45000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: '退出', exact: true })
+        - locator resolved to <button type="button" class="ant-btn css-19u5a7b css-var-_r_0_ ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-sm">…</button>
+      - attempting click action
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <span>评审与发布</span> from <div>…</div> subtree intercepts pointer events
+        - retrying click action
+        - waiting 20ms
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <span>评审与发布</span> from <div>…</div> subtree intercepts pointer events
+        - retrying click action
+          - waiting 100ms
+        82 × waiting for element to be visible, enabled and stable
+           - element is visible, enabled and stable
+           - scrolling into view if needed
+           - done scrolling
+           - <span>评审与发布</span> from <div>…</div> subtree intercepts pointer events
+         - retrying click action
+           - waiting 500ms
+        - waiting for element to be visible, enabled and stable
+        - element is visible, enabled and stable
+        - scrolling into view if needed
+        - done scrolling
+
+
+      44 |
+      45 | test('AI user switch and expired session clear previous investigation and unsaved editor',async({page})=>{
+    > 46 |   test.skip(phase!=='ai');await login(page,'ai');await route(page,'assistant');const result=await investigate(page,'读取身份 调查/温度:一号');await route(page,'analysis?definition='+encodeURIComponent('调查/温度:一号'));await expect(page.getByLabel('定义名称')).toBeVisible();await page.getByLabel('定义名称').fill('前一账号尚未提交的编辑');await page.getByRole('button',{name:'退出',exact:true}).click();await expect(page.getByLabel('账号',{exact:true})).toBeVisible();await login(page,'ai','index.html','operator-b');await route(page,'assistant');await expect(page.getByText(result.id,{exact:true})).toBeHidden();expect((await jsonAPI(page,'/investigations/'+result.id)).status).toBe(404);await route(page,'analysis');await expect(page.getByLabel('定义名称')).toBeHidden();await capture(page,'ai-user-isolation-and-editor-cleared');await jsonAPI(page,'/logout',{});await route(page,'assistant');await page.getByRole('button',{name:'更新依据状态',exact:true}).click();await expect(page.getByLabel('账号',{exact:true})).toBeVisible();expect(await page.evaluate(()=>Object.keys(sessionStorage).filter(key=>key.startsWith('smartfactory.session.')))).toEqual([]);await capture(page,'ai-expired-session-login');
+         |                                                                                                                                                                                                                                                                                                                                                                         ^
+      47 | });
+      48 |
+      49 | test('AI interrupted and service-error streams show saved terminal investigation state',async({page})=>{
+        at /path/to/SmartFactory-2026/Frontends/tests/phase4-ai.spec.ts:46:361
+
+    Error Context: ../../../../../private/tmp/smartfactory-frontend-phase4-20261005/playwright-results/phase4-ai-AI-user-switch-a-6a138-tigation-and-unsaved-editor/error-context.md
+
+  2) tests/phase4-ai.spec.ts:55:1 › AI original asset deletion after definition rebind clears the original cited content 
+
+    Error: expect(locator).toBeHidden() failed
+
+    Locator:  getByTestId('model-visible-content')
+    Expected: hidden
+    Received: visible
+    Timeout:  15000ms
+
+    Call log:
+      - Expect "toBeHidden" getByTestId('model-visible-content') with timeout 15000ms
+      - waiting for getByTestId('model-visible-content')
+        34 × locator resolved to <pre class="json-view" data-testid="model-visible-content">{"_evidence":{"budget_bytes":524288,"citation":"[…</pre>
+           - unexpected value "visible"
+
+
+      54 |
+      55 | test('AI original asset deletion after definition rebind clears the original cited content',async({page})=>{
+    > 56 |   test.skip(phase!=='ai');await login(page,'ai');await route(page,'assistant');expect((await fixture(page,{action:'prepare_original_resource'})).status).toBe(200);const result=await investigate(page,'读取身份 调查/温度:一号');expect(result.evidence_status).toBe('supported');const id=result.evidence[0].id;const original=await jsonAPI(page,`/investigations/${result.id}/evidence/${id}`);expect(original.status).toBe(200);const value=JSON.parse(original.text);expect(value.resources.some((resource:any)=>resource.kind==='resource'&&resource.id==='private-factory')).toBe(true);await page.getByRole('button',{name:'查看依据原文',exact:true}).first().click();await expect(page.getByTestId('model-visible-content')).toHaveText(value.visible_content,{useInnerText:true});expect((await fixture(page,{action:'rebind_definition'})).status).toBe(200);const rebound=await jsonAPI(page,`/investigations/${result.id}/evidence/${id}`);expect(rebound.status).toBe(200);expect(JSON.parse(rebound.text).visible_content).toBe(value.visible_content);await capture(page,'ai-original-resource-after-rebind');expect((await fixture(page,{action:'delete_original_resource'})).status).toBe(200);await page.getByRole('button',{name:'更新当前依据状态',exact:true}).click();await expect(page.getByTestId('model-visible-content')).toBeHidden();await expect(page.locator('body')).not.toContainText(result.answer);expect((await jsonAPI(page,`/investigations/${result.id}/evidence/${id}`)).status).toBe(404);const deleted=await detail(page,result.id);expect(deleted.answer||'').toBe('');expect(deleted.messages||[]).toEqual([]);expect(deleted.evidence_status).toBe('unsupported');expect(deleted.references.every((item:any)=>item.status==='deleted')).toBe(true);expect(deleted.evidence.every((item:any)=>item.access_status==='deleted'&&item.arguments===null&&!item.visible_content&&!item.resources?.length)).toBe(true);await writeFile(path.join(evidence,'ai-original-resource-deleted.json'),JSON.stringify(clean({original:value,rebound:JSON.parse(rebound.text),deleted}),null,2));await capture(page,'ai-original-resource-deleted-cleared');
+         |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ^
+      57 | });
+      58 |
+      59 | test('AI deleted source and explicit investigation deletion remove stored visible content',async({page})=>{
+        at /path/to/SmartFactory-2026/Frontends/tests/phase4-ai.spec.ts:56:1280
+
+    Error Context: ../../../../../private/tmp/smartfactory-frontend-phase4-20261005/playwright-results/phase4-ai-AI-original-asse-ef397--the-original-cited-content/error-context.md
+
+  2 failed
+    tests/phase4-ai.spec.ts:45:1 › AI user switch and expired session clear previous investigation and unsaved editor 
+    tests/phase4-ai.spec.ts:55:1 › AI original asset deletion after definition rebind clears the original cited content 
+  5 passed (1.4m)

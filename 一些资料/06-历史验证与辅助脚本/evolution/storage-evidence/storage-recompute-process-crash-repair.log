@@ -1,0 +1,10 @@
+=== RUN   TestRiverRecoversRecomputeCheckpointAfterProcessKill
+2026/10/05 00:04:35 INFO River client started client_id=YL-Tilly-MB-A_local_2026_10_04T16_04_35_669874
+2026/10/05 00:04:53 INFO maintenance.JobRescuer: Ran successfully num_jobs_discarded=0 num_jobs_retry_scheduled=1
+2026/10/05 00:04:54 INFO maintenance.JobScheduler: Ran successfully num_jobs_scheduled=1
+    service_test.go:257: actual subprocess SIGKILL after cursor=1791126839999; stable task/business/River/replay identity; official rescue attempt2 resumed complete window; 3 unique evaluations including two same-timestamp inputs; final counter=7
+2026/10/05 00:04:54 INFO Client: Hard stop started; cancelling all work
+2026/10/05 00:04:54 INFO River client stopped client_id=YL-Tilly-MB-A_local_2026_10_04T16_04_35_669874
+--- PASS: TestRiverRecoversRecomputeCheckpointAfterProcessKill (21.10s)
+PASS
+ok  	competition2026/product/platform/internal/tasks	21.114s

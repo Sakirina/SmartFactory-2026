@@ -1,0 +1,360 @@
+{
+  "checked_at": "2026-10-05T11:04:53.731096+00:00",
+  "passed": true,
+  "scope": "最终发布恢复候选的固定输入与专项结果；实际五模板、往返、页面与Linux组合由各自记录确认",
+  "candidate": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final",
+  "source_sha256": "eb78474aea6d2a7b5176f910ea95eabdfdb7cc8c0a2e9cf7cd5b0b712b1b9519",
+  "retained_input_count": 5743,
+  "fixed_source_files": 462,
+  "physical_files_checked": 5711,
+  "commands_checked": 10,
+  "go_list_correspondence": [
+    {
+      "name": "list-test-inputs",
+      "argv": [
+        "go",
+        "list",
+        "-deps",
+        "-test",
+        "-json",
+        "./cmd/sf-edge",
+        "./cmd/sf-release-agent",
+        "./internal/app",
+        "./internal/releaseagent",
+        "./internal/releaseruntime",
+        "./internal/releasebundle",
+        "./internal/application"
+      ],
+      "packages": 680,
+      "selected_paths": 3289,
+      "missing": []
+    },
+    {
+      "name": "list-test-inputs-race",
+      "argv": [
+        "go",
+        "list",
+        "-race",
+        "-deps",
+        "-test",
+        "-json",
+        "./internal/app",
+        "./internal/releaseagent"
+      ],
+      "packages": 670,
+      "selected_paths": 3272,
+      "missing": []
+    }
+  ],
+  "tests": [
+    {
+      "name": "app-agent-runtime-bundle",
+      "all_named": {
+        "pass": 11,
+        "skip": 3
+      },
+      "top_level": {
+        "pass": 9,
+        "skip": 3
+      },
+      "conditional_skips": [
+        {
+          "package": "competition2026/product/platform/internal/app",
+          "test": "TestControlledCloudEdgeControlIntervention",
+          "reason": "=== RUN   TestControlledCloudEdgeControlIntervention\n    control_fixture_test.go:509: actual DataTransfer controlled fixture binary required\n--- SKIP: TestControlledCloudEdgeControlIntervention (0.00s)\n"
+        },
+        {
+          "package": "competition2026/product/platform/internal/app",
+          "test": "TestControlBrowserFixture",
+          "reason": "=== RUN   TestControlBrowserFixture\n    control_fixture_test.go:744: browser fixture output directory required\n--- SKIP: TestControlBrowserFixture (0.00s)\n"
+        },
+        {
+          "package": "competition2026/product/platform/internal/app",
+          "test": "TestReleaseRoundtripPostgres",
+          "reason": "=== RUN   TestReleaseRoundtripPostgres\n    release_initialization_test.go:108: set SF_TEST_POSTGRES_DATABASE to an isolated PostgreSQL fixture\n--- SKIP: TestReleaseRoundtripPostgres (0.00s)\n"
+        }
+      ]
+    },
+    {
+      "name": "release-roundtrip-postgres",
+      "all_named": {
+        "pass": 1
+      },
+      "top_level": {
+        "pass": 1
+      },
+      "conditional_skips": []
+    },
+    {
+      "name": "release-roundtrip-limited-race",
+      "all_named": {
+        "pass": 2
+      },
+      "top_level": {
+        "pass": 2
+      },
+      "conditional_skips": []
+    }
+  ],
+  "binaries": [
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/bin/sf-edge-r02-final-v1",
+      "sha256": "e85e48a6037ca7157ad55353462ab4a5fcfd3e9f31d68455b3c386e67d8586b4",
+      "build_info": {
+        "build": {
+          "program": "edge",
+          "version": "r02-final-v1",
+          "goos": "darwin",
+          "goarch": "arm64",
+          "migration_minimum": 11,
+          "migration_maximum": 11,
+          "rule_formats": [
+            "1.0"
+          ],
+          "configuration_formats": [
+            "smartfactory-configuration-v1"
+          ],
+          "source_sha256": "eb78474aea6d2a7b5176f910ea95eabdfdb7cc8c0a2e9cf7cd5b0b712b1b9519"
+        },
+        "sha256": "e85e48a6037ca7157ad55353462ab4a5fcfd3e9f31d68455b3c386e67d8586b4"
+      }
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/bin/sf-edge-r02-final-v2",
+      "sha256": "b02566d928858835502d2d0cd6aac04ef561335e0498f7675fb1d60b0e71f229",
+      "build_info": {
+        "build": {
+          "program": "edge",
+          "version": "r02-final-v2",
+          "goos": "darwin",
+          "goarch": "arm64",
+          "migration_minimum": 11,
+          "migration_maximum": 11,
+          "rule_formats": [
+            "1.0"
+          ],
+          "configuration_formats": [
+            "smartfactory-configuration-v1"
+          ],
+          "source_sha256": "eb78474aea6d2a7b5176f910ea95eabdfdb7cc8c0a2e9cf7cd5b0b712b1b9519"
+        },
+        "sha256": "b02566d928858835502d2d0cd6aac04ef561335e0498f7675fb1d60b0e71f229"
+      }
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/bin/sf-release-agent",
+      "sha256": "827e4d7fdf4d645a255f6163c641ea7267688bd53d6e068b199606c03d3f4cfc"
+    }
+  ],
+  "references": [
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/list-test-inputs.stdout.log",
+      "sha256": "cc8b6868a31faadf348d86470d7ad2376b59b3f14dd36858072b5cfe29805337",
+      "bytes": 3129340
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/list-test-inputs.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/list-test-inputs-race.stdout.log",
+      "sha256": "2faebdb893d321bb2a9070fae9e1c9e260835ee0e8d0bafc2c9edad51769a03a",
+      "bytes": 2879095
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/list-test-inputs-race.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/app-agent-runtime-bundle.stdout.log",
+      "sha256": "28036d04d34ceb1cdafe97c137d76e2e4afcb344464971bd746b79f85ae7de4e",
+      "bytes": 74198
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/app-agent-runtime-bundle.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/app-agent-runtime-bundle.inputs-before.json",
+      "sha256": "b5cd5bfb0db24a2c3200a2e4ef3a07c3772b3a0625b27c85e8fa3d07f4331637",
+      "bytes": 961126
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/app-agent-runtime-bundle.inputs-after.json",
+      "sha256": "b5cd5bfb0db24a2c3200a2e4ef3a07c3772b3a0625b27c85e8fa3d07f4331637",
+      "bytes": 961126
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/release-roundtrip-postgres.stdout.log",
+      "sha256": "77624d6d8562378f5aa4a092a13bf57de2d013d7b9f48ab13561ceeafb7086a7",
+      "bytes": 1399
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/release-roundtrip-postgres.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/release-roundtrip-postgres.inputs-before.json",
+      "sha256": "b5cd5bfb0db24a2c3200a2e4ef3a07c3772b3a0625b27c85e8fa3d07f4331637",
+      "bytes": 961126
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/release-roundtrip-postgres.inputs-after.json",
+      "sha256": "b5cd5bfb0db24a2c3200a2e4ef3a07c3772b3a0625b27c85e8fa3d07f4331637",
+      "bytes": 961126
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/release-roundtrip-limited-race.stdout.log",
+      "sha256": "eef67bce9b47f723b041287b92a5e070dec49f83c9d55ed2120558294aa8528e",
+      "bytes": 2437
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/release-roundtrip-limited-race.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/release-roundtrip-limited-race.inputs-before.json",
+      "sha256": "b5cd5bfb0db24a2c3200a2e4ef3a07c3772b3a0625b27c85e8fa3d07f4331637",
+      "bytes": 961126
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/release-roundtrip-limited-race.inputs-after.json",
+      "sha256": "b5cd5bfb0db24a2c3200a2e4ef3a07c3772b3a0625b27c85e8fa3d07f4331637",
+      "bytes": 961126
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/build-edge-r02-final-v1.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/build-edge-r02-final-v1.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/build-edge-r02-final-v1.inputs-before.json",
+      "sha256": "b5cd5bfb0db24a2c3200a2e4ef3a07c3772b3a0625b27c85e8fa3d07f4331637",
+      "bytes": 961126
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/build-edge-r02-final-v1.inputs-after.json",
+      "sha256": "b5cd5bfb0db24a2c3200a2e4ef3a07c3772b3a0625b27c85e8fa3d07f4331637",
+      "bytes": 961126
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/edge-info-r02-final-v1.stdout.log",
+      "sha256": "903a05f4f9a52ccf8bb43c9793cf7e03aadcf8893cc5e0bd9082dcdf9dd4ea9f",
+      "bytes": 373
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/edge-info-r02-final-v1.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/edge-info-r02-final-v1.inputs-before.json",
+      "sha256": "b5cd5bfb0db24a2c3200a2e4ef3a07c3772b3a0625b27c85e8fa3d07f4331637",
+      "bytes": 961126
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/edge-info-r02-final-v1.inputs-after.json",
+      "sha256": "b5cd5bfb0db24a2c3200a2e4ef3a07c3772b3a0625b27c85e8fa3d07f4331637",
+      "bytes": 961126
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/build-edge-r02-final-v2.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/build-edge-r02-final-v2.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/build-edge-r02-final-v2.inputs-before.json",
+      "sha256": "b5cd5bfb0db24a2c3200a2e4ef3a07c3772b3a0625b27c85e8fa3d07f4331637",
+      "bytes": 961126
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/build-edge-r02-final-v2.inputs-after.json",
+      "sha256": "b5cd5bfb0db24a2c3200a2e4ef3a07c3772b3a0625b27c85e8fa3d07f4331637",
+      "bytes": 961126
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/edge-info-r02-final-v2.stdout.log",
+      "sha256": "a8d8bba80b7905ed7b5b42bb2ed5c9c5454358966d12b703aa9e7c7b0f361a34",
+      "bytes": 373
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/edge-info-r02-final-v2.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/edge-info-r02-final-v2.inputs-before.json",
+      "sha256": "b5cd5bfb0db24a2c3200a2e4ef3a07c3772b3a0625b27c85e8fa3d07f4331637",
+      "bytes": 961126
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/edge-info-r02-final-v2.inputs-after.json",
+      "sha256": "b5cd5bfb0db24a2c3200a2e4ef3a07c3772b3a0625b27c85e8fa3d07f4331637",
+      "bytes": 961126
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/build-release-agent.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/build-release-agent.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/build-release-agent.inputs-before.json",
+      "sha256": "b5cd5bfb0db24a2c3200a2e4ef3a07c3772b3a0625b27c85e8fa3d07f4331637",
+      "bytes": 961126
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/build-release-agent.inputs-after.json",
+      "sha256": "b5cd5bfb0db24a2c3200a2e4ef3a07c3772b3a0625b27c85e8fa3d07f4331637",
+      "bytes": 961126
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/actual-inputs.json",
+      "sha256": "e5d28ff26c9f40188b1af620ca474c779704fe3506968a613c3e7f8a706e20fc",
+      "bytes": 2109439
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/compiled-source.json",
+      "sha256": "977af459222b9acc22f2fea02786864e36c9a71f6e5369a88201355d56dc7f03",
+      "bytes": 53025
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/binaries.json",
+      "sha256": "5232dee861c56fbfc49476d2ca532e79c3f280bd67c7817df1971066cbe8e158",
+      "bytes": 1729
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/commands.json",
+      "sha256": "627625b3c20baefbfb3219cc0494fd88d2fe9e1c258c0b726ff51ec395e47330",
+      "bytes": 10569
+    }
+  ],
+  "final_runtime_combination_verified": false,
+  "errors": [],
+  "previous_fixed_candidate": "candidate-final-second",
+  "fixed_production_source_differences": [
+    "Platform/internal/releaseruntime/runtime.go",
+    "scripts/build-release.py"
+  ],
+  "full_regression_predecessor": ".local/evolution/phase5-delivery-current-regressions-root-review.json",
+  "postgres_conditional_skip_covered_by": "release-roundtrip-postgres and release-roundtrip-limited-race"
+}

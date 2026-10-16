@@ -1,0 +1,854 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ThingsBoard 四大核心生态架构拆解</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #0f172a;
+      --ink-secondary: #334155;
+      --muted: #64748b;
+      --subtle: #94a3b8;
+      --line: rgba(148, 163, 184, 0.2);
+      --line-strong: rgba(148, 163, 184, 0.35);
+      --paper: #ffffff;
+      --wash: #f8fafc;
+      --surface: rgba(255, 255, 255, 0.7);
+      --surface-hover: rgba(255, 255, 255, 0.9);
+
+      --grad-start: #0ea5e9;
+      --grad-mid: #6366f1;
+      --grad-end: #a855f7;
+      --gradient: linear-gradient(135deg, var(--grad-start), var(--grad-mid), var(--grad-end));
+
+      --teal: #0d9488;
+      --blue: #3b82f6;
+      --violet: #7c3aed;
+      --amber: #d97706;
+      --rose: #e11d48;
+      --emerald: #059669;
+
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 20px;
+
+      --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.04), 0 1px 2px rgba(15, 23, 42, 0.06);
+      --shadow-md: 0 4px 16px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(15, 23, 42, 0.04);
+      --shadow-lg: 0 12px 40px rgba(15, 23, 42, 0.08), 0 4px 12px rgba(15, 23, 42, 0.04);
+      --shadow-xl: 0 20px 60px rgba(15, 23, 42, 0.1), 0 8px 20px rgba(15, 23, 42, 0.06);
+      --shadow-glow: 0 0 40px rgba(99, 102, 241, 0.15);
+
+      font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { color: var(--ink); background: var(--wash); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+    a { color: var(--blue); text-decoration: none; transition: color 0.2s; }
+    a:hover { color: var(--grad-mid); }
+    code { font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace; font-size: 0.85em; }
+
+    /* ---- NAV ---- */
+    header {
+      position: sticky; top: 0; z-index: 50;
+      border-bottom: 1px solid var(--line);
+      background: rgba(248, 250, 252, 0.8);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+    }
+    nav {
+      max-width: 1200px; margin: 0 auto;
+      padding: 0 24px; height: 60px;
+      display: flex; align-items: center; justify-content: space-between; gap: 32px;
+    }
+    .brand {
+      font-weight: 800; font-size: 15px; color: var(--ink);
+      letter-spacing: -0.02em; white-space: nowrap;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .brand-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--gradient);
+      box-shadow: 0 0 8px rgba(99, 102, 241, 0.4);
+    }
+    .nav-links { display: flex; align-items: center; gap: 4px; }
+    .nav-links a {
+      color: var(--muted); font-weight: 500; font-size: 13px;
+      padding: 6px 12px; border-radius: 6px;
+      transition: all 0.2s;
+    }
+    .nav-links a:hover {
+      color: var(--ink); background: rgba(99, 102, 241, 0.06);
+      text-decoration: none;
+    }
+
+    /* ---- HERO ---- */
+    .hero-section {
+      position: relative; overflow: hidden;
+      background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #312e81 100%);
+      padding: 80px 0 60px;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background-image:
+        radial-gradient(ellipse 80% 60% at 70% 20%, rgba(99, 102, 241, 0.25), transparent),
+        radial-gradient(ellipse 60% 50% at 20% 80%, rgba(14, 165, 233, 0.15), transparent),
+        radial-gradient(ellipse 40% 40% at 80% 70%, rgba(168, 85, 247, 0.12), transparent);
+    }
+    .hero-grid-pattern {
+      position: absolute; inset: 0; opacity: 0.06;
+      background-image:
+        linear-gradient(rgba(255,255,255,.5) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.5) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black, transparent);
+      -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black, transparent);
+    }
+    .hero-inner {
+      position: relative; z-index: 1;
+      max-width: 1200px; margin: 0 auto; padding: 0 24px;
+      display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 48px; align-items: center;
+    }
+    .hero-copy { color: #e2e8f0; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
+      color: #a5b4fc;
+      background: rgba(99, 102, 241, 0.15);
+      border: 1px solid rgba(99, 102, 241, 0.25);
+      border-radius: 100px; padding: 5px 14px;
+      margin-bottom: 20px;
+    }
+    .eyebrow::before {
+      content: ""; width: 6px; height: 6px; border-radius: 50%;
+      background: #818cf8;
+      box-shadow: 0 0 6px #818cf8;
+    }
+    h1 {
+      font-size: clamp(36px, 5vw, 56px); font-weight: 900;
+      line-height: 1.05; letter-spacing: -0.03em;
+      color: #f1f5f9;
+    }
+    h1 .gradient-text {
+      background: linear-gradient(135deg, #60a5fa, #818cf8, #c084fc);
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .lead {
+      margin-top: 20px; font-size: 16px; line-height: 1.7;
+      color: #94a3b8; max-width: 540px;
+    }
+    .scope-row {
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      gap: 10px; margin-top: 28px;
+    }
+    .scope {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-md); padding: 14px 16px;
+      backdrop-filter: blur(8px);
+      transition: all 0.3s;
+    }
+    .scope:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(129, 140, 248, 0.3);
+      transform: translateY(-1px);
+    }
+    .scope strong {
+      display: block; font-size: 14px; font-weight: 700;
+      color: #f1f5f9; margin-bottom: 2px;
+    }
+    .scope span { color: #94a3b8; font-size: 12px; }
+
+    .concept {
+      border-radius: var(--radius-lg); overflow: hidden;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      transition: transform 0.4s, box-shadow 0.4s;
+    }
+    .concept:hover {
+      transform: translateY(-4px) scale(1.01);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4), 0 0 40px rgba(99, 102, 241, 0.1);
+    }
+    .concept img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
+    .concept figcaption {
+      padding: 14px 18px; font-size: 12px; color: #94a3b8;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      background: rgba(0, 0, 0, 0.2);
+    }
+
+    /* ---- CONTENT ---- */
+    .content { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+    section { padding: 64px 0; }
+    section + section { border-top: 1px solid var(--line); }
+
+    .section-label {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--grad-mid); margin-bottom: 12px;
+    }
+    .section-label::before {
+      content: ""; width: 20px; height: 2px; border-radius: 1px;
+      background: var(--gradient);
+    }
+
+    h2 {
+      font-size: clamp(26px, 3.5vw, 36px); font-weight: 800;
+      line-height: 1.15; letter-spacing: -0.02em;
+      color: var(--ink);
+    }
+    .section-desc {
+      margin-top: 12px; color: var(--muted); max-width: 680px;
+      font-size: 15px; line-height: 1.7;
+    }
+
+    /* ---- ARCHITECTURE DIAGRAM ---- */
+    .diagram-frame {
+      margin-top: 32px;
+      border-radius: var(--radius-lg);
+      background: var(--paper);
+      border: 1px solid var(--line);
+      padding: 3px;
+      box-shadow: var(--shadow-xl);
+      position: relative;
+    }
+    .diagram-frame::before {
+      content: "";
+      position: absolute; inset: -1px;
+      border-radius: calc(var(--radius-lg) + 1px);
+      background: var(--gradient);
+      z-index: -1; opacity: 0.3;
+      filter: blur(1px);
+    }
+    .diagram-frame img {
+      display: block; width: 100%;
+      border-radius: calc(var(--radius-lg) - 3px);
+      background: #fff;
+    }
+
+    /* ---- FLOW STEPS ---- */
+    .flow-pipeline {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 0; margin-top: 36px;
+      position: relative;
+    }
+    .flow-pipeline::before {
+      content: "";
+      position: absolute; top: 34px;
+      left: 40px; right: 40px; height: 2px;
+      background: linear-gradient(90deg, var(--teal), var(--blue), var(--amber), var(--rose), var(--teal), var(--blue));
+      border-radius: 1px; z-index: 0;
+      opacity: 0.25;
+    }
+    .flow-step {
+      position: relative; z-index: 1;
+      padding: 0 10px;
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center;
+    }
+    .step-num {
+      width: 36px; height: 36px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 14px;
+      color: var(--paper);
+      background: var(--step-color, var(--blue));
+      box-shadow: 0 0 0 4px var(--wash), 0 0 20px color-mix(in srgb, var(--step-color, var(--blue)) 30%, transparent);
+      margin-bottom: 16px;
+      flex-shrink: 0;
+    }
+    .step-card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 20px 16px;
+      width: 100%;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.3s;
+      flex: 1;
+    }
+    .step-card:hover {
+      box-shadow: var(--shadow-lg);
+      border-color: var(--line-strong);
+      transform: translateY(-3px);
+    }
+    .step-card h3 {
+      font-size: 15px; font-weight: 700; margin-bottom: 8px;
+      color: var(--ink);
+    }
+    .step-card p {
+      font-size: 12.5px; color: var(--muted); line-height: 1.6;
+    }
+
+    /* ---- PRODUCT CARDS ---- */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px; margin-top: 36px;
+    }
+    .product-card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      box-shadow: var(--shadow-md);
+      transition: all 0.35s;
+      position: relative; overflow: hidden;
+    }
+    .product-card::before {
+      content: "";
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: var(--card-accent, var(--gradient));
+      opacity: 0.8;
+    }
+    .product-card:hover {
+      box-shadow: var(--shadow-xl), var(--shadow-glow);
+      border-color: var(--line-strong);
+      transform: translateY(-4px);
+    }
+    .product-card:hover::before { opacity: 1; }
+
+    .card-header {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      gap: 16px; margin-bottom: 12px;
+    }
+    .product-card h3 {
+      font-size: 20px; font-weight: 800; letter-spacing: -0.01em;
+      color: var(--ink);
+    }
+    .card-badge {
+      flex-shrink: 0;
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 4px 10px; border-radius: 100px;
+      background: var(--badge-bg, rgba(99, 102, 241, 0.08));
+      color: var(--badge-color, var(--grad-mid));
+      border: 1px solid var(--badge-border, rgba(99, 102, 241, 0.15));
+    }
+    .role {
+      color: var(--muted); font-size: 14px; line-height: 1.65;
+      margin-bottom: 20px;
+    }
+    .module-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    .module {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      background: var(--wash);
+      transition: all 0.25s;
+    }
+    .module:hover {
+      background: var(--paper);
+      border-color: var(--line-strong);
+      box-shadow: var(--shadow-sm);
+    }
+    .module strong {
+      display: block; font-size: 13px; font-weight: 700;
+      color: var(--ink); margin-bottom: 4px;
+    }
+    .module span {
+      color: var(--muted); font-size: 11.5px; line-height: 1.5;
+    }
+
+    /* ---- TABLE ---- */
+    .table-wrap {
+      margin-top: 32px;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow-md);
+      background: var(--paper);
+    }
+    .matrix {
+      width: 100%; border-collapse: collapse;
+    }
+    .matrix th {
+      background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+      padding: 14px 18px;
+      font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--ink-secondary);
+      text-align: left;
+      border-bottom: 1px solid var(--line-strong);
+    }
+    .matrix td {
+      padding: 16px 18px;
+      font-size: 13.5px; color: var(--ink-secondary);
+      vertical-align: top;
+      border-bottom: 1px solid var(--line);
+    }
+    .matrix tr:last-child td { border-bottom: none; }
+    .matrix tr:hover td { background: rgba(99, 102, 241, 0.02); }
+    .matrix td:first-child {
+      font-weight: 700; color: var(--ink);
+      white-space: nowrap;
+      position: relative;
+    }
+    .matrix td:first-child::before {
+      content: "";
+      position: absolute; left: 0; top: 20%; bottom: 20%;
+      width: 3px; border-radius: 0 3px 3px 0;
+      background: var(--gradient);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .matrix tr:hover td:first-child::before { opacity: 1; }
+    .matrix code {
+      background: rgba(99, 102, 241, 0.06);
+      color: var(--grad-mid);
+      padding: 2px 6px; border-radius: 4px;
+      font-size: 12px;
+    }
+
+    /* ---- CALLOUT ---- */
+    .callout {
+      margin-top: 32px;
+      border-radius: var(--radius-lg);
+      padding: 24px 28px;
+      background: linear-gradient(135deg, rgba(251, 191, 36, 0.06), rgba(245, 158, 11, 0.06));
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      color: var(--ink-secondary);
+      font-size: 14px; line-height: 1.7;
+      display: flex; gap: 14px; align-items: flex-start;
+    }
+    .callout-icon {
+      flex-shrink: 0;
+      width: 24px; height: 24px; border-radius: 6px;
+      background: rgba(245, 158, 11, 0.12);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; margin-top: 1px;
+    }
+
+    /* ---- SOURCES ---- */
+    .source-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px; margin-top: 32px;
+    }
+    .source-card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      transition: all 0.3s;
+      display: flex; flex-direction: column;
+    }
+    .source-card:hover {
+      box-shadow: var(--shadow-lg);
+      border-color: var(--line-strong);
+      transform: translateY(-2px);
+    }
+    .source-card strong {
+      display: block; margin-bottom: 8px;
+      font-size: 14px; font-weight: 700;
+    }
+    .source-card strong a {
+      color: var(--ink);
+      transition: color 0.2s;
+    }
+    .source-card strong a:hover { color: var(--grad-mid); }
+    .source-card strong a::after {
+      content: " \2197"; font-size: 12px; color: var(--subtle);
+    }
+    .source-card p {
+      color: var(--muted); font-size: 12.5px; line-height: 1.6;
+      flex: 1;
+    }
+
+    /* ---- FOOTER ---- */
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 32px 0 48px;
+    }
+    .footer-inner {
+      max-width: 1200px; margin: 0 auto; padding: 0 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      color: var(--subtle); font-size: 12px;
+    }
+    .footer-dots { display: flex; gap: 4px; }
+    .footer-dots span {
+      width: 6px; height: 6px; border-radius: 50%;
+      opacity: 0.5;
+    }
+
+    /* ---- RESPONSIVE ---- */
+    @media (max-width: 1040px) {
+      .hero-inner { grid-template-columns: 1fr; }
+      .concept { max-width: 480px; }
+      .products-grid, .source-grid { grid-template-columns: 1fr; }
+      .flow-pipeline {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+      }
+      .flow-pipeline::before { display: none; }
+      .flow-step { align-items: flex-start; text-align: left; }
+    }
+    @media (max-width: 720px) {
+      .hero-section { padding: 48px 0 40px; }
+      nav { height: auto; padding: 12px 16px; flex-direction: column; align-items: flex-start; gap: 10px; }
+      .nav-links { flex-wrap: wrap; gap: 2px; }
+      .scope-row, .flow-pipeline, .module-grid { grid-template-columns: 1fr; }
+      .flow-pipeline::before { display: none; }
+      .flow-step { align-items: flex-start; text-align: left; }
+      section { padding: 40px 0; }
+      .table-wrap { overflow-x: auto; }
+      .matrix { min-width: 640px; }
+      .content { padding: 0 16px; }
+    }
+
+    /* ---- ANIMATIONS ---- */
+    .reveal {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
+  </style>
+</head>
+<body>
+  <header>
+    <nav aria-label="页面导航">
+      <a class="brand" href="#top"><span class="brand-dot"></span>ThingsBoard 架构拆解</a>
+      <div class="nav-links">
+        <a href="#architecture">架构图</a>
+        <a href="#flows">数据流</a>
+        <a href="#products">四个主体</a>
+        <a href="#module-map">模块矩阵</a>
+        <a href="#deploy">部署理解</a>
+        <a href="#sources">资料来源</a>
+      </div>
+    </nav>
+  </header>
+
+  <div class="hero-section" id="top">
+    <div class="hero-bg"></div>
+    <div class="hero-grid-pattern"></div>
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <div class="eyebrow">Focused ecosystem analysis</div>
+        <h1>ThingsBoard<br><span class="gradient-text">四大核心组件</span><br>架构拆解</h1>
+        <p class="lead">拆解对象：Edge、IoT Gateway、TBMQ、Trendz Analytics。Server / Cloud 不在范围内，但它是这四个组件的协调中枢——设备建模、租户隔离、规则执行、数据可视化都绕不开它。</p>
+
+        <div class="scope-row" aria-label="分析范围">
+          <div class="scope"><strong>Edge</strong><span>边缘本地处理与云端同步</span></div>
+          <div class="scope"><strong>IoT Gateway</strong><span>工业协议与平台数据模型转换</span></div>
+          <div class="scope"><strong>TBMQ</strong><span>大规模 MQTT 消息骨干</span></div>
+          <div class="scope"><strong>Trendz</strong><span>面向 IoT 数据的分析与预测层</span></div>
+        </div>
+      </div>
+
+      <figure class="concept">
+        <img src="assets/thingsboard-image2-architecture-concept.png" alt="image2 生成的 ThingsBoard 架构视觉草图" loading="lazy">
+        <figcaption>image2 生成的视觉底稿。正式架构图的文字和连线用 SVG 手动排版，不让生成模型瞎标。</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ARCHITECTURE DIAGRAM -->
+    <section id="architecture">
+      <div class="reveal">
+        <div class="section-label">Architecture</div>
+        <h2>完整架构图</h2>
+        <p class="section-desc">从协议接入到边缘处理、云端协调、消息骨干、分析层，一张图拉通。Server / Cloud 画在中间是因为绕不开，但不在拆解范围内。</p>
+      </div>
+      <div class="diagram-frame reveal reveal-delay-1">
+        <img src="assets/thingsboard-architecture-image2.svg" alt="ThingsBoard Edge、IoT Gateway、TBMQ、Trendz Analytics 架构图">
+      </div>
+    </section>
+
+    <!-- DATA FLOW -->
+    <section id="flows">
+      <div class="reveal">
+        <div class="section-label">Data Flow</div>
+        <h2>端到端数据流</h2>
+        <p class="section-desc">这四个组件不互相替代，各管一段：Gateway 管协议适配，Edge 管断网自治，TBMQ 管大规模消息吞吐，Trendz 管数据分析。下面是一条数据从设备到分析的完整链路。</p>
+      </div>
+
+      <div class="flow-pipeline">
+        <div class="flow-step reveal reveal-delay-1">
+          <div class="step-num" style="--step-color: #0d9488">1</div>
+          <div class="step-card">
+            <h3>现场接入</h3>
+            <p>设备直连 Edge / Server，或经 Gateway 接入。Gateway 搞定 Modbus、OPC-UA、BACnet、CAN、BLE、SNMP、OCPP 这些工业协议。</p>
+          </div>
+        </div>
+        <div class="flow-step reveal reveal-delay-2">
+          <div class="step-num" style="--step-color: #3b82f6">2</div>
+          <div class="step-card">
+            <h3>数据转换</h3>
+            <p>Connector 拉取或订阅原始数据，Converter 转成平台认识的 telemetry、attributes、RPC response。</p>
+          </div>
+        </div>
+        <div class="flow-step reveal reveal-delay-3">
+          <div class="step-num" style="--step-color: #d97706">3</div>
+          <div class="step-card">
+            <h3>边缘处理</h3>
+            <p>Edge Transport 收 MQTT / HTTP / CoAP / LwM2M / SNMP，Rule Engine 在本地跑过滤、富化、存盘、告警。</p>
+          </div>
+        </div>
+        <div class="flow-step reveal reveal-delay-4">
+          <div class="step-num" style="--step-color: #e11d48">4</div>
+          <div class="step-card">
+            <h3>云端同步</h3>
+            <p>Cloud Manager 把要上云的事件攒进队列，走双向 gRPC 流推给 Server / Cloud。</p>
+          </div>
+        </div>
+        <div class="flow-step reveal reveal-delay-5">
+          <div class="step-num" style="--step-color: #0d9488">5</div>
+          <div class="step-card">
+            <h3>MQTT 骨干</h3>
+            <p>TBMQ 给设备和应用客户端当 MQTT broker。Kafka 存消息、会话、订阅，Redis / Valkey 管持久消息投递。</p>
+          </div>
+        </div>
+        <div class="flow-step reveal reveal-delay-5">
+          <div class="step-num" style="--step-color: #3b82f6">6</div>
+          <div class="step-card">
+            <h3>分析闭环</h3>
+            <p>Trendz 走内部 API 拉实体和遥测数据，输出分析视图、预测模型、异常检测。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section id="products">
+      <div class="reveal">
+        <div class="section-label">Products</div>
+        <h2>四个主体</h2>
+        <p class="section-desc">按产品定位、源码模块、运行时组件三层拆。Trendz 源码不公开，靠官方文档和配置参考补齐。</p>
+      </div>
+
+      <div class="products-grid">
+        <article class="product-card reveal reveal-delay-1" style="--card-accent: linear-gradient(135deg, #0d9488, #06b6d4)">
+          <div class="card-header">
+            <h3>ThingsBoard Edge</h3>
+            <span class="card-badge" style="--badge-bg: rgba(13,148,136,0.08); --badge-color: #0d9488; --badge-border: rgba(13,148,136,0.15)">Edge</span>
+          </div>
+          <p class="role">装在现场的 ThingsBoard 实例。本地处理数据、存状态，选择性地往云端同步。</p>
+          <div class="module-grid">
+            <div class="module"><strong>Transport</strong><span>收 MQTT / HTTP / CoAP / LwM2M / SNMP，校验凭据后丢给 Rule Engine。</span></div>
+            <div class="module"><strong>Rule Engine</strong><span>本地跑规则链：过滤、富化、存盘、告警、RPC、push to cloud。</span></div>
+            <div class="module"><strong>Cloud Manager</strong><span>读 cloud event queue，gRPC 上推事件，下拉配置和实体变更。</span></div>
+            <div class="module"><strong>Local State</strong><span>PostgreSQL 存实体、遥测、告警、cloud_events。高吞吐场景可换 Kafka 队列。</span></div>
+          </div>
+        </article>
+
+        <article class="product-card reveal reveal-delay-2" style="--card-accent: linear-gradient(135deg, #3b82f6, #6366f1)">
+          <div class="card-header">
+            <h3>ThingsBoard IoT Gateway</h3>
+            <span class="card-badge">Gateway</span>
+          </div>
+          <p class="role">Python 写的协议桥。老设备不会说 ThingsBoard 的话，Gateway 给它们当翻译。</p>
+          <div class="module-grid">
+            <div class="module"><strong>Gateway Service</strong><span>拉起连接器、初始化存储、连 ThingsBoard Client，上报运行统计。</span></div>
+            <div class="module"><strong>Connectors</strong><span>MQTT、Modbus、OPC-UA、BACnet、BLE、CAN、FTP、KNX、ODBC、OCPP、SNMP，每种协议一个目录。</span></div>
+            <div class="module"><strong>Converters</strong><span>Uplink 把协议数据转成平台模型，Downlink 反过来。</span></div>
+            <div class="module"><strong>Event Storage</strong><span>文档写了 memory 和 file 两种，源码里还有个 SQLite 实现，重启不丢数据。</span></div>
+          </div>
+        </article>
+
+        <article class="product-card reveal reveal-delay-3" style="--card-accent: linear-gradient(135deg, #7c3aed, #a855f7)">
+          <div class="card-header">
+            <h3>ThingsBoard MQTT Broker (TBMQ)</h3>
+            <span class="card-badge" style="--badge-bg: rgba(124,58,237,0.08); --badge-color: #7c3aed; --badge-border: rgba(124,58,237,0.15)">Broker</span>
+          </div>
+          <p class="role">独立的 MQTT broker，冲着百万级连接、持久会话、共享订阅去的。</p>
+          <div class="module-grid">
+            <div class="module"><strong>Listener Layer</strong><span>Netty 起 TCP / TLS / WebSocket / WSS，标准 channel pipeline。</span></div>
+            <div class="module"><strong>Session & Actor</strong><span>每个客户端一个 Actor，管会话状态、QoS in-flight、topic alias。</span></div>
+            <div class="module"><strong>Kafka Backbone</strong><span>按 msg.all、msg.persisted、msg.app.$CLIENT_ID、retained、session、subscription 分主题。</span></div>
+            <div class="module"><strong>Integration Executor</strong><span>每个 integration 独立 Kafka 主题，消费后转发到 HTTP / MQTT / Kafka 外部端点。</span></div>
+          </div>
+        </article>
+
+        <article class="product-card reveal reveal-delay-4" style="--card-accent: linear-gradient(135deg, #d97706, #f59e0b)">
+          <div class="card-header">
+            <h3>Trendz Analytics</h3>
+            <span class="card-badge" style="--badge-bg: rgba(217,119,6,0.08); --badge-color: #d97706; --badge-border: rgba(217,119,6,0.15)">Analytics</span>
+          </div>
+          <p class="role">分析插件，吃平台已有的设备、资产、时序数据，产出分析视图、预测和异常检测。</p>
+          <div class="module-grid">
+            <div class="module"><strong>ThingsBoard Link</strong><span>Trendz 和 ThingsBoard 各配一个内部 URL 互指，配好就自动 discovery。</span></div>
+            <div class="module"><strong>Topology Discovery</strong><span>拉取实体、关系、字段，按资产层级和设备类型组织分析维度。</span></div>
+            <div class="module"><strong>Analytics Workspace</strong><span>Metric Explorer、View Builder、calculated fields、forecast views、anomaly models。</span></div>
+            <div class="module"><strong>Runtime Services</strong><span>Trendz PostgreSQL、Caffeine / Redis cache、Python Executor WebSocket、Task Service。</span></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- MODULE MATRIX -->
+    <section id="module-map">
+      <div class="reveal">
+        <div class="section-label">Module Map</div>
+        <h2>模块矩阵</h2>
+        <p class="section-desc">产品和源码结构的对照表。后续可以往源码阅读路线图或竞品对比方向扩展。</p>
+      </div>
+
+      <div class="table-wrap reveal reveal-delay-1">
+        <table class="matrix">
+          <thead>
+            <tr>
+              <th>主体</th>
+              <th>关键源码目录</th>
+              <th>核心运行组件</th>
+              <th>主要协议 / 接口</th>
+              <th>状态与存储</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Edge</td>
+              <td><code>thingsboard-edge/application</code>, <code>common/edge-api</code>, <code>common/proto</code>, <code>rule-engine</code>, <code>dao</code></td>
+              <td>Transport, Rule Engine, Core REST/WS, Cloud Manager, Cloud Processors, local Web UI</td>
+              <td>MQTT, HTTP, CoAP, LwM2M, SNMP, gRPC + Protocol Buffers</td>
+              <td>PostgreSQL; cloud event queue in PostgreSQL or Kafka; credential cache</td>
+            </tr>
+            <tr>
+              <td>Gateway</td>
+              <td><code>thingsboard_gateway/connectors</code>, <code>gateway/tb_gateway_service.py</code>, <code>gateway/tb_client.py</code>, <code>storage</code>, <code>config</code></td>
+              <td>Gateway Service, Connector, Converter, Event Storage, ThingsBoard Client, statistics, remote config</td>
+              <td>MQTT upstream to ThingsBoard; connector-specific protocols; optional gRPC connector service</td>
+              <td>Memory, file, SQLite event storage; JSON connector configuration</td>
+            </tr>
+            <tr>
+              <td>TBMQ</td>
+              <td><code>tbmq/application</code>, <code>common/queue</code>, <code>common/integration</code>, <code>integration/executor</code>, <code>dao</code>, <code>ui-ngx</code></td>
+              <td>Netty broker, MQTT handler, client/session actors, subscription trie, persistence services, Integration Executor, management console</td>
+              <td>MQTT 3.x / 5, MQTT over WebSocket, TLS, REST admin APIs, integration topics</td>
+              <td>Kafka, PostgreSQL, Redis / Valkey; dedicated topics per application client and integration</td>
+            </tr>
+            <tr>
+              <td>Trendz</td>
+              <td>Public source repo not anonymously accessible; docs expose <code>trendz.yml</code> and runtime services</td>
+              <td>Topology discovery, Metric Explorer, View Builder, calculated fields, prediction, anomaly detection, AI Assistant, Task Service</td>
+              <td>HTTP internal URL to ThingsBoard, REST API, WebSocket to Python Executor, embedded dashboard views</td>
+              <td>Trendz PostgreSQL; Caffeine or Redis cache; Python Executor for script calculations</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- DEPLOYMENT -->
+    <section id="deploy">
+      <div class="reveal">
+        <div class="section-label">Deployment</div>
+        <h2>部署理解</h2>
+        <p class="section-desc">四个组件的典型搭配方式，偏工程落地视角。</p>
+      </div>
+
+      <div class="table-wrap reveal reveal-delay-1">
+        <table class="matrix">
+          <thead>
+            <tr>
+              <th>场景</th>
+              <th>推荐组合</th>
+              <th>理由</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>单现场、弱网络</td>
+              <td>Gateway + Edge + Server / Cloud</td>
+              <td>Gateway 负责老设备接入，Edge 在现场保存和处理数据，网络恢复后再同步云端。</td>
+            </tr>
+            <tr>
+              <td>海量 MQTT 设备</td>
+              <td>TBMQ + Server / Cloud + Trendz</td>
+              <td>TBMQ 承担 MQTT 会话、QoS、共享订阅和吞吐，平台侧处理实体与规则，Trendz 做后续分析。</td>
+            </tr>
+            <tr>
+              <td>工业协议 + 边缘自治</td>
+              <td>Gateway + Edge</td>
+              <td>现场设备不用改固件，规则、告警、仪表盘和 RPC 可以在本地继续运行。</td>
+            </tr>
+            <tr>
+              <td>预测维护和运营分析</td>
+              <td>Server / Cloud + Trendz，可接入 Edge 或 TBMQ 数据</td>
+              <td>Trendz 的拓扑发现、计算字段、预测和异常检测依赖平台已经采集的实体关系与遥测。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout reveal reveal-delay-2">
+        <div class="callout-icon">!</div>
+        <p><strong>注意：</strong>Trendz 源码不公开，相关内容依据官方文档和配置参考，不是源码验证。Edge、Gateway、TBMQ 的拆解同时看了文档和源码。</p>
+      </div>
+    </section>
+
+    <!-- SOURCES -->
+    <section id="sources">
+      <div class="reveal">
+        <div class="section-label">References</div>
+        <h2>资料来源</h2>
+        <p class="section-desc">官方文档 + 本地浅克隆源码交叉验证。源码在 <code>upstream/</code> 目录下。</p>
+      </div>
+      <div class="source-grid">
+        <article class="source-card reveal reveal-delay-1">
+          <strong><a href="https://thingsboard.io/products/">ThingsBoard Products</a></strong>
+          <p>官方产品线总览，确认四个组件的定位和边界。</p>
+        </article>
+        <article class="source-card reveal reveal-delay-2">
+          <strong><a href="https://thingsboard.io/docs/reference/architecture/">ThingsBoard Architecture</a></strong>
+          <p>核心平台架构参考：服务分组、传输层、Rule Engine、横向扩展模式。</p>
+        </article>
+        <article class="source-card reveal reveal-delay-3">
+          <strong><a href="https://thingsboard.io/docs/edge/reference/architecture/">Edge Architecture</a></strong>
+          <p>Edge 单进程模型、本地存储、Cloud Manager、gRPC 同步的架构说明。</p>
+        </article>
+        <article class="source-card reveal reveal-delay-1">
+          <strong><a href="https://thingsboard.io/docs/iot-gateway/what-is-thingsboard-iot-gateway/">IoT Gateway Architecture</a></strong>
+          <p>Gateway 的 Connector / Converter / Event Storage 组件结构说明。</p>
+        </article>
+        <article class="source-card reveal reveal-delay-2">
+          <strong><a href="https://thingsboard.io/docs/mqtt-broker/architecture/">TBMQ Architecture</a></strong>
+          <p>TBMQ 的 Kafka backbone、持久会话、客户端分类等设计原则。</p>
+        </article>
+        <article class="source-card reveal reveal-delay-3">
+          <strong><a href="https://thingsboard.io/docs/trendz/">Trendz Docs</a></strong>
+          <p>Trendz 的分析能力、预测模型、异常检测及部署配置。</p>
+        </article>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <p>ThingsBoard 四组件架构拆解 · 图片资源：<code>assets/thingsboard-image2-architecture-concept.png</code>、<code>assets/thingsboard-architecture-image2.svg</code></p>
+      <div class="footer-dots">
+        <span style="background: var(--teal)"></span>
+        <span style="background: var(--blue)"></span>
+        <span style="background: var(--violet)"></span>
+        <span style="background: var(--amber)"></span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  </script>
+</body>
+</html>

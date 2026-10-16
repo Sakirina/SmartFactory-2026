@@ -1,0 +1,218 @@
+- generic [ref=e1]:
+  - generic [ref=e58]:
+    - complementary [ref=e59]:
+      - link "SF SmartFactory 现场工作台" [ref=e60] [cursor=pointer]:
+        - /url: "#overview"
+        - generic [ref=e61]: SF
+        - generic [ref=e62]:
+          - text: SmartFactory
+          - generic [ref=e63]: 现场工作台
+      - generic [ref=e64]: 示例工厂 / edge-a
+      - navigation "主导航" [ref=e65]:
+        - button "运行概览" [ref=e66] [cursor=pointer]
+        - button "设备与资产" [ref=e68] [cursor=pointer]
+        - button "数据监控" [ref=e70] [cursor=pointer]
+        - button "审批与执行" [ref=e72] [cursor=pointer]
+        - button "通知记录" [ref=e74] [cursor=pointer]
+        - button "历史补算" [ref=e76] [cursor=pointer]
+        - button "后台任务" [ref=e78] [cursor=pointer]
+        - button "历史分析" [ref=e80] [cursor=pointer]
+        - button "运行状态" [ref=e82] [cursor=pointer]
+      - generic [ref=e84]:
+        - text: 独立实例 · 边缘运行
+        - generic [ref=e86]: 规则版本与操作记录全程保存
+    - generic [ref=e87]:
+      - banner [ref=e88]:
+        - generic [ref=e89]:
+          - text: 现场工作台
+          - generic [ref=e90]: /
+          - strong [ref=e91]: 审批与执行
+        - generic [ref=e92]:
+          - generic [ref=e94] [cursor=pointer]:
+            - generic "手动查询" [ref=e357]:
+              - text: 手动查询
+              - combobox "页面刷新方式" [ref=e96]
+            - img "down" [ref=e98]
+          - generic [ref=e101]: engineer
+          - button "退出" [ref=e103] [cursor=pointer]
+      - main [ref=e105]:
+        - generic [ref=e106]:
+          - generic [ref=e107]:
+            - heading "审批与执行" [level=1] [ref=e108]
+            - paragraph [ref=e109]: 核对会签、现场条件、设备动作和反馈，按照当前许可取消、核对或恢复剩余步骤。
+          - generic [ref=e111]:
+            - button "更新执行列表" [ref=e113] [cursor=pointer]
+            - button "发起即时控制" [ref=e116] [cursor=pointer]
+        - generic [ref=e118]:
+          - textbox "控制执行身份" [ref=e119]:
+            - /placeholder: 输入完整控制执行身份
+            - text: cancel-browser
+          - button "查看指定执行" [ref=e120] [cursor=pointer]
+        - generic [ref=e126]:
+          - table [ref=e130]:
+            - rowgroup [ref=e131]:
+              - row [ref=e132]:
+                - columnheader "执行 / 预案版本" [ref=e133]
+                - columnheader "执行状态" [ref=e134]
+                - columnheader "风险依据" [ref=e135]
+                - columnheader "已有会签" [ref=e136]
+                - columnheader "请求时间" [ref=e137]
+                - columnheader "操作" [ref=e138]
+            - rowgroup [ref=e139]:
+              - row [ref=e585]:
+                - cell "cancel-browser control-fixture · v1" [ref=e586]:
+                  - button "cancel-browser" [ref=e587] [cursor=pointer]
+                  - generic [ref=e589]: control-fixture · v1
+                - cell "正在执行正常步骤" [ref=e590]
+                - cell "business / 1级" [ref=e592]
+                - cell "2人" [ref=e593]
+                - cell "2026/10/5 05:39:27" [ref=e594]
+                - cell [ref=e595]:
+                  - button "执行详情" [ref=e596] [cursor=pointer]
+              - row [ref=e598]:
+                - cell "recover-browser control-fixture · v1" [ref=e599]:
+                  - button "recover-browser" [ref=e600] [cursor=pointer]
+                  - generic [ref=e602]: control-fixture · v1
+                - cell "正常步骤已完成" [ref=e603]
+                - cell "business / 1级" [ref=e605]
+                - cell "2人" [ref=e606]
+                - cell "2026/10/5 05:39:26" [ref=e607]
+                - cell [ref=e608]:
+                  - button "执行详情" [ref=e609] [cursor=pointer]
+          - list [ref=e611]:
+            - listitem "上一页" [ref=e612]:
+              - button [disabled] [ref=e613]:
+                - img "left" [ref=e614]
+            - listitem "1" [ref=e617] [cursor=pointer]
+            - listitem "下一页" [ref=e619]:
+              - button [disabled] [ref=e620]:
+                - img "right" [ref=e621]
+      - contentinfo [ref=e179]:
+        - text: SmartFactory · edge-a
+        - generic [ref=e180]: 界面时间使用 Asia/Shanghai 时区
+  - dialog "控制执行详情" [ref=e182]:
+    - generic [ref=e183]:
+      - generic [ref=e184]:
+        - button "关闭" [ref=e185] [cursor=pointer]:
+          - img "close" [ref=e186]
+        - generic [ref=e189]: 控制执行详情
+      - button "loading 更新执行详情" [ref=e624] [cursor=pointer]:
+        - generic:
+          - img "loading"
+        - generic [ref=e192]: 更新执行详情
+    - generic [ref=e193]:
+      - alert [ref=e625]:
+        - img "exclamation-circle" [ref=e627]
+        - generic [ref=e630]:
+          - generic [ref=e631]: 执行版本或状态已经变化
+          - generic [ref=e632]: 详情已更新，请核对当前版本与许可操作。服务返回：version or message content conflict
+      - generic [ref=e633]:
+        - table [ref=e636]:
+          - rowgroup [ref=e637]:
+            - row [ref=e638]:
+              - rowheader "执行身份" [ref=e639]
+              - cell "cancel-browser" [ref=e640]
+              - rowheader "预案版本" [ref=e641]
+              - cell "control-fixture · v1" [ref=e642]
+            - row [ref=e643]:
+              - rowheader "当前执行状态" [ref=e644]
+              - cell "正在执行正常步骤" [ref=e645]
+              - rowheader "当前处理依据" [ref=e648]
+              - cell "暂无补充说明" [ref=e649]
+            - row [ref=e650]:
+              - rowheader "当前应用版本" [ref=e651]
+              - cell "6" [ref=e652]
+              - rowheader "来源节点 / 边缘版本" [ref=e653]
+              - cell "edge-a / 6" [ref=e654]
+            - row [ref=e655]:
+              - rowheader "执行分支" [ref=e656]
+              - cell "正常步骤" [ref=e657]
+              - rowheader "执行协调身份 / 执行权" [ref=e658]
+              - cell "暂无协调身份 / 0" [ref=e659]
+            - row [ref=e660]:
+              - rowheader "当前原命令身份" [ref=e661]
+              - cell "cancel-browser:first" [ref=e662]
+              - rowheader "会签有效期限" [ref=e663]
+              - cell "2026/10/5 06:39:27" [ref=e664]
+            - row [ref=e665]:
+              - rowheader "执行开始期限" [ref=e666]
+              - cell "2026/10/5 05:52:37" [ref=e667]
+              - rowheader "取消请求时间" [ref=e668]
+              - cell "暂无记录" [ref=e669]
+        - generic [ref=e670]:
+          - generic [ref=e672]:
+            - generic "人工操作理由" [ref=e674]
+            - textbox "人工操作理由" [ref=e678]: 并发版本变化后取消尚未执行步骤
+          - generic [ref=e679]:
+            - button "取消后续步骤" [ref=e681] [cursor=pointer]
+            - button "核对原命令结果" [disabled] [ref=e684]
+            - button "恢复剩余步骤" [disabled] [ref=e686]
+          - generic [ref=e687]: 核对原命令结果：operation is unavailable in the current execution state
+          - generic [ref=e688]: 恢复剩余步骤：operation is unavailable in the current execution state
+        - generic [ref=e689]:
+          - tablist [ref=e690]:
+            - generic [ref=e692]:
+              - tab "会签与设备步骤" [selected] [ref=e694] [cursor=pointer]
+              - tab "人工请求与回执" [ref=e696] [cursor=pointer]
+              - tab "原命令核对证据" [ref=e698] [cursor=pointer]
+              - tab "关联时间线" [ref=e700] [cursor=pointer]
+          - tabpanel "会签与设备步骤" [ref=e703]:
+            - heading "人员会签" [level=3] [ref=e704]
+            - table [ref=e711]:
+              - rowgroup [ref=e712]:
+                - row [ref=e713]:
+                  - columnheader "人员 / 角色" [ref=e714]
+                  - columnheader "确认时间" [ref=e715]
+                  - columnheader "现场证据" [ref=e716]
+              - rowgroup [ref=e717]:
+                - row [ref=e718]:
+                  - cell "engineer / engineer" [ref=e719]
+                  - cell "2026/10/5 05:39:27" [ref=e720]
+                  - cell "账号会话" [ref=e721]
+                - row [ref=e722]:
+                  - cell "leader / leader" [ref=e723]
+                  - cell "2026/10/5 05:39:27" [ref=e724]
+                  - cell "账号会话" [ref=e725]
+            - heading "设备动作与回执" [level=3] [ref=e726]
+            - table [ref=e733]:
+              - rowgroup [ref=e734]:
+                - row [ref=e735]:
+                  - columnheader "步骤 / 命令身份" [ref=e736]
+                  - columnheader "设备 / 分支" [ref=e737]
+                  - columnheader "设备结果" [ref=e738]
+                  - columnheader "步骤开始 / 保存结果时间" [ref=e739]
+                  - columnheader "反馈说明" [ref=e740]
+              - rowgroup [ref=e741]:
+                - row [ref=e742]:
+                  - cell "暂无数据 暂无数据" [ref=e743]:
+                    - generic [ref=e745]:
+                      - img "暂无数据" [ref=e747]
+                      - generic [ref=e753]: 暂无数据
+            - generic [ref=e754]:
+              - button "采用版本的条件、正常步骤和降级步骤" [ref=e756] [cursor=pointer]
+              - button "执行记录绑定摘要" [ref=e763] [cursor=pointer]
+              - button "判断时的现场观测与来源" [ref=e770] [cursor=pointer]
+  - generic [ref=e555]:
+    - dialog "取消后续步骤" [active]:
+      - generic [ref=e556]:
+        - button "关闭" [ref=e557] [cursor=pointer]:
+          - generic "关闭" [ref=e558]:
+            - img "close" [ref=e559]
+        - generic [ref=e562]: 取消后续步骤
+        - generic [ref=e564]:
+          - paragraph [ref=e565]: 停止尚未执行的后续步骤，已发送的原命令继续保留结果与核对记录。
+          - table [ref=e568]:
+            - rowgroup [ref=e569]:
+              - row [ref=e570]:
+                - 'cell "此次理由 : 并发版本变化后取消尚未执行步骤" [ref=e571]':
+                  - generic [ref=e572]:
+                    - generic [ref=e573]: "此次理由 :"
+                    - generic [ref=e574]: 并发版本变化后取消尚未执行步骤
+              - row [ref=e776]:
+                - 'cell "当前 / 来源版本 : 6 / 6" [ref=e777]':
+                  - generic [ref=e577]:
+                    - generic [ref=e578]: "当前 / 来源版本 :"
+                    - generic [ref=e579]: 6 / 6
+        - generic [ref=e580]:
+          - button "取消" [ref=e581] [cursor=pointer]
+          - button "提交此次人工操作" [ref=e583] [cursor=pointer]

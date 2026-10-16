@@ -1,0 +1,84 @@
+{
+  "label": "a02-ordinary-ai",
+  "command": [
+    "go",
+    "tool",
+    "test2json",
+    "-t",
+    "-p",
+    "competition2026/product/platform/internal/ai",
+    "/private/tmp/smartfactory-phase4-independent-a02-20261005/bin/Platform-internal-ai.test",
+    "-test.v=test2json",
+    "-test.count=1",
+    "-test.parallel=1",
+    "-test.timeout=240s",
+    "-test.run=."
+  ],
+  "cwd": "/private/tmp/smartfactory-phase4-independent-a02-20261005/workspace/Platform/internal/ai",
+  "started_at": "2026-10-05T03:22:07.028792+00:00",
+  "completed_at": "2026-10-05T03:22:26.659516+00:00",
+  "elapsed_seconds": 19.631,
+  "exit_code": 0,
+  "postgres": false,
+  "stdout": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-a02/a02-ordinary-ai.stdout.log",
+    "sha256": "5cb41351701443e28ef47392597d4625550fdcf2ced4f0f6d0953285197b828b",
+    "bytes": 128599
+  },
+  "stderr": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-a02/a02-ordinary-ai.stderr.log",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "counts": {
+    "top_level": {
+      "pass": 43,
+      "fail": 0,
+      "skip": 3
+    },
+    "leaf": {
+      "pass": 99,
+      "fail": 0,
+      "skip": 3
+    },
+    "all_named": {
+      "pass": 115,
+      "fail": 0,
+      "skip": 3
+    },
+    "packages": {
+      "pass": 1,
+      "fail": 0,
+      "skip": 0
+    },
+    "skips": [
+      {
+        "package": "competition2026/product/platform/internal/ai",
+        "test": "TestInvestigationPostgresRevocationExpiryAndDeletion",
+        "reason": "=== RUN   TestInvestigationPostgresRevocationExpiryAndDeletion\n    investigation_http_test.go:351: isolated PostgreSQL integration DSN required\n--- SKIP: TestInvestigationPostgresRevocationExpiryAndDeletion (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/ai",
+        "test": "TestInvestigationPostgresRestartPreservesHTTPResults",
+        "reason": "=== RUN   TestInvestigationPostgresRestartPreservesHTTPResults\n    investigation_http_test.go:482: isolated PostgreSQL integration DSN required\n--- SKIP: TestInvestigationPostgresRestartPreservesHTTPResults (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/ai",
+        "test": "TestInvestigationPostgresOriginalResourceDeletion",
+        "reason": "=== RUN   TestInvestigationPostgresOriginalResourceDeletion\n    investigation_resource_deletion_test.go:35: isolated PostgreSQL integration DSN required\n--- SKIP: TestInvestigationPostgresOriginalResourceDeletion (0.00s)\n"
+      }
+    ],
+    "failures": [],
+    "races": 0
+  },
+  "build_inputs": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-a02/build-inputs.json",
+    "sha256": "ef45961ea2105d0802a5a27785475b16d7144d2ad84708aca043479f0c100891",
+    "bytes": 1735031
+  },
+  "binary": {
+    "path": "/private/tmp/smartfactory-phase4-independent-a02-20261005/bin/Platform-internal-ai.test",
+    "sha256": "dc6ab6a8a8a99966a3867bec50be3a69bf3ae2099a001b061bbf1b91630cb175",
+    "bytes": 54291970
+  }
+}

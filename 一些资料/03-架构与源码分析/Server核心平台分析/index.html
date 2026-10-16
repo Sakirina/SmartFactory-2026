@@ -1,0 +1,824 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ThingsBoard 核心平台 · 架构与数据流拆解</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #0f172a;
+      --ink-secondary: #334155;
+      --muted: #64748b;
+      --subtle: #94a3b8;
+      --line: rgba(148, 163, 184, 0.2);
+      --line-strong: rgba(148, 163, 184, 0.35);
+      --paper: #ffffff;
+      --wash: #f8fafc;
+
+      --grad-start: #0ea5e9;
+      --grad-mid: #6366f1;
+      --grad-end: #a855f7;
+      --gradient: linear-gradient(135deg, var(--grad-start), var(--grad-mid), var(--grad-end));
+
+      --teal: #0d9488;
+      --blue: #2563eb;
+      --violet: #7c3aed;
+      --amber: #d97706;
+      --rose: #e11d48;
+      --emerald: #059669;
+      --cyan: #0891b2;
+
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 20px;
+
+      --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.04), 0 1px 2px rgba(15, 23, 42, 0.06);
+      --shadow-md: 0 4px 16px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(15, 23, 42, 0.04);
+      --shadow-lg: 0 12px 40px rgba(15, 23, 42, 0.08), 0 4px 12px rgba(15, 23, 42, 0.04);
+      --shadow-xl: 0 20px 60px rgba(15, 23, 42, 0.1), 0 8px 20px rgba(15, 23, 42, 0.06);
+      --shadow-glow: 0 0 40px rgba(99, 102, 241, 0.15);
+
+      font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { color: var(--ink); background: var(--wash); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+    a { color: var(--blue); text-decoration: none; transition: color 0.2s; }
+    a:hover { color: var(--grad-mid); }
+    code { font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace; font-size: 0.86em; }
+
+    /* ---- NAV ---- */
+    header {
+      position: sticky; top: 0; z-index: 50;
+      border-bottom: 1px solid var(--line);
+      background: rgba(248, 250, 252, 0.8);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+    }
+    nav {
+      max-width: 1240px; margin: 0 auto;
+      padding: 0 24px; height: 60px;
+      display: flex; align-items: center; justify-content: space-between; gap: 32px;
+    }
+    .brand {
+      font-weight: 800; font-size: 15px; color: var(--ink);
+      letter-spacing: -0.02em; white-space: nowrap;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .brand-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--gradient);
+      box-shadow: 0 0 8px rgba(99, 102, 241, 0.4);
+    }
+    .nav-links { display: flex; align-items: center; gap: 4px; }
+    .nav-links a {
+      color: var(--muted); font-weight: 500; font-size: 13px;
+      padding: 6px 12px; border-radius: 6px;
+      transition: all 0.2s;
+    }
+    .nav-links a:hover {
+      color: var(--ink); background: rgba(99, 102, 241, 0.06);
+      text-decoration: none;
+    }
+
+    /* ---- HERO ---- */
+    .hero-section {
+      position: relative; overflow: hidden;
+      background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #312e81 100%);
+      padding: 84px 0 64px;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background-image:
+        radial-gradient(ellipse 80% 60% at 70% 20%, rgba(99, 102, 241, 0.25), transparent),
+        radial-gradient(ellipse 60% 50% at 20% 80%, rgba(14, 165, 233, 0.15), transparent),
+        radial-gradient(ellipse 40% 40% at 80% 70%, rgba(168, 85, 247, 0.12), transparent);
+    }
+    .hero-grid-pattern {
+      position: absolute; inset: 0; opacity: 0.06;
+      background-image:
+        linear-gradient(rgba(255,255,255,.5) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.5) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black, transparent);
+      -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black, transparent);
+    }
+    .hero-inner {
+      position: relative; z-index: 1;
+      max-width: 1240px; margin: 0 auto; padding: 0 24px;
+    }
+    .hero-copy { color: #e2e8f0; max-width: 820px; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
+      color: #a5b4fc;
+      background: rgba(99, 102, 241, 0.15);
+      border: 1px solid rgba(99, 102, 241, 0.25);
+      border-radius: 100px; padding: 5px 14px;
+      margin-bottom: 22px;
+    }
+    .eyebrow::before {
+      content: ""; width: 6px; height: 6px; border-radius: 50%;
+      background: #818cf8; box-shadow: 0 0 6px #818cf8;
+    }
+    h1 {
+      font-size: clamp(34px, 5vw, 54px); font-weight: 900;
+      line-height: 1.06; letter-spacing: -0.03em; color: #f1f5f9;
+    }
+    h1 .gradient-text {
+      background: linear-gradient(135deg, #60a5fa, #818cf8, #c084fc);
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .lead {
+      margin-top: 22px; font-size: 16px; line-height: 1.75;
+      color: #94a3b8; max-width: 700px;
+    }
+    .lead + .lead { margin-top: 14px; }
+    .scope-row {
+      display: flex; flex-wrap: wrap;
+      gap: 10px; margin-top: 30px;
+    }
+    .scope {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 100px; padding: 8px 16px;
+      backdrop-filter: blur(8px);
+      transition: all 0.3s;
+      font-size: 13px; color: #cbd5e1; font-weight: 500;
+    }
+    .scope:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(129, 140, 248, 0.3);
+      transform: translateY(-1px);
+    }
+
+    /* ---- CONTENT ---- */
+    .content { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
+    section { padding: 64px 0; }
+    section + section { border-top: 1px solid var(--line); }
+
+    .section-label {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--grad-mid); margin-bottom: 12px;
+    }
+    .section-label::before {
+      content: ""; width: 20px; height: 2px; border-radius: 1px; background: var(--gradient);
+    }
+    h2 {
+      font-size: clamp(26px, 3.5vw, 36px); font-weight: 800;
+      line-height: 1.15; letter-spacing: -0.02em; color: var(--ink);
+    }
+    .section-desc {
+      margin-top: 12px; color: var(--muted); max-width: 760px;
+      font-size: 15px; line-height: 1.75;
+    }
+    .prose { max-width: 820px; margin-top: 22px; }
+    .prose p { color: var(--ink-secondary); font-size: 15px; line-height: 1.8; margin-bottom: 14px; }
+    .prose p:last-child { margin-bottom: 0; }
+    .prose strong { color: var(--ink); font-weight: 700; }
+    .prose code {
+      background: rgba(99, 102, 241, 0.07); color: var(--grad-mid);
+      padding: 2px 7px; border-radius: 5px; font-size: 13px;
+    }
+
+    /* ---- DIAGRAM ---- */
+    .diagram-frame {
+      margin-top: 30px;
+      border-radius: var(--radius-lg);
+      background: var(--paper);
+      border: 1px solid var(--line);
+      padding: 4px;
+      box-shadow: var(--shadow-xl);
+      position: relative;
+      cursor: zoom-in;
+    }
+    .diagram-frame::before {
+      content: "";
+      position: absolute; inset: -1px;
+      border-radius: calc(var(--radius-lg) + 1px);
+      background: var(--gradient);
+      z-index: -1; opacity: 0.3; filter: blur(1px);
+    }
+    .diagram-frame img {
+      display: block; width: 100%;
+      border-radius: calc(var(--radius-lg) - 4px);
+      background: #fff;
+    }
+    .diagram-hint {
+      position: absolute; top: 16px; right: 16px;
+      font-size: 11px; font-weight: 600; color: var(--muted);
+      background: rgba(255,255,255,0.9);
+      border: 1px solid var(--line);
+      padding: 5px 11px; border-radius: 100px;
+      display: flex; align-items: center; gap: 5px;
+      backdrop-filter: blur(8px);
+      pointer-events: none;
+    }
+    .diagram-hint::before { content: "⤢"; font-size: 13px; }
+
+    /* ---- LAYER LIST ---- */
+    .layers { margin-top: 36px; display: flex; flex-direction: column; gap: 14px; }
+    .layer {
+      display: grid; grid-template-columns: 56px 1fr;
+      gap: 20px; align-items: stretch;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 22px 24px;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.3s;
+      position: relative; overflow: hidden;
+    }
+    .layer::before {
+      content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+      background: var(--lc, var(--blue));
+    }
+    .layer:hover { box-shadow: var(--shadow-lg); border-color: var(--line-strong); transform: translateX(3px); }
+    .layer-num {
+      width: 56px; height: 56px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 22px; color: #fff;
+      background: var(--lc, var(--blue));
+      box-shadow: 0 6px 18px color-mix(in srgb, var(--lc, var(--blue)) 30%, transparent);
+    }
+    .layer-body h3 { font-size: 17px; font-weight: 800; color: var(--ink); display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .layer-tag {
+      font-size: 10.5px; font-weight: 700; letter-spacing: 0.04em;
+      color: var(--lc, var(--blue));
+      background: color-mix(in srgb, var(--lc, var(--blue)) 8%, white);
+      border: 1px solid color-mix(in srgb, var(--lc, var(--blue)) 22%, white);
+      padding: 3px 9px; border-radius: 100px;
+    }
+    .layer-body p { margin-top: 8px; font-size: 14px; color: var(--ink-secondary); line-height: 1.7; }
+    .layer-body .src { margin-top: 8px; font-size: 12px; color: var(--muted); }
+    .layer-body .src code {
+      background: var(--wash); color: var(--ink-secondary);
+      padding: 2px 6px; border-radius: 4px; border: 1px solid var(--line);
+      margin-right: 4px; font-size: 11.5px;
+    }
+    .layer-body .take {
+      margin-top: 12px; font-size: 13.5px; line-height: 1.7;
+      color: var(--ink-secondary);
+      padding: 11px 14px; border-radius: 10px;
+      background: color-mix(in srgb, var(--lc, var(--blue)) 5%, white);
+      border: 1px dashed color-mix(in srgb, var(--lc, var(--blue)) 28%, white);
+    }
+    .layer-body .take b { color: var(--lc, var(--blue)); }
+    .layer-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      margin-top: 14px; font-size: 13px; font-weight: 700;
+      color: var(--lc, var(--blue));
+      padding: 7px 14px; border-radius: 8px;
+      background: color-mix(in srgb, var(--lc, var(--blue)) 8%, white);
+      border: 1px solid color-mix(in srgb, var(--lc, var(--blue)) 22%, white);
+      transition: all 0.2s;
+    }
+    .layer-link::after { content: "→"; transition: transform 0.2s; }
+    .layer-link:hover { background: color-mix(in srgb, var(--lc, var(--blue)) 14%, white); color: var(--lc, var(--blue)); }
+    .layer-link:hover::after { transform: translateX(3px); }
+
+    /* ---- SERVICE CARDS ---- */
+    .products-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 36px; }
+    .product-card {
+      background: var(--paper); border: 1px solid var(--line);
+      border-radius: var(--radius-lg); padding: 26px;
+      box-shadow: var(--shadow-md); transition: all 0.35s;
+      position: relative; overflow: hidden;
+    }
+    .product-card::before {
+      content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: var(--card-accent, var(--gradient)); opacity: 0.85;
+    }
+    .product-card:hover { box-shadow: var(--shadow-xl), var(--shadow-glow); border-color: var(--line-strong); transform: translateY(-4px); }
+    .card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
+    .product-card h3 { font-size: 19px; font-weight: 800; letter-spacing: -0.01em; color: var(--ink); }
+    .card-badge {
+      flex-shrink: 0; font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+      padding: 4px 9px; border-radius: 100px;
+      background: var(--badge-bg, rgba(99, 102, 241, 0.08));
+      color: var(--badge-color, var(--grad-mid));
+      border: 1px solid var(--badge-border, rgba(99, 102, 241, 0.15));
+    }
+    .role { color: var(--muted); font-size: 13.5px; line-height: 1.65; margin-bottom: 16px; }
+    .feat { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+    .feat li { font-size: 13px; color: var(--ink-secondary); line-height: 1.55; padding-left: 18px; position: relative; }
+    .feat li::before {
+      content: ""; position: absolute; left: 0; top: 7px;
+      width: 7px; height: 7px; border-radius: 2px;
+      background: var(--card-accent, var(--blue));
+    }
+
+    /* ---- ACTOR BANNER ---- */
+    .actor-banner {
+      margin-top: 22px; border-radius: var(--radius-lg);
+      background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+      border: 1px solid var(--line); padding: 26px 28px;
+    }
+    .actor-banner h3 { font-size: 16px; font-weight: 800; color: var(--ink); margin-bottom: 14px; }
+    .actor-chain { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+    .actor-node {
+      font-size: 13px; font-weight: 700; color: var(--ink);
+      background: var(--paper); border: 1px solid var(--line-strong);
+      padding: 8px 14px; border-radius: 10px; box-shadow: var(--shadow-sm);
+    }
+    .actor-arrow { color: var(--subtle); font-weight: 700; }
+    .actor-banner p { margin-top: 14px; font-size: 13.5px; color: var(--ink-secondary); line-height: 1.7; }
+
+    /* ---- DECISION CARDS ---- */
+    .decisions { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin-top: 36px; }
+    .decision {
+      background: var(--paper); border: 1px solid var(--line);
+      border-radius: var(--radius-lg); padding: 24px 26px;
+      box-shadow: var(--shadow-sm); transition: all 0.3s;
+    }
+    .decision:hover { box-shadow: var(--shadow-lg); border-color: var(--line-strong); transform: translateY(-2px); }
+    .decision .q { font-size: 15px; font-weight: 800; color: var(--ink); display: flex; gap: 9px; align-items: baseline; }
+    .decision .q::before { content: "?"; flex-shrink: 0; width: 22px; height: 22px; border-radius: 6px; background: var(--gradient); color: #fff; font-size: 13px; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; }
+    .decision .a { margin-top: 12px; font-size: 13.5px; color: var(--ink-secondary); line-height: 1.75; }
+    .decision .a b { color: var(--ink); }
+
+    /* ---- TABLE ---- */
+    .table-wrap { margin-top: 32px; border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--line); box-shadow: var(--shadow-md); background: var(--paper); }
+    .matrix { width: 100%; border-collapse: collapse; }
+    .matrix th {
+      background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+      padding: 14px 18px; font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--ink-secondary); text-align: left;
+      border-bottom: 1px solid var(--line-strong);
+    }
+    .matrix td { padding: 15px 18px; font-size: 13.5px; color: var(--ink-secondary); vertical-align: top; border-bottom: 1px solid var(--line); }
+    .matrix tr:last-child td { border-bottom: none; }
+    .matrix tr:hover td { background: rgba(99, 102, 241, 0.02); }
+    .matrix td:first-child { font-weight: 700; color: var(--ink); white-space: nowrap; }
+    .matrix code { background: rgba(99, 102, 241, 0.06); color: var(--grad-mid); padding: 2px 6px; border-radius: 4px; font-size: 12px; }
+
+    /* ---- CALLOUT ---- */
+    .callout {
+      margin-top: 30px; border-radius: var(--radius-lg); padding: 22px 26px;
+      background: linear-gradient(135deg, rgba(251, 191, 36, 0.06), rgba(245, 158, 11, 0.06));
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      color: var(--ink-secondary); font-size: 14px; line-height: 1.75;
+      display: flex; gap: 14px; align-items: flex-start;
+    }
+    .callout-icon { flex-shrink: 0; width: 24px; height: 24px; border-radius: 6px; background: rgba(245, 158, 11, 0.12); display: flex; align-items: center; justify-content: center; font-size: 14px; margin-top: 1px; }
+
+    /* ---- SOURCES ---- */
+    .source-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 32px; }
+    .source-card { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-md); padding: 20px; transition: all 0.3s; display: flex; flex-direction: column; }
+    .source-card:hover { box-shadow: var(--shadow-lg); border-color: var(--line-strong); transform: translateY(-2px); }
+    .source-card strong { display: block; margin-bottom: 8px; font-size: 14px; font-weight: 700; }
+    .source-card strong a { color: var(--ink); transition: color 0.2s; }
+    .source-card strong a:hover { color: var(--grad-mid); }
+    .source-card p { color: var(--muted); font-size: 12.5px; line-height: 1.6; flex: 1; }
+    .source-card .path { margin-top: 10px; font-size: 11px; color: var(--subtle); }
+    .source-card .path code { background: var(--wash); padding: 2px 6px; border-radius: 4px; border: 1px solid var(--line); }
+
+    /* ---- FOOTER ---- */
+    footer { border-top: 1px solid var(--line); padding: 32px 0 48px; }
+    .footer-inner { max-width: 1240px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; color: var(--subtle); font-size: 12px; gap: 16px; flex-wrap: wrap; }
+    .footer-dots { display: flex; gap: 4px; }
+    .footer-dots span { width: 6px; height: 6px; border-radius: 50%; opacity: 0.5; }
+
+    /* ---- LIGHTBOX ---- */
+    .lightbox {
+      position: fixed; inset: 0; z-index: 100;
+      background: rgba(15, 23, 42, 0.92);
+      backdrop-filter: blur(6px);
+      display: none; align-items: center; justify-content: center;
+      padding: 32px; cursor: zoom-out;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox img { max-width: 98%; max-height: 94%; border-radius: 10px; box-shadow: 0 30px 90px rgba(0,0,0,0.5); background: #fff; }
+    .lightbox-close { position: absolute; top: 22px; right: 28px; color: #cbd5e1; font-size: 30px; font-weight: 300; cursor: pointer; line-height: 1; }
+    .lightbox-cap { position: absolute; bottom: 24px; left: 0; right: 0; text-align: center; color: #94a3b8; font-size: 12.5px; }
+
+    /* ---- RESPONSIVE ---- */
+    @media (max-width: 1040px) {
+      .products-grid { grid-template-columns: 1fr; }
+      .decisions, .source-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 720px) {
+      .hero-section { padding: 52px 0 44px; }
+      nav { height: auto; padding: 12px 16px; flex-direction: column; align-items: flex-start; gap: 10px; }
+      .nav-links { flex-wrap: wrap; gap: 2px; }
+      section { padding: 44px 0; }
+      .content { padding: 0 16px; }
+      .layer { grid-template-columns: 1fr; gap: 12px; }
+      .layer-num { width: 44px; height: 44px; font-size: 18px; }
+      .table-wrap { overflow-x: auto; } .matrix { min-width: 620px; }
+    }
+
+    /* ---- REVEAL ---- */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.08s; }
+    .reveal-delay-2 { transition-delay: 0.16s; }
+    .reveal-delay-3 { transition-delay: 0.24s; }
+    .reveal-delay-4 { transition-delay: 0.32s; }
+  </style>
+</head>
+<body>
+  <header>
+    <nav aria-label="页面导航">
+      <a class="brand" href="#top"><span class="brand-dot"></span>ThingsBoard 核心平台拆解</a>
+      <div class="nav-links">
+        <a href="#architecture">架构图</a>
+        <a href="#layers">六层</a>
+        <a href="#services">核心服务</a>
+        <a href="#dataflow">数据流</a>
+        <a href="#decisions">设计取舍</a>
+        <a href="#deploy">部署形态</a>
+        <a href="#sources">源码索引</a>
+      </div>
+    </nav>
+  </header>
+
+  <div class="hero-section" id="top">
+    <div class="hero-bg"></div>
+    <div class="hero-grid-pattern"></div>
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <div class="eyebrow">Core Platform · Deep Dive</div>
+        <h1>ThingsBoard 核心平台<br><span class="gradient-text">架构与数据流</span>拆解</h1>
+        <p class="lead">四组件那张图，把 Server / Cloud 画在正中间，说一句"绕不开但不展开"。这一页就是把它展开——设备数据怎么进来，怎么被一层层处理，怎么落库，又怎么实时回到屏幕上。</p>
+        <p class="lead">视角是架构工程师的：不只是标清楚每个框叫什么，而是说清楚为什么是这个结构。消息总线为什么横在中间，Actor 为什么一个实体一个，分区为什么按实体哈希——这些判断比框图本身更值得看。</p>
+        <div class="scope-row" aria-label="覆盖范围">
+          <span class="scope">分层架构图</span>
+          <span class="scope">端到端数据流</span>
+          <span class="scope">三类核心服务</span>
+          <span class="scope">Actor 体系</span>
+          <span class="scope">单体 / 微服务</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ARCHITECTURE -->
+    <section id="architecture">
+      <div class="reveal">
+        <div class="section-label">Architecture</div>
+        <h2>一张图看懂分层</h2>
+        <p class="section-desc">自上而下六层：接入、传输、消息总线、核心处理、支撑服务、持久化。每一层只跟相邻层打交道，跨服务通信全部经过中间那条消息总线——这是整套架构最重要的一根脊梁。</p>
+      </div>
+      <div class="diagram-frame reveal reveal-delay-1" data-cap="ThingsBoard 核心平台 · 系统架构（点击空白处关闭）">
+        <span class="diagram-hint">点击放大</span>
+        <img src="core-architecture.svg" alt="ThingsBoard 核心平台系统架构图：接入、传输、消息总线、核心处理、支撑服务、持久化六层">
+      </div>
+      <div class="prose reveal reveal-delay-2">
+        <p>读这张图，先抓住<strong>第三层——消息总线</strong>。它把上面的传输、下面的处理彻底隔开：传输层只管把设备数据塞进队列，处理层只管从队列里取。两边互不感知对方在哪台机器、跑了几个实例，也就各自能独立伸缩。</p>
+        <p>再看<strong>第四层的三个并列服务</strong>。TB Core 管状态、订阅和对外接口；TB Rule Engine 管规则链处理；EDQS 专门扛复杂查询。它们都是独立的 <code>ServiceType</code>，集群里可以分开部署、分开扩容。下方那条 Actor 体系是核心处理层的骨架，决定了消息在内存里怎么流。</p>
+      </div>
+    </section>
+
+    <!-- LAYERS -->
+    <section id="layers">
+      <div class="reveal">
+        <div class="section-label">Layer by Layer</div>
+        <h2>六层逐层拆解</h2>
+        <p class="section-desc">每一层的职责、对应源码、以及一句架构师视角的点评——为什么这层要这么切。每张卡片下方都有入口，点进去是这一层的深入解析。</p>
+      </div>
+
+      <div class="layers">
+        <div class="layer reveal" style="--lc: var(--amber)">
+          <div class="layer-num">1</div>
+          <div class="layer-body">
+            <h3>接入层 <span class="layer-tag">Access</span></h3>
+            <p>两类来源：一边是现场设备、网关、Edge 实例，走 MQTT / CoAP / HTTP / LwM2M / SNMP；另一边是人和应用，走 REST 和 WebSocket。</p>
+            <div class="src"><code>ui-ngx (Angular)</code> 前端</div>
+            <div class="take"><b>点评：</b>设备和人这两类流量，从入口就被区别对待。设备流量讲究高并发、长连接、协议杂；人的流量讲究会话、权限、实时回推。两条路在这里就分岔了。</div>
+            <a class="layer-link" href="layer-1-access.html">深入解析 · 接入层</a>
+          </div>
+        </div>
+
+        <div class="layer reveal" style="--lc: var(--amber)">
+          <div class="layer-num">2</div>
+          <div class="layer-body">
+            <h3>传输层 <span class="layer-tag">TB_TRANSPORT</span></h3>
+            <p>五个协议适配器各管一种接入方式。它们做两件事：校验设备凭据（走 Transport API 往返 Core），把遥测和属性序列化后投进规则引擎队列。</p>
+            <div class="src"><code>transport/mqtt</code><code>coap</code><code>http</code><code>lwm2m</code><code>snmp</code></div>
+            <div class="take"><b>点评：</b>传输层故意做得很薄——只认证、只翻译、只转发，不碰业务。这样协议再多、设备再涨，扩的也只是这一层，处理逻辑一行都不用动。</div>
+            <a class="layer-link" href="layer-2-transport.html">深入解析 · 传输层</a>
+          </div>
+        </div>
+
+        <div class="layer reveal" style="--lc: var(--cyan)">
+          <div class="layer-num">3</div>
+          <div class="layer-body">
+            <h3>消息总线 <span class="layer-tag">In-Memory / Kafka</span></h3>
+            <p>所有跨服务通信的中转站。单体默认用进程内内存队列，集群换成 Apache Kafka。主题按用途切开：<code>tb_rule_engine</code>、<code>tb_core</code>、<code>tb_transport.api</code>、通知、用量统计、版本控制等十来个。</p>
+            <div class="src"><code>common/queue</code>（kafka · memory · provider）</div>
+            <div class="take"><b>点评：</b>这是全局解耦点，也是削峰的缓冲带。设备瞬时洪峰先进队列，处理层按自己的节奏消费，不会被打垮。换 in-memory 还是 Kafka，本质就是单机和集群的分水岭。</div>
+            <a class="layer-link" href="layer-3-queue.html">深入解析 · 消息总线</a>
+          </div>
+        </div>
+
+        <div class="layer reveal" style="--lc: var(--blue)">
+          <div class="layer-num">4</div>
+          <div class="layer-body">
+            <h3>核心处理层 <span class="layer-tag">Core · Rule Engine · EDQS</span></h3>
+            <p>三个并列服务加一套 Actor 体系。Core 管状态与对外服务，Rule Engine 跑规则链，EDQS 扛实体查询。消息进入处理层后，由 Actor 在内存里逐级派发。</p>
+            <div class="src"><code>application/actors</code><code>rule-engine</code><code>common/edqs</code></div>
+            <div class="take"><b>点评：</b>把"状态服务"和"处理服务"拆开是关键一刀。Rule Engine 可以无状态地水平铺开，Core 守住状态这块硬骨头，各自按各自的瓶颈扩容。</div>
+            <a class="layer-link" href="layer-4-core.html">深入解析 · 核心处理层</a>
+          </div>
+        </div>
+
+        <div class="layer reveal" style="--lc: var(--rose)">
+          <div class="layer-num">5</div>
+          <div class="layer-body">
+            <h3>支撑服务 <span class="layer-tag">Platform Services</span></h3>
+            <p>不在主链路上、但缺了就转不动的一圈服务：JS Executor 跑规则脚本，Version Control 给配置做 Git 版本化，Housekeeper 清理级联删除和过期数据，Usage Stats 计量，Discovery &amp; Partition 负责服务发现和实体分区。</p>
+            <div class="src"><code>msa/js-executor</code><code>vc-executor</code> · Zookeeper</div>
+            <div class="take"><b>点评：</b>脚本执行被单独拎出去，是为了把不可信代码关进沙箱、也防止它拖垮主进程。分区服务则是集群能不能正确扩展的命门——它决定每个设备归谁管。</div>
+            <a class="layer-link" href="layer-5-platform-services.html">深入解析 · 支撑服务</a>
+          </div>
+        </div>
+
+        <div class="layer reveal" style="--lc: var(--emerald)">
+          <div class="layer-num">6</div>
+          <div class="layer-body">
+            <h3>持久化层 <span class="layer-tag">Persistence</span></h3>
+            <p>四块存储：PostgreSQL 存实体、关系、仪表盘、规则链这些结构化数据；时序数据走 PostgreSQL / TimescaleDB 或 Cassandra；缓存用 Caffeine 或 Redis；固件等大文件单独走 OTA 存储。</p>
+            <div class="src"><code>dao/sql</code><code>dao/sqlts</code><code>dao/nosql</code></div>
+            <div class="take"><b>点评：</b>结构化数据和时序数据分库，是因为它们的读写模式完全不同。前者要事务和关联查询，后者要的是海量追加写和时间范围扫描——硬塞一个库里，迟早两头都不讨好。</div>
+            <a class="layer-link" href="layer-6-persistence.html">深入解析 · 持久化层</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="services">
+      <div class="reveal">
+        <div class="section-label">Core Services</div>
+        <h2>三类核心服务 + Actor 体系</h2>
+        <p class="section-desc">核心处理层里那三个并列服务，各自盯着不同的瓶颈。下面这套 Actor 体系，是它们在内存里组织消息的统一骨架。</p>
+      </div>
+
+      <div class="products-grid">
+        <article class="product-card reveal reveal-delay-1" style="--card-accent: var(--blue)">
+          <div class="card-header">
+            <h3>TB Core</h3>
+            <span class="card-badge" style="--badge-bg: rgba(37,99,235,0.08); --badge-color: var(--blue); --badge-border: rgba(37,99,235,0.18)">TB_CORE</span>
+          </div>
+          <p class="role">平台的状态中枢与对外门面。设备在不在线、谁订阅了什么、前端连着哪个 socket，都归它管。</p>
+          <ul class="feat">
+            <li>Device State — 在线 / 离线状态机</li>
+            <li>Subscription Manager — 遥测 / 属性订阅</li>
+            <li>WebSocket Service — 实时推送给前端</li>
+            <li>REST + Telemetry API — 对外入口</li>
+            <li>Transport API — 设备会话校验</li>
+            <li>Device RPC · OTA · Edge · 告警下发</li>
+          </ul>
+        </article>
+
+        <article class="product-card reveal reveal-delay-2" style="--card-accent: var(--teal)">
+          <div class="card-header">
+            <h3>TB Rule Engine</h3>
+            <span class="card-badge" style="--badge-bg: rgba(13,148,136,0.08); --badge-color: var(--teal); --badge-border: rgba(13,148,136,0.18)">RULE_ENGINE</span>
+          </div>
+          <p class="role">数据处理的主战场。从队列拉消息，送进设备 Actor，再沿规则链一个节点一个节点往下走。</p>
+          <ul class="feat">
+            <li>规则链消费者 — 拉 <code>tb_rule_engine</code></li>
+            <li>Filter — 条件过滤、分支路由</li>
+            <li>Enrichment — 补充元数据、关联实体</li>
+            <li>Transform — 改写消息、计算字段</li>
+            <li>Action — 存盘、告警、RPC</li>
+            <li>External — 推 Kafka / HTTP / MQTT 外部端点</li>
+          </ul>
+        </article>
+
+        <article class="product-card reveal reveal-delay-3" style="--card-accent: var(--violet)">
+          <div class="card-header">
+            <h3>EDQS</h3>
+            <span class="card-badge" style="--badge-bg: rgba(124,58,237,0.08); --badge-color: var(--violet); --badge-border: rgba(124,58,237,0.18)">QUERY</span>
+          </div>
+          <p class="role">实体数据查询服务。把仪表盘那些复杂的实体筛选、聚合查询，从主库卸到内存里跑。</p>
+          <ul class="feat">
+            <li>内存实体索引 — 实体 / 关系 / 最新值常驻</li>
+            <li>Entity Data Query — 复杂查询提速</li>
+            <li>经 Kafka 订阅变更，保持索引最新</li>
+            <li>大表格、地图聚合不再压 SQL</li>
+            <li>独立 ServiceType，可单独伸缩</li>
+            <li>源码 <code>common/edqs</code> · <code>edqs/</code></li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="actor-banner reveal reveal-delay-1">
+        <h3>Actor 体系 — 一个实体一个邮箱，消息串行处理</h3>
+        <div class="actor-chain">
+          <span class="actor-node">AppActor</span>
+          <span class="actor-arrow">→</span>
+          <span class="actor-node">TenantActor</span>
+          <span class="actor-arrow">→</span>
+          <span class="actor-node">RuleChainActor → RuleNodeActor</span>
+          <span class="actor-arrow">·</span>
+          <span class="actor-node">DeviceActor</span>
+          <span class="actor-arrow">·</span>
+          <span class="actor-node">CalculatedFieldManager → CFEntityActor</span>
+        </div>
+        <p>系统根是 AppActor，往下按租户隔离派生 TenantActor，再往下才是设备、规则链、计算字段这些具体实体。每个实体独享一个邮箱，消息排队串行处理——这样同一个设备的状态永远只有一个线程在改，不用加锁，也就没有并发竞争。某个 Actor 崩了，监督机制就地把它重启，影响圈死死锁在一个实体上，不会扩散。</p>
+      </div>
+    </section>
+
+    <!-- DATA FLOW -->
+    <section id="dataflow">
+      <div class="reveal">
+        <div class="section-label">Data Flow</div>
+        <h2>端到端数据流</h2>
+        <p class="section-desc">用序列图看两条主链路：一条遥测从设备走到前端仪表盘（上行），一条 RPC 从前端走回设备（下行）。每条横线就是一次跨组件的消息传递。</p>
+      </div>
+      <div class="diagram-frame reveal reveal-delay-1" data-cap="ThingsBoard 核心平台 · 端到端数据流（点击空白处关闭）">
+        <span class="diagram-hint">点击放大</span>
+        <img src="core-dataflow.svg" alt="ThingsBoard 核心平台数据流序列图：遥测上行与 RPC 下行两条链路，共 13 步">
+      </div>
+      <div class="prose reveal reveal-delay-2">
+        <p><strong>上行（绿蓝线）：</strong>设备发布遥测，传输层先做一次会话校验——拿设备凭据去 Core 换回身份，结果会缓存复用，不必每条消息都验。校验过后，遥测被包成 <code>ToRuleEngineMsg</code> 投进 <code>tb_rule_engine</code> 队列。规则引擎按实体哈希拉到对应分区，交给该设备的 Actor，沿规则链做富化、过滤、转换，最后由存储节点写库。同时一条订阅更新发回 Core，Core 通过 WebSocket 把新值秒级推到仪表盘。</p>
+        <p><strong>下行（橙红线）：</strong>前端发一条 RPC，Core 先定位这台设备此刻连在哪个传输节点上，再把命令发到那个节点的定向通知队列，传输层收到后用设备自己的协议下发。如果是 twoway 调用，设备执行结果会顺着原路一跳跳回传，靠同一个请求上下文把响应和请求对上号。</p>
+        <p>这里藏着一个容易被忽略的细节：下行之所以要先<strong>定位传输节点</strong>，是因为设备连接是有状态的、固定在某个节点上，而发起 RPC 的 Core 实例未必就是那个节点。这一跳"找人"，正是分布式有状态连接绕不开的代价。</p>
+      </div>
+    </section>
+
+    <!-- DECISIONS -->
+    <section id="decisions">
+      <div class="reveal">
+        <div class="section-label">Design Decisions</div>
+        <h2>几个关键的架构取舍</h2>
+        <p class="section-desc">框图回答"是什么"，这一节回答"为什么"。下面这几个判断，串起来基本就是 ThingsBoard 能横向扩展的底层逻辑。</p>
+      </div>
+      <div class="decisions">
+        <div class="decision reveal reveal-delay-1">
+          <div class="q">为什么中间非要横一条消息队列？</div>
+          <div class="a">直连最省事，但传输层和处理层就被焊死了——一端抖动，另一端跟着抖。<b>队列一隔，两端各自伸缩、各自重启，互不拖累</b>；设备洪峰先进缓冲，处理层按自己节奏消费，再大的瞬时压力也不会击穿。代价是多一跳延迟和一套队列要运维，对 IoT 这种突发流量来说，这笔买卖很划算。</div>
+        </div>
+        <div class="decision reveal reveal-delay-2">
+          <div class="q">为什么用 Actor，而不是传统线程池 + 锁？</div>
+          <div class="a">设备状态是天然分片的——A 设备和 B 设备的状态互不相干。<b>一个设备一个 Actor、消息串行处理，等于把"锁"换成了"排队"</b>：同一设备永远单线程改状态，并发竞争从根上消失。出错也只困在单个实体里，监督树就地重启，不波及全局。</div>
+        </div>
+        <div class="decision reveal reveal-delay-3">
+          <div class="q">为什么分区要按实体哈希，而不是轮询？</div>
+          <div class="a">轮询能均摊负载，却会把同一设备的连续消息打散到不同节点，顺序和状态就乱了。<b>按 <code>tenantId + entityId</code> 一致性哈希，保证同一实体的消息永远落到同一节点</b>——既守住了顺序和状态一致，又能靠加节点线性扩容。这是有状态流处理的标准解法。</div>
+        </div>
+        <div class="decision reveal reveal-delay-4">
+          <div class="q">为什么要单独搞一个 EDQS？</div>
+          <div class="a">仪表盘上那种"筛出某租户所有在线温度传感器并按楼层聚合"的查询，落到 SQL 上又重又慢，还会和写入抢资源。<b>EDQS 把实体和最新值常驻内存、单独成服务</b>，这类查询不再碰主库，主库就能安心扛写入。读写两条路彻底分开，各自扩各自的。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DEPLOY -->
+    <section id="deploy">
+      <div class="reveal">
+        <div class="section-label">Deployment</div>
+        <h2>单体与微服务，同一套代码两种活法</h2>
+        <p class="section-desc">同样的模块，靠 <code>TB_QUEUE_TYPE</code> 一个开关，就能在"一个 JVM 全装下"和"拆成一片集群"之间切换。这是 ThingsBoard 架构最实用的一处弹性。</p>
+      </div>
+      <div class="table-wrap reveal reveal-delay-1">
+        <table class="matrix">
+          <thead>
+            <tr>
+              <th>维度</th>
+              <th>单体 Monolith</th>
+              <th>微服务 Microservices</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>消息总线</td>
+              <td>进程内 In-Memory 队列（默认）</td>
+              <td>Apache Kafka，跨节点分区</td>
+            </tr>
+            <tr>
+              <td>服务编排</td>
+              <td>Core / Rule Engine / Transport 同进程</td>
+              <td><code>tb-node</code>、各传输、js-executor、vc-executor、edqs 分开部署</td>
+            </tr>
+            <tr>
+              <td>服务发现</td>
+              <td>无需，单实例</td>
+              <td>Zookeeper 协调 + 一致性哈希分区</td>
+            </tr>
+            <tr>
+              <td>缓存</td>
+              <td>Caffeine 本地缓存</td>
+              <td>Redis 分布式缓存</td>
+            </tr>
+            <tr>
+              <td>适用场景</td>
+              <td>POC、中小规模、边缘现场</td>
+              <td>海量设备、高吞吐、需要独立扩容</td>
+            </tr>
+            <tr>
+              <td>代价</td>
+              <td>扩展上限受单机约束</td>
+              <td>运维复杂度、组件数量显著上升</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout reveal reveal-delay-2">
+        <div class="callout-icon">!</div>
+        <p><strong>架构师视角：</strong>能从单体平滑长到微服务，前提正是前面那条消息总线和按实体分区的设计——业务代码自始至终面对的是"队列"这个抽象，至于队列底下是内存还是 Kafka，它并不关心。架构的弹性，往往就藏在这种"上层无感"的抽象里。</p>
+      </div>
+    </section>
+
+    <!-- SOURCES -->
+    <section id="sources">
+      <div class="reveal">
+        <div class="section-label">References</div>
+        <h2>源码索引与资料</h2>
+        <p class="section-desc">本页结论交叉验证自 <code>upstream/thingsboard</code> 本地源码与官方架构文档。下面是几个值得自己点进去看的关键位置。</p>
+      </div>
+      <div class="source-grid">
+        <article class="source-card reveal reveal-delay-1">
+          <strong>消息总线与队列模板</strong>
+          <p>Producer / Consumer 抽象、Kafka 与内存两套实现、各服务的队列 Provider。</p>
+          <div class="path"><code>common/queue</code></div>
+        </article>
+        <article class="source-card reveal reveal-delay-2">
+          <strong>Actor 体系</strong>
+          <p>TbActorSystem、邮箱、监督策略；应用层的 AppActor / TenantActor / DeviceActor / RuleChainActor。</p>
+          <div class="path"><code>common/actor</code> · <code>application/actors</code></div>
+        </article>
+        <article class="source-card reveal reveal-delay-3">
+          <strong>传输层数据流</strong>
+          <p>DefaultTransportService 里 <code>sendToRuleEngine</code> 的落点，会话校验走 Transport API 的往返。</p>
+          <div class="path"><code>common/transport/transport-api</code></div>
+        </article>
+        <article class="source-card reveal reveal-delay-1">
+          <strong>规则引擎节点</strong>
+          <p>Filter / Transform / Action / External / Enrichment / Telemetry 各节点族的具体实现。</p>
+          <div class="path"><code>rule-engine/rule-engine-components</code></div>
+        </article>
+        <article class="source-card reveal reveal-delay-2">
+          <strong>持久化 DAO</strong>
+          <p>SQL、时序（sqlts / nosql）、缓存的数据访问层与实体模型。</p>
+          <div class="path"><code>dao/src/main/java/.../dao</code></div>
+        </article>
+        <article class="source-card reveal reveal-delay-3">
+          <strong>官方架构参考</strong>
+          <p>服务分组、传输层、Rule Engine 与横向扩展模式的权威说明。</p>
+          <div class="path"><a href="https://thingsboard.io/docs/reference/architecture/">thingsboard.io/docs/reference/architecture</a></div>
+        </article>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <p>ThingsBoard 核心平台架构拆解 · 图：<code>core-architecture.svg</code> · <code>core-dataflow.svg</code> · 源：<code>upstream/thingsboard</code></p>
+      <div class="footer-dots">
+        <span style="background: var(--amber)"></span>
+        <span style="background: var(--cyan)"></span>
+        <span style="background: var(--blue)"></span>
+        <span style="background: var(--teal)"></span>
+        <span style="background: var(--violet)"></span>
+        <span style="background: var(--emerald)"></span>
+      </div>
+    </div>
+  </footer>
+
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <span class="lightbox-close" aria-label="关闭">&times;</span>
+    <img id="lightbox-img" src="" alt="放大查看的架构图">
+    <div class="lightbox-cap" id="lightbox-cap"></div>
+  </div>
+
+  <script>
+    // reveal on scroll
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+    // lightbox for diagrams
+    const lb = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lightbox-img');
+    const lbCap = document.getElementById('lightbox-cap');
+    document.querySelectorAll('.diagram-frame').forEach(frame => {
+      frame.addEventListener('click', () => {
+        const img = frame.querySelector('img');
+        lbImg.src = img.getAttribute('src');
+        lbCap.textContent = frame.getAttribute('data-cap') || '';
+        lb.classList.add('open');
+        lb.setAttribute('aria-hidden', 'false');
+      });
+    });
+    function closeLb() { lb.classList.remove('open'); lb.setAttribute('aria-hidden', 'true'); lbImg.src = ''; }
+    lb.addEventListener('click', closeLb);
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLb(); });
+  </script>
+</body>
+</html>

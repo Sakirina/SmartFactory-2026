@@ -1,0 +1,13 @@
+你继续承担第四阶段AI调查工程师，只修正本专业P4-A02并提供对应验证。主协调将在独立审查结束当前检查点后恢复你；运行时仍与前端两位并行，禁止创建子智能体或修改前端源码。
+
+独立审查已通过正式模型与HTTP复现：原调查定义GroupID为private-factory，模型依据保存后把定义移到factory，再删除原private-factory实体；原授权条目仍存在时，相同依据GET继续返回HTTP200、access=valid及1859字节原文。保存的原始资源中含kind=resource/id=private-factory。Investigations.checkResource的resource分支仅调用Permit，未检查原资源存在性。
+
+原始材料位于.local/evolution/phase4-review-evidence/independent_ai_review_test.go、independent-ai-original-asset-deletion.metadata.json和independent-ai-original-asset-deletion.stdout.log，受测独立副本为/private/tmp/smartfactory-phase4-independent-20261005/workspace，二进制为其上级bin/independent-ai-v2.test。失败日志SHA256为caf33a3d363f8490c7b943131ebc83015528384e439b1b02e6d93ac360e09c0f。不得覆写这些首次失败及原ai-evidence-verified.json。
+
+独立v3进一步确认调查详情也保留178字节答案、1条输入、29字节参数和3个资源引用，日志为phase4-review-evidence/independent-ai-original-asset-deletion-v3.*。首次v2测试源码已保存到/private/tmp/smartfactory-phase4-independent-20261005/overlays/independent-ai-build-v2/independent_ai_review_test.go，SHA256为381b8ba8eb2e7bda27f9b6b1e0f6c9b516db945df872b614d5d3d5f09ba0bed8；v3源码位于同级independent-ai-build-v3目录，检查点保存两次来源。复验同时覆盖依据读取与调查详情。
+
+沿正式工具的原始资源种类核对存在性与当前权限，在对应记录删除后使依据读取和调查详情提供准确失效状态，并清理按既有契约应隐藏的答案、消息、参数、原文和资源引用。保留只授设备的合法查询、原始SourceID显示、任意扩展参数同名键以及原始依赖后续移除时的正确授权。资源种类和存储存在性的映射从现有正式模型及用例确认，继续遵守应用权限语义。
+
+固定修正后的源码、实际编译输入和受测二进制，使用独立测试和正式HTTP覆盖原问题、原资源仍存在的对照、撤权及原有调查生命周期；运行适用普通回归、PG和有限race。执行资源窗口由主协调交出。保留旧601项副本和3388输入清单，新的补充报告说明改动范围及复验关系。提供修正后的sf-ai-evidence-fixture及所需正式程序给前端和独立审查，各自已有历史页面证据继续按旧版本保存。
+
+最终写入.local/evolution/ai-evidence-a02-verified.json，附原失败、修复源码、全部实际输入/运行参数/二进制摘要、原始日志和清理结果，结束自建服务后提交本角色最终交付。若接口或生成契约需要变更，先与前端及主协调同步写入时段；现有公开接口含义可满足修正时保持其语义和生成文件对应。

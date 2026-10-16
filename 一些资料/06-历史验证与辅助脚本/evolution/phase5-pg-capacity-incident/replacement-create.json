@@ -1,0 +1,42 @@
+{
+  "at": "2026-10-05T07:44:07.907959+00:00",
+  "args": [
+    "docker",
+    "run",
+    "-d",
+    "--name",
+    "smartfactory-evolution-pg18-final-20261005",
+    "--memory",
+    "1g",
+    "--cpus",
+    "2",
+    "--mount",
+    "type=bind,source=/private/tmp/smartfactory-evolution-pg18-final-20261005/data,target=/var/lib/postgresql",
+    "-p",
+    "127.0.0.1::5432",
+    "--env-file",
+    "/private/tmp/smartfactory-evolution-pg18-final-20261005/postgres.env",
+    "library/postgres@sha256:0377e72c5289ed2f98cf61b1a9c2db9eb9d300317fe14244492fbc94343b3d04",
+    "-c",
+    "shared_buffers=64MB",
+    "-c",
+    "max_connections=30"
+  ],
+  "exit_code": 0,
+  "stdout": "b363d766eb98ff2bdb25ded8e10e6cb7a4819ec8f58a87d86f82c1cfde2d2307\n",
+  "stderr": "WARNING: The requested image's platform (linux/amd64) does not match the detected host platform (linux/arm64/v8) and no specific platform was requested\n",
+  "old_container_state": {
+    "Status": "exited",
+    "Running": false,
+    "Paused": false,
+    "Restarting": false,
+    "OOMKilled": true,
+    "Dead": false,
+    "Pid": 0,
+    "ExitCode": 1,
+    "Error": "",
+    "StartedAt": "2026-10-04T13:32:32.518579426Z",
+    "FinishedAt": "2026-10-05T07:38:52.570820178Z"
+  },
+  "persistent_data_directory": "/private/tmp/smartfactory-evolution-pg18-final-20261005/data"
+}

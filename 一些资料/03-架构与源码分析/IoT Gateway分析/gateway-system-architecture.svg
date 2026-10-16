@@ -1,0 +1,235 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2700" height="1600" viewBox="0 0 2700 1600" role="img" aria-labelledby="title desc">
+  <title id="title">ThingsBoard IoT Gateway module-level system architecture</title>
+  <desc id="desc">Architecture diagram for upstream/thingsboard-gateway only, based on code modules, classes, queues, threads, connectors, converters, storage, MQTT client, remote configuration, statistics, and optional gRPC connector service.</desc>
+  <defs>
+    <style>
+      .bg { fill: #f8fafc; }
+      .title { font: 700 42px Arial, Helvetica, sans-serif; fill: #0f172a; }
+      .subtitle { font: 400 18px Arial, Helvetica, sans-serif; fill: #475569; }
+      .section-title { font: 700 22px Arial, Helvetica, sans-serif; fill: #0f172a; }
+      .label { font: 700 17px Arial, Helvetica, sans-serif; fill: #111827; }
+      .text { font: 400 15px Arial, Helvetica, sans-serif; fill: #334155; }
+      .small { font: 400 13px Arial, Helvetica, sans-serif; fill: #475569; }
+      .code { font: 700 14px Menlo, Consolas, monospace; fill: #0f172a; }
+      .tiny { font: 400 12px Arial, Helvetica, sans-serif; fill: #64748b; }
+      .box { fill: #ffffff; stroke: #cbd5e1; stroke-width: 2; rx: 8; ry: 8; }
+      .box-blue { fill: #eff6ff; stroke: #2563eb; }
+      .box-teal { fill: #ecfdf5; stroke: #059669; }
+      .box-amber { fill: #fffbeb; stroke: #d97706; }
+      .box-rose { fill: #fff1f2; stroke: #e11d48; }
+      .box-violet { fill: #f5f3ff; stroke: #7c3aed; }
+      .box-slate { fill: #f1f5f9; stroke: #64748b; }
+      .boundary { fill: #ffffff; stroke: #334155; stroke-width: 3; rx: 10; ry: 10; }
+      .lane { fill: #f8fafc; stroke: #e2e8f0; stroke-width: 2; rx: 8; ry: 8; }
+      .arrow { fill: none; stroke: #334155; stroke-width: 2.5; marker-end: url(#arrow); }
+      .arrow-blue { fill: none; stroke: #2563eb; stroke-width: 2.5; marker-end: url(#arrowBlue); }
+      .arrow-teal { fill: none; stroke: #059669; stroke-width: 2.5; marker-end: url(#arrowTeal); }
+      .arrow-rose { fill: none; stroke: #e11d48; stroke-width: 2.5; marker-end: url(#arrowRose); }
+      .dash { stroke-dasharray: 8 8; }
+    </style>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#334155"/>
+    </marker>
+    <marker id="arrowBlue" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#2563eb"/>
+    </marker>
+    <marker id="arrowTeal" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#059669"/>
+    </marker>
+    <marker id="arrowRose" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#e11d48"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="2700" height="1600"/>
+  <text class="title" x="80" y="70">ThingsBoard IoT Gateway - System Architecture</text>
+  <text class="subtitle" x="80" y="104">Scope: upstream/thingsboard-gateway only. Main source of truth: thingsboard_gateway package. Claude deep dive was used as a 0.35-weight reference hint.</text>
+  <text class="tiny" x="80" y="132">Default connectors in code: mqtt, modbus, opcua, ble, request, can, bacnet, odbc, rest, snmp, ftp, socket, xmpp, ocpp, knx.</text>
+
+  <rect class="box box-slate" x="80" y="170" width="430" height="170"/>
+  <text class="section-title" x="110" y="205">Process Entry</text>
+  <text class="code" x="110" y="238">thingsboard_gateway.tb_gateway</text>
+  <text class="text" x="110" y="266">main(): package config path or hot reload</text>
+  <text class="text" x="110" y="292">daemon(): /etc/thingsboard-gateway/config</text>
+  <text class="text" x="110" y="318">TB_GW_CONFIG_DIR overrides config folder</text>
+
+  <rect class="box box-amber" x="80" y="380" width="430" height="190"/>
+  <text class="section-title" x="110" y="415">Configuration Files</text>
+  <text class="code" x="110" y="448">tb_gateway.json</text>
+  <text class="text" x="110" y="474">thingsboard, storage, grpc, connectors[]</text>
+  <text class="code" x="110" y="504">logs.json</text>
+  <text class="text" x="110" y="530">logger and remote logging handlers</text>
+  <text class="code" x="110" y="558">connector config JSON files</text>
+
+  <rect class="box box-violet" x="80" y="610" width="430" height="220"/>
+  <text class="section-title" x="110" y="645">Dynamic Loading</text>
+  <text class="code" x="110" y="678">TBModuleLoader.import_module()</text>
+  <text class="text" x="110" y="704">Search order:</text>
+  <text class="small" x="130" y="730">/var/lib/thingsboard_gateway/extensions</text>
+  <text class="small" x="130" y="754">thingsboard_gateway/extensions</text>
+  <text class="small" x="130" y="778">thingsboard_gateway/connectors</text>
+  <text class="small" x="130" y="802">thingsboard_gateway/grpc_connectors</text>
+
+  <rect class="boundary" x="560" y="170" width="2060" height="1370"/>
+  <text class="section-title" x="590" y="212">TBGatewayService - main orchestrator</text>
+  <text class="subtitle" x="590" y="240">Initializes storage, report strategy, connector classes, devices, TBClient, service threads, optional gRPC, statistics, filtering, watchers, and remote configuration.</text>
+
+  <rect class="lane" x="590" y="270" width="555" height="415"/>
+  <text class="section-title" x="620" y="310">Runtime State And Queues</text>
+  <rect class="box box-blue" x="620" y="335" width="500" height="150"/>
+  <text class="label" x="650" y="368">Device registry</text>
+  <text class="code" x="650" y="398">__connected_devices</text>
+  <text class="code" x="650" y="424">__saved_devices</text>
+  <text class="code" x="650" y="450">__renamed_devices / __disconnected_devices</text>
+  <rect class="box box-blue" x="620" y="505" width="500" height="145"/>
+  <text class="label" x="650" y="538">Queues</text>
+  <text class="code" x="650" y="568">__converted_data_queue, _published_events</text>
+  <text class="code" x="650" y="594">__rpc_processing_queue, __rpc_to_devices_queue</text>
+  <text class="code" x="650" y="620">__async_device_actions_queue</text>
+  <text class="code" x="650" y="646">__sync_device_shared_attrs_queue</text>
+
+  <rect class="lane" x="1185" y="270" width="660" height="415"/>
+  <text class="section-title" x="1215" y="310">Core Data Plane</text>
+  <rect class="box box-teal" x="1215" y="335" width="250" height="150"/>
+  <text class="label" x="1245" y="368">DeviceFilter</text>
+  <text class="text" x="1245" y="396">Optional allow / deny</text>
+  <text class="text" x="1245" y="422">regex by connector</text>
+  <text class="code" x="1245" y="450">validate_device()</text>
+  <rect class="box box-teal" x="1495" y="335" width="320" height="165"/>
+  <text class="label" x="1525" y="368">ReportStrategyService</text>
+  <text class="text" x="1525" y="396">main / connector / datapoint levels</text>
+  <text class="small" x="1525" y="422">ON_RECEIVED, ON_CHANGE</text>
+  <text class="small" x="1525" y="448">ON_REPORT_PERIOD</text>
+  <text class="small" x="1525" y="472">ON_CHANGE_OR_REPORT_PERIOD</text>
+  <text class="small" x="1525" y="492">DISABLED</text>
+  <rect class="box box-teal" x="1215" y="515" width="365" height="135"/>
+  <text class="label" x="1245" y="548">ConvertedData model</text>
+  <text class="text" x="1245" y="576">deviceName, deviceType, telemetry[],</text>
+  <text class="text" x="1245" y="602">attributes, metadata, ts_index</text>
+  <text class="small" x="1245" y="628">TelemetryEntry + DatapointKey</text>
+  <text class="small" x="1245" y="650">ReportStrategyConfig</text>
+  <rect class="box box-teal" x="1610" y="515" width="220" height="135"/>
+  <text class="label" x="1640" y="548">Payload split</text>
+  <text class="code" x="1640" y="576">maxPayloadSizeBytes</text>
+  <text class="text" x="1640" y="604">Split before storage</text>
+
+  <rect class="lane" x="1885" y="270" width="365" height="415"/>
+  <text class="section-title" x="1915" y="310">Local Storage</text>
+  <rect class="box box-rose" x="1915" y="335" width="315" height="235"/>
+  <text class="label" x="1945" y="368">EventStorage interface</text>
+  <text class="code" x="1945" y="398">put(event)</text>
+  <text class="code" x="1945" y="424">get_event_pack()</text>
+  <text class="code" x="1945" y="450">event_pack_processing_done()</text>
+  <text class="text" x="1945" y="480">Confirm after publish success</text>
+  <text class="small" x="1945" y="512">MemoryEventStorage</text>
+  <text class="small" x="1945" y="536">FileEventStorage</text>
+  <text class="small" x="1945" y="560">SQLiteEventStorage</text>
+  <rect class="box box-rose" x="1915" y="595" width="315" height="55"/>
+  <text class="code" x="1945" y="622">storage.type = memory | file</text>
+  <text class="code" x="1945" y="644">storage.type = sqlite</text>
+
+  <rect class="lane" x="590" y="720" width="800" height="455"/>
+  <text class="section-title" x="620" y="760">Protocol Connector Layer</text>
+  <rect class="box box-amber" x="620" y="785" width="320" height="170"/>
+  <text class="label" x="650" y="818">Connector interface</text>
+  <text class="code" x="650" y="848">open(), close(), is_connected()</text>
+  <text class="code" x="650" y="874">get_id(), get_name(), get_type()</text>
+  <text class="code" x="650" y="900">on_attributes_update()</text>
+  <text class="code" x="650" y="926">server_side_rpc_handler()</text>
+  <rect class="box box-amber" x="970" y="785" width="390" height="170"/>
+  <text class="label" x="1000" y="818">Threading shape</text>
+  <text class="text" x="1000" y="848">Most connectors extend Thread.</text>
+  <text class="text" x="1000" y="874">Modbus / OPC UA / REST use asyncio loops.</text>
+  <text class="text" x="1000" y="900">MQTT uses Paho callbacks</text>
+  <text class="text" x="1000" y="926">plus converter workers.</text>
+  <text class="text" x="1000" y="952">Each connector owns protocol lifecycle.</text>
+  <rect class="box box-amber" x="620" y="985" width="740" height="145"/>
+  <text class="label" x="650" y="1018">Default connector classes</text>
+  <text class="small" x="650" y="1048">MqttConnector, AsyncModbusConnector, OpcUaConnector, BLEConnector, RequestConnector</text>
+  <text class="small" x="650" y="1074">CanConnector, AsyncBACnetConnector, OdbcConnector, RESTConnector, SNMPConnector</text>
+  <text class="small" x="650" y="1100">FTPConnector, SocketConnector, XMPPConnector, OcppConnector, KNXConnector</text>
+  <text class="tiny" x="650" y="1122">Extensions and custom converters are loaded through TBModuleLoader.</text>
+
+  <rect class="lane" x="1430" y="720" width="470" height="455"/>
+  <text class="section-title" x="1460" y="760">Service Threads</text>
+  <rect class="box box-slate" x="1460" y="785" width="410" height="335"/>
+  <text class="code" x="1490" y="820">Storage fill thread</text>
+  <text class="code" x="1490" y="846">Send data to Thingsboard Thread</text>
+  <text class="code" x="1490" y="872">Watchers</text>
+  <text class="code" x="1490" y="898">RPC processing thread</text>
+  <text class="code" x="1490" y="924">RPC to devices processing thread</text>
+  <text class="code" x="1490" y="950">Sync device shared attributes thread</text>
+  <text class="code" x="1490" y="976">Async device actions processing thread</text>
+  <text class="code" x="1490" y="1002">Checking devices idle time (optional)</text>
+  <text class="code" x="1490" y="1028">Statistics Thread (optional)</text>
+  <text class="code" x="1490" y="1054">Remote Request Processing (if enabled)</text>
+  <text class="code" x="1490" y="1080">TBClient thread + connector threads</text>
+
+  <rect class="lane" x="1945" y="720" width="360" height="455"/>
+  <text class="section-title" x="1975" y="760">Platform Client</text>
+  <rect class="box box-blue" x="1975" y="785" width="310" height="315"/>
+  <text class="label" x="2005" y="818">TBClient</text>
+  <text class="code" x="2005" y="848">TBGatewayMqttClient</text>
+  <text class="text" x="2005" y="876">Gateway MQTT API:</text>
+  <text class="small" x="2025" y="902">gw_connect_device()</text>
+  <text class="small" x="2025" y="928">gw_send_telemetry()</text>
+  <text class="small" x="2025" y="954">gw_send_attributes()</text>
+  <text class="small" x="2025" y="980">gw_send_rpc_reply()</text>
+  <text class="text" x="2005" y="1010">Auth: token, MQTT basic, X.509</text>
+  <text class="text" x="2005" y="1038">Provisioning, TLS, proxy, rate limits</text>
+
+  <rect class="lane" x="590" y="1210" width="610" height="280"/>
+  <text class="section-title" x="620" y="1250">Management Plane</text>
+  <rect class="box box-violet" x="620" y="1275" width="270" height="150"/>
+  <text class="label" x="650" y="1308">RemoteConfigurator</text>
+  <text class="code" x="650" y="1336">RECEIVED_UPDATE_QUEUE</text>
+  <text class="text" x="650" y="1364">general, storage, grpc, logs,</text>
+  <text class="text" x="650" y="1390">active_connectors, connector config</text>
+  <rect class="box box-violet" x="920" y="1275" width="250" height="150"/>
+  <text class="label" x="950" y="1308">Auxiliary services</text>
+  <text class="text" x="950" y="1336">RemoteShell</text>
+  <text class="text" x="950" y="1364">TBRemoteLoggerHandler</text>
+  <text class="text" x="950" y="1390">TBUpdater, HotReloader</text>
+
+  <rect class="lane" x="1240" y="1210" width="520" height="280"/>
+  <text class="section-title" x="1270" y="1250">Optional gRPC Connector Service</text>
+  <rect class="box box-teal" x="1270" y="1275" width="225" height="155"/>
+  <text class="label" x="1300" y="1308">TBGRPCServerManager</text>
+  <text class="text" x="1300" y="1336">gRPC aio server</text>
+  <text class="text" x="1300" y="1364">session to connector map</text>
+  <text class="text" x="1300" y="1390">uplink/downlink converters</text>
+  <rect class="box box-teal" x="1525" y="1275" width="225" height="155"/>
+  <text class="label" x="1555" y="1308">External processes</text>
+  <text class="code" x="1555" y="1336">GwGrpcConnector</text>
+  <text class="text" x="1555" y="1364">register/unregister</text>
+  <text class="text" x="1555" y="1390">send data and receive downlink</text>
+
+  <rect class="lane" x="1800" y="1210" width="345" height="280"/>
+  <text class="section-title" x="1830" y="1250">Statistics And Logs</text>
+  <rect class="box box-slate" x="1830" y="1275" width="300" height="155"/>
+  <text class="label" x="1860" y="1308">StatisticsService</text>
+  <text class="text" x="1860" y="1336">decorator counters and bytes</text>
+  <text class="text" x="1860" y="1364">machine and gateway metrics</text>
+  <text class="text" x="1860" y="1390">sends telemetry / attributes via gateway</text>
+
+  <rect class="box box-slate" x="2330" y="650" width="300" height="170"/>
+  <text class="section-title" x="2360" y="690">ThingsBoard Platform</text>
+  <text class="text" x="2360" y="724">MQTT broker endpoint</text>
+  <text class="text" x="2360" y="752">Gateway device plus child devices</text>
+  <text class="text" x="2360" y="780">Attributes, telemetry, RPC</text>
+
+  <path class="arrow" d="M510 255 C545 255 545 220 560 220"/>
+  <path class="arrow" d="M510 470 C545 470 545 360 590 360"/>
+  <path class="arrow" d="M510 720 C545 720 545 785 620 830"/>
+  <path class="arrow-teal" d="M1370 925 C1435 925 1435 650 1225 615"/>
+  <path class="arrow-teal" d="M1465 410 L1495 410"/>
+  <path class="arrow-teal" d="M1580 585 L1610 585"/>
+  <path class="arrow-rose" d="M1830 585 L1915 470"/>
+  <path class="arrow-blue" d="M2285 940 C2330 900 2350 830 2360 780"/>
+  <path class="arrow-blue dash" d="M2330 750 C2345 720 2345 710 2360 700"/>
+  <path class="arrow-teal dash" d="M1495 1350 L1525 1350"/>
+  <path class="arrow-teal dash" d="M1750 1350 C1840 1320 1890 1160 1875 1100"/>
+  <path class="arrow-rose dash" d="M1840 1300 C1650 1180 1000 1180 860 1275"/>
+
+  <text class="tiny" x="590" y="1530">Implementation note: other upstream products in this workspace are intentionally excluded; only thingsboard_gateway modules and config under upstream/thingsboard-gateway are represented.</text>
+</svg>

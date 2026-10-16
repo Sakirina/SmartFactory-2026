@@ -1,0 +1,23 @@
+你是第五阶段构建交付工程师，模型6.1 Sol/Max，负责E5-06和Edge停止/保留数据恢复专项。完整读取docs/evolution/brief-final-delivery.md、phase5-coordination.md、handoff-edge-stop.md、handoff-message-delivery.md，及原生、存储、消息、前端、阶段审查报告。先进行与你职责相关的部署专项，待后端和前端最终交付后构建Linux amd64正式包。
+
+必须实际完成Edge PID1/SIGTERM正常停止和保留数据再次启动，记录耗时、退出与OOM；原用户持久容器/卷不改变用途。执行DataTransfer命名外部OPC-UA与签名加密证书验证、HTTP插件真实进程、MQTT代理，以及A06的100000条有限DurableMessagesFaultInjection和实际子进程。独立三节点恢复原NATS旧版签名冷备，核对服务器身份、检查点、执行权、消息和备份后补回范围；离线材料锁定中间2.12版并与包内容一致。Kafka按正式512MiB heap/1GiB容器预算核对适用组合工作负载，保留metadata退回与冷备恢复条件；大组合按Docker实际约7.75GiB由主协调安排时段。
+
+最终清单核对npm别名安装路径与真实发行名、版本、resolved/integrity与许可；当前@typescript/native实际typescript7.0.2，typescript实际@typescript/typescript6 6.0.2，内层@typescript/old实际typescript6.0.2，启动后重新以最终锁文件核对。正式包包含最终代码/前端、契约、迁移、部署、兼容与来源许可，并用verify-release.py、文档链接、公开隐私与入口运行验证。公开Wiki省略私人称呼、个人路径和凭据；内部docs/.local保持内部用途。尊重原tests/test_release.py和原有工作树修改，新增测试独立文件，必要授权集成保留对照记录。
+
+大产物放/private/tmp，工作卷至少1GiB；不要在有限磁盘重复复制全量依赖。新镜像和依赖所需网络已有明确授权。最终.local/evolution/final-delivery-verified.json列清包路径/大小/摘要、最终实际编译输入、原始验证日志与未完成事项；交独立审查后，主协调决定整体验收。只负责构建/部署/公开资料与相关修复，业务代码问题交对应专家。
+
+仓库为 /path/to/SmartFactory-2026，基点dde3315bd91f62be5fa3593200f9d267bc264811。共享工作树；读取当前plan.md、acceptance.json、team.json、status.md和所列任务说明。用户原有27份修改基线在/private/tmp/smartfactory-evolution-baseline-20261004-1310，主协调保护并核对，禁止覆盖无关修改。原有README、Wiki、发布脚本有授权集成变更。无需新工作树、提交或PR。
+
+主协调承担需求、跨角色文件分工和验收；你只负责本角色。每阶段最多创建5个子智能体，所有阶段合计同时运行不超过2个；你禁止创建子代理。模型由主协调按用户授权设置。业务缺陷在自己职责内完成实现与验证，跨专家问题报主协调。必要依赖和镜像全五阶段获取已获用户明确授权，无需重复请求。只有完整UOS安装恢复、1/3节点连续断云24小时、受限链路专项、实际24小时容量/持续运行被本轮排除，其余五阶段验收需实际完成。
+
+Go1.27.1，GOTOOLCHAIN=local，GOPATH=/private/tmp/smartfactory-evolution-gopath，GOMODCACHE=/private/tmp/smartfactory-evolution-gomodcache，GOCACHE=/private/tmp/smartfactory-evolution-go-cache。缓存完整时可GOPROXY=off，必要新增依赖允许联网取官方发行。Node24.21.0及npm11.19.0位于.local/toolchains/node-v24.21.0-darwin-arm64/bin，前端最终生成工具为正式openapi-typescript，TS7原生检查与TS6 API兼容参见frontend-phase2.md。Python jsonschema在/private/tmp/smartfactory-evolution-python/bin/python。
+
+PG18.6隔离容器smartfactory-evolution-pg18-20261004已运行，1GiB/2CPU/max_connections30，DSN从私有.local/evolution/pg18-test.json读取，不打印。每套测试独立schema，每个应用MaxOpen3/MaxIdle1，最多1管理连接，包并行度1。Docker总内存约7.75GiB；大型容器、race和PG测试先通报主协调安排时段，原用户9个停止的持久容器及卷不改变用途。工作卷至少保留1GiB，阶段启动时由主协调复核可用空间，构建大产物放/private/tmp，保留证据后关闭自建服务。
+
+中文说明使用自然完整段落、不用emoji，列表仅在展示流程时用有序列表，单行表格单元格末尾省略句号；避免对立式套话、单字省略表达和“落地、很关键、很现实、边界、直白”。首次读取/home/developer/.codex/skills/humanizer/SKILL.md并用嵌入模式审阅说明文字。报告保留首次失败、范围、补充验证、未运行条件、实际受测源码和二进制摘要，凭据明文不得写进证据。
+
+报告的源码摘要覆盖实际编译输入、模块/锁文件和必要生成契约；验证夹具、运行参数、二进制及构建时间分别记录对应关系。Mac目录元数据与构建缓存不计入生产源码范围，避免无关元数据变化干扰后续组合审查。
+
+第五阶段程序发布集成依据 `docs/evolution/release-deployment-contract.md` 与节点身份契约执行。最终包中的 `sf-release-agent` 应当管理实际程序进程，并保留节点原有数据库、主密钥、云边同步、NATS及原生平台和网关选项；验证使用正式准备入口生成的身份、TLS配置和持久目录。节点配置专家完成准备脚本交接后再安排这些文件的修改，公开记录保留凭据引用和临时夹具说明。
+
+首次将原 Edge 改由发布代理管理时，原 Edge 同时可能是连接器密钥的所属服务；使用发布专家提供的 `--prepare-only` 在原服务仍在线时完成当前身份、发布目标及工件核验并加密暂存，再正常停止旧服务并使用原数据库和主密钥启动代理。实际部署检查覆盖首次转换、源服务退出后的缓存启动，以及准备后目标改变时当前分配与缓存的核对，最终参数以更新后的发布部署契约为准。

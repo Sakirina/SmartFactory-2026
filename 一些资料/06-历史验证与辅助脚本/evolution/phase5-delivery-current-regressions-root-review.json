@@ -1,0 +1,161 @@
+{
+  "checked_at": "2026-10-05T10:56:34.585414+00:00",
+  "status": "passed",
+  "scope": "Serial regression of candidate-final-second before P5-R02; verify retained input contents rather than the subsequently mutable workspace, with final affected-package and runtime checks pending",
+  "report": {
+    "path": "/private/tmp/smartfactory-delivery-regressions-current-20261005/verification.json",
+    "sha256": "c09645b40669fb42d50159e0679d2f095328bba0d5680c3d0ff809cee16dd985",
+    "bytes": 25282
+  },
+  "commands": 16,
+  "input_sets": {
+    "consumer-build-before": {
+      "recorded_inputs": 4318,
+      "package_count": 596,
+      "selected_existing_go_list_inputs": 4268,
+      "missing": []
+    },
+    "consumer-build-after": {
+      "recorded_inputs": 4318,
+      "package_count": 596,
+      "selected_existing_go_list_inputs": 4268,
+      "missing": []
+    },
+    "platform-tests-before": {
+      "recorded_inputs": 5535,
+      "package_count": 749,
+      "selected_existing_go_list_inputs": 5464,
+      "missing": []
+    },
+    "platform-tests-after": {
+      "recorded_inputs": 5535,
+      "package_count": 749,
+      "selected_existing_go_list_inputs": 5464,
+      "missing": []
+    },
+    "datatransfer-tests-before": {
+      "recorded_inputs": 4318,
+      "package_count": 596,
+      "selected_existing_go_list_inputs": 4268,
+      "missing": []
+    },
+    "datatransfer-tests-after": {
+      "recorded_inputs": 4318,
+      "package_count": 596,
+      "selected_existing_go_list_inputs": 4268,
+      "missing": []
+    }
+  },
+  "unique_original_input_paths": 6240,
+  "unique_retained_content_paths": 6062,
+  "verified_file_paths": 6110,
+  "results": {
+    "Platform": {
+      "top_level": {
+        "pass": 325,
+        "skip": 12
+      },
+      "including_subtests": {
+        "pass": 649,
+        "skip": 12
+      },
+      "skips": [
+        {
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestBusinessNativeCEAlarmLifecycle"
+        },
+        {
+          "package": "competition2026/product/platform/internal/app",
+          "test": "TestControlledCloudEdgeControlIntervention"
+        },
+        {
+          "package": "competition2026/product/platform/internal/app",
+          "test": "TestControlBrowserFixture"
+        },
+        {
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestHistoryCrashProcess"
+        },
+        {
+          "package": "competition2026/product/platform/internal/coordination",
+          "test": "TestPersistentThreeReplicaUpgrade"
+        },
+        {
+          "package": "competition2026/product/platform/internal/coordination",
+          "test": "TestRealThreeReplicaCoordination"
+        },
+        {
+          "package": "competition2026/product/platform/internal/coordination",
+          "test": "TestRealThreeReplicaReadOnlyReconcileAndManualResume"
+        },
+        {
+          "package": "competition2026/product/platform/internal/coordination",
+          "test": "TestRealConcurrentOperationDeliveryKeepsLeaseContentionRetryable"
+        },
+        {
+          "package": "competition2026/product/platform/internal/plugins",
+          "test": "TestActualOrganizationProcessPullAndCrashIsolation"
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestControlledPostgresUpgradeFixture"
+        },
+        {
+          "package": "competition2026/product/platform/internal/tasks",
+          "test": "TestTaskCrashProcess"
+        },
+        {
+          "package": "competition2026/product/platform/internal/thingsboard",
+          "test": "TestNativeCalculatedFieldAlarmAndRetention"
+        }
+      ]
+    },
+    "DataTransfer": {
+      "top_level": {
+        "pass": 101,
+        "skip": 7
+      },
+      "including_subtests": {
+        "pass": 109,
+        "skip": 7
+      },
+      "skips": [
+        {
+          "package": "competition2026/product/datatransfer/internal/connector/opcua",
+          "test": "TestNativeClientExternalSmoke"
+        },
+        {
+          "package": "competition2026/product/datatransfer/internal/connector/opcua",
+          "test": "TestNativeSignedEncryptedMethodAndCertificateValidation"
+        },
+        {
+          "package": "competition2026/product/datatransfer/internal/connector/sidecar",
+          "test": "TestHTTPExampleProcessCollectsAndControlsSimulator"
+        },
+        {
+          "package": "competition2026/product/datatransfer/internal/northbound/grpc",
+          "test": "TestControlledControlDeviceFixture"
+        },
+        {
+          "package": "competition2026/product/datatransfer/internal/northbound/mqtt",
+          "test": "TestExternalBrokerSmoke"
+        },
+        {
+          "package": "competition2026/product/datatransfer/tests/acceptance",
+          "test": "TestDurableProcessFixture"
+        },
+        {
+          "package": "competition2026/product/datatransfer/tests/acceptance",
+          "test": "TestDurableMessagesFaultInjection"
+        }
+      ]
+    }
+  },
+  "consumer_exit_code": 0,
+  "final_database_connections": "0",
+  "remaining_schemas": "",
+  "own_database_removed": true,
+  "external_fixture_correspondence": "Final delivery report and final independent review pending",
+  "p5_r02_included": false,
+  "errors": []
+}

@@ -1,0 +1,74 @@
+{
+  "label": "ordinary-DataTransfer-internal-northbound-mqtt",
+  "command": [
+    "go",
+    "tool",
+    "test2json",
+    "-t",
+    "-p",
+    "competition2026/product/datatransfer/internal/northbound/mqtt",
+    "/private/tmp/smartfactory-phase4-independent-20261005/bin/DataTransfer-internal-northbound-mqtt.test",
+    "-test.v=test2json",
+    "-test.count=1",
+    "-test.parallel=1",
+    "-test.timeout=240s",
+    "-test.run=."
+  ],
+  "cwd": "/private/tmp/smartfactory-phase4-independent-20261005/workspace/DataTransfer/internal/northbound/mqtt",
+  "started_at": "2026-10-05T02:23:56.834956+00:00",
+  "completed_at": "2026-10-05T02:23:56.930491+00:00",
+  "elapsed_seconds": 0.096,
+  "exit_code": 0,
+  "postgres": false,
+  "stdout": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/ordinary-DataTransfer-internal-northbound-mqtt.stdout.log",
+    "sha256": "1ee02b41da2d43fb3522706eaa9eb4f19f55e1ea0e29db499a5a85ad86457a45",
+    "bytes": 6467
+  },
+  "stderr": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/ordinary-DataTransfer-internal-northbound-mqtt.stderr.log",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "counts": {
+    "top_level": {
+      "pass": 5,
+      "fail": 0,
+      "skip": 1
+    },
+    "leaf": {
+      "pass": 5,
+      "fail": 0,
+      "skip": 1
+    },
+    "all_named": {
+      "pass": 5,
+      "fail": 0,
+      "skip": 1
+    },
+    "packages": {
+      "pass": 1,
+      "fail": 0,
+      "skip": 0
+    },
+    "skips": [
+      {
+        "package": "competition2026/product/datatransfer/internal/northbound/mqtt",
+        "test": "TestExternalBrokerSmoke",
+        "reason": "=== RUN   TestExternalBrokerSmoke\n    adapter_test.go:100: DT_MQTT_SMOKE_BROKER is not set\n--- SKIP: TestExternalBrokerSmoke (0.00s)\n"
+      }
+    ],
+    "failures": [],
+    "races": 0
+  },
+  "build_inputs": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/build-inputs.json",
+    "sha256": "88fdc87b09a840748a6cadc356b019dcf324905175ecb4f7fb3e38f7c7981643",
+    "bytes": 1717015
+  },
+  "binary": {
+    "path": "/private/tmp/smartfactory-phase4-independent-20261005/bin/DataTransfer-internal-northbound-mqtt.test",
+    "sha256": "b1dc73c4a5dc3dbf3a3617e4e955e2a95e5b2c17c9af258494f3d6a5025f8008",
+    "bytes": 28841762
+  }
+}

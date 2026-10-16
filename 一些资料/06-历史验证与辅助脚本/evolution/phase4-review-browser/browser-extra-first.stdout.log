@@ -1,0 +1,46 @@
+
+Running 2 tests using 1 worker
+
+  ✘  1 tests/phase4-independent-extra.spec.ts:6:1 › independent empty queries render all three surfaces at every required viewport (1.9s)
+  ✘  2 tests/phase4-independent-extra.spec.ts:60:1 › independent deleted-original-resource polling clears cached drawer without another evidence request (222ms)
+
+
+  1) tests/phase4-independent-extra.spec.ts:6:1 › independent empty queries render all three surfaces at every required viewport 
+
+    Error: expect(received).toBeLessThanOrEqual(expected)
+
+    Expected: <= 391
+    Received:    393
+
+      43 |         expect(box!.width).toBeGreaterThan(100);
+      44 |         const dimensions = await page.evaluate(() => ({ viewport: window.innerWidth, document: document.documentElement.scrollWidth, body: document.body.scrollWidth }));
+    > 45 |         expect(dimensions.document).toBeLessThanOrEqual(width + 1);
+         |                                     ^
+      46 |         await capture(page, `empty-${kind}-${surface}-${width}x${height}`);
+      47 |         records.push({ kind, surface, width, height, chart: box, dimensions, matching_rows: 0 });
+      48 |       } finally {
+        at /private/tmp/smartfactory-phase4-independent-browser-20261005/frontend/Frontends/tests/phase4-independent-extra.spec.ts:45:37
+
+    Error Context: ../../playwright-results/phase4-independent-extra-i-eb069--at-every-required-viewport/error-context.md
+
+  2) tests/phase4-independent-extra.spec.ts:60:1 › independent deleted-original-resource polling clears cached drawer without another evidence request 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 200
+    Received: 400
+
+      65 |   const state = async (action: string) => request.post(aiURL + '/__fixture/state', { headers: { Authorization: 'Bearer ' + auth.token }, data: { action } });
+      66 |   expect((await state('restore')).status()).toBe(200);
+    > 67 |   expect((await state('prepare_original_resource')).status()).toBe(200);
+         |                                                               ^
+      68 |   await login(page, 'ai');
+      69 |   await route(page, 'assistant');
+      70 |   await page.getByLabel('发送给 AI 助手的消息').fill('读取身份 调查/温度:一号');
+        at /private/tmp/smartfactory-phase4-independent-browser-20261005/frontend/Frontends/tests/phase4-independent-extra.spec.ts:67:63
+
+    Error Context: ../../playwright-results/phase4-independent-extra-i-63655-ut-another-evidence-request/error-context.md
+
+  2 failed
+    tests/phase4-independent-extra.spec.ts:6:1 › independent empty queries render all three surfaces at every required viewport 
+    tests/phase4-independent-extra.spec.ts:60:1 › independent deleted-original-resource polling clears cached drawer without another evidence request 

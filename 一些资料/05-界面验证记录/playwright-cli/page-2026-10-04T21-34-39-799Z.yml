@@ -1,0 +1,199 @@
+- generic [ref=f1e1]:
+  - generic [ref=f1e2503]:
+    - complementary [ref=f1e2504]:
+      - link "SF SmartFactory 生产安全控制台" [ref=f1e2505] [cursor=pointer]:
+        - /url: "#overview"
+        - generic [ref=f1e2506]: SF
+        - generic [ref=f1e2507]:
+          - text: SmartFactory
+          - generic [ref=f1e2508]: 生产安全控制台
+      - generic [ref=f1e2509]: 示例工厂 / history-fixture
+      - navigation "主导航" [ref=f1e2510]:
+        - button "运行概览" [ref=f1e2511] [cursor=pointer]
+        - button "设备与资产" [ref=f1e2513] [cursor=pointer]
+        - button "数据监控" [ref=f1e2515] [cursor=pointer]
+        - button "数据分析" [ref=f1e2517] [cursor=pointer]
+        - button "告警编排" [ref=f1e2519] [cursor=pointer]
+        - button "联动预案" [ref=f1e2521] [cursor=pointer]
+        - button "审批与执行" [ref=f1e2523] [cursor=pointer]
+        - button "通知记录" [ref=f1e2525] [cursor=pointer]
+        - button "历史补算" [ref=f1e2527] [cursor=pointer]
+        - button "后台任务" [ref=f1e2529] [cursor=pointer]
+        - button "历史分析" [ref=f1e2531] [cursor=pointer]
+        - button "运行状态" [ref=f1e2533] [cursor=pointer]
+        - button "AI 助手" [ref=f1e2535] [cursor=pointer]
+      - generic [ref=f1e2537]:
+        - text: 独立实例 · 云端运行
+        - generic [ref=f1e2539]: 规则版本与操作记录全程保存
+    - generic [ref=f1e2540]:
+      - banner [ref=f1e2541]:
+        - generic [ref=f1e2542]:
+          - text: 云端控制台
+          - generic [ref=f1e2543]: /
+          - strong [ref=f1e2544]: 历史分析
+        - generic [ref=f1e2545]:
+          - generic [ref=f1e2547] [cursor=pointer]:
+            - generic "每秒刷新" [ref=f1e2548]:
+              - text: 每秒刷新
+              - combobox "页面刷新方式" [ref=f1e2549]
+            - img "down" [ref=f1e2551]
+          - generic [ref=f1e2554]: frontend-engineer
+          - button "退出" [ref=f1e2556] [cursor=pointer]
+      - main [ref=f1e2558]:
+        - generic [ref=f1e3151]:
+          - generic [ref=f1e3152]:
+            - heading "历史分析与影子计算" [level=1] [ref=f1e3153]
+            - paragraph [ref=f1e3154]: 按保存的输入与历史规则分析结果，查看两侧计划、节点来源和候选与正式结果的差异。
+          - generic [ref=f1e3156]:
+            - button "更新分析记录" [ref=f1e3158] [cursor=pointer]
+            - button "启用影子候选" [ref=f1e3161] [cursor=pointer]
+            - button "创建历史分析" [ref=f1e3164] [cursor=pointer]
+        - generic [ref=f1e3166]:
+          - tablist [ref=f1e3167]:
+            - generic [ref=f1e3169]:
+              - tab "回放与比较运行" [ref=f1e3171] [cursor=pointer]
+              - tab "影子候选" [selected] [ref=f1e3173] [cursor=pointer]
+          - tabpanel "影子候选" [ref=f1e3176]:
+            - generic [ref=f1e3177]:
+              - textbox "影子候选身份" [ref=f1e3178]:
+                - /placeholder: 输入完整影子候选身份
+                - text: frontend-shadow
+              - button "查看指定候选" [ref=f1e3179] [cursor=pointer]
+            - generic [ref=f1e3185]:
+              - table [ref=f1e3189]:
+                - rowgroup [ref=f1e3190]:
+                  - row [ref=f1e3191]:
+                    - columnheader "候选 / 规则版本" [ref=f1e3192]
+                    - columnheader "采集状态" [ref=f1e3193]
+                    - columnheader "采集轮次 / 管理版本" [ref=f1e3194]
+                    - columnheader "完成 / 采集代次" [ref=f1e3195]
+                    - columnheader "最近运行" [ref=f1e3196]
+                    - columnheader "说明" [ref=f1e3197]
+                    - columnheader "操作" [ref=f1e3198]
+                - rowgroup [ref=f1e3199]:
+                  - row [ref=f1e3229]:
+                    - cell "fixture-failure history-failed · v1" [ref=f1e3230]:
+                      - button "fixture-failure" [ref=f1e3231] [cursor=pointer]
+                      - generic [ref=f1e3233]: history-failed · v1
+                    - cell "正在采集候选输入" [ref=f1e3234]
+                    - cell "1 / 3" [ref=f1e3236]
+                    - cell "0 / 2" [ref=f1e3237]
+                    - cell "尚未产生运行" [ref=f1e3238]
+                    - cell [ref=f1e3239]
+                    - cell [ref=f1e3240]:
+                      - button "候选详情" [ref=f1e3241] [cursor=pointer]
+                  - row [ref=f1e3243]:
+                    - cell "fixture-live history-derived · v1" [ref=f1e3244]:
+                      - button "fixture-live" [ref=f1e3245] [cursor=pointer]
+                      - generic [ref=f1e3247]: history-derived · v1
+                    - cell "正在采集候选输入" [ref=f1e3248]
+                    - cell "1 / 9" [ref=f1e3250]
+                    - cell "4 / 4" [ref=f1e3251]
+                    - cell [ref=f1e3252]:
+                      - button "shadow:fixture-live:1:4" [ref=f1e3253] [cursor=pointer]
+                    - cell [ref=f1e3255]
+                    - cell [ref=f1e3256]:
+                      - button "候选详情" [ref=f1e3257] [cursor=pointer]
+                  - row [ref=f1e3259]:
+                    - cell "frontend-shadow history-derived · v1" [ref=f1e3260]:
+                      - button "frontend-shadow" [ref=f1e3261] [cursor=pointer]
+                      - generic [ref=f1e3263]: history-derived · v1
+                    - cell "候选已停止采集" [ref=f1e3264]
+                    - cell "2 / 4" [ref=f1e3266]
+                    - cell "0 / 0" [ref=f1e3267]
+                    - cell "尚未产生运行" [ref=f1e3268]
+                    - cell [ref=f1e3269]
+                    - cell [ref=f1e3270]:
+                      - button "候选详情" [ref=f1e3271] [cursor=pointer]
+              - list [ref=f1e3273]:
+                - listitem "上一页" [ref=f1e3274]:
+                  - button [disabled] [ref=f1e3275]:
+                    - img "left" [ref=f1e3276]
+                - listitem "1" [ref=f1e3279] [cursor=pointer]
+                - listitem "下一页" [ref=f1e3281]:
+                  - button [disabled] [ref=f1e3282]:
+                    - img "right" [ref=f1e3283]
+      - contentinfo [ref=f1e3066]:
+        - text: SmartFactory · history-fixture
+        - generic [ref=f1e3067]: 界面时间使用 Asia/Shanghai 时区
+  - dialog "影子候选详情" [ref=f1e3213]:
+    - generic [ref=f1e3214]:
+      - generic [ref=f1e3215]:
+        - button "关闭" [ref=f1e3216] [cursor=pointer]:
+          - img "close" [ref=f1e3217]
+        - generic [ref=f1e3220]: 影子候选详情
+      - button "更新候选详情" [ref=f1e3286] [cursor=pointer]
+    - generic [ref=f1e3287]:
+      - table [ref=f1e3290]:
+        - rowgroup [ref=f1e3291]:
+          - row [ref=f1e3292]:
+            - rowheader "候选身份" [ref=f1e3293]
+            - cell "frontend-shadow" [ref=f1e3294]
+          - row [ref=f1e3295]:
+            - rowheader "候选规则版本" [ref=f1e3296]
+            - cell "history-derived · v1" [ref=f1e3297]
+          - row [ref=f1e3298]:
+            - rowheader "当前采集状态" [ref=f1e3299]
+            - cell "候选已停止采集" [ref=f1e3300]
+          - row [ref=f1e3303]:
+            - rowheader "管理版本 / 采集轮次" [ref=f1e3304]
+            - cell "4 / 2" [ref=f1e3305]
+          - row [ref=f1e3306]:
+            - rowheader "完成 / 已采集代次" [ref=f1e3307]
+            - cell "0 / 0" [ref=f1e3308]
+          - row [ref=f1e3309]:
+            - rowheader "当前有效输入数量" [ref=f1e3310]
+            - cell "0" [ref=f1e3311]
+          - row [ref=f1e3312]:
+            - rowheader "设备 / 测点" [ref=f1e3313]
+            - cell "history-device / count" [ref=f1e3314]
+          - row [ref=f1e3315]:
+            - rowheader "最新完成运行" [ref=f1e3316]
+            - cell "尚未完成运行" [ref=f1e3317]
+          - row [ref=f1e3318]:
+            - rowheader "开始 / 停止时间" [ref=f1e3319]
+            - cell "2026/10/5 05:29:26 / 2026/10/5 05:30:28" [ref=f1e3320]
+          - row [ref=f1e3321]:
+            - rowheader "采集说明" [ref=f1e3322]
+            - cell "暂无错误" [ref=f1e3323]
+      - generic [ref=f1e3324]:
+        - button "重新启用候选" [ref=f1e3326] [cursor=pointer]
+        - button "导出候选详情" [ref=f1e3329] [cursor=pointer]
+      - generic [ref=f1e3331]:
+        - button "最新观测及输入来源" [ref=f1e3333] [cursor=pointer]
+        - button "当前字段上下文" [ref=f1e3340] [cursor=pointer]
+        - button "采集轮次保存的基础快照" [ref=f1e3347] [cursor=pointer]
+  - generic [ref=f1e3353]:
+    - dialog "重新启用候选":
+      - generic [ref=f1e3354]:
+        - button "关闭" [active] [ref=f1e3355] [cursor=pointer]:
+          - generic "关闭" [ref=f1e3356]:
+            - img "close" [ref=f1e3357]
+        - generic [ref=f1e3360]: 重新启用候选
+        - generic [ref=f1e3363]:
+          - generic [ref=f1e3365]:
+            - generic "候选身份" [ref=f1e3367]
+            - textbox "新候选身份" [disabled] [ref=f1e3371]: frontend-shadow
+          - generic [ref=f1e3373]:
+            - generic "已发布规则" [ref=f1e3375]
+            - generic [ref=f1e3379] [cursor=pointer]:
+              - generic "history-derived · analysis" [ref=f1e3380]:
+                - text: history-derived · analysis
+                - combobox "影子规则" [ref=f1e3381]
+              - img "down" [ref=f1e3383]
+          - generic [ref=f1e3387]:
+            - generic "候选规则版本" [ref=f1e3389]
+            - textbox "候选规则版本" [ref=f1e3393]: "1"
+          - generic [ref=f1e3395]:
+            - generic "候选设备范围" [ref=f1e3397]
+            - textbox "候选设备范围" [ref=f1e3401]: history-device
+          - generic [ref=f1e3403]:
+            - generic "候选测点范围" [ref=f1e3405]
+            - textbox "候选测点范围" [ref=f1e3409]: count
+          - generic [ref=f1e3411]:
+            - generic "候选初始状态" [ref=f1e3413]
+            - textbox "候选初始状态" [ref=f1e3417]: "{}"
+          - paragraph [ref=f1e3418]: 保存后建立新的采集轮次，原有运行和输入回执继续保留；候选计算结果可以沿运行身份查询。
+        - generic [ref=f1e3419]:
+          - button "取消" [ref=f1e3420] [cursor=pointer]
+          - button "保存并开始采集" [ref=f1e3422] [cursor=pointer]

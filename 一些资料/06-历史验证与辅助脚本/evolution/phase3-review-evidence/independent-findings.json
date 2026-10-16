@@ -1,0 +1,75 @@
+{
+  "updated_at_ms": 1791152137450,
+  "findings": [
+    {
+      "id": "IR-P3-01",
+      "status": "independently_verified_after_C05",
+      "requirement": [
+        "E3-02",
+        "E3-03",
+        "E3-07"
+      ],
+      "summary": "云端控制详情缺少已在边缘保存的原命令核对证据与反馈时间线",
+      "reproduction": "云端离线提交 recover-browser reconcile，恢复链路处理，随后 resume 完成；同一执行边缘 evidence=1，云端 evidence=0，但 steps[0].evidence_id 相同",
+      "sources": [
+        "Platform/internal/store/control.go:135",
+        "Platform/internal/cloudsync/exchange.go:293",
+        "Platform/internal/control/intervention.go:513"
+      ],
+      "evidence": [
+        {
+          "path": ".local/evolution/phase3-review-evidence/control-resume-backend.json",
+          "sha256": "9c8358acab4dcbff79222fcc5df9aee47f3117db08088a4b7d9a450450cbc7a9"
+        },
+        {
+          "path": ".local/evolution/phase3-review-evidence/control-trusted-evidence.json",
+          "sha256": "a4cd709f49f64d46317e200a637c5440577855b7e0bb31da9f95cd8dc3025f29"
+        },
+        {
+          "path": "output/playwright/phase3-independent/control-trusted-evidence.png",
+          "sha256": "bd429fe2299c1279f5f1f2f7946d3af31bb68b5f98f870463987d09b24ab1b78"
+        }
+      ],
+      "physical_commands": {
+        "recover-browser:first": 1,
+        "recover-browser:remaining": 1
+      },
+      "coordinator_id": "P3-C05",
+      "resolution_evidence": [
+        ".local/evolution/phase3-review-evidence/c05-independent-dual-app-audit.json",
+        ".local/evolution/phase3-review-evidence/v2-control-recovered-backend.json",
+        ".local/evolution/phase3-review-evidence/v2-control-cancelled-backend.json",
+        ".local/evolution/phase3-review-evidence/v2-control-trusted-evidence-visible.json",
+        ".local/evolution/phase3-review-evidence/v2-control-feedback-visible.json"
+      ]
+    },
+    {
+      "id": "IR-P3-02",
+      "status": "waiting_for_specialist_fix",
+      "requirements": [
+        "E3-04",
+        "E3-06"
+      ],
+      "summary": "等待父代的分析任务每500ms更新队列版本，正常确认取消连续四次409",
+      "reproduction": "实际生产SQLite/River history fixture，analysis:shadow:fixture-failure:1:2处于waiting_parent；刷新详情后正常鼠标点击或键盘确认均使用刚读取的版本，完成确认约850ms，后台Snooze已更新版本；四次请求均409",
+      "sources": [
+        "Frontends/src/tasks.tsx",
+        "Platform/internal/tasks"
+      ],
+      "evidence_paths": [
+        ".local/evolution/phase3-review-evidence/v2-history-waiting-parent-cancel-first.json",
+        ".local/evolution/phase3-review-evidence/v2-history-waiting-parent-cancel-reviewed.json",
+        ".local/evolution/phase3-review-evidence/v2-history-cancel-timing.json",
+        ".local/evolution/phase3-review-evidence/v2-history-cancel-keyboard-timing.json",
+        ".local/evolution/phase3-review-evidence/v2-history-cancelled-identities.json"
+      ],
+      "observed_task_id": "analysis:shadow:fixture-failure:1:2",
+      "river_id": 26,
+      "observed_final_state": "available",
+      "observed_business_state": "waiting_parent",
+      "no_automatic_retry": true,
+      "no_page_or_api_bypass": true,
+      "coordinator_id": "P3-T01"
+    }
+  ]
+}

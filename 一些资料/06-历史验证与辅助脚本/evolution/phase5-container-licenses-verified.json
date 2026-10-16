@@ -1,0 +1,947 @@
+{
+  "schema_version": 1,
+  "saved_at": "2026-10-07T05:10:58.623480+00:00",
+  "finding": "P5-B02",
+  "status": "passed",
+  "scope": "locked-image primary-program source and license attribution, explicit image/package licensing scope, current native upstream license text correspondence; actual final package contains materials and declared scope",
+  "original_failure": {
+    "path": "/private/tmp/smartfactory-delivery-final-20261007/static-verification/first-license-failure.json",
+    "bytes": 974,
+    "sha256": "e8c229cde90fb1d6a00c79b4b1f8881e8f7f64273da4da89388fa8d06e57ed8b"
+  },
+  "original_unattributed_components": [
+    "postgres",
+    "envoy",
+    "go_builder",
+    "node_builder",
+    "runtime"
+  ],
+  "raw_http_failures": [
+    {
+      "name": "runtime/package-policy.html",
+      "url": "https://wiki.alpinelinux.org/wiki/Creating_an_Alpine_package",
+      "started_at": "2026-10-07T04:55:36.182945+00:00",
+      "duration_seconds": 3.434717833995819,
+      "status": 403,
+      "error": "HTTP Error 403: Forbidden"
+    }
+  ],
+  "raw_docker_inspection_failures": [
+    {
+      "argv": [
+        "docker",
+        "image",
+        "inspect",
+        "library/postgres@sha256:0377e72c5289ed2f98cf61b1a9c2db9eb9d300317fe14244492fbc94343b3d04",
+        "--format",
+        "{{json .Id}} {{json .RepoDigests}} {{json .Config.Labels}}"
+      ],
+      "duration_seconds": 0.09866600000532344,
+      "exit_code": 1,
+      "log": "/private/tmp/smartfactory-delivery-final-20261007/image-license-completion/postgres-image-inspect.log",
+      "sha256": "96bf805153a97648890e81fb4fc7d2152ab2cfd472c1ccb421b05c5c65852bb8"
+    },
+    {
+      "argv": [
+        "docker",
+        "image",
+        "inspect",
+        "library/golang@sha256:cd9a32216aee5667f957a62d13a10032a63fd58e14b3f3d9cc8c2122f501e95e",
+        "--format",
+        "{{json .Id}} {{json .RepoDigests}} {{json .Config.Labels}}"
+      ],
+      "duration_seconds": 0.020193709002342075,
+      "exit_code": 1,
+      "log": "/private/tmp/smartfactory-delivery-final-20261007/image-license-completion/go_builder-image-inspect.log",
+      "sha256": "96bf805153a97648890e81fb4fc7d2152ab2cfd472c1ccb421b05c5c65852bb8"
+    },
+    {
+      "argv": [
+        "docker",
+        "image",
+        "inspect",
+        "library/node@sha256:83f1c388c31fb2e51f7cbd4dea949b96260798c98f206e8e4696bc93bd964e3a",
+        "--format",
+        "{{json .Id}} {{json .RepoDigests}} {{json .Config.Labels}}"
+      ],
+      "duration_seconds": 0.022186958987731487,
+      "exit_code": 1,
+      "log": "/private/tmp/smartfactory-delivery-final-20261007/image-license-completion/node_builder-image-inspect.log",
+      "sha256": "96bf805153a97648890e81fb4fc7d2152ab2cfd472c1ccb421b05c5c65852bb8"
+    },
+    {
+      "argv": [
+        "docker",
+        "image",
+        "inspect",
+        "library/alpine@sha256:3e9b4b680bfc9fb5269227cffbd6d42be39fbf7c0b908123913864aa4447e764",
+        "--format",
+        "{{json .Id}} {{json .RepoDigests}} {{json .Config.Labels}}"
+      ],
+      "duration_seconds": 0.01865199999883771,
+      "exit_code": 1,
+      "log": "/private/tmp/smartfactory-delivery-final-20261007/image-license-completion/runtime-image-inspect.log",
+      "sha256": "96bf805153a97648890e81fb4fc7d2152ab2cfd472c1ccb421b05c5c65852bb8"
+    }
+  ],
+  "failure_diagnoses": {
+    "http_policy_403": "Original optional Alpine wiki page returned403; exact package metadata and fixed original source recipes supply the final material evidence",
+    "inspect_template": "Four original image inspect commands requested .Config.Labels, absent in these official image Config objects; filtered JSON inspection and all five actual program version commands subsequently passed",
+    "overbroad_privacy_assertion": "The original all-source /private/tmp/ assertion conflated generic test directories and generated fixture references with personal paths; public operations documentation is checked separately and all actual personal/credential source findings are reviewed"
+  },
+  "actual_sources_and_versions": {
+    "postgres": "postgres (PostgreSQL) 18.6 (Debian 18.6-1.pgdg13+2)",
+    "envoy": "/usr/local/bin/envoy  version: b579d07d3ad7ee11d32b105e91a5a39ad24718d7/1.39.1/Clean/RELEASE/BoringSSL",
+    "go_builder": "go version go1.27.1 linux/amd64",
+    "node_builder": "v24.21.0",
+    "runtime": "3.22.6"
+  },
+  "actual_binaries": {
+    "datatransfer": {
+      "bytes": 25440416,
+      "sha256": "da066002adfea17bd70541c08af8e0fa503561c88cb884594c2ffe7dc37796fb"
+    },
+    "dt-benchmark": {
+      "bytes": 19464352,
+      "sha256": "aaf1e520899e23273997101d38e651f1cd92a7e58425c72f7f6389ef6519949a"
+    },
+    "dt-simulator": {
+      "bytes": 17305760,
+      "sha256": "97b734f6012862c63d3963fcdebd18597a1c7b64ed6765658b253de5a8cb61a0"
+    },
+    "http-plugin": {
+      "bytes": 12538016,
+      "sha256": "f023fc9bdb4bcedbc6c527cd79ca3dcce3372a1ca0ee05bf733f69aa59f5a7a5"
+    },
+    "sf-api-benchmark": {
+      "bytes": 39428256,
+      "sha256": "a92a1bdabd197b1b76f1a02ad215dee21413437c3a67bffd72a5eb4ea465591a"
+    },
+    "sf-cloud": {
+      "bytes": 39293088,
+      "sha256": "bf1504af93727c4f70a4be5ac0ccf6812f0e31cc3adca3c10752aa66714cf8f6"
+    },
+    "sf-config": {
+      "bytes": 39293088,
+      "sha256": "a8a5e891e37509800463a7898bdd79804d70be13fe5bb647cf5034096dbbef40"
+    },
+    "sf-contracts": {
+      "bytes": 33296544,
+      "sha256": "4fbed9c5bd3f4be9338edc63c7846b48124dc31d03a4f6b28079ee0761e85c83"
+    },
+    "sf-edge": {
+      "bytes": 39293088,
+      "sha256": "d0a5f450809424146389e14ce24303144dd1ee8ad167284eeb5d70e8464bd41c"
+    },
+    "sf-hr-plugin": {
+      "bytes": 22491296,
+      "sha256": "a75a4a831d2c7623be9475390c8ac4da3fcc929049721d15bbd16732e01acae3"
+    },
+    "sf-model-mock": {
+      "bytes": 25235616,
+      "sha256": "dd0545e08f195ec79961d4ae8e688aec0f2604d46be972edac9f83e205042dbf"
+    },
+    "sf-pki": {
+      "bytes": 4489376,
+      "sha256": "08f7fb3a5742372f90ef4377b027727a2904d77cc2ae168b3324117b985ec9ab"
+    },
+    "sf-release-agent": {
+      "bytes": 23498912,
+      "sha256": "ed4f749102a553a3058a28f2788df7ce708c90314ca3e8b0f3073f6ede8f5574"
+    },
+    "sf-site-fixture": {
+      "bytes": 39317664,
+      "sha256": "3d552685be67b76b6bb1e7cc08fe06d3d6c50d07d08660f25a68c65ad3507469"
+    }
+  },
+  "actual_final_source_sha256": "6c66570a31e7f921e4830fa2a0c16c6947a589c0d4cb0c57aab5fd8d4ba1fdbe",
+  "bundle": "/private/tmp/smartfactory-delivery-final-20261007/bundle",
+  "final_files": 1533,
+  "final_bytes": 397158744,
+  "material_scope": {
+    "upstream_http_requests": 34,
+    "download_bytes": 336986,
+    "provenance_entries": 36,
+    "alpine_packages": 16,
+    "alpine_source_recipe_origins": 10,
+    "container_components": [
+      {
+        "id": "kafka",
+        "image": "apache/kafka@sha256:ccd1314e47ec76909e01f86308b4dcf2064f19f7c89759234322314b0e319e26",
+        "source": {
+          "tag": "4.3.1",
+          "commit": "26b251a451ce941d3d7a55e6487bcb7f16b5ad48",
+          "source": "https://api.github.com/repos/apache/kafka/git/ref/tags/4.3.1"
+        },
+        "license_scope": "Primary upstream program; operating-system and other image packages retain their individual publisher licenses",
+        "license_files": [
+          "licenses/upstream__kafka/LICENSE",
+          "licenses/upstream__kafka/NOTICE"
+        ],
+        "license_provenance": [
+          {
+            "source_commit": "26b251a451ce941d3d7a55e6487bcb7f16b5ad48",
+            "source_path": "LICENSE",
+            "source_url": "https://raw.githubusercontent.com/apache/kafka/26b251a451ce941d3d7a55e6487bcb7f16b5ad48/LICENSE",
+            "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+          },
+          {
+            "source_commit": "26b251a451ce941d3d7a55e6487bcb7f16b5ad48",
+            "source_path": "NOTICE",
+            "source_url": "https://raw.githubusercontent.com/apache/kafka/26b251a451ce941d3d7a55e6487bcb7f16b5ad48/NOTICE",
+            "sha256": "11a23c7823a4547fda7567c458328bd77dc7326ac734c6c139b01f1538a8a38a"
+          }
+        ]
+      },
+      {
+        "id": "thingsboard",
+        "image": "thingsboard/tb-node@sha256:20636ba63175d4b680d4f00882c604723745006b8382770f373f546ff94f6254",
+        "source": {
+          "tag": "v4.3.1.6",
+          "commit": "c77335f4a524bb9fe0209806672c6ec7aea76141"
+        },
+        "license_scope": "Primary upstream program; operating-system and other image packages retain their individual publisher licenses",
+        "license_files": [
+          "licenses/upstream__thingsboard/LICENSE",
+          "licenses/upstream__thingsboard/ui-ngx__LICENSE"
+        ],
+        "license_provenance": [
+          {
+            "source_commit": "c77335f4a524bb9fe0209806672c6ec7aea76141",
+            "source_path": "LICENSE",
+            "source_url": "https://raw.githubusercontent.com/thingsboard/thingsboard/c77335f4a524bb9fe0209806672c6ec7aea76141/LICENSE",
+            "sha256": "c1b9df1275e769f3dbab000d1e457a2d4b0f28eb5da6c77e48dc37eeba202ed7",
+            "license_material": "Original LICENSE text from the currently locked upstream program source commit; operating-system and other image packages retain individual licenses"
+          },
+          {
+            "source_commit": "c77335f4a524bb9fe0209806672c6ec7aea76141",
+            "source_path": "ui-ngx/LICENSE",
+            "source_url": "https://raw.githubusercontent.com/thingsboard/thingsboard/c77335f4a524bb9fe0209806672c6ec7aea76141/ui-ngx/LICENSE",
+            "sha256": "c1b9df1275e769f3dbab000d1e457a2d4b0f28eb5da6c77e48dc37eeba202ed7",
+            "license_material": "Original LICENSE text from the currently locked upstream program source commit; operating-system and other image packages retain individual licenses"
+          }
+        ]
+      },
+      {
+        "id": "postgres",
+        "image": "library/postgres@sha256:0377e72c5289ed2f98cf61b1a9c2db9eb9d300317fe14244492fbc94343b3d04",
+        "source": {
+          "repository": "https://github.com/postgres/postgres",
+          "tag": "REL_18_6",
+          "commit": "724edf9bde9d356724ad384a2e196edc3c9f80f7",
+          "tag_reference_url": "https://api.github.com/repos/postgres/postgres/git/ref/tags/REL_18_6",
+          "observed_program_version": "postgres (PostgreSQL) 18.6 (Debian 18.6-1.pgdg13+2)",
+          "license_scope": "primary upstream program and any notices explicitly included in its LICENSE; operating-system and other image packages keep their individual publisher licenses"
+        },
+        "license_scope": "primary upstream program and any notices explicitly included in its LICENSE; operating-system and other image packages keep their individual publisher licenses",
+        "license_files": [
+          "licenses/upstream__postgres/COPYRIGHT"
+        ],
+        "license_provenance": [
+          {
+            "source_commit": "724edf9bde9d356724ad384a2e196edc3c9f80f7",
+            "source_path": "COPYRIGHT",
+            "source_url": "https://raw.githubusercontent.com/postgres/postgres/724edf9bde9d356724ad384a2e196edc3c9f80f7/COPYRIGHT",
+            "sha256": "3d6af92ff8a4c2cdf69afb1cf44edea727922f5cd0cf8b5f72b11cdecac8fdfd",
+            "license_material": "Original primary-program license or notice; the separately prepared image also contains operating-system and bundled third-party components with individual licenses"
+          }
+        ]
+      },
+      {
+        "id": "nats",
+        "image": "library/nats@sha256:b2301863d84fda2cf8260d308203708f5231b2db34d821cc518d5c4c3c79780a",
+        "source": {
+          "tag": "v2.14.7",
+          "commit": "8d8b69a8c46a46a150eabb7f312607c4d9c58faf",
+          "source": "https://api.github.com/repos/nats-io/nats-server/git/ref/tags/v2.14.7"
+        },
+        "license_scope": "Primary upstream program; operating-system and other image packages retain their individual publisher licenses",
+        "license_files": [
+          "licenses/upstream__nats/LICENSE"
+        ],
+        "license_provenance": [
+          {
+            "source_commit": "8d8b69a8c46a46a150eabb7f312607c4d9c58faf",
+            "source_path": "LICENSE",
+            "source_url": "https://raw.githubusercontent.com/nats-io/nats-server/8d8b69a8c46a46a150eabb7f312607c4d9c58faf/LICENSE",
+            "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+          }
+        ]
+      },
+      {
+        "id": "go_builder",
+        "image": "library/golang@sha256:cd9a32216aee5667f957a62d13a10032a63fd58e14b3f3d9cc8c2122f501e95e",
+        "source": {
+          "repository": "https://github.com/golang/go",
+          "tag": "go1.27.1",
+          "commit": "862c888e612ac346c7c4d99c9392bdfd265f33b0",
+          "tag_reference_url": "https://api.github.com/repos/golang/go/git/ref/tags/go1.27.1",
+          "observed_program_version": "go version go1.27.1 linux/amd64",
+          "license_scope": "primary upstream program and any notices explicitly included in its LICENSE; operating-system and other image packages keep their individual publisher licenses"
+        },
+        "license_scope": "primary upstream program and any notices explicitly included in its LICENSE; operating-system and other image packages keep their individual publisher licenses",
+        "license_files": [
+          "licenses/upstream__go_builder/LICENSE"
+        ],
+        "license_provenance": [
+          {
+            "source_commit": "862c888e612ac346c7c4d99c9392bdfd265f33b0",
+            "source_path": "LICENSE",
+            "source_url": "https://raw.githubusercontent.com/golang/go/862c888e612ac346c7c4d99c9392bdfd265f33b0/LICENSE",
+            "sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad",
+            "license_material": "Original primary-program license or notice; the separately prepared image also contains operating-system and bundled third-party components with individual licenses"
+          }
+        ]
+      },
+      {
+        "id": "envoy",
+        "image": "envoyproxy/envoy@sha256:be87c8b52663c1164a5bdf3c5419017a269cb3d8c74be1ec93638a71f1ffbd4b",
+        "source": {
+          "repository": "https://github.com/envoyproxy/envoy",
+          "tag": "v1.39.1",
+          "commit": "b579d07d3ad7ee11d32b105e91a5a39ad24718d7",
+          "tag_reference_url": "https://api.github.com/repos/envoyproxy/envoy/git/ref/tags/v1.39.1",
+          "observed_program_version": "/usr/local/bin/envoy  version: b579d07d3ad7ee11d32b105e91a5a39ad24718d7/1.39.1/Clean/RELEASE/BoringSSL",
+          "license_scope": "primary upstream program and any notices explicitly included in its LICENSE; operating-system and other image packages keep their individual publisher licenses"
+        },
+        "license_scope": "primary upstream program and any notices explicitly included in its LICENSE; operating-system and other image packages keep their individual publisher licenses",
+        "license_files": [
+          "licenses/upstream__envoy/LICENSE",
+          "licenses/upstream__envoy/NOTICE"
+        ],
+        "license_provenance": [
+          {
+            "source_commit": "b579d07d3ad7ee11d32b105e91a5a39ad24718d7",
+            "source_path": "LICENSE",
+            "source_url": "https://raw.githubusercontent.com/envoyproxy/envoy/b579d07d3ad7ee11d32b105e91a5a39ad24718d7/LICENSE",
+            "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+            "license_material": "Original primary-program license or notice; the separately prepared image also contains operating-system and bundled third-party components with individual licenses"
+          },
+          {
+            "source_commit": "b579d07d3ad7ee11d32b105e91a5a39ad24718d7",
+            "source_path": "NOTICE",
+            "source_url": "https://raw.githubusercontent.com/envoyproxy/envoy/b579d07d3ad7ee11d32b105e91a5a39ad24718d7/NOTICE",
+            "sha256": "329d90738f1ee3633da8e7439ea6f9624ec6274a9cbd72437aafa0e8df9de32e",
+            "license_material": "Original primary-program license or notice; the separately prepared image also contains operating-system and bundled third-party components with individual licenses"
+          }
+        ]
+      },
+      {
+        "id": "node_builder",
+        "image": "library/node@sha256:83f1c388c31fb2e51f7cbd4dea949b96260798c98f206e8e4696bc93bd964e3a",
+        "source": {
+          "repository": "https://github.com/nodejs/node",
+          "tag": "v24.21.0",
+          "commit": "955266bfdd854cd280dffd47548673914484e4c0",
+          "tag_reference_url": "https://api.github.com/repos/nodejs/node/git/ref/tags/v24.21.0",
+          "observed_program_version": "v24.21.0",
+          "license_scope": "primary upstream program and any notices explicitly included in its LICENSE; operating-system and other image packages keep their individual publisher licenses"
+        },
+        "license_scope": "primary upstream program and any notices explicitly included in its LICENSE; operating-system and other image packages keep their individual publisher licenses",
+        "license_files": [
+          "licenses/upstream__node_builder/LICENSE"
+        ],
+        "license_provenance": [
+          {
+            "source_commit": "955266bfdd854cd280dffd47548673914484e4c0",
+            "source_path": "LICENSE",
+            "source_url": "https://raw.githubusercontent.com/nodejs/node/955266bfdd854cd280dffd47548673914484e4c0/LICENSE",
+            "sha256": "5888dbb9a1d2b18f2c3e6c5f6af1b39de658372b402a0577b002777f14c62ace",
+            "license_material": "Original primary-program license or notice; the separately prepared image also contains operating-system and bundled third-party components with individual licenses"
+          }
+        ]
+      },
+      {
+        "id": "runtime",
+        "image": "library/alpine@sha256:3e9b4b680bfc9fb5269227cffbd6d42be39fbf7c0b908123913864aa4447e764",
+        "source": {
+          "version": "3.22.6",
+          "repository": "https://github.com/alpinelinux/docker-alpine",
+          "branch": "v3.22",
+          "commit": "32cb3f1f45f4fee15882936c06a264eb9e5130fe",
+          "source": "https://raw.githubusercontent.com/alpinelinux/docker-alpine/32cb3f1f45f4fee15882936c06a264eb9e5130fe/x86_64/Dockerfile",
+          "observed_program_version": "3.22.6",
+          "package_inventory": "deploy/licenses/runtime/packages.json",
+          "license_scope": "sixteen packages observed in the locked linux/amd64 Alpine 3.22.6 image; individual APK license expressions, exact aports commits, available upstream license texts and source recipes are recorded separately"
+        },
+        "license_scope": "sixteen packages observed in the locked linux/amd64 Alpine 3.22.6 image; individual APK license expressions, exact aports commits, available upstream license texts and source recipes are recorded separately",
+        "license_files": [
+          "licenses/upstream__runtime/alpine-base-319bd320057744bdf429efb85e9ded1822be2240.APKBUILD",
+          "licenses/upstream__runtime/alpine-baselayout-540d8477019887cc6534152e92c3b12676e35d7b.APKBUILD",
+          "licenses/upstream__runtime/alpine-keys-6d473fb38effb2389f567b29fb7eb27039b3a279.APKBUILD",
+          "licenses/upstream__runtime/apk-tools-a53adea12086d36717300ea195ede9ad75f98e1f.APKBUILD",
+          "licenses/upstream__runtime/busybox-2e97d754a30d558f15524b8e422303c8a96832df.APKBUILD",
+          "licenses/upstream__runtime/ca-certificates-19b56f610f4f0055f155e99e1666cddcd000d01c.APKBUILD",
+          "licenses/upstream__runtime/musl-1546f29a1fd233db15464ce000b6247ed71b31e7.APKBUILD",
+          "licenses/upstream__runtime/openssl-1b80b7c3bf5ba3f13eb748ae953d9215d5a4bb62.APKBUILD",
+          "licenses/upstream__runtime/pax-utils-9818c555f344e3085d0dd1f3d917d8e23e244cb1.APKBUILD",
+          "licenses/upstream__runtime/zlib-0276ab73299b3fd158361983f2f4ba573e0f7526.APKBUILD",
+          "licenses/upstream__runtime/GPL-2.0.txt",
+          "licenses/upstream__runtime/MPL-2.0.txt",
+          "licenses/upstream__runtime/musl-COPYRIGHT",
+          "licenses/upstream__runtime/zlib-LICENSE",
+          "licenses/upstream__runtime/openssl-LICENSE.txt",
+          "licenses/upstream__runtime/docker-alpine-Dockerfile",
+          "licenses/upstream__runtime/packages.json"
+        ],
+        "license_provenance": [
+          {
+            "source_commit": "319bd320057744bdf429efb85e9ded1822be2240",
+            "source_path": "aports/alpine-base-319bd320057744bdf429efb85e9ded1822be2240.APKBUILD",
+            "source_url": "https://raw.githubusercontent.com/alpinelinux/aports/319bd320057744bdf429efb85e9ded1822be2240/main/alpine-base/APKBUILD",
+            "source_kind": "exact_installed_package_source_recipe",
+            "sha256": "36328e04178b29850971ccca9ce2037c48539b607ea6906f2f52941fa14e904e",
+            "license_material": "Alpine APKBUILD at the commit recorded by the locked image installed-package database; package license expression and upstream source checksums remain in the original recipe"
+          },
+          {
+            "source_commit": "540d8477019887cc6534152e92c3b12676e35d7b",
+            "source_path": "aports/alpine-baselayout-540d8477019887cc6534152e92c3b12676e35d7b.APKBUILD",
+            "source_url": "https://raw.githubusercontent.com/alpinelinux/aports/540d8477019887cc6534152e92c3b12676e35d7b/main/alpine-baselayout/APKBUILD",
+            "source_kind": "exact_installed_package_source_recipe",
+            "sha256": "8909de40115e389d48f1d78315d9ffcbd2abc9c863b7d93782e78b51c6f0db00",
+            "license_material": "Alpine APKBUILD at the commit recorded by the locked image installed-package database; package license expression and upstream source checksums remain in the original recipe"
+          },
+          {
+            "source_commit": "6d473fb38effb2389f567b29fb7eb27039b3a279",
+            "source_path": "aports/alpine-keys-6d473fb38effb2389f567b29fb7eb27039b3a279.APKBUILD",
+            "source_url": "https://raw.githubusercontent.com/alpinelinux/aports/6d473fb38effb2389f567b29fb7eb27039b3a279/main/alpine-keys/APKBUILD",
+            "source_kind": "exact_installed_package_source_recipe",
+            "sha256": "8b51c80bff0f2477f9be7bc9ff98aa760f5759dfcd3a5026ca518c20a89347c6",
+            "license_material": "Alpine APKBUILD at the commit recorded by the locked image installed-package database; package license expression and upstream source checksums remain in the original recipe"
+          },
+          {
+            "source_commit": "a53adea12086d36717300ea195ede9ad75f98e1f",
+            "source_path": "aports/apk-tools-a53adea12086d36717300ea195ede9ad75f98e1f.APKBUILD",
+            "source_url": "https://raw.githubusercontent.com/alpinelinux/aports/a53adea12086d36717300ea195ede9ad75f98e1f/main/apk-tools/APKBUILD",
+            "source_kind": "exact_installed_package_source_recipe",
+            "sha256": "86783fcba97fcfdb2fbcc36d984e0a70e80cae25f9d0a4c7474c2c9a4bb4c6fd",
+            "license_material": "Alpine APKBUILD at the commit recorded by the locked image installed-package database; package license expression and upstream source checksums remain in the original recipe"
+          },
+          {
+            "source_commit": "2e97d754a30d558f15524b8e422303c8a96832df",
+            "source_path": "aports/busybox-2e97d754a30d558f15524b8e422303c8a96832df.APKBUILD",
+            "source_url": "https://raw.githubusercontent.com/alpinelinux/aports/2e97d754a30d558f15524b8e422303c8a96832df/main/busybox/APKBUILD",
+            "source_kind": "exact_installed_package_source_recipe",
+            "sha256": "3bcc81f5784fbe2e72624fd58015c46df6ee8b8ea0cc731bfae53ffbf1cfca9f",
+            "license_material": "Alpine APKBUILD at the commit recorded by the locked image installed-package database; package license expression and upstream source checksums remain in the original recipe"
+          },
+          {
+            "source_commit": "19b56f610f4f0055f155e99e1666cddcd000d01c",
+            "source_path": "aports/ca-certificates-19b56f610f4f0055f155e99e1666cddcd000d01c.APKBUILD",
+            "source_url": "https://raw.githubusercontent.com/alpinelinux/aports/19b56f610f4f0055f155e99e1666cddcd000d01c/main/ca-certificates/APKBUILD",
+            "source_kind": "exact_installed_package_source_recipe",
+            "sha256": "0c14312c1d5c4a8b7ef74433be9db58517b17eb091bccdf2c8325bc4c9c26480",
+            "license_material": "Alpine APKBUILD at the commit recorded by the locked image installed-package database; package license expression and upstream source checksums remain in the original recipe"
+          },
+          {
+            "source_commit": "1546f29a1fd233db15464ce000b6247ed71b31e7",
+            "source_path": "aports/musl-1546f29a1fd233db15464ce000b6247ed71b31e7.APKBUILD",
+            "source_url": "https://raw.githubusercontent.com/alpinelinux/aports/1546f29a1fd233db15464ce000b6247ed71b31e7/main/musl/APKBUILD",
+            "source_kind": "exact_installed_package_source_recipe",
+            "sha256": "d86da8750b9ea85e97bc00d28f213ae57162933fd87bf5f0a745d59e75930e87",
+            "license_material": "Alpine APKBUILD at the commit recorded by the locked image installed-package database; package license expression and upstream source checksums remain in the original recipe"
+          },
+          {
+            "source_commit": "1b80b7c3bf5ba3f13eb748ae953d9215d5a4bb62",
+            "source_path": "aports/openssl-1b80b7c3bf5ba3f13eb748ae953d9215d5a4bb62.APKBUILD",
+            "source_url": "https://raw.githubusercontent.com/alpinelinux/aports/1b80b7c3bf5ba3f13eb748ae953d9215d5a4bb62/main/openssl/APKBUILD",
+            "source_kind": "exact_installed_package_source_recipe",
+            "sha256": "21e9f57e541639886c4857614cf8f6efa065f03d2adb9ef4c36e33c84e35a842",
+            "license_material": "Alpine APKBUILD at the commit recorded by the locked image installed-package database; package license expression and upstream source checksums remain in the original recipe"
+          },
+          {
+            "source_commit": "9818c555f344e3085d0dd1f3d917d8e23e244cb1",
+            "source_path": "aports/pax-utils-9818c555f344e3085d0dd1f3d917d8e23e244cb1.APKBUILD",
+            "source_url": "https://raw.githubusercontent.com/alpinelinux/aports/9818c555f344e3085d0dd1f3d917d8e23e244cb1/main/pax-utils/APKBUILD",
+            "source_kind": "exact_installed_package_source_recipe",
+            "sha256": "13021bb4f3e1026b35a1f789b7222645eaeb99cc8ae109b4ce0a60e7156e1795",
+            "license_material": "Alpine APKBUILD at the commit recorded by the locked image installed-package database; package license expression and upstream source checksums remain in the original recipe"
+          },
+          {
+            "source_commit": "0276ab73299b3fd158361983f2f4ba573e0f7526",
+            "source_path": "aports/zlib-0276ab73299b3fd158361983f2f4ba573e0f7526.APKBUILD",
+            "source_url": "https://raw.githubusercontent.com/alpinelinux/aports/0276ab73299b3fd158361983f2f4ba573e0f7526/main/zlib/APKBUILD",
+            "source_kind": "exact_installed_package_source_recipe",
+            "sha256": "e9ad3aa7ecf048f4bfa26b946275bee347f75254385320e90eecd3fd6651bcf4",
+            "license_material": "Alpine APKBUILD at the commit recorded by the locked image installed-package database; package license expression and upstream source checksums remain in the original recipe"
+          },
+          {
+            "source_ref": "gpl-2.0.txt",
+            "source_path": "GPL-2.0.txt",
+            "source_url": "https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt",
+            "source_kind": "upstream_license_text",
+            "sha256": "edaef632cbb643e4e7a221717a6c441a4c1a7c918e6e4d56debc3d8739b233f6",
+            "license_material": "License text for the corresponding individual Alpine package or license expression; applicability is described in packages.json and README.md"
+          },
+          {
+            "source_ref": "index.815ca599c9df.txt",
+            "source_path": "MPL-2.0.txt",
+            "source_url": "https://www.mozilla.org/media/MPL/2.0/index.815ca599c9df.txt",
+            "source_kind": "upstream_license_text",
+            "sha256": "fab3dd6bdab226f1c08630b1dd917e11fcb4ec5e1e020e2c16f83a0a13863e85",
+            "license_material": "License text for the corresponding individual Alpine package or license expression; applicability is described in packages.json and README.md"
+          },
+          {
+            "source_ref": "COPYRIGHT?h=v1.2.5",
+            "source_path": "musl-COPYRIGHT",
+            "source_url": "https://git.musl-libc.org/cgit/musl/plain/COPYRIGHT?h=v1.2.5",
+            "source_kind": "upstream_license_text",
+            "sha256": "f9bc4423732350eb0b3f7ed7e91d530298476f8fec0c6c427a1c04ade22655af",
+            "license_material": "License text for the corresponding individual Alpine package or license expression; applicability is described in packages.json and README.md"
+          },
+          {
+            "source_ref": "LICENSE",
+            "source_path": "zlib-LICENSE",
+            "source_url": "https://raw.githubusercontent.com/madler/zlib/v1.3.2/LICENSE",
+            "source_kind": "upstream_license_text",
+            "sha256": "e32ff4e00d9d94930537635291da39e7e612703334bf6fde8c7f1686fe8a45a2",
+            "license_material": "License text for the corresponding individual Alpine package or license expression; applicability is described in packages.json and README.md"
+          },
+          {
+            "source_ref": "LICENSE.txt",
+            "source_path": "openssl-LICENSE.txt",
+            "source_url": "https://raw.githubusercontent.com/openssl/openssl/openssl-3.5.8/LICENSE.txt",
+            "source_kind": "upstream_license_text",
+            "sha256": "7d5450cb2d142651b8afa315b5f238efc805dad827d91ba367d8516bc9d49e7a",
+            "license_material": "License text for the corresponding individual Alpine package or license expression; applicability is described in packages.json and README.md"
+          },
+          {
+            "source_commit": "32cb3f1f45f4fee15882936c06a264eb9e5130fe",
+            "source_path": "docker-alpine-Dockerfile",
+            "source_url": "https://raw.githubusercontent.com/alpinelinux/docker-alpine/32cb3f1f45f4fee15882936c06a264eb9e5130fe/x86_64/Dockerfile",
+            "source_kind": "official_image_source",
+            "sha256": "9dcb2c9d151e693aabb490a97e63b473103821366b58bd122071bcdd0ef7268e",
+            "license_material": "Official image source identifies Alpine minirootfs 3.22.6; license expressions belong to its individual installed packages"
+          },
+          {
+            "source_commit": "32cb3f1f45f4fee15882936c06a264eb9e5130fe",
+            "source_path": "/lib/apk/db/installed",
+            "source_url": "https://raw.githubusercontent.com/alpinelinux/docker-alpine/32cb3f1f45f4fee15882936c06a264eb9e5130fe/x86_64/Dockerfile",
+            "source_kind": "installed_package_license_metadata",
+            "sha256": "fcc9a782ce3398addcdf25e776e38bf781e101e6d1027036b41acb114269975d",
+            "license_material": "License expressions and source identity for all sixteen packages observed in the locked image; individual upstream license texts and recipes are listed per package"
+          }
+        ]
+      },
+      {
+        "id": "thingsboard_edge",
+        "image": "thingsboard/tb-edge@sha256:21d75ce523240bce0eef86ec3eabe289c09e3843059606bef9d24529fc0444f3",
+        "source": {
+          "version": "4.3.1.6EDGE",
+          "docker_tag": "4.3.1.6EDGE",
+          "tag": "v4.3.1.6",
+          "commit": "634b1852d2479983e2eb9aafcfaecbc164220f63"
+        },
+        "license_scope": "Primary upstream program; operating-system and other image packages retain their individual publisher licenses",
+        "license_files": [
+          "licenses/upstream__thingsboard_edge/LICENSE",
+          "licenses/upstream__thingsboard_edge/ui-ngx__LICENSE"
+        ],
+        "license_provenance": [
+          {
+            "source_commit": "634b1852d2479983e2eb9aafcfaecbc164220f63",
+            "source_path": "LICENSE",
+            "source_url": "https://raw.githubusercontent.com/thingsboard/thingsboard-edge/634b1852d2479983e2eb9aafcfaecbc164220f63/LICENSE",
+            "sha256": "c1b9df1275e769f3dbab000d1e457a2d4b0f28eb5da6c77e48dc37eeba202ed7",
+            "license_material": "Original LICENSE text from the currently locked upstream program source commit; operating-system and other image packages retain individual licenses"
+          },
+          {
+            "source_commit": "634b1852d2479983e2eb9aafcfaecbc164220f63",
+            "source_path": "ui-ngx/LICENSE",
+            "source_url": "https://raw.githubusercontent.com/thingsboard/thingsboard-edge/634b1852d2479983e2eb9aafcfaecbc164220f63/ui-ngx/LICENSE",
+            "sha256": "c1b9df1275e769f3dbab000d1e457a2d4b0f28eb5da6c77e48dc37eeba202ed7",
+            "license_material": "Original LICENSE text from the currently locked upstream program source commit; operating-system and other image packages retain individual licenses"
+          }
+        ]
+      },
+      {
+        "id": "nats_upgrade_intermediate",
+        "image": "library/nats@sha256:e01e9f09c03f60a8ded4785444ec4c5b2fd18a773b8b874daeefeff559119316",
+        "source": {
+          "tag": "v2.12.15",
+          "commit": "8460a428cf3b27c8627595d630f1ccad55786d13",
+          "source": "https://api.github.com/repos/nats-io/nats-server/git/ref/tags/v2.12.15",
+          "purpose": "Offline NATS 2.11.9 to 2.12.15 to 2.14.7 rolling migration"
+        },
+        "license_scope": "Primary upstream program; operating-system and other image packages retain their individual publisher licenses",
+        "license_files": [
+          "licenses/upstream__nats_upgrade_intermediate/LICENSE"
+        ],
+        "license_provenance": [
+          {
+            "source_commit": "8460a428cf3b27c8627595d630f1ccad55786d13",
+            "source_path": "LICENSE",
+            "source_url": "https://raw.githubusercontent.com/nats-io/nats-server/8460a428cf3b27c8627595d630f1ccad55786d13/LICENSE",
+            "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+          }
+        ]
+      }
+    ],
+    "whole_container_images_included": false,
+    "images_preparation": "Use deploy/images.lock.json and the existing documented locked-image preparation. Main-program license material applies to its named program; individual OS and bundled image packages retain publisher licenses. The locked Alpine16-package index records exact installed source commits, recipes, license expressions and listed upstream texts."
+  },
+  "changed_public_materials": [
+    {
+      "relative_path": "deploy/dependencies.json",
+      "before": {
+        "bytes": 1638,
+        "sha256": "26e61698577abf28b133398660c852223994f03dd879c8ddec5b659b1f7f4307",
+        "fixed_path": "/private/tmp/smartfactory-delivery-final-20261007/image-license-completion/before-public-materials/deploy/dependencies.json"
+      },
+      "after": {
+        "bytes": 4455,
+        "sha256": "16481164b740cda2b72d5edd07667d1d12a87e8d9b43d9f96b967dc8177f9f29"
+      }
+    },
+    {
+      "relative_path": "deploy/licenses/thingsboard/LICENSE",
+      "before": {
+        "bytes": 11359,
+        "sha256": "c1b9df1275e769f3dbab000d1e457a2d4b0f28eb5da6c77e48dc37eeba202ed7",
+        "fixed_path": "/private/tmp/smartfactory-delivery-final-20261007/image-license-completion/before-public-materials/deploy/licenses/thingsboard/LICENSE"
+      },
+      "after": {
+        "bytes": 11359,
+        "sha256": "c1b9df1275e769f3dbab000d1e457a2d4b0f28eb5da6c77e48dc37eeba202ed7"
+      }
+    },
+    {
+      "relative_path": "deploy/licenses/thingsboard/ui-ngx__LICENSE",
+      "before": {
+        "bytes": 11359,
+        "sha256": "c1b9df1275e769f3dbab000d1e457a2d4b0f28eb5da6c77e48dc37eeba202ed7",
+        "fixed_path": "/private/tmp/smartfactory-delivery-final-20261007/image-license-completion/before-public-materials/deploy/licenses/thingsboard/ui-ngx__LICENSE"
+      },
+      "after": {
+        "bytes": 11359,
+        "sha256": "c1b9df1275e769f3dbab000d1e457a2d4b0f28eb5da6c77e48dc37eeba202ed7"
+      }
+    },
+    {
+      "relative_path": "deploy/licenses/thingsboard_edge/LICENSE",
+      "before": {
+        "bytes": 11353,
+        "sha256": "4691ae29626cb29c623b497d2d7a727b4520d9a44c577053fec315e241ecfe04",
+        "fixed_path": "/private/tmp/smartfactory-delivery-final-20261007/image-license-completion/before-public-materials/deploy/licenses/thingsboard_edge/LICENSE"
+      },
+      "after": {
+        "bytes": 11359,
+        "sha256": "c1b9df1275e769f3dbab000d1e457a2d4b0f28eb5da6c77e48dc37eeba202ed7"
+      }
+    },
+    {
+      "relative_path": "deploy/licenses/thingsboard_edge/ui-ngx__LICENSE",
+      "before": {
+        "bytes": 11353,
+        "sha256": "4691ae29626cb29c623b497d2d7a727b4520d9a44c577053fec315e241ecfe04",
+        "fixed_path": "/private/tmp/smartfactory-delivery-final-20261007/image-license-completion/before-public-materials/deploy/licenses/thingsboard_edge/ui-ngx__LICENSE"
+      },
+      "after": {
+        "bytes": 11359,
+        "sha256": "c1b9df1275e769f3dbab000d1e457a2d4b0f28eb5da6c77e48dc37eeba202ed7"
+      }
+    },
+    {
+      "relative_path": "deploy/licenses/postgres/COPYRIGHT",
+      "before": null,
+      "after": {
+        "bytes": 1198,
+        "sha256": "3d6af92ff8a4c2cdf69afb1cf44edea727922f5cd0cf8b5f72b11cdecac8fdfd"
+      }
+    },
+    {
+      "relative_path": "deploy/licenses/envoy/LICENSE",
+      "before": null,
+      "after": {
+        "bytes": 11358,
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      }
+    },
+    {
+      "relative_path": "deploy/licenses/envoy/NOTICE",
+      "before": null,
+      "after": {
+        "bytes": 102,
+        "sha256": "329d90738f1ee3633da8e7439ea6f9624ec6274a9cbd72437aafa0e8df9de32e"
+      }
+    },
+    {
+      "relative_path": "deploy/licenses/go_builder/LICENSE",
+      "before": null,
+      "after": {
+        "bytes": 1453,
+        "sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad"
+      }
+    },
+    {
+      "relative_path": "deploy/licenses/node_builder/LICENSE",
+      "before": null,
+      "after": {
+        "bytes": 157609,
+        "sha256": "5888dbb9a1d2b18f2c3e6c5f6af1b39de658372b402a0577b002777f14c62ace"
+      }
+    },
+    {
+      "relative_path": "deploy/licenses/runtime/aports/alpine-base-319bd320057744bdf429efb85e9ded1822be2240.APKBUILD",
+      "before": null,
+      "after": {
+        "bytes": 1507,
+        "sha256": "36328e04178b29850971ccca9ce2037c48539b607ea6906f2f52941fa14e904e"
+      }
+    },
+    {
+      "relative_path": "deploy/licenses/runtime/aports/alpine-baselayout-540d8477019887cc6534152e92c3b12676e35d7b.APKBUILD",
+      "before": null,
+      "after": {
+        "bytes": 8007,
+        "sha256": "8909de40115e389d48f1d78315d9ffcbd2abc9c863b7d93782e78b51c6f0db00"
+      }
+    },
+    {
+      "relative_path": "deploy/licenses/runtime/aports/alpine-keys-6d473fb38effb2389f567b29fb7eb27039b3a279.APKBUILD",
+      "before": null,
+      "after": {
+        "bytes": 6036,
+        "sha256": "8b51c80bff0f2477f9be7bc9ff98aa760f5759dfcd3a5026ca518c20a89347c6"
+      }
+    },
+    {
+      "relative_path": "deploy/licenses/runtime/aports/apk-tools-a53adea12086d36717300ea195ede9ad75f98e1f.APKBUILD",
+      "before": null,
+      "after": {
+        "bytes": 3427,
+        "sha256": "86783fcba97fcfdb2fbcc36d984e0a70e80cae25f9d0a4c7474c2c9a4bb4c6fd"
+      }
+    },
+    {
+      "relative_path": "deploy/licenses/runtime/aports/busybox-2e97d754a30d558f15524b8e422303c8a96832df.APKBUILD",
+      "before": null,
+      "after": {
+        "bytes": 23761,
+        "sha256": "3bcc81f5784fbe2e72624fd58015c46df6ee8b8ea0cc731bfae53ffbf1cfca9f"
+      }
+    },
+    {
+      "relative_path": "deploy/licenses/runtime/aports/ca-certificates-19b56f610f4f0055f155e99e1666cddcd000d01c.APKBUILD",
+      "before": null,
+      "after": {
+        "bytes": 2520,
+        "sha256": "0c14312c1d5c4a8b7ef74433be9db58517b17eb091bccdf2c8325bc4c9c26480"
+      }
+    },
+    {
+      "relative_path": "deploy/licenses/runtime/aports/musl-1546f29a1fd233db15464ce000b6247ed71b31e7.APKBUILD",
+      "before": null,
+      "after": {
+        "bytes": 7385,
+        "sha256": "d86da8750b9ea85e97bc00d28f213ae57162933fd87bf5f0a745d59e75930e87"
+      }
+    },
+    {
+      "relative_path": "deploy/licenses/runtime/aports/openssl-1b80b7c3bf5ba3f13eb748ae953d9215d5a4bb62.APKBUILD",
+      "before": null,
+      "after": {
+        "bytes": 6597,
+        "sha256": "21e9f57e541639886c4857614cf8f6efa065f03d2adb9ef4c36e33c84e35a842"
+      }
+    },
+    {
+      "relative_path": "deploy/licenses/runtime/aports/pax-utils-9818c555f344e3085d0dd1f3d917d8e23e244cb1.APKBUILD",
+      "before": null,
+      "after": {
+        "bytes": 1628,
+        "sha256": "13021bb4f3e1026b35a1f789b7222645eaeb99cc8ae109b4ce0a60e7156e1795"
+      }
+    },
+    {
+      "relative_path": "deploy/licenses/runtime/aports/zlib-0276ab73299b3fd158361983f2f4ba573e0f7526.APKBUILD",
+      "before": null,
+      "after": {
+        "bytes": 901,
+        "sha256": "e9ad3aa7ecf048f4bfa26b946275bee347f75254385320e90eecd3fd6651bcf4"
+      }
+    },
+    {
+      "relative_path": "deploy/licenses/runtime/GPL-2.0.txt",
+      "before": null,
+      "after": {
+        "bytes": 17984,
+        "sha256": "edaef632cbb643e4e7a221717a6c441a4c1a7c918e6e4d56debc3d8739b233f6"
+      }
+    },
+    {
+      "relative_path": "deploy/licenses/runtime/MPL-2.0.txt",
+      "before": null,
+      "after": {
+        "bytes": 16726,
+        "sha256": "fab3dd6bdab226f1c08630b1dd917e11fcb4ec5e1e020e2c16f83a0a13863e85"
+      }
+    },
+    {
+      "relative_path": "deploy/licenses/runtime/musl-COPYRIGHT",
+      "before": null,
+      "after": {
+        "bytes": 6204,
+        "sha256": "f9bc4423732350eb0b3f7ed7e91d530298476f8fec0c6c427a1c04ade22655af"
+      }
+    },
+    {
+      "relative_path": "deploy/licenses/runtime/zlib-LICENSE",
+      "before": null,
+      "after": {
+        "bytes": 1002,
+        "sha256": "e32ff4e00d9d94930537635291da39e7e612703334bf6fde8c7f1686fe8a45a2"
+      }
+    },
+    {
+      "relative_path": "deploy/licenses/runtime/openssl-LICENSE.txt",
+      "before": null,
+      "after": {
+        "bytes": 10175,
+        "sha256": "7d5450cb2d142651b8afa315b5f238efc805dad827d91ba367d8516bc9d49e7a"
+      }
+    },
+    {
+      "relative_path": "deploy/licenses/runtime/docker-alpine-Dockerfile",
+      "before": null,
+      "after": {
+        "bytes": 74,
+        "sha256": "9dcb2c9d151e693aabb490a97e63b473103821366b58bd122071bcdd0ef7268e"
+      }
+    },
+    {
+      "relative_path": "deploy/licenses/runtime/packages.json",
+      "before": null,
+      "after": {
+        "bytes": 13462,
+        "sha256": "fcc9a782ce3398addcdf25e776e38bf781e101e6d1027036b41acb114269975d"
+      }
+    },
+    {
+      "relative_path": "deploy/licenses/provenance.json",
+      "before": {
+        "bytes": 7003,
+        "sha256": "876fa603ee3e17fe854d483998776c21ddf748b66e510ca7d077e4a4b0aba362",
+        "fixed_path": "/private/tmp/smartfactory-delivery-final-20261007/image-license-completion/before-public-materials/deploy/licenses/provenance.json"
+      },
+      "after": {
+        "bytes": 22561,
+        "sha256": "9011f22e4e960611cdf926b7950ab19e9dbb34e886e339b1cffde5774c27308e"
+      }
+    }
+  ],
+  "other_public_changes": [
+    "scripts/build-release.py",
+    "deploy/licenses/README.md",
+    "Wiki/development/build.md",
+    "README.md"
+  ],
+  "verification": {
+    "before_build_python_syntax_files": 48,
+    "before_build_public_documents": 29,
+    "before_build_python_tests": 21,
+    "final_package_commands_passed": 6,
+    "final_public_documents": 58,
+    "final_source_files": 894,
+    "final_compiled_inputs": 6094,
+    "additional_toolchain_files": 7,
+    "frontend_source_and_output_equal": true,
+    "contracts_export_actual_final_linux": {
+      "schema_files": 196,
+      "json_files": 199,
+      "editable_definitions": 24,
+      "all_bytes_equal": true
+    },
+    "go_production_and_frontend_source_changed": false
+  },
+  "references": [
+    {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/static-verification/first-license-failure.json",
+      "bytes": 974,
+      "sha256": "e8c229cde90fb1d6a00c79b4b1f8881e8f7f64273da4da89388fa8d06e57ed8b"
+    },
+    {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/before-license-build-verification/first-privacy-assertion-failure.json",
+      "bytes": 631,
+      "sha256": "580204af56b4f25310d996f310b383ff9d39d9920fc6a328a8f7e11e40984783"
+    },
+    {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/image-license-completion/gathered.json",
+      "bytes": 16110,
+      "sha256": "58c264d216ee3cd0ac5353ae0e882aafeef24da767d529d506f2dae5b7046f86"
+    },
+    {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/image-license-completion/follow-up/gathered.json",
+      "bytes": 22498,
+      "sha256": "2288964d5fe1af4ada161c088bd4aad90cf250d1c7ed639d08ea38c6e1e1e2b1"
+    },
+    {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/image-license-completion/retained-native-license-comparison/verification.json",
+      "bytes": 3185,
+      "sha256": "8f14c1bd8919de201f58d5b912be495e7eb6506f0bafd26543d55c8c42bb4b5e"
+    },
+    {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/image-license-completion/integration.json",
+      "bytes": 9719,
+      "sha256": "e4ff7acb070cc49a2c6e6a1a3a3b400134e352fcb500c2b89483f9c64d3baa5a"
+    },
+    {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/before-license-build-verification-corrected/verification.json",
+      "bytes": 3686,
+      "sha256": "fcc7e006990a32f4054044d7b54cd7454054f0d45069f492ecbc836c6d30d5cf"
+    },
+    {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/source-temporary-reference-review.json",
+      "bytes": 17800,
+      "sha256": "da2d76ec0c506c4976ee9aab5bb9ea78cc193be310ddab7ab1692e947453b8d2"
+    },
+    {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/build-final-license-complete-command.json",
+      "bytes": 1200,
+      "sha256": "1e2a5585b788c04ab0d7ef7ac57034f06ba22eb7eea11a2f2860e49280fb4a47"
+    },
+    {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/static-verification-license-complete/verification.json",
+      "bytes": 240065,
+      "sha256": "237029964646709b6357f0058e6abd0e090aefbe477150ad303bb0d18d7666e5"
+    },
+    {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/retained-final-build-inputs.json",
+      "bytes": 2506470,
+      "sha256": "9471921ff24957ea7345a4f425a57ea640a803e984881ac6146b4aef8e37d0a4"
+    },
+    {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/final-contract-export/verification.json",
+      "bytes": 38538,
+      "sha256": "5be4333d0bd9571e94837de9b8f9c523a958a82f209dd57d02ba5e8482d1e432"
+    },
+    {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/candidate-before-license-completion.json",
+      "bytes": 3453,
+      "sha256": "9ffb1074356407754cc7d5cc9222cdbac67438ca0dc61f484225b8ff04fefba9"
+    },
+    {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/candidate-before-profile-fix.json",
+      "bytes": 2511878,
+      "sha256": "bb02254f73d3380144e8f45e2fcc5246863fe92bfbe5db2fab7354c3b3f60a45"
+    },
+    {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/bundle/release-manifest.json",
+      "bytes": 258464,
+      "sha256": "2232504edf3e704738f31360cf6de2e73c5b82d8181593e4a36191972dc6654e"
+    },
+    {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/bundle/components.json",
+      "bytes": 205368,
+      "sha256": "4c5cfb9dbde5659cc6e0111a491221f39b019d81a5bd673c2bbb16466eb1ae4d"
+    },
+    {
+      "path": "/private/tmp/smartfactory-delivery-final-20261007/bundle/source-manifest.json",
+      "bytes": 143953,
+      "sha256": "b82a38d5ce13f29bddad24f170f17806d6d87630b49ead018ba3c9bbde34a604"
+    }
+  ],
+  "remaining_work": [
+    "The final55-item runtime of the same new SourceSHA is currently running; archive and overall delivery report follow. Parent coordinator and independent reviewer determine final acceptance."
+  ]
+}

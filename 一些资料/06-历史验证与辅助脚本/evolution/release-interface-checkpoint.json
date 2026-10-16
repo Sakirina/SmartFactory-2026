@@ -1,0 +1,315 @@
+{
+  "status": "checkpoint-awaiting-release-backend-repair",
+  "saved_ms": 1791193436176,
+  "actual_state_file": "/private/tmp/smartfactory-release-interface-20261005/checkpoint-before-release-version-fix/browser/current-release-before-backend-repair.state.json",
+  "page_observation_file": "/private/tmp/smartfactory-release-interface-20261005/checkpoint-before-release-version-fix/browser/current-release-before-backend-repair.page.json",
+  "source_and_static": "/private/tmp/smartfactory-release-interface-20261005/checkpoint-before-release-version-fix/frontend-inputs.json",
+  "backup": "/private/tmp/smartfactory-release-interface-20261005/checkpoint-before-release-version-fix/backup-manifest.json",
+  "backup_manifest_sha256": "4cf449c7f5e09ef730f9ec3b1257a312eb8a8bf517615627f2a910f5033631d7",
+  "background_tasks": "/private/tmp/smartfactory-release-interface-20261005/checkpoint-before-release-version-fix/background-task-state.json",
+  "background_task_rows": 2,
+  "findings": {
+    "P5-F01": "空发布目录已有正式程序、规则和配置时，可创建首份清单；旧源码重构产物19/19相同，隔离正式登记与GET已通过",
+    "P5-F02": "发布处理原因及身份用途延迟刷新前后已实际复验；身份版本1→2→3；模板同触发专项尚未完成",
+    "P5-F03": "旧版只读页面受管理目录403影响，后续同身份权限交叉核对明确详情200/目录403；按角色条件读取后只读及工程师页面通过",
+    "release_persistence": "程序日志中既有后台任务及本次原缓存恢复出现document_versions唯一约束错误；具体kind/id与调用来源由原发布专业定位"
+  },
+  "passed_current_cases": [
+    "基本固定发布读取、摘要与组合登记2项",
+    "隔离空目录首份清单登记1项与原入口正式读取",
+    "真实两节点离线等待、心跳业务版本保持、409保留编辑、恢复完成和15秒实际报告过期及恢复1项",
+    "动态配置生效、409保留与真实消费者失败后恢复1项",
+    "静态配置等待实际新进程、配置中心故障期间从缓存启动及恢复1项",
+    "只读与发布工程师权限页面各1项",
+    "身份显式false/三类空数组及延迟HTTP刷新前后1项",
+    "停用、旧实例策略清理、轮换、新凭据代次和实际新进程恢复1项",
+    "五类模板准备25规则、失败批次重试、参数400保留、完整29组件与部分绑定固定；节点程序发布未通过"
+  ],
+  "remaining": [
+    "最终修正版后端上完整五类模板实际采用固定版本、29组件及摘要",
+    "实际程序失败停止后续批次、合法重试、兼容退回与不兼容恢复反馈",
+    "模板延迟刷新同触发条件及正式提交",
+    "云端、现场、大屏的三个尺寸与精确显示、提示和完整导出",
+    "最终固定源码与构建输入、统一全场景运行、审计/数据库交叉检查、页面操作交接和最终报告"
+  ],
+  "failure_classification": [
+    "浏览器服务启动权限及冷启动监听时序属于验证环境",
+    "协议下拉定位、按钮loading名称、分页、队列最小值1000、重复连接器标签属于验证操作或样本条件，原记录保留",
+    "单节点模板清单缺少B适用规则与依赖heartbeat，正式400/校验反馈已保留；页面目标筛选已补正式规则与配置适用条件",
+    "原隔离DT仅MQTT导致实际模板程序失败，采集专业三协议夹具已替换到新私有目录，旧目录保留",
+    "固定程序失败后的document_versions唯一键错误属于待专业定位的实际持久化失败"
+  ],
+  "all_browser_rounds": [
+    {
+      "report": "/private/tmp/smartfactory-release-interface-20261005/browser-credentials-first/results.json",
+      "passed": 0,
+      "failed": 1,
+      "skipped": 0,
+      "duration_ms": 5136.126
+    },
+    {
+      "report": "/private/tmp/smartfactory-release-interface-20261005/browser-credentials-fourth/results.json",
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "duration_ms": 6684.928
+    },
+    {
+      "report": "/private/tmp/smartfactory-release-interface-20261005/browser-credentials-second/results.json",
+      "passed": 0,
+      "failed": 1,
+      "skipped": 0,
+      "duration_ms": 4704.821
+    },
+    {
+      "report": "/private/tmp/smartfactory-release-interface-20261005/browser-credentials-third/results.json",
+      "passed": 0,
+      "failed": 1,
+      "skipped": 0,
+      "duration_ms": 4819.951
+    },
+    {
+      "report": "/private/tmp/smartfactory-release-interface-20261005/browser-failure-rollback-fifth/results.json",
+      "passed": 0,
+      "failed": 1,
+      "skipped": 0,
+      "duration_ms": 1252.076
+    },
+    {
+      "report": "/private/tmp/smartfactory-release-interface-20261005/browser-failure-rollback-first/results.json",
+      "passed": 0,
+      "failed": 1,
+      "skipped": 0,
+      "duration_ms": 16645.356
+    },
+    {
+      "report": "/private/tmp/smartfactory-release-interface-20261005/browser-failure-rollback-fourth/results.json",
+      "passed": 0,
+      "failed": 1,
+      "skipped": 0,
+      "duration_ms": 34230.38
+    },
+    {
+      "report": "/private/tmp/smartfactory-release-interface-20261005/browser-failure-rollback-second/results.json",
+      "passed": 0,
+      "failed": 1,
+      "skipped": 0,
+      "duration_ms": 16239.043000000001
+    },
+    {
+      "report": "/private/tmp/smartfactory-release-interface-20261005/browser-failure-rollback-third/results.json",
+      "passed": 0,
+      "failed": 1,
+      "skipped": 0,
+      "duration_ms": 1242.3919999999998
+    },
+    {
+      "report": "/private/tmp/smartfactory-release-interface-20261005/browser-fifth/results.json",
+      "passed": 0,
+      "failed": 1,
+      "skipped": 0,
+      "duration_ms": 16099.119
+    },
+    {
+      "report": "/private/tmp/smartfactory-release-interface-20261005/browser-first/results.json",
+      "passed": 0,
+      "failed": 2,
+      "skipped": 0,
+      "duration_ms": 29963.231
+    },
+    {
+      "report": "/private/tmp/smartfactory-release-interface-20261005/browser-first-isolated/results.json",
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "duration_ms": 6015.945
+    },
+    {
+      "report": "/private/tmp/smartfactory-release-interface-20261005/browser-fourth/results.json",
+      "passed": 1,
+      "failed": 2,
+      "skipped": 0,
+      "duration_ms": 79326.594
+    },
+    {
+      "report": "/private/tmp/smartfactory-release-interface-20261005/browser-identity-basis-before/results.json",
+      "passed": 0,
+      "failed": 1,
+      "skipped": 0,
+      "duration_ms": 1654.2559999999999
+    },
+    {
+      "report": "/private/tmp/smartfactory-release-interface-20261005/browser-identity-basis-before-second/results.json",
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "duration_ms": 4004.941
+    },
+    {
+      "report": "/private/tmp/smartfactory-release-interface-20261005/browser-identity-basis-fixed/results.json",
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "duration_ms": 4176.696
+    },
+    {
+      "report": "/private/tmp/smartfactory-release-interface-20261005/browser-node-fifth/results.json",
+      "passed": 0,
+      "failed": 1,
+      "skipped": 0,
+      "duration_ms": 16427.783
+    },
+    {
+      "report": "/private/tmp/smartfactory-release-interface-20261005/browser-node-first/results.json",
+      "passed": 0,
+      "failed": 2,
+      "skipped": 0,
+      "duration_ms": 28701.552
+    },
+    {
+      "report": "/private/tmp/smartfactory-release-interface-20261005/browser-node-fourth/results.json",
+      "passed": 0,
+      "failed": 1,
+      "skipped": 0,
+      "duration_ms": 15024.936
+    },
+    {
+      "report": "/private/tmp/smartfactory-release-interface-20261005/browser-node-second/results.json",
+      "passed": 0,
+      "failed": 2,
+      "skipped": 0,
+      "duration_ms": 35360.334
+    },
+    {
+      "report": "/private/tmp/smartfactory-release-interface-20261005/browser-node-sixth/results.json",
+      "passed": 2,
+      "failed": 0,
+      "skipped": 0,
+      "duration_ms": 18406.753999999997
+    },
+    {
+      "report": "/private/tmp/smartfactory-release-interface-20261005/browser-node-third/results.json",
+      "passed": 1,
+      "failed": 1,
+      "skipped": 0,
+      "duration_ms": 28149.117
+    },
+    {
+      "report": "/private/tmp/smartfactory-release-interface-20261005/browser-permissions-before/results.json",
+      "passed": 0,
+      "failed": 1,
+      "skipped": 0,
+      "duration_ms": 14108.468
+    },
+    {
+      "report": "/private/tmp/smartfactory-release-interface-20261005/browser-permissions-editor/results.json",
+      "passed": 1,
+      "failed": 0,
+      "skipped": 1,
+      "duration_ms": 4955.263
+    },
+    {
+      "report": "/private/tmp/smartfactory-release-interface-20261005/browser-permissions-fixed/results.json",
+      "passed": 0,
+      "failed": 1,
+      "skipped": 1,
+      "duration_ms": 14844.366
+    },
+    {
+      "report": "/private/tmp/smartfactory-release-interface-20261005/browser-permissions-second-fixed/results.json",
+      "passed": 1,
+      "failed": 0,
+      "skipped": 1,
+      "duration_ms": 2375.109
+    },
+    {
+      "report": "/private/tmp/smartfactory-release-interface-20261005/browser-pipeline-fifth/results.json",
+      "passed": 0,
+      "failed": 1,
+      "skipped": 0,
+      "duration_ms": 15902.328000000001
+    },
+    {
+      "report": "/private/tmp/smartfactory-release-interface-20261005/browser-pipeline-first/results.json",
+      "passed": 0,
+      "failed": 1,
+      "skipped": 0,
+      "duration_ms": 16099.638
+    },
+    {
+      "report": "/private/tmp/smartfactory-release-interface-20261005/browser-pipeline-fixed/results.json",
+      "passed": 0,
+      "failed": 1,
+      "skipped": 0,
+      "duration_ms": 6315.349999999999
+    },
+    {
+      "report": "/private/tmp/smartfactory-release-interface-20261005/browser-pipeline-second/results.json",
+      "passed": 0,
+      "failed": 1,
+      "skipped": 0,
+      "duration_ms": 16231.922999999999
+    },
+    {
+      "report": "/private/tmp/smartfactory-release-interface-20261005/browser-pipeline-sixth/results.json",
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "duration_ms": 33291.322
+    },
+    {
+      "report": "/private/tmp/smartfactory-release-interface-20261005/browser-pipeline-third/results.json",
+      "passed": 0,
+      "failed": 1,
+      "skipped": 0,
+      "duration_ms": 180760.392
+    },
+    {
+      "report": "/private/tmp/smartfactory-release-interface-20261005/browser-second/results.json",
+      "passed": 0,
+      "failed": 2,
+      "skipped": 0,
+      "duration_ms": 26325.558
+    },
+    {
+      "report": "/private/tmp/smartfactory-release-interface-20261005/browser-seventh/results.json",
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0,
+      "duration_ms": 10108.201000000001
+    },
+    {
+      "report": "/private/tmp/smartfactory-release-interface-20261005/browser-sixth/results.json",
+      "passed": 1,
+      "failed": 2,
+      "skipped": 0,
+      "duration_ms": 35356.484000000004
+    },
+    {
+      "report": "/private/tmp/smartfactory-release-interface-20261005/browser-templates-first/results.json",
+      "passed": 0,
+      "failed": 1,
+      "skipped": 0,
+      "duration_ms": 24899.702999999998
+    },
+    {
+      "report": "/private/tmp/smartfactory-release-interface-20261005/browser-templates-second/results.json",
+      "passed": 0,
+      "failed": 1,
+      "skipped": 0,
+      "duration_ms": 78365.287
+    },
+    {
+      "report": "/private/tmp/smartfactory-release-interface-20261005/browser-third/results.json",
+      "passed": 1,
+      "failed": 1,
+      "skipped": 0,
+      "duration_ms": 63689.806
+    }
+  ],
+  "three_protocol_replacement": "/private/tmp/smartfactory-release-interface-20261005/datatransfer-replacement/replacement.state.json",
+  "three_protocol_binary_sha256": "bfa5fee4d9a42ef0f2de6bcc83b7d17387942fd56b0d9cd59199451db276b479",
+  "self_service_cleanup": "/private/tmp/smartfactory-release-interface-20261005/checkpoint-before-release-version-fix/self-service-cleanup.json",
+  "credential_trace_sanitation": "/private/tmp/smartfactory-release-interface-20261005/checkpoint-before-release-version-fix/credential-evidence-redaction.json",
+  "precision_preparation": "节点配置夹具没有agv-1，初始化断言停止于写入前；尚未进行精度回归；后续选择正式现有设备或独立正式Seed服务"
+}

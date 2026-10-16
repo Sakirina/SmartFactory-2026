@@ -1,0 +1,44 @@
+
+Running 8 tests using 1 worker
+
+(node:10274) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/phase4-ai.spec.ts:22:1 › AI five actual tools show byte-identical evidence and navigate escaped resource identities (3.2s)
+  ✓  2 tests/phase4-ai.spec.ts:32:1 › AI forged cross-investigation failed empty and budget references retain current statuses (2.7s)
+  ✓  3 tests/phase4-ai.spec.ts:39:1 › AI revoked permission clears visible answer and evidence then restores and expires current data (3.0s)
+  ✘  4 tests/phase4-ai.spec.ts:45:1 › AI user switch and expired session clear previous investigation and unsaved editor (45.1s)
+(node:10469) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  5 tests/phase4-ai.spec.ts:49:1 › AI interrupted and service-error streams show saved terminal investigation state (7.9s)
+  ✓  6 tests/phase4-ai.spec.ts:55:1 › AI expiry polling hides an open cached evidence before it is requested again (3.9s)
+  ✓  7 tests/phase4-ai.spec.ts:59:1 › AI original asset deletion after definition rebind clears the original cited content (1.9s)
+  ✓  8 tests/phase4-ai.spec.ts:63:1 › AI deleted source and explicit investigation deletion remove stored visible content (1.7s)
+
+
+  1) tests/phase4-ai.spec.ts:45:1 › AI user switch and expired session clear previous investigation and unsaved editor 
+
+    Test timeout of 45000ms exceeded.
+
+    Error: locator.click: Test timeout of 45000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: '更新依据状态', exact: true })
+        - locator resolved to <button type="button" class="ant-btn css-19u5a7b css-var-_r_0_ ant-btn-default ant-btn-color-default ant-btn-variant-outlined">…</button>
+      - attempting click action
+        - waiting for element to be visible, enabled and stable
+      - element was detached from the DOM, retrying
+
+
+      44 |
+      45 | test('AI user switch and expired session clear previous investigation and unsaved editor',async({page})=>{
+    > 46 |   test.skip(phase!=='ai');await login(page,'ai');await route(page,'assistant');const result=await investigate(page,'读取身份 调查/温度:一号');await route(page,'analysis?definition='+encodeURIComponent('调查/温度:一号'));await expect(page.getByLabel('定义名称')).toBeVisible();await page.getByLabel('定义名称').fill('前一账号尚未提交的编辑');await route(page,'runtime');await page.getByRole('button',{name:'退出',exact:true}).click();await expect(page.getByLabel('账号',{exact:true})).toBeVisible();await login(page,'ai','index.html','operator-b');await route(page,'assistant');await expect(page.getByText(result.id,{exact:true})).toBeHidden();expect((await jsonAPI(page,'/investigations/'+result.id)).status).toBe(404);await route(page,'analysis');await expect(page.getByLabel('定义名称')).toBeHidden();await capture(page,'ai-user-isolation-and-editor-cleared');await jsonAPI(page,'/logout',{});await route(page,'assistant');await page.getByRole('button',{name:'更新依据状态',exact:true}).click();await expect(page.getByLabel('账号',{exact:true})).toBeVisible();expect(await page.evaluate(()=>Object.keys(sessionStorage).filter(key=>key.startsWith('smartfactory.session.')))).toEqual([]);await capture(page,'ai-expired-session-login');
+         |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ^
+      47 | });
+      48 |
+      49 | test('AI interrupted and service-error streams show saved terminal investigation state',async({page})=>{
+        at /path/to/SmartFactory-2026/Frontends/tests/phase4-ai.spec.ts:46:941
+
+    Error Context: ../../../../../private/tmp/smartfactory-frontend-phase4-20261005/playwright-results/phase4-ai-AI-user-switch-a-6a138-tigation-and-unsaved-editor/error-context.md
+
+  1 failed
+    tests/phase4-ai.spec.ts:45:1 › AI user switch and expired session clear previous investigation and unsaved editor 
+  7 passed (1.2m)

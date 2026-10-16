@@ -1,0 +1,22 @@
+P4-A02 修正夹具交付（2026-10-05）
+
+二进制：/private/tmp/smartfactory-ai-a02-final-20261005-110928/bin/sf-ai-evidence-fixture
+SHA256：dcd8a7027e88a221416856a2a53a4e195a11507189e549806061c53e3a54543e
+固定源码：/private/tmp/smartfactory-ai-a02-final-20261005-110928/workspace
+固定输入：.local/evolution/ai-evidence-a02/final-build-inputs.json，共 3345 项，SHA256 d2c6918f65145d9219aa58d034ba732f2834521ab06e6f7da884d6eba6563688
+二进制记录：.local/evolution/ai-evidence-a02/final-binaries.json
+实际 HTTP 验证：.local/evolution/ai-evidence-a02/final-fixture-http.json，51 次正式 HTTP，进程退出 0，应用和模型监听均已关闭
+
+启动时指定一个尚不存在的私有目录，例如：
+/private/tmp/smartfactory-ai-a02-final-20261005-110928/bin/sf-ai-evidence-fixture -dir /private/tmp/smartfactory-ai-a02-browser-20261005-1115 -address 127.0.0.1:0 -model-api responses -model-stream=true -static /path/to/SmartFactory-2026/Frontends/dist -duration 15m
+
+从新目录 manifest.json 读取随机端口，从 private-credentials.json 读取临时账号和模型配置；凭据只保存在该私有目录。保持历史夹具和页面证据的既有版本来源。
+
+原始资产删除场景：
+1. 以 operator-a 登录，通过夹具专用 POST /__fixture/state 调用 {"action":"prepare_original_resource"}，使调查定义当前组为 private-factory，同时给予 factory 和 private-factory 权限
+2. 向正式助手提交“读取身份 调查/温度:一号”，打开引用并保存原始内容、摘要和资源集合；原始资源包含 kind=resource/id=private-factory/version=1
+3. 调用 {"action":"rebind_definition"}，将当前定义组改为 factory；再次打开原引用仍为 HTTP 200，返回内容、摘要和资源集合保持原版本
+4. 调用 {"action":"delete_original_resource"}，删除原 private-factory 实体，账号原授权条目继续保留；引用详情为 HTTP 404，调查详情为 HTTP 200，引用与 access_status 均为 deleted
+5. 页面刷新调查后，答案和消息为空，参数为 null，原文不返回，资源集合为空，evidence_status 为 unsupported；通过夹具进程退出或 duration 到期关闭自建服务
+
+正式接口、生成契约与前端类型无需修改。resource="*" 继续表示目录权限范围；具体 entity/resource 身份检查实体存在性及当前授权。参数清空沿用必填 arguments=null，json.RawMessage 中的四字节 null 按无参数内容判断。

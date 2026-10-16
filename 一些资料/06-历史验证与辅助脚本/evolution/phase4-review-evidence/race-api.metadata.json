@@ -1,0 +1,74 @@
+{
+  "label": "race-api",
+  "command": [
+    "go",
+    "tool",
+    "test2json",
+    "-t",
+    "-p",
+    "competition2026/product/platform/internal/api",
+    "/private/tmp/smartfactory-phase4-independent-20261005/bin/Platform-internal-api.race.test",
+    "-test.v=test2json",
+    "-test.count=1",
+    "-test.parallel=1",
+    "-test.timeout=300s",
+    "-test.run=^Test(Query|BusinessConcurrent|BusinessConnectorSecrets|BusinessWorkOrderRejects|BusinessHandoverReviewed|BusinessNative|Investigation|ControlReceiptEvidence|PostgresControlEvidence)"
+  ],
+  "cwd": "/private/tmp/smartfactory-phase4-independent-20261005/workspace/Platform/internal/api",
+  "started_at": "2026-10-05T02:29:33.166222+00:00",
+  "completed_at": "2026-10-05T02:30:18.771369+00:00",
+  "elapsed_seconds": 45.605,
+  "exit_code": 0,
+  "postgres": true,
+  "stdout": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/race-api.stdout.log",
+    "sha256": "138d491dae16598885b005d285b49403d35f3629b6d9578e165d6993be475cc0",
+    "bytes": 8610
+  },
+  "stderr": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/race-api.stderr.log",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "counts": {
+    "top_level": {
+      "pass": 5,
+      "fail": 0,
+      "skip": 1
+    },
+    "leaf": {
+      "pass": 6,
+      "fail": 0,
+      "skip": 1
+    },
+    "all_named": {
+      "pass": 7,
+      "fail": 0,
+      "skip": 1
+    },
+    "packages": {
+      "pass": 1,
+      "fail": 0,
+      "skip": 0
+    },
+    "skips": [
+      {
+        "package": "competition2026/product/platform/internal/api",
+        "test": "TestBusinessNativeCEAlarmLifecycle",
+        "reason": "=== RUN   TestBusinessNativeCEAlarmLifecycle\n    business_native_test.go:21: isolated native CE URL and credential file required\n--- SKIP: TestBusinessNativeCEAlarmLifecycle (0.00s)\n"
+      }
+    ],
+    "failures": [],
+    "races": 0
+  },
+  "build_inputs": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/build-inputs.json",
+    "sha256": "88fdc87b09a840748a6cadc356b019dcf324905175ecb4f7fb3e38f7c7981643",
+    "bytes": 1717015
+  },
+  "binary": {
+    "path": "/private/tmp/smartfactory-phase4-independent-20261005/bin/Platform-internal-api.race.test",
+    "sha256": "d1a66d9fad427f5ad793a8107e30336445972e9cf4baad93c0739ea98bc910c2",
+    "bytes": 62079330
+  }
+}

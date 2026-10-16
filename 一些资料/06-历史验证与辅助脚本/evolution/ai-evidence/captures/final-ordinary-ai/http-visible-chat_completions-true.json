@@ -1,0 +1,409 @@
+{
+  "api": "chat_completions",
+  "investigation": {
+    "id": "ed9b861007701b872495d29a407e5d96",
+    "user_id": "operator-a",
+    "version": 12,
+    "provider": "openai",
+    "api": "chat_completions",
+    "model": "evidence-http-test",
+    "messages": [
+      {
+        "role": "user",
+        "content": "调查温度、执行与历史依据"
+      }
+    ],
+    "status": "completed",
+    "created_ms": 1791165364765,
+    "updated_ms": 1791165364785,
+    "expires_ms": 1791770164765,
+    "answer": "本地模型已完成调查，返回内容包含查询范围、质量、版本及分页状态。\n工具 fixture-call-0 返回状态 ok [evidence:a088fbd4154ff65793929327540b0931]\n工具 fixture-call-1 返回状态 ok [evidence:8648e7a66b215354fad9641260b24475]\n工具 fixture-call-2 返回状态 ok [evidence:76e35177549a213a4f02e829c67930be]\n工具 fixture-call-3 返回状态 ok [evidence:728d42d525d98b4ffbb3e27c655281d0]\n工具 fixture-call-4 返回状态 ok [evidence:2b8d59bf5c536b0170ecb6c575c2cad0]",
+    "evidence_status": "supported",
+    "references": [
+      {
+        "id": "a088fbd4154ff65793929327540b0931",
+        "status": "valid",
+        "url": "/api/sf/v1/investigations/ed9b861007701b872495d29a407e5d96/evidence/a088fbd4154ff65793929327540b0931"
+      },
+      {
+        "id": "8648e7a66b215354fad9641260b24475",
+        "status": "valid",
+        "url": "/api/sf/v1/investigations/ed9b861007701b872495d29a407e5d96/evidence/8648e7a66b215354fad9641260b24475"
+      },
+      {
+        "id": "76e35177549a213a4f02e829c67930be",
+        "status": "valid",
+        "url": "/api/sf/v1/investigations/ed9b861007701b872495d29a407e5d96/evidence/76e35177549a213a4f02e829c67930be"
+      },
+      {
+        "id": "728d42d525d98b4ffbb3e27c655281d0",
+        "status": "valid",
+        "url": "/api/sf/v1/investigations/ed9b861007701b872495d29a407e5d96/evidence/728d42d525d98b4ffbb3e27c655281d0"
+      },
+      {
+        "id": "2b8d59bf5c536b0170ecb6c575c2cad0",
+        "status": "valid",
+        "url": "/api/sf/v1/investigations/ed9b861007701b872495d29a407e5d96/evidence/2b8d59bf5c536b0170ecb6c575c2cad0"
+      }
+    ],
+    "evidence": [
+      {
+        "id": "a088fbd4154ff65793929327540b0931",
+        "investigation_id": "ed9b861007701b872495d29a407e5d96",
+        "ordinal": 1,
+        "tool_call_id": "fixture-call-0",
+        "tool_name": "get_definition",
+        "arguments": {
+          "id": "调查/温度:一号"
+        },
+        "status": "ok",
+        "delivery": "delivered",
+        "access_status": "valid",
+        "created_ms": 1791165364766,
+        "expires_ms": 1791770164765,
+        "original_bytes": 1588,
+        "visible_bytes": 1843,
+        "budget_bytes": 524288,
+        "visible_sha256": "d33869e5d40d63d0135196abdcf6bb3f593417df3119260f5acf00d1de950d74",
+        "resources": [
+          {
+            "kind": "definition",
+            "id": "调查/温度:一号",
+            "version": 1,
+            "url": "/api/sf/v1/definitions/%E8%B0%83%E6%9F%A5%2F%E6%B8%A9%E5%BA%A6:%E4%B8%80%E5%8F%B7/versions"
+          },
+          {
+            "kind": "entity",
+            "id": "device-climate-ventilation",
+            "version": 1
+          },
+          {
+            "kind": "resource",
+            "id": "factory",
+            "version": 1
+          }
+        ]
+      },
+      {
+        "id": "8648e7a66b215354fad9641260b24475",
+        "investigation_id": "ed9b861007701b872495d29a407e5d96",
+        "ordinal": 2,
+        "tool_call_id": "fixture-call-1",
+        "tool_name": "query_data",
+        "arguments": {
+          "device_ids": "device-climate-ventilation",
+          "from_ms": 1791165363737,
+          "keys": "temperature",
+          "limit": 20,
+          "to_ms": 1791165365737
+        },
+        "status": "ok",
+        "delivery": "delivered",
+        "access_status": "valid",
+        "created_ms": 1791165364771,
+        "expires_ms": 1791770164765,
+        "original_bytes": 1338,
+        "visible_bytes": 1593,
+        "budget_bytes": 524288,
+        "visible_sha256": "b79b07db71deddb97115814ba989a0380378ca19562270577a5138854e1d6e65",
+        "resources": [
+          {
+            "kind": "entity",
+            "id": "device-climate-ventilation",
+            "version": 1
+          }
+        ]
+      },
+      {
+        "id": "76e35177549a213a4f02e829c67930be",
+        "investigation_id": "ed9b861007701b872495d29a407e5d96",
+        "ordinal": 3,
+        "tool_call_id": "fixture-call-2",
+        "tool_name": "get_execution",
+        "arguments": {
+          "id": "执行/通风:一号"
+        },
+        "status": "ok",
+        "delivery": "delivered",
+        "access_status": "valid",
+        "created_ms": 1791165364775,
+        "expires_ms": 1791770164765,
+        "original_bytes": 1712,
+        "visible_bytes": 1967,
+        "budget_bytes": 524288,
+        "visible_sha256": "8a19743e0d26769ec6883b6b5fc451b4e57f65f09d82c4f894d380b8c4f37cf5",
+        "resources": [
+          {
+            "kind": "execution",
+            "id": "执行/通风:一号",
+            "version": 1,
+            "url": "/api/sf/v1/executions/%E6%89%A7%E8%A1%8C%2F%E9%80%9A%E9%A3%8E:%E4%B8%80%E5%8F%B7"
+          }
+        ]
+      },
+      {
+        "id": "728d42d525d98b4ffbb3e27c655281d0",
+        "investigation_id": "ed9b861007701b872495d29a407e5d96",
+        "ordinal": 4,
+        "tool_call_id": "fixture-call-3",
+        "tool_name": "get_analysis_run",
+        "arguments": {
+          "id": "历史/温度:一号"
+        },
+        "status": "ok",
+        "delivery": "delivered",
+        "access_status": "valid",
+        "created_ms": 1791165364778,
+        "expires_ms": 1791770164765,
+        "original_bytes": 993,
+        "visible_bytes": 1247,
+        "budget_bytes": 524288,
+        "visible_sha256": "a19614455e2d1b99beda91d7d10af4eeacaf87af6296ffb5b856a25a36d23d04",
+        "resources": [
+          {
+            "kind": "analysis_run",
+            "id": "历史/温度:一号",
+            "version": 3,
+            "url": "/api/sf/v1/analysis-runs/%E5%8E%86%E5%8F%B2%2F%E6%B8%A9%E5%BA%A6:%E4%B8%80%E5%8F%B7"
+          },
+          {
+            "kind": "resource",
+            "id": "device-climate-ventilation",
+            "version": 0
+          },
+          {
+            "kind": "resource",
+            "id": "factory",
+            "version": 0
+          }
+        ]
+      },
+      {
+        "id": "2b8d59bf5c536b0170ecb6c575c2cad0",
+        "investigation_id": "ed9b861007701b872495d29a407e5d96",
+        "ordinal": 5,
+        "tool_call_id": "fixture-call-4",
+        "tool_name": "get_analysis_steps",
+        "arguments": {
+          "id": "历史/温度:一号",
+          "limit": 20
+        },
+        "status": "ok",
+        "delivery": "delivered",
+        "access_status": "valid",
+        "created_ms": 1791165364782,
+        "expires_ms": 1791770164765,
+        "original_bytes": 2965,
+        "visible_bytes": 3220,
+        "budget_bytes": 524288,
+        "visible_sha256": "6a6fd48e17e3b6fc8d7839e63d98d5609176d8f96aca8a8a15aaf6a22dfb1872",
+        "resources": [
+          {
+            "kind": "analysis_run",
+            "id": "历史/温度:一号",
+            "version": 3,
+            "url": "/api/sf/v1/analysis-runs/%E5%8E%86%E5%8F%B2%2F%E6%B8%A9%E5%BA%A6:%E4%B8%80%E5%8F%B7"
+          },
+          {
+            "kind": "entity",
+            "id": "device-climate-ventilation",
+            "version": 1
+          },
+          {
+            "kind": "resource",
+            "id": "device-climate-ventilation",
+            "version": 0
+          },
+          {
+            "kind": "resource",
+            "id": "factory",
+            "version": 0
+          }
+        ]
+      }
+    ]
+  },
+  "model_visible_evidence": [
+    {
+      "id": "a088fbd4154ff65793929327540b0931",
+      "investigation_id": "ed9b861007701b872495d29a407e5d96",
+      "ordinal": 1,
+      "tool_call_id": "fixture-call-0",
+      "tool_name": "get_definition",
+      "arguments": {
+        "id": "调查/温度:一号"
+      },
+      "status": "ok",
+      "delivery": "delivered",
+      "access_status": "valid",
+      "created_ms": 1791165364766,
+      "expires_ms": 1791770164765,
+      "original_bytes": 1588,
+      "visible_bytes": 1843,
+      "budget_bytes": 524288,
+      "visible_sha256": "d33869e5d40d63d0135196abdcf6bb3f593417df3119260f5acf00d1de950d74",
+      "visible_content": "{\"_evidence\":{\"budget_bytes\":524288,\"citation\":\"[evidence:a088fbd4154ff65793929327540b0931]\",\"id\":\"a088fbd4154ff65793929327540b0931\",\"investigation_id\":\"ed9b861007701b872495d29a407e5d96\",\"original_bytes\":1588,\"status\":\"ok\",\"tool_call_id\":\"fixture-call-0\"},\"_resources\":[{\"id\":\"调查/温度:一号\",\"kind\":\"definition\",\"version\":1},{\"id\":\"factory\",\"kind\":\"resource\",\"version\":1},{\"id\":\"device-climate-ventilation\",\"kind\":\"entity\",\"version\":1}],\"connections\":[{\"from\":\"source\",\"from_port\":\"\",\"to\":\"output\",\"to_port\":\"\"}],\"dependencies\":null,\"effective_ms\":1791165364600,\"execution_plan\":{\"content_sha256\":\"b1f52ab516177d85d58e0ff2c21290e5a6bf041772b894a493a6666888a0140e\",\"definition_id\":\"调查/温度:一号\",\"definition_version\":1,\"dependencies\":null,\"format\":\"smartfactory.rules/1\",\"id\":\"调查/温度:一号:1:b1f52ab516177d85d58e0ff2c21290e5a6bf041772b894a493a6666888a0140e\",\"kind\":\"analysis\",\"nodes\":[{\"error_output\":false,\"id\":\"source\",\"inputs\":[],\"params\":{},\"type\":\"input\"},{\"error_output\":false,\"id\":\"output\",\"inputs\":[{\"from\":\"source\",\"from_port\":\"\",\"to\":\"output\",\"to_port\":\"\"}],\"params\":{},\"type\":\"output\"}],\"outputs\":[{\"key\":\"temperature\",\"node_id\":\"output\",\"type\":\"number\",\"unit\":\"°C\"}],\"policy\":{},\"selector\":{\"device_ids\":[\"device-climate-ventilation\"],\"keys\":[\"temperature\"]},\"sha256\":\"48aca89ec6e0909fd11856a8840bee2614fcf491b5a8ad96854f81333ddbf25b\"},\"group_id\":\"factory\",\"id\":\"调查/温度:一号\",\"kind\":\"analysis\",\"name\":\"调查温度分析\",\"nodes\":[{\"id\":\"source\",\"label\":\"温度采样\",\"params\":null,\"type\":\"input\"},{\"id\":\"output\",\"label\":\"温度输出\",\"params\":null,\"type\":\"output\"}],\"outputs\":[{\"key\":\"temperature\",\"node_id\":\"output\",\"type\":\"number\",\"unit\":\"°C\"}],\"policy\":{},\"schema_version\":\"1.0\",\"selector\":{\"device_ids\":[\"device-climate-ventilation\"],\"keys\":[\"temperature\"]},\"status\":\"published\",\"version\":1}",
+      "resources": [
+        {
+          "kind": "definition",
+          "id": "调查/温度:一号",
+          "version": 1,
+          "url": "/api/sf/v1/definitions/%E8%B0%83%E6%9F%A5%2F%E6%B8%A9%E5%BA%A6:%E4%B8%80%E5%8F%B7/versions"
+        },
+        {
+          "kind": "entity",
+          "id": "device-climate-ventilation",
+          "version": 1
+        },
+        {
+          "kind": "resource",
+          "id": "factory",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "8648e7a66b215354fad9641260b24475",
+      "investigation_id": "ed9b861007701b872495d29a407e5d96",
+      "ordinal": 2,
+      "tool_call_id": "fixture-call-1",
+      "tool_name": "query_data",
+      "arguments": {
+        "device_ids": "device-climate-ventilation",
+        "from_ms": 1791165363737,
+        "keys": "temperature",
+        "limit": 20,
+        "to_ms": 1791165365737
+      },
+      "status": "ok",
+      "delivery": "delivered",
+      "access_status": "valid",
+      "created_ms": 1791165364771,
+      "expires_ms": 1791770164765,
+      "original_bytes": 1338,
+      "visible_bytes": 1593,
+      "budget_bytes": 524288,
+      "visible_sha256": "b79b07db71deddb97115814ba989a0380378ca19562270577a5138854e1d6e65",
+      "visible_content": "{\"_evidence\":{\"budget_bytes\":524288,\"citation\":\"[evidence:8648e7a66b215354fad9641260b24475]\",\"id\":\"8648e7a66b215354fad9641260b24475\",\"investigation_id\":\"ed9b861007701b872495d29a407e5d96\",\"original_bytes\":1338,\"status\":\"ok\",\"tool_call_id\":\"fixture-call-1\"},\"has_more\":false,\"items\":[{\"data\":{\"asset_version\":0,\"device_id\":\"device-climate-ventilation\",\"entity_revision\":1,\"id\":\"调查/消息:一号:0\",\"key\":\"temperature\",\"late\":false,\"message_id\":\"调查/消息:一号\",\"observed_ms\":1791165364737,\"origin_id\":\"调查/消息:一号:0\",\"quality\":\"GOOD\",\"received_ms\":1791165364737,\"revision\":1,\"source_id\":\"edge-a\",\"source_sequence\":0,\"time_source\":\"collector\",\"value\":9007199254740993.125},\"id\":\"raw:observation:WyLosIPmn6Uv5raI5oGvOuS4gOWPtzowIiwxNzkxMTY1MzY0NzM3XQ\",\"kind\":\"trend\",\"revision\":\"20\",\"sort_ms\":1791165364737,\"version\":1}],\"metadata\":{\"gaps\":[],\"quality\":{\"bad\":0,\"completeness\":\"unknown\",\"excluded\":0,\"good\":1,\"missing\":null,\"uncertain\":0},\"quality_scope\":\"page\",\"revisions\":[],\"sources\":[{\"backfill\":\"complete\",\"id\":\"edge-a\",\"last_seen_ms\":1791165364738,\"status\":\"online\"}]},\"scope\":{\"from_ms\":1791165363737,\"keys\":[\"temperature\"],\"limit\":20,\"resolution\":\"raw\",\"resource_ids\":[\"device-climate-ventilation\"],\"to_ms\":1791165365737},\"snapshot_cursor\":\"eyJ2IjoxLCJlcG9jaCI6ImY2MWY3NDczOTFhNzc3OThkZjA2NzVkYzNlNjM4OWM2Iiwic2VxIjoyMywiaWRlbnRpdHkiOiJjMmUxZDM1YTA2NTY5YjdjYzMyZTM1MzM5MDQ3NzJjNTVkZDhlYmJmNDY0ZmNhMmJkNzEwNzZhYzI2YjQ2MzVlIiwicXVlcnkiOiI1MDE5Y2JkZjdhMmY0ZGQ4YjkzNDg2N2ZmMGU0NzQzYmIyYzk5ODE3NzIzMjhiYTVmODRkZWVmNzZjMjE0MDlkIn0.3Bp2taxvCDpI8gE_Xpi8fr5RuKg16phdLiILs4cVmFE\"}",
+      "resources": [
+        {
+          "kind": "entity",
+          "id": "device-climate-ventilation",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "76e35177549a213a4f02e829c67930be",
+      "investigation_id": "ed9b861007701b872495d29a407e5d96",
+      "ordinal": 3,
+      "tool_call_id": "fixture-call-2",
+      "tool_name": "get_execution",
+      "arguments": {
+        "id": "执行/通风:一号"
+      },
+      "status": "ok",
+      "delivery": "delivered",
+      "access_status": "valid",
+      "created_ms": 1791165364775,
+      "expires_ms": 1791770164765,
+      "original_bytes": 1712,
+      "visible_bytes": 1967,
+      "budget_bytes": 524288,
+      "visible_sha256": "8a19743e0d26769ec6883b6b5fc451b4e57f65f09d82c4f894d380b8c4f37cf5",
+      "visible_content": "{\"_evidence\":{\"budget_bytes\":524288,\"citation\":\"[evidence:76e35177549a213a4f02e829c67930be]\",\"id\":\"76e35177549a213a4f02e829c67930be\",\"investigation_id\":\"ed9b861007701b872495d29a407e5d96\",\"original_bytes\":1712,\"status\":\"ok\",\"tool_call_id\":\"fixture-call-2\"},\"allowed_actions\":[{\"action\":\"cancel\",\"allowed\":false,\"reason\":\"permission denied\"},{\"action\":\"reconcile\",\"allowed\":false,\"reason\":\"permission denied\"},{\"action\":\"resume\",\"allowed\":false,\"reason\":\"permission denied\"}],\"evidence\":[],\"execution\":{\"actor\":{\"ai\":false,\"department_id\":\"operations\",\"name\":\"operator-a\",\"roles\":[\"engineer\",\"safety\"],\"session_id\":\"84e8946e13161cda43a76ebbd242b9bf\",\"source\":\"business-fixture\",\"user_id\":\"operator-a\"},\"approval_expires_ms\":1791165664737,\"approvals\":[],\"binding\":\"9344ec292f60d31340452cfb89b259794e4ea8a9613736139cf96d04a6ca01bf\",\"created_ms\":1791165364737,\"definition_id\":\"调查/通风策略:一号\",\"definition_version\":1,\"downlink_id\":\"执行/通风:一号\",\"fence\":0,\"mode\":\"manual\",\"override\":false,\"params\":{},\"resource_binding\":\"fe9d989177ae7ffc784171ce51bd67947adb33a15907696476a24b22126d6d39\",\"risk_category\":\"business\",\"risk_level\":1,\"snapshot\":[],\"start_deadline_ms\":0,\"status\":\"awaiting_approval\",\"steps\":[],\"version\":1},\"operations\":[],\"source_node_id\":\"edge-a\",\"source_version\":0,\"timeline\":[{\"actor\":{\"ai\":false,\"department_id\":\"operations\",\"name\":\"operator-a\",\"roles\":[\"engineer\",\"safety\"],\"session_id\":\"84e8946e13161cda43a76ebbd242b9bf\",\"source\":\"business-fixture\",\"user_id\":\"operator-a\"},\"at_ms\":1791165364737,\"id\":\"transition:1\",\"kind\":\"transition\",\"source\":\"control\",\"transition\":{\"actor\":{\"ai\":false,\"department_id\":\"operations\",\"name\":\"operator-a\",\"roles\":[\"engineer\",\"safety\"],\"session_id\":\"84e8946e13161cda43a76ebbd242b9bf\",\"source\":\"business-fixture\",\"user_id\":\"operator-a\"},\"at_ms\":1791165364737,\"event\":\"request\",\"execution_id\":\"执行/通风:一号\",\"from\":\"\",\"previous_version\":0,\"source\":\"control\",\"to\":\"awaiting_approval\",\"version\":1}}]}",
+      "resources": [
+        {
+          "kind": "execution",
+          "id": "执行/通风:一号",
+          "version": 1,
+          "url": "/api/sf/v1/executions/%E6%89%A7%E8%A1%8C%2F%E9%80%9A%E9%A3%8E:%E4%B8%80%E5%8F%B7"
+        }
+      ]
+    },
+    {
+      "id": "728d42d525d98b4ffbb3e27c655281d0",
+      "investigation_id": "ed9b861007701b872495d29a407e5d96",
+      "ordinal": 4,
+      "tool_call_id": "fixture-call-3",
+      "tool_name": "get_analysis_run",
+      "arguments": {
+        "id": "历史/温度:一号"
+      },
+      "status": "ok",
+      "delivery": "delivered",
+      "access_status": "valid",
+      "created_ms": 1791165364778,
+      "expires_ms": 1791770164765,
+      "original_bytes": 993,
+      "visible_bytes": 1247,
+      "budget_bytes": 524288,
+      "visible_sha256": "a19614455e2d1b99beda91d7d10af4eeacaf87af6296ffb5b856a25a36d23d04",
+      "visible_content": "{\"_evidence\":{\"budget_bytes\":524288,\"citation\":\"[evidence:728d42d525d98b4ffbb3e27c655281d0]\",\"id\":\"728d42d525d98b4ffbb3e27c655281d0\",\"investigation_id\":\"ed9b861007701b872495d29a407e5d96\",\"original_bytes\":993,\"status\":\"ok\",\"tool_call_id\":\"fixture-call-3\"},\"captured_snapshot_id\":\"snapshot:0cf391e10afb2c7939e864cd6375f384e66a60dc56c7f2c3fbd26ddad1abd3fd\",\"created_ms\":1791165364761,\"cursor\":1,\"definition_id\":\"调查/温度:一号\",\"final_state\":{\"version:1\":{\"device-climate-ventilation\":{\"output\":{\"active\":false,\"candidate\":false,\"count\":0,\"last_ms\":1791165364737,\"previous\":9007199254740993.125,\"since_ms\":0},\"source\":{\"active\":false,\"candidate\":false,\"count\":0,\"last_ms\":1791165364737,\"previous\":9007199254740993.125,\"since_ms\":0}}}},\"id\":\"历史/温度:一号\",\"initial_state_resolved\":true,\"input_sha256\":\"b7a99b0737779491689d07491df9856b9d98a6d4f286d80c18d10b83e16eb888\",\"kind\":\"replay\",\"progress\":1,\"resources\":[\"device-climate-ventilation\",\"factory\"],\"snapshot_id\":\"snapshot:0cf391e10afb2c7939e864cd6375f384e66a60dc56c7f2c3fbd26ddad1abd3fd\",\"snapshot_sha256\":\"0cf391e10afb2c7939e864cd6375f384e66a60dc56c7f2c3fbd26ddad1abd3fd\",\"status\":\"completed\",\"task_id\":\"analysis:历史/温度:一号\",\"total\":1,\"updated_ms\":1791165364762,\"version\":3}",
+      "resources": [
+        {
+          "kind": "analysis_run",
+          "id": "历史/温度:一号",
+          "version": 3,
+          "url": "/api/sf/v1/analysis-runs/%E5%8E%86%E5%8F%B2%2F%E6%B8%A9%E5%BA%A6:%E4%B8%80%E5%8F%B7"
+        },
+        {
+          "kind": "resource",
+          "id": "device-climate-ventilation",
+          "version": 0
+        },
+        {
+          "kind": "resource",
+          "id": "factory",
+          "version": 0
+        }
+      ]
+    },
+    {
+      "id": "2b8d59bf5c536b0170ecb6c575c2cad0",
+      "investigation_id": "ed9b861007701b872495d29a407e5d96",
+      "ordinal": 5,
+      "tool_call_id": "fixture-call-4",
+      "tool_name": "get_analysis_steps",
+      "arguments": {
+        "id": "历史/温度:一号",
+        "limit": 20
+      },
+      "status": "ok",
+      "delivery": "delivered",
+      "access_status": "valid",
+      "created_ms": 1791165364782,
+      "expires_ms": 1791770164765,
+      "original_bytes": 2965,
+      "visible_bytes": 3220,
+      "budget_bytes": 524288,
+      "visible_sha256": "6a6fd48e17e3b6fc8d7839e63d98d5609176d8f96aca8a8a15aaf6a22dfb1872",
+      "visible_content": "{\"_evidence\":{\"budget_bytes\":524288,\"citation\":\"[evidence:2b8d59bf5c536b0170ecb6c575c2cad0]\",\"id\":\"2b8d59bf5c536b0170ecb6c575c2cad0\",\"investigation_id\":\"ed9b861007701b872495d29a407e5d96\",\"original_bytes\":2965,\"status\":\"ok\",\"tool_call_id\":\"fixture-call-4\"},\"items\":[{\"clock_ms\":1791165364737,\"difference\":{\"alarm\":false,\"changed\":false,\"path\":false,\"quality\":false,\"state\":false,\"trigger\":false,\"values\":false},\"formal_difference\":{\"alarm\":false,\"changed\":false,\"path\":false,\"quality\":false,\"state\":false,\"trigger\":false,\"values\":false},\"formal_outputs\":[],\"freshness_at_ms\":1791165364737,\"id\":\"历史/温度:一号:0\",\"input_index\":0,\"input_sha256\":\"0927c5ae8cdedc1926ad541a44f7fdc605fe7c8d0084673f01f3aa818e0ddb9f\",\"lanes\":[{\"action_intents\":[],\"definition_version\":1,\"effective_ms\":1791165364600,\"evaluation\":{\"asset_versions\":[{\"effective_ms\":1791165364594,\"id\":\"device-climate-ventilation\",\"parent_id\":\"factory\",\"sampling_ms\":0,\"version\":1},{\"effective_ms\":1791165364409,\"id\":\"factory\",\"parent_id\":\"\",\"sampling_ms\":0,\"version\":1}],\"at_ms\":1791165364737,\"definition_id\":\"调查/温度:一号\",\"entity_id\":\"device-climate-ventilation\",\"historical\":true,\"input_ids\":[\"调查/采样:一号\"],\"plan_id\":\"调查/温度:一号:1:b1f52ab516177d85d58e0ff2c21290e5a6bf041772b894a493a6666888a0140e\",\"plan_sha256\":\"48aca89ec6e0909fd11856a8840bee2614fcf491b5a8ad96854f81333ddbf25b\",\"quality\":{\"bad\":0,\"completeness\":\"unknown\",\"excluded\":0,\"good\":1,\"missing\":null,\"uncertain\":0},\"run_id\":\"历史/温度:一号\",\"severity\":\"WARNING\",\"states\":{\"output\":{\"active\":false,\"candidate\":false,\"count\":0,\"last_ms\":1791165364737,\"previous\":9007199254740993.125,\"since_ms\":0},\"source\":{\"active\":false,\"candidate\":false,\"count\":0,\"last_ms\":1791165364737,\"previous\":9007199254740993.125,\"since_ms\":0}},\"trace\":[{\"after\":{\"active\":false,\"candidate\":false,\"count\":0,\"last_ms\":1791165364737,\"previous\":9007199254740993.125,\"since_ms\":0},\"before\":{\"active\":false,\"candidate\":false,\"count\":0,\"last_ms\":0,\"previous\":null,\"since_ms\":0},\"input\":9007199254740993.125,\"node_id\":\"source\",\"output\":9007199254740993.125,\"skipped\":false,\"type\":\"input\"},{\"after\":{\"active\":false,\"candidate\":false,\"count\":0,\"last_ms\":1791165364737,\"previous\":9007199254740993.125,\"since_ms\":0},\"before\":{\"active\":false,\"candidate\":false,\"count\":0,\"last_ms\":0,\"previous\":null,\"since_ms\":0},\"input\":9007199254740993.125,\"node_id\":\"output\",\"output\":9007199254740993.125,\"skipped\":false,\"type\":\"output\"}],\"trigger\":false,\"values\":{\"output\":9007199254740993.125,\"source\":9007199254740993.125},\"version\":1},\"plan_id\":\"调查/温度:一号:1:b1f52ab516177d85d58e0ff2c21290e5a6bf041772b894a493a6666888a0140e\",\"plan_sha256\":\"48aca89ec6e0909fd11856a8840bee2614fcf491b5a8ad96854f81333ddbf25b\",\"side\":\"version:1\"}],\"point\":{\"asset_version\":0,\"device_id\":\"device-climate-ventilation\",\"entity_revision\":1,\"id\":\"调查/采样:一号\",\"key\":\"temperature\",\"late\":false,\"message_id\":\"调查/消息:一号\",\"observed_ms\":1791165364737,\"quality\":\"GOOD\",\"received_ms\":1791165364737,\"revision\":0,\"source_id\":\"edge-a\",\"source_sequence\":0,\"time_source\":\"\",\"value\":9007199254740993.125},\"run_id\":\"历史/温度:一号\"}],\"next\":-1,\"resources\":[\"device-climate-ventilation\",\"factory\"],\"run_version\":3}",
+      "resources": [
+        {
+          "kind": "analysis_run",
+          "id": "历史/温度:一号",
+          "version": 3,
+          "url": "/api/sf/v1/analysis-runs/%E5%8E%86%E5%8F%B2%2F%E6%B8%A9%E5%BA%A6:%E4%B8%80%E5%8F%B7"
+        },
+        {
+          "kind": "entity",
+          "id": "device-climate-ventilation",
+          "version": 1
+        },
+        {
+          "kind": "resource",
+          "id": "device-climate-ventilation",
+          "version": 0
+        },
+        {
+          "kind": "resource",
+          "id": "factory",
+          "version": 0
+        }
+      ]
+    }
+  ],
+  "sse": "data: {\"investigation_id\":\"ed9b861007701b872495d29a407e5d96\",\"type\":\"investigation\",\"url\":\"/api/sf/v1/investigations/ed9b861007701b872495d29a407e5d96\"}\n\ndata: {\"investigation_id\":\"ed9b861007701b872495d29a407e5d96\",\"name\":\"get_definition\",\"tool_call_id\":\"fixture-call-0\",\"type\":\"tool\"}\n\ndata: {\"budget_bytes\":524288,\"delivery\":\"prepared\",\"evidence_id\":\"a088fbd4154ff65793929327540b0931\",\"investigation_id\":\"ed9b861007701b872495d29a407e5d96\",\"original_bytes\":1588,\"status\":\"ok\",\"tool_call_id\":\"fixture-call-0\",\"tool_name\":\"get_definition\",\"type\":\"evidence\",\"visible_bytes\":1843,\"visible_sha256\":\"d33869e5d40d63d0135196abdcf6bb3f593417df3119260f5acf00d1de950d74\"}\n\ndata: {\"investigation_id\":\"ed9b861007701b872495d29a407e5d96\",\"name\":\"query_data\",\"tool_call_id\":\"fixture-call-1\",\"type\":\"tool\"}\n\ndata: {\"budget_bytes\":524288,\"delivery\":\"prepared\",\"evidence_id\":\"8648e7a66b215354fad9641260b24475\",\"investigation_id\":\"ed9b861007701b872495d29a407e5d96\",\"original_bytes\":1338,\"status\":\"ok\",\"tool_call_id\":\"fixture-call-1\",\"tool_name\":\"query_data\",\"type\":\"evidence\",\"visible_bytes\":1593,\"visible_sha256\":\"b79b07db71deddb97115814ba989a0380378ca19562270577a5138854e1d6e65\"}\n\ndata: {\"investigation_id\":\"ed9b861007701b872495d29a407e5d96\",\"name\":\"get_execution\",\"tool_call_id\":\"fixture-call-2\",\"type\":\"tool\"}\n\ndata: {\"budget_bytes\":524288,\"delivery\":\"prepared\",\"evidence_id\":\"76e35177549a213a4f02e829c67930be\",\"investigation_id\":\"ed9b861007701b872495d29a407e5d96\",\"original_bytes\":1712,\"status\":\"ok\",\"tool_call_id\":\"fixture-call-2\",\"tool_name\":\"get_execution\",\"type\":\"evidence\",\"visible_bytes\":1967,\"visible_sha256\":\"8a19743e0d26769ec6883b6b5fc451b4e57f65f09d82c4f894d380b8c4f37cf5\"}\n\ndata: {\"investigation_id\":\"ed9b861007701b872495d29a407e5d96\",\"name\":\"get_analysis_run\",\"tool_call_id\":\"fixture-call-3\",\"type\":\"tool\"}\n\ndata: {\"budget_bytes\":524288,\"delivery\":\"prepared\",\"evidence_id\":\"728d42d525d98b4ffbb3e27c655281d0\",\"investigation_id\":\"ed9b861007701b872495d29a407e5d96\",\"original_bytes\":993,\"status\":\"ok\",\"tool_call_id\":\"fixture-call-3\",\"tool_name\":\"get_analysis_run\",\"type\":\"evidence\",\"visible_bytes\":1247,\"visible_sha256\":\"a19614455e2d1b99beda91d7d10af4eeacaf87af6296ffb5b856a25a36d23d04\"}\n\ndata: {\"investigation_id\":\"ed9b861007701b872495d29a407e5d96\",\"name\":\"get_analysis_steps\",\"tool_call_id\":\"fixture-call-4\",\"type\":\"tool\"}\n\ndata: {\"budget_bytes\":524288,\"delivery\":\"prepared\",\"evidence_id\":\"2b8d59bf5c536b0170ecb6c575c2cad0\",\"investigation_id\":\"ed9b861007701b872495d29a407e5d96\",\"original_bytes\":2965,\"status\":\"ok\",\"tool_call_id\":\"fixture-call-4\",\"tool_name\":\"get_analysis_steps\",\"type\":\"evidence\",\"visible_bytes\":3220,\"visible_sha256\":\"6a6fd48e17e3b6fc8d7839e63d98d5609176d8f96aca8a8a15aaf6a22dfb1872\"}\n\ndata: {\"investigation_id\":\"ed9b861007701b872495d29a407e5d96\",\"provisional\":true,\"text\":\"本地模型已完成调查，返回内容包含查询范围、质量、版本及分页状态。\\n工具 fixture-call-0 返回状态 ok [evidence:a088fbd4154ff65793929327540b0931]\\n工具 fixture-call-1 返回状态 ok [evidence:8648e7a66b215354fad9641260b24475]\\n工具 fixture-call-2 返回状态 ok [evidence:76e35177549a213a4f02e829c67930be]\\n工具 fixture-call-3 返回状态 ok [evidence:728d42d525d98b4ffbb3e27c655281d0]\\n工具 fixture-call-4 返回状态 ok [evidence:2b8d59bf5c536b0170ecb6c575c2cad0]\",\"type\":\"delta\"}\n\ndata: {\"answer\":\"本地模型已完成调查，返回内容包含查询范围、质量、版本及分页状态。\\n工具 fixture-call-0 返回状态 ok [evidence:a088fbd4154ff65793929327540b0931]\\n工具 fixture-call-1 返回状态 ok [evidence:8648e7a66b215354fad9641260b24475]\\n工具 fixture-call-2 返回状态 ok [evidence:76e35177549a213a4f02e829c67930be]\\n工具 fixture-call-3 返回状态 ok [evidence:728d42d525d98b4ffbb3e27c655281d0]\\n工具 fixture-call-4 返回状态 ok [evidence:2b8d59bf5c536b0170ecb6c575c2cad0]\",\"evidence\":[{\"id\":\"a088fbd4154ff65793929327540b0931\",\"investigation_id\":\"ed9b861007701b872495d29a407e5d96\",\"ordinal\":1,\"tool_call_id\":\"fixture-call-0\",\"tool_name\":\"get_definition\",\"arguments\":{\"id\":\"调查/温度:一号\"},\"status\":\"ok\",\"delivery\":\"delivered\",\"access_status\":\"valid\",\"created_ms\":1791165364766,\"expires_ms\":1791770164765,\"original_bytes\":1588,\"visible_bytes\":1843,\"budget_bytes\":524288,\"visible_sha256\":\"d33869e5d40d63d0135196abdcf6bb3f593417df3119260f5acf00d1de950d74\",\"resources\":[{\"kind\":\"definition\",\"id\":\"调查/温度:一号\",\"version\":1,\"url\":\"/api/sf/v1/definitions/%E8%B0%83%E6%9F%A5%2F%E6%B8%A9%E5%BA%A6:%E4%B8%80%E5%8F%B7/versions\"},{\"kind\":\"entity\",\"id\":\"device-climate-ventilation\",\"version\":1},{\"kind\":\"resource\",\"id\":\"factory\",\"version\":1}]},{\"id\":\"8648e7a66b215354fad9641260b24475\",\"investigation_id\":\"ed9b861007701b872495d29a407e5d96\",\"ordinal\":2,\"tool_call_id\":\"fixture-call-1\",\"tool_name\":\"query_data\",\"arguments\":{\"device_ids\":\"device-climate-ventilation\",\"from_ms\":1791165363737,\"keys\":\"temperature\",\"limit\":20,\"to_ms\":1791165365737},\"status\":\"ok\",\"delivery\":\"delivered\",\"access_status\":\"valid\",\"created_ms\":1791165364771,\"expires_ms\":1791770164765,\"original_bytes\":1338,\"visible_bytes\":1593,\"budget_bytes\":524288,\"visible_sha256\":\"b79b07db71deddb97115814ba989a0380378ca19562270577a5138854e1d6e65\",\"resources\":[{\"kind\":\"entity\",\"id\":\"device-climate-ventilation\",\"version\":1}]},{\"id\":\"76e35177549a213a4f02e829c67930be\",\"investigation_id\":\"ed9b861007701b872495d29a407e5d96\",\"ordinal\":3,\"tool_call_id\":\"fixture-call-2\",\"tool_name\":\"get_execution\",\"arguments\":{\"id\":\"执行/通风:一号\"},\"status\":\"ok\",\"delivery\":\"delivered\",\"access_status\":\"valid\",\"created_ms\":1791165364775,\"expires_ms\":1791770164765,\"original_bytes\":1712,\"visible_bytes\":1967,\"budget_bytes\":524288,\"visible_sha256\":\"8a19743e0d26769ec6883b6b5fc451b4e57f65f09d82c4f894d380b8c4f37cf5\",\"resources\":[{\"kind\":\"execution\",\"id\":\"执行/通风:一号\",\"version\":1,\"url\":\"/api/sf/v1/executions/%E6%89%A7%E8%A1%8C%2F%E9%80%9A%E9%A3%8E:%E4%B8%80%E5%8F%B7\"}]},{\"id\":\"728d42d525d98b4ffbb3e27c655281d0\",\"investigation_id\":\"ed9b861007701b872495d29a407e5d96\",\"ordinal\":4,\"tool_call_id\":\"fixture-call-3\",\"tool_name\":\"get_analysis_run\",\"arguments\":{\"id\":\"历史/温度:一号\"},\"status\":\"ok\",\"delivery\":\"delivered\",\"access_status\":\"valid\",\"created_ms\":1791165364778,\"expires_ms\":1791770164765,\"original_bytes\":993,\"visible_bytes\":1247,\"budget_bytes\":524288,\"visible_sha256\":\"a19614455e2d1b99beda91d7d10af4eeacaf87af6296ffb5b856a25a36d23d04\",\"resources\":[{\"kind\":\"analysis_run\",\"id\":\"历史/温度:一号\",\"version\":3,\"url\":\"/api/sf/v1/analysis-runs/%E5%8E%86%E5%8F%B2%2F%E6%B8%A9%E5%BA%A6:%E4%B8%80%E5%8F%B7\"},{\"kind\":\"resource\",\"id\":\"device-climate-ventilation\",\"version\":0},{\"kind\":\"resource\",\"id\":\"factory\",\"version\":0}]},{\"id\":\"2b8d59bf5c536b0170ecb6c575c2cad0\",\"investigation_id\":\"ed9b861007701b872495d29a407e5d96\",\"ordinal\":5,\"tool_call_id\":\"fixture-call-4\",\"tool_name\":\"get_analysis_steps\",\"arguments\":{\"id\":\"历史/温度:一号\",\"limit\":20},\"status\":\"ok\",\"delivery\":\"delivered\",\"access_status\":\"valid\",\"created_ms\":1791165364782,\"expires_ms\":1791770164765,\"original_bytes\":2965,\"visible_bytes\":3220,\"budget_bytes\":524288,\"visible_sha256\":\"6a6fd48e17e3b6fc8d7839e63d98d5609176d8f96aca8a8a15aaf6a22dfb1872\",\"resources\":[{\"kind\":\"analysis_run\",\"id\":\"历史/温度:一号\",\"version\":3,\"url\":\"/api/sf/v1/analysis-runs/%E5%8E%86%E5%8F%B2%2F%E6%B8%A9%E5%BA%A6:%E4%B8%80%E5%8F%B7\"},{\"kind\":\"entity\",\"id\":\"device-climate-ventilation\",\"version\":1},{\"kind\":\"resource\",\"id\":\"device-climate-ventilation\",\"version\":0},{\"kind\":\"resource\",\"id\":\"factory\",\"version\":0}]}],\"evidence_status\":\"supported\",\"investigation_id\":\"ed9b861007701b872495d29a407e5d96\",\"references\":[{\"id\":\"a088fbd4154ff65793929327540b0931\",\"status\":\"valid\",\"url\":\"/api/sf/v1/investigations/ed9b861007701b872495d29a407e5d96/evidence/a088fbd4154ff65793929327540b0931\"},{\"id\":\"8648e7a66b215354fad9641260b24475\",\"status\":\"valid\",\"url\":\"/api/sf/v1/investigations/ed9b861007701b872495d29a407e5d96/evidence/8648e7a66b215354fad9641260b24475\"},{\"id\":\"76e35177549a213a4f02e829c67930be\",\"status\":\"valid\",\"url\":\"/api/sf/v1/investigations/ed9b861007701b872495d29a407e5d96/evidence/76e35177549a213a4f02e829c67930be\"},{\"id\":\"728d42d525d98b4ffbb3e27c655281d0\",\"status\":\"valid\",\"url\":\"/api/sf/v1/investigations/ed9b861007701b872495d29a407e5d96/evidence/728d42d525d98b4ffbb3e27c655281d0\"},{\"id\":\"2b8d59bf5c536b0170ecb6c575c2cad0\",\"status\":\"valid\",\"url\":\"/api/sf/v1/investigations/ed9b861007701b872495d29a407e5d96/evidence/2b8d59bf5c536b0170ecb6c575c2cad0\"}],\"type\":\"final\"}\n\ndata: {\"evidence_status\":\"supported\",\"investigation_id\":\"ed9b861007701b872495d29a407e5d96\",\"type\":\"done\"}\n\n",
+  "stream": true
+}

@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "ok": true,
+  "observed": {
+    "go": "1.27.1",
+    "node": "24.21.0",
+    "npm": "11.19.0",
+    "python": "Python 3.14.7"
+  },
+  "selected": {
+    "go": {
+      "minimum": "1.27.0",
+      "locked": "1.27.1",
+      "target": "1.27.1",
+      "toolchain": "go1.27.1",
+      "version_file": "deploy/go-version",
+      "validation": "installed; DataTransfer go test ./... and Linux amd64 build passed; Platform selected packages and cmd Linux builds passed"
+    },
+    "node": {
+      "locked": "24.21.0",
+      "target": "24.21.0",
+      "version_file": "deploy/node-version",
+      "validation": "installed_sha256_verified; frontend_typecheck_and_production_build_passed"
+    },
+    "python": {
+      "minimum": "3.12",
+      "ci": "3.12"
+    }
+  },
+  "errors": []
+}

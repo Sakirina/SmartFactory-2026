@@ -1,0 +1,83 @@
+{
+  "original_binary": "/private/tmp/smartfactory-business-native-20261005-retry/api-native.test",
+  "original_sha256": "84791b50e1d790a081d74b6ad1454c90acd5ac6edcfdd036aca11e07eb808976",
+  "retained_source": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source",
+  "original_build": [
+    "go",
+    "test",
+    "-c",
+    "-o",
+    "/private/tmp/smartfactory-business-native-20261005-retry/api-native.test",
+    "./internal/api"
+  ],
+  "original_cwd": "/path/to/SmartFactory-2026/Platform",
+  "runs": [
+    {
+      "command": [
+        "go",
+        "test",
+        "-c",
+        "-o",
+        "/private/tmp/smartfactory-business-native-20261005-retry/native-rebuild-same-parameters.test",
+        "./internal/api"
+      ],
+      "cwd": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source/Platform",
+      "started_at": "2026-10-05T01:18:35.726084+00:00",
+      "log": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/native-rebuild-same-parameters.log",
+      "completed_at": "2026-10-05T01:18:40.017032+00:00",
+      "exit_code": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "binary": "/private/tmp/smartfactory-business-native-20261005-retry/native-rebuild-same-parameters.test",
+      "binary_sha256": "02b790fcfc27333f9273188e5cecf43ad9213d78089aea686d622e8f4f902ccf",
+      "original_bytes_match": false,
+      "go_build_info_matches": true
+    },
+    {
+      "command": [
+        "go",
+        "test",
+        "-c",
+        "-o",
+        "/private/tmp/smartfactory-business-native-20261005-retry/native-rebuild-original-paths.test",
+        "./internal/api"
+      ],
+      "cwd": "/path/to/SmartFactory-2026/Platform",
+      "started_at": "2026-10-05T01:18:40.312584+00:00",
+      "log": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/native-rebuild-original-paths.log",
+      "GOFLAGS": "-overlay=/path/to/SmartFactory-2026/.local/evolution/business-evidence/native-original-path-overlay.json",
+      "completed_at": "2026-10-05T01:18:41.307157+00:00",
+      "exit_code": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "binary": "/private/tmp/smartfactory-business-native-20261005-retry/native-rebuild-original-paths.test",
+      "binary_sha256": "84791b50e1d790a081d74b6ad1454c90acd5ac6edcfdd036aca11e07eb808976",
+      "original_bytes_match": true,
+      "go_build_info_matches": true
+    }
+  ],
+  "original_path_overlay": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/native-original-path-overlay.json",
+    "sha256": "a5af352f7ac09e19e91d4b7e8a1c960896fc82b52618afd68cc9474d926d993b",
+    "mapped_retained_files": 395,
+    "excluded_later_go_files": [
+      "Platform/pkg/model/investigation.go",
+      "Platform/internal/app/business_workers_test.go",
+      "Platform/internal/thingsboard/alarm_states_test.go",
+      "Platform/internal/deviceconfig/tls.go",
+      "Platform/internal/ai/evidence.go",
+      "Platform/internal/api/business_contracts_test.go",
+      "Platform/internal/api/investigation_routes.go",
+      "Platform/internal/aievidencefixture/seed.go",
+      "Platform/internal/aievidencefixture/model.go",
+      "Platform/internal/application/business_authorization_test.go",
+      "Platform/internal/application/business_concurrency_test.go",
+      "Platform/internal/application/investigations.go",
+      "Platform/internal/application/investigation_resources.go",
+      "Platform/internal/store/migration00009.go",
+      "Platform/internal/store/investigations.go",
+      "Platform/cmd/sf-ai-evidence-fixture/main.go"
+    ],
+    "purpose": "Retain original compiler source paths while reading preserved source bytes; workspace files remain untouched"
+  },
+  "original_path_bytes_reproduced": true,
+  "completed_at": "2026-10-05T01:18:41.356773+00:00"
+}

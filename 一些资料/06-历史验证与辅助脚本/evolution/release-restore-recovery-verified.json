@@ -1,0 +1,3472 @@
+{
+  "status": "verified_release_recovery_scope_frontend_fixture_running",
+  "generated_at_ms": 1791198735025,
+  "all_current_acceptance_checks_passed": true,
+  "remaining_role_work": [],
+  "scope": "P5-R01 storage/application startup and authenticated release recovery; P5-R02 formal return between releases with disjoint rule sets; actual original database/master key preservation and fixed frontend continuation",
+  "production_changes": {
+    "shared_storage_owner": "The original storage engineer corrected local document revision allocation; this report consumes the verified fixed files without changing fixed authority parameter semantics",
+    "app": "Release payload startup skips authority default initialization, retaining removed parameters and immutable authority versions until fixed payload application",
+    "agent": "Only an authenticated cached executable that actually exits or times out before readiness permits online recovery; same failed assignment waits across repeated queries and agent restart; fresh assignments or retry generations prepare again; current identity/capability/scope/instance validation permits reuse of an identical fixed envelope from active or pending encrypted caches only for transient credential-source unavailability",
+    "runtime": "An existing rule activation is reused only when release_runtime/active matches the target release SHA; returning to another fixed release creates new local applied definition revisions and preserves source versions and history"
+  },
+  "source": {
+    "final": {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/compiled-source.json",
+      "sha256": "977af459222b9acc22f2fea02786864e36c9a71f6e5369a88201355d56dc7f03",
+      "bytes": 53025
+    },
+    "source_directory": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/source",
+    "source_sha256": "eb78474aea6d2a7b5176f910ea95eabdfdb7cc8c0a2e9cf7cd5b0b712b1b9519",
+    "actual_input_count": 5743,
+    "actual_input_manifest": {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/actual-inputs.json",
+      "sha256": "e5d28ff26c9f40188b1af620ca474c779704fe3506968a613c3e7f8a706e20fc",
+      "bytes": 2109439
+    },
+    "all_command_inputs_unchanged": true,
+    "from_previous_full_regression_candidate": [
+      {
+        "path": "Platform/internal/releaseruntime/runtime.go",
+        "before_sha256": "85b8d81b1352242904b48ec813e1fe0f3a9f1a6072d4b6191cf3452f51f6db2b",
+        "after_sha256": "50a49420afdb43755923de4eb26dbe7e4dba74d01e645fe0f5f00068c8c0709a"
+      },
+      {
+        "path": "scripts/build-release.py",
+        "before_sha256": "f0c05175fa926f61880915b94a37028c8c585bb0bd8fa97c86ced8caf269e37a",
+        "after_sha256": "78f24a8268b6a0ffb945755bc8f3acc4fb19e41fd3fc1ea5aebcc60747d9bffd"
+      }
+    ],
+    "parallel_change_owner": {
+      "scripts/build-release.py": "final delivery engineer"
+    },
+    "final_binaries": [
+      {
+        "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/bin/sf-edge-r02-final-v1",
+        "sha256": "e85e48a6037ca7157ad55353462ab4a5fcfd3e9f31d68455b3c386e67d8586b4",
+        "build_info": {
+          "build": {
+            "program": "edge",
+            "version": "r02-final-v1",
+            "goos": "darwin",
+            "goarch": "arm64",
+            "migration_minimum": 11,
+            "migration_maximum": 11,
+            "rule_formats": [
+              "1.0"
+            ],
+            "configuration_formats": [
+              "smartfactory-configuration-v1"
+            ],
+            "source_sha256": "eb78474aea6d2a7b5176f910ea95eabdfdb7cc8c0a2e9cf7cd5b0b712b1b9519"
+          },
+          "sha256": "e85e48a6037ca7157ad55353462ab4a5fcfd3e9f31d68455b3c386e67d8586b4"
+        }
+      },
+      {
+        "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/bin/sf-edge-r02-final-v2",
+        "sha256": "b02566d928858835502d2d0cd6aac04ef561335e0498f7675fb1d60b0e71f229",
+        "build_info": {
+          "build": {
+            "program": "edge",
+            "version": "r02-final-v2",
+            "goos": "darwin",
+            "goarch": "arm64",
+            "migration_minimum": 11,
+            "migration_maximum": 11,
+            "rule_formats": [
+              "1.0"
+            ],
+            "configuration_formats": [
+              "smartfactory-configuration-v1"
+            ],
+            "source_sha256": "eb78474aea6d2a7b5176f910ea95eabdfdb7cc8c0a2e9cf7cd5b0b712b1b9519"
+          },
+          "sha256": "b02566d928858835502d2d0cd6aac04ef561335e0498f7675fb1d60b0e71f229"
+        }
+      },
+      {
+        "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/bin/sf-release-agent",
+        "sha256": "827e4d7fdf4d645a255f6163c641ea7267688bd53d6e068b199606c03d3f4cfc"
+      }
+    ]
+  },
+  "tests": {
+    "r01_app_agent_runtime_bundle": {
+      "passed_top_level": 18,
+      "passed_including_subtests": 32,
+      "skipped": [
+        {
+          "package": "competition2026/product/platform/internal/app",
+          "test": "TestControlledCloudEdgeControlIntervention"
+        },
+        {
+          "package": "competition2026/product/platform/internal/app",
+          "test": "TestControlBrowserFixture"
+        }
+      ],
+      "raw_result": {
+        "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final-second/evidence/app-agent-runtime-bundle.stdout.log",
+        "sha256": "2926d1c2fa29eaa72122ffe1e96b3c26668eadf1ee440e99623b4f2a8d852a8c",
+        "bytes": 96966
+      }
+    },
+    "r01_postgres": {
+      "passed_top_level": 2,
+      "passed_including_subtests": 2,
+      "skipped": [],
+      "raw_result": {
+        "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final-second/evidence/release-postgres.stdout.log",
+        "sha256": "4a59d2f37ede3151519b8dd2d2acb891b48fa823c2bad3d48bb5ca5567adb8a8",
+        "bytes": 2746
+      }
+    },
+    "r01_limited_race": {
+      "passed_top_level": 10,
+      "passed_including_subtests": 16,
+      "skipped": [],
+      "raw_result": {
+        "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final-second/evidence/app-agent-limited-race.stdout.log",
+        "sha256": "a3349f046a4d8360430170880ecf3b55ad2622ac5567970a9fee0ef7d669d699",
+        "bytes": 17642
+      }
+    },
+    "r02_affected_app_runtime": {
+      "passed_top_level": 9,
+      "passed_including_subtests": 11,
+      "skipped": [
+        {
+          "package": "competition2026/product/platform/internal/app",
+          "test": "TestControlledCloudEdgeControlIntervention"
+        },
+        {
+          "package": "competition2026/product/platform/internal/app",
+          "test": "TestControlBrowserFixture"
+        },
+        {
+          "package": "competition2026/product/platform/internal/app",
+          "test": "TestReleaseRoundtripPostgres"
+        }
+      ],
+      "raw_result": {
+        "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/app-agent-runtime-bundle.stdout.log",
+        "sha256": "28036d04d34ceb1cdafe97c137d76e2e4afcb344464971bd746b79f85ae7de4e",
+        "bytes": 74198
+      }
+    },
+    "r02_postgres_actual_rule_roundtrip": {
+      "passed_top_level": 1,
+      "passed_including_subtests": 1,
+      "skipped": [],
+      "raw_result": {
+        "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/release-roundtrip-postgres.stdout.log",
+        "sha256": "77624d6d8562378f5aa4a092a13bf57de2d013d7b9f48ab13561ceeafb7086a7",
+        "bytes": 1399
+      }
+    },
+    "r02_sqlite_postgres_limited_race": {
+      "passed_top_level": 2,
+      "passed_including_subtests": 2,
+      "skipped": [],
+      "raw_result": {
+        "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/release-roundtrip-limited-race.stdout.log",
+        "sha256": "eef67bce9b47f723b041287b92a5e070dec49f83c9d55ed2120558294aa8528e",
+        "bytes": 2437
+      }
+    },
+    "conditional_skips": "TestControlledCloudEdgeControlIntervention and TestControlBrowserFixture require their separate configured control/browser integration fixtures. The ordinary R02 run also skips TestReleaseRoundtripPostgres without its environment; that exact PostgreSQL case passed separately in ordinary and race modes. The delivery engineer owns the independent control fixtures and full-module regression correlation.",
+    "previous_full_regression": "Platform 649 including subtests passed / 12 conditional skips and DataTransfer 109 passed / 7 conditional skips on candidate-final-second before the single production runtime.go correction; the R02 affected tests and actual formal process flow cover that correction"
+  },
+  "actual_process_evidence": {
+    "original_database_copy_recovery": {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-isolated-third/result.json",
+      "sha256": "be32edebc9108d558d70be3e7a31942bcb277d32bb7c38c0990a62327847a648",
+      "bytes": 1034
+    },
+    "original_live_database_initial_recovery": {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-live-first-first/result.json",
+      "sha256": "9aab0704c5fe1b34e8856f6f0ff1c97e65ded2f9f00f7f2e974d7ca751a46430",
+      "bytes": 510
+    },
+    "formal_roundtrip": {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/result.json",
+      "sha256": "1c2dd3e61162f83c6510e84d5aca35024e6916dc93915093b137b30e9723b347",
+      "bytes": 204
+    },
+    "formal_roundtrip_successful_behavior_checks": 60,
+    "final_normalized_verification_and_live_restart": {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-sixth/result.json",
+      "sha256": "322bdcb4a61343fac77472d2cd9da221072c9a54b7a4796aeb4a69b9a85d89de",
+      "bytes": 11610
+    },
+    "final_continuation_checks": 24,
+    "actual_cached_failure_restart": {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-cached-failure-restart/result.json",
+      "sha256": "ab6ea1c040c29110fcd6ab9f7cd149fbe3b60d0376ab846a81bd2c0dcf991284",
+      "bytes": 525
+    },
+    "cached_failure_restart_checks": 12,
+    "cached_failure_scope": "Actual final release-agent, original failing executable, encrypted historical cache, original database/key copies and a controlled loopback authority returning the unchanged historical assignment. Four desired queries per instance, one old child startup total, one failure report per agent instance, retained startup log/status unchanged on second agent start, all 42 copied SQLite table contents unchanged. Formal cloud manual retry is separately evidenced in the roundtrip.",
+    "formal_steps": "Final ordinary release -> five templates and 25 rules/3 connector consumers -> agent restart -> actual original-program failure -> formal manual retry generation and second actual failure -> cached five-template recovery -> formal rollback to final ordinary release -> five-template forward deployment -> same-content new assignment -> final cached restart and fresh authenticated running report",
+    "configuration_values": {
+      "fixed_authority_heartbeat_version_1": 5000,
+      "ordinary_fixed_heartbeat_version_2": 7000,
+      "ordinary_fixed_connector_poll_millis": 2000,
+      "ordinary_private_parameter_version": 1,
+      "five_template_connector_fixed_versions": 1,
+      "five_template_original_password_rows": 0,
+      "five_template_parameters_removed": [
+        "heartbeat.interval_ms",
+        "release.private"
+      ]
+    },
+    "fifth_attempt_comparison_repair": {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/evidence/fifth-attempt-fixed-authority-proof.json",
+      "sha256": "502a7c6dd2a0159fd077146913164e0178def5bb900b8c20878e0b07c2e304ca",
+      "bytes": 1607
+    }
+  },
+  "historical_material": {
+    "original_backup": {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/evidence/original-backup-integrity-final.json",
+      "sha256": "0ce1ff4c60f35f1c890ad3c9b9e96696fa7155557a358318b82e326472a326e9",
+      "bytes": 5584
+    },
+    "original_backup_file_count": 15,
+    "independent_original_checkpoint_comparison": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-release-recovered-database-root-review.json",
+      "sha256": "c7d583c2ec262ad156be2f3d321da1efde78646839df7cd80911eb8cc1b2a4c1",
+      "bytes": 1393
+    },
+    "original_checkpoint_history_counts": {
+      "document_versions": 473,
+      "audit": 280,
+      "audit_checkpoints": 280
+    },
+    "history_baseline_note": "The coordinator independently compared the initial preserved checkpoint against the recovered original database. The process roundtrip snapshots use their later start-of-attempt state, so their retained-row counts are reported separately.",
+    "original_ciphertext": {
+      "path": "/private/tmp/smartfactory-release-restore-followup-20261005/private/original-active.release.json",
+      "sha256": "42e12909bed0e3a0c8c50d48e467cf5ca8ee0f18b248bb98e217d08ff79eaa66",
+      "bytes": 8105
+    },
+    "operational_cache_reencryption": {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/evidence/original-cache-reencryption-proof.json",
+      "sha256": "a44925b1bd2561e397baf68b74290928ac0502c4ae22aa8ec38394a95995271f",
+      "bytes": 925
+    },
+    "reencryption_explanation": "Formal preparation of the original old release rewrote its operational encrypted cache using a fresh nonce. Original and current files authenticate with the same node/release AAD, and the full decrypted Staged bytes including Private are exactly identical. Historical ciphertext remains preserved at its original SHA in the diagnosis copy; program artifact and fixed publication identities did not change.",
+    "complete_authenticated_payload_sha256": "5d60e52ca24e636916579c434eac4d4a50a800b7f8c9c9146274ae7c709484a1",
+    "database_history": "All original document_versions, audit and audit_checkpoints rows remain present across formal transitions; original immutable authority heartbeat row is identical; final audit verification on a fresh SQLite backup passed",
+    "final_audit_result": {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-sixth/evidence/verify-audit-after-roundtrip.stdout.log",
+      "sha256": "26261dcab7fbcb36015428deb4b655d4dd0502fc2b1c927dfa545c42d5bc99a7",
+      "bytes": 28
+    }
+  },
+  "frontend_handoff": {
+    "fixture": {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/frontend-fixture.json",
+      "sha256": "00013de15fca0c454879cd4a2c8c5a778833e2f3f060d393bc8549cdab26e04c",
+      "bytes": 114808
+    },
+    "sealed_fixture": {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/evidence/frontend-fixture-final.json",
+      "sha256": "00013de15fca0c454879cd4a2c8c5a778833e2f3f060d393bc8549cdab26e04c",
+      "bytes": 114808
+    },
+    "post_return_live_verification": {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/evidence/frontend-live-check.json",
+      "sha256": "39e0c6d4db6e851a5b9d93ebb1dac1408d1f26612f1fda6bbabef2da8abde54f",
+      "bytes": 14167
+    },
+    "cloud_url": "http://127.0.0.1:60047",
+    "node_url": "http://127.0.0.1:60050",
+    "agent_pid": 94228,
+    "edge_pid": 94229,
+    "edge_parent_is_registered_agent": true,
+    "formal_release_id": "recovery-r02-final-five-v2",
+    "formal_release_sha256": "0eb8c0317709c50e53fd6eed6a8a58dc54392daeebabe53a8aec8285207aa190",
+    "program_sha256": "b02566d928858835502d2d0cd6aac04ef561335e0498f7675fb1d60b0e71f229",
+    "completed_deployment_id": "recovery-r02-final-frontend-confirm-second",
+    "process_registry": "/private/tmp/smartfactory-phase5-release-process-tenth-20261005/evidence/processes.json",
+    "original_database": "/private/tmp/smartfactory-phase5-release-process-tenth-20261005/private/existing-runtime-a/original.db",
+    "master_key_path_only": "/private/tmp/smartfactory-phase5-release-process-tenth-20261005/private/existing-runtime-a/original.key",
+    "credentials": "Private file paths remain in fixture; no credential values published"
+  },
+  "resource_handoff": {
+    "go_build_running": false,
+    "postgres_window_released": true,
+    "race_window_released": true,
+    "services_retained": "Final registered agent and its actual Edge child remain running for the original frontend engineer. Cloud/configuration authority, node B and the existing three-protocol DataTransfer fixture remain under coordinator cleanup ownership. Every isolated process started by this recovery verification exited normally.",
+    "next_owners": [
+      "original frontend engineer",
+      "final Linux delivery engineer",
+      "main coordinator acceptance"
+    ]
+  },
+  "retained_failed_attempts": [
+    {
+      "directory": "/private/tmp/smartfactory-release-restore-recovery-20261005/initialization-baseline",
+      "reason": "Original program initialization reproduces reused local document history revision",
+      "retained_records": [
+        {
+          "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/initialization-baseline/evidence/commands.json",
+          "sha256": "7df09b36b49fc72bec8576d0f25842bd3dde24224b02acc9d23f35fd64224710",
+          "bytes": 1798
+        }
+      ]
+    },
+    {
+      "directory": "/private/tmp/smartfactory-release-restore-recovery-20261005/store-only",
+      "reason": "Storage correction alone reaches the retained immutable authority version conflict",
+      "retained_records": [
+        {
+          "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/store-only/evidence/commands.json",
+          "sha256": "397e63251bbdcf2c8c014c613cdf3432b078c7850f94364ed3ee4c68a54161c0",
+          "bytes": 1706
+        }
+      ]
+    },
+    {
+      "directory": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-first",
+      "reason": "Verification fixture omitted the validated component order; corrected before acceptance",
+      "retained_records": [
+        {
+          "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-first/evidence/commands.json",
+          "sha256": "d8676a7746b869ebce96f9b3c0d33f9b5aa675377102e9a6b752605b12b2a283",
+          "bytes": 2605
+        }
+      ]
+    },
+    {
+      "directory": "/private/tmp/smartfactory-release-restore-recovery-20261005/same-assignment-baseline",
+      "reason": "Repeated desired query attempted the same failed cached assignment again",
+      "retained_records": [
+        {
+          "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/same-assignment-baseline/evidence/commands.json",
+          "sha256": "b235c6bc19e2a222b688a4ba78dd3bb5eb8d0d4b68e804cdebcd46af7f8e1010",
+          "bytes": 1788
+        }
+      ]
+    },
+    {
+      "directory": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final",
+      "reason": "Regression fixture expected the original error on an explicitly advanced generation; corrected to distinguish new preparation",
+      "retained_records": [
+        {
+          "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final/evidence/commands.json",
+          "sha256": "4582a8b224db9f895fc1a5b8e15d265db5b7312021ddd4bc3c2391ea0588dfbe",
+          "bytes": 1815
+        }
+      ]
+    },
+    {
+      "directory": "/private/tmp/smartfactory-release-restore-recovery-20261005/rule-roundtrip-baseline",
+      "reason": "P5-R02: a previously disabled rule was mistaken for the current activation on A-to-B-to-A",
+      "retained_records": [
+        {
+          "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/rule-roundtrip-baseline/evidence/commands.json",
+          "sha256": "06994c141b89766e1604351b8aaccd3c9c41f3feb1a9fe3c4d14223f45170b18",
+          "bytes": 1809
+        }
+      ]
+    },
+    {
+      "directory": "/private/tmp/smartfactory-release-restore-recovery-20261005/rule-roundtrip-fixed",
+      "reason": "Rule mutation was correctly rejected by the earlier execution-plan guard; fixture also accepts this precise rejection",
+      "retained_records": [
+        {
+          "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/rule-roundtrip-fixed/evidence/commands.json",
+          "sha256": "2c0cf93c58c2b6f4c0f366a78e7aa4890374acae449059747a5379ef655532ed",
+          "bytes": 1771
+        }
+      ]
+    },
+    {
+      "directory": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-isolated",
+      "reason": "Python reformatted RawMessage Unicode escapes and changed the manifest digest; exact API response bytes are retained for verification",
+      "retained_records": [
+        {
+          "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-isolated/result.json",
+          "sha256": "b298cc996910aabf41505b714d0f4e6a98935a1bdfd0bfb7047a9a7f95dc6ce8",
+          "bytes": 234
+        },
+        {
+          "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-isolated/evidence/commands.json",
+          "sha256": "54b70ca4bf2418b310397353f7e37e52d068cfe4324583ddc8e5bc9348e075ae",
+          "bytes": 1146
+        }
+      ]
+    },
+    {
+      "directory": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-isolated-second",
+      "reason": "Fixture expected historical 2000 heartbeat; independent authority version 2 is 7000",
+      "retained_records": [
+        {
+          "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-isolated-second/result.json",
+          "sha256": "7001c072d0ed695c76ef73ef97422cb87d63957b4214a9699070d818a7bb2a28",
+          "bytes": 188
+        },
+        {
+          "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-isolated-second/evidence/commands.json",
+          "sha256": "76574f46dd6a2c923c54707fe7cabddc2ae5bd8652009da41a809100e727d616",
+          "bytes": 1186
+        },
+        {
+          "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-isolated-second/evidence/checks.json",
+          "sha256": "9710c517684457f59aad823ccbd5765f893f1bc4d74ddda5230ec265593a4a92",
+          "bytes": 3118
+        }
+      ]
+    },
+    {
+      "directory": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-first",
+      "reason": "Sandbox denied normal stop of the task-owned prior agent; approved escalation completed the same operation",
+      "retained_records": [
+        {
+          "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-first/result.json",
+          "sha256": "90ec37c16613361669c28c628fa0d7e559fdd30f8782ff764ff68c36d5af4ce3",
+          "bytes": 191
+        },
+        {
+          "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-first/evidence/checks.json",
+          "sha256": "033b1d3c893c3f704c21df3ffba74f71c2779e556ebb31cac2c3bdb3c9ffe164",
+          "bytes": 125
+        }
+      ]
+    },
+    {
+      "directory": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-second",
+      "reason": "Existing five-template connector inputs configure no passwords; consumer checks now compare actual protocol, applied generation and full public configuration digest",
+      "retained_records": [
+        {
+          "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-second/result.json",
+          "sha256": "e83893c23399846f39efd3b27b5704bdeddeffd98ffda878c84b787710bcbf86",
+          "bytes": 194
+        },
+        {
+          "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-second/evidence/checks.json",
+          "sha256": "5ec3d29a1ea32c216a23b2a9a3172844362f5a159c3424f8386d6c51370773c9",
+          "bytes": 41731
+        }
+      ]
+    },
+    {
+      "directory": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-third",
+      "reason": "P5-R02 actual formal return failed with active rule differs from its release activation; original process and reports sealed",
+      "retained_records": [
+        {
+          "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-third/result.json",
+          "sha256": "556ec092efb81cfc428b286bc20f296e16415ec9463f341ea07a7b35bac044cc",
+          "bytes": 204
+        },
+        {
+          "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-third/evidence/checks.json",
+          "sha256": "4ea2e969066ab3ba246964a00a5428621e86b877efa6c3ec40a86d73ad4d2f4a",
+          "bytes": 14403
+        }
+      ]
+    },
+    {
+      "directory": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth",
+      "reason": "All 60 successful behavior checks retained; normal fresh AES-GCM nonce changed an operational old-release cache file after formal preparation. Complete authenticated plaintext is byte-identical and the original ciphertext backup remains intact",
+      "retained_records": [
+        {
+          "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/result.json",
+          "sha256": "1c2dd3e61162f83c6510e84d5aca35024e6916dc93915093b137b30e9723b347",
+          "bytes": 204
+        },
+        {
+          "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/checks.json",
+          "sha256": "7ac38fa6be65597256ebc2d49b6d9bfdd89a58ea1f3a7ff218e2bec5bb7b58f3",
+          "bytes": 172303
+        }
+      ]
+    },
+    {
+      "directory": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fifth",
+      "reason": "Fixture compared JSON nested lists with new SQLite nested tuples. Persisted fixed authority rows match exactly; normalized comparison passed in the sixth attempt",
+      "retained_records": [
+        {
+          "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fifth/result.json",
+          "sha256": "d123551f5a3f6cf44774d53d1cf3abd3644dab586c901aa11c27354070fcbb52",
+          "bytes": 223
+        },
+        {
+          "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fifth/evidence/checks.json",
+          "sha256": "f1024da86ff595568037954b342660d42c094a703f2aae6c18dcba156a9ca1c0",
+          "bytes": 60618
+        }
+      ]
+    }
+  ],
+  "prior_reports": [
+    {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/release-restore-followup-verified.json",
+      "sha256": "e8ca60e4208a7890d589164b2ca2182133d9573fc45710c8f90c904191fc2c40",
+      "bytes": 17524
+    },
+    {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/storage-version-r01-verified.json",
+      "sha256": "37202073c6267bb81156444b68e3ec8cc9484fcb5ee3e069c425ccca6fc19b82",
+      "bytes": 65668
+    },
+    {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-release-restore-diagnosis-root-review.json",
+      "sha256": "dc6a4020aa8b7954dd1a057ed12f3abe7091dfb86a70135881413547b6561d20",
+      "bytes": 20271
+    },
+    {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-release-recovery-inputs-root-review.json",
+      "sha256": "998bb0e6284eec70dacfe3f14094f29793926093e4904e6bc99b2f0d0364e402",
+      "bytes": 14974
+    },
+    {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-release-r02-inputs-root-review.json",
+      "sha256": "429d45e003e9928a6629f900af5100599a1f90f610afd136de6af8492841a09a",
+      "bytes": 15684
+    },
+    {
+      "path": "/private/tmp/smartfactory-delivery-regressions-current-20261005/verification.json",
+      "sha256": "c09645b40669fb42d50159e0679d2f095328bba0d5680c3d0ff809cee16dd985",
+      "bytes": 25282
+    },
+    {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-release-recovered-database-root-review.json",
+      "sha256": "c7d583c2ec262ad156be2f3d321da1efde78646839df7cd80911eb8cc1b2a4c1",
+      "bytes": 1393
+    }
+  ],
+  "references": [
+    {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-release-r02-inputs-root-review.json",
+      "sha256": "429d45e003e9928a6629f900af5100599a1f90f610afd136de6af8492841a09a",
+      "bytes": 15684
+    },
+    {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-release-recovered-database-root-review.json",
+      "sha256": "c7d583c2ec262ad156be2f3d321da1efde78646839df7cd80911eb8cc1b2a4c1",
+      "bytes": 1393
+    },
+    {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-release-recovery-inputs-root-review.json",
+      "sha256": "998bb0e6284eec70dacfe3f14094f29793926093e4904e6bc99b2f0d0364e402",
+      "bytes": 14974
+    },
+    {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-release-restore-diagnosis-root-review.json",
+      "sha256": "dc6a4020aa8b7954dd1a057ed12f3abe7091dfb86a70135881413547b6561d20",
+      "bytes": 20271
+    },
+    {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/release-restore-followup-verified.json",
+      "sha256": "e8ca60e4208a7890d589164b2ca2182133d9573fc45710c8f90c904191fc2c40",
+      "bytes": 17524
+    },
+    {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/storage-version-r01-verified.json",
+      "sha256": "37202073c6267bb81156444b68e3ec8cc9484fcb5ee3e069c425ccca6fc19b82",
+      "bytes": 65668
+    },
+    {
+      "path": "/path/to/SmartFactory-2026/docs/evolution/release-deployment-contract.md",
+      "sha256": "4789a2880efcdde183cd0a45e6ff61147f3926e13c7edd04f97c3cc21d814653",
+      "bytes": 9211
+    },
+    {
+      "path": "/private/tmp/smartfactory-delivery-regressions-current-20261005/verification.json",
+      "sha256": "c09645b40669fb42d50159e0679d2f095328bba0d5680c3d0ff809cee16dd985",
+      "bytes": 25282
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-followup-20261005/private/original-active.release.json",
+      "sha256": "42e12909bed0e3a0c8c50d48e467cf5ca8ee0f18b248bb98e217d08ff79eaa66",
+      "bytes": 8105
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/build-recovery-helper-second.py",
+      "sha256": "5687e160535c7d0cbb34263af3bf0dec38709885e0b067ae0e3da15bbd9f95e0",
+      "bytes": 3682
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/build-recovery-helper.py",
+      "sha256": "ca8c6ac22a8d86cafa1c1101c879e8f8967083b5597745bd3e0576e343e83dec",
+      "bytes": 3500
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/build_helpers.py",
+      "sha256": "e3f741a25008b4ca8511908acbc3debe898915de3904b2db692ad9178dc4c29c",
+      "bytes": 6760
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final/evidence/actual-inputs.json",
+      "sha256": "95cd978abc4e8c93afa81ccbc0839bce2472decb6eb155180a99894f938a0622",
+      "bytes": 2097452
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final/evidence/app-agent-runtime-bundle.inputs-after.json",
+      "sha256": "4c87e62a831391f64ebfa8a1142238d81493646d782d8ee7f3ed3b8390dc5784",
+      "bytes": 955504
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final/evidence/app-agent-runtime-bundle.inputs-before.json",
+      "sha256": "4c87e62a831391f64ebfa8a1142238d81493646d782d8ee7f3ed3b8390dc5784",
+      "bytes": 955504
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final/evidence/app-agent-runtime-bundle.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final/evidence/app-agent-runtime-bundle.stdout.log",
+      "sha256": "402fd4b2b1524ba6ab98a530caefb507608783f80d152d59ac145170368c3503",
+      "bytes": 97574
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final/evidence/commands.json",
+      "sha256": "4582a8b224db9f895fc1a5b8e15d265db5b7312021ddd4bc3c2391ea0588dfbe",
+      "bytes": 1815
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final/evidence/compiled-source.json",
+      "sha256": "ec13a1f4cfeaf79ae57a6f83ee780fe581b7dad8a6bbabf15187eca962751362",
+      "bytes": 52696
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final/evidence/list-test-inputs.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final/evidence/list-test-inputs.stdout.log",
+      "sha256": "246f1597a79ee1e8faf77e500141f5c15f535a75189f1796c1f386350a3c0df6",
+      "bytes": 2970651
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final-second/evidence/actual-inputs.json",
+      "sha256": "e7f5005708448c93cca044ba30d52aae61e69f86b07e970866c58eea84eb5786",
+      "bytes": 2112967
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final-second/evidence/app-agent-limited-race.inputs-after.json",
+      "sha256": "0dc3bb5fdfa2f469e365c5cf5a651bb3b0265c7186e08c7f4553fa5906794d6f",
+      "bytes": 962890
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final-second/evidence/app-agent-limited-race.inputs-before.json",
+      "sha256": "0dc3bb5fdfa2f469e365c5cf5a651bb3b0265c7186e08c7f4553fa5906794d6f",
+      "bytes": 962890
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final-second/evidence/app-agent-limited-race.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final-second/evidence/app-agent-limited-race.stdout.log",
+      "sha256": "a3349f046a4d8360430170880ecf3b55ad2622ac5567970a9fee0ef7d669d699",
+      "bytes": 17642
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final-second/evidence/app-agent-runtime-bundle.inputs-after.json",
+      "sha256": "0dc3bb5fdfa2f469e365c5cf5a651bb3b0265c7186e08c7f4553fa5906794d6f",
+      "bytes": 962890
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final-second/evidence/app-agent-runtime-bundle.inputs-before.json",
+      "sha256": "0dc3bb5fdfa2f469e365c5cf5a651bb3b0265c7186e08c7f4553fa5906794d6f",
+      "bytes": 962890
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final-second/evidence/app-agent-runtime-bundle.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final-second/evidence/app-agent-runtime-bundle.stdout.log",
+      "sha256": "2926d1c2fa29eaa72122ffe1e96b3c26668eadf1ee440e99623b4f2a8d852a8c",
+      "bytes": 96966
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final-second/evidence/binaries.json",
+      "sha256": "115bf115161af391c7a783ac00012dc24e0917b83b41bd60e82c5242014d0824",
+      "bytes": 1738
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final-second/evidence/build-edge-r01-final-v1.inputs-after.json",
+      "sha256": "0dc3bb5fdfa2f469e365c5cf5a651bb3b0265c7186e08c7f4553fa5906794d6f",
+      "bytes": 962890
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final-second/evidence/build-edge-r01-final-v1.inputs-before.json",
+      "sha256": "0dc3bb5fdfa2f469e365c5cf5a651bb3b0265c7186e08c7f4553fa5906794d6f",
+      "bytes": 962890
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final-second/evidence/build-edge-r01-final-v1.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final-second/evidence/build-edge-r01-final-v1.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final-second/evidence/build-edge-r01-final-v2.inputs-after.json",
+      "sha256": "0dc3bb5fdfa2f469e365c5cf5a651bb3b0265c7186e08c7f4553fa5906794d6f",
+      "bytes": 962890
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final-second/evidence/build-edge-r01-final-v2.inputs-before.json",
+      "sha256": "0dc3bb5fdfa2f469e365c5cf5a651bb3b0265c7186e08c7f4553fa5906794d6f",
+      "bytes": 962890
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final-second/evidence/build-edge-r01-final-v2.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final-second/evidence/build-edge-r01-final-v2.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final-second/evidence/build-release-agent.inputs-after.json",
+      "sha256": "0dc3bb5fdfa2f469e365c5cf5a651bb3b0265c7186e08c7f4553fa5906794d6f",
+      "bytes": 962890
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final-second/evidence/build-release-agent.inputs-before.json",
+      "sha256": "0dc3bb5fdfa2f469e365c5cf5a651bb3b0265c7186e08c7f4553fa5906794d6f",
+      "bytes": 962890
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final-second/evidence/build-release-agent.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final-second/evidence/build-release-agent.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final-second/evidence/commands.json",
+      "sha256": "0cb291db7d7bf048bd2d16adb043aad78581d959f721c725248c69bf71e454b0",
+      "bytes": 10851
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final-second/evidence/compiled-source.json",
+      "sha256": "4a9d09e1ad48a938f1045fe8c29edb0090030174aa13bce286ea1026cbd25dd5",
+      "bytes": 53025
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final-second/evidence/edge-info-r01-final-v1.inputs-after.json",
+      "sha256": "0dc3bb5fdfa2f469e365c5cf5a651bb3b0265c7186e08c7f4553fa5906794d6f",
+      "bytes": 962890
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final-second/evidence/edge-info-r01-final-v1.inputs-before.json",
+      "sha256": "0dc3bb5fdfa2f469e365c5cf5a651bb3b0265c7186e08c7f4553fa5906794d6f",
+      "bytes": 962890
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final-second/evidence/edge-info-r01-final-v1.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final-second/evidence/edge-info-r01-final-v1.stdout.log",
+      "sha256": "a5f2d52568f0682f8386a185e43b0a02451d0a7c467a6ca1b0f04484a20a3f4d",
+      "bytes": 373
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final-second/evidence/edge-info-r01-final-v2.inputs-after.json",
+      "sha256": "0dc3bb5fdfa2f469e365c5cf5a651bb3b0265c7186e08c7f4553fa5906794d6f",
+      "bytes": 962890
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final-second/evidence/edge-info-r01-final-v2.inputs-before.json",
+      "sha256": "0dc3bb5fdfa2f469e365c5cf5a651bb3b0265c7186e08c7f4553fa5906794d6f",
+      "bytes": 962890
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final-second/evidence/edge-info-r01-final-v2.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final-second/evidence/edge-info-r01-final-v2.stdout.log",
+      "sha256": "c57470fc2bd0f006081a79ada95fc5508b01ae318ac64f09ac8af3bf12f0238b",
+      "bytes": 373
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final-second/evidence/list-test-inputs-race.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final-second/evidence/list-test-inputs-race.stdout.log",
+      "sha256": "7579c3522324e79bb4891e0ff68356fcf4ec25a01272355eeec50f486196eb67",
+      "bytes": 2879521
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final-second/evidence/list-test-inputs.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final-second/evidence/list-test-inputs.stdout.log",
+      "sha256": "2119852d5052c75dbf4a01d95649a54618be39632db9a5be61194e2cd2e18045",
+      "bytes": 3129898
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final-second/evidence/release-postgres.inputs-after.json",
+      "sha256": "0dc3bb5fdfa2f469e365c5cf5a651bb3b0265c7186e08c7f4553fa5906794d6f",
+      "bytes": 962890
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final-second/evidence/release-postgres.inputs-before.json",
+      "sha256": "0dc3bb5fdfa2f469e365c5cf5a651bb3b0265c7186e08c7f4553fa5906794d6f",
+      "bytes": 962890
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final-second/evidence/release-postgres.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final-second/evidence/release-postgres.stdout.log",
+      "sha256": "4a59d2f37ede3151519b8dd2d2acb891b48fa823c2bad3d48bb5ca5567adb8a8",
+      "bytes": 2746
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-first/evidence/actual-inputs.json",
+      "sha256": "3a9e63a4643aae8b1e5bd06ce23ec51174ea803c5e5fd3d9971d86aa27b9f975",
+      "bytes": 2097794
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-first/evidence/affected-recovery-tests.inputs-after.json",
+      "sha256": "2550161d45bccc812e82cc054428c28f1741d313d8effcc461e3bf0c6dd0bf2d",
+      "bytes": 955695
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-first/evidence/affected-recovery-tests.inputs-before.json",
+      "sha256": "2550161d45bccc812e82cc054428c28f1741d313d8effcc461e3bf0c6dd0bf2d",
+      "bytes": 955695
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-first/evidence/affected-recovery-tests.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-first/evidence/affected-recovery-tests.stdout.log",
+      "sha256": "70e8874c4d83c9464913675c3b158c1ef42fb48d20e0fc37309b5e67d88663e6",
+      "bytes": 2126
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-first/evidence/commands.json",
+      "sha256": "d8676a7746b869ebce96f9b3c0d33f9b5aa675377102e9a6b752605b12b2a283",
+      "bytes": 2605
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-first/evidence/compiled-source.json",
+      "sha256": "b154b633f94aa1faf705268b24213f2b6f00fcfbe3b1da3fdb75086fbb4cffa2",
+      "bytes": 52913
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-first/evidence/list-production-inputs.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-first/evidence/list-production-inputs.stdout.log",
+      "sha256": "92d73e927552c4a5d34ffe34a5f04370872a26d68710f492098f2cb24721d135",
+      "bytes": 2773362
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-first/evidence/list-test-inputs.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-first/evidence/list-test-inputs.stdout.log",
+      "sha256": "cbde968db3c272c5e6b6184e2d8f55feb7afb97255d2069490d026c339e552c4",
+      "bytes": 2924837
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/actual-inputs.json",
+      "sha256": "e5d28ff26c9f40188b1af620ca474c779704fe3506968a613c3e7f8a706e20fc",
+      "bytes": 2109439
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/app-agent-runtime-bundle.inputs-after.json",
+      "sha256": "b5cd5bfb0db24a2c3200a2e4ef3a07c3772b3a0625b27c85e8fa3d07f4331637",
+      "bytes": 961126
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/app-agent-runtime-bundle.inputs-before.json",
+      "sha256": "b5cd5bfb0db24a2c3200a2e4ef3a07c3772b3a0625b27c85e8fa3d07f4331637",
+      "bytes": 961126
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/app-agent-runtime-bundle.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/app-agent-runtime-bundle.stdout.log",
+      "sha256": "28036d04d34ceb1cdafe97c137d76e2e4afcb344464971bd746b79f85ae7de4e",
+      "bytes": 74198
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/binaries.json",
+      "sha256": "5232dee861c56fbfc49476d2ca532e79c3f280bd67c7817df1971066cbe8e158",
+      "bytes": 1729
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/build-edge-r02-final-v1.inputs-after.json",
+      "sha256": "b5cd5bfb0db24a2c3200a2e4ef3a07c3772b3a0625b27c85e8fa3d07f4331637",
+      "bytes": 961126
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/build-edge-r02-final-v1.inputs-before.json",
+      "sha256": "b5cd5bfb0db24a2c3200a2e4ef3a07c3772b3a0625b27c85e8fa3d07f4331637",
+      "bytes": 961126
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/build-edge-r02-final-v1.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/build-edge-r02-final-v1.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/build-edge-r02-final-v2.inputs-after.json",
+      "sha256": "b5cd5bfb0db24a2c3200a2e4ef3a07c3772b3a0625b27c85e8fa3d07f4331637",
+      "bytes": 961126
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/build-edge-r02-final-v2.inputs-before.json",
+      "sha256": "b5cd5bfb0db24a2c3200a2e4ef3a07c3772b3a0625b27c85e8fa3d07f4331637",
+      "bytes": 961126
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/build-edge-r02-final-v2.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/build-edge-r02-final-v2.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/build-release-agent.inputs-after.json",
+      "sha256": "b5cd5bfb0db24a2c3200a2e4ef3a07c3772b3a0625b27c85e8fa3d07f4331637",
+      "bytes": 961126
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/build-release-agent.inputs-before.json",
+      "sha256": "b5cd5bfb0db24a2c3200a2e4ef3a07c3772b3a0625b27c85e8fa3d07f4331637",
+      "bytes": 961126
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/build-release-agent.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/build-release-agent.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/commands.json",
+      "sha256": "627625b3c20baefbfb3219cc0494fd88d2fe9e1c258c0b726ff51ec395e47330",
+      "bytes": 10569
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/compiled-source.json",
+      "sha256": "977af459222b9acc22f2fea02786864e36c9a71f6e5369a88201355d56dc7f03",
+      "bytes": 53025
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/edge-info-r02-final-v1.inputs-after.json",
+      "sha256": "b5cd5bfb0db24a2c3200a2e4ef3a07c3772b3a0625b27c85e8fa3d07f4331637",
+      "bytes": 961126
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/edge-info-r02-final-v1.inputs-before.json",
+      "sha256": "b5cd5bfb0db24a2c3200a2e4ef3a07c3772b3a0625b27c85e8fa3d07f4331637",
+      "bytes": 961126
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/edge-info-r02-final-v1.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/edge-info-r02-final-v1.stdout.log",
+      "sha256": "903a05f4f9a52ccf8bb43c9793cf7e03aadcf8893cc5e0bd9082dcdf9dd4ea9f",
+      "bytes": 373
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/edge-info-r02-final-v2.inputs-after.json",
+      "sha256": "b5cd5bfb0db24a2c3200a2e4ef3a07c3772b3a0625b27c85e8fa3d07f4331637",
+      "bytes": 961126
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/edge-info-r02-final-v2.inputs-before.json",
+      "sha256": "b5cd5bfb0db24a2c3200a2e4ef3a07c3772b3a0625b27c85e8fa3d07f4331637",
+      "bytes": 961126
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/edge-info-r02-final-v2.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/edge-info-r02-final-v2.stdout.log",
+      "sha256": "a8d8bba80b7905ed7b5b42bb2ed5c9c5454358966d12b703aa9e7c7b0f361a34",
+      "bytes": 373
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/list-test-inputs-race.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/list-test-inputs-race.stdout.log",
+      "sha256": "2faebdb893d321bb2a9070fae9e1c9e260835ee0e8d0bafc2c9edad51769a03a",
+      "bytes": 2879095
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/list-test-inputs.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/list-test-inputs.stdout.log",
+      "sha256": "cc8b6868a31faadf348d86470d7ad2376b59b3f14dd36858072b5cfe29805337",
+      "bytes": 3129340
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/release-roundtrip-limited-race.inputs-after.json",
+      "sha256": "b5cd5bfb0db24a2c3200a2e4ef3a07c3772b3a0625b27c85e8fa3d07f4331637",
+      "bytes": 961126
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/release-roundtrip-limited-race.inputs-before.json",
+      "sha256": "b5cd5bfb0db24a2c3200a2e4ef3a07c3772b3a0625b27c85e8fa3d07f4331637",
+      "bytes": 961126
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/release-roundtrip-limited-race.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/release-roundtrip-limited-race.stdout.log",
+      "sha256": "eef67bce9b47f723b041287b92a5e070dec49f83c9d55ed2120558294aa8528e",
+      "bytes": 2437
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/release-roundtrip-postgres.inputs-after.json",
+      "sha256": "b5cd5bfb0db24a2c3200a2e4ef3a07c3772b3a0625b27c85e8fa3d07f4331637",
+      "bytes": 961126
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/release-roundtrip-postgres.inputs-before.json",
+      "sha256": "b5cd5bfb0db24a2c3200a2e4ef3a07c3772b3a0625b27c85e8fa3d07f4331637",
+      "bytes": 961126
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/release-roundtrip-postgres.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/evidence/release-roundtrip-postgres.stdout.log",
+      "sha256": "77624d6d8562378f5aa4a092a13bf57de2d013d7b9f48ab13561ceeafb7086a7",
+      "bytes": 1399
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-second/evidence/actual-inputs.json",
+      "sha256": "c2ebb3f2337e135823f0c5224878690f3c4a7d914fd710dded56002f8d4221cb",
+      "bytes": 2098968
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-second/evidence/affected-recovery-tests.inputs-after.json",
+      "sha256": "0b0e955e76675de9c4d326d60cbf811ee66a753e140490756ac28974243648d2",
+      "bytes": 956282
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-second/evidence/affected-recovery-tests.inputs-before.json",
+      "sha256": "0b0e955e76675de9c4d326d60cbf811ee66a753e140490756ac28974243648d2",
+      "bytes": 956282
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-second/evidence/affected-recovery-tests.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-second/evidence/affected-recovery-tests.stdout.log",
+      "sha256": "80576fa89b28aeb0b3be2e7e1d745c57791528bed77066f9ee4fdf52c8fe2bfa",
+      "bytes": 1845
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-second/evidence/binaries.json",
+      "sha256": "c801f37537234454cb46ed5a716aad462e6fa7b22deb5d9d202f267370e23de2",
+      "bytes": 677
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-second/evidence/build-edge-r01-v1.inputs-after.json",
+      "sha256": "0b0e955e76675de9c4d326d60cbf811ee66a753e140490756ac28974243648d2",
+      "bytes": 956282
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-second/evidence/build-edge-r01-v1.inputs-before.json",
+      "sha256": "0b0e955e76675de9c4d326d60cbf811ee66a753e140490756ac28974243648d2",
+      "bytes": 956282
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-second/evidence/build-edge-r01-v1.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-second/evidence/build-edge-r01-v1.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-second/evidence/build-edge-r01-v2.inputs-after.json",
+      "sha256": "0b0e955e76675de9c4d326d60cbf811ee66a753e140490756ac28974243648d2",
+      "bytes": 956282
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-second/evidence/build-edge-r01-v2.inputs-before.json",
+      "sha256": "0b0e955e76675de9c4d326d60cbf811ee66a753e140490756ac28974243648d2",
+      "bytes": 956282
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-second/evidence/build-edge-r01-v2.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-second/evidence/build-edge-r01-v2.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-second/evidence/build-release-agent.inputs-after.json",
+      "sha256": "0b0e955e76675de9c4d326d60cbf811ee66a753e140490756ac28974243648d2",
+      "bytes": 956282
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-second/evidence/build-release-agent.inputs-before.json",
+      "sha256": "0b0e955e76675de9c4d326d60cbf811ee66a753e140490756ac28974243648d2",
+      "bytes": 956282
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-second/evidence/build-release-agent.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-second/evidence/build-release-agent.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-second/evidence/commands.json",
+      "sha256": "0064bb869e259b313340fa9e63caa8c7a965ddcadeb2f5aff3f1d453019d4c9a",
+      "bytes": 7537
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-second/evidence/compiled-source.json",
+      "sha256": "b154b633f94aa1faf705268b24213f2b6f00fcfbe3b1da3fdb75086fbb4cffa2",
+      "bytes": 52913
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-second/evidence/edge-info-r01-v1.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-second/evidence/edge-info-r01-v1.stdout.log",
+      "sha256": "cfda50bfc126560c8993e1617155f328ae7130924dc523a8155abe6feb01c366",
+      "bytes": 367
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-second/evidence/edge-info-r01-v2.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-second/evidence/edge-info-r01-v2.stdout.log",
+      "sha256": "f142a20d1d05694e568375ad61ac192ee86bb7e18a48a4a5b1bfcf6a0eca3642",
+      "bytes": 367
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-second/evidence/list-production-inputs.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-second/evidence/list-production-inputs.stdout.log",
+      "sha256": "cc377b94de09747da186e8addbd8626fe9bfd73db0f3d1450d179f74a09ae93e",
+      "bytes": 2773510
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-second/evidence/list-test-inputs.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-second/evidence/list-test-inputs.stdout.log",
+      "sha256": "b9c9c05cdc9bd6d7135209ef1e088c422b00f7ae3c063b78d658f25e213dce32",
+      "bytes": 2925005
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/evidence/active-formal-release.json",
+      "sha256": "b3e8fb826e2839dea6ac73e672be2e023fbc9f0ed5c474b0d8e499cb15e71ade",
+      "bytes": 6112
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/evidence/authoritative-heartbeat-version2.json",
+      "sha256": "50e24cd3fa2a389baad020808a0e7cad7d99e433ae68df58e5ad68c80fd978ad",
+      "bytes": 693
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/evidence/deployments-before.json",
+      "sha256": "323966b0fef4607dd3d3ad0646d9171c68d0652a615b468a9d82a7eedb946bfe",
+      "bytes": 103147
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/evidence/fifth-attempt-fixed-authority-proof.json",
+      "sha256": "502a7c6dd2a0159fd077146913164e0178def5bb900b8c20878e0b07c2e304ca",
+      "bytes": 1607
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/evidence/formal-original-v1.api.json",
+      "sha256": "4cb8550d332a2d6c9aa0a001b15023611b03d554ca002b93ddd2dd45c0433c98",
+      "bytes": 3857
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/evidence/formal-original-v1.json",
+      "sha256": "6f221c8111648e932c552c1bdeec8b06ba107c3cdac755270decd15ee739d6e3",
+      "bytes": 5947
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/evidence/formal-original-v2.api.json",
+      "sha256": "cdba8b9e380baba0e4f7929c803282966e044d486854536b31ca8f5a6bf03636",
+      "bytes": 3857
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/evidence/formal-original-v2.json",
+      "sha256": "295c8184a8c8d20c53685b4045d4db31868fbfc3fdf8d8b81e180ab676d80d5a",
+      "bytes": 5947
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/evidence/frontend-fixture-final.json",
+      "sha256": "00013de15fca0c454879cd4a2c8c5a778833e2f3f060d393bc8549cdab26e04c",
+      "bytes": 114808
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/evidence/frontend-live-check.json",
+      "sha256": "39e0c6d4db6e851a5b9d93ebb1dac1408d1f26612f1fda6bbabef2da8abde54f",
+      "bytes": 14167
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/evidence/intermediate-command-index.json",
+      "sha256": "5ce1b8408e87487f66fb41ef698ad6793990aa72af4dafff6ed2203d51c50868",
+      "bytes": 14086
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/evidence/original-backup-integrity-final.json",
+      "sha256": "0ce1ff4c60f35f1c890ad3c9b9e96696fa7155557a358318b82e326472a326e9",
+      "bytes": 5584
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/evidence/original-cache-reencryption-proof.json",
+      "sha256": "a44925b1bd2561e397baf68b74290928ac0502c4ae22aa8ec38394a95995271f",
+      "bytes": 925
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/evidence/pending-formal-release.json",
+      "sha256": "e4eaf268b2d83c335872f6e40d70828fda9b568189b0496f60dec290e03ada42",
+      "bytes": 82003
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/evidence/r02-shared-source-sync.json",
+      "sha256": "edcd600814c831e818db415a70046d9cbbda626ed277ec30f164b7bee4bc4113",
+      "bytes": 500
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/evidence/sealed-final-runtime/active.json",
+      "sha256": "68285e195a79431bf0c6802e9e781f8fc5d5909cc12b3475915126c264cd982a",
+      "bytes": 11449
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/evidence/sealed-final-runtime/agent-status.json",
+      "sha256": "66dae8c6e5c8bf24146af8fc1ef4d4d49b2a5aae8d7599ad464f337fdaf24bec",
+      "bytes": 106
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/evidence/sealed-final-runtime/last-transition.json",
+      "sha256": "c1a3e525626c0503e995dae43d1740eedea451bd5de1483ca5aab56635e42258",
+      "bytes": 321
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/evidence/sealed-final-runtime/processes.json",
+      "sha256": "ce9ceede39b3741d102f0d43ae51f5106d140c704f8d3202259356cd77c32219",
+      "bytes": 32718
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/evidence/sealed-final-runtime/program.log",
+      "sha256": "ef6bae415570f4921254f91d03154909f93a1315990016701cad41c7375ba0bf",
+      "bytes": 279493
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/evidence/sealed-final-runtime/restore-status.json",
+      "sha256": "220745d6b4f715f59d08ba8da239c4e54a0799ab47d4670701bc789c4e6472a0",
+      "bytes": 379
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/finish-r02-recovery-sixth.py",
+      "sha256": "a6704e8a6147b093196cafa4c1c5924657c65141df5ed2bfb8810c329d406906",
+      "bytes": 13717
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/finish-r02-recovery.py",
+      "sha256": "89a812238612dc80fd0ddcd724d8c90983600b4e03a75a51a41ba8b9f472674c",
+      "bytes": 13686
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/frontend-fixture.json",
+      "sha256": "00013de15fca0c454879cd4a2c8c5a778833e2f3f060d393bc8549cdab26e04c",
+      "bytes": 114808
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/initialization-baseline/evidence/actual-inputs.json",
+      "sha256": "6a17370bb1e818a311af0c8735c8915f8ba5a327b290b403742d412921bb7884",
+      "bytes": 2102161
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/initialization-baseline/evidence/commands.json",
+      "sha256": "7df09b36b49fc72bec8576d0f25842bd3dde24224b02acc9d23f35fd64224710",
+      "bytes": 1798
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/initialization-baseline/evidence/compiled-source.json",
+      "sha256": "8d9cf636b1622c96f6b4fc85e09910e20683f3b17f7dd0055491aa982f64986d",
+      "bytes": 51913
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/initialization-baseline/evidence/initialization-baseline.inputs-after.json",
+      "sha256": "6a0272ed2f0493adf43b62348983c028ac77aee3a441c8b43f48200b56db3971",
+      "bytes": 957791
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/initialization-baseline/evidence/initialization-baseline.inputs-before.json",
+      "sha256": "6a0272ed2f0493adf43b62348983c028ac77aee3a441c8b43f48200b56db3971",
+      "bytes": 957791
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/initialization-baseline/evidence/initialization-baseline.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/initialization-baseline/evidence/initialization-baseline.stdout.log",
+      "sha256": "a72064c9d02e1db38d7aaa8f84711e8d24852dd8ec1242a4e40d8d3e716ea3e6",
+      "bytes": 1018
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/initialization-baseline/evidence/list-test-inputs.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/initialization-baseline/evidence/list-test-inputs.stdout.log",
+      "sha256": "ab570217679c7cb576a744740ad19646e0b92623f5c646812d30ee6091d6f550",
+      "bytes": 2804450
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-cached-failure-restart/evidence/agent-1.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-cached-failure-restart/evidence/agent-2.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-cached-failure-restart/evidence/checks.json",
+      "sha256": "ad1baf3f2ada78f5ed04ecbcde5b320bfd6ca588518497e3d7278db129760457",
+      "bytes": 1264
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-cached-failure-restart/evidence/database-after.json",
+      "sha256": "df4a7c5f2f381e79b3831534c70c3ba9d007470fdfb8955ef3eb55f57df8d64b",
+      "bytes": 3754
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-cached-failure-restart/evidence/database-before.json",
+      "sha256": "df4a7c5f2f381e79b3831534c70c3ba9d007470fdfb8955ef3eb55f57df8d64b",
+      "bytes": 3754
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-cached-failure-restart/evidence/isolated-authority-http.json",
+      "sha256": "ac5adf6eab2b1b43502969a13f0cdf4a081071d56b654bf898be81c66e88c2db",
+      "bytes": 2873
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-cached-failure-restart/evidence/old-program-startup.log",
+      "sha256": "9806806f6fd91079d035a48c222a81afe628e39e8a663ac854dbb6a22ce4a5da",
+      "bytes": 124
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-cached-failure-restart/evidence/original-formal-release.api.json",
+      "sha256": "5e529a9bcb1bb8702b5e6978670570c02e30a52be3cefddd08a5b2c696b81410",
+      "bytes": 3886
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-cached-failure-restart/evidence/original-inputs.json",
+      "sha256": "afcf5087b0eae00bf1ec1cc8b01c742c8b1af91c19f1e5b963e7efc8521ac996",
+      "bytes": 843
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-cached-failure-restart/evidence/processes.json",
+      "sha256": "8340a2b9c47004585b43de8d87538f7b1b19c16c6bb3c36d0e39e73bb46ba248",
+      "bytes": 2063
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-cached-failure-restart/evidence/restore-status-1.json",
+      "sha256": "1317d21ddb36202cccc423679d0895c0fdf0f38f8def7f40d9eefeb5657fafa5",
+      "bytes": 452
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-cached-failure-restart/evidence/restore-status-2.json",
+      "sha256": "1317d21ddb36202cccc423679d0895c0fdf0f38f8def7f40d9eefeb5657fafa5",
+      "bytes": 452
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-cached-failure-restart/result.json",
+      "sha256": "ab6ea1c040c29110fcd6ab9f7cd149fbe3b60d0376ab846a81bd2c0dcf991284",
+      "bytes": 525
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fifth/evidence/agent-a.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fifth/evidence/agent-a.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fifth/evidence/checks.json",
+      "sha256": "f1024da86ff595568037954b342660d42c094a703f2aae6c18dcba156a9ca1c0",
+      "bytes": 60618
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fifth/evidence/database-after.json",
+      "sha256": "62b35f701e45cd6d55aedfe01f34180361a2c449d50106d9c967c058b1c51928",
+      "bytes": 125695
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fifth/evidence/final-cached-five-restored-consumer.json",
+      "sha256": "cfa5bc54750bffc57757e7b779cd28aa877b7c799e402c1854faff72a79eddbe",
+      "bytes": 1893
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fifth/evidence/final-cached-five-restored-runtime.json",
+      "sha256": "c48ce5a896dfd97d959f921b7480a538b3923204cddda55fb233506a8f6137f5",
+      "bytes": 12004
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fifth/evidence/final-frontend-confirmed-consumer.json",
+      "sha256": "cfa5bc54750bffc57757e7b779cd28aa877b7c799e402c1854faff72a79eddbe",
+      "bytes": 1893
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fifth/evidence/final-frontend-confirmed-runtime.json",
+      "sha256": "c48ce5a896dfd97d959f921b7480a538b3923204cddda55fb233506a8f6137f5",
+      "bytes": 12004
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fifth/evidence/http-0001.body.json",
+      "sha256": "3b7f9bb8a42df044b30d96fb864a456f7d9e0f5eac3d1ae7f2da8a69b5fa66d1",
+      "bytes": 9408
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fifth/evidence/http-0002.body.json",
+      "sha256": "e6fd26e565d66f00dc96939867805c4099fb94cef2cf8d6c76ec81733592f42b",
+      "bytes": 1512
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fifth/evidence/http-0003.body.json",
+      "sha256": "bdab6cc4bd1b3e67685cbbc845092f8e4735c1debfb4bebe805f48257ab01d56",
+      "bytes": 1501
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fifth/evidence/http-0004.body.json",
+      "sha256": "bdab6cc4bd1b3e67685cbbc845092f8e4735c1debfb4bebe805f48257ab01d56",
+      "bytes": 1501
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fifth/evidence/http-0005.body.json",
+      "sha256": "c5884fca7381db03f7389f1c2e2f5359582ea9e8c5efaf897312f3a6f85af7e5",
+      "bytes": 1501
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fifth/evidence/http-0006.body.json",
+      "sha256": "54817acf335da28532035ce1f17c940ee6bb81474b1b4c715aaa5c2bcfd1b1ab",
+      "bytes": 10398
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fifth/evidence/http-0007.body.json",
+      "sha256": "d298b53a7aae6d6c7e9ca1f2371be1fee6ba89b21c021aeb0ff78fb36103195d",
+      "bytes": 10485
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fifth/evidence/http-0008.body.json",
+      "sha256": "b85a537ad4a5f793cea4bf4706ccd3c403c9e9d46faddf0bcab290fa341ed680",
+      "bytes": 9051
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fifth/evidence/http-0009.body.json",
+      "sha256": "3b7f9bb8a42df044b30d96fb864a456f7d9e0f5eac3d1ae7f2da8a69b5fa66d1",
+      "bytes": 9408
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fifth/evidence/http-0010.body.json",
+      "sha256": "e6fd26e565d66f00dc96939867805c4099fb94cef2cf8d6c76ec81733592f42b",
+      "bytes": 1512
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fifth/evidence/http.json",
+      "sha256": "4649c95113de1ce43d8001f5b1cf71f543650dd280bb9d4ec65afcb3c52ecd77",
+      "bytes": 83567
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fifth/evidence/processes.json",
+      "sha256": "92774166b22ad2120764745899e9e89d0644c910543e399f4f0d4efa83b144f6",
+      "bytes": 1400
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fifth/evidence/recovery-r02-final-frontend-confirm-reports.json",
+      "sha256": "4cb547dd8a86604eb632bd9d768e9931b9fe62f99bad6c89baae05704b84bc30",
+      "bytes": 12017
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fifth/evidence/recovery-r02-final-frontend-confirm.json",
+      "sha256": "a89ab45392908b4a11fcd3e00fde68b6142172c7e150dabe9bc1b894224cbe1b",
+      "bytes": 14338
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fifth/result.json",
+      "sha256": "d123551f5a3f6cf44774d53d1cf3abd3644dab586c901aa11c27354070fcbb52",
+      "bytes": 223
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-first/evidence/checks.json",
+      "sha256": "033b1d3c893c3f704c21df3ffba74f71c2779e556ebb31cac2c3bdb3c9ffe164",
+      "bytes": 125
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-first/evidence/database-before.json",
+      "sha256": "06383061e56cc7aec4f36397ad9a4589a2d0cc3b196ed459160a17d58571936f",
+      "bytes": 81903
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-first/evidence/formal-five-evolution.json",
+      "sha256": "7ab2e0e6073717c4e72f9986e34ce829d9322e05ae2c6c1679bff3d5e85e8e55",
+      "bytes": 92657
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-first/evidence/formal-plain-release.json",
+      "sha256": "1760d4d666d637d4498b6306cb0b3778d600bc8ff6b5e422a27010d859996955",
+      "bytes": 5986
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-first/evidence/historical-material-before.json",
+      "sha256": "e043e7ea713f142475b22154c8c3a994e8d01292e008dd9874f512084b912fcc",
+      "bytes": 3176
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-first/evidence/http-0001.body.json",
+      "sha256": "b6c51018745e3c4b02a23196117cf0643ed4b1f9af751f8ce81144e4b000cd93",
+      "bytes": 2558
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-first/evidence/http-0002.body.json",
+      "sha256": "bac7a986f6d914375c201d3f8388622bc4033e8e587b2d74318f1240278d2ce7",
+      "bytes": 94
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-first/evidence/http-0003.body.json",
+      "sha256": "c215e8b6cb9db4c3508f7e768bdf94cd2231f17c3ad6573d8b6537f86938b985",
+      "bytes": 416
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-first/evidence/http-0004.body.json",
+      "sha256": "e8ce94d44d935cfc30db368ca3dffd6d235dc9da2eed88473230a99682a38618",
+      "bytes": 94
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-first/evidence/http-0005.body.json",
+      "sha256": "9020bd1530509054dd144bb21cc2baf3248820dcf2df2e8d76eab869ddb28726",
+      "bytes": 416
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-first/evidence/http-0006.body.json",
+      "sha256": "28b3d4988305a11f63772ac1cc0e349ae1850899e3779d2b3df1134ba789d3b5",
+      "bytes": 3896
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-first/evidence/http-0007.body.json",
+      "sha256": "12777be3c351fb0271793ef8a146a6b59fb6a969d6bd484d7c1440759546eb5b",
+      "bytes": 50303
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-first/evidence/http.json",
+      "sha256": "e4db108e281a3ed463166fa2fe9b2981b9178f5f8864d3b1d1340588de3763d5",
+      "bytes": 117672
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-first/evidence/prior-runtime.json",
+      "sha256": "067d7bcb37872ad8b64b9b6ee9e8e2dd840be14f65044b8f72f3fcce3b74de39",
+      "bytes": 3354
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-first/evidence/registered-final-v1.json",
+      "sha256": "d533a0e4e7ae1f773a880250842a1e1d1e3b8af9fed0bef96c93b20b6172f673",
+      "bytes": 514
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-first/evidence/registered-final-v2.json",
+      "sha256": "dc8d95dd55089770b494580dfaa36bef7d076d8bfdca39b14845688e1bfe1915",
+      "bytes": 514
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-first/result.json",
+      "sha256": "90ec37c16613361669c28c628fa0d7e559fdd30f8782ff764ff68c36d5af4ce3",
+      "bytes": 191
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/after-original-program-failure-agent-exit.json",
+      "sha256": "7c89e5f634b543db3fa0f16a66f468ffbfe483fede6ca3d03135eb8f9a864794",
+      "bytes": 37
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/agent-a.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/agent-a.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/candidate-agent-agent-exit.json",
+      "sha256": "a9157df01e52697059f5b49e6ed141a2e36b47093f725f8877e3ddd2ed1eb722",
+      "bytes": 37
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/changed-cache-bytes.json",
+      "sha256": "2c8a9cf603eea4164774a64e25da87f7ecd1c657ee9f2923b878d31416be4d02",
+      "bytes": 362
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/checks.json",
+      "sha256": "7ac38fa6be65597256ebc2d49b6d9bfdd89a58ea1f3a7ff218e2bec5bb7b58f3",
+      "bytes": 172303
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/database-after.json",
+      "sha256": "606c5ad01883cefb5a146c1547094c06bcd81aee6a69465825ab1b1ac1601079",
+      "bytes": 125551
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/database-before.json",
+      "sha256": "774b98c5107d7137639ad7434f1ed85d44f81e1ee198c23449a23bba90202098",
+      "bytes": 93295
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/five-cache-restart-consumer.json",
+      "sha256": "2823e440ac97e0ae593a3f320fa5143e16f29a4efa742c4cf2b7cc031af2eb6e",
+      "bytes": 1893
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/five-cache-restart-runtime.json",
+      "sha256": "a2a6af1daae7d234e32b2c2b2fd3bacdae495cbf7587d5375c759489de518048",
+      "bytes": 12004
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/five-confirm-consumer.json",
+      "sha256": "3a4695df26a4aa0f1f0b12e0bfd5bf10f5685221eee82008d94880dab8a0c773",
+      "bytes": 1893
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/five-confirm-runtime.json",
+      "sha256": "59de7a8351d55eb0994ca895bbc8a7def51895e7f66c6a34afc8f73baa2c6122",
+      "bytes": 12004
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/five-first-agent-exit.json",
+      "sha256": "21728f716a1a34e1477641f25dab60aa744c5f5330a1c031c1cfaa9212dbad3b",
+      "bytes": 37
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/five-first-consumer.json",
+      "sha256": "08de0606eb9b9da1de93d23d4518091adbefa4d19f4cb7d5a2453587998c94ae",
+      "bytes": 1889
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/five-first-runtime.json",
+      "sha256": "9d0f421c602f77c8ecb4d5fa9ace469f9491b664f91b114516dd662a916a5631",
+      "bytes": 12002
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/five-forward-consumer.json",
+      "sha256": "6756d3fc041afba29adfa1099c2e3e14faaf2c5ab7af9062e1c0c4ce8fdc5719",
+      "bytes": 1893
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/five-forward-runtime.json",
+      "sha256": "59de7a8351d55eb0994ca895bbc8a7def51895e7f66c6a34afc8f73baa2c6122",
+      "bytes": 12004
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/formal-five-evolution.json",
+      "sha256": "4e8696f74860d29ccb5cd578cf3e6fb5b291c4bd550106df870e8055bfbaa6a6",
+      "bytes": 92657
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/formal-plain-release.json",
+      "sha256": "d6e0769b589f26b21a09ddaef93e202fe1db3877c81926aeb165e87cf0d46e1c",
+      "bytes": 5986
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/historical-material-before.json",
+      "sha256": "627f36044f4ed1e9583737f88021b97373c6e9bda2a4797b49f8a88924f98b44",
+      "bytes": 4096
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0001.body.json",
+      "sha256": "61824b08e4a0c3424c21ea56dcd46747b2a60ce0125a8cdb57eb2844a9f2ff92",
+      "bytes": 9405
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0002.body.json",
+      "sha256": "be4fffca94a0fa08d3c728430522d7a5fd379c35719ff1e7617dd2342bee0516",
+      "bytes": 92272
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0003.body.json",
+      "sha256": "18632676fa78d70d709c998eb65e0488f2d84a0822148b78e626adf3cf46f1ee",
+      "bytes": 1831
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0004.body.json",
+      "sha256": "61824b08e4a0c3424c21ea56dcd46747b2a60ce0125a8cdb57eb2844a9f2ff92",
+      "bytes": 9405
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0005.body.json",
+      "sha256": "5bd266be6efc86f116c74c09a51e47d61596028c5b8b33687943b9fb64c3bab0",
+      "bytes": 94
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0006.body.json",
+      "sha256": "da4cd1c8d5b0a924e90c0ec26cb22aff0e14598a536535b461a26547363cb8d1",
+      "bytes": 416
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0007.body.json",
+      "sha256": "922438f08fffeb20b375f7f4bdc501321747f9c8353c0ba06afceee70b9a625b",
+      "bytes": 94
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0008.body.json",
+      "sha256": "dfeacfd5aabd2265d51ef0f839ef1e6063fb9a2ab87bed7951c79ce1d58d99c3",
+      "bytes": 416
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0009.body.json",
+      "sha256": "2ff92711877fae683354bff735a3dc4263a0977917d0a5ab3c3ce5c7c14e3c1e",
+      "bytes": 3896
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0010.body.json",
+      "sha256": "ad0cda8624b3fcd00f449b58873f31875a1eec6430297f9ec3c0059e7e55aa67",
+      "bytes": 50303
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0011.body.json",
+      "sha256": "1004a2c1ce97087a8fe1b06c3e9d4f2a4b241ad33e0414f9c4b0e54d78846f98",
+      "bytes": 9405
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0012.body.json",
+      "sha256": "274846b7c99f2ec355b90aea3624b91d9f2211ce011ca3ba0dd7c06386560d53",
+      "bytes": 1507
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0013.body.json",
+      "sha256": "274846b7c99f2ec355b90aea3624b91d9f2211ce011ca3ba0dd7c06386560d53",
+      "bytes": 1507
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0014.body.json",
+      "sha256": "89de4ece4587dc52729a4e32c2a2d7b5d9eb6d77b2f2b80bad4a93a50f626cb7",
+      "bytes": 1507
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0015.body.json",
+      "sha256": "41f8b86ef6d7f67a7cd305dd884995bfb975beee98c642d7163200d72698501a",
+      "bytes": 1521
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0016.body.json",
+      "sha256": "98a274dfed14760c0d00b6b2ed6197356016375205eea1b8136d1367acff0259",
+      "bytes": 1680
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0017.body.json",
+      "sha256": "fcc22cc2f14401823876aebf3e0b45ef57ffacc55145af690872ab18d9db1aed",
+      "bytes": 3805
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0018.body.json",
+      "sha256": "dbba86b4bdd1d14470c7f127ea8558076a7bf832fa221d36c4d8f921980b99e0",
+      "bytes": 3891
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0019.body.json",
+      "sha256": "bae64acbc3063c42517b1065960e1cb352c1b439d6c25f3f7ca4378eff4b4e20",
+      "bytes": 6891
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0020.body.json",
+      "sha256": "6e0e3af22606d93ee5ae1a85fdc3df49303f6319e7fbb63cc86d1c525681f702",
+      "bytes": 2577
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0021.body.json",
+      "sha256": "c0aa983b544d1ae89e4423b8ff732000e8f5137b6a4649a8c7c63c69d3a8a609",
+      "bytes": 495
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0022.body.json",
+      "sha256": "f280b784b3f63e4953ae8405dd1ee70cef75e4f0779628fccd8012a8de929c8d",
+      "bytes": 1502
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0023.body.json",
+      "sha256": "5001772b3881f823a33cfb40e6d8cf218731bf24ae0f1758b5c5f7e1f3639be0",
+      "bytes": 1516
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0024.body.json",
+      "sha256": "52cb4d72f4612245955b449b4635f093f9b0dc97e9beee77fb38e45c63a4fa87",
+      "bytes": 1516
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0025.body.json",
+      "sha256": "f3c4529552000a75ad919209d1fd08c61398eae070531dec2368f7e9b07c30d8",
+      "bytes": 10399
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0026.body.json",
+      "sha256": "112ad8d1de6dbecf02dba4a1c009d6bf11d09cf2480805c52c8114e464a1ec1c",
+      "bytes": 10400
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0027.body.json",
+      "sha256": "2129b2f2ec3ea816e351d2f7f357516e58a22857b80216899f9076d2ec778b2d",
+      "bytes": 10485
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0028.body.json",
+      "sha256": "2ae2a49107110b93b3aca6189eeb191cf8424908fb7b658cd6fb0bc71ffe03ec",
+      "bytes": 35504
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0029.body.json",
+      "sha256": "d3ea07db6d9633c217b1a1e5a02d6e86841724fb1c8f3e7b3749a27b4dc3d775",
+      "bytes": 9406
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0030.body.json",
+      "sha256": "7002d789bdbad57b2e6077b05c37ca8606e4143a5a054dd70bddf8df78ed3aa7",
+      "bytes": 1508
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0031.body.json",
+      "sha256": "ffe315bf3595b1208fa2a2622ddd7b845f15b9fa4428d2312d8830f433e93a63",
+      "bytes": 9408
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0032.body.json",
+      "sha256": "2479579114e0d71066e64780e140977450e61e232849dc96e3a07c372defecbf",
+      "bytes": 1512
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0033.body.json",
+      "sha256": "4b9bbef5ca91b799f378f9736e01d6e33aa6daaa805842e60af338b2eb3548f7",
+      "bytes": 1523
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0034.body.json",
+      "sha256": "4b9bbef5ca91b799f378f9736e01d6e33aa6daaa805842e60af338b2eb3548f7",
+      "bytes": 1523
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0035.body.json",
+      "sha256": "4b9bbef5ca91b799f378f9736e01d6e33aa6daaa805842e60af338b2eb3548f7",
+      "bytes": 1523
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0036.body.json",
+      "sha256": "55ee4394aa0f4934eb65655011642c24b4b019bded21dfca067795546fd30c0c",
+      "bytes": 1697
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0037.body.json",
+      "sha256": "654aa9213e1fd5a326c826030ed0f74fb0a19ba488385e1056d3e8c8d5c72946",
+      "bytes": 1724
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0038.body.json",
+      "sha256": "5931eedd234749841e9f1c33b7e9cd1199ca9a10ec228ee6ffcd60f5eb6e9517",
+      "bytes": 576
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0039.body.json",
+      "sha256": "5931eedd234749841e9f1c33b7e9cd1199ca9a10ec228ee6ffcd60f5eb6e9517",
+      "bytes": 576
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0040.body.json",
+      "sha256": "1dbabebdaf0433b2da71b4285e240737991a7e9e94a88f7de206e05ff5afc133",
+      "bytes": 1556
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0041.body.json",
+      "sha256": "1dbabebdaf0433b2da71b4285e240737991a7e9e94a88f7de206e05ff5afc133",
+      "bytes": 1556
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0042.body.json",
+      "sha256": "1dbabebdaf0433b2da71b4285e240737991a7e9e94a88f7de206e05ff5afc133",
+      "bytes": 1556
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0043.body.json",
+      "sha256": "79400e4e974f8ef22b8e2c85565198134d77a89ecc70eeb5cb8dc36392f5bcd8",
+      "bytes": 1712
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0044.body.json",
+      "sha256": "a09420e53b716742f00128f63a4be31e5b1af053ee414d43e6a17beee2ea1aa4",
+      "bytes": 1150
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0045.body.json",
+      "sha256": "e934762819f9ca3400a3184b35c34b25eefcdd47301119c0ff8eab7ea21a03f6",
+      "bytes": 9408
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0046.body.json",
+      "sha256": "3833a895ec84e62b55602ccb4907b4b03bcb5705308ec9a92057d3984b297ae8",
+      "bytes": 1512
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0047.body.json",
+      "sha256": "b3c2d599959e5344084aa870e57ab4b6db540f3acbeda830464ceef49c89eb15",
+      "bytes": 1577
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0048.body.json",
+      "sha256": "b3c2d599959e5344084aa870e57ab4b6db540f3acbeda830464ceef49c89eb15",
+      "bytes": 1577
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0049.body.json",
+      "sha256": "61d8e09a5ae7a6f8c0da4255ff4cd79b19f63ccbce3112b13ec98b4571fce93a",
+      "bytes": 1577
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0050.body.json",
+      "sha256": "10712bcb57a7011f529e4492bf582f921a40b19b34672a79275e9e8fdaf37fc7",
+      "bytes": 1751
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0051.body.json",
+      "sha256": "06d081c6269a29415a8a9c9352954744be1f1f6494f9de1049faeed696d09b2a",
+      "bytes": 3875
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0052.body.json",
+      "sha256": "dae6b293e32d9d4086833a710b448e63161d1043722f7c49bcdb80b76163ec24",
+      "bytes": 3875
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0053.body.json",
+      "sha256": "87549b8cce19c1cac034be451d95b13529cad020e3da6427d9c3c5c7edae84f3",
+      "bytes": 3961
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0054.body.json",
+      "sha256": "b3f2b695106a8d15dc7abd3416a57729aebf0ce036c4dcbcfccfda5d6f6cd013",
+      "bytes": 6891
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0055.body.json",
+      "sha256": "1365f5d0ae0df545660b8f9d33e4a2a5fb070ea196dd7781e7e37b406668aff9",
+      "bytes": 2577
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0056.body.json",
+      "sha256": "e7923b112a07d741030b727cfed0df0410e3e8aa0f8600a0a9f2312325469d4c",
+      "bytes": 495
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0057.body.json",
+      "sha256": "a444ae9d23b71601135d89a8f1749b81620638f3ce437dbb2b2d2ba953568aee",
+      "bytes": 1504
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0058.body.json",
+      "sha256": "a444ae9d23b71601135d89a8f1749b81620638f3ce437dbb2b2d2ba953568aee",
+      "bytes": 1504
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0059.body.json",
+      "sha256": "3f1e7f5268c73b95776b3804f81d180d092332b7ad937dfe6a9ba8cdd2f05d81",
+      "bytes": 1504
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0060.body.json",
+      "sha256": "23d3df295bdb069fa9f72667e51d71336f6c96e49f0936a80189bc5174477004",
+      "bytes": 1518
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0061.body.json",
+      "sha256": "484ccdb774a42938e3226dc31a4d5af8033468df5189e41fae73c5e635275404",
+      "bytes": 1677
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0062.body.json",
+      "sha256": "dac149d914a4c1f25ab6a4de3d21de791091cc34d9b8cdd617c613cc0f8cdfb5",
+      "bytes": 10401
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0063.body.json",
+      "sha256": "e5a674d991ac38e5211265d57956ee4111059b10d8b662c921a8cd2853ed5102",
+      "bytes": 10488
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0064.body.json",
+      "sha256": "72d673646d896f9fb373647ddab6293e28df48aa5b00a075d320b73700e605a7",
+      "bytes": 26695
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0065.body.json",
+      "sha256": "227cc28dc3e18cfddbbac9849260e68e005fb4e6d0489deff1b4c1a1e28949e1",
+      "bytes": 9408
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0066.body.json",
+      "sha256": "5c788e41dc6ae52da68962e9574d3f18d5999a2070cf973ac5229e02a605d792",
+      "bytes": 1512
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0067.body.json",
+      "sha256": "289ddf7d005ba8c35e1a6fa5691aad5c455a328b1efbf417bb6718e24b343be9",
+      "bytes": 1504
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0068.body.json",
+      "sha256": "289ddf7d005ba8c35e1a6fa5691aad5c455a328b1efbf417bb6718e24b343be9",
+      "bytes": 1504
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0069.body.json",
+      "sha256": "34fdc5c0bad9bb4163a79df7653b57c6d11ece90234835d32419d9905946f2a8",
+      "bytes": 10402
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0070.body.json",
+      "sha256": "91308f0a1761fab95beb790070d8e3b61be559601930a8663c848713af23ec57",
+      "bytes": 10489
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0071.body.json",
+      "sha256": "de8ca43c42ebe70729bcc35a5365426d03ad4f5d14983072c6eba47215728465",
+      "bytes": 9059
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0072.body.json",
+      "sha256": "227cc28dc3e18cfddbbac9849260e68e005fb4e6d0489deff1b4c1a1e28949e1",
+      "bytes": 9408
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http-0073.body.json",
+      "sha256": "265754fa92e67b1e9f923b6511875343526184d83adc433835cd16c5f99af561",
+      "bytes": 1512
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/http.json",
+      "sha256": "3fc07680b933a0404fb843e5862a2e925b7d6fec66e470c25e8493dc09e19cf0",
+      "bytes": 728922
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/plain-first-consumer.json",
+      "sha256": "bdeb63ed214c441b2031651145bd6395e9704870de3d95314773caf342f083d7",
+      "bytes": 630
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/plain-first-runtime.json",
+      "sha256": "95e9e3fc4e4c31b1ec02a2f4b357e0da43124585438581473b87f5eeac9a55c3",
+      "bytes": 3373
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/prior-runtime.json",
+      "sha256": "9764e801d9eb64355634881d618de709606738ddcfd7da90d10242ecb437d9f8",
+      "bytes": 12001
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/processes.json",
+      "sha256": "cd3ca8f5875aeedda6f2645aef6cabddef3cc5475b215db5b988eb4104b60672",
+      "bytes": 5593
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/recover-five-after-failure-consumer.json",
+      "sha256": "bc3a1649eb61fc5fbe7202a9eda86ee055b554a65a6d9536921b9b6da819cc66",
+      "bytes": 1893
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/recover-five-after-failure-runtime.json",
+      "sha256": "94debf461ddbd7a992d81ace608479c4ab44a37a95fee8982135d18dedc07bb5",
+      "bytes": 12004
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/recovery-r02-final-five-confirm-fourth-reports.json",
+      "sha256": "c7190b7464131030bb5ac7383c230f9048a12d2d674c6b97b3299f5bdb92aeda",
+      "bytes": 12025
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/recovery-r02-final-five-confirm-fourth.json",
+      "sha256": "f56aa0817e5cfef607110c236448efebb03743261513b64558babf0aac4a6d34",
+      "bytes": 14342
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/recovery-r02-final-five-first-fourth-reports.json",
+      "sha256": "a158a6f937ee8e90dad023301e07c8d04cf89b94c71d32d720d0da9efeecfd8f",
+      "bytes": 47221
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/recovery-r02-final-five-first-fourth.json",
+      "sha256": "7c6c51c870dfe3156942e58e3f24948da8c9c60a01abb4279c517d0eb1d2548b",
+      "bytes": 14338
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/recovery-r02-final-five-forward-fourth-reports.json",
+      "sha256": "b92b0319777267d881d69d99d12a4ba38d787edbf526bc77db362c6b116a3578",
+      "bytes": 35495
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/recovery-r02-final-five-forward-fourth.json",
+      "sha256": "7c1d5ad921f5e2098686c996e0758ffae5a0cd8f39384943e15f1c7031b77625",
+      "bytes": 14341
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/recovery-r02-final-plain-first-fourth-reports.json",
+      "sha256": "f8edc7fb4ef08141317a84d07a121ae55afad179c17399446149ec6e1d5d15b4",
+      "bytes": 9211
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/recovery-r02-final-plain-first-fourth.json",
+      "sha256": "cb97d868915d2d3ee9ca81a24605ab60a4a46255b8e79b2b2d9f866860b797f4",
+      "bytes": 5200
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/recovery-r02-final-rollback-v1-fourth-reports.json",
+      "sha256": "37ad801c934c8f59942fec26d3f7a96f02600a555260924865e8164590e3f730",
+      "bytes": 9211
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/recovery-r02-final-rollback-v1-fourth.json",
+      "sha256": "52fcbba126660f404f806c10f50b0958f6a49d9c0d73729aac4e7ce8683899bf",
+      "bytes": 5274
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/recovery-r02-original-program-failure-fourth-reports.json",
+      "sha256": "282c34f6d608634f1ed8b0964f6edd9bad4fd95d81e38b31c2837b6225d47ae6",
+      "bytes": 1367
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/recovery-r02-original-program-failure-fourth.json",
+      "sha256": "89c49b93dc312680359e154088bc95f305a97007bb99c74a3c2a8537c8c356ab",
+      "bytes": 2172
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/registered-final-v1.json",
+      "sha256": "68ff59c34117d5418c8ce68db826a6519855c1b94fcb5b00eec8a8a4bc4c20bb",
+      "bytes": 514
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/registered-final-v2.json",
+      "sha256": "5853b09aba71a9fcb0ffbd94ef369ed85bcbd9a76eaa98211ba76ff562f48d79",
+      "bytes": 514
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/rollback-plain-consumer.json",
+      "sha256": "ec50e7f7332b5e2a08be31c4821adfea543158686649fd76830f3b6d36854a51",
+      "bytes": 630
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/evidence/rollback-plain-runtime.json",
+      "sha256": "2993c37515d9d8d6ca6d0f0d66a91750cb88a0b107f7271d11ef643614cc6b83",
+      "bytes": 3373
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-fourth/result.json",
+      "sha256": "1c2dd3e61162f83c6510e84d5aca35024e6916dc93915093b137b30e9723b347",
+      "bytes": 204
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-second/evidence/agent-a.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-second/evidence/agent-a.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-second/evidence/candidate-agent-agent-exit.json",
+      "sha256": "11a4b68abb3d922855cedf3076df28e64d13705c30b9deee77f947f49d575cba",
+      "bytes": 37
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-second/evidence/checks.json",
+      "sha256": "5ec3d29a1ea32c216a23b2a9a3172844362f5a159c3424f8386d6c51370773c9",
+      "bytes": 41731
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-second/evidence/database-before.json",
+      "sha256": "06383061e56cc7aec4f36397ad9a4589a2d0cc3b196ed459160a17d58571936f",
+      "bytes": 81903
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-second/evidence/five-first-consumer.json",
+      "sha256": "c9919e83742540f70849c8dd7c8ef4580610700bc2fe5757487b47d12a36cd3a",
+      "bytes": 1887
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-second/evidence/five-first-runtime.json",
+      "sha256": "275277c4812569e059d362be73269ef092daaca8ee548004e590e7aef698d830",
+      "bytes": 12001
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-second/evidence/formal-five-evolution.json",
+      "sha256": "7ab2e0e6073717c4e72f9986e34ce829d9322e05ae2c6c1679bff3d5e85e8e55",
+      "bytes": 92657
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-second/evidence/formal-plain-release.json",
+      "sha256": "1760d4d666d637d4498b6306cb0b3778d600bc8ff6b5e422a27010d859996955",
+      "bytes": 5986
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-second/evidence/historical-material-before.json",
+      "sha256": "e043e7ea713f142475b22154c8c3a994e8d01292e008dd9874f512084b912fcc",
+      "bytes": 3176
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-second/evidence/http-0001.body.json",
+      "sha256": "b6c51018745e3c4b02a23196117cf0643ed4b1f9af751f8ce81144e4b000cd93",
+      "bytes": 2558
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-second/evidence/http-0002.body.json",
+      "sha256": "bac7a986f6d914375c201d3f8388622bc4033e8e587b2d74318f1240278d2ce7",
+      "bytes": 94
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-second/evidence/http-0003.body.json",
+      "sha256": "825a2f8ff8b48dd9691f495e573ad8d4b81a4e5269e50cfb6c329cc4886add92",
+      "bytes": 416
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-second/evidence/http-0004.body.json",
+      "sha256": "e8ce94d44d935cfc30db368ca3dffd6d235dc9da2eed88473230a99682a38618",
+      "bytes": 94
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-second/evidence/http-0005.body.json",
+      "sha256": "1753961337e3beeea7d4b9d48c28d1fc1552e516bc86183df5b7a792a90a0301",
+      "bytes": 416
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-second/evidence/http-0006.body.json",
+      "sha256": "28b3d4988305a11f63772ac1cc0e349ae1850899e3779d2b3df1134ba789d3b5",
+      "bytes": 3896
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-second/evidence/http-0007.body.json",
+      "sha256": "12777be3c351fb0271793ef8a146a6b59fb6a969d6bd484d7c1440759546eb5b",
+      "bytes": 50303
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-second/evidence/http-0008.body.json",
+      "sha256": "9768793cc5cd60099228ac3635b82ae0d16aca5e952221f80618ecec63debd22",
+      "bytes": 2558
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-second/evidence/http-0009.body.json",
+      "sha256": "87a201fabc223d8c3602aad9a8b59debf8ece464cbe58da8bc6fdea4746251c4",
+      "bytes": 1500
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-second/evidence/http-0010.body.json",
+      "sha256": "87a201fabc223d8c3602aad9a8b59debf8ece464cbe58da8bc6fdea4746251c4",
+      "bytes": 1500
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-second/evidence/http-0011.body.json",
+      "sha256": "a5f9c36cb655c0b1524cbe08a21078058c9f008b7580eb6feee7eef1b24e4cc5",
+      "bytes": 1500
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-second/evidence/http-0012.body.json",
+      "sha256": "05bc465ce11c87b1d8301622edad6f114c5c21676f20a006bfecee2587eb177b",
+      "bytes": 1514
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-second/evidence/http-0013.body.json",
+      "sha256": "f55299d6d355999416a1d9dde7371ed1e386781c0966dbae6b280d11e0787e7e",
+      "bytes": 1674
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-second/evidence/http-0014.body.json",
+      "sha256": "6435fed94f3d3f15fed8329dd6a209c00be76759c3f400b75f10c79256dddd91",
+      "bytes": 3798
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-second/evidence/http-0015.body.json",
+      "sha256": "e7bf0fd9acc8a18a342b71020945d3f196647b79289d2001118520e4b833bb46",
+      "bytes": 3884
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-second/evidence/http-0016.body.json",
+      "sha256": "4ad41f32fb76e030088523c2f837b718b2250edc79ff15516ce35c97fe84da10",
+      "bytes": 6863
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-second/evidence/http-0017.body.json",
+      "sha256": "2111a0a9d5527c26b00fc0d6dda0e277a6a81467821b8630f43a307d47ac154b",
+      "bytes": 2577
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-second/evidence/http-0018.body.json",
+      "sha256": "3f0a375a45cf2df98fb10559e4c5d76af8b298f0acc285c8f02c573daeabf155",
+      "bytes": 1465
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-second/evidence/http-0019.body.json",
+      "sha256": "50bd6e5046a8b739c47c07c05aa2a6aad3a4b076e1013180824b9500df8a2bc1",
+      "bytes": 1495
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-second/evidence/http-0020.body.json",
+      "sha256": "50bd6e5046a8b739c47c07c05aa2a6aad3a4b076e1013180824b9500df8a2bc1",
+      "bytes": 1495
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-second/evidence/http-0021.body.json",
+      "sha256": "b50fee5b6538e43c4d409af89859d964806bd0167cbdee7f362542eeaeb96e35",
+      "bytes": 1507
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-second/evidence/http-0022.body.json",
+      "sha256": "dcc979fdf6dab57909ece67422605fe8a693e2c8318061ee0b9d43cf7604cd40",
+      "bytes": 1669
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-second/evidence/http-0023.body.json",
+      "sha256": "eb574a8103b0455866f6e03f40b8de6d3de0b9bc1b8556da08c5fa6d9107e2b7",
+      "bytes": 10479
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-second/evidence/http-0024.body.json",
+      "sha256": "ac80584832917268172911e00810c24dbe8a7ebe24f5be4653359810a4bf2064",
+      "bytes": 26659
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-second/evidence/http-0025.body.json",
+      "sha256": "a461b305c071316c6da5080149b0a98aafe26a722319f5f8682f7a002af7f40d",
+      "bytes": 9405
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-second/evidence/http-0026.body.json",
+      "sha256": "e78f279e386a52f34c17fbda0b88aec90c43ef270e00a1912702fecdc9c82e72",
+      "bytes": 1506
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-second/evidence/http.json",
+      "sha256": "f0c7a7460aa138ad5d70309884f618a5a0b9b35d2be14b803b96a15bbe4adc3b",
+      "bytes": 242718
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-second/evidence/plain-first-consumer.json",
+      "sha256": "2169e8de9bf8c2f07edba46e6336c7526107002d060a15e1384aec90d831d7c5",
+      "bytes": 1846
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-second/evidence/plain-first-runtime.json",
+      "sha256": "74d1593be0426bd064ccdbd73836f39e4cd6ff6adcea1734099802c7bdebd594",
+      "bytes": 3373
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-second/evidence/prior-runtime.json",
+      "sha256": "067d7bcb37872ad8b64b9b6ee9e8e2dd840be14f65044b8f72f3fcce3b74de39",
+      "bytes": 3354
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-second/evidence/processes.json",
+      "sha256": "532684895f34195bedfad5792ad0caa4005e7d696dd17ede97f2a76486899a12",
+      "bytes": 1403
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-second/evidence/recovery-r01-final-five-first-reports.json",
+      "sha256": "3c68012ec2a559b827d5ef71fbe7f20ec008931dd89a545e7f4636cac2d78d37",
+      "bytes": 35459
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-second/evidence/recovery-r01-final-five-first.json",
+      "sha256": "fb8b97ca7b545a2848001c9fc19ab43f8a1a220e1f3412f7f75661aed8a36f93",
+      "bytes": 14332
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-second/evidence/recovery-r01-final-plain-first-reports.json",
+      "sha256": "da4093e56be235bbbdeff0a9554c0a6a4311e5e0cf007130ff2cc5e179009338",
+      "bytes": 9183
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-second/evidence/recovery-r01-final-plain-first.json",
+      "sha256": "12cbffd636d6171c2a7373ce00bc43ade9707d75696503da37aa0839cc2a8ab8",
+      "bytes": 5193
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-second/evidence/registered-final-v1.json",
+      "sha256": "fe86ce8f3b5929a9981836a438afc10ddf828c3174cdf515fe2647e2708932dd",
+      "bytes": 514
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-second/evidence/registered-final-v2.json",
+      "sha256": "4ad4c6068a15039661ae0238c9f52aad0f8814baa8e6d40711fed1261855bab3",
+      "bytes": 514
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-second/result.json",
+      "sha256": "e83893c23399846f39efd3b27b5704bdeddeffd98ffda878c84b787710bcbf86",
+      "bytes": 194
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-sixth/evidence/agent-a.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-sixth/evidence/agent-a.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-sixth/evidence/checks.json",
+      "sha256": "4122cc7259c34084756940b72ccc4cd50ea29a73a4f537f14784623e007983f5",
+      "bytes": 73515
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-sixth/evidence/commands.json",
+      "sha256": "df39a628f1df069350ee240d5451b25949d635bb00a95cb049b114cf9c2a1944",
+      "bytes": 843
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-sixth/evidence/database-after.json",
+      "sha256": "2865d38c538606b9a1d3b4873282cddd19d3978805cf93afa71e8a3e9d8e731d",
+      "bytes": 125839
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-sixth/evidence/final-cached-five-restored-consumer.json",
+      "sha256": "440f0d4e7f6488cc5c40754c86384059da548da840399bc2112b154a56b21445",
+      "bytes": 1893
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-sixth/evidence/final-cached-five-restored-runtime.json",
+      "sha256": "bc090e8a68564ab269e4d314f1df4494c5d0b8b5eb41d32f9f0bdb565c5c15b6",
+      "bytes": 12004
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-sixth/evidence/final-frontend-confirmed-consumer.json",
+      "sha256": "a14af300f84dcb6bb3ba1db25484005de8140c81f6e0f79c0fc7b0a39a166e2f",
+      "bytes": 1893
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-sixth/evidence/final-frontend-confirmed-runtime.json",
+      "sha256": "bc090e8a68564ab269e4d314f1df4494c5d0b8b5eb41d32f9f0bdb565c5c15b6",
+      "bytes": 12004
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-sixth/evidence/http-0001.body.json",
+      "sha256": "7a25cbd8a0bb78257dd74685ecef8db06de5769677a4cf8b6bc86ca29deb004a",
+      "bytes": 9408
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-sixth/evidence/http-0002.body.json",
+      "sha256": "2f13914c815473f8a31366ee991798b7a10090fcd8bd56e2d518c760552d3916",
+      "bytes": 1512
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-sixth/evidence/http-0003.body.json",
+      "sha256": "f201fe8a4c55b6d0b04aa8ae48b0b690376c28fe390347e34aabea2c48fe4141",
+      "bytes": 1508
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-sixth/evidence/http-0004.body.json",
+      "sha256": "f201fe8a4c55b6d0b04aa8ae48b0b690376c28fe390347e34aabea2c48fe4141",
+      "bytes": 1508
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-sixth/evidence/http-0005.body.json",
+      "sha256": "f55e463211d5870ceab7c1dc3e4d8d1bba9bba6c73a7689a785973f0a41d1067",
+      "bytes": 1522
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-sixth/evidence/http-0006.body.json",
+      "sha256": "36edfeb2b57cfbbf0205f4e2c6860cbf2fe1c9631b3b0d2b11238cc58e7ac993",
+      "bytes": 10406
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-sixth/evidence/http-0007.body.json",
+      "sha256": "4c510c9da0b5e7cea96c7dae315189d6e92e905a1b9bde423e10172ddefc2de3",
+      "bytes": 10491
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-sixth/evidence/http-0008.body.json",
+      "sha256": "77bfecc223ecc1e2580b40cfc7fd12722ea99a4600dec379bf58f831beef27b6",
+      "bytes": 17888
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-sixth/evidence/http-0009.body.json",
+      "sha256": "7a25cbd8a0bb78257dd74685ecef8db06de5769677a4cf8b6bc86ca29deb004a",
+      "bytes": 9408
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-sixth/evidence/http-0010.body.json",
+      "sha256": "69b55841360c137cedab5781d07d0ab2c002df1d79569018b5aa6a67d728a99e",
+      "bytes": 1512
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-sixth/evidence/http.json",
+      "sha256": "07cb586709f098e589966f80145899999f2d70e57ee96f587376f266eb766aa7",
+      "bytes": 96489
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-sixth/evidence/previous-frontend-fixture.json",
+      "sha256": "b54c364193b63d67b2b94cd3a876a3978d28b12b21810187195d7bcaa2a421ef",
+      "bytes": 14315
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-sixth/evidence/processes.json",
+      "sha256": "0d3d713880fa41e5afea28e1244578a86336a5e9c3f7d5cdf0003d363b102d0d",
+      "bytes": 1295
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-sixth/evidence/recovery-r02-final-frontend-confirm-second-reports.json",
+      "sha256": "d61e358e1fbf8d28843f4b10c03b3dc9f4e672dfd49ab68c650a04453187e94f",
+      "bytes": 23771
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-sixth/evidence/recovery-r02-final-frontend-confirm-second.json",
+      "sha256": "c744e5263e15d30b5a5eb4c882a6e827a8bc45b9505134553bd1f77e7c02332d",
+      "bytes": 14344
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-sixth/evidence/verify-audit-after-roundtrip.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-sixth/evidence/verify-audit-after-roundtrip.stdout.log",
+      "sha256": "26261dcab7fbcb36015428deb4b655d4dd0502fc2b1c927dfa545c42d5bc99a7",
+      "bytes": 28
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-sixth/result.json",
+      "sha256": "322bdcb4a61343fac77472d2cd9da221072c9a54b7a4796aeb4a69b9a85d89de",
+      "bytes": 11610
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-third/evidence/agent-a.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-third/evidence/agent-a.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-third/evidence/candidate-agent-agent-exit.json",
+      "sha256": "3b15bf3eb3508f57846209a5e2ffa46f865a8746a2256d5963d11e51da24aa8e",
+      "bytes": 37
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-third/evidence/checks.json",
+      "sha256": "4ea2e969066ab3ba246964a00a5428621e86b877efa6c3ec40a86d73ad4d2f4a",
+      "bytes": 14403
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-third/evidence/database-before.json",
+      "sha256": "62ee10bcac88ecd2b46f47e7c762077201e2b1ecbbac54455c4c01bc6703852f",
+      "bytes": 92863
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-third/evidence/failure-active.json",
+      "sha256": "162e4d3fe34d7b90baab3ced53e5655efb97df2e3a6f0b73cbd4b0123faf3e01",
+      "bytes": 11436
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-third/evidence/failure-agent-status.json",
+      "sha256": "c0b480f9a25c4deef1c5da6834b530a5ee5ba8963dfbb6e3c21c95f385a20a12",
+      "bytes": 152
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-third/evidence/failure-last-transition.json",
+      "sha256": "ae8c0154f0351355db321d7deb3ab1ba5021b736f4c80d3d5e1cbbd534e5fbb3",
+      "bytes": 271
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-third/evidence/failure-original-reports.api.json",
+      "sha256": "3503f3e3e65b169828eb52f86e76506edf7aa8985c49f8dd87e2097ba736d657",
+      "bytes": 560
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-third/evidence/failure-pending.json",
+      "sha256": "74a278aab2df1710b81cd67784c5badd90c1e663210eb5f3017b038a1c13cd65",
+      "bytes": 1044
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-third/evidence/failure-program.log",
+      "sha256": "606257072f59807c3f46503adcca6c1c1c32f99d4eb16880f8e3ad7ef8f65925",
+      "bytes": 239928
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-third/evidence/failure-restore-status.json",
+      "sha256": "220745d6b4f715f59d08ba8da239c4e54a0799ab47d4670701bc789c4e6472a0",
+      "bytes": 379
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-third/evidence/failure-sealed-evidence.json",
+      "sha256": "511883ba6edf293bf9e6aa9cdd69740ce207fcbc17244b800ec88c04a0b0d016",
+      "bytes": 1539
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-third/evidence/formal-five-evolution.json",
+      "sha256": "7ab2e0e6073717c4e72f9986e34ce829d9322e05ae2c6c1679bff3d5e85e8e55",
+      "bytes": 92657
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-third/evidence/formal-plain-release.json",
+      "sha256": "1760d4d666d637d4498b6306cb0b3778d600bc8ff6b5e422a27010d859996955",
+      "bytes": 5986
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-third/evidence/historical-material-before.json",
+      "sha256": "e24a9878ef470484350ceafe424d944466847d9fe834c00fcd191b0de7e63c20",
+      "bytes": 4096
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-third/evidence/http-0001.body.json",
+      "sha256": "63311f7c3c7ac3d106394d0f015091007da862749e254e75e52646efe831cba9",
+      "bytes": 9405
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-third/evidence/http-0002.body.json",
+      "sha256": "63311f7c3c7ac3d106394d0f015091007da862749e254e75e52646efe831cba9",
+      "bytes": 9405
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-third/evidence/http-0003.body.json",
+      "sha256": "bac7a986f6d914375c201d3f8388622bc4033e8e587b2d74318f1240278d2ce7",
+      "bytes": 94
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-third/evidence/http-0004.body.json",
+      "sha256": "51805e6f7bf1f7653fec101a382ed1d50e88c6ea807f4c9169ef1656a3eb8e9d",
+      "bytes": 416
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-third/evidence/http-0005.body.json",
+      "sha256": "e8ce94d44d935cfc30db368ca3dffd6d235dc9da2eed88473230a99682a38618",
+      "bytes": 94
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-third/evidence/http-0006.body.json",
+      "sha256": "4d92b489a96be0d4a97922c114859895fb9a4e271fb8268ee62d3197bd49b39e",
+      "bytes": 416
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-third/evidence/http-0007.body.json",
+      "sha256": "28b3d4988305a11f63772ac1cc0e349ae1850899e3779d2b3df1134ba789d3b5",
+      "bytes": 3896
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-third/evidence/http-0008.body.json",
+      "sha256": "12777be3c351fb0271793ef8a146a6b59fb6a969d6bd484d7c1440759546eb5b",
+      "bytes": 50303
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-third/evidence/http-0009.body.json",
+      "sha256": "db57c7d113b0a336dcc62d042575235092d1fb4d806b453f2813775675252b2d",
+      "bytes": 9405
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-third/evidence/http-0010.body.json",
+      "sha256": "744731ba828933b2039081f9025dfa6b895cd616fe3bfb2c89ca16a9454c27fa",
+      "bytes": 1506
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-third/evidence/http-0011.body.json",
+      "sha256": "744731ba828933b2039081f9025dfa6b895cd616fe3bfb2c89ca16a9454c27fa",
+      "bytes": 1506
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-third/evidence/http-0012.body.json",
+      "sha256": "744731ba828933b2039081f9025dfa6b895cd616fe3bfb2c89ca16a9454c27fa",
+      "bytes": 1506
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-third/evidence/http-0013.body.json",
+      "sha256": "db57cd74ab9fb7e89b2065fb497ad9793f01fb2cbeb4e87799c313256d0a45d7",
+      "bytes": 1680
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-third/evidence/http-0014.body.json",
+      "sha256": "2622e86b7d6059f31267d2fdca298932b83aaae01ff52d4688b5d78c5c727c31",
+      "bytes": 1707
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-third/evidence/http.json",
+      "sha256": "dfde7919fc66fb6c42e4e590afaac4c1dfc7a29255fd1290aabb1482c9f13c9f",
+      "bytes": 166451
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-third/evidence/prior-runtime.json",
+      "sha256": "147d6bd2e7cd077d3925fba5fe5bca85ddec60827a6e67c724fb0fa6e46b278c",
+      "bytes": 12001
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-third/evidence/processes.json",
+      "sha256": "9e2629a563d9d9ad736ae45322198fed467107bd1ca28fd495eac62b5459ff59",
+      "bytes": 2804
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-third/evidence/registered-final-v1.json",
+      "sha256": "ccc870dbcb67a02581080179e5debe46ec0a48307b5632973c7c24d6de332fa3",
+      "bytes": 514
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-third/evidence/registered-final-v2.json",
+      "sha256": "cc15a5d56de3dea2b49b79215960a3bfc90a22bbd67bb4b869688ed2fe174e5a",
+      "bytes": 514
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-third/result.json",
+      "sha256": "556ec092efb81cfc428b286bc20f296e16415ec9463f341ea07a7b35bac044cc",
+      "bytes": 204
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-isolated/evidence/commands.json",
+      "sha256": "54b70ca4bf2418b310397353f7e37e52d068cfe4324583ddc8e5bc9348e075ae",
+      "bytes": 1146
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-isolated/evidence/database-before.json",
+      "sha256": "448be0253e28849b292f0152b93a860efafb1cc7529fcb5cd97ee66e3ae7cfbf",
+      "bytes": 74935
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-isolated/evidence/http.json",
+      "sha256": "dcd7353ec7339aa11271eec68eef056f8aa5fd75acfbbbc39c92ebe6ed99e7cc",
+      "bytes": 16071
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-isolated/evidence/restage-fixed-formal-release.stderr.log",
+      "sha256": "6ea1f4c9d83459af828e710eded55462d107987164477fdde8563a0ba4ec6bda",
+      "bytes": 38
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-isolated/evidence/restage-fixed-formal-release.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-isolated/result.json",
+      "sha256": "b298cc996910aabf41505b714d0f4e6a98935a1bdfd0bfb7047a9a7f95dc6ce8",
+      "bytes": 234
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-isolated-second/evidence/actual-runtime.json",
+      "sha256": "0891893811a2f9e4c9b205b4f01b0079f1e2a3744a779308b65af5a865353d9e",
+      "bytes": 3354
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-isolated-second/evidence/checks.json",
+      "sha256": "9710c517684457f59aad823ccbd5765f893f1bc4d74ddda5230ec265593a4a92",
+      "bytes": 3118
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-isolated-second/evidence/commands.json",
+      "sha256": "76574f46dd6a2c923c54707fe7cabddc2ae5bd8652009da41a809100e727d616",
+      "bytes": 1186
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-isolated-second/evidence/database-before.json",
+      "sha256": "448be0253e28849b292f0152b93a860efafb1cc7529fcb5cd97ee66e3ae7cfbf",
+      "bytes": 74935
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-isolated-second/evidence/datatransfer.stderr.log",
+      "sha256": "fb5b6e0f38989af6c4fac0b4ed038b559fa33d06ea7b6456faf0b8026b2a0e05",
+      "bytes": 2087
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-isolated-second/evidence/datatransfer.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-isolated-second/evidence/edge.stderr.log",
+      "sha256": "4c74310702a65f76c008528648a3f4f33068053e2a0beabbc003f36abc418d93",
+      "bytes": 1202
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-isolated-second/evidence/edge.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-isolated-second/evidence/http.json",
+      "sha256": "1289c954e74eee67445be8ea168a25a8c232fa5533eff7dce710f5062587247d",
+      "bytes": 4134
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-isolated-second/evidence/processes.json",
+      "sha256": "40c8606790e598c96035d26c6de382f751a97c319b732f7a9290f707a8006f4f",
+      "bytes": 1382
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-isolated-second/evidence/restage-fixed-formal-release.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-isolated-second/evidence/restage-fixed-formal-release.stdout.log",
+      "sha256": "ea45a4947ac3bbd479b51c9e2ae7271865736cfd1af9d438c9e7f508f5367344",
+      "bytes": 729
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-isolated-second/evidence/restaged-public-identity.json",
+      "sha256": "2ae218febc72ab846a30e87ebb14a614048c50c9c9141cb92780d397ae2e963b",
+      "bytes": 879
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-isolated-second/result.json",
+      "sha256": "7001c072d0ed695c76ef73ef97422cb87d63957b4214a9699070d818a7bb2a28",
+      "bytes": 188
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-isolated-third/evidence/actual-runtime.json",
+      "sha256": "d182c9c3b8d6942ea04332837c1edc1cc344bbe532ac828eceb013e6997d6542",
+      "bytes": 3354
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-isolated-third/evidence/checks.json",
+      "sha256": "8df8826d025d60f2c41fbca2fc2d871a00fce1ab521d87e300f2cf869d2de956",
+      "bytes": 6631
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-isolated-third/evidence/commands.json",
+      "sha256": "d1ecb61b1cf441e3ab09983e9045aa5e629f3fb90cba105f1a9bb934931c0739",
+      "bytes": 2048
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-isolated-third/evidence/database-after.json",
+      "sha256": "ab0e3ed851aec27b2edb49a5ccb36e904cf1cfcfff2283c5add2c71dbf4311c1",
+      "bytes": 81903
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-isolated-third/evidence/database-before.json",
+      "sha256": "448be0253e28849b292f0152b93a860efafb1cc7529fcb5cd97ee66e3ae7cfbf",
+      "bytes": 74935
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-isolated-third/evidence/datatransfer.stderr.log",
+      "sha256": "b8f92e9d941f7232bc8002bbbefff574db3b619c3cb934f305c72b30192231f8",
+      "bytes": 2087
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-isolated-third/evidence/datatransfer.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-isolated-third/evidence/edge.stderr.log",
+      "sha256": "77711de7ef09eb06d54ee6558604f5753a3b398f097089fb808e5a6390714424",
+      "bytes": 1202
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-isolated-third/evidence/edge.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-isolated-third/evidence/http.json",
+      "sha256": "8f807f8c7700cea58dfaa473c254141636379752bd42caca48a7e12a4c122a3d",
+      "bytes": 6330
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-isolated-third/evidence/processes.json",
+      "sha256": "08883fbffd196f676e4cc8841814f4b57f78003dae7f3287258ba9187b8191f8",
+      "bytes": 1379
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-isolated-third/evidence/restage-fixed-formal-release.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-isolated-third/evidence/restage-fixed-formal-release.stdout.log",
+      "sha256": "ea45a4947ac3bbd479b51c9e2ae7271865736cfd1af9d438c9e7f508f5367344",
+      "bytes": 729
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-isolated-third/evidence/restaged-public-identity.json",
+      "sha256": "2ae218febc72ab846a30e87ebb14a614048c50c9c9141cb92780d397ae2e963b",
+      "bytes": 879
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-isolated-third/evidence/verify-original-audit-after-recovery.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-isolated-third/evidence/verify-original-audit-after-recovery.stdout.log",
+      "sha256": "26261dcab7fbcb36015428deb4b655d4dd0502fc2b1c927dfa545c42d5bc99a7",
+      "bytes": 28
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-isolated-third/result.json",
+      "sha256": "be32edebc9108d558d70be3e7a31942bcb277d32bb7c38c0990a62327847a648",
+      "bytes": 1034
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-live-first-first/evidence/actual-runtime.json",
+      "sha256": "067d7bcb37872ad8b64b9b6ee9e8e2dd840be14f65044b8f72f3fcce3b74de39",
+      "bytes": 3354
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-live-first-first/evidence/agent-a.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-live-first-first/evidence/agent-a.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-live-first-first/evidence/checks.json",
+      "sha256": "921d2b2e0aca3df33d49336e61d8a4e8e26f98ced0e3f3bf456a62855979b114",
+      "bytes": 19992
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-live-first-first/evidence/database-after.json",
+      "sha256": "06383061e56cc7aec4f36397ad9a4589a2d0cc3b196ed459160a17d58571936f",
+      "bytes": 81903
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-live-first-first/evidence/database-before.json",
+      "sha256": "448be0253e28849b292f0152b93a860efafb1cc7529fcb5cd97ee66e3ae7cfbf",
+      "bytes": 74935
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-live-first-first/evidence/historical-cache-and-artifacts-before.json",
+      "sha256": "72816427fe7faf5e2f2bac5c23336f9fe8c510ec6ca2c79b2129297e05ca69cd",
+      "bytes": 2716
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-live-first-first/evidence/http.json",
+      "sha256": "73114fdefee048ce002a9983d52921ab54a4d2c12552501531775e0295f249fe",
+      "bytes": 153302
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-live-first-first/evidence/old-active-state.json",
+      "sha256": "223dae954526328cfee9ff56fc3d42f19efdf928efab9d302b9b5ce989389d62",
+      "bytes": 3053
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-live-first-first/evidence/original-cache-startup-failure.json",
+      "sha256": "220745d6b4f715f59d08ba8da239c4e54a0799ab47d4670701bc789c4e6472a0",
+      "bytes": 379
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-live-first-first/evidence/processes.json",
+      "sha256": "e4882ed19921ddd31276cf1be6266b17eda9d0e6dff1d486df590e7bbcf29035",
+      "bytes": 1292
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-live-first-first/result.json",
+      "sha256": "9aab0704c5fe1b34e8856f6f0ff1c97e65ded2f9f00f7f2e974d7ca751a46430",
+      "bytes": 510
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/recover-final-third.py",
+      "sha256": "bcca6ee835df658a43b8fda636328ef5539dca10e56de97fa872890759558105",
+      "bytes": 19222
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/recover-final.py",
+      "sha256": "ba4f28cf4f4ab6365e29f54d4c131eede472db7b40ac76ff811b6ac022dd9cfc",
+      "bytes": 18361
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/recover-processes-second.py",
+      "sha256": "7937c6fa8182990486f730435bf2382e141ffd2c7fd528137edf6f14e1f7a7de",
+      "bytes": 14243
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/recover-processes-third.py",
+      "sha256": "df010146eb89e56f7f2a2296bd810c066ecf15ff394d75b24aa4e4b4f1182e02",
+      "bytes": 14339
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/recover-processes.py",
+      "sha256": "b288983f5b7f84c328ecd8eb67dfccd79f16ef4f8dac4a6ff703442744ea6730",
+      "bytes": 15139
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/recover-r02-final.py",
+      "sha256": "1c5d688c0b0317bd8f9544e682764ade789b7a95bf3257e6a5f713036000c44d",
+      "bytes": 19619
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/recovery-helper/evidence/actual-inputs.json",
+      "sha256": "2c771fbce511fe32363f1371e206e485be9ed05fcf70367688a16760c123355e",
+      "bytes": 1170049
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/recovery-helper/evidence/binary.json",
+      "sha256": "25582513909557176140d813204111d54e0dab0eac300b985e46aac6378dbc82",
+      "bytes": 224
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/recovery-helper/evidence/build-recovery-helper.inputs-after.json",
+      "sha256": "f8e40d41f73dc22702de0b0218eca7c9e8b83e25fe1ac8db590e55f959f7339f",
+      "bytes": 533698
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/recovery-helper/evidence/build-recovery-helper.inputs-before.json",
+      "sha256": "f8e40d41f73dc22702de0b0218eca7c9e8b83e25fe1ac8db590e55f959f7339f",
+      "bytes": 533698
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/recovery-helper/evidence/build-recovery-helper.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/recovery-helper/evidence/build-recovery-helper.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/recovery-helper/evidence/commands.json",
+      "sha256": "22929b28d1c22b19f51607615538fc3b1a31f2faaa1f194fb3d3087f23741e81",
+      "bytes": 1745
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/recovery-helper/evidence/compiled-source.json",
+      "sha256": "7885f3e5c5b4fd73e81aa14539c9f26c9bbe8745b0f02098a68d343ff5cb519a",
+      "bytes": 42477
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/recovery-helper/evidence/list-production-inputs.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/recovery-helper/evidence/list-production-inputs.stdout.log",
+      "sha256": "8c3869529c6faa579289d2bb6e546acac95e3f74dd37d4e127fcd1217d6d29b6",
+      "bytes": 2305125
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/recovery-helper-second/evidence/actual-inputs.json",
+      "sha256": "c5d0e58571bd798d0c7f113baad5a314fdaf23772d310dd256d60b25510a8615",
+      "bytes": 1175243
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/recovery-helper-second/evidence/binary.json",
+      "sha256": "4520617a5867e48732e8a95204b7aedfff3fce86db86903b479d5794c5b77390",
+      "bytes": 231
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/recovery-helper-second/evidence/build-recovery-helper.inputs-after.json",
+      "sha256": "450ff9beb8d81d9f424f2ce7ed4750c3d28b22f398698275c677d42e013703e8",
+      "bytes": 536295
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/recovery-helper-second/evidence/build-recovery-helper.inputs-before.json",
+      "sha256": "450ff9beb8d81d9f424f2ce7ed4750c3d28b22f398698275c677d42e013703e8",
+      "bytes": 536295
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/recovery-helper-second/evidence/build-recovery-helper.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/recovery-helper-second/evidence/build-recovery-helper.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/recovery-helper-second/evidence/commands.json",
+      "sha256": "6e49d1cff7ececc95b82c10938c82e99fae6471dd6fb92460dc906e0c27b20ee",
+      "bytes": 1809
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/recovery-helper-second/evidence/compiled-source.json",
+      "sha256": "1dec3a3c3b9642c0b6ed1865b201e09646ca00786bd1f4f7973df05d4f073103",
+      "bytes": 42477
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/recovery-helper-second/evidence/list-production-inputs.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/recovery-helper-second/evidence/list-production-inputs.stdout.log",
+      "sha256": "70be446654b9811a80bc2cf374f7c5c47b9c3d8ee286534393f4305dc3d5032e",
+      "bytes": 2305797
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/recovery-helper-second/evidence/raw-restage-command.json",
+      "sha256": "667e5427b5b7e7c86f1f0327cf824f88f66c8a5bf46bebdef5ae365f0c6e041b",
+      "bytes": 746
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/recovery-helper-second/evidence/raw-restage.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/recovery-helper-second/evidence/raw-restage.stdout.log",
+      "sha256": "ea45a4947ac3bbd479b51c9e2ae7271865736cfd1af9d438c9e7f508f5367344",
+      "bytes": 729
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/recovery-helper-second/evidence/restage-diagnostic-command.json",
+      "sha256": "355de95efbaf9ce0e1d23172500bf5ccd4c3289d87b78772c52fd1a25912c0d5",
+      "bytes": 741
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/recovery-helper-second/evidence/restage-diagnostic.stderr.log",
+      "sha256": "380ca25ddc27c8071eff05542d50de4ea9499b10fd9285f2757d08047a6f49d6",
+      "bytes": 397
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/recovery-helper-second/evidence/restage-diagnostic.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/rule-roundtrip-baseline/evidence/actual-inputs.json",
+      "sha256": "c06b44f21a334a1487cd9481e6f6886c9fa641b8c17db0a7e43e303898fbd3cc",
+      "bytes": 2104874
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/rule-roundtrip-baseline/evidence/commands.json",
+      "sha256": "06994c141b89766e1604351b8aaccd3c9c41f3feb1a9fe3c4d14223f45170b18",
+      "bytes": 1809
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/rule-roundtrip-baseline/evidence/compiled-source.json",
+      "sha256": "a2aad74c4fc2b3c52a81e43d198fafd7ebaf02600e04e1451ee1e0845560e13f",
+      "bytes": 52581
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/rule-roundtrip-baseline/evidence/disjoint-rules-roundtrip-baseline.inputs-after.json",
+      "sha256": "709c26cd5ce2ad57cfdb529200ecc093b57092c0eabb5c6382e8e6d8c92240b0",
+      "bytes": 959207
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/rule-roundtrip-baseline/evidence/disjoint-rules-roundtrip-baseline.inputs-before.json",
+      "sha256": "709c26cd5ce2ad57cfdb529200ecc093b57092c0eabb5c6382e8e6d8c92240b0",
+      "bytes": 959207
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/rule-roundtrip-baseline/evidence/disjoint-rules-roundtrip-baseline.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/rule-roundtrip-baseline/evidence/disjoint-rules-roundtrip-baseline.stdout.log",
+      "sha256": "74f8ecc597f6dd3bbc09d39541b145cb23d044dcb90f81563b892bfed9ed296f",
+      "bytes": 344
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/rule-roundtrip-baseline/evidence/list-test-inputs.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/rule-roundtrip-baseline/evidence/list-test-inputs.stdout.log",
+      "sha256": "fc1501719dba763fe5aaea027c83c3906f48bec9f6b191a8e3077edbf32ad298",
+      "bytes": 2804885
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/rule-roundtrip-fixed/evidence/actual-inputs.json",
+      "sha256": "e4397bb9e9e7e919fd2ad3dd1a357dab66a188d08c1970c2e1b9b1fb6d11d8b1",
+      "bytes": 2101376
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/rule-roundtrip-fixed/evidence/commands.json",
+      "sha256": "2c0cf93c58c2b6f4c0f366a78e7aa4890374acae449059747a5379ef655532ed",
+      "bytes": 1771
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/rule-roundtrip-fixed/evidence/compiled-source.json",
+      "sha256": "31b9d4055959d85d043a56080c2e85ab48e1670bb8494eafb9862f16125d1a5d",
+      "bytes": 52581
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/rule-roundtrip-fixed/evidence/disjoint-rules-roundtrip-fixed.inputs-after.json",
+      "sha256": "fdc43d249ef7a4f6ceb51051e46cc649da341ce594ab0b9e7aac28d6327ad937",
+      "bytes": 957458
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/rule-roundtrip-fixed/evidence/disjoint-rules-roundtrip-fixed.inputs-before.json",
+      "sha256": "fdc43d249ef7a4f6ceb51051e46cc649da341ce594ab0b9e7aac28d6327ad937",
+      "bytes": 957458
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/rule-roundtrip-fixed/evidence/disjoint-rules-roundtrip-fixed.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/rule-roundtrip-fixed/evidence/disjoint-rules-roundtrip-fixed.stdout.log",
+      "sha256": "6e661a38a40852e97686e00fbe0cf8516c9dcd0fa82214a89350f4d7b7a46111",
+      "bytes": 338
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/rule-roundtrip-fixed/evidence/list-test-inputs.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/rule-roundtrip-fixed/evidence/list-test-inputs.stdout.log",
+      "sha256": "05f03540f0a90103787324ef736adc3ba31dc43384af89fc14a2ccd00ca24780",
+      "bytes": 2804441
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/rule-roundtrip-fixed-second/evidence/actual-inputs.json",
+      "sha256": "03010a174bba62eb720c4bb78305ad543f5c30bc7fe3240ac3f96da881d4e593",
+      "bytes": 2109538
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/rule-roundtrip-fixed-second/evidence/commands.json",
+      "sha256": "d70e837235e5f968bd8c589df498d2776c3a08eefc13ef72d62a4504e154615c",
+      "bytes": 1828
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/rule-roundtrip-fixed-second/evidence/compiled-source.json",
+      "sha256": "31b9d4055959d85d043a56080c2e85ab48e1670bb8494eafb9862f16125d1a5d",
+      "bytes": 52581
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/rule-roundtrip-fixed-second/evidence/disjoint-rules-roundtrip-fixed.inputs-after.json",
+      "sha256": "c286b1ba7bbeff939623ebb7ea77f809444e5ba87740997d6a4d51d8f5decb18",
+      "bytes": 961539
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/rule-roundtrip-fixed-second/evidence/disjoint-rules-roundtrip-fixed.inputs-before.json",
+      "sha256": "c286b1ba7bbeff939623ebb7ea77f809444e5ba87740997d6a4d51d8f5decb18",
+      "bytes": 961539
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/rule-roundtrip-fixed-second/evidence/disjoint-rules-roundtrip-fixed.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/rule-roundtrip-fixed-second/evidence/disjoint-rules-roundtrip-fixed.stdout.log",
+      "sha256": "aeba741329163f8766b122e065e17e658add789d00e73cb5422d3098fc64fd15",
+      "bytes": 229
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/rule-roundtrip-fixed-second/evidence/list-test-inputs.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/rule-roundtrip-fixed-second/evidence/list-test-inputs.stdout.log",
+      "sha256": "59408606b6ec2efae7f16d7120e91be8f577b8a2c13f8e46d7b67e68f2a5cf1d",
+      "bytes": 2805477
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/same-assignment-baseline/evidence/actual-inputs.json",
+      "sha256": "26d7cdfd46c52c81ac381dedb4d48e0819163e20f66218b4297f951861b6f937",
+      "bytes": 1892150
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/same-assignment-baseline/evidence/commands.json",
+      "sha256": "b235c6bc19e2a222b688a4ba78dd3bb5eb8d0d4b68e804cdebcd46af7f8e1010",
+      "bytes": 1788
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/same-assignment-baseline/evidence/compiled-source.json",
+      "sha256": "cf6ceb1110b3959d1273948add863a20f5819e794af0faaab80e90839d6d9e5b",
+      "bytes": 42356
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/same-assignment-baseline/evidence/list-test-inputs.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/same-assignment-baseline/evidence/list-test-inputs.stdout.log",
+      "sha256": "aacb943d31e35edb745baa1fdb1d366fb0dde18df4048593606e66d56b2db8b5",
+      "bytes": 2353945
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/same-assignment-baseline/evidence/same-assignment-baseline.inputs-after.json",
+      "sha256": "6f618f9f35e264ea5d8e44ceff3d7374898032eaa0dec03ac37fe71665eefa62",
+      "bytes": 856948
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/same-assignment-baseline/evidence/same-assignment-baseline.inputs-before.json",
+      "sha256": "6f618f9f35e264ea5d8e44ceff3d7374898032eaa0dec03ac37fe71665eefa62",
+      "bytes": 856948
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/same-assignment-baseline/evidence/same-assignment-baseline.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/same-assignment-baseline/evidence/same-assignment-baseline.stdout.log",
+      "sha256": "52a287d27ec36dac5d783a20e24258bbf300f480d4682f8f5c24b4f1bba5fd3f",
+      "bytes": 644
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/store-only/evidence/actual-inputs.json",
+      "sha256": "72598804fb62578e1ae6d3208c8f2ef5bfd4cad6883dbf79e4e4137745a7b47b",
+      "bytes": 2087570
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/store-only/evidence/commands.json",
+      "sha256": "397e63251bbdcf2c8c014c613cdf3432b078c7850f94364ed3ee4c68a54161c0",
+      "bytes": 1706
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/store-only/evidence/compiled-source.json",
+      "sha256": "937221c9b52c136cf563067359b77c7a0cfb7c2a093a7393528247716dace12d",
+      "bytes": 51913
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/store-only/evidence/list-test-inputs.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/store-only/evidence/list-test-inputs.stdout.log",
+      "sha256": "cc655121c3d12ecd03234d5ebfdc37051db9f8c5b9141eb7b8affb260dc97d49",
+      "bytes": 2802961
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/store-only/evidence/store-only-initialization.inputs-after.json",
+      "sha256": "1f53e3cb77854b6ec3c387c01a184dec6c6b697039ec36fa83d3342fb75432cf",
+      "bytes": 950504
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/store-only/evidence/store-only-initialization.inputs-before.json",
+      "sha256": "1f53e3cb77854b6ec3c387c01a184dec6c6b697039ec36fa83d3342fb75432cf",
+      "bytes": 950504
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/store-only/evidence/store-only-initialization.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/store-only/evidence/store-only-initialization.stdout.log",
+      "sha256": "3f2b89494f4baaf3d703ba340c332ddb6610438bc2515226bf2d926237de21cd",
+      "bytes": 842
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/verify-cache-reencryption.mjs",
+      "sha256": "66009ad14627bb3444096ba48fabe715dfb551cd17e7b44b9d9e9554dd23bb8a",
+      "bytes": 2426
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/verify-cached-failure-restart.py",
+      "sha256": "ff022c00cb79df36ed67de93cf660fe643420f3d2fb6ca1f100b6105c5f35f22",
+      "bytes": 8535
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/verify-final.py",
+      "sha256": "c805ccaea8297f3fb32ea887339265a51b0c9fcfc237cbc4b990f60f85c17388",
+      "bytes": 2048
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/verify-frontend-live.py",
+      "sha256": "9a05c2904c015658472c102dbe264861518089e829d225556720c720800e196f",
+      "bytes": 2427
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/verify-r02-final.py",
+      "sha256": "64af33359383577a30d472744ce123911b4e2ec4b0b9a15fcead77de616aaad7",
+      "bytes": 1872
+    },
+    {
+      "path": "/private/tmp/smartfactory-release-restore-recovery-20261005/write-final-report.py",
+      "sha256": "e73fea2563a966f565c88b29b244def0afadca2f8d54c8ac5a9e99dee4e9b006",
+      "bytes": 14632
+    }
+  ]
+}

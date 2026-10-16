@@ -1,0 +1,10 @@
+1/4 quorum_partition: degraded_completed actions=[1, 0, 0]
+Traceback (most recent call last):
+  File "/path/to/SmartFactory-2026/scripts/check-site.py", line 239, in <module>
+    main()
+    ~~~~^^
+  File "/path/to/SmartFactory-2026/scripts/check-site.py", line 182, in main
+    value=wait(lambda:result(execution,{'completed'}),'two-replica majority execution',45)
+  File "/path/to/SmartFactory-2026/scripts/check-site.py", line 89, in wait
+    raise TimeoutError(label)
+TimeoutError: two-replica majority execution

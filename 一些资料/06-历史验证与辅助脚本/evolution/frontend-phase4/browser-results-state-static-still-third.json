@@ -1,0 +1,344 @@
+{
+  "config": {
+    "argv": [
+      "/path/to/SmartFactory-2026/.local/toolchains/node-v24.21.0-darwin-arm64/bin/node",
+      "/path/to/SmartFactory-2026/Frontends/node_modules/.bin/playwright",
+      "test",
+      "-c",
+      "playwright.phase4.config.ts",
+      "phase4-state.spec.ts"
+    ],
+    "configFile": "/path/to/SmartFactory-2026/Frontends/playwright.phase4.config.ts",
+    "rootDir": "/path/to/SmartFactory-2026/Frontends/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/private/tmp/smartfactory-frontend-phase4-20261005/playwright-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/path/to/SmartFactory-2026/Frontends/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "phase4*.spec.ts"
+        ],
+        "timeout": 90000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "../.local/evolution/frontend-phase4/browser-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "phase4-state.spec.ts",
+      "file": "phase4-state.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "F01 delayed real HTTP snapshot cannot undo committed SSE update remove and return events",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 3580,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoContain\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // indexOf\u001b[22m\n\nExpected value: \u001b[32m\"9999\"\u001b[39m\nReceived array: \u001b[31m[\"280\", \"279\", \"278\", \"277\", \"276\", \"275\", \"274\", \"273\", \"272\", \"271\", …]\u001b[39m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoContain\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // indexOf\u001b[22m\n\nExpected value: \u001b[32m\"9999\"\u001b[39m\nReceived array: \u001b[31m[\"280\", \"279\", \"278\", \"277\", \"276\", \"275\", \"274\", \"273\", \"272\", \"271\", …]\u001b[39m\n    at /path/to/SmartFactory-2026/Frontends/tests/phase4-state.spec.ts:17:414",
+                    "location": {
+                      "file": "/path/to/SmartFactory-2026/Frontends/tests/phase4-state.spec.ts",
+                      "column": 414,
+                      "line": 17
+                    },
+                    "snippet": "  15 |   await page.getByLabel('历史时间范围').click();await page.locator('.ant-select-dropdown:visible .ant-select-item-option-content').getByText('最近24小时',{exact:true}).click();await page.getByRole('button',{name:'查询历史',exact:true}).click();await expect.poll(()=>held).toBe(true);const table=page.locator('.ant-card').filter({has:page.getByText('精确观测记录',{exact:true})}).locator('tbody .ant-table-row');await expect(table).toHaveCount(100);await expect(table.locator('code').getByText('81',{exact:true})).toHaveCount(1);\n  16 |   const observed=[];observed.push(await ingest([{...points[99],value:9999,revision:2}]));await expect(table.locator('code').getByText('9999',{exact:true})).toHaveCount(1);observed.push(await ingest([{...points[99],id:key+'-new',observed_ms:at+100*60000,value:7777,revision:1}]));await expect(table).toHaveCount(100);await expect(table.locator('code').getByText('7777',{exact:true})).toHaveCount(1);await expect(table.locator('code').getByText('81',{exact:true})).toHaveCount(0);\n> 17 |   release();await page.waitForTimeout(1200);const values=await table.locator('code').allTextContents();const frames=await page.evaluate(()=>(window as any).__sfFrames);await writeFile(path.join(evidence,'F01-http-sse-snapshot-race.json'),JSON.stringify({key,original,observed,frames,http_response_fulfilled:fulfilled,visible_after_http:values},null,2));await capture(page,'F01-after-delayed-http');expect(values).toContain('9999');expect(values).toContain('7777');expect(values).not.toContain('81');await page.unroute('**/api/sf/v1/queries/trend');\n     |                                                                                                                                                                                                                                                                                                                                                                                                                              ^\n  18 |\n  19 | });\n  20 |"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/path/to/SmartFactory-2026/Frontends/tests/phase4-state.spec.ts",
+                        "column": 414,
+                        "line": 17
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoContain\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // indexOf\u001b[22m\n\nExpected value: \u001b[32m\"9999\"\u001b[39m\nReceived array: \u001b[31m[\"280\", \"279\", \"278\", \"277\", \"276\", \"275\", \"274\", \"273\", \"272\", \"271\", …]\u001b[39m\n\n  15 |   await page.getByLabel('历史时间范围').click();await page.locator('.ant-select-dropdown:visible .ant-select-item-option-content').getByText('最近24小时',{exact:true}).click();await page.getByRole('button',{name:'查询历史',exact:true}).click();await expect.poll(()=>held).toBe(true);const table=page.locator('.ant-card').filter({has:page.getByText('精确观测记录',{exact:true})}).locator('tbody .ant-table-row');await expect(table).toHaveCount(100);await expect(table.locator('code').getByText('81',{exact:true})).toHaveCount(1);\n  16 |   const observed=[];observed.push(await ingest([{...points[99],value:9999,revision:2}]));await expect(table.locator('code').getByText('9999',{exact:true})).toHaveCount(1);observed.push(await ingest([{...points[99],id:key+'-new',observed_ms:at+100*60000,value:7777,revision:1}]));await expect(table).toHaveCount(100);await expect(table.locator('code').getByText('7777',{exact:true})).toHaveCount(1);await expect(table.locator('code').getByText('81',{exact:true})).toHaveCount(0);\n> 17 |   release();await page.waitForTimeout(1200);const values=await table.locator('code').allTextContents();const frames=await page.evaluate(()=>(window as any).__sfFrames);await writeFile(path.join(evidence,'F01-http-sse-snapshot-race.json'),JSON.stringify({key,original,observed,frames,http_response_fulfilled:fulfilled,visible_after_http:values},null,2));await capture(page,'F01-after-delayed-http');expect(values).toContain('9999');expect(values).toContain('7777');expect(values).not.toContain('81');await page.unroute('**/api/sf/v1/queries/trend');\n     |                                                                                                                                                                                                                                                                                                                                                                                                                              ^\n  18 |\n  19 | });\n  20 |\n    at /path/to/SmartFactory-2026/Frontends/tests/phase4-state.spec.ts:17:414"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T02:43:18.385Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/private/tmp/smartfactory-frontend-phase4-20261005/playwright-results/phase4-state-F01-delayed-r-7522f-te-remove-and-return-events/error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/path/to/SmartFactory-2026/Frontends/tests/phase4-state.spec.ts",
+                    "column": 414,
+                    "line": 17
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "c2bd0fe7102c06a11ff6-3e6e2dc93175e09508ff",
+          "file": "phase4-state.spec.ts",
+          "line": 9,
+          "column": 1
+        },
+        {
+          "title": "F02 raw JSON repair clears previous metadata-field error",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 17380,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('dialog', { name: '设备基础参数编辑' }).getByText('配置预检通过', { exact: true })\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('dialog', { name: '设备基础参数编辑' }).getByText('配置预检通过', { exact: true }) with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('dialog', { name: '设备基础参数编辑' }).getByText('配置预检通过', { exact: true })\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('dialog', { name: '设备基础参数编辑' }).getByText('配置预检通过', { exact: true })\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('dialog', { name: '设备基础参数编辑' }).getByText('配置预检通过', { exact: true }) with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('dialog', { name: '设备基础参数编辑' }).getByText('配置预检通过', { exact: true })\u001b[22m\n\n    at /path/to/SmartFactory-2026/Frontends/tests/phase4-state.spec.ts:22:581",
+                    "location": {
+                      "file": "/path/to/SmartFactory-2026/Frontends/tests/phase4-state.spec.ts",
+                      "column": 581,
+                      "line": 22
+                    },
+                    "snippet": "  20 |\n  21 | test('F02 raw JSON repair clears previous metadata-field error',async({page})=>{\n> 22 |   test.skip(phase!=='state');const drawer=await openModbus(page);await drawer.getByRole('tab',{name:'设备地址',exact:true}).click();await drawer.getByLabel(/^设备从站地址/).fill('invalid');await drawer.getByRole('tab',{name:'完整参数与扩展',exact:true}).click();const raw=drawer.getByLabel('完整协议参数');const value=JSON.parse(await raw.inputValue());value.address??={};value.address.unit_id=1;await raw.fill(JSON.stringify(value,null,2));await drawer.getByRole('button',{name:'配置预检',exact:true}).click();await capture(page,'F02-raw-json-repair');await expect(drawer.getByText('配置预检通过',{exact:true})).toBeVisible();\n     |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ^\n  23 | });\n  24 |\n  25 | test('F02 deleting invalid repeated metadata item removes its validation state',async({page})=>{"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/path/to/SmartFactory-2026/Frontends/tests/phase4-state.spec.ts",
+                        "column": 581,
+                        "line": 22
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('dialog', { name: '设备基础参数编辑' }).getByText('配置预检通过', { exact: true })\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('dialog', { name: '设备基础参数编辑' }).getByText('配置预检通过', { exact: true }) with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('dialog', { name: '设备基础参数编辑' }).getByText('配置预检通过', { exact: true })\u001b[22m\n\n\n  20 |\n  21 | test('F02 raw JSON repair clears previous metadata-field error',async({page})=>{\n> 22 |   test.skip(phase!=='state');const drawer=await openModbus(page);await drawer.getByRole('tab',{name:'设备地址',exact:true}).click();await drawer.getByLabel(/^设备从站地址/).fill('invalid');await drawer.getByRole('tab',{name:'完整参数与扩展',exact:true}).click();const raw=drawer.getByLabel('完整协议参数');const value=JSON.parse(await raw.inputValue());value.address??={};value.address.unit_id=1;await raw.fill(JSON.stringify(value,null,2));await drawer.getByRole('button',{name:'配置预检',exact:true}).click();await capture(page,'F02-raw-json-repair');await expect(drawer.getByText('配置预检通过',{exact:true})).toBeVisible();\n     |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ^\n  23 | });\n  24 |\n  25 | test('F02 deleting invalid repeated metadata item removes its validation state',async({page})=>{\n    at /path/to/SmartFactory-2026/Frontends/tests/phase4-state.spec.ts:22:581"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T02:43:22.532Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/private/tmp/smartfactory-frontend-phase4-20261005/playwright-results/phase4-state-F02-raw-JSON--60859-evious-metadata-field-error/error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/path/to/SmartFactory-2026/Frontends/tests/phase4-state.spec.ts",
+                    "column": 581,
+                    "line": 22
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "c2bd0fe7102c06a11ff6-56b8645fbcd93f7555d2",
+          "file": "phase4-state.spec.ts",
+          "line": 21,
+          "column": 1
+        },
+        {
+          "title": "F02 deleting invalid repeated metadata item removes its validation state",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 17408,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('dialog', { name: '设备基础参数编辑' }).getByText('配置预检通过', { exact: true })\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('dialog', { name: '设备基础参数编辑' }).getByText('配置预检通过', { exact: true }) with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('dialog', { name: '设备基础参数编辑' }).getByText('配置预检通过', { exact: true })\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('dialog', { name: '设备基础参数编辑' }).getByText('配置预检通过', { exact: true })\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('dialog', { name: '设备基础参数编辑' }).getByText('配置预检通过', { exact: true }) with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('dialog', { name: '设备基础参数编辑' }).getByText('配置预检通过', { exact: true })\u001b[22m\n\n    at /path/to/SmartFactory-2026/Frontends/tests/phase4-state.spec.ts:26:426",
+                    "location": {
+                      "file": "/path/to/SmartFactory-2026/Frontends/tests/phase4-state.spec.ts",
+                      "column": 426,
+                      "line": 26
+                    },
+                    "snippet": "  24 |\n  25 | test('F02 deleting invalid repeated metadata item removes its validation state',async({page})=>{\n> 26 |   test.skip(phase!=='state');const drawer=await openModbus(page);await drawer.getByRole('tab',{name:'数据点',exact:true}).click();await drawer.getByLabel(/^数据点 1：寄存器地址/).fill('invalid');await drawer.getByRole('button',{name:'删除数据点',exact:true}).first().click();await drawer.getByRole('button',{name:'配置预检',exact:true}).click();await capture(page,'F02-deleted-invalid-item');await expect(drawer.getByText('配置预检通过',{exact:true})).toBeVisible();\n     |                                                                                                                                                                                                                                                                                                                                                                                                                                          ^\n  27 | });\n  28 |\n  29 | test('F02 fields with same key in different sections keep isolated errors',async({page})=>{"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/path/to/SmartFactory-2026/Frontends/tests/phase4-state.spec.ts",
+                        "column": 426,
+                        "line": 26
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('dialog', { name: '设备基础参数编辑' }).getByText('配置预检通过', { exact: true })\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('dialog', { name: '设备基础参数编辑' }).getByText('配置预检通过', { exact: true }) with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('dialog', { name: '设备基础参数编辑' }).getByText('配置预检通过', { exact: true })\u001b[22m\n\n\n  24 |\n  25 | test('F02 deleting invalid repeated metadata item removes its validation state',async({page})=>{\n> 26 |   test.skip(phase!=='state');const drawer=await openModbus(page);await drawer.getByRole('tab',{name:'数据点',exact:true}).click();await drawer.getByLabel(/^数据点 1：寄存器地址/).fill('invalid');await drawer.getByRole('button',{name:'删除数据点',exact:true}).first().click();await drawer.getByRole('button',{name:'配置预检',exact:true}).click();await capture(page,'F02-deleted-invalid-item');await expect(drawer.getByText('配置预检通过',{exact:true})).toBeVisible();\n     |                                                                                                                                                                                                                                                                                                                                                                                                                                          ^\n  27 | });\n  28 |\n  29 | test('F02 fields with same key in different sections keep isolated errors',async({page})=>{\n    at /path/to/SmartFactory-2026/Frontends/tests/phase4-state.spec.ts:26:426"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T02:43:40.370Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/private/tmp/smartfactory-frontend-phase4-20261005/playwright-results/phase4-state-F02-deleting--b3996-emoves-its-validation-state/error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/path/to/SmartFactory-2026/Frontends/tests/phase4-state.spec.ts",
+                    "column": 426,
+                    "line": 26
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "c2bd0fe7102c06a11ff6-a3537d5af92b55af1199",
+          "file": "phase4-state.spec.ts",
+          "line": 25,
+          "column": 1
+        },
+        {
+          "title": "F02 fields with same key in different sections keep isolated errors",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 2809,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m0\u001b[39m\nReceived: \u001b[31m1\u001b[39m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m0\u001b[39m\nReceived: \u001b[31m1\u001b[39m\n    at /path/to/SmartFactory-2026/Frontends/tests/phase4-state.spec.ts:30:634",
+                    "location": {
+                      "file": "/path/to/SmartFactory-2026/Frontends/tests/phase4-state.spec.ts",
+                      "column": 634,
+                      "line": 30
+                    },
+                    "snippet": "  28 |\n  29 | test('F02 fields with same key in different sections keep isolated errors',async({page})=>{\n> 30 |   test.skip(phase!=='state');const drawer=await openModbus(page);await drawer.getByLabel(/^连接超时/).fill('invalid');await drawer.getByRole('tab',{name:'采样',exact:true}).click();await drawer.getByLabel(/^采样超时/).fill('1000');let requests=0;page.on('request',request=>{if(request.url().endsWith('/device-configurations/validate'))requests++;});await drawer.getByRole('button',{name:'配置预检',exact:true}).click();await page.waitForTimeout(500);await writeFile(path.join(evidence,'F02-section-error-identity.json'),JSON.stringify({server_precheck_requests:requests},null,2));await capture(page,'F02-section-error-isolation');expect(requests).toBe(0);await expect(drawer.getByText('参数操作未完成',{exact:true})).toBeVisible();\n     |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          ^\n  31 | });\n  32 |"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/path/to/SmartFactory-2026/Frontends/tests/phase4-state.spec.ts",
+                        "column": 634,
+                        "line": 30
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m0\u001b[39m\nReceived: \u001b[31m1\u001b[39m\n\n  28 |\n  29 | test('F02 fields with same key in different sections keep isolated errors',async({page})=>{\n> 30 |   test.skip(phase!=='state');const drawer=await openModbus(page);await drawer.getByLabel(/^连接超时/).fill('invalid');await drawer.getByRole('tab',{name:'采样',exact:true}).click();await drawer.getByLabel(/^采样超时/).fill('1000');let requests=0;page.on('request',request=>{if(request.url().endsWith('/device-configurations/validate'))requests++;});await drawer.getByRole('button',{name:'配置预检',exact:true}).click();await page.waitForTimeout(500);await writeFile(path.join(evidence,'F02-section-error-identity.json'),JSON.stringify({server_precheck_requests:requests},null,2));await capture(page,'F02-section-error-isolation');expect(requests).toBe(0);await expect(drawer.getByText('参数操作未完成',{exact:true})).toBeVisible();\n     |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          ^\n  31 | });\n  32 |\n    at /path/to/SmartFactory-2026/Frontends/tests/phase4-state.spec.ts:30:634"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T02:43:58.215Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/private/tmp/smartfactory-frontend-phase4-20261005/playwright-results/phase4-state-F02-fields-wi-5367d-ctions-keep-isolated-errors/error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/path/to/SmartFactory-2026/Frontends/tests/phase4-state.spec.ts",
+                    "column": 634,
+                    "line": 30
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "c2bd0fe7102c06a11ff6-eea2e9aa54bb2c7d84c7",
+          "file": "phase4-state.spec.ts",
+          "line": 29,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-05T02:43:18.213Z",
+    "duration": 43094.992,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 4,
+    "flaky": 0
+  }
+}

@@ -1,0 +1,59 @@
+
+Running 2 tests using 1 worker
+
+(node:8814) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/phase4-business-details.spec.ts:65:1 › three protocol metadata forms validate required fields enums units and preserve numeric extensions (30.1s)
+(node:8856) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 tests/phase4-business-details.spec.ts:84:1 › node metadata checks ranges units enums and exact extension before saving a draft (2.9s)
+
+
+  1) tests/phase4-business-details.spec.ts:65:1 › three protocol metadata forms validate required fields enums units and preserve numeric extensions 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for locator('.ant-select-dropdown:visible .ant-select-item-option-content').filter({ hasText: '红外照明' }).first()
+        - locator resolved to <div class="ant-select-item-option-content">红外照明</div>
+      - attempting click action
+        - waiting for element to be visible, enabled and stable
+        - element is visible, enabled and stable
+        - scrolling into view if needed
+        - done scrolling
+        - element is outside of the viewport
+      - retrying click action
+        - waiting for element to be visible, enabled and stable
+        - element is not visible
+      - retrying click action
+        - waiting 20ms
+        2 × waiting for element to be visible, enabled and stable
+          - element is not stable
+        - retrying click action
+          - waiting 100ms
+        - waiting for element to be visible, enabled and stable
+        - element is not stable
+      49 × retrying click action
+           - waiting 500ms
+           - waiting for element to be visible, enabled and stable
+           - element is not visible
+      - retrying click action
+        - waiting 500ms
+
+
+       7 |   const field = page.getByLabel(label, { exact: true });
+       8 |   await field.click(); await field.fill(name);
+    >  9 |   await page.locator('.ant-select-dropdown:visible .ant-select-item-option-content').filter({hasText:name}).first().click();
+         |                                                                                                                     ^
+      10 | }
+      11 | async function alarmChange(page: Page, id: string, reason: string) {
+      12 |   const current = JSON.parse((await jsonAPI(page, '/alarms/' + encodeURIComponent(id))).text);
+        at choose (/path/to/SmartFactory-2026/Frontends/tests/phase4-business-details.spec.ts:9:117)
+        at /path/to/SmartFactory-2026/Frontends/tests/phase4-business-details.spec.ts:68:116
+
+    Error Context: ../../../../../private/tmp/smartfactory-frontend-phase4-20261005/playwright-results/phase4-business-details-th-103b8-preserve-numeric-extensions/error-context.md
+
+  1 failed
+    tests/phase4-business-details.spec.ts:65:1 › three protocol metadata forms validate required fields enums units and preserve numeric extensions 
+  1 passed (34.2s)

@@ -1,0 +1,16 @@
+
+> smartfactory-frontends@0.1.0 build
+> npm run check:api && npm run typecheck && vite build
+
+
+> smartfactory-frontends@0.1.0 check:api
+> node scripts/generate-api.mjs --check
+
+file:///path/to/SmartFactory-2026/Frontends/scripts/generate-api.mjs:45
+    if (await readFile(url, 'utf8') !== content) throw new Error(`Generated contract differs: ${url.pathname}; run npm run generate:api`);
+                                                       ^
+
+Error: Generated contract differs: /path/to/SmartFactory-2026/contracts/1.0/api-types.ts; run npm run generate:api
+    at file:///path/to/SmartFactory-2026/Frontends/scripts/generate-api.mjs:45:56
+
+Node.js v24.21.0

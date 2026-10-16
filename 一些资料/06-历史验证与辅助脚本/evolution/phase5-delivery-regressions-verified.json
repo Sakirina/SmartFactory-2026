@@ -1,0 +1,1403 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-10-05T08:58:20.944813+00:00",
+  "status": "verified_pending_independent_correspondence_review",
+  "regression": {
+    "path": "/private/tmp/smartfactory-delivery-regressions-20261005/verification.json",
+    "sha256": "1d2aa4c5b824588cd5bd8b7545cbde9c1971930b965eaeb637c3fa3f8c1e0115",
+    "bytes": 24837
+  },
+  "coordinator_regression_review": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-delivery-regressions-root-review.json",
+    "sha256": "16e5dcc713c5786e36985bb61555f2672a8f5acb33471291aca96bf1df857561",
+    "bytes": 5250
+  },
+  "passed_named_cases_including_subtests": 721,
+  "ordinary_skips": 19,
+  "failed_cases": 0,
+  "skip_policy": "Each ordinary skip remains a skip. Actual current parent cases and historical dedicated service/process cases are referenced with their input and binary scope. No new ordinary passes are assigned to skipped entrypoints.",
+  "modules": {
+    "Platform": {
+      "exit_code": 0,
+      "inputs_unchanged": true,
+      "counts_including_subtests": {
+        "pass": 618,
+        "skip": 12
+      },
+      "skips": [
+        {
+          "package": "competition2026/product/platform/internal/api",
+          "test": "TestBusinessNativeCEAlarmLifecycle",
+          "elapsed_seconds": 0,
+          "classification": "dedicated_external_environment",
+          "ordinary_action": "skip",
+          "counts_as_ordinary_pass": false,
+          "source": {
+            "path": "/path/to/SmartFactory-2026/Platform/internal/api/business_native_test.go",
+            "sha256": "c830b7d0e9d95ac5f54d37b13d8ed404c34c66421d7ca60c1b398fc8039eb86a",
+            "retained_copy": "/private/tmp/smartfactory-delivery-regressions-20261005/fixed-inputs/c830b7d0e9d95ac5f54d37b13d8ed404c34c66421d7ca60c1b398fc8039eb86a",
+            "function_line": 18,
+            "condition_excerpt": [
+              "func TestBusinessNativeCEAlarmLifecycle(t *testing.T) {",
+              "\tbase, credentials := os.Getenv(\"SF_NATIVE_URL\"), os.Getenv(\"SF_NATIVE_CREDENTIALS\")",
+              "\tif base == \"\" || credentials == \"\" {",
+              "\t\tt.Skip(\"isolated native CE URL and credential file required\")",
+              "\t}",
+              "\traw, e := os.ReadFile(credentials)",
+              "\tif e != nil {",
+              "\t\tt.Fatal(e)",
+              "\t}"
+            ]
+          },
+          "actual_skip_output": "=== RUN   TestBusinessNativeCEAlarmLifecycle\n    business_native_test.go:21: isolated native CE URL and credential file required\n--- SKIP: TestBusinessNativeCEAlarmLifecycle (0.00s)\n",
+          "specialized_references": [
+            {
+              "path": "/path/to/SmartFactory-2026/.local/evolution/business-workflows-verified.json",
+              "sha256": "7c5733db0b1d300557b6809aa75cea52ab8ca837d242c14f45207d39502c722b",
+              "bytes": 97429
+            },
+            {
+              "path": "/path/to/SmartFactory-2026/.local/evolution/business-native-verified.json",
+              "sha256": "6671e481af5227186a7cc64e1591990e504817a1c65d0897ce070e64eec8710f",
+              "bytes": 1531023
+            },
+            {
+              "path": "/private/tmp/smartfactory-business-native-20261005-retry/native-test.log",
+              "sha256": "bf62ebf067a6c3da0a4967760bcb5d1808edce998607d06679804c0e0d5aade3",
+              "bytes": 336
+            }
+          ],
+          "parent_tests": [],
+          "parent_passes_in_this_regression": [],
+          "explanation": "The accepted native CE lifecycle uses its preserved original API test binary. Later B05 worker fairness and B06 request/schema changes were tested by their own current HTTP/worker checks and this final regression."
+        },
+        {
+          "package": "competition2026/product/platform/internal/app",
+          "test": "TestControlledCloudEdgeControlIntervention",
+          "elapsed_seconds": 0,
+          "classification": "dedicated_external_environment",
+          "ordinary_action": "skip",
+          "counts_as_ordinary_pass": false,
+          "source": {
+            "path": "/path/to/SmartFactory-2026/Platform/internal/app/control_fixture_test.go",
+            "sha256": "54f186dce7ab4a2502d18cf27451b764cf6b8ea1b39c980039890a14cfd7e72f",
+            "retained_copy": "/private/tmp/smartfactory-delivery-regressions-20261005/fixed-inputs/54f186dce7ab4a2502d18cf27451b764cf6b8ea1b39c980039890a14cfd7e72f",
+            "function_line": 481,
+            "condition_excerpt": [
+              "func TestControlledCloudEdgeControlIntervention(t *testing.T) {",
+              "\tvar traceMu sync.Mutex",
+              "\tvar exportedSpans []*tracepb.Span",
+              "\tcollector := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {",
+              "\t\tif r.URL.Path == \"/v1/traces\" {",
+              "\t\t\traw, err := io.ReadAll(r.Body)",
+              "\t\t\tvar exported collectortrace.ExportTraceServiceRequest",
+              "\t\t\tif err != nil || proto.Unmarshal(raw, &exported) != nil {",
+              "\t\t\t\tt.Error(\"invalid trace export\", err)"
+            ]
+          },
+          "actual_skip_output": "=== RUN   TestControlledCloudEdgeControlIntervention\n    control_fixture_test.go:509: actual DataTransfer controlled fixture binary required\n--- SKIP: TestControlledCloudEdgeControlIntervention (0.00s)\n",
+          "specialized_references": [
+            {
+              "path": "/path/to/SmartFactory-2026/.local/evolution/control-execution-c05-verified.json",
+              "sha256": "22b0280cd8e57c0c16e9e576d39fefd10b36f0a24e10c51f7bb39ec220b9e1b0",
+              "bytes": 54510
+            },
+            {
+              "path": "/path/to/SmartFactory-2026/.local/evolution/control-evidence/c05/dual-app-final-binary.jsonl",
+              "sha256": "ae0caf2b4e45148ab0c34e3c8bb4b73ba405f3eb7a29b5c938b33bdc2f15eb64",
+              "bytes": 6525
+            }
+          ],
+          "parent_tests": [],
+          "parent_passes_in_this_regression": [],
+          "explanation": "This case requires the dedicated actual service/process environment indicated by the condition and was executed in the referenced accepted specialty verification."
+        },
+        {
+          "package": "competition2026/product/platform/internal/app",
+          "test": "TestControlBrowserFixture",
+          "elapsed_seconds": 0,
+          "classification": "subprocess_or_browser_auxiliary_entrypoint",
+          "ordinary_action": "skip",
+          "counts_as_ordinary_pass": false,
+          "source": {
+            "path": "/path/to/SmartFactory-2026/Platform/internal/app/control_fixture_test.go",
+            "sha256": "54f186dce7ab4a2502d18cf27451b764cf6b8ea1b39c980039890a14cfd7e72f",
+            "retained_copy": "/private/tmp/smartfactory-delivery-regressions-20261005/fixed-inputs/54f186dce7ab4a2502d18cf27451b764cf6b8ea1b39c980039890a14cfd7e72f",
+            "function_line": 741,
+            "condition_excerpt": [
+              "func TestControlBrowserFixture(t *testing.T) {",
+              "\troot := os.Getenv(\"SF_CONTROL_BROWSER_FIXTURE\")",
+              "\tif root == \"\" {",
+              "\t\tt.Skip(\"browser fixture output directory required\")",
+              "\t}",
+              "\tf := controlApplicationFixture(t, root)",
+              "\tf.dispatch(t, \"recover-browser\")",
+              "\tf.awaitState(t, f.edge, \"recover-browser\", \"result_unknown\")",
+              "\tf.awaitState(t, f.cloud, \"recover-browser\", \"result_unknown\")"
+            ]
+          },
+          "actual_skip_output": "=== RUN   TestControlBrowserFixture\n    control_fixture_test.go:744: browser fixture output directory required\n--- SKIP: TestControlBrowserFixture (0.00s)\n",
+          "specialized_references": [
+            {
+              "path": "/path/to/SmartFactory-2026/.local/evolution/control-c05-browser-root-review.json",
+              "sha256": "8b028dbb5c63f3bff7ce3c2ef337710a366cee7e550d69f474524c7a5a97b4e4",
+              "bytes": 1533
+            },
+            {
+              "path": "/path/to/SmartFactory-2026/.local/evolution/control-execution-c05-verified.json",
+              "sha256": "22b0280cd8e57c0c16e9e576d39fefd10b36f0a24e10c51f7bb39ec220b9e1b0",
+              "bytes": 54510
+            }
+          ],
+          "parent_tests": [],
+          "parent_passes_in_this_regression": [],
+          "explanation": "The entrypoint exposes actual cloud/Edge applications to the controlled browser and waits for its stop file; the accepted C05 browser evidence records this separate fixture lifecycle."
+        },
+        {
+          "package": "competition2026/product/platform/internal/application",
+          "test": "TestHistoryCrashProcess",
+          "elapsed_seconds": 0,
+          "classification": "subprocess_or_browser_auxiliary_entrypoint",
+          "ordinary_action": "skip",
+          "counts_as_ordinary_pass": false,
+          "source": {
+            "path": "/path/to/SmartFactory-2026/Platform/internal/application/history_restart_test.go",
+            "sha256": "bf4ac052b306d8523b440c43cda3fe857d5b8d9ff4e4a0f980bfd69c6d45d2f9",
+            "retained_copy": "/private/tmp/smartfactory-delivery-regressions-20261005/fixed-inputs/bf4ac052b306d8523b440c43cda3fe857d5b8d9ff4e4a0f980bfd69c6d45d2f9",
+            "function_line": 49,
+            "condition_excerpt": [
+              "func TestHistoryCrashProcess(t *testing.T) {",
+              "\tif os.Getenv(\"SF_HISTORY_CRASH_HELPER\") != \"1\" {",
+              "\t\tt.Skip(\"subprocess helper\")",
+              "\t}",
+              "\tctx := context.Background()",
+              "\tdb, err := store.Open(ctx, os.Getenv(\"SF_HISTORY_CRASH_DSN\"), \"history-test\", make([]byte, 32))",
+              "\tif err != nil {",
+              "\t\tt.Fatal(err)",
+              "\t}"
+            ]
+          },
+          "actual_skip_output": "=== RUN   TestHistoryCrashProcess\n    history_restart_test.go:51: subprocess helper\n--- SKIP: TestHistoryCrashProcess (0.00s)\n",
+          "specialized_references": [
+            {
+              "path": "/path/to/SmartFactory-2026/.local/evolution/history-analysis-verified.json",
+              "sha256": "cf8f4a1c754d696b12e8a1a1aaac4a754b5afa28501376b7629712939023175c",
+              "bytes": 33114
+            }
+          ],
+          "parent_tests": [
+            "TestHistorySIGKILLResumesCommittedCheckpointUsingOfficialRiverRescue",
+            "TestShadowSIGKILLPreservesResolvedParentSnapshot",
+            "TestShadowSIGKILLAtProductionDeliveryStages"
+          ],
+          "parent_passes_in_this_regression": [
+            {
+              "module": "Platform",
+              "test": "TestHistorySIGKILLResumesCommittedCheckpointUsingOfficialRiverRescue",
+              "elapsed_seconds": 19.87
+            },
+            {
+              "module": "Platform",
+              "test": "TestShadowSIGKILLPreservesResolvedParentSnapshot",
+              "elapsed_seconds": 19.91
+            },
+            {
+              "module": "Platform",
+              "test": "TestShadowSIGKILLAtProductionDeliveryStages/before-capture",
+              "elapsed_seconds": 0.14
+            },
+            {
+              "module": "Platform",
+              "test": "TestShadowSIGKILLAtProductionDeliveryStages/after-capture",
+              "elapsed_seconds": 0.12
+            },
+            {
+              "module": "Platform",
+              "test": "TestShadowSIGKILLAtProductionDeliveryStages/before-ack",
+              "elapsed_seconds": 0.11
+            },
+            {
+              "module": "Platform",
+              "test": "TestShadowSIGKILLAtProductionDeliveryStages",
+              "elapsed_seconds": 0.37
+            }
+          ],
+          "explanation": "The helper intentionally waits at a persisted stage. Three current parent tests launched this same test binary in helper mode, delivered actual SIGKILL and verified durable replay/shadow recovery; parent passes are recorded separately."
+        },
+        {
+          "package": "competition2026/product/platform/internal/coordination",
+          "test": "TestPersistentThreeReplicaUpgrade",
+          "elapsed_seconds": 0,
+          "classification": "dedicated_external_environment",
+          "ordinary_action": "skip",
+          "counts_as_ordinary_pass": false,
+          "source": {
+            "path": "/path/to/SmartFactory-2026/Platform/internal/coordination/infrastructure_test.go",
+            "sha256": "6ef7b13406040e7d119b9009f41bb96ec80ace3793586343be5015af2e2cb2da",
+            "retained_copy": "/private/tmp/smartfactory-delivery-regressions-20261005/fixed-inputs/6ef7b13406040e7d119b9009f41bb96ec80ace3793586343be5015af2e2cb2da",
+            "function_line": 30,
+            "condition_excerpt": [
+              "func TestPersistentThreeReplicaUpgrade(t *testing.T) {",
+              "\tdir := os.Getenv(\"SF_SITE_MIGRATION_FIXTURE\")",
+              "\tif dir == \"\" {",
+              "\t\tt.Skip(\"set SF_SITE_MIGRATION_FIXTURE to an isolated prepared .local/site directory\")",
+              "\t}",
+              "\tstep := os.Getenv(\"SF_SITE_MIGRATION_STEP\")",
+              "\tif step != \"seed\" && step != \"verify\" && step != \"advance\" {",
+              "\t\tt.Fatal(\"SF_SITE_MIGRATION_STEP must be seed, verify, or advance\")",
+              "\t}"
+            ]
+          },
+          "actual_skip_output": "=== RUN   TestPersistentThreeReplicaUpgrade\n    infrastructure_test.go:33: set SF_SITE_MIGRATION_FIXTURE to an isolated prepared .local/site directory\n--- SKIP: TestPersistentThreeReplicaUpgrade (0.00s)\n",
+          "specialized_references": [
+            {
+              "path": "/private/tmp/smartfactory-delivery-nats-cold-restore-final-20261005/verification.json",
+              "sha256": "498526dff6eaee1999a6e68e74eabce9a74c1dadcaccd18b1f57a4a759ef8e6b",
+              "bytes": 43790
+            },
+            {
+              "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-nats-cold-restore-root-review.json",
+              "sha256": "2d7c2ae7cf5fb794c403881b016afd22fb4f8073f98d4b734be8b1381f82a629",
+              "bytes": 15144
+            }
+          ],
+          "parent_tests": [],
+          "parent_passes_in_this_regression": [],
+          "explanation": "The final cold-restore execution compiled the one-line corrected current migration fixture, restored all 151 old backup files into an independent three-node cluster and executed the post-backup reconcile/resume steps. The original failed immutable-Params fixture is retained."
+        },
+        {
+          "package": "competition2026/product/platform/internal/coordination",
+          "test": "TestRealThreeReplicaCoordination",
+          "elapsed_seconds": 0,
+          "classification": "dedicated_external_environment",
+          "ordinary_action": "skip",
+          "counts_as_ordinary_pass": false,
+          "source": {
+            "path": "/path/to/SmartFactory-2026/Platform/internal/coordination/integration_test.go",
+            "sha256": "b0c41efaa23940989d2f5356b11714333e3aa2d6bc701339b76de94a69669360",
+            "retained_copy": "/private/tmp/smartfactory-delivery-regressions-20261005/fixed-inputs/b0c41efaa23940989d2f5356b11714333e3aa2d6bc701339b76de94a69669360",
+            "function_line": 218,
+            "condition_excerpt": [
+              "func TestRealThreeReplicaCoordination(t *testing.T) {",
+              "\tf := realSite(t)",
+              "\tctx := f.ctx",
+              "\tt.Run(\"single_owner_and_fencing\", func(t *testing.T) {",
+              "\t\tfence, release, e := f.nodes[0].Acquire(ctx, \"lease\", \"edge-a\", 2*time.Second)",
+              "\t\tif e != nil {",
+              "\t\t\tt.Fatal(e)",
+              "\t\t}",
+              "\t\tif _, _, e = f.nodes[1].Acquire(ctx, \"lease\", \"edge-b\", 2*time.Second); !errors.Is(e, control.ErrLeaseHeld) {"
+            ]
+          },
+          "actual_skip_output": "=== RUN   TestRealThreeReplicaCoordination\n    integration_test.go:219: set SF_SITE_INTEGRATION to the prepared .local/site directory\n--- SKIP: TestRealThreeReplicaCoordination (0.00s)\n",
+          "specialized_references": [
+            {
+              "path": "/path/to/SmartFactory-2026/.local/evolution/message-infrastructure-verified.json",
+              "sha256": "e186ba95d7c29ec1df031030d57f3b9bbb07d20ea8f70adb04ca514dccfa76aa",
+              "bytes": 94862
+            },
+            {
+              "path": "/path/to/SmartFactory-2026/.local/evolution/message-infrastructure-root-review.json",
+              "sha256": "13d6566fba606b9fc4881ae791820003d3cfcae8691a0043298bee4506222333",
+              "bytes": 82416
+            },
+            {
+              "path": "/private/tmp/sf-message-nats-20261005-final/verification.json",
+              "sha256": "840f18cb219a672264c89826e29d7e8a4101b31553c579962c10588b87f96165",
+              "bytes": 36408
+            }
+          ],
+          "parent_tests": [],
+          "parent_passes_in_this_regression": [],
+          "explanation": "This case requires the dedicated actual service/process environment indicated by the condition and was executed in the referenced accepted specialty verification."
+        },
+        {
+          "package": "competition2026/product/platform/internal/coordination",
+          "test": "TestRealThreeReplicaReadOnlyReconcileAndManualResume",
+          "elapsed_seconds": 0,
+          "classification": "dedicated_external_environment",
+          "ordinary_action": "skip",
+          "counts_as_ordinary_pass": false,
+          "source": {
+            "path": "/path/to/SmartFactory-2026/Platform/internal/coordination/intervention_test.go",
+            "sha256": "635023f249c6203904fdadc379ef6955a8d66fcc55e3a435b4e90aa249a1310c",
+            "retained_copy": "/private/tmp/smartfactory-delivery-regressions-20261005/fixed-inputs/635023f249c6203904fdadc379ef6955a8d66fcc55e3a435b4e90aa249a1310c",
+            "function_line": 14,
+            "condition_excerpt": [
+              "func TestRealThreeReplicaReadOnlyReconcileAndManualResume(t *testing.T) {",
+              "\tf := realSite(t)",
+              "\tctx := f.ctx",
+              "\tu := model.User{ID: \"engineer\", Name: \"Engineer\", Roles: []string{\"engineer\"}, Resources: []string{\"*\"}, Active: true, Version: 1}",
+              "\tfor _, s := range f.stores {",
+              "\t\tif _, err := s.Put(ctx, \"user\", u.ID, 0, u); err != nil {",
+              "\t\t\tt.Fatal(err)",
+              "\t\t}",
+              "\t}"
+            ]
+          },
+          "actual_skip_output": "=== RUN   TestRealThreeReplicaReadOnlyReconcileAndManualResume\n    intervention_test.go:15: set SF_SITE_INTEGRATION to the prepared .local/site directory\n--- SKIP: TestRealThreeReplicaReadOnlyReconcileAndManualResume (0.00s)\n",
+          "specialized_references": [
+            {
+              "path": "/path/to/SmartFactory-2026/.local/evolution/control-execution-verified.json",
+              "sha256": "e8d7c544ce7fe029a0048890a292c893da8fbef70b79ac5af888ba8af388fe8d",
+              "bytes": 81826
+            },
+            {
+              "path": "/path/to/SmartFactory-2026/.local/evolution/control-evidence/nats-final.jsonl",
+              "sha256": "09e4de0a1fd1322a71d98aa2213675d5d9d6b930dd19829fd3ee37f3e67ec5fe",
+              "bytes": 8126
+            }
+          ],
+          "parent_tests": [],
+          "parent_passes_in_this_regression": [],
+          "explanation": "This case requires the dedicated actual service/process environment indicated by the condition and was executed in the referenced accepted specialty verification."
+        },
+        {
+          "package": "competition2026/product/platform/internal/coordination",
+          "test": "TestRealConcurrentOperationDeliveryKeepsLeaseContentionRetryable",
+          "elapsed_seconds": 0,
+          "classification": "dedicated_external_environment",
+          "ordinary_action": "skip",
+          "counts_as_ordinary_pass": false,
+          "source": {
+            "path": "/path/to/SmartFactory-2026/Platform/internal/coordination/intervention_test.go",
+            "sha256": "635023f249c6203904fdadc379ef6955a8d66fcc55e3a435b4e90aa249a1310c",
+            "retained_copy": "/private/tmp/smartfactory-delivery-regressions-20261005/fixed-inputs/635023f249c6203904fdadc379ef6955a8d66fcc55e3a435b4e90aa249a1310c",
+            "function_line": 83,
+            "condition_excerpt": [
+              "func TestRealConcurrentOperationDeliveryKeepsLeaseContentionRetryable(t *testing.T) {",
+              "\tf := realSite(t)",
+              "\tctx := f.ctx",
+              "\tu := model.User{ID: \"operator\", Active: true, Roles: []string{\"engineer\"}, Resources: []string{\"*\"}, Version: 1}",
+              "\tif _, err := f.stores[0].Put(ctx, \"user\", u.ID, 0, u); err != nil {",
+              "\t\tt.Fatal(err)",
+              "\t}",
+              "\tp := identity.Principal{User: u, Actor: model.Actor{UserID: u.ID}}",
+              "\tf.devices[1].loseResponse = true"
+            ]
+          },
+          "actual_skip_output": "=== RUN   TestRealConcurrentOperationDeliveryKeepsLeaseContentionRetryable\n    intervention_test.go:84: set SF_SITE_INTEGRATION to the prepared .local/site directory\n--- SKIP: TestRealConcurrentOperationDeliveryKeepsLeaseContentionRetryable (0.00s)\n",
+          "specialized_references": [
+            {
+              "path": "/path/to/SmartFactory-2026/.local/evolution/control-execution-verified.json",
+              "sha256": "e8d7c544ce7fe029a0048890a292c893da8fbef70b79ac5af888ba8af388fe8d",
+              "bytes": 81826
+            },
+            {
+              "path": "/path/to/SmartFactory-2026/.local/evolution/control-evidence/nats-final.jsonl",
+              "sha256": "09e4de0a1fd1322a71d98aa2213675d5d9d6b930dd19829fd3ee37f3e67ec5fe",
+              "bytes": 8126
+            }
+          ],
+          "parent_tests": [],
+          "parent_passes_in_this_regression": [],
+          "explanation": "This case requires the dedicated actual service/process environment indicated by the condition and was executed in the referenced accepted specialty verification."
+        },
+        {
+          "package": "competition2026/product/platform/internal/plugins",
+          "test": "TestActualOrganizationProcessPullAndCrashIsolation",
+          "elapsed_seconds": 0,
+          "classification": "dedicated_external_environment",
+          "ordinary_action": "skip",
+          "counts_as_ordinary_pass": false,
+          "source": {
+            "path": "/path/to/SmartFactory-2026/Platform/internal/plugins/manager_test.go",
+            "sha256": "4aebf8764c014072d50c602d43106756c3a8c7f501120ad10fa3fcc7c04893e1",
+            "retained_copy": "/private/tmp/smartfactory-delivery-regressions-20261005/fixed-inputs/4aebf8764c014072d50c602d43106756c3a8c7f501120ad10fa3fcc7c04893e1",
+            "function_line": 33,
+            "condition_excerpt": [
+              "func TestActualOrganizationProcessPullAndCrashIsolation(t *testing.T) {",
+              "\tbinary := os.Getenv(\"SF_HR_PLUGIN_BINARY\")",
+              "\tif binary == \"\" {",
+              "\t\tt.Skip(\"set SF_HR_PLUGIN_BINARY to the built example process\")",
+              "\t}",
+              "\tm := pluginFixture(t)",
+              "\tctx := context.Background()",
+              "\tnow := m.Store.Now()",
+              "\tm.Store.Now = func() time.Time { return now }"
+            ]
+          },
+          "actual_skip_output": "=== RUN   TestActualOrganizationProcessPullAndCrashIsolation\n    manager_test.go:36: set SF_HR_PLUGIN_BINARY to the built example process\n--- SKIP: TestActualOrganizationProcessPullAndCrashIsolation (0.00s)\n",
+          "specialized_references": [
+            {
+              "path": "/path/to/SmartFactory-2026/.local/evolution/phase2-independent-review.json",
+              "sha256": "5fae085d5cd39ea7b5dadfab39a8b7d036469aa4fecd887c942ad15b3f7d19a2",
+              "bytes": 151886
+            },
+            {
+              "path": "/path/to/SmartFactory-2026/.local/evolution/phase2-review-evidence/plugin-actual-process.metadata.json",
+              "sha256": "b018c293bcde3548a6cb64cc85574b3fa67ea764d08b0a6fbdf4b34780bf6ada",
+              "bytes": 7199224
+            }
+          ],
+          "parent_tests": [],
+          "parent_passes_in_this_regression": [],
+          "explanation": "This case requires the dedicated actual service/process environment indicated by the condition and was executed in the referenced accepted specialty verification."
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "test": "TestControlledPostgresUpgradeFixture",
+          "elapsed_seconds": 0,
+          "classification": "dedicated_external_environment",
+          "ordinary_action": "skip",
+          "counts_as_ordinary_pass": false,
+          "source": {
+            "path": "/path/to/SmartFactory-2026/Platform/internal/store/upgrade_fixture_test.go",
+            "sha256": "da138a0d7f67d5bb928d1229f78ef780f62ebf543e3664b5f96db874b0cdbe3a",
+            "retained_copy": "/private/tmp/smartfactory-delivery-regressions-20261005/fixed-inputs/da138a0d7f67d5bb928d1229f78ef780f62ebf543e3664b5f96db874b0cdbe3a",
+            "function_line": 30,
+            "condition_excerpt": [
+              "func TestControlledPostgresUpgradeFixture(t *testing.T) {",
+              "\tphase, dsn := os.Getenv(\"SF_UPGRADE_PHASE\"), os.Getenv(\"SF_UPGRADE_DATABASE\")",
+              "\tif phase == \"\" || dsn == \"\" {",
+              "\t\tt.Skip(\"controlled PostgreSQL 16 -> 18 fixture\")",
+              "\t}",
+              "\tctx := context.Background()",
+              "\tnow := time.Date(2026, 10, 4, 12, 0, 0, 0, time.UTC)",
+              "\tpoints := upgradePoints()",
+              "\toriginal := `{\"id\":\"legacy-device\",\"version\":3,\"kind\":\"device\",\"name\":\"Legacy\",\"attributes\":{\"counter\":9007199254740993}}`"
+            ]
+          },
+          "actual_skip_output": "=== RUN   TestControlledPostgresUpgradeFixture\n    upgrade_fixture_test.go:33: controlled PostgreSQL 16 -> 18 fixture\n--- SKIP: TestControlledPostgresUpgradeFixture (0.00s)\n",
+          "specialized_references": [
+            {
+              "path": "/path/to/SmartFactory-2026/.local/evolution/storage-tasks-verified.json",
+              "sha256": "70e1f0a008968d9a0a07b2b55b05716fa62367546a2cbaa9f477b44f04926045",
+              "bytes": 97545
+            },
+            {
+              "path": "/path/to/SmartFactory-2026/.local/evolution/postgres-migration-root-review.json",
+              "sha256": "182ace571bc5e4e5d86e7495fe84b0f5841d4592bc992c7af551be10168c5408",
+              "bytes": 2356
+            },
+            {
+              "path": "/path/to/SmartFactory-2026/.local/evolution/pg16-to18-dump-restore.json",
+              "sha256": "f02868ad249c6e879041eec42436699204240d397e6cf88354b87c3e9bc4a534",
+              "bytes": 4510
+            },
+            {
+              "path": "/private/tmp/storage-upgrade-seed.log",
+              "sha256": "fc63523574ca436555dafd17853ead5e2a2e5f714e9c9206f90b2317b188a45d",
+              "bytes": 496
+            },
+            {
+              "path": "/private/tmp/storage-upgrade-verify.log",
+              "sha256": "a2c249e1f5685e0f8357465d3cd1cabd0f91e1993d00497e4212e49bc0d1ab5e",
+              "bytes": 550
+            }
+          ],
+          "parent_tests": [],
+          "parent_passes_in_this_regression": [],
+          "explanation": "The accepted dedicated seed and verify executions surround the actual PG16 custom dump/PG18 restore. Native source database was later closed, and current PG is a new validation database; historical migration evidence and dump remain fixed."
+        },
+        {
+          "package": "competition2026/product/platform/internal/tasks",
+          "test": "TestTaskCrashProcess",
+          "elapsed_seconds": 0,
+          "classification": "subprocess_or_browser_auxiliary_entrypoint",
+          "ordinary_action": "skip",
+          "counts_as_ordinary_pass": false,
+          "source": {
+            "path": "/path/to/SmartFactory-2026/Platform/internal/tasks/service_test.go",
+            "sha256": "49b50ca60334295f556a4e9d8797f0fd198d34ed20399793003d8f12d70df134",
+            "retained_copy": "/private/tmp/smartfactory-delivery-regressions-20261005/fixed-inputs/49b50ca60334295f556a4e9d8797f0fd198d34ed20399793003d8f12d70df134",
+            "function_line": 134,
+            "condition_excerpt": [
+              "func TestTaskCrashProcess(t *testing.T) {",
+              "\tif os.Getenv(\"SF_TASK_CRASH_HELPER\") != \"1\" {",
+              "\t\tt.Skip(\"subprocess helper\")",
+              "\t}",
+              "\ts, err := store.Open(context.Background(), os.Getenv(\"SF_TASK_CRASH_DSN\"), \"tasks-fixture\", make([]byte, 32))",
+              "\tif err != nil {",
+              "\t\tt.Fatal(err)",
+              "\t}",
+              "\thandlers := Handlers{Projection: func(context.Context, store.Delivery) error {"
+            ]
+          },
+          "actual_skip_output": "=== RUN   TestTaskCrashProcess\n    service_test.go:136: subprocess helper\n--- SKIP: TestTaskCrashProcess (0.00s)\n",
+          "specialized_references": [],
+          "parent_tests": [
+            "TestRiverRecoversRecomputeCheckpointAfterProcessKill",
+            "TestRiverRecoversAfterProcessKill"
+          ],
+          "parent_passes_in_this_regression": [
+            {
+              "module": "Platform",
+              "test": "TestRiverRecoversRecomputeCheckpointAfterProcessKill",
+              "elapsed_seconds": 20.44
+            },
+            {
+              "module": "Platform",
+              "test": "TestRiverRecoversAfterProcessKill",
+              "elapsed_seconds": 17.16
+            }
+          ],
+          "explanation": "The helper intentionally waits after starting an actual worker or persisting a recompute checkpoint. Two current parent tests launched the same test binary, killed it and verified official River rescue; parent passes are recorded separately."
+        },
+        {
+          "package": "competition2026/product/platform/internal/thingsboard",
+          "test": "TestNativeCalculatedFieldAlarmAndRetention",
+          "elapsed_seconds": 0,
+          "classification": "dedicated_external_environment",
+          "ordinary_action": "skip",
+          "counts_as_ordinary_pass": false,
+          "source": {
+            "path": "/path/to/SmartFactory-2026/Platform/internal/thingsboard/native_test.go",
+            "sha256": "ee9289dfcadf38dd55303d51c95705833b84c4c18a623dcf18148a8bfe81a1b7",
+            "retained_copy": "/private/tmp/smartfactory-delivery-regressions-20261005/fixed-inputs/ee9289dfcadf38dd55303d51c95705833b84c4c18a623dcf18148a8bfe81a1b7",
+            "function_line": 18,
+            "condition_excerpt": [
+              "func TestNativeCalculatedFieldAlarmAndRetention(t *testing.T) {",
+              "\tbase := os.Getenv(\"SF_NATIVE_URL\")",
+              "\tcredentials := os.Getenv(\"SF_NATIVE_CREDENTIALS\")",
+              "\tif base == \"\" || credentials == \"\" {",
+              "\t\tt.Skip(\"set SF_NATIVE_URL and SF_NATIVE_CREDENTIALS for the pinned native integration\")",
+              "\t}",
+              "\traw, err := os.ReadFile(credentials)",
+              "\tif err != nil {",
+              "\t\tt.Fatal(err)"
+            ]
+          },
+          "actual_skip_output": "=== RUN   TestNativeCalculatedFieldAlarmAndRetention\n    native_test.go:22: set SF_NATIVE_URL and SF_NATIVE_CREDENTIALS for the pinned native integration\n--- SKIP: TestNativeCalculatedFieldAlarmAndRetention (0.00s)\n",
+          "specialized_references": [
+            {
+              "path": "/path/to/SmartFactory-2026/.local/evolution/message-infrastructure-verified.json",
+              "sha256": "e186ba95d7c29ec1df031030d57f3b9bbb07d20ea8f70adb04ca514dccfa76aa",
+              "bytes": 94862
+            },
+            {
+              "path": "/path/to/SmartFactory-2026/.local/evolution/native-calculated-alarm-retention-verified.json",
+              "sha256": "0ed5a9e3e83a97260f4f9b5e68832f62cfc7d2799741a4de2cfce703713e3555",
+              "bytes": 20330
+            }
+          ],
+          "parent_tests": [],
+          "parent_passes_in_this_regression": [],
+          "explanation": "This case requires the dedicated actual service/process environment indicated by the condition and was executed in the referenced accepted specialty verification."
+        }
+      ],
+      "failures": []
+    },
+    "DataTransfer": {
+      "exit_code": 0,
+      "inputs_unchanged": true,
+      "counts_including_subtests": {
+        "pass": 103,
+        "skip": 7
+      },
+      "skips": [
+        {
+          "package": "competition2026/product/datatransfer/internal/connector/opcua",
+          "test": "TestNativeClientExternalSmoke",
+          "elapsed_seconds": 0,
+          "classification": "dedicated_external_environment",
+          "ordinary_action": "skip",
+          "counts_as_ordinary_pass": false,
+          "source": {
+            "path": "/path/to/SmartFactory-2026/DataTransfer/internal/connector/opcua/connector_test.go",
+            "sha256": "f6c80580e9c5c38a908800925e721556b9e7404ee681c6b33e8ca13e299fc3de",
+            "retained_copy": "/private/tmp/smartfactory-phase5-protocol-coordinator-evidence-20261005/inputs/f6c80580e9c5c38a908800925e721556b9e7404ee681c6b33e8ca13e299fc3de",
+            "function_line": 113,
+            "condition_excerpt": [
+              "func TestNativeClientExternalSmoke(t *testing.T) {",
+              "\tendpoint := os.Getenv(\"DT_OPCUA_SMOKE_ENDPOINT\")",
+              "\tif endpoint == \"\" {",
+              "\t\tt.Skip(\"DT_OPCUA_SMOKE_ENDPOINT is not set\")",
+              "\t}",
+              "\tclient, err := nativeClientFactory(config.ConnectorConfig{",
+              "\t\tConnectorID: \"opcua-smoke\",",
+              "\t\tProtocol:    Protocol,",
+              "\t\tConnection: config.ConnectionConfig{"
+            ]
+          },
+          "actual_skip_output": "=== RUN   TestNativeClientExternalSmoke\n    connector_test.go:116: DT_OPCUA_SMOKE_ENDPOINT is not set\n--- SKIP: TestNativeClientExternalSmoke (0.00s)\n",
+          "specialized_references": [
+            {
+              "path": "/private/tmp/smartfactory-delivery-protocols-final-20261005/result.json",
+              "sha256": "accf43bcb0fa746e436862a5255bf31516eaab22fdcf4b4d22e69014ba9b6a1b",
+              "bytes": 16142
+            },
+            {
+              "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-delivery-protocols-root-review.json",
+              "sha256": "52e8eab32acf2eca9a702076e5362f1a36e4e8c460caf74c7d44b35eb804fff0",
+              "bytes": 14067
+            }
+          ],
+          "parent_tests": [],
+          "parent_passes_in_this_regression": [],
+          "explanation": "This case requires the dedicated actual service/process environment indicated by the condition and was executed in the referenced accepted specialty verification."
+        },
+        {
+          "package": "competition2026/product/datatransfer/internal/connector/opcua",
+          "test": "TestNativeSignedEncryptedMethodAndCertificateValidation",
+          "elapsed_seconds": 0,
+          "classification": "dedicated_external_environment",
+          "ordinary_action": "skip",
+          "counts_as_ordinary_pass": false,
+          "source": {
+            "path": "/path/to/SmartFactory-2026/DataTransfer/internal/connector/opcua/security_recovery_test.go",
+            "sha256": "543ef9cb4e9e1f83ce67409935f49481271b3bc4ab7dd053d37a439b0fcba1fb",
+            "retained_copy": "/private/tmp/smartfactory-phase5-protocol-coordinator-evidence-20261005/inputs/543ef9cb4e9e1f83ce67409935f49481271b3bc4ab7dd053d37a439b0fcba1fb",
+            "function_line": 40,
+            "condition_excerpt": [
+              "func TestNativeSignedEncryptedMethodAndCertificateValidation(t *testing.T) {",
+              "\tpython := os.Getenv(\"SF_OPCUA_PYTHON\")",
+              "\tif python == \"\" {",
+              "\t\tt.Skip(\"set SF_OPCUA_PYTHON to the interpreter with tests/fixtures/requirements-opcua.txt\")",
+              "\t}",
+              "\tctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)",
+              "\tdefer cancel()",
+              "\tdir := t.TempDir()",
+              "\tcaKey, e := rsa.GenerateKey(rand.Reader, 2048)"
+            ]
+          },
+          "actual_skip_output": "=== RUN   TestNativeSignedEncryptedMethodAndCertificateValidation\n    security_recovery_test.go:43: set SF_OPCUA_PYTHON to the interpreter with tests/fixtures/requirements-opcua.txt\n--- SKIP: TestNativeSignedEncryptedMethodAndCertificateValidation (0.00s)\n",
+          "specialized_references": [
+            {
+              "path": "/private/tmp/smartfactory-delivery-protocols-final-20261005/result.json",
+              "sha256": "accf43bcb0fa746e436862a5255bf31516eaab22fdcf4b4d22e69014ba9b6a1b",
+              "bytes": 16142
+            },
+            {
+              "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-delivery-protocols-root-review.json",
+              "sha256": "52e8eab32acf2eca9a702076e5362f1a36e4e8c460caf74c7d44b35eb804fff0",
+              "bytes": 14067
+            }
+          ],
+          "parent_tests": [],
+          "parent_passes_in_this_regression": [],
+          "explanation": "This case requires the dedicated actual service/process environment indicated by the condition and was executed in the referenced accepted specialty verification."
+        },
+        {
+          "package": "competition2026/product/datatransfer/internal/connector/sidecar",
+          "test": "TestHTTPExampleProcessCollectsAndControlsSimulator",
+          "elapsed_seconds": 0,
+          "classification": "dedicated_external_environment",
+          "ordinary_action": "skip",
+          "counts_as_ordinary_pass": false,
+          "source": {
+            "path": "/path/to/SmartFactory-2026/DataTransfer/internal/connector/sidecar/http_example_test.go",
+            "sha256": "c2a317c6cf6527a023ea18ea68c2b71bce8ed417ffde524512b4ab879d60a0f3",
+            "retained_copy": "/private/tmp/smartfactory-phase5-protocol-coordinator-evidence-20261005/inputs/c2a317c6cf6527a023ea18ea68c2b71bce8ed417ffde524512b4ab879d60a0f3",
+            "function_line": 16,
+            "condition_excerpt": [
+              "func TestHTTPExampleProcessCollectsAndControlsSimulator(t *testing.T) {",
+              "\texecutable := os.Getenv(\"SF_HTTP_PLUGIN_BINARY\")",
+              "\tif executable == \"\" {",
+              "\t\tt.Skip(\"set SF_HTTP_PLUGIN_BINARY to the built examples/http-plugin\")",
+              "\t}",
+              "\tstate, e := simulator.OpenState(filepath.Join(t.TempDir(), \"simulator.db\"))",
+              "\tif e != nil {",
+              "\t\tt.Fatal(e)",
+              "\t}"
+            ]
+          },
+          "actual_skip_output": "=== RUN   TestHTTPExampleProcessCollectsAndControlsSimulator\n    http_example_test.go:19: set SF_HTTP_PLUGIN_BINARY to the built examples/http-plugin\n--- SKIP: TestHTTPExampleProcessCollectsAndControlsSimulator (0.00s)\n",
+          "specialized_references": [
+            {
+              "path": "/private/tmp/smartfactory-delivery-protocols-final-20261005/result.json",
+              "sha256": "accf43bcb0fa746e436862a5255bf31516eaab22fdcf4b4d22e69014ba9b6a1b",
+              "bytes": 16142
+            },
+            {
+              "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-delivery-protocols-root-review.json",
+              "sha256": "52e8eab32acf2eca9a702076e5362f1a36e4e8c460caf74c7d44b35eb804fff0",
+              "bytes": 14067
+            }
+          ],
+          "parent_tests": [],
+          "parent_passes_in_this_regression": [],
+          "explanation": "This case requires the dedicated actual service/process environment indicated by the condition and was executed in the referenced accepted specialty verification."
+        },
+        {
+          "package": "competition2026/product/datatransfer/internal/northbound/grpc",
+          "test": "TestControlledControlDeviceFixture",
+          "elapsed_seconds": 0,
+          "classification": "subprocess_or_browser_auxiliary_entrypoint",
+          "ordinary_action": "skip",
+          "counts_as_ordinary_pass": false,
+          "source": {
+            "path": "/path/to/SmartFactory-2026/DataTransfer/internal/northbound/grpc/control_fixture_test.go",
+            "sha256": "3bc6d1449c282b249ee953930adc59ef409666f705a9084805bced03bf885a32",
+            "retained_copy": "/private/tmp/smartfactory-phase5-protocol-coordinator-evidence-20261005/inputs/3bc6d1449c282b249ee953930adc59ef409666f705a9084805bced03bf885a32",
+            "function_line": 54,
+            "condition_excerpt": [
+              "func TestControlledControlDeviceFixture(t *testing.T) {",
+              "\tdir := os.Getenv(\"SF_CONTROL_DEVICE_FIXTURE\")",
+              "\tif dir == \"\" {",
+              "\t\tt.Skip(\"controlled device fixture directory required\")",
+              "\t}",
+              "\tctx, cancel := context.WithCancel(context.Background())",
+              "\tdefer cancel()",
+              "\tdevice := &countedModbus{grpcFakeModbusClient: newGRPCFakeModbusClient(), actions: map[string]int{}, directory: dir}",
+              "\tconnector.Register(modbus.Protocol, func() connector.Connector {"
+            ]
+          },
+          "actual_skip_output": "=== RUN   TestControlledControlDeviceFixture\n    control_fixture_test.go:57: controlled device fixture directory required\n--- SKIP: TestControlledControlDeviceFixture (0.00s)\n",
+          "specialized_references": [
+            {
+              "path": "/path/to/SmartFactory-2026/.local/evolution/control-execution-c05-verified.json",
+              "sha256": "22b0280cd8e57c0c16e9e576d39fefd10b36f0a24e10c51f7bb39ec220b9e1b0",
+              "bytes": 54510
+            },
+            {
+              "path": "/path/to/SmartFactory-2026/.local/evolution/control-evidence/c05/dual-app-final-binary.jsonl",
+              "sha256": "ae0caf2b4e45148ab0c34e3c8bb4b73ba405f3eb7a29b5c938b33bdc2f15eb64",
+              "bytes": 6525
+            }
+          ],
+          "parent_tests": [
+            "TestControlledCloudEdgeControlIntervention"
+          ],
+          "parent_passes_in_this_regression": [],
+          "explanation": "This helper is started by the accepted cloud/Edge control integration in an actual separate process with generated gRPC, persistent command journal and a counted Modbus simulator."
+        },
+        {
+          "package": "competition2026/product/datatransfer/internal/northbound/mqtt",
+          "test": "TestExternalBrokerSmoke",
+          "elapsed_seconds": 0,
+          "classification": "dedicated_external_environment",
+          "ordinary_action": "skip",
+          "counts_as_ordinary_pass": false,
+          "source": {
+            "path": "/path/to/SmartFactory-2026/DataTransfer/internal/northbound/mqtt/adapter_test.go",
+            "sha256": "8d0d8015b870806fce5ba79010ba244d34566a6e2661dac22688373b1f09a8f2",
+            "retained_copy": "/private/tmp/smartfactory-phase5-protocol-coordinator-evidence-20261005/inputs/8d0d8015b870806fce5ba79010ba244d34566a6e2661dac22688373b1f09a8f2",
+            "function_line": 97,
+            "condition_excerpt": [
+              "func TestExternalBrokerSmoke(t *testing.T) {",
+              "\tbroker := os.Getenv(\"DT_MQTT_SMOKE_BROKER\")",
+              "\tif broker == \"\" {",
+              "\t\tt.Skip(\"DT_MQTT_SMOKE_BROKER is not set\")",
+              "\t}",
+              "\tcfg := testMQTTConfig(broker)",
+              "\tcfg.Username = os.Getenv(\"DT_MQTT_SMOKE_USERNAME\")",
+              "\tcfg.Password = os.Getenv(\"DT_MQTT_SMOKE_PASSWORD\")",
+              "\tcfg.TLS.Enabled = os.Getenv(\"DT_MQTT_SMOKE_TLS_ENABLED\") == \"true\""
+            ]
+          },
+          "actual_skip_output": "=== RUN   TestExternalBrokerSmoke\n    adapter_test.go:100: DT_MQTT_SMOKE_BROKER is not set\n--- SKIP: TestExternalBrokerSmoke (0.00s)\n",
+          "specialized_references": [
+            {
+              "path": "/private/tmp/smartfactory-delivery-protocols-final-20261005/result.json",
+              "sha256": "accf43bcb0fa746e436862a5255bf31516eaab22fdcf4b4d22e69014ba9b6a1b",
+              "bytes": 16142
+            },
+            {
+              "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-delivery-protocols-root-review.json",
+              "sha256": "52e8eab32acf2eca9a702076e5362f1a36e4e8c460caf74c7d44b35eb804fff0",
+              "bytes": 14067
+            }
+          ],
+          "parent_tests": [],
+          "parent_passes_in_this_regression": [],
+          "explanation": "This case requires the dedicated actual service/process environment indicated by the condition and was executed in the referenced accepted specialty verification."
+        },
+        {
+          "package": "competition2026/product/datatransfer/tests/acceptance",
+          "test": "TestDurableProcessFixture",
+          "elapsed_seconds": 0,
+          "classification": "subprocess_or_browser_auxiliary_entrypoint",
+          "ordinary_action": "skip",
+          "counts_as_ordinary_pass": false,
+          "source": {
+            "path": "/path/to/SmartFactory-2026/DataTransfer/tests/acceptance/durable_test.go",
+            "sha256": "c5f8eed0e0d02ea9d514b54c3335e5dca1dbd6a52d6aa5069b538270ed84e3cb",
+            "retained_copy": "/private/tmp/smartfactory-phase5-protocol-coordinator-evidence-20261005/inputs/c5f8eed0e0d02ea9d514b54c3335e5dca1dbd6a52d6aa5069b538270ed84e3cb",
+            "function_line": 41,
+            "condition_excerpt": [
+              "func TestDurableProcessFixture(t *testing.T) {",
+              "\tif os.Getenv(\"SF_DURABLE_CHILD\") != \"1\" {",
+              "\t\tt.Skip(\"subprocess fixture\")",
+              "\t}",
+              "\tctx := context.Background()",
+              "\tdirectory := os.Getenv(\"SF_DURABLE_DIRECTORY\")",
+              "\ttotal, _ := strconv.Atoi(os.Getenv(\"SF_ACCEPTANCE_COUNT\"))",
+              "\tjournal, err := state.Open(ctx, filepath.Join(directory, \"sender.db\"))",
+              "\tif err != nil {"
+            ]
+          },
+          "actual_skip_output": "=== RUN   TestDurableProcessFixture\n    durable_test.go:43: subprocess fixture\n--- SKIP: TestDurableProcessFixture (0.00s)\n",
+          "specialized_references": [
+            {
+              "path": "/private/tmp/smartfactory-delivery-protocols-final-20261005/result.json",
+              "sha256": "accf43bcb0fa746e436862a5255bf31516eaab22fdcf4b4d22e69014ba9b6a1b",
+              "bytes": 16142
+            },
+            {
+              "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-delivery-protocols-root-review.json",
+              "sha256": "52e8eab32acf2eca9a702076e5362f1a36e4e8c460caf74c7d44b35eb804fff0",
+              "bytes": 14067
+            }
+          ],
+          "parent_tests": [
+            "TestDurableMessagesFaultInjection"
+          ],
+          "parent_passes_in_this_regression": [],
+          "explanation": "The A06 parent launches this fixture executable in four actual processes with three sender hard restarts. Its no-environment ordinary invocation is skipped; the parent 100000-message result is separate."
+        },
+        {
+          "package": "competition2026/product/datatransfer/tests/acceptance",
+          "test": "TestDurableMessagesFaultInjection",
+          "elapsed_seconds": 0,
+          "classification": "dedicated_external_environment",
+          "ordinary_action": "skip",
+          "counts_as_ordinary_pass": false,
+          "source": {
+            "path": "/path/to/SmartFactory-2026/DataTransfer/tests/acceptance/durable_test.go",
+            "sha256": "c5f8eed0e0d02ea9d514b54c3335e5dca1dbd6a52d6aa5069b538270ed84e3cb",
+            "retained_copy": "/private/tmp/smartfactory-phase5-protocol-coordinator-evidence-20261005/inputs/c5f8eed0e0d02ea9d514b54c3335e5dca1dbd6a52d6aa5069b538270ed84e3cb",
+            "function_line": 99,
+            "condition_excerpt": [
+              "func TestDurableMessagesFaultInjection(t *testing.T) {",
+              "\ttext := os.Getenv(\"SF_ACCEPTANCE_COUNT\")",
+              "\tif text == \"\" {",
+              "\t\tt.Skip(\"set SF_ACCEPTANCE_COUNT=100000 for A06\")",
+              "\t}",
+              "\ttotal, err := strconv.Atoi(text)",
+              "\tif err != nil || total < 1000 {",
+              "\t\tt.Fatal(\"count must be >= 1000\")",
+              "\t}"
+            ]
+          },
+          "actual_skip_output": "=== RUN   TestDurableMessagesFaultInjection\n    durable_test.go:102: set SF_ACCEPTANCE_COUNT=100000 for A06\n--- SKIP: TestDurableMessagesFaultInjection (0.00s)\n",
+          "specialized_references": [
+            {
+              "path": "/private/tmp/smartfactory-delivery-protocols-final-20261005/result.json",
+              "sha256": "accf43bcb0fa746e436862a5255bf31516eaab22fdcf4b4d22e69014ba9b6a1b",
+              "bytes": 16142
+            },
+            {
+              "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-delivery-protocols-root-review.json",
+              "sha256": "52e8eab32acf2eca9a702076e5362f1a36e4e8c460caf74c7d44b35eb804fff0",
+              "bytes": 14067
+            }
+          ],
+          "parent_tests": [],
+          "parent_passes_in_this_regression": [],
+          "explanation": "This case requires the dedicated actual service/process environment indicated by the condition and was executed in the referenced accepted specialty verification."
+        }
+      ],
+      "failures": []
+    }
+  },
+  "input_sets": [
+    {
+      "name": "consumer-build-before",
+      "module": "DataTransfer",
+      "path": "/private/tmp/smartfactory-delivery-regressions-20261005/consumer-build-before.inputs.json",
+      "sha256": "3a77cb8bef1afac278e4b5fce9e135ba512d3b328c7a0ea748be2428190533d1",
+      "input_count": 4315,
+      "package_count": 594,
+      "module_replacements": [],
+      "overlays": ""
+    },
+    {
+      "name": "consumer-build-after",
+      "module": "DataTransfer",
+      "path": "/private/tmp/smartfactory-delivery-regressions-20261005/consumer-build-after.inputs.json",
+      "sha256": "3a77cb8bef1afac278e4b5fce9e135ba512d3b328c7a0ea748be2428190533d1",
+      "input_count": 4315,
+      "package_count": 594,
+      "module_replacements": [],
+      "overlays": ""
+    },
+    {
+      "name": "platform-tests-before",
+      "module": "Platform",
+      "path": "/private/tmp/smartfactory-delivery-regressions-20261005/platform-tests-before.inputs.json",
+      "sha256": "7cd3c3154e671ccc4f58750140634e0143033ad43a9b5fd323519c44e84d1bb6",
+      "input_count": 5533,
+      "package_count": 745,
+      "module_replacements": [
+        {
+          "module": "competition2026/product/datatransfer",
+          "replacement": {
+            "Path": "../DataTransfer",
+            "Dir": "/path/to/SmartFactory-2026/DataTransfer",
+            "GoMod": "/path/to/SmartFactory-2026/DataTransfer/go.mod",
+            "GoVersion": "1.27.0"
+          }
+        },
+        {
+          "module": "competition2026/product/datatransfer",
+          "replacement": {
+            "Path": "../DataTransfer",
+            "Dir": "/path/to/SmartFactory-2026/DataTransfer",
+            "GoMod": "/path/to/SmartFactory-2026/DataTransfer/go.mod",
+            "GoVersion": "1.27.0"
+          }
+        }
+      ],
+      "overlays": ""
+    },
+    {
+      "name": "platform-tests-after",
+      "module": "Platform",
+      "path": "/private/tmp/smartfactory-delivery-regressions-20261005/platform-tests-after.inputs.json",
+      "sha256": "7cd3c3154e671ccc4f58750140634e0143033ad43a9b5fd323519c44e84d1bb6",
+      "input_count": 5533,
+      "package_count": 745,
+      "module_replacements": [
+        {
+          "module": "competition2026/product/datatransfer",
+          "replacement": {
+            "Path": "../DataTransfer",
+            "Dir": "/path/to/SmartFactory-2026/DataTransfer",
+            "GoMod": "/path/to/SmartFactory-2026/DataTransfer/go.mod",
+            "GoVersion": "1.27.0"
+          }
+        },
+        {
+          "module": "competition2026/product/datatransfer",
+          "replacement": {
+            "Path": "../DataTransfer",
+            "Dir": "/path/to/SmartFactory-2026/DataTransfer",
+            "GoMod": "/path/to/SmartFactory-2026/DataTransfer/go.mod",
+            "GoVersion": "1.27.0"
+          }
+        }
+      ],
+      "overlays": ""
+    },
+    {
+      "name": "datatransfer-tests-before",
+      "module": "DataTransfer",
+      "path": "/private/tmp/smartfactory-delivery-regressions-20261005/datatransfer-tests-before.inputs.json",
+      "sha256": "3a77cb8bef1afac278e4b5fce9e135ba512d3b328c7a0ea748be2428190533d1",
+      "input_count": 4315,
+      "package_count": 594,
+      "module_replacements": [],
+      "overlays": ""
+    },
+    {
+      "name": "datatransfer-tests-after",
+      "module": "DataTransfer",
+      "path": "/private/tmp/smartfactory-delivery-regressions-20261005/datatransfer-tests-after.inputs.json",
+      "sha256": "3a77cb8bef1afac278e4b5fce9e135ba512d3b328c7a0ea748be2428190533d1",
+      "input_count": 4315,
+      "package_count": 594,
+      "module_replacements": [],
+      "overlays": ""
+    }
+  ],
+  "toolchain": {
+    "CGO_ENABLED": "0",
+    "GOARCH": "arm64",
+    "GOCACHE": "/private/tmp/smartfactory-evolution-go-cache",
+    "GOFLAGS": "",
+    "GOMODCACHE": "/private/tmp/smartfactory-evolution-gomodcache",
+    "GOOS": "darwin",
+    "GOPATH": "/private/tmp/smartfactory-evolution-gopath",
+    "GOPROXY": "off",
+    "GOROOT": "/opt/homebrew/Cellar/go/1.27.1/libexec",
+    "GOTOOLCHAIN": "local",
+    "GOTOOLDIR": "/opt/homebrew/Cellar/go/1.27.1/libexec/pkg/tool/darwin_arm64",
+    "GOVERSION": "go1.27.1",
+    "GOWORK": ""
+  },
+  "consumer_binary": {
+    "path": "/private/tmp/smartfactory-delivery-regressions-20261005/dt-node-configuration-fixture",
+    "bytes": 25394082,
+    "sha256": "a7570884de2468bd6881628c66476e0deb856447e9d6a89c58daed1c7bee7bd7"
+  },
+  "database_cleanup": {
+    "database": "sf_delivery_regression_d38966932c",
+    "postgres_container": "smartfactory-evolution-pg18-final60-20261005",
+    "initial_database_connections": "0",
+    "final_database_connections": "0",
+    "remaining_schemas": "",
+    "database_removed": true
+  },
+  "historical_source_correspondence": [
+    {
+      "historical_index": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/control-evidence/final-source-manifest.json",
+        "sha256": "dc68f412270d13d9f9a2cb75b46adb163c3af2d1afeac1d582c9205e451eb43b",
+        "bytes": 73616
+      },
+      "selected_prefixes": [
+        "Platform/internal/coordination/",
+        "Platform/internal/control/",
+        "Platform/internal/app/control_fixture_test.go",
+        "DataTransfer/internal/northbound/grpc/control_fixture_test.go"
+      ],
+      "files": [
+        {
+          "path": "DataTransfer/internal/northbound/grpc/control_fixture_test.go",
+          "historical_sha256": "3bc6d1449c282b249ee953930adc59ef409666f705a9084805bced03bf885a32",
+          "current_sha256": "3bc6d1449c282b249ee953930adc59ef409666f705a9084805bced03bf885a32",
+          "same_bytes": true,
+          "current_serial_input": true
+        },
+        {
+          "path": "Platform/internal/app/control_fixture_test.go",
+          "historical_sha256": "be5d843eaedb93f1f10c6d7055347d44a788648e6bd00544d5f826dc71b3ad09",
+          "current_sha256": "54f186dce7ab4a2502d18cf27451b764cf6b8ea1b39c980039890a14cfd7e72f",
+          "same_bytes": false,
+          "current_serial_input": true
+        },
+        {
+          "path": "Platform/internal/control/authorization.go",
+          "historical_sha256": "92d4e3b75f51c054e70ab8648ba47849452ecaf0579ee9f840cd5949c775b606",
+          "current_sha256": "92d4e3b75f51c054e70ab8648ba47849452ecaf0579ee9f840cd5949c775b606",
+          "same_bytes": true,
+          "current_serial_input": true
+        },
+        {
+          "path": "Platform/internal/control/authorization_test.go",
+          "historical_sha256": "ef2e7683f0a352554f52836cac40fc799f62d2724f92699aa231bc9516c775c8",
+          "current_sha256": "ef2e7683f0a352554f52836cac40fc799f62d2724f92699aa231bc9516c775c8",
+          "same_bytes": true,
+          "current_serial_input": true
+        },
+        {
+          "path": "Platform/internal/control/control.go",
+          "historical_sha256": "0e73b377d59cd280eeb6cb514ca11ee41d8b0483e5614ff77f22f459525993bd",
+          "current_sha256": "0e73b377d59cd280eeb6cb514ca11ee41d8b0483e5614ff77f22f459525993bd",
+          "same_bytes": true,
+          "current_serial_input": true
+        },
+        {
+          "path": "Platform/internal/control/control_test.go",
+          "historical_sha256": "ebf6e02c4fc9e567de41ff6faa48c9a0aac6c1ad6800df72a6cfe53c7081baa7",
+          "current_sha256": "ebf6e02c4fc9e567de41ff6faa48c9a0aac6c1ad6800df72a6cfe53c7081baa7",
+          "same_bytes": true,
+          "current_serial_input": true
+        },
+        {
+          "path": "Platform/internal/control/intervention.go",
+          "historical_sha256": "eac79eb76e0157ff4c7fc3af80786d33ab11966bf2134bc1bee80e702037d6d0",
+          "current_sha256": "eac79eb76e0157ff4c7fc3af80786d33ab11966bf2134bc1bee80e702037d6d0",
+          "same_bytes": true,
+          "current_serial_input": true
+        },
+        {
+          "path": "Platform/internal/control/intervention_test.go",
+          "historical_sha256": "5e1de01c78eead907c7ce9899fa2b6b736ba9b6d194b9be969c0b3b5243f205d",
+          "current_sha256": "e97f34e772c2ea5879a0fd2ff173e30c71c15d2c8ec9e5d1bde36e300ce510e2",
+          "same_bytes": false,
+          "current_serial_input": true
+        },
+        {
+          "path": "Platform/internal/control/legacy_test.go",
+          "historical_sha256": "ee7d05a32c9858293d8220068b899017168e7263a31f0565a390db613b4d0b01",
+          "current_sha256": "39bbdd9327cfab807946c9f675c0c9d51935ff807a4b21eafa6c76c54f8c423e",
+          "same_bytes": false,
+          "current_serial_input": true
+        },
+        {
+          "path": "Platform/internal/control/operations.go",
+          "historical_sha256": "8f30f6a6689aa232d1feaa9dc46bb9ddff171045cdf376d3f03baf15db602012",
+          "current_sha256": "8f30f6a6689aa232d1feaa9dc46bb9ddff171045cdf376d3f03baf15db602012",
+          "same_bytes": true,
+          "current_serial_input": true
+        },
+        {
+          "path": "Platform/internal/control/operations_test.go",
+          "historical_sha256": "fca55aaa07e6bc6f058bf4d2b2b1c887c907ce17baa6568deae0c693acf73572",
+          "current_sha256": "fca55aaa07e6bc6f058bf4d2b2b1c887c907ce17baa6568deae0c693acf73572",
+          "same_bytes": true,
+          "current_serial_input": true
+        },
+        {
+          "path": "Platform/internal/control/organization.go",
+          "historical_sha256": "7185eab3a14b57a604d0b5b3f51598f792266c54fc1392d547f0ba49205bc4d6",
+          "current_sha256": "7185eab3a14b57a604d0b5b3f51598f792266c54fc1392d547f0ba49205bc4d6",
+          "same_bytes": true,
+          "current_serial_input": true
+        },
+        {
+          "path": "Platform/internal/control/postgres_test.go",
+          "historical_sha256": "0cc3db2cbba1a36ed1710a735f40dad9f7d926c94ed40940241be339491dfcb3",
+          "current_sha256": "0cc3db2cbba1a36ed1710a735f40dad9f7d926c94ed40940241be339491dfcb3",
+          "same_bytes": true,
+          "current_serial_input": true
+        },
+        {
+          "path": "Platform/internal/control/receipts.go",
+          "historical_sha256": "af9089d9bbd984106dedbe113d346a4ecab7945cd8823fe757016fff0d1265cc",
+          "current_sha256": "af9089d9bbd984106dedbe113d346a4ecab7945cd8823fe757016fff0d1265cc",
+          "same_bytes": true,
+          "current_serial_input": true
+        },
+        {
+          "path": "Platform/internal/control/remote.go",
+          "historical_sha256": "26e3731d8ac0e5774ad097de90def74f0e057e970d5d162e6941e17c4d8cd1b3",
+          "current_sha256": "26e3731d8ac0e5774ad097de90def74f0e057e970d5d162e6941e17c4d8cd1b3",
+          "same_bytes": true,
+          "current_serial_input": true
+        },
+        {
+          "path": "Platform/internal/control/remote_result.go",
+          "historical_sha256": "1957623eec17b648fb0aa602fab7aa6dc8fddd69e5bab9cba4931315e89868a4",
+          "current_sha256": "1957623eec17b648fb0aa602fab7aa6dc8fddd69e5bab9cba4931315e89868a4",
+          "same_bytes": true,
+          "current_serial_input": true
+        },
+        {
+          "path": "Platform/internal/control/repository.go",
+          "historical_sha256": "acf4d0af304e4bf65bb35b0bedb06b04dbef8df1e688043424e57dbfb0dd2f54",
+          "current_sha256": "acf4d0af304e4bf65bb35b0bedb06b04dbef8df1e688043424e57dbfb0dd2f54",
+          "same_bytes": true,
+          "current_serial_input": true
+        },
+        {
+          "path": "Platform/internal/control/run.go",
+          "historical_sha256": "c6d7b38e17189ef9bc3af0afe3808f3f3ac0a40bcd577db6ce8316f7706356e0",
+          "current_sha256": "0a61061f1a11558f93862ec063d613347bc545fd422800592576f464ce83ce02",
+          "same_bytes": false,
+          "current_serial_input": true
+        },
+        {
+          "path": "Platform/internal/control/state.go",
+          "historical_sha256": "32243002a797693fdba4d6e477504cdde95bcb75f2979cfffc413eeec8f4a293",
+          "current_sha256": "93c25aef120b9b0abbd2411e22178a34e833160360bfc724fe0c04a319f2f844",
+          "same_bytes": false,
+          "current_serial_input": true
+        },
+        {
+          "path": "Platform/internal/control/state_test.go",
+          "historical_sha256": "a0ea59284889c5118369e91bc8145675162a964c2084be26d3c67309f9898be9",
+          "current_sha256": "969ac02ea4e96ac7d310b1ffbe5c06e514b3560e587736309c7e4d6f06a09587",
+          "same_bytes": false,
+          "current_serial_input": true
+        },
+        {
+          "path": "Platform/internal/coordination/commands.go",
+          "historical_sha256": "f437fa825832cbc19bb790060d1d4b809f3edc13db3c7f156ddd28546f3669a0",
+          "current_sha256": "f437fa825832cbc19bb790060d1d4b809f3edc13db3c7f156ddd28546f3669a0",
+          "same_bytes": true,
+          "current_serial_input": true
+        },
+        {
+          "path": "Platform/internal/coordination/contention_test.go",
+          "historical_sha256": "57aaab3252375ecf750cc7b6a08d02d487bb70dce9b8db9050b7eae986d77287",
+          "current_sha256": "57aaab3252375ecf750cc7b6a08d02d487bb70dce9b8db9050b7eae986d77287",
+          "same_bytes": true,
+          "current_serial_input": true
+        },
+        {
+          "path": "Platform/internal/coordination/coordinator.go",
+          "historical_sha256": "6cbf31d4c40aea71b11fd1eac85ae095945887bcea3bdcd29eddc3e1b233c0a7",
+          "current_sha256": "6cbf31d4c40aea71b11fd1eac85ae095945887bcea3bdcd29eddc3e1b233c0a7",
+          "same_bytes": true,
+          "current_serial_input": true
+        },
+        {
+          "path": "Platform/internal/coordination/infrastructure_test.go",
+          "historical_sha256": "c71b9eb6fe1425cd01cb0b5e2f9ddd55937e487ff111893003575735b6f1b4ae",
+          "current_sha256": "6ef7b13406040e7d119b9009f41bb96ec80ace3793586343be5015af2e2cb2da",
+          "same_bytes": false,
+          "current_serial_input": true
+        },
+        {
+          "path": "Platform/internal/coordination/integration_test.go",
+          "historical_sha256": "b0c41efaa23940989d2f5356b11714333e3aa2d6bc701339b76de94a69669360",
+          "current_sha256": "b0c41efaa23940989d2f5356b11714333e3aa2d6bc701339b76de94a69669360",
+          "same_bytes": true,
+          "current_serial_input": true
+        },
+        {
+          "path": "Platform/internal/coordination/intervention_test.go",
+          "historical_sha256": "635023f249c6203904fdadc379ef6955a8d66fcc55e3a435b4e90aa249a1310c",
+          "current_sha256": "635023f249c6203904fdadc379ef6955a8d66fcc55e3a435b4e90aa249a1310c",
+          "same_bytes": true,
+          "current_serial_input": true
+        },
+        {
+          "path": "Platform/internal/coordination/manager.go",
+          "historical_sha256": "5e92a6fe3f46c83867345e9667e93da4b02df4f6e9e124d36f038fc338bdd6c4",
+          "current_sha256": "5e92a6fe3f46c83867345e9667e93da4b02df4f6e9e124d36f038fc338bdd6c4",
+          "same_bytes": true,
+          "current_serial_input": true
+        },
+        {
+          "path": "Platform/internal/coordination/results.go",
+          "historical_sha256": "33083d6b2faac436bc92e63b3f9f65287198f9b0b365d1537a31e8bcb2e53f54",
+          "current_sha256": "33083d6b2faac436bc92e63b3f9f65287198f9b0b365d1537a31e8bcb2e53f54",
+          "same_bytes": true,
+          "current_serial_input": true
+        },
+        {
+          "path": "Platform/internal/coordination/state.go",
+          "historical_sha256": "1919c94356f781d53030a72ecded4d874ca90ed965bb41c220e5bba68faae40c",
+          "current_sha256": "1919c94356f781d53030a72ecded4d874ca90ed965bb41c220e5bba68faae40c",
+          "same_bytes": true,
+          "current_serial_input": true
+        }
+      ],
+      "interpretation": "Each changed source remains identified by its actual current bytes in the final serial regression. Specialized historical cases retain their own binaries and source attribution; delivery does not relabel them as current entire-application runs."
+    },
+    {
+      "historical_index": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/control-evidence/c05/source-manifest.json",
+        "sha256": "7bb678c8047bc80cb78813b35437ead8174b7947cd56d60f546153579bf8594d",
+        "bytes": 2329
+      },
+      "selected_prefixes": [
+        "Platform/internal/"
+      ],
+      "files": [
+        {
+          "path": "Platform/internal/store/control.go",
+          "historical_sha256": "52040d87e984dbe2ca5a923298c78e480f04b90d512cad54bf18afe2808d1b1d",
+          "current_sha256": "16d8f4d90c0a407631cd5d46251be7eff59f21fd0f819def5edaf6acb4f0e88a",
+          "same_bytes": false,
+          "current_serial_input": true
+        },
+        {
+          "path": "Platform/internal/store/control_evidence_test.go",
+          "historical_sha256": "68b185c13c27c8c7512d7d61983ad752d753d401550c10eaef4a1bc7a45c42a1",
+          "current_sha256": "68b185c13c27c8c7512d7d61983ad752d753d401550c10eaef4a1bc7a45c42a1",
+          "same_bytes": true,
+          "current_serial_input": true
+        },
+        {
+          "path": "Platform/internal/control/run.go",
+          "historical_sha256": "0a61061f1a11558f93862ec063d613347bc545fd422800592576f464ce83ce02",
+          "current_sha256": "0a61061f1a11558f93862ec063d613347bc545fd422800592576f464ce83ce02",
+          "same_bytes": true,
+          "current_serial_input": true
+        },
+        {
+          "path": "Platform/internal/control/state.go",
+          "historical_sha256": "93c25aef120b9b0abbd2411e22178a34e833160360bfc724fe0c04a319f2f844",
+          "current_sha256": "93c25aef120b9b0abbd2411e22178a34e833160360bfc724fe0c04a319f2f844",
+          "same_bytes": true,
+          "current_serial_input": true
+        },
+        {
+          "path": "Platform/internal/control/evidence.go",
+          "historical_sha256": "68f2e20a69be96b29a979cfb265d963e8aa89e95a5f6d13bf563048533b3b835",
+          "current_sha256": "68f2e20a69be96b29a979cfb265d963e8aa89e95a5f6d13bf563048533b3b835",
+          "same_bytes": true,
+          "current_serial_input": true
+        },
+        {
+          "path": "Platform/internal/control/intervention_test.go",
+          "historical_sha256": "e97f34e772c2ea5879a0fd2ff173e30c71c15d2c8ec9e5d1bde36e300ce510e2",
+          "current_sha256": "e97f34e772c2ea5879a0fd2ff173e30c71c15d2c8ec9e5d1bde36e300ce510e2",
+          "same_bytes": true,
+          "current_serial_input": true
+        },
+        {
+          "path": "Platform/internal/control/state_test.go",
+          "historical_sha256": "969ac02ea4e96ac7d310b1ffbe5c06e514b3560e587736309c7e4d6f06a09587",
+          "current_sha256": "969ac02ea4e96ac7d310b1ffbe5c06e514b3560e587736309c7e4d6f06a09587",
+          "same_bytes": true,
+          "current_serial_input": true
+        },
+        {
+          "path": "Platform/internal/cloudsync/exchange.go",
+          "historical_sha256": "f5ac07aeab0a9d70d7ddf3fdf7f494b0f1a9a0a3cf723ed44577730780586e48",
+          "current_sha256": "4c1009272144d7b27c46ae3c0125994f4048406b83ed77280c6e7c560f94e272",
+          "same_bytes": false,
+          "current_serial_input": true
+        },
+        {
+          "path": "Platform/internal/cloudsync/control_receipts.go",
+          "historical_sha256": "fa5371d6ef27f88e5c0a0344977777b0c098dac902a533e33cfcd87cd4938a4f",
+          "current_sha256": "fa5371d6ef27f88e5c0a0344977777b0c098dac902a533e33cfcd87cd4938a4f",
+          "same_bytes": true,
+          "current_serial_input": true
+        },
+        {
+          "path": "Platform/internal/cloudsync/control_receipts_test.go",
+          "historical_sha256": "914c7d23919f79c2dad03c7087b3de03169441170f1898e620a1fca833993d09",
+          "current_sha256": "914c7d23919f79c2dad03c7087b3de03169441170f1898e620a1fca833993d09",
+          "same_bytes": true,
+          "current_serial_input": true
+        },
+        {
+          "path": "Platform/internal/api/control_evidence_test.go",
+          "historical_sha256": "36a078b2117ab2363faf6455d2c36ce1dddf1b13d148be73019b629962574c6c",
+          "current_sha256": "36a078b2117ab2363faf6455d2c36ce1dddf1b13d148be73019b629962574c6c",
+          "same_bytes": true,
+          "current_serial_input": true
+        },
+        {
+          "path": "Platform/internal/app/control_fixture_test.go",
+          "historical_sha256": "54f186dce7ab4a2502d18cf27451b764cf6b8ea1b39c980039890a14cfd7e72f",
+          "current_sha256": "54f186dce7ab4a2502d18cf27451b764cf6b8ea1b39c980039890a14cfd7e72f",
+          "same_bytes": true,
+          "current_serial_input": true
+        }
+      ],
+      "interpretation": "Each changed source remains identified by its actual current bytes in the final serial regression. Specialized historical cases retain their own binaries and source attribution; delivery does not relabel them as current entire-application runs."
+    },
+    {
+      "historical_index": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/native-actual-inputs.json",
+        "sha256": "5f50ab092693f1ff3bceb87fc06f7fb7126a30142d89e57815f4513cd8b52aa9",
+        "bytes": 925596
+      },
+      "selected_prefixes": [
+        "Platform/internal/api/business_native_test.go",
+        "Platform/internal/thingsboard/",
+        "Platform/internal/application/business"
+      ],
+      "files": [
+        {
+          "path": "Platform/internal/api/business_native_test.go",
+          "historical_sha256": "c830b7d0e9d95ac5f54d37b13d8ed404c34c66421d7ca60c1b398fc8039eb86a",
+          "current_sha256": "c830b7d0e9d95ac5f54d37b13d8ed404c34c66421d7ca60c1b398fc8039eb86a",
+          "same_bytes": true,
+          "current_serial_input": true
+        },
+        {
+          "path": "Platform/internal/application/business.go",
+          "historical_sha256": "d9148e04da1e6e7678d32e06c56f49d19db7982b7123c3a5f388ee0d3d831bac",
+          "current_sha256": "d975c6c97a9e4a58279a734590e3133f7a81ec562e7d952099fc18ccd37e1954",
+          "same_bytes": false,
+          "current_serial_input": true
+        },
+        {
+          "path": "Platform/internal/thingsboard/adapter.go",
+          "historical_sha256": "dd75877df8e936a2cf6275b5d547ab4eaa12ba1ca4303662b4b8c7b13c541605",
+          "current_sha256": "8c70c584621aed50ad2ebd77c7763ff9ebcbe736bbae8916fbefdd3e66a4cc76",
+          "same_bytes": false,
+          "current_serial_input": true
+        },
+        {
+          "path": "Platform/internal/thingsboard/alarm_states.go",
+          "historical_sha256": "e74cab2eb0266f0ffff5555798043350da303a18c8b3860ebf7bbf29e24a931f",
+          "current_sha256": "597cc51f926521a1a9f11c200126e3ca1960c14ed1fef6825db74809b84327b1",
+          "same_bytes": false,
+          "current_serial_input": true
+        },
+        {
+          "path": "Platform/internal/thingsboard/alarms.go",
+          "historical_sha256": "343128a9c2ac1e2108bcaee68bdadd1706877da304702d2116d18d0460427fa8",
+          "current_sha256": "343128a9c2ac1e2108bcaee68bdadd1706877da304702d2116d18d0460427fa8",
+          "same_bytes": true,
+          "current_serial_input": true
+        },
+        {
+          "path": "Platform/internal/thingsboard/client.go",
+          "historical_sha256": "c2e1d8c05ca846fa4593d82b75e1cd57f2c495d51d311f9970f356d30f16b215",
+          "current_sha256": "c2e1d8c05ca846fa4593d82b75e1cd57f2c495d51d311f9970f356d30f16b215",
+          "same_bytes": true,
+          "current_serial_input": true
+        },
+        {
+          "path": "Platform/internal/thingsboard/definitions.go",
+          "historical_sha256": "a40d9283d31a8c38ad4946aadf2011dbc0f23698c90e657389146938906cd921",
+          "current_sha256": "a40d9283d31a8c38ad4946aadf2011dbc0f23698c90e657389146938906cd921",
+          "same_bytes": true,
+          "current_serial_input": true
+        },
+        {
+          "path": "Platform/internal/thingsboard/retention.go",
+          "historical_sha256": "6cf670f9d89dacda40d3fe0ef5827514160a901566c051ec0cc52d5a43b3ed19",
+          "current_sha256": "6cf670f9d89dacda40d3fe0ef5827514160a901566c051ec0cc52d5a43b3ed19",
+          "same_bytes": true,
+          "current_serial_input": true
+        }
+      ],
+      "interpretation": "Each changed source remains identified by its actual current bytes in the final serial regression. Specialized historical cases retain their own binaries and source attribution; delivery does not relabel them as current entire-application runs."
+    }
+  ],
+  "production_changes_by_delivery": "Build/version/source and license material plus Python deployment/verification/documentation integration; Go production implementations remain owned by their backend roles. Delivery removed only the immutable-Params mutation in the migration test fixture, then executed its accepted actual cold restore.",
+  "remaining_work": "Formal fourteen-program Linux bundle and deployment entrypoints after frontend/documentation freeze; independent final acceptance belongs to coordination and review."
+}

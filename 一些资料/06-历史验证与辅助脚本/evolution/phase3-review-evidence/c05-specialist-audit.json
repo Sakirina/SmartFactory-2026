@@ -1,0 +1,528 @@
+{
+  "recorded_at": "2026-10-04T21:38:35.422509+00:00",
+  "report_sha256": "22b0280cd8e57c0c16e9e576d39fefd10b36f0a24e10c51f7bb39ec220b9e1b0",
+  "references": {
+    "files": 49,
+    "matched": 49,
+    "different": []
+  },
+  "compiled_inputs": {
+    "files": 3645,
+    "matched": 3645,
+    "different": []
+  },
+  "binaries": {
+    "files": 5,
+    "matched": 5,
+    "different": []
+  },
+  "commands": [
+    {
+      "log": {
+        "path": ".local/evolution/control-evidence/c05/affected-final.jsonl",
+        "sha256": "9f41db42c84b4eea8e8dd33a05c3651f41c42bb2a123069d00e7d9facab5e687",
+        "bytes": 245922
+      },
+      "counts": {
+        "top_level": {
+          "pass": 93,
+          "fail": 0,
+          "skip": 21
+        },
+        "leaf_cases": {
+          "pass": 170,
+          "fail": 0,
+          "skip": 21
+        },
+        "all_named_cases": {
+          "pass": 187,
+          "fail": 0,
+          "skip": 21
+        },
+        "packages": {
+          "pass": 5,
+          "fail": 0,
+          "skip": 0
+        },
+        "conditional_skips": [
+          {
+            "package": "competition2026/product/platform/internal/api",
+            "test": "TestPostgresDeadlockReturnsHTTP409WithoutRepeatingCallback",
+            "reason": "=== RUN   TestPostgresDeadlockReturnsHTTP409WithoutRepeatingCallback\n    concurrency_postgres_test.go:19: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresDeadlockReturnsHTTP409WithoutRepeatingCallback (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/api",
+            "test": "TestPostgresLegacyAndTaskRetryConcurrentRequestsShareOneAttempt",
+            "reason": "=== RUN   TestPostgresLegacyAndTaskRetryConcurrentRequestsShareOneAttempt\n    jobs_retry_test.go:254: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresLegacyAndTaskRetryConcurrentRequestsShareOneAttempt (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/control",
+            "test": "TestPostgresControlAtomicTransitionsAndConcurrentIntervention",
+            "reason": "=== RUN   TestPostgresControlAtomicTransitionsAndConcurrentIntervention\n    postgres_test.go:16: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresControlAtomicTransitionsAndConcurrentIntervention (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/cloudsync",
+            "test": "TestPostgresControlReceiptEvidenceOrderingAndLegacyCompatibility",
+            "reason": "=== RUN   TestPostgresControlReceiptEvidenceOrderingAndLegacyCompatibility\n    control_receipts_test.go:155: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresControlReceiptEvidenceOrderingAndLegacyCompatibility (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresArchiveCASAndTransactionDuration",
+            "reason": "=== RUN   TestPostgresArchiveCASAndTransactionDuration\n    archive_cas_test.go:100: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresArchiveCASAndTransactionDuration (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresArchiveRetirementAndCreationRace",
+            "reason": "=== RUN   TestPostgresArchiveRetirementAndCreationRace\n    archive_cas_test.go:205: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresArchiveRetirementAndCreationRace (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresArchiveCapacityAndLatePartitionRecovery",
+            "reason": "=== RUN   TestPostgresArchiveCapacityAndLatePartitionRecovery\n    archive_postgres_test.go:21: isolated PostgreSQL fixture required\n--- SKIP: TestPostgresArchiveCapacityAndLatePartitionRecovery (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresBulkIngestTasksBudget",
+            "reason": "=== RUN   TestPostgresBulkIngestTasksBudget\n    bulk_tasks_test.go:42: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresBulkIngestTasksBudget (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresIndependentObjectsAndContendedIdentity",
+            "reason": "=== RUN   TestPostgresIndependentObjectsAndContendedIdentity\n    concurrency_postgres_test.go:39: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresIndependentObjectsAndContendedIdentity (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresLateCommitSyncAuditAndAtomicFinalization",
+            "reason": "=== RUN   TestPostgresLateCommitSyncAuditAndAtomicFinalization\n    concurrency_postgres_test.go:138: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresLateCommitSyncAuditAndAtomicFinalization (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresDeadlockIsRecognizableWithoutCallbackReplay",
+            "reason": "=== RUN   TestPostgresDeadlockIsRecognizableWithoutCallbackReplay\n    concurrency_postgres_test.go:245: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresDeadlockIsRecognizableWithoutCallbackReplay (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresControlEvidenceAtomicReceiptAndImmutableIdentity",
+            "reason": "=== RUN   TestPostgresControlEvidenceAtomicReceiptAndImmutableIdentity\n    control_evidence_test.go:79: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresControlEvidenceAtomicReceiptAndImmutableIdentity (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresNumberedMigrationsPreserveExistingSchema",
+            "reason": "=== RUN   TestPostgresNumberedMigrationsPreserveExistingSchema\n    migrations_test.go:159: set SF_TEST_POSTGRES_DATABASE to an isolated PostgreSQL fixture\n--- SKIP: TestPostgresNumberedMigrationsPreserveExistingSchema (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresRetentionDropsExpiredPartitionBeforeRowDeletion",
+            "reason": "=== RUN   TestPostgresRetentionDropsExpiredPartitionBeforeRowDeletion\n    postgres_retention_test.go:15: set SF_TEST_POSTGRES_DATABASE to an isolated PostgreSQL fixture\n--- SKIP: TestPostgresRetentionDropsExpiredPartitionBeforeRowDeletion (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresRiverMigrationHandoffResumes",
+            "reason": "=== RUN   TestPostgresRiverMigrationHandoffResumes\n    river_migration_test.go:84: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresRiverMigrationHandoffResumes (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresRiverTransactionalEnqueue",
+            "reason": "=== RUN   TestPostgresRiverTransactionalEnqueue\n    river_test.go:112: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresRiverTransactionalEnqueue (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestControlledPostgresUpgradeFixture",
+            "reason": "=== RUN   TestControlledPostgresUpgradeFixture\n    upgrade_fixture_test.go:33: controlled PostgreSQL 16 -> 18 fixture\n--- SKIP: TestControlledPostgresUpgradeFixture (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/coordination",
+            "test": "TestPersistentThreeReplicaUpgrade",
+            "reason": "=== RUN   TestPersistentThreeReplicaUpgrade\n    infrastructure_test.go:33: set SF_SITE_MIGRATION_FIXTURE to an isolated prepared .local/site directory\n--- SKIP: TestPersistentThreeReplicaUpgrade (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/coordination",
+            "test": "TestRealThreeReplicaCoordination",
+            "reason": "=== RUN   TestRealThreeReplicaCoordination\n    integration_test.go:219: set SF_SITE_INTEGRATION to the prepared .local/site directory\n--- SKIP: TestRealThreeReplicaCoordination (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/coordination",
+            "test": "TestRealThreeReplicaReadOnlyReconcileAndManualResume",
+            "reason": "=== RUN   TestRealThreeReplicaReadOnlyReconcileAndManualResume\n    intervention_test.go:15: set SF_SITE_INTEGRATION to the prepared .local/site directory\n--- SKIP: TestRealThreeReplicaReadOnlyReconcileAndManualResume (0.00s)\n"
+          },
+          {
+            "package": "competition2026/product/platform/internal/coordination",
+            "test": "TestRealConcurrentOperationDeliveryKeepsLeaseContentionRetryable",
+            "reason": "=== RUN   TestRealConcurrentOperationDeliveryKeepsLeaseContentionRetryable\n    intervention_test.go:84: set SF_SITE_INTEGRATION to the prepared .local/site directory\n--- SKIP: TestRealConcurrentOperationDeliveryKeepsLeaseContentionRetryable (0.00s)\n"
+          }
+        ],
+        "failures": [],
+        "data_race_occurrences": 0
+      },
+      "reported_passed_names_match": true
+    },
+    {
+      "log": {
+        "path": ".local/evolution/control-evidence/c05/contract-state-final.jsonl",
+        "sha256": "90d03761789583ecaa6eed772eb9f8da6b75fc875b40e7fb7861e7b5d1e341b4",
+        "bytes": 89189
+      },
+      "counts": {
+        "top_level": {
+          "pass": 30,
+          "fail": 0,
+          "skip": 1
+        },
+        "leaf_cases": {
+          "pass": 68,
+          "fail": 0,
+          "skip": 1
+        },
+        "all_named_cases": {
+          "pass": 77,
+          "fail": 0,
+          "skip": 1
+        },
+        "packages": {
+          "pass": 4,
+          "fail": 0,
+          "skip": 0
+        },
+        "conditional_skips": [
+          {
+            "package": "competition2026/product/platform/internal/control",
+            "test": "TestPostgresControlAtomicTransitionsAndConcurrentIntervention",
+            "reason": "=== RUN   TestPostgresControlAtomicTransitionsAndConcurrentIntervention\n    postgres_test.go:16: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresControlAtomicTransitionsAndConcurrentIntervention (0.00s)\n"
+          }
+        ],
+        "failures": [],
+        "data_race_occurrences": 0
+      },
+      "reported_passed_names_match": true
+    },
+    {
+      "log": {
+        "path": ".local/evolution/control-evidence/c05/postgres-final.jsonl",
+        "sha256": "c43a002e7df6d5ff45bd21b2a2ead1562c1548d3a9f7dd74ea35f84f1b5fc3d2",
+        "bytes": 4179
+      },
+      "counts": {
+        "top_level": {
+          "pass": 2,
+          "fail": 0,
+          "skip": 0
+        },
+        "leaf_cases": {
+          "pass": 2,
+          "fail": 0,
+          "skip": 0
+        },
+        "all_named_cases": {
+          "pass": 2,
+          "fail": 0,
+          "skip": 0
+        },
+        "packages": {
+          "pass": 2,
+          "fail": 0,
+          "skip": 0
+        },
+        "conditional_skips": [],
+        "failures": [],
+        "data_race_occurrences": 0
+      },
+      "reported_passed_names_match": true
+    },
+    {
+      "log": {
+        "path": ".local/evolution/control-evidence/c05/race-final.jsonl",
+        "sha256": "783778cc2049d0888c51c740809df09871a891f55583d266931dab4d14a8a26d",
+        "bytes": 55433
+      },
+      "counts": {
+        "top_level": {
+          "pass": 10,
+          "fail": 0,
+          "skip": 1
+        },
+        "leaf_cases": {
+          "pass": 42,
+          "fail": 0,
+          "skip": 1
+        },
+        "all_named_cases": {
+          "pass": 47,
+          "fail": 0,
+          "skip": 1
+        },
+        "packages": {
+          "pass": 4,
+          "fail": 0,
+          "skip": 0
+        },
+        "conditional_skips": [
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestControlledPostgresUpgradeFixture",
+            "reason": "=== RUN   TestControlledPostgresUpgradeFixture\n    upgrade_fixture_test.go:33: controlled PostgreSQL 16 -> 18 fixture\n--- SKIP: TestControlledPostgresUpgradeFixture (0.00s)\n"
+          }
+        ],
+        "failures": [],
+        "data_race_occurrences": 0
+      },
+      "reported_passed_names_match": true
+    },
+    {
+      "log": {
+        "path": ".local/evolution/control-evidence/c05/race-coordination-final.jsonl",
+        "sha256": "82fcd8d2e6595182722ec1388e47c5cb551884dee06ba5687fe004e8980cd9db",
+        "bytes": 1646
+      },
+      "counts": {
+        "top_level": {
+          "pass": 1,
+          "fail": 0,
+          "skip": 0
+        },
+        "leaf_cases": {
+          "pass": 1,
+          "fail": 0,
+          "skip": 0
+        },
+        "all_named_cases": {
+          "pass": 1,
+          "fail": 0,
+          "skip": 0
+        },
+        "packages": {
+          "pass": 1,
+          "fail": 0,
+          "skip": 0
+        },
+        "conditional_skips": [],
+        "failures": [],
+        "data_race_occurrences": 0
+      },
+      "reported_passed_names_match": true
+    },
+    {
+      "log": {
+        "path": ".local/evolution/control-evidence/c05/dual-app-final-binary.jsonl",
+        "sha256": "ae0caf2b4e45148ab0c34e3c8bb4b73ba405f3eb7a29b5c938b33bdc2f15eb64",
+        "bytes": 6525
+      },
+      "counts": {
+        "top_level": {
+          "pass": 1,
+          "fail": 0,
+          "skip": 0
+        },
+        "leaf_cases": {
+          "pass": 1,
+          "fail": 0,
+          "skip": 0
+        },
+        "all_named_cases": {
+          "pass": 1,
+          "fail": 0,
+          "skip": 0
+        },
+        "packages": {
+          "pass": 1,
+          "fail": 0,
+          "skip": 0
+        },
+        "conditional_skips": [],
+        "failures": [],
+        "data_race_occurrences": 0
+      },
+      "reported_passed_names_match": true
+    }
+  ],
+  "baseline": {
+    "original_report": {
+      "path": ".local/evolution/control-execution-verified.json",
+      "sha256": "e8d7c544ce7fe029a0048890a292c893da8fbef70b79ac5af888ba8af388fe8d",
+      "bytes": 81826
+    },
+    "preserved_report": {
+      "path": ".local/evolution/control-evidence/pre-c05/control-execution-verified.json",
+      "sha256": "e8d7c544ce7fe029a0048890a292c893da8fbef70b79ac5af888ba8af388fe8d",
+      "bytes": 81826
+    },
+    "original_source_manifest": {
+      "path": ".local/evolution/control-evidence/pre-c05/final-source-manifest.json",
+      "sha256": "dc68f412270d13d9f9a2cb75b46adb163c3af2d1afeac1d582c9205e451eb43b",
+      "bytes": 73616
+    },
+    "original_binary_manifest": {
+      "path": "/private/tmp/sf-control-browser-final-v2-20261005/manifest.json",
+      "sha256": "44338befd4cd20f1d0c41ac1b8ea9fece72c472f348016bf5e6ba807a842a4e4",
+      "bytes": 4073
+    },
+    "independent_before_fix_evidence": [
+      {
+        "path": ".local/evolution/phase3-review-evidence/control-resume-backend.json",
+        "sha256": "9c8358acab4dcbff79222fcc5df9aee47f3117db08088a4b7d9a450450cbc7a9",
+        "bytes": 85741
+      },
+      {
+        "path": ".local/evolution/phase3-review-evidence/control-trusted-evidence.json",
+        "sha256": "a4cd709f49f64d46317e200a637c5440577855b7e0bb31da9f95cd8dc3025f29",
+        "bytes": 5764
+      }
+    ],
+    "first_reproduced_failure": {
+      "log": {
+        "path": ".local/evolution/control-evidence/c05/dual-app-before-fix.jsonl",
+        "sha256": "58d1fcd774e079101a8f8d61881d826254ff197a2816c10e8d5f04fccb4a61a4",
+        "bytes": 5898
+      },
+      "command": "GOMAXPROCS=2 SF_CONTROL_DEVICE_BINARY=/private/tmp/sf-control-browser-final-v2-20261005/device-control.test SF_CONTROL_INTEGRATION_OUTPUT=/private/tmp/sf-control-c05-reproduce-20261005 go test -json -p 1 ./internal/app -run ^TestControlledCloudEdgeControlIntervention$ -count=1",
+      "cwd": "Platform",
+      "exit_code": 1,
+      "stage": "before_production_fix",
+      "passed_tests_and_subtests": [],
+      "failed_tests": [
+        "TestControlledCloudEdgeControlIntervention",
+        "competition2026/product/platform/internal/app"
+      ],
+      "skipped_tests": [],
+      "package_results": [
+        {
+          "package": "competition2026/product/platform/internal/app",
+          "action": "fail",
+          "elapsed_seconds": 2.133
+        }
+      ]
+    }
+  },
+  "artifacts": {
+    "changed_source_manifest": {
+      "path": ".local/evolution/control-evidence/c05/source-manifest.json",
+      "sha256": "7bb678c8047bc80cb78813b35437ead8174b7947cd56d60f546153579bf8594d",
+      "bytes": 2329
+    },
+    "compiled_input_manifest": {
+      "path": "/private/tmp/sf-control-c05-final-20261005/build-inputs.json",
+      "sha256": "a11fdde581405910a6b6daeed7660cd64a0df04bf12275a8c075f72154cfe33c",
+      "bytes": 783322
+    },
+    "compiled_input_count": 3645,
+    "compiled_inputs_checked_after_final_binary_test": true,
+    "changed_compile_inputs_from_original_fixture": [
+      {
+        "path": "/path/to/SmartFactory-2026/Platform/internal/app/control_fixture_test.go",
+        "sha256": "54f186dce7ab4a2502d18cf27451b764cf6b8ea1b39c980039890a14cfd7e72f",
+        "bytes": 32113
+      },
+      {
+        "path": "/path/to/SmartFactory-2026/Platform/internal/cloudsync/control_receipts.go",
+        "sha256": "fa5371d6ef27f88e5c0a0344977777b0c098dac902a533e33cfcd87cd4938a4f",
+        "bytes": 4866
+      },
+      {
+        "path": "/path/to/SmartFactory-2026/Platform/internal/cloudsync/exchange.go",
+        "sha256": "f5ac07aeab0a9d70d7ddf3fdf7f494b0f1a9a0a3cf723ed44577730780586e48",
+        "bytes": 15290
+      },
+      {
+        "path": "/path/to/SmartFactory-2026/Platform/internal/control/evidence.go",
+        "sha256": "68f2e20a69be96b29a979cfb265d963e8aa89e95a5f6d13bf563048533b3b835",
+        "bytes": 1612
+      },
+      {
+        "path": "/path/to/SmartFactory-2026/Platform/internal/control/run.go",
+        "sha256": "0a61061f1a11558f93862ec063d613347bc545fd422800592576f464ce83ce02",
+        "bytes": 18707
+      },
+      {
+        "path": "/path/to/SmartFactory-2026/Platform/internal/control/state.go",
+        "sha256": "93c25aef120b9b0abbd2411e22178a34e833160360bfc724fe0c04a319f2f844",
+        "bytes": 8368
+      },
+      {
+        "path": "/path/to/SmartFactory-2026/Platform/internal/store/control.go",
+        "sha256": "52040d87e984dbe2ca5a923298c78e480f04b90d512cad54bf18afe2808d1b1d",
+        "bytes": 7608
+      },
+      {
+        "path": "/path/to/SmartFactory-2026/Platform/pkg/model/control.go",
+        "sha256": "c663abbb2f5529826888c7d7a1a58904ba4e969479e70d7e882ad5f87c083dd8",
+        "bytes": 5530
+      }
+    ],
+    "binary_manifest": {
+      "path": "/private/tmp/sf-control-c05-final-20261005/manifest.json",
+      "sha256": "311a4e518c60875f36855cbf9d35124bc566684c112c3d0ef36c29e5c74b43fc",
+      "bytes": 3982
+    },
+    "binary_comparison": {
+      "device": {
+        "before": {
+          "path": "/private/tmp/sf-control-browser-final-v2-20261005/device-control.test",
+          "sha256": "dc29f051ec8d1850fd2f27dcb198291fe864f56499d0904ec80d9fe57d060bc5",
+          "bytes": 25987858
+        },
+        "after": {
+          "path": "/private/tmp/sf-control-c05-final-20261005/device-control.test",
+          "sha256": "dc29f051ec8d1850fd2f27dcb198291fe864f56499d0904ec80d9fe57d060bc5",
+          "bytes": 25987858
+        },
+        "changed": false
+      },
+      "platform": {
+        "before": {
+          "path": "/private/tmp/sf-control-browser-final-v2-20261005/platform-control.test",
+          "sha256": "3dac33c927bea5feb1ecbd23dc6b6c3edaa700e39ae733721f53e45a06e3899e",
+          "bytes": 52342530
+        },
+        "after": {
+          "path": "/private/tmp/sf-control-c05-final-20261005/platform-control.test",
+          "sha256": "c4d3ed249ae46109353ab9e02157036d1aa44a480265a342680dce219c1adbb3",
+          "bytes": 52376562
+        },
+        "changed": true
+      },
+      "sf-cloud": {
+        "before": {
+          "path": "/private/tmp/sf-control-browser-final-v2-20261005/sf-cloud",
+          "sha256": "cf7f6eef7997d71c3ad2b91440959cde9518828ce7f4ec8abfe18f1a01449990",
+          "bytes": 51244082
+        },
+        "after": {
+          "path": "/private/tmp/sf-control-c05-final-20261005/sf-cloud",
+          "sha256": "02da6bddbe71c5318a7fd47c0ab23a341adf92c6e13897808e528f9a7878a47a",
+          "bytes": 51244786
+        },
+        "changed": true
+      },
+      "sf-edge": {
+        "before": {
+          "path": "/private/tmp/sf-control-browser-final-v2-20261005/sf-edge",
+          "sha256": "96c6cd512c9750c2ac704e81abb92c795c1137933836b07750652e67d7a400a9",
+          "bytes": 51244082
+        },
+        "after": {
+          "path": "/private/tmp/sf-control-c05-final-20261005/sf-edge",
+          "sha256": "1edb061dc4db55f688b26b935bf8bbeb0c831eb4093788db02ca1f9eb2c72c15",
+          "bytes": 51244786
+        },
+        "changed": true
+      },
+      "datatransfer": {
+        "before": {
+          "path": "/private/tmp/sf-control-browser-final-v2-20261005/datatransfer",
+          "sha256": "1c29ab30268760bf39a6eeda6ca203d03106ce04394f2914a203458717bbbc68",
+          "bytes": 36785970
+        },
+        "after": {
+          "path": "/private/tmp/sf-control-c05-final-20261005/datatransfer",
+          "sha256": "1c29ab30268760bf39a6eeda6ca203d03106ce04394f2914a203458717bbbc68",
+          "bytes": 36785970
+        },
+        "changed": false
+      }
+    },
+    "frontend_contract": {
+      "path": "docs/evolution/control-frontend-contract.md",
+      "sha256": "bb3b3dcc7680ff9f6e6e3ddae462be49814f47f81a20936977e353559d3746eb",
+      "bytes": 8965
+    }
+  }
+}

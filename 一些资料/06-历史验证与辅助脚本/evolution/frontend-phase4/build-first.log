@@ -1,0 +1,14 @@
+
+> smartfactory-frontends@0.1.0 build
+> npm run check:api && npm run typecheck && vite build
+
+
+> smartfactory-frontends@0.1.0 check:api
+> node scripts/generate-api.mjs --check
+
+{"source_sha256":"c75e2f579a47c0749a93fb856f389aae34113cd99c2897ac6b438bcb68e020e9","schemas":155,"operations":95,"compiler_api":"6.0.2","checked":true}
+
+> smartfactory-frontends@0.1.0 typecheck
+> node node_modules/@typescript/native/bin/tsc --noEmit
+
+src/api.ts(12,110): error TS2339: Property 'setInterval' does not exist on type '{ data: { has_more?: boolean | undefined; items?: { data?: unknown; id?: string | undefined; kind?: string | undefined; revision?: string | undefined; sort_ms?: string | number | bigint | undefined; version?: string | ... 2 more ... | undefined; }[] | null | undefined; metadata?: { ...; } | undefined; next_page_toke...'.

@@ -1,0 +1,72 @@
+{
+  "label": "idle-regression-fixed",
+  "command": [
+    "go",
+    "tool",
+    "test2json",
+    "-t",
+    "-p",
+    "competition2026/product/platform/internal/cloudsync",
+    "/private/tmp/smartfactory-phase4-independent-20261005/bin/cloudsync-idle-fixed.test",
+    "-test.v=test2json",
+    "-test.run=^TestIdleExchangesDoNotWriteUntilHeartbeat$",
+    "-test.timeout=60s"
+  ],
+  "cwd": "/private/tmp/smartfactory-phase4-independent-20261005/workspace/Platform/internal/cloudsync",
+  "started_at": "2026-10-05T02:30:34.909648+00:00",
+  "completed_at": "2026-10-05T02:30:35.070999+00:00",
+  "elapsed_seconds": 0.161,
+  "exit_code": 1,
+  "postgres": false,
+  "stdout": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/idle-regression-fixed.stdout.log",
+    "sha256": "1e2d26d331844c2c8413087407011b1b1b577d70c0b5f9875965d8688ada3b10",
+    "bytes": 1703
+  },
+  "stderr": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/idle-regression-fixed.stderr.log",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "counts": {
+    "top_level": {
+      "pass": 0,
+      "fail": 1,
+      "skip": 0
+    },
+    "leaf": {
+      "pass": 0,
+      "fail": 1,
+      "skip": 0
+    },
+    "all_named": {
+      "pass": 0,
+      "fail": 1,
+      "skip": 0
+    },
+    "packages": {
+      "pass": 0,
+      "fail": 1,
+      "skip": 0
+    },
+    "skips": [],
+    "failures": [
+      {
+        "package": "competition2026/product/platform/internal/cloudsync",
+        "test": "TestIdleExchangesDoNotWriteUntilHeartbeat",
+        "output": "=== RUN   TestIdleExchangesDoNotWriteUntilHeartbeat\n    idle_test.go:118: heartbeat source mismatch: {ID:edge-a LastSeenMS:1791167440046 Status:online Backfill:complete Reason:} version 1 -> 2 error <nil>\n--- FAIL: TestIdleExchangesDoNotWriteUntilHeartbeat (0.10s)\n"
+      }
+    ],
+    "races": 0
+  },
+  "build_inputs": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/build-inputs.json",
+    "sha256": "88fdc87b09a840748a6cadc356b019dcf324905175ecb4f7fb3e38f7c7981643",
+    "bytes": 1717015
+  },
+  "binary": {
+    "path": "/private/tmp/smartfactory-phase4-independent-20261005/bin/cloudsync-idle-fixed.test",
+    "sha256": "8d8759a704c1020924ed5109ece54fddd5a4a320532a2ee05be66f48b12a8242",
+    "bytes": 40425330
+  }
+}

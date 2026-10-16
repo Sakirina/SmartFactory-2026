@@ -1,0 +1,38 @@
+=== RUN   TestRiverSQLiteTransactionalEnqueue
+    river_test.go:109: same *sql.Tx insertion; rollback=0 jobs; uncommitted acquisition=0; committed worker acquisition=1; repeated identity=1 job
+--- PASS: TestRiverSQLiteTransactionalEnqueue (0.09s)
+=== RUN   TestTaskCancellationDoesNotReplaceNewerRecomputeGeneration
+--- PASS: TestTaskCancellationDoesNotReplaceNewerRecomputeGeneration (0.01s)
+PASS
+ok  	competition2026/product/platform/internal/store	0.120s
+=== RUN   TestSQLiteRiverRetryAndRunningCancellation
+2026/10/04 23:37:26 INFO River client started client_id=YL-Tilly-MB-A_local_2026_10_04T15_37_26_102061
+2026/10/04 23:37:26 INFO jobexecutor.JobExecutor: Job errored; retrying error="injected external service failure" job_id=1 job_kind=smartfactory_task
+2026/10/04 23:37:28 WARN jobexecutor.JobExecutor: job cancelled remotely job_id=2
+    service_test.go:125: River external projection: attempts=2, first failure retained, completion/outbox deletion atomic; running cancellation observed; original cancelled outbox retained
+2026/10/04 23:37:28 INFO Client: Hard stop started; cancelling all work
+2026/10/04 23:37:28 ERROR maintenance.PeriodicJobEnqueuer: Error starting transaction error="context canceled"
+2026/10/04 23:37:28 INFO River client stopped client_id=YL-Tilly-MB-A_local_2026_10_04T15_37_26_102061
+--- PASS: TestSQLiteRiverRetryAndRunningCancellation (2.08s)
+=== RUN   TestRiverRecoversAfterProcessKill
+2026/10/04 23:37:28 INFO River client started client_id=YL-Tilly-MB-A_local_2026_10_04T15_37_28_221055
+2026/10/04 23:37:48 INFO producer: Producer job counts num_completed_jobs=1 num_jobs_running=0 num_jobs_stuck=0 queue=maintenance
+    service_test.go:197: condition did not finish within budget 40s
+2026/10/04 23:38:08 INFO Client: Hard stop started; cancelling all work
+2026/10/04 23:38:08 INFO River client stopped client_id=YL-Tilly-MB-A_local_2026_10_04T15_37_28_221055
+--- FAIL: TestRiverRecoversAfterProcessKill (40.06s)
+=== RUN   TestBudgetsKeepIngestionAvailableDuringBacklog
+2026/10/04 23:38:08 INFO River client started client_id=YL-Tilly-MB-A_local_2026_10_04T15_38_08_266440
+2026/10/04 23:38:10 INFO maintenance.JobScheduler: Ran successfully num_jobs_scheduled=8
+    service_test.go:251: 24 queued workload records; active recompute=1 archive=1 projection=2; ingress=2.699625ms; queues=[{Queue:ingest Concurrency:4 Batch:10000 TimeoutMS:30000 IntervalMS:0 Pending:0 Running:0 Failed:0} {Queue:control Concurrency:3 Batch:20 TimeoutMS:0 IntervalMS:100 Pending:0 Running:0 Failed:0} {Queue:analysis Concurrency:1 Batch:256 TimeoutMS:0 IntervalMS:50 Pending:1 Running:0 Failed:0} {Queue:strategy Concurrency:1 Batch:256 TimeoutMS:0 IntervalMS:20 Pending:1 Running:0 Failed:0} {Queue:recompute Concurrency:1 Batch:40000 TimeoutMS:30000 IntervalMS:100 Pending:7 Running:1 Failed:0} {Queue:archive Concurrency:1 Batch:4096 TimeoutMS:5000 IntervalMS:5000 Pending:7 Running:1 Failed:0} {Queue:projection Concurrency:2 Batch:1 TimeoutMS:15000 IntervalMS:100 Pending:7 Running:2 Failed:0} {Queue:maintenance Concurrency:1 Batch:1 TimeoutMS:5000 IntervalMS:5000 Pending:0 Running:0 Failed:0}]
+2026/10/04 23:38:10 INFO Client: Hard stop started; cancelling all work
+2026/10/04 23:38:10 INFO jobexecutor.JobExecutor: Job errored; retrying error="context canceled" job_id=1 job_kind=smartfactory_task
+2026/10/04 23:38:10 INFO jobexecutor.JobExecutor: Job errored; retrying error="context canceled\ncontext canceled" job_id=6 job_kind=smartfactory_task
+2026/10/04 23:38:10 INFO jobexecutor.JobExecutor: Job errored; retrying error="context canceled" job_id=2 job_kind=smartfactory_task
+2026/10/04 23:38:10 INFO jobexecutor.JobExecutor: Job errored; retrying error="context canceled\ncontext canceled" job_id=3 job_kind=smartfactory_task
+2026/10/04 23:38:10 ERROR maintenance.PeriodicJobEnqueuer: Error starting transaction error="context canceled"
+2026/10/04 23:38:10 INFO River client stopped client_id=YL-Tilly-MB-A_local_2026_10_04T15_38_08_266440
+--- PASS: TestBudgetsKeepIngestionAvailableDuringBacklog (2.58s)
+FAIL
+FAIL	competition2026/product/platform/internal/tasks	44.737s
+FAIL

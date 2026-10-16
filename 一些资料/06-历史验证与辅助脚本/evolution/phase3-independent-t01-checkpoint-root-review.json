@@ -1,0 +1,210 @@
+{
+  "recorded_at": "2026-10-04T22:53:34.214176+00:00",
+  "checkpoint": {
+    "path": ".local/evolution/phase3-independent-review-t01-checkpoint.json",
+    "sha256": "8b0591b52c6d2abd6f52372e35d3f5bf68d4402127fbcb933043dc18183b16ed"
+  },
+  "scope": "T01 independent checkpoint evidence, with P3-T02 failure retained and final acceptance pending",
+  "references": {
+    "path": ".local/evolution/phase3-independent-review-t01-checkpoint.json",
+    "original_path": ".local/evolution/phase3-independent-review-t01-checkpoint.json",
+    "sha256": "8b0591b52c6d2abd6f52372e35d3f5bf68d4402127fbcb933043dc18183b16ed",
+    "hashed_references": 20,
+    "matched": 20,
+    "different": [],
+    "referenced_files_checked": 20,
+    "missing_references": []
+  },
+  "evidence_index": {
+    "files": 277,
+    "different": []
+  },
+  "commands": [
+    {
+      "label": "t01-cancel-postgres-race",
+      "expected_failure": false,
+      "exit_code": 0,
+      "exit_matches": true,
+      "changed_sources": [],
+      "metadata_sha_matches": true,
+      "output_hashes_match": true,
+      "counts": {
+        "top_level": {
+          "pass": 1,
+          "fail": 0,
+          "skip": 0
+        },
+        "leaf_cases": {
+          "pass": 11,
+          "fail": 0,
+          "skip": 0
+        },
+        "all_named_cases": {
+          "pass": 12,
+          "fail": 0,
+          "skip": 0
+        },
+        "packages": {
+          "pass": 1,
+          "fail": 0,
+          "skip": 0
+        }
+      },
+      "counts_match": true,
+      "race_output": false
+    },
+    {
+      "label": "t01-cancel-sqlite-race",
+      "expected_failure": false,
+      "exit_code": 0,
+      "exit_matches": true,
+      "changed_sources": [],
+      "metadata_sha_matches": true,
+      "output_hashes_match": true,
+      "counts": {
+        "top_level": {
+          "pass": 1,
+          "fail": 0,
+          "skip": 0
+        },
+        "leaf_cases": {
+          "pass": 11,
+          "fail": 0,
+          "skip": 0
+        },
+        "all_named_cases": {
+          "pass": 12,
+          "fail": 0,
+          "skip": 0
+        },
+        "packages": {
+          "pass": 1,
+          "fail": 0,
+          "skip": 0
+        }
+      },
+      "counts_match": true,
+      "race_output": false
+    },
+    {
+      "label": "t01-contract-schema-validation",
+      "expected_failure": false,
+      "exit_code": 0,
+      "exit_matches": true,
+      "changed_sources": [],
+      "metadata_sha_matches": true,
+      "output_hashes_match": true
+    },
+    {
+      "label": "t01-go-contract-generation",
+      "expected_failure": false,
+      "exit_code": 0,
+      "exit_matches": true,
+      "changed_sources": [],
+      "metadata_sha_matches": true,
+      "output_hashes_match": true
+    },
+    {
+      "label": "t01-platform-full",
+      "expected_failure": false,
+      "exit_code": 0,
+      "exit_matches": true,
+      "changed_sources": [],
+      "metadata_sha_matches": true,
+      "output_hashes_match": true,
+      "counts": {
+        "top_level": {
+          "pass": 212,
+          "fail": 0,
+          "skip": 34
+        },
+        "leaf_cases": {
+          "pass": 361,
+          "fail": 0,
+          "skip": 45
+        },
+        "all_named_cases": {
+          "pass": 403,
+          "fail": 0,
+          "skip": 45
+        },
+        "packages": {
+          "pass": 21,
+          "fail": 0,
+          "skip": 17
+        }
+      },
+      "counts_match": true,
+      "race_output": false
+    },
+    {
+      "label": "t01-postgres-specialized",
+      "expected_failure": false,
+      "exit_code": 0,
+      "exit_matches": true,
+      "changed_sources": [],
+      "metadata_sha_matches": true,
+      "output_hashes_match": true,
+      "counts": {
+        "top_level": {
+          "pass": 23,
+          "fail": 0,
+          "skip": 0
+        },
+        "leaf_cases": {
+          "pass": 33,
+          "fail": 0,
+          "skip": 0
+        },
+        "all_named_cases": {
+          "pass": 34,
+          "fail": 0,
+          "skip": 0
+        },
+        "packages": {
+          "pass": 6,
+          "fail": 0,
+          "skip": 0
+        }
+      },
+      "counts_match": true,
+      "race_output": false
+    },
+    {
+      "label": "t01-retry-independent-reproduction",
+      "expected_failure": true,
+      "exit_code": 1,
+      "exit_matches": true,
+      "changed_sources": [],
+      "metadata_sha_matches": true,
+      "output_hashes_match": true,
+      "counts": {
+        "top_level": {
+          "pass": 0,
+          "fail": 1,
+          "skip": 0
+        },
+        "leaf_cases": {
+          "pass": 0,
+          "fail": 1,
+          "skip": 0
+        },
+        "all_named_cases": {
+          "pass": 0,
+          "fail": 2,
+          "skip": 0
+        },
+        "packages": {
+          "pass": 0,
+          "fail": 1,
+          "skip": 0
+        }
+      },
+      "counts_match": true,
+      "race_output": false
+    }
+  ],
+  "port_19062_closed": true,
+  "expected_failure_count": 1,
+  "status": "checkpoint_evidence_matched"
+}

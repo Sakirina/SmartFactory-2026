@@ -1,0 +1,952 @@
+{
+  "execution": {
+    "downlink_id": "recover-browser",
+    "definition_id": "control-fixture",
+    "definition_version": 1,
+    "params": {},
+    "status": "ready_to_resume",
+    "override": false,
+    "risk_category": "business",
+    "risk_level": 1,
+    "binding": "2b919965436e08f8bc423e77e73f690fd1f41f76f86de10cdefc70b0986ea462",
+    "created_ms": 1791149966977,
+    "approval_expires_ms": 1791153566977,
+    "start_deadline_ms": 1791149976980,
+    "approvals": [
+      {
+        "user_id": "engineer",
+        "role": "engineer",
+        "at_ms": 1791149966978,
+        "binding": "2b919965436e08f8bc423e77e73f690fd1f41f76f86de10cdefc70b0986ea462",
+        "local": true,
+        "step_up": false,
+        "actor": {
+          "user_id": "engineer",
+          "name": "engineer",
+          "department_id": "engineering",
+          "roles": [
+            "engineer"
+          ],
+          "source": "control-fixture",
+          "session_id": "0724a0189b5e1fea7ee19d158d0b1f97",
+          "ai": false
+        }
+      },
+      {
+        "user_id": "leader",
+        "role": "leader",
+        "at_ms": 1791149966979,
+        "binding": "2b919965436e08f8bc423e77e73f690fd1f41f76f86de10cdefc70b0986ea462",
+        "local": true,
+        "step_up": false,
+        "actor": {
+          "user_id": "leader",
+          "name": "leader",
+          "department_id": "engineering",
+          "roles": [
+            "leader"
+          ],
+          "source": "",
+          "session_id": "",
+          "ai": false
+        }
+      }
+    ],
+    "steps": [
+      {
+        "step_id": "first",
+        "command_id": "recover-browser:first",
+        "status": "SUCCESS",
+        "message": "success",
+        "started_ms": 1791149967045,
+        "finished_ms": 1791149967046,
+        "evidence_id": "b9d6c3517e71821b2305ede51dac47c4"
+      }
+    ],
+    "reason": "独立复验 C05 原命令持久反馈",
+    "snapshot": [],
+    "actor": {
+      "user_id": "engineer",
+      "name": "engineer",
+      "department_id": "engineering",
+      "roles": [
+        "engineer"
+      ],
+      "source": "control-fixture",
+      "session_id": "0724a0189b5e1fea7ee19d158d0b1f97",
+      "ai": false
+    },
+    "fence": 0,
+    "version": 9,
+    "mode": "manual",
+    "branch": "normal",
+    "reconciled_ms": 1791150239665,
+    "resource_binding": "2a2c7756bc605d0129d314adde692a352517debabdf9f15907ad98398c51dca9"
+  },
+  "allowed_actions": [
+    {
+      "action": "cancel",
+      "allowed": true
+    },
+    {
+      "action": "reconcile",
+      "allowed": false,
+      "reason": "operation is unavailable in the current execution state"
+    },
+    {
+      "action": "resume",
+      "allowed": true
+    }
+  ],
+  "timeline": [
+    {
+      "id": "approval:0",
+      "kind": "approval",
+      "source": "execution.approvals",
+      "at_ms": 1791149966978,
+      "approval": {
+        "user_id": "engineer",
+        "role": "engineer",
+        "at_ms": 1791149966978,
+        "binding": "2b919965436e08f8bc423e77e73f690fd1f41f76f86de10cdefc70b0986ea462",
+        "local": true,
+        "step_up": false,
+        "actor": {
+          "user_id": "engineer",
+          "name": "engineer",
+          "department_id": "engineering",
+          "roles": [
+            "engineer"
+          ],
+          "source": "control-fixture",
+          "session_id": "0724a0189b5e1fea7ee19d158d0b1f97",
+          "ai": false
+        }
+      },
+      "actor": {
+        "user_id": "engineer",
+        "name": "engineer",
+        "department_id": "engineering",
+        "roles": [
+          "engineer"
+        ],
+        "source": "control-fixture",
+        "session_id": "0724a0189b5e1fea7ee19d158d0b1f97",
+        "ai": false
+      }
+    },
+    {
+      "id": "approval:1",
+      "kind": "approval",
+      "source": "execution.approvals",
+      "at_ms": 1791149966979,
+      "approval": {
+        "user_id": "leader",
+        "role": "leader",
+        "at_ms": 1791149966979,
+        "binding": "2b919965436e08f8bc423e77e73f690fd1f41f76f86de10cdefc70b0986ea462",
+        "local": true,
+        "step_up": false,
+        "actor": {
+          "user_id": "leader",
+          "name": "leader",
+          "department_id": "engineering",
+          "roles": [
+            "leader"
+          ],
+          "source": "",
+          "session_id": "",
+          "ai": false
+        }
+      },
+      "actor": {
+        "user_id": "leader",
+        "name": "leader",
+        "department_id": "engineering",
+        "roles": [
+          "leader"
+        ],
+        "source": "",
+        "session_id": "",
+        "ai": false
+      }
+    },
+    {
+      "id": "transition:1",
+      "kind": "transition",
+      "source": "cloud_receipt:edge-a",
+      "at_ms": 1791149967045,
+      "transition": {
+        "execution_id": "recover-browser",
+        "version": 1,
+        "previous_version": 0,
+        "event": "receipt",
+        "from": "",
+        "to": "awaiting_approval",
+        "at_ms": 1791149967045,
+        "source": "cloud_receipt:edge-a",
+        "source_version": 1,
+        "actor": {
+          "user_id": "engineer",
+          "name": "engineer",
+          "department_id": "engineering",
+          "roles": [
+            "engineer"
+          ],
+          "source": "control-fixture",
+          "session_id": "0724a0189b5e1fea7ee19d158d0b1f97",
+          "ai": false
+        },
+        "trace_id": "4d2f0e8bb02a6f583d26fa9262728921"
+      },
+      "actor": {
+        "user_id": "engineer",
+        "name": "engineer",
+        "department_id": "engineering",
+        "roles": [
+          "engineer"
+        ],
+        "source": "control-fixture",
+        "session_id": "0724a0189b5e1fea7ee19d158d0b1f97",
+        "ai": false
+      },
+      "trace_id": "4d2f0e8bb02a6f583d26fa9262728921"
+    },
+    {
+      "id": "transition:2",
+      "kind": "transition",
+      "source": "cloud_receipt:edge-a",
+      "at_ms": 1791149967045,
+      "transition": {
+        "execution_id": "recover-browser",
+        "version": 2,
+        "previous_version": 1,
+        "event": "receipt",
+        "from": "awaiting_approval",
+        "to": "awaiting_approval",
+        "at_ms": 1791149967045,
+        "source": "cloud_receipt:edge-a",
+        "source_version": 2,
+        "actor": {
+          "user_id": "engineer",
+          "name": "engineer",
+          "department_id": "engineering",
+          "roles": [
+            "engineer"
+          ],
+          "source": "control-fixture",
+          "session_id": "0724a0189b5e1fea7ee19d158d0b1f97",
+          "ai": false
+        },
+        "trace_id": "ec4f0a06fd19b74e1661c5f0c05b64c1"
+      },
+      "actor": {
+        "user_id": "engineer",
+        "name": "engineer",
+        "department_id": "engineering",
+        "roles": [
+          "engineer"
+        ],
+        "source": "control-fixture",
+        "session_id": "0724a0189b5e1fea7ee19d158d0b1f97",
+        "ai": false
+      },
+      "trace_id": "ec4f0a06fd19b74e1661c5f0c05b64c1"
+    },
+    {
+      "id": "transition:3",
+      "kind": "transition",
+      "source": "cloud_receipt:edge-a",
+      "at_ms": 1791149967045,
+      "transition": {
+        "execution_id": "recover-browser",
+        "version": 3,
+        "previous_version": 2,
+        "event": "receipt",
+        "from": "awaiting_approval",
+        "to": "approved",
+        "at_ms": 1791149967045,
+        "source": "cloud_receipt:edge-a",
+        "source_version": 3,
+        "actor": {
+          "user_id": "engineer",
+          "name": "engineer",
+          "department_id": "engineering",
+          "roles": [
+            "engineer"
+          ],
+          "source": "control-fixture",
+          "session_id": "0724a0189b5e1fea7ee19d158d0b1f97",
+          "ai": false
+        },
+        "trace_id": "c91677227a124fa55f90ba9edf94aeb5"
+      },
+      "actor": {
+        "user_id": "engineer",
+        "name": "engineer",
+        "department_id": "engineering",
+        "roles": [
+          "engineer"
+        ],
+        "source": "control-fixture",
+        "session_id": "0724a0189b5e1fea7ee19d158d0b1f97",
+        "ai": false
+      },
+      "trace_id": "c91677227a124fa55f90ba9edf94aeb5"
+    },
+    {
+      "id": "step:recover-browser:first",
+      "kind": "action",
+      "source": "execution.steps",
+      "at_ms": 1791149967046,
+      "step": {
+        "step_id": "first",
+        "command_id": "recover-browser:first",
+        "status": "SUCCESS",
+        "message": "success",
+        "started_ms": 1791149967045,
+        "finished_ms": 1791149967046,
+        "evidence_id": "b9d6c3517e71821b2305ede51dac47c4"
+      },
+      "actor": {
+        "user_id": "engineer",
+        "name": "engineer",
+        "department_id": "engineering",
+        "roles": [
+          "engineer"
+        ],
+        "source": "control-fixture",
+        "session_id": "0724a0189b5e1fea7ee19d158d0b1f97",
+        "ai": false
+      }
+    },
+    {
+      "id": "transition:4",
+      "kind": "transition",
+      "source": "cloud_receipt:edge-a",
+      "at_ms": 1791149967046,
+      "transition": {
+        "execution_id": "recover-browser",
+        "version": 4,
+        "previous_version": 3,
+        "event": "receipt",
+        "from": "approved",
+        "to": "queued",
+        "at_ms": 1791149967046,
+        "source": "cloud_receipt:edge-a",
+        "source_version": 4,
+        "actor": {
+          "user_id": "engineer",
+          "name": "engineer",
+          "department_id": "engineering",
+          "roles": [
+            "engineer"
+          ],
+          "source": "control-fixture",
+          "session_id": "0724a0189b5e1fea7ee19d158d0b1f97",
+          "ai": false
+        },
+        "trace_id": "fc1dd9476aaa94d7e6aee7c5332595d0"
+      },
+      "actor": {
+        "user_id": "engineer",
+        "name": "engineer",
+        "department_id": "engineering",
+        "roles": [
+          "engineer"
+        ],
+        "source": "control-fixture",
+        "session_id": "0724a0189b5e1fea7ee19d158d0b1f97",
+        "ai": false
+      },
+      "trace_id": "fc1dd9476aaa94d7e6aee7c5332595d0"
+    },
+    {
+      "id": "transition:5",
+      "kind": "transition",
+      "source": "cloud_receipt:edge-a",
+      "at_ms": 1791149967244,
+      "transition": {
+        "execution_id": "recover-browser",
+        "version": 5,
+        "previous_version": 4,
+        "event": "receipt",
+        "from": "queued",
+        "to": "running",
+        "at_ms": 1791149967244,
+        "source": "cloud_receipt:edge-a",
+        "source_version": 5,
+        "actor": {
+          "user_id": "engineer",
+          "name": "engineer",
+          "department_id": "engineering",
+          "roles": [
+            "engineer"
+          ],
+          "source": "control-fixture",
+          "session_id": "0724a0189b5e1fea7ee19d158d0b1f97",
+          "ai": false
+        },
+        "trace_id": "9343fbfa333f173dbbb99f6e3b23eab3"
+      },
+      "actor": {
+        "user_id": "engineer",
+        "name": "engineer",
+        "department_id": "engineering",
+        "roles": [
+          "engineer"
+        ],
+        "source": "control-fixture",
+        "session_id": "0724a0189b5e1fea7ee19d158d0b1f97",
+        "ai": false
+      },
+      "trace_id": "9343fbfa333f173dbbb99f6e3b23eab3"
+    },
+    {
+      "id": "transition:6",
+      "kind": "transition",
+      "source": "cloud_receipt:edge-a",
+      "at_ms": 1791149967245,
+      "transition": {
+        "execution_id": "recover-browser",
+        "version": 6,
+        "previous_version": 5,
+        "event": "receipt",
+        "from": "running",
+        "to": "running",
+        "at_ms": 1791149967245,
+        "source": "cloud_receipt:edge-a",
+        "source_version": 6,
+        "actor": {
+          "user_id": "engineer",
+          "name": "engineer",
+          "department_id": "engineering",
+          "roles": [
+            "engineer"
+          ],
+          "source": "control-fixture",
+          "session_id": "0724a0189b5e1fea7ee19d158d0b1f97",
+          "ai": false
+        },
+        "trace_id": "2db1fb3c49c0b35a687b24b240bd38a6"
+      },
+      "actor": {
+        "user_id": "engineer",
+        "name": "engineer",
+        "department_id": "engineering",
+        "roles": [
+          "engineer"
+        ],
+        "source": "control-fixture",
+        "session_id": "0724a0189b5e1fea7ee19d158d0b1f97",
+        "ai": false
+      },
+      "trace_id": "2db1fb3c49c0b35a687b24b240bd38a6"
+    },
+    {
+      "id": "transition:7",
+      "kind": "transition",
+      "source": "cloud_receipt:edge-a",
+      "at_ms": 1791149967245,
+      "transition": {
+        "execution_id": "recover-browser",
+        "version": 7,
+        "previous_version": 6,
+        "event": "receipt",
+        "from": "running",
+        "to": "running",
+        "at_ms": 1791149967245,
+        "source": "cloud_receipt:edge-a",
+        "source_version": 7,
+        "actor": {
+          "user_id": "engineer",
+          "name": "engineer",
+          "department_id": "engineering",
+          "roles": [
+            "engineer"
+          ],
+          "source": "control-fixture",
+          "session_id": "0724a0189b5e1fea7ee19d158d0b1f97",
+          "ai": false
+        },
+        "trace_id": "727f152f3073405748ad3adac4f7a24d"
+      },
+      "actor": {
+        "user_id": "engineer",
+        "name": "engineer",
+        "department_id": "engineering",
+        "roles": [
+          "engineer"
+        ],
+        "source": "control-fixture",
+        "session_id": "0724a0189b5e1fea7ee19d158d0b1f97",
+        "ai": false
+      },
+      "trace_id": "727f152f3073405748ad3adac4f7a24d"
+    },
+    {
+      "id": "transition:8",
+      "kind": "transition",
+      "source": "cloud_receipt:edge-a",
+      "at_ms": 1791149967246,
+      "transition": {
+        "execution_id": "recover-browser",
+        "version": 8,
+        "previous_version": 7,
+        "event": "receipt",
+        "from": "running",
+        "to": "result_unknown",
+        "at_ms": 1791149967246,
+        "source": "cloud_receipt:edge-a",
+        "source_version": 8,
+        "actor": {
+          "user_id": "engineer",
+          "name": "engineer",
+          "department_id": "engineering",
+          "roles": [
+            "engineer"
+          ],
+          "source": "control-fixture",
+          "session_id": "0724a0189b5e1fea7ee19d158d0b1f97",
+          "ai": false
+        },
+        "reason": "rpc error: code = Unavailable desc = controlled reply loss after durable device SUCCESS",
+        "trace_id": "dd5ce8eb9c80e50b9e01af44f976a193"
+      },
+      "actor": {
+        "user_id": "engineer",
+        "name": "engineer",
+        "department_id": "engineering",
+        "roles": [
+          "engineer"
+        ],
+        "source": "control-fixture",
+        "session_id": "0724a0189b5e1fea7ee19d158d0b1f97",
+        "ai": false
+      },
+      "trace_id": "dd5ce8eb9c80e50b9e01af44f976a193"
+    },
+    {
+      "id": "audit:cloud:49",
+      "kind": "legacy_audit",
+      "source": "audit:cloud",
+      "at_ms": 1791150126772,
+      "actor": {
+        "user_id": "engineer",
+        "name": "engineer",
+        "department_id": "engineering",
+        "roles": [
+          "engineer"
+        ],
+        "source": "127.0.0.1:51519",
+        "session_id": "1d59c56b713ae24231402a9e2b068b42",
+        "ai": false
+      },
+      "message": "control.operation.request"
+    },
+    {
+      "id": "operation-request:ad21349b-1fa1-4aaf-a9f9-384d0c1c30f5",
+      "kind": "operation_request",
+      "source": "control_operation:cloud",
+      "at_ms": 1791150126772,
+      "actor": {
+        "user_id": "engineer",
+        "name": "engineer",
+        "department_id": "engineering",
+        "roles": [
+          "engineer"
+        ],
+        "source": "127.0.0.1:51519",
+        "session_id": "1d59c56b713ae24231402a9e2b068b42",
+        "ai": false
+      },
+      "trace_id": "0012e99953822a480ed99c425ed28b59",
+      "message": "reconcile: 独立复验 C05 原命令持久反馈"
+    },
+    {
+      "id": "audit:edge-a:46",
+      "kind": "legacy_audit",
+      "source": "audit:edge-a",
+      "at_ms": 1791150239663,
+      "actor": {
+        "user_id": "engineer",
+        "name": "engineer",
+        "department_id": "engineering",
+        "roles": [
+          "engineer"
+        ],
+        "source": "127.0.0.1:51519",
+        "session_id": "1d59c56b713ae24231402a9e2b068b42",
+        "ai": false
+      },
+      "message": "control.operation.received"
+    },
+    {
+      "id": "audit:edge-a:47",
+      "kind": "legacy_audit",
+      "source": "audit:edge-a",
+      "at_ms": 1791150239663,
+      "actor": {
+        "user_id": "engineer",
+        "name": "engineer",
+        "department_id": "engineering",
+        "roles": [
+          "engineer"
+        ],
+        "source": "127.0.0.1:51519",
+        "session_id": "1d59c56b713ae24231402a9e2b068b42",
+        "ai": false
+      },
+      "message": "control.operation.started"
+    },
+    {
+      "id": "operation-start:ad21349b-1fa1-4aaf-a9f9-384d0c1c30f5",
+      "kind": "operation_started",
+      "source": "control_operation:edge-a",
+      "at_ms": 1791150239663,
+      "actor": {
+        "user_id": "engineer",
+        "name": "engineer",
+        "department_id": "engineering",
+        "roles": [
+          "engineer"
+        ],
+        "source": "127.0.0.1:51519",
+        "session_id": "1d59c56b713ae24231402a9e2b068b42",
+        "ai": false
+      },
+      "trace_id": "0012e99953822a480ed99c425ed28b59",
+      "message": "reconcile started"
+    },
+    {
+      "id": "evidence:b9d6c3517e71821b2305ede51dac47c4",
+      "kind": "feedback",
+      "source": "datatransfer.command_journal:edge-a",
+      "at_ms": 1791150239664,
+      "evidence": {
+        "id": "b9d6c3517e71821b2305ede51dac47c4",
+        "execution_id": "recover-browser",
+        "command_id": "recover-browser:first",
+        "device_id": "device-grpc",
+        "step_id": "first",
+        "source": "datatransfer.command_journal:edge-a",
+        "observed_ms": 1791149967046,
+        "collected_ms": 1791150239664,
+        "payload_hash": "e20649be77e42e31134fa7891f18e9232c26743a42522db46cd2d4bfe1e7ee9e",
+        "content_hash": "5a8ebe18386e01d3ec903c10e3dedccf5e307928b6dc5cd7bd7f65a489bcab71",
+        "request_hash": "32df4c490b7400bdff66b42e6588b4e6b8e0885b740c59cb330681a7490a94c7",
+        "status": "SUCCESS",
+        "message": "success",
+        "trusted": true,
+        "actor": {
+          "user_id": "engineer",
+          "name": "engineer",
+          "department_id": "engineering",
+          "roles": [
+            "engineer"
+          ],
+          "source": "127.0.0.1:51519",
+          "session_id": "1d59c56b713ae24231402a9e2b068b42",
+          "ai": false
+        },
+        "trace_id": "628fea5c95817d6277bb996c644c68f5"
+      },
+      "actor": {
+        "user_id": "engineer",
+        "name": "engineer",
+        "department_id": "engineering",
+        "roles": [
+          "engineer"
+        ],
+        "source": "127.0.0.1:51519",
+        "session_id": "1d59c56b713ae24231402a9e2b068b42",
+        "ai": false
+      },
+      "trace_id": "628fea5c95817d6277bb996c644c68f5"
+    },
+    {
+      "id": "audit:edge-a:49",
+      "kind": "legacy_audit",
+      "source": "audit:edge-a",
+      "at_ms": 1791150239665,
+      "actor": {
+        "user_id": "engineer",
+        "name": "engineer",
+        "department_id": "engineering",
+        "roles": [
+          "engineer"
+        ],
+        "source": "127.0.0.1:51519",
+        "session_id": "1d59c56b713ae24231402a9e2b068b42",
+        "ai": false
+      },
+      "message": "control.operation.completed"
+    },
+    {
+      "id": "operation-result:ad21349b-1fa1-4aaf-a9f9-384d0c1c30f5",
+      "kind": "operation_result",
+      "source": "control_operation:edge-a",
+      "at_ms": 1791150239665,
+      "actor": {
+        "user_id": "engineer",
+        "name": "engineer",
+        "department_id": "engineering",
+        "roles": [
+          "engineer"
+        ],
+        "source": "127.0.0.1:51519",
+        "session_id": "1d59c56b713ae24231402a9e2b068b42",
+        "ai": false
+      },
+      "trace_id": "0012e99953822a480ed99c425ed28b59",
+      "message": "reconcile completed"
+    },
+    {
+      "id": "audit:cloud:50",
+      "kind": "legacy_audit",
+      "source": "audit:cloud",
+      "at_ms": 1791150239756,
+      "actor": {
+        "user_id": "engineer",
+        "name": "engineer",
+        "department_id": "engineering",
+        "roles": [
+          "engineer"
+        ],
+        "source": "127.0.0.1:51519",
+        "session_id": "1d59c56b713ae24231402a9e2b068b42",
+        "ai": false
+      },
+      "message": "control.operation.receipt"
+    },
+    {
+      "id": "audit:cloud:51",
+      "kind": "legacy_audit",
+      "source": "audit:cloud",
+      "at_ms": 1791150239757,
+      "actor": {
+        "user_id": "engineer",
+        "name": "engineer",
+        "department_id": "engineering",
+        "roles": [
+          "engineer"
+        ],
+        "source": "127.0.0.1:51519",
+        "session_id": "1d59c56b713ae24231402a9e2b068b42",
+        "ai": false
+      },
+      "message": "control.operation.receipt"
+    },
+    {
+      "id": "audit:cloud:52",
+      "kind": "legacy_audit",
+      "source": "audit:cloud",
+      "at_ms": 1791150239758,
+      "actor": {
+        "user_id": "engineer",
+        "name": "engineer",
+        "department_id": "engineering",
+        "roles": [
+          "engineer"
+        ],
+        "source": "control-fixture",
+        "session_id": "0724a0189b5e1fea7ee19d158d0b1f97",
+        "ai": false
+      },
+      "message": "control.receipt_evidence"
+    },
+    {
+      "id": "transition:9",
+      "kind": "transition",
+      "source": "cloud_receipt:edge-a",
+      "at_ms": 1791150239758,
+      "transition": {
+        "execution_id": "recover-browser",
+        "version": 9,
+        "previous_version": 8,
+        "event": "receipt",
+        "from": "result_unknown",
+        "to": "ready_to_resume",
+        "at_ms": 1791150239758,
+        "source": "cloud_receipt:edge-a",
+        "source_version": 9,
+        "actor": {
+          "user_id": "engineer",
+          "name": "engineer",
+          "department_id": "engineering",
+          "roles": [
+            "engineer"
+          ],
+          "source": "control-fixture",
+          "session_id": "0724a0189b5e1fea7ee19d158d0b1f97",
+          "ai": false
+        },
+        "reason": "独立复验 C05 原命令持久反馈",
+        "evidence_ids": [
+          "b9d6c3517e71821b2305ede51dac47c4"
+        ],
+        "trace_id": "9d3a88e66539e2b4c2b5376ffcdfd399"
+      },
+      "actor": {
+        "user_id": "engineer",
+        "name": "engineer",
+        "department_id": "engineering",
+        "roles": [
+          "engineer"
+        ],
+        "source": "control-fixture",
+        "session_id": "0724a0189b5e1fea7ee19d158d0b1f97",
+        "ai": false
+      },
+      "trace_id": "9d3a88e66539e2b4c2b5376ffcdfd399"
+    }
+  ],
+  "evidence": [
+    {
+      "id": "b9d6c3517e71821b2305ede51dac47c4",
+      "execution_id": "recover-browser",
+      "command_id": "recover-browser:first",
+      "device_id": "device-grpc",
+      "step_id": "first",
+      "source": "datatransfer.command_journal:edge-a",
+      "observed_ms": 1791149967046,
+      "collected_ms": 1791150239664,
+      "payload_hash": "e20649be77e42e31134fa7891f18e9232c26743a42522db46cd2d4bfe1e7ee9e",
+      "content_hash": "5a8ebe18386e01d3ec903c10e3dedccf5e307928b6dc5cd7bd7f65a489bcab71",
+      "request_hash": "32df4c490b7400bdff66b42e6588b4e6b8e0885b740c59cb330681a7490a94c7",
+      "status": "SUCCESS",
+      "message": "success",
+      "trusted": true,
+      "actor": {
+        "user_id": "engineer",
+        "name": "engineer",
+        "department_id": "engineering",
+        "roles": [
+          "engineer"
+        ],
+        "source": "127.0.0.1:51519",
+        "session_id": "1d59c56b713ae24231402a9e2b068b42",
+        "ai": false
+      },
+      "trace_id": "628fea5c95817d6277bb996c644c68f5"
+    }
+  ],
+  "operations": [
+    {
+      "id": "ad21349b-1fa1-4aaf-a9f9-384d0c1c30f5",
+      "execution_id": "recover-browser",
+      "action": "reconcile",
+      "status": "completed",
+      "origin_node_id": "cloud",
+      "target_node_id": "edge-a",
+      "expected_version": 8,
+      "expected_source_version": 8,
+      "requested_ms": 1791150126772,
+      "deadline_ms": 1791153726772,
+      "started_ms": 1791150239663,
+      "processed_ms": 1791150239665,
+      "reason": "独立复验 C05 原命令持久反馈",
+      "actor": {
+        "user_id": "engineer",
+        "name": "engineer",
+        "department_id": "engineering",
+        "roles": [
+          "engineer"
+        ],
+        "source": "127.0.0.1:51519",
+        "session_id": "1d59c56b713ae24231402a9e2b068b42",
+        "ai": false
+      },
+      "request_hash": "576f124699a7a139f36909ec25bc186bc27ba268e6da6e4ee1c5243bb9ef8911",
+      "result_version": 9,
+      "result": {
+        "downlink_id": "recover-browser",
+        "definition_id": "control-fixture",
+        "definition_version": 1,
+        "params": {},
+        "status": "ready_to_resume",
+        "override": false,
+        "risk_category": "business",
+        "risk_level": 1,
+        "binding": "2b919965436e08f8bc423e77e73f690fd1f41f76f86de10cdefc70b0986ea462",
+        "created_ms": 1791149966977,
+        "approval_expires_ms": 1791153566977,
+        "start_deadline_ms": 1791149976980,
+        "approvals": [
+          {
+            "user_id": "engineer",
+            "role": "engineer",
+            "at_ms": 1791149966978,
+            "binding": "2b919965436e08f8bc423e77e73f690fd1f41f76f86de10cdefc70b0986ea462",
+            "local": true,
+            "step_up": false,
+            "actor": {
+              "user_id": "engineer",
+              "name": "engineer",
+              "department_id": "engineering",
+              "roles": [
+                "engineer"
+              ],
+              "source": "control-fixture",
+              "session_id": "0724a0189b5e1fea7ee19d158d0b1f97",
+              "ai": false
+            }
+          },
+          {
+            "user_id": "leader",
+            "role": "leader",
+            "at_ms": 1791149966979,
+            "binding": "2b919965436e08f8bc423e77e73f690fd1f41f76f86de10cdefc70b0986ea462",
+            "local": true,
+            "step_up": false,
+            "actor": {
+              "user_id": "leader",
+              "name": "leader",
+              "department_id": "engineering",
+              "roles": [
+                "leader"
+              ],
+              "source": "",
+              "session_id": "",
+              "ai": false
+            }
+          }
+        ],
+        "steps": [
+          {
+            "step_id": "first",
+            "command_id": "recover-browser:first",
+            "status": "SUCCESS",
+            "message": "success",
+            "started_ms": 1791149967045,
+            "finished_ms": 1791149967046,
+            "evidence_id": "b9d6c3517e71821b2305ede51dac47c4"
+          }
+        ],
+        "reason": "独立复验 C05 原命令持久反馈",
+        "snapshot": [],
+        "actor": {
+          "user_id": "engineer",
+          "name": "engineer",
+          "department_id": "engineering",
+          "roles": [
+            "engineer"
+          ],
+          "source": "control-fixture",
+          "session_id": "0724a0189b5e1fea7ee19d158d0b1f97",
+          "ai": false
+        },
+        "fence": 0,
+        "version": 9,
+        "mode": "manual",
+        "branch": "normal",
+        "reconciled_ms": 1791150239665,
+        "resource_binding": "2a2c7756bc605d0129d314adde692a352517debabdf9f15907ad98398c51dca9"
+      },
+      "version": 3,
+      "trace_id": "0012e99953822a480ed99c425ed28b59"
+    }
+  ],
+  "source_node_id": "edge-a",
+  "source_version": 9
+}

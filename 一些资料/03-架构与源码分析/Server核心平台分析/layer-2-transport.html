@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>传输层 · ThingsBoard 核心平台拆解</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="components.css">
+  <style>
+    body { --accent:#ea580c; --accent-soft:rgba(234,88,12,0.08); --accent-line:rgba(234,88,12,0.2); }
+  </style>
+</head>
+<body data-accent="orange">
+  <header>
+    <nav>
+      <a class="back-link" href="index.html">返回总览</a>
+      <div class="crumb">核心平台 <span class="sep">/</span> <b>② 传输层</b></div>
+      <div class="nav-mini">
+        <a href="layer-1-access.html">接入层</a>
+        <a href="layer-3-queue.html">消息总线</a>
+        <a href="layer-4-core.html">核心处理</a>
+        <a href="layer-5-platform-services.html">支撑服务</a>
+        <a href="layer-6-persistence.html">持久化</a>
+      </div>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-inner">
+      <div class="hero-eyebrow"><span class="layer-no">2</span> 第二层 · Transport Layer</div>
+      <h1>传输层<span class="en">在设备与平台之间做翻译的轻量一层</span></h1>
+      <p class="hero-lead">传输层由五个协议适配器组成，每一个承接一种接入方式。它的职责被刻意收得很窄：完成协议编解码、维持会话、校验设备身份，再把上报的数据转交给后面的处理层。规则执行、状态判定这些业务工作，它一概不参与。正是这份克制，让协议种类与设备规模增长时，需要扩展的范围始终局限在这一层。</p>
+      <dl class="hero-facts">
+        <div class="fact"><dt>服务类型</dt><dd>ServiceType: TB_TRANSPORT</dd></div>
+        <div class="fact"><dt>协议适配</dt><dd>MQTT · CoAP · HTTP · LwM2M · SNMP</dd></div>
+        <div class="fact"><dt>上行落点</dt><dd>tb_rule_engine 队列</dd></div>
+        <div class="fact"><dt>认证方式</dt><dd>Transport API 往返 Core</dd></div>
+      </dl>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <section>
+      <div class="reveal">
+        <div class="section-label">Overview</div>
+        <h2>这一层在做什么</h2>
+      </div>
+      <div class="prose reveal rd1">
+        <p>设备并不会说平台的语言。一台 Modbus 网关、一个 MQTT 传感器、一台支持 LwM2M 的终端，它们的连接方式、编码格式、交互节奏各不相同。传输层的作用，就是给每一种协议配一名专职翻译，把设备发来的原始报文，还原成平台内部统一的遥测、属性与事件。</p>
+        <p>这名翻译的工作范围被严格限定。它会确认来访设备的身份，会把数据转交给后续环节，但不会就数据本身做任何业务判断。这种安排带来一个直接的好处：当接入的协议越来越多、在线设备越来越密集时，扩容的对象只有传输节点本身，后面的处理逻辑完全不必随之改动。</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="reveal">
+        <div class="section-label">Internals</div>
+        <h2>内部流水线</h2>
+        <p class="section-desc">一条设备消息进入传输节点后，依次经过五个阶段。其中认证与上行编排，分别要和 Core、规则引擎队列打交道。</p>
+      </div>
+      <div class="diagram-frame reveal rd1" data-cap="传输层 · 单个传输节点的内部流水线（点击空白处关闭）">
+        <span class="diagram-hint">点击放大</span>
+        <img src="diagrams/transport.svg" alt="传输节点内部流水线：协议编解码、会话维持、设备认证、上行编排、下行投递五个阶段">
+      </div>
+    </section>
+
+    <section>
+      <div class="reveal">
+        <div class="section-label">Pipeline</div>
+        <h2>五个阶段，逐一拆开</h2>
+      </div>
+      <div class="steps">
+        <div class="step reveal rd1"><div class="n">1</div><div><h3>协议编解码 Codec</h3><p>按照各自协议的规则解码进站报文，把它还原成平台统一的传输消息；出站时再编码回设备能理解的格式。这一阶段每种协议都有独立实现，互不影响。</p></div></div>
+        <div class="step reveal rd1"><div class="n">2</div><div><h3>会话注册 Session</h3><p>为每个设备连接维持一份会话状态，记录在线情况、订阅关系、以及尚未确认的在途消息。设备的连接是有状态的，会固定停留在某个传输节点上。</p></div></div>
+        <div class="step reveal rd2"><div class="n">3</div><div><h3>设备认证 Authenticate</h3><p>凭据校验并不在本地完成，而是经由 Transport API 往返一次 Core，确认 <code>deviceId</code>、<code>tenantId</code> 与凭据有效性。为了避免每条消息都付出这次往返的开销，校验结果会被缓存并在后续复用。</p></div></div>
+        <div class="step reveal rd2"><div class="n">4</div><div><h3>上行编排 sendToRuleEngine</h3><p>认证通过后，遥测与属性被序列化为 <code>ToRuleEngineMsg</code>，投递到 <code>tb_rule_engine</code> 队列，并附带统计回调用于观测吞吐。这是设备数据正式进入处理环节的交接点。</p></div></div>
+        <div class="step reveal rd3"><div class="n">5</div><div><h3>下行投递 Downlink</h3><p>传输节点同时消费一条定向通知队列，把来自平台的 RPC 命令、配置变更，按设备所用的协议送回设备。由于设备固定连接在某个节点上，下行命令需要被精确投递到那个节点。</p></div></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="reveal">
+        <div class="section-label">Key Mechanism</div>
+        <h2>两个值得留意的机制</h2>
+      </div>
+      <div class="grid cols-2">
+        <div class="card reveal rd1">
+          <h3>认证往返与结果缓存</h3>
+          <p>设备身份的判定权属于 Core，传输节点本身并不保存凭据库。因此每台设备首次接入时，传输节点会向 Core 发起一次 Transport API 调用来确认身份。考虑到设备会持续上报大量消息，把首次校验的结果缓存下来复用，能够显著降低这条往返链路的负担。</p>
+          <div class="src"><code>tb_transport.api.requests / responses</code></div>
+        </div>
+        <div class="card reveal rd2">
+          <h3>有状态连接与下行定位</h3>
+          <p>设备连接长期保持在某一个传输节点上，这是一种有状态的设计。它带来的影响在下行链路上格外明显：当平台想给设备下发命令时，发起方未必就是设备所连的那个节点，因此需要先定位设备所在的节点，再通过定向通知队列把命令精确送达。</p>
+          <div class="src"><code>tb_transport.notifications</code></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="reveal">
+        <div class="section-label">Design Note</div>
+        <h2>为什么把它做得这样轻量</h2>
+      </div>
+      <div class="prose reveal rd1">
+        <p>传输层完全可以承担更多工作——就地做一些过滤、就地存一份数据、就地触发告警。把这些能力都留在传输层之外，是一个经过权衡的取舍。</p>
+        <p>原因在于职责边界。传输层面对的是设备接入这件事，它的压力来自连接数量与吞吐；而业务处理面对的是规则与状态，它的压力来自计算与一致性。两者混在一起，扩容时就会互相牵连。把传输层收窄成纯粹的接入与转发，处理逻辑沉到后面独立的服务里，两边便可以各自按照自己的瓶颈伸缩，互不拖累。</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="reveal">
+        <div class="section-label">Position</div>
+        <h2>在整条链路中的位置</h2>
+        <p class="section-desc">传输层上承接入层的设备连接，下游把数据投递到消息总线。它是设备数据进入处理流程前的最后一道接入环节。</p>
+      </div>
+      <div class="passage reveal rd1">
+        <span class="node">① 接入层</span>
+        <span class="ar">→</span>
+        <span class="node here">② 传输层</span>
+        <span class="ar">→</span>
+        <span class="node">③ 消息总线</span>
+        <span class="ar">→</span>
+        <span class="node">④ 核心处理</span>
+        <span class="ar">→</span>
+        <span class="node">⑥ 持久化</span>
+      </div>
+      <div class="prose reveal rd2">
+        <p>上行方向，传输层把数据交给消息总线后便完成了使命；下行方向，它又从总线取回命令送达设备。这一进一出的两条路径，在<a href="index.html#dataflow">总览页的端到端数据流</a>里有逐跳的呈现，对照着看会更清楚它在序列中的两次出场。</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="reveal">
+        <div class="section-label">Source Map</div>
+        <h2>源码位置</h2>
+      </div>
+      <div class="grid cols-3">
+        <div class="card reveal rd1"><h3>传输服务骨架</h3><p>会话、认证、上行编排的公共逻辑，<code>sendToRuleEngine</code> 即在此。</p><div class="src"><code>common/transport/transport-api · DefaultTransportService</code></div></div>
+        <div class="card reveal rd2"><h3>协议适配器</h3><p>五种协议各自的接入实现，独立成模块。</p><div class="src"><code>transport/mqtt · coap · http · lwm2m · snmp</code></div></div>
+        <div class="card reveal rd3"><h3>队列交互</h3><p>认证往返与上行投递所用的队列设置与编解码。</p><div class="src"><code>common/queue/settings · provider</code></div></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="siblings reveal">
+        <a class="sib" href="layer-1-access.html"><span class="dir">← 上一层</span><span class="nm">① 接入层 <span class="en">Access</span></span></a>
+        <a class="sib next" href="layer-3-queue.html"><span class="dir">下一层 →</span><span class="nm">③ 消息总线 <span class="en">Message Queue</span></span></a>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <p>ThingsBoard 核心平台拆解 · 第二层 传输层 · <a href="index.html">返回总览</a></p>
+      <div class="dots">
+        <span style="background:var(--amber)"></span><span style="background:var(--cyan)"></span>
+        <span style="background:var(--blue)"></span><span style="background:var(--teal)"></span>
+        <span style="background:var(--violet)"></span><span style="background:var(--emerald)"></span>
+      </div>
+    </div>
+  </footer>
+
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <span class="lightbox-close">&times;</span>
+    <img id="lightbox-img" src="" alt="放大查看">
+    <div class="lightbox-cap" id="lightbox-cap"></div>
+  </div>
+
+  <script src="deepdive.js"></script>
+</body>
+</html>

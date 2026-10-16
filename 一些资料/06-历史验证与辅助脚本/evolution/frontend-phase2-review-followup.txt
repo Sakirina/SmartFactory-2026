@@ -1,0 +1,7 @@
+继续第二阶段前端专业验收修正，角色仍为前端基础工程师。主协调已核对72项证据摘要、43项前端源码、5项构建产物与current后端二进制，均匹配。请处理以下两项，保留第一次交付和失败证据，完成后更新最终报告、源码摘要、必要构建产物与交付说明。
+
+任务详情顶部操作提示在任务轮询进入completed之后仍保留“历史计算已完成，正在更新汇总”：见 output/playwright/frontend-phase2/task-completed.png，tasks.tsx:55将taskPhaseText(updated)固化进notice.description。修改操作反馈与当前阶段的显示方式，使完成、失败和取消后的说明与详情一致；保留409冲突原因。选择合适的业务文字，避免给用户增加实现机制说明。此处无需扩展功能，复测适当的现有前端测试、类型检查/构建以及实际页面刷新后的提示一致性。
+
+逐文件比较 .local/evolution/frontend-phase2/backend-source-current.json 与当前源码，差异为 Platform/.local/frontend-phase2-fixture/main.go、Frontends/tests/fixtures/phase2-backend.go.txt、Platform/internal/coordination/integration_test.go。最终报告及source-manifest只列最后一项，请明确两份夹具在current编译后的具体修改、时间与已执行浏览器流程的关系，按实际记录修正报告。首次二进制摘要缺失继续如实保留。现有PG18可用，隔离schema和每应用3连接/1空闲连接，私人配置从既定文件读取且不输出。
+
+当前另一运行角色是 phase2_independent_review，已完成初步核对并运行后端回归，前端检查等你完成后再进行。你完成后告知主协调及QA必要报告位置，不创建子代理，不修改生产Go源码。用户的总并行上限2；主协调会在消息专业结束后正式启动此项。

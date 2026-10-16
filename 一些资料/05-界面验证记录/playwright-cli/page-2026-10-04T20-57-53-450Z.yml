@@ -1,0 +1,201 @@
+- generic [ref=e1]:
+  - generic [ref=e50]:
+    - complementary [ref=e51]:
+      - link "SF SmartFactory 生产安全控制台" [ref=e52] [cursor=pointer]:
+        - /url: "#overview"
+        - generic [ref=e53]: SF
+        - generic [ref=e54]:
+          - text: SmartFactory
+          - generic [ref=e55]: 生产安全控制台
+      - generic [ref=e56]: 示例工厂 / cloud
+      - navigation "主导航" [ref=e57]:
+        - button "运行概览" [ref=e58] [cursor=pointer]
+        - button "设备与资产" [ref=e60] [cursor=pointer]
+        - button "数据监控" [ref=e62] [cursor=pointer]
+        - button "数据分析" [ref=e64] [cursor=pointer]
+        - button "告警编排" [ref=e66] [cursor=pointer]
+        - button "联动预案" [ref=e68] [cursor=pointer]
+        - button "审批与执行" [ref=e70] [cursor=pointer]
+        - button "通知记录" [ref=e72] [cursor=pointer]
+        - button "历史补算" [ref=e74] [cursor=pointer]
+        - button "后台任务" [ref=e76] [cursor=pointer]
+        - button "历史分析" [ref=e78] [cursor=pointer]
+        - button "运行状态" [ref=e80] [cursor=pointer]
+        - button "AI 助手" [ref=e82] [cursor=pointer]
+      - generic [ref=e84]:
+        - text: 独立实例 · 云端运行
+        - generic [ref=e86]: 规则版本与操作记录全程保存
+    - generic [ref=e87]:
+      - banner [ref=e88]:
+        - generic [ref=e89]:
+          - text: 云端控制台
+          - generic [ref=e90]: /
+          - strong [ref=e91]: 审批与执行
+        - generic [ref=e92]:
+          - generic [ref=e94] [cursor=pointer]:
+            - generic "每秒刷新" [ref=e95]:
+              - text: 每秒刷新
+              - combobox "页面刷新方式" [ref=e96]
+            - img "down" [ref=e98]
+          - generic [ref=e101]: engineer
+          - button "退出" [ref=e103] [cursor=pointer]
+      - main [ref=e105]:
+        - generic [ref=e204]:
+          - generic [ref=e205]:
+            - heading "审批与执行" [level=1] [ref=e206]
+            - paragraph [ref=e207]: 核对会签、现场条件、设备动作和反馈，按照当前许可取消、核对或恢复剩余步骤。
+          - generic [ref=e209]:
+            - button "更新执行列表" [ref=e211] [cursor=pointer]
+            - button "发起即时控制" [ref=e214] [cursor=pointer]
+        - generic [ref=e216]:
+          - textbox "控制执行身份" [ref=e217]:
+            - /placeholder: 输入完整控制执行身份
+            - text: recover-browser
+          - button "查看指定执行" [ref=e218] [cursor=pointer]
+        - generic [ref=e223]:
+          - table [ref=e227]:
+            - rowgroup [ref=e228]:
+              - row [ref=e229]:
+                - columnheader "执行 / 预案版本" [ref=e230]
+                - columnheader "执行状态" [ref=e231]
+                - columnheader "风险依据" [ref=e232]
+                - columnheader "已有会签" [ref=e233]
+                - columnheader "请求时间" [ref=e234]
+                - columnheader "操作" [ref=e235]
+            - rowgroup [ref=e236]:
+              - row [ref=e237]:
+                - cell "cancel-browser control-fixture · v1" [ref=e238]:
+                  - button "cancel-browser" [ref=e239] [cursor=pointer]
+                  - generic [ref=e241]: control-fixture · v1
+                - cell "会签要求已满足" [ref=e242]
+                - cell "business / 1级" [ref=e244]
+                - cell "2人" [ref=e245]
+                - cell "2026/10/5 04:27:56" [ref=e246]
+                - cell [ref=e247]:
+                  - button "执行详情" [ref=e248] [cursor=pointer]
+              - row [ref=e250]:
+                - cell "recover-browser control-fixture · v1" [ref=e251]:
+                  - button "recover-browser" [ref=e252] [cursor=pointer]
+                  - generic [ref=e254]: control-fixture · v1
+                - cell "原命令结果待核对" [ref=e255]
+                - cell "business / 1级" [ref=e257]
+                - cell "2人" [ref=e258]
+                - cell "2026/10/5 04:27:56" [ref=e259]
+                - cell [ref=e260]:
+                  - button "执行详情" [ref=e261] [cursor=pointer]
+          - list [ref=e263]:
+            - listitem "上一页" [ref=e264]:
+              - button [disabled] [ref=e265]:
+                - img "left" [ref=e266]
+            - listitem "1" [ref=e269] [cursor=pointer]
+            - listitem "下一页" [ref=e271]:
+              - button [disabled] [ref=e272]:
+                - img "right" [ref=e273]
+      - contentinfo [ref=e200]:
+        - text: SmartFactory · cloud
+        - generic [ref=e201]: 界面时间使用 Asia/Shanghai 时区
+  - dialog "控制执行详情" [ref=e278]:
+    - generic [ref=e279]:
+      - generic [ref=e280]:
+        - button "关闭" [ref=e281] [cursor=pointer]:
+          - img "close" [ref=e282]
+        - generic [ref=e285]: 控制执行详情
+      - button "loading 更新执行详情" [ref=e287]:
+        - generic:
+          - img "loading"
+        - generic [ref=e288]: 更新执行详情
+    - generic [ref=e290]:
+      - table [ref=e293]:
+        - rowgroup [ref=e294]:
+          - row [ref=e295]:
+            - rowheader "执行身份" [ref=e296]
+            - cell "recover-browser" [ref=e297]
+            - rowheader "预案版本" [ref=e298]
+            - cell "control-fixture · v1" [ref=e299]
+          - row [ref=e300]:
+            - rowheader "当前执行状态" [ref=e301]
+            - cell "原命令结果待核对" [ref=e302]
+            - rowheader "当前处理依据" [ref=e305]
+            - 'cell "rpc error: code = Unavailable desc = controlled reply loss after durable device SUCCESS" [ref=e306]'
+          - row [ref=e307]:
+            - rowheader "当前应用版本" [ref=e308]
+            - cell "8" [ref=e309]
+            - rowheader "来源节点 / 边缘版本" [ref=e310]
+            - cell "edge-a / 8" [ref=e311]
+          - row [ref=e312]:
+            - rowheader "执行分支" [ref=e313]
+            - cell "正常步骤" [ref=e314]
+            - rowheader "执行协调身份 / 执行权" [ref=e315]
+            - cell "暂无协调身份 / 0" [ref=e316]
+          - row [ref=e317]:
+            - rowheader "当前原命令身份" [ref=e318]
+            - cell "暂无等待中的命令" [ref=e319]
+            - rowheader "会签有效期限" [ref=e320]
+            - cell "2026/10/5 05:27:56" [ref=e321]
+          - row [ref=e322]:
+            - rowheader "执行开始期限" [ref=e323]
+            - cell "2026/10/5 04:28:06" [ref=e324]
+            - rowheader "取消请求时间" [ref=e325]
+            - cell "暂无记录" [ref=e326]
+      - alert [ref=e327]:
+        - img "exclamation-circle" [ref=e329]
+        - generic [ref=e332]:
+          - generic [ref=e333]: 原命令结果待核对
+          - generic [ref=e334]: 自动执行已经停止，请查询原命令的持久反馈；核对取得明确结果后再处理剩余步骤。
+      - generic [ref=e335]:
+        - generic [ref=e337]:
+          - generic "人工操作理由" [ref=e339]
+          - textbox "人工操作理由" [ref=e343]
+        - generic [ref=e344]:
+          - button "取消后续步骤" [disabled] [ref=e346]
+          - button "核对原命令结果" [disabled] [ref=e348]
+          - button "恢复剩余步骤" [disabled] [ref=e350]
+        - generic [ref=e351]: 恢复剩余步骤：operation is unavailable in the current execution state
+      - generic [ref=e352]:
+        - tablist [ref=e353]:
+          - generic [ref=e355]:
+            - tab "会签与设备步骤" [selected] [ref=e357] [cursor=pointer]
+            - tab "人工请求与回执" [ref=e359] [cursor=pointer]
+            - tab "原命令核对证据" [ref=e361] [cursor=pointer]
+            - tab "关联时间线" [ref=e363] [cursor=pointer]
+        - tabpanel "会签与设备步骤" [ref=e366]:
+          - heading "人员会签" [level=3] [ref=e367]
+          - table [ref=e374]:
+            - rowgroup [ref=e375]:
+              - row [ref=e376]:
+                - columnheader "人员 / 角色" [ref=e377]
+                - columnheader "确认时间" [ref=e378]
+                - columnheader "现场证据" [ref=e379]
+            - rowgroup [ref=e380]:
+              - row [ref=e381]:
+                - cell "engineer / engineer" [ref=e382]
+                - cell "2026/10/5 04:27:56" [ref=e383]
+                - cell "账号会话" [ref=e384]
+              - row [ref=e385]:
+                - cell "leader / leader" [ref=e386]
+                - cell "2026/10/5 04:27:56" [ref=e387]
+                - cell "账号会话" [ref=e388]
+          - heading "设备动作与回执" [level=3] [ref=e389]
+          - table [ref=e396]:
+            - rowgroup [ref=e397]:
+              - row [ref=e398]:
+                - columnheader "步骤 / 命令身份" [ref=e399]
+                - columnheader "设备 / 分支" [ref=e400]
+                - columnheader "设备结果" [ref=e401]
+                - columnheader "发送 / 反馈时间" [ref=e402]
+                - columnheader "反馈说明" [ref=e403]
+            - rowgroup [ref=e404]:
+              - row [ref=e405]:
+                - cell "first recover-browser:first" [ref=e406]:
+                  - text: first
+                  - generic [ref=e407]: recover-browser:first
+                - cell "device-grpc / normal" [ref=e408]
+                - cell "结果待核对" [ref=e409]
+                - cell "2026/10/5 04:27:56 2026/10/5 04:27:56" [ref=e411]:
+                  - text: 2026/10/5 04:27:56
+                  - generic [ref=e412]: 2026/10/5 04:27:56
+                - 'cell "rpc error: code = Unavailable desc = controlled reply loss after durable device SUCCESS" [ref=e413]'
+          - generic [ref=e414]:
+            - button "采用版本的条件、正常步骤和降级步骤" [ref=e416] [cursor=pointer]
+            - button "执行记录绑定摘要" [ref=e423] [cursor=pointer]
+            - button "判断时的现场观测与来源" [ref=e430] [cursor=pointer]

@@ -1,0 +1,20 @@
+继续担任原配置与节点身份工程师，沿用第五阶段原角色、6.1 Sol / Max 及共享工作树。本说明由主协调准备，正式发出恢复任务后执行；构建交付工程师保存检查点并结束本轮后，你与原前端工程师同时运行，不新增角色。
+
+实际Linux七服务组合在第二份清单校验时返回 valid=false，mqtt组件显示configuration reference is unavailable from the authority。本轮 PostgreSQL 2026-10-05 11:07:46.233 UTC记录同一advisory锁的两事务循环等待；当前config库OID208904、锁键5175393874658700308，按正式transaction.go映射为configuration_connector_source / edge-a/delivery-mqtt:2。原09:19部署409时也记录相同锁坐标，交付工程师继续整理原OID对应关系。
+
+主协调已保存原请求、两个PG日志、映射及源码，见 .local/evolution/phase5-config-deadlock-root-review.json，所核对connector_sources.go与实际包内受测源码相同。最终交付专项检查点见 .local/evolution/phase5-delivery-config-deadlock-checkpoint.json，原当前运行位于 /private/tmp/smartfactory-delivery-linux-runtime-r02-20261005，七个自建服务全部退出0、无OOM且数据库连接归零。原数据、当前和历史失败记录保持可定位。
+
+你负责 Platform/internal/configcenter/connector_sources.go 的 EnsureConnectorVersions 事务读写次序及对应配置服务测试。实际代码先tx.Read取得共享文档锁，再SetEphemeral内部转为排他写入；同函数另两份潜在写入文档也采用Read后Put。请按正式Store的只读依赖Read与读改写Get契约核对所有相关分支，并检查重叠连接器及相反引用次序的锁定顺序。权威固定版本和摘要、当前节点版本、来源认证、旧节点信息拒绝、目标分配、密钥保护及事务原子性按既有规则验证。公共Store通用语义由原存储角色负责，如需改动先向主协调说明。
+
+按以下流程完成本次修正：
+
+1. 保留当前生产源码，使用实际隔离PG构造可重复的旧实现并发失败，记录两个调用、锁等待、结果和原数据；测试对应EnsureConnectorVersions实际调用路径
+2. 在所属配置服务实施修正，固定源码与实际编译输入，对相同已有来源文档并发更新、新版本初次登记、重叠多引用及反向顺序补验；核对固定版本、来源节点版本和错误回滚
+3. 完成受影响配置与调用方适用检查、实际PG及有限race，保留首次失败及复验、各命令前后输入、真实go-list编译条件、程序摘要和清理结果
+4. 提交 .local/evolution/node-connector-deadlock-verified.json，说明改动范围和正式Linux组合应采用的固定源码，把后端交给原构建交付工程师完成完整启动流程后结束本轮
+
+当前前端工程师使用macOS SQLite服务及浏览器，你使用已经释放的PG/race/Go窗口。PG描述只从 .local/evolution/pg18-test.json读取，实例 smartfactory-evolution-pg18-final60-20261005 为18.6、1GiB、2CPU、60连接；建立独立schema并清理自己的测试对象，保持持久实例及其他工程师夹具。使用Go1.27.1、GOTOOLCHAIN=local、GOMAXPROCS=2和-p 1，既有GOPATH/GOMODCACHE/GOCACHE分别位于/private/tmp/smartfactory-evolution-gopath、smartfactory-evolution-gomodcache及smartfactory-evolution-go-cache，临时卷近期约3GiB，优先复用保留依赖。
+
+前一轮P5-R01/R02已经完成，报告 .local/evolution/release-restore-recovery-verified.json，固定源码eb78474aea6d2a7b5176f910ea95eabdfdb7cc8c0a2e9cf7cd5b0b712b1b9519；本次修改基于当前共享源码，保存与你原第五阶段报告受测版本的差异。前端夹具已恢复且继续进行最终页面，不能结束其服务或修改其持久数据。主协调负责需求、角色安排与验收，你只承担所属配置服务实现及验证，禁止创建子智能体。
+
+中文使用自然完整段落，无emoji，只有流程使用有序列表；成员称专家或工程师，Secret译为密钥，采用当前Humanizer嵌入模式。报告同时呈现最初失败、修正验证和未完成的正式交付组合，避免把专项通过写成全部目标完成。

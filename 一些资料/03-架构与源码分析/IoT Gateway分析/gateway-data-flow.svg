@@ -1,0 +1,298 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2600" height="1800" viewBox="0 0 2600 1800" role="img" aria-labelledby="title desc">
+  <title id="title">ThingsBoard IoT Gateway module-level data flow</title>
+  <desc id="desc">Data flow diagram for ThingsBoard IoT Gateway uplink, downlink RPC, attribute synchronization, remote configuration, storage confirmation, device lifecycle, and optional gRPC connectors.</desc>
+  <defs>
+    <style>
+      .bg { fill: #f8fafc; }
+      .title { font: 700 42px Arial, Helvetica, sans-serif; fill: #0f172a; }
+      .subtitle { font: 400 18px Arial, Helvetica, sans-serif; fill: #475569; }
+      .lane-title { font: 700 24px Arial, Helvetica, sans-serif; fill: #0f172a; }
+      .stage { font: 700 18px Arial, Helvetica, sans-serif; fill: #0f172a; }
+      .label { font: 700 16px Arial, Helvetica, sans-serif; fill: #111827; }
+      .text { font: 400 14px Arial, Helvetica, sans-serif; fill: #334155; }
+      .small { font: 400 12px Arial, Helvetica, sans-serif; fill: #475569; }
+      .code { font: 700 13px Menlo, Consolas, monospace; fill: #0f172a; }
+      .tiny { font: 400 11px Arial, Helvetica, sans-serif; fill: #64748b; }
+      .lane { fill: #ffffff; stroke: #d1d5db; stroke-width: 2; rx: 10; ry: 10; }
+      .box { fill: #ffffff; stroke: #cbd5e1; stroke-width: 2; rx: 8; ry: 8; }
+      .blue { fill: #eff6ff; stroke: #2563eb; }
+      .teal { fill: #ecfdf5; stroke: #059669; }
+      .amber { fill: #fffbeb; stroke: #d97706; }
+      .rose { fill: #fff1f2; stroke: #e11d48; }
+      .violet { fill: #f5f3ff; stroke: #7c3aed; }
+      .slate { fill: #f1f5f9; stroke: #64748b; }
+      .arrow { fill: none; stroke: #334155; stroke-width: 2.5; marker-end: url(#arrow); }
+      .arrow-blue { fill: none; stroke: #2563eb; stroke-width: 2.5; marker-end: url(#arrowBlue); }
+      .arrow-teal { fill: none; stroke: #059669; stroke-width: 2.5; marker-end: url(#arrowTeal); }
+      .arrow-rose { fill: none; stroke: #e11d48; stroke-width: 2.5; marker-end: url(#arrowRose); }
+      .arrow-violet { fill: none; stroke: #7c3aed; stroke-width: 2.5; marker-end: url(#arrowViolet); }
+      .arrow-amber { fill: none; stroke: #d97706; stroke-width: 2.5; marker-end: url(#arrowAmber); }
+      .dash { stroke-dasharray: 8 8; }
+    </style>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#334155"/>
+    </marker>
+    <marker id="arrowBlue" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#2563eb"/>
+    </marker>
+    <marker id="arrowTeal" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#059669"/>
+    </marker>
+    <marker id="arrowRose" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#e11d48"/>
+    </marker>
+    <marker id="arrowViolet" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#7c3aed"/>
+    </marker>
+    <marker id="arrowAmber" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#d97706"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="2600" height="1800"/>
+  <text class="title" x="80" y="70">ThingsBoard IoT Gateway - Data Flow</text>
+  <text class="subtitle" x="80" y="104">All arrows describe paths implemented by upstream/thingsboard-gateway only. Storage is acknowledged only after publish confirmation.</text>
+
+  <rect class="lane" x="70" y="140" width="2460" height="560"/>
+  <text class="lane-title" x="100" y="182">A. Uplink telemetry and attributes data plane</text>
+
+  <rect class="box slate" x="105" y="230" width="220" height="140"/>
+  <text class="stage" x="130" y="262">1. Edge source</text>
+  <text class="text" x="130" y="292">Industrial devices, brokers,</text>
+  <text class="text" x="130" y="316">HTTP endpoints, databases,</text>
+  <text class="text" x="130" y="340">files, sockets, charging points</text>
+
+  <rect class="box amber" x="380" y="210" width="290" height="180"/>
+  <text class="stage" x="410" y="242">2. Connector runtime</text>
+  <text class="code" x="410" y="272">Connector.open()</text>
+  <text class="text" x="410" y="300">Thread or asyncio loop:</text>
+  <text class="small" x="410" y="324">poll, subscribe, listen, query, parse</text>
+  <text class="small" x="410" y="348">15 default connector types + extensions</text>
+  <text class="small" x="410" y="372">owns protocol lifecycle and reconnect</text>
+
+  <rect class="box teal" x="725" y="210" width="290" height="180"/>
+  <text class="stage" x="755" y="242">3. Converter</text>
+  <text class="code" x="755" y="272">Converter.convert()</text>
+  <text class="text" x="755" y="300">Protocol payload to:</text>
+  <text class="code" x="755" y="326">ConvertedData</text>
+  <text class="small" x="755" y="350">deviceName, deviceType</text>
+  <text class="small" x="755" y="374">telemetry[], attributes, metadata</text>
+
+  <rect class="box blue" x="1070" y="210" width="295" height="180"/>
+  <text class="stage" x="1100" y="242">4. Gateway intake</text>
+  <text class="code" x="1100" y="272">send_to_storage()</text>
+  <text class="text" x="1100" y="300">DeviceFilter allow / deny</text>
+  <text class="text" x="1100" y="324">Latency metadata if enabled</text>
+  <text class="text" x="1100" y="348">ReportStrategyService or direct queue</text>
+
+  <rect class="box teal" x="1415" y="210" width="310" height="180"/>
+  <text class="stage" x="1445" y="242">5. Report strategy</text>
+  <text class="code" x="1445" y="272">filter_data_and_send()</text>
+  <text class="text" x="1445" y="300">ON_RECEIVED sends immediately</text>
+  <text class="text" x="1445" y="324">ON_CHANGE compares cache</text>
+  <text class="text" x="1445" y="348">Period strategies use timer thread</text>
+  <text class="small" x="1445" y="372">main, connector, datapoint levels</text>
+
+  <rect class="box blue" x="1780" y="210" width="300" height="180"/>
+  <text class="stage" x="1810" y="242">6. Converted queue</text>
+  <text class="code" x="1810" y="272">__converted_data_queue</text>
+  <text class="text" x="1810" y="300">Storage fill thread collects</text>
+  <text class="small" x="1810" y="324">up to 1000 tasks</text>
+  <text class="small" x="1810" y="348">or 500 ms collection window</text>
+  <text class="small" x="1810" y="372">then __process_event()</text>
+
+  <rect class="box rose" x="2140" y="210" width="320" height="180"/>
+  <text class="stage" x="2170" y="242">7. EventStorage</text>
+  <text class="code" x="2170" y="272">__send_data_pack_to_storage()</text>
+  <text class="text" x="2170" y="300">JSON serialization</text>
+  <text class="text" x="2170" y="324">payload split by maxPayloadSizeBytes</text>
+  <text class="small" x="2170" y="348">MemoryEventStorage | FileEventStorage</text>
+  <text class="small" x="2170" y="372">SQLiteEventStorage</text>
+
+  <rect class="box blue" x="1070" y="470" width="295" height="135"/>
+  <text class="stage" x="1100" y="502">Device lifecycle side effect</text>
+  <text class="code" x="1100" y="532">add_device()</text>
+  <text class="text" x="1100" y="558">gw_connect_device()</text>
+  <text class="text" x="1100" y="582">send connectorName / connectorType attributes</text>
+
+  <rect class="box rose" x="1470" y="470" width="315" height="135"/>
+  <text class="stage" x="1500" y="502">8. Send data thread</text>
+  <text class="code" x="1500" y="532">__read_data_from_storage()</text>
+  <text class="text" x="1500" y="558">get_event_pack()</text>
+  <text class="text" x="1500" y="582">group by deviceName and merge attrs</text>
+
+  <rect class="box blue" x="1840" y="470" width="290" height="135"/>
+  <text class="stage" x="1870" y="502">9. Publish</text>
+  <text class="code" x="1870" y="532">__send_data()</text>
+  <text class="text" x="1870" y="558">gw_send_telemetry / attributes</text>
+  <text class="text" x="1870" y="582">or gateway send_telemetry / attributes</text>
+
+  <rect class="box slate" x="2200" y="470" width="290" height="135"/>
+  <text class="stage" x="2230" y="502">10. ThingsBoard</text>
+  <text class="code" x="2230" y="532">TBGatewayMqttClient</text>
+  <text class="text" x="2230" y="558">MQTT publish futures</text>
+  <text class="text" x="2230" y="582">QoS handled by client setting</text>
+
+  <path class="arrow" d="M325 300 L380 300"/>
+  <path class="arrow-teal" d="M670 300 L725 300"/>
+  <path class="arrow-blue" d="M1015 300 L1070 300"/>
+  <path class="arrow-teal" d="M1365 300 L1415 300"/>
+  <path class="arrow-blue" d="M1725 300 L1780 300"/>
+  <path class="arrow-rose" d="M2080 300 L2140 300"/>
+  <path class="arrow-blue dash" d="M1218 390 L1218 470"/>
+  <path class="arrow-rose" d="M2300 390 C2300 430 1780 430 1625 470"/>
+  <path class="arrow-blue" d="M1785 540 L1840 540"/>
+  <path class="arrow-blue" d="M2130 540 L2200 540"/>
+  <path class="arrow-rose dash" d="M2345 605 C2320 660 1540 665 1540 605"/>
+  <text class="tiny" x="1605" y="662">__handle_published_events(): if publish futures succeed, call event_pack_processing_done(); otherwise storage data is resent.</text>
+
+  <rect class="lane" x="70" y="735" width="1180" height="490"/>
+  <text class="lane-title" x="100" y="777">B. Downlink RPC and attributes plane</text>
+
+  <rect class="box slate" x="105" y="825" width="260" height="145"/>
+  <text class="stage" x="135" y="857">Platform downlink</text>
+  <text class="text" x="135" y="887">Service RPC</text>
+  <text class="text" x="135" y="911">Gateway device RPC</text>
+  <text class="text" x="135" y="935">Gateway and child-device attributes</text>
+
+  <rect class="box blue" x="420" y="825" width="280" height="145"/>
+  <text class="stage" x="450" y="857">MQTT subscriptions</text>
+  <text class="code" x="450" y="887">subscribe_to_required_topics()</text>
+  <text class="text" x="450" y="911">gw_set_server_side_rpc_request_handler</text>
+  <text class="text" x="450" y="935">subscribe_to_all_attributes</text>
+
+  <rect class="box violet" x="760" y="805" width="320" height="185"/>
+  <text class="stage" x="790" y="837">Callbacks</text>
+  <text class="code" x="790" y="867">_rpc_request_handler()</text>
+  <text class="text" x="790" y="891">device set: queue to devices</text>
+  <text class="text" x="790" y="915">module prefix: connector or gateway RPC</text>
+  <text class="code" x="790" y="945">_attribute_update_callback()</text>
+  <text class="text" x="790" y="969">route to connector.on_attributes_update()</text>
+
+  <rect class="box violet" x="105" y="1040" width="315" height="145"/>
+  <text class="stage" x="135" y="1072">Device RPC branch</text>
+  <text class="code" x="135" y="1102">__rpc_to_devices_queue</text>
+  <text class="text" x="135" y="1126">timeout check</text>
+  <text class="text" x="135" y="1150">rename map resolution</text>
+
+  <rect class="box amber" x="480" y="1040" width="300" height="145"/>
+  <text class="stage" x="510" y="1072">Connector downlink</text>
+  <text class="code" x="510" y="1102">server_side_rpc_handler()</text>
+  <text class="code" x="510" y="1128">on_attributes_update()</text>
+  <text class="text" x="510" y="1152">Protocol-specific writes or requests</text>
+
+  <rect class="box blue" x="840" y="1040" width="305" height="145"/>
+  <text class="stage" x="870" y="1072">Reply path</text>
+  <text class="code" x="870" y="1102">send_rpc_reply()</text>
+  <text class="code" x="870" y="1128">__rpc_processing_queue</text>
+  <text class="text" x="870" y="1152">gw_send_rpc_reply or send_rpc_reply</text>
+
+  <path class="arrow-blue" d="M365 898 L420 898"/>
+  <path class="arrow-violet" d="M700 898 L760 898"/>
+  <path class="arrow-violet" d="M910 990 C830 1030 515 1020 262 1040"/>
+  <path class="arrow-violet" d="M420 1113 L480 1113"/>
+  <path class="arrow-blue" d="M780 1113 L840 1113"/>
+  <path class="arrow-blue dash" d="M992 1040 C1030 1000 1030 960 1080 918"/>
+  <text class="tiny" x="100" y="1208">Gateway RPC: ping, stats, devices, update, version, device_renamed, device_deleted, remove_provisioned_credentials.</text>
+  <text class="tiny" x="100" y="1220">Scheduled and custom RPC: restart, reboot, and files loaded from CUSTOM_RPC_DIR.</text>
+
+  <rect class="lane" x="1320" y="735" width="1210" height="490"/>
+  <text class="lane-title" x="1350" y="777">C. Management, remote configuration, and watchers</text>
+
+  <rect class="box slate" x="1355" y="825" width="280" height="145"/>
+  <text class="stage" x="1385" y="857">Platform attributes</text>
+  <text class="text" x="1385" y="887">general_configuration</text>
+  <text class="text" x="1385" y="911">storage_configuration, grpc_configuration</text>
+  <text class="text" x="1385" y="935">logs_configuration, active_connectors</text>
+
+  <rect class="box violet" x="1695" y="825" width="315" height="145"/>
+  <text class="stage" x="1725" y="857">RemoteConfigurator</text>
+  <text class="code" x="1725" y="887">RECEIVED_UPDATE_QUEUE</text>
+  <text class="text" x="1725" y="911">Remote Request Processing thread</text>
+  <text class="text" x="1725" y="935">create backup; apply serially</text>
+
+  <rect class="box violet" x="2070" y="805" width="315" height="185"/>
+  <text class="stage" x="2100" y="837">Apply handlers</text>
+  <text class="text" x="2100" y="867">connection: recreate TBClient</text>
+  <text class="text" x="2100" y="891">storage: recreate EventStorage</text>
+  <text class="text" x="2100" y="915">grpc: init server and reload connectors</text>
+  <text class="text" x="2100" y="939">logs, device filter, report strategy</text>
+  <text class="text" x="2100" y="963">connector config: close, reload, reconnect</text>
+
+  <rect class="box amber" x="1355" y="1040" width="300" height="145"/>
+  <text class="stage" x="1385" y="1072">Watchers thread</text>
+  <text class="code" x="1385" y="1102">_watchers()</text>
+  <text class="text" x="1385" y="1126">resubscribe after reconnect</text>
+  <text class="text" x="1385" y="1150">check connector config file stat</text>
+
+  <rect class="box amber" x="1715" y="1040" width="305" height="145"/>
+  <text class="stage" x="1745" y="1072">Local config change</text>
+  <text class="code" x="1745" y="1102">check_connector_configuration_updates()</text>
+  <text class="text" x="1745" y="1126">close connectors</text>
+  <text class="text" x="1745" y="1150">load and connect again</text>
+
+  <rect class="box blue" x="2080" y="1040" width="300" height="145"/>
+  <text class="stage" x="2110" y="1072">State synchronization</text>
+  <text class="code" x="2110" y="1102">send_current_configuration()</text>
+  <text class="text" x="2110" y="1126">gateway attributes carry config state</text>
+  <text class="text" x="2110" y="1150">connector configs sent per connector</text>
+
+  <path class="arrow-violet" d="M1635 898 L1695 898"/>
+  <path class="arrow-violet" d="M2010 898 L2070 898"/>
+  <path class="arrow-amber" d="M1655 1113 L1715 1113"/>
+  <path class="arrow-blue dash" d="M2230 990 L2230 1040"/>
+  <path class="arrow-violet dash" d="M1855 970 C1880 1000 1940 1020 2230 1040"/>
+
+  <rect class="lane" x="70" y="1260" width="2460" height="430"/>
+  <text class="lane-title" x="100" y="1302">D. Optional gRPC connector path</text>
+
+  <rect class="box teal" x="105" y="1360" width="310" height="160"/>
+  <text class="stage" x="135" y="1392">External connector process</text>
+  <text class="code" x="135" y="1422">GwGrpcConnector</text>
+  <text class="text" x="135" y="1448">connects to localhost gateway gRPC</text>
+  <text class="text" x="135" y="1472">sends registerConnectorMsg</text>
+  <text class="text" x="135" y="1496">receives connectorConfigurationMsg</text>
+
+  <rect class="box teal" x="480" y="1360" width="320" height="160"/>
+  <text class="stage" x="510" y="1392">Gateway gRPC manager</text>
+  <text class="code" x="510" y="1422">TBGRPCServerManager</text>
+  <text class="text" x="510" y="1448">maps session to connector id</text>
+  <text class="text" x="510" y="1472">GrpcUplinkConverter</text>
+  <text class="text" x="510" y="1496">GrpcDownlinkConverter</text>
+
+  <rect class="box teal" x="865" y="1360" width="310" height="160"/>
+  <text class="stage" x="895" y="1392">gRPC uplink messages</text>
+  <text class="text" x="895" y="1422">gatewayTelemetryMsg</text>
+  <text class="text" x="895" y="1446">gatewayAttributesMsg</text>
+  <text class="text" x="895" y="1470">connectMsg, disconnectMsg</text>
+  <text class="text" x="895" y="1494">gatewayRpcResponseMsg</text>
+
+  <rect class="box blue" x="1240" y="1360" width="300" height="160"/>
+  <text class="stage" x="1270" y="1392">Same core APIs</text>
+  <text class="code" x="1270" y="1422">send_to_storage()</text>
+  <text class="code" x="1270" y="1448">add_device_async()</text>
+  <text class="code" x="1270" y="1474">del_device_async()</text>
+  <text class="code" x="1270" y="1500">send_rpc_reply()</text>
+
+  <rect class="box amber" x="1610" y="1360" width="320" height="160"/>
+  <text class="stage" x="1640" y="1392">gRPC downlink adapter</text>
+  <text class="code" x="1640" y="1422">GrpcConnector</text>
+  <text class="text" x="1640" y="1448">on_attributes_update()</text>
+  <text class="text" x="1640" y="1472">server_side_rpc_handler()</text>
+  <text class="text" x="1640" y="1496">manager.write(session, message)</text>
+
+  <rect class="box slate" x="1990" y="1360" width="360" height="160"/>
+  <text class="stage" x="2020" y="1392">External protocol work</text>
+  <text class="text" x="2020" y="1422">grpc_connectors/mqtt, modbus, opcua, socket</text>
+  <text class="text" x="2020" y="1448">or useGRPCForce for a default connector type</text>
+  <text class="text" x="2020" y="1472">Downlink returns through service messages</text>
+
+  <path class="arrow-teal" d="M415 1440 L480 1440"/>
+  <path class="arrow-teal" d="M800 1440 L865 1440"/>
+  <path class="arrow-blue" d="M1175 1440 L1240 1440"/>
+  <text class="tiny" x="1268" y="1532">These calls re-enter the same core queues and storage/RPC paths shown in lanes A and B.</text>
+  <path class="arrow-teal dash" d="M1540 1440 L1610 1440"/>
+  <path class="arrow-teal dash" d="M1930 1440 L1990 1440"/>
+
+  <text class="tiny" x="100" y="1735">Exclusion rule: gateway UI widgets and other ThingsBoard or ThingsBoard Edge product directories are omitted because they are outside upstream/thingsboard-gateway runtime code.</text>
+</svg>

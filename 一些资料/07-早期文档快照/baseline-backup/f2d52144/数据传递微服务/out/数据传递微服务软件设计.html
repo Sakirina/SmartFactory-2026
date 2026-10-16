@@ -1,0 +1,1435 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>&#x6570;&#x636e;&#x4f20;&#x9012;&#x5fae;&#x670d;&#x52a1;&#x8f6f;&#x4ef6;&#x8bbe;&#x8ba1;</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <span id="markdown-mermaid" aria-hidden="true" data-config="{&quot;darkModeTheme&quot;:&quot;vscode&quot;,&quot;lightModeTheme&quot;:&quot;vscode&quot;,&quot;maxTextSize&quot;:50000,&quot;clickDrag&quot;:&quot;alt&quot;,&quot;showControls&quot;:&quot;onHoverOrFocus&quot;,&quot;resizable&quot;:true,&quot;maxHeight&quot;:&quot;&quot;}"></span>
+				<h1 id="数据传递微服务软件设计">数据传递微服务软件设计</h1>
+<blockquote>
+<p>文档版本：v1.0<br>
+编写日期：2026-06-07<br>
+适用阶段：开发启动前技术设计<br>
+依据材料：<code>Baseline/数据传递微服务/数据传递微服务需求分析文档.md</code>、<code>Baseline/数据传递微服务/数据传递微服务接口文档.md</code>、<code>Baseline/数据传递微服务/Codex的分析助手对IoT Gateway梳理.md</code>、<code>Baseline/数据传递微服务/gateway-diagram-evidence.md</code>、<code>跨服务协作备忘.md</code></p>
+</blockquote>
+<h2 id="1-设计目标与边界">1. 设计目标与边界</h2>
+<p>数据传递微服务定位为智能工厂物联网平台的边缘侧通信中间件，负责把南向设备协议中的原始数据转为统一的 <code>DeviceMessage</code>，并通过北向接口交付给边缘控制节点内的上游微服务；同时承接上游下行指令，经过反向转换后写入或调用目标设备。</p>
+<p>本设计文档面向即将开始的开发工作，重点说明代码结构、运行时组件、接口实现方式、技术栈选择与工程约束。需求分析文档中的业务范围应作为边界参考，但开发阶段需要保留架构判断：凡是跨服务职责尚未对齐、性能目标缺少测试依据、控制指令存在安全风险的内容，均应进入设计确认清单，不宜在首版开发中默认固化。</p>
+<h3 id="11-核心职责">1.1 核心职责</h3>
+<p>数据传递微服务承担以下职责：</p>
+<table>
+<thead>
+<tr>
+<th>职责</th>
+<th>设计含义</th>
+<th>主要模块</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>南向协议接入</td>
+<td>连接 Modbus、OPC-UA、MQTT、BACnet、HTTP 等设备或协议网关</td>
+<td>Connector Runtime</td>
+</tr>
+<tr>
+<td>数据归一化</td>
+<td>将协议原始数据转换为统一 <code>DeviceMessage</code></td>
+<td>Converter Engine</td>
+</tr>
+<tr>
+<td>北向交付</td>
+<td>通过 gRPC 或 MQTT 将消息交给上游服务</td>
+<td>Northbound Adapter</td>
+</tr>
+<tr>
+<td>下行指令执行</td>
+<td>将标准指令路由到设备并追踪执行结果</td>
+<td>Command Router、Ack Tracker</td>
+</tr>
+<tr>
+<td>配置热加载</td>
+<td>承接设备注册微服务推送的设备、Connector、策略配置</td>
+<td>Config Manager</td>
+</tr>
+<tr>
+<td>本地缓冲与续传</td>
+<td>方案B下保存北向断连期间的数据并恢复补发</td>
+<td>Buffer Store、Replay Worker</td>
+</tr>
+<tr>
+<td>可观测性</td>
+<td>暴露健康检查、指标与结构化日志</td>
+<td>Observability</td>
+</tr>
+</tbody>
+</table>
+<h3 id="12-职责边界">1.2 职责边界</h3>
+<p>本微服务只处理通信、转换、路由与短期缓冲。设备台账、设备标签语义、准入审批、数据清洗、业务聚合、规则判断、策略编排、安全联锁等职责由其他服务或硬件系统承担。尤其是 PLC、SIS、ESD 等安全联锁路径，不应经过本微服务转发；涉及人员安全、设备保护和强约束工艺逻辑的控制链路，需要保留独立硬件或专用控制系统。</p>
+<p>自动发现设备只产生“候选设备发现事件”。数据传递微服务不得因为发现了设备就直接纳入正式采集，必须等待设备注册微服务确认并推送正式配置。</p>
+<h2 id="2-总体技术选型">2. 总体技术选型</h2>
+<h3 id="21-基准技术栈">2.1 基准技术栈</h3>
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>基准选型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>实现语言</td>
+<td>Go</td>
+<td>数据传递场景以 I/O 并发、网络连接和边缘部署为主，Go 的 goroutine、channel、交叉编译和单二进制交付能力适合首版工程化</td>
+</tr>
+<tr>
+<td>数据模型</td>
+<td>Protocol Buffers v3</td>
+<td>与接口文档保持一致，提供强类型结构、字段编号兼容与多语言生成能力</td>
+</tr>
+<tr>
+<td>方案A北向通信</td>
+<td>gRPC over HTTP/2</td>
+<td>适用于同机部署，支持流式订阅、同步指令与配置推送</td>
+</tr>
+<tr>
+<td>方案B北向通信</td>
+<td>MQTT v5.0，兼容 v3.1.1</td>
+<td>适用于跨网络部署，支持 QoS、User Properties、遗嘱消息与网关实例聚合</td>
+</tr>
+<tr>
+<td>配置文件</td>
+<td>YAML + Protobuf/JSON Schema 校验</td>
+<td>YAML 便于现场工程师阅读和修改；运行时配置对象应转换为强类型结构</td>
+</tr>
+<tr>
+<td>本地缓冲</td>
+<td>SQLite 优先，文件缓冲作为降级实现</td>
+<td>SQLite 便于实现两阶段确认、批量读取、TTL 清理和重启恢复</td>
+</tr>
+<tr>
+<td>指标</td>
+<td>Prometheus metrics endpoint</td>
+<td>对接通用监控系统，暴露 Connector、队列、缓冲、指令与策略指标</td>
+</tr>
+<tr>
+<td>日志</td>
+<td>JSON 结构化日志</td>
+<td>日志必须携带 <code>message_id</code>、<code>command_id</code>、<code>device_id</code>、<code>connector_id</code> 等追踪字段</td>
+</tr>
+<tr>
+<td>表达式引擎</td>
+<td>轻量声明式表达式引擎</td>
+<td>支持线性缩放、单位转换、枚举映射、条件分支、位运算；避免在常规 Converter 中引入完整脚本运行时</td>
+</tr>
+<tr>
+<td>容器与部署</td>
+<td>单二进制 + 可选容器镜像</td>
+<td>兼顾工控机裸机部署、容器化部署和信创适配</td>
+</tr>
+</tbody>
+</table>
+<h3 id="22-选型约束">2.2 选型约束</h3>
+<p>Go 作为基准语言，并不意味着所有插件都必须进程内实现。主进程应使用 Go 完成核心调度、接口、缓冲、指标与内置协议 Connector；第三层纯自定义插件可提供两种方式：可信插件以进程内组件注册，不可信或复杂插件以独立进程 sidecar 方式接入。</p>
+<p>Protobuf 是北向和内部统一模型的主格式，但南向设备协议可以按实际设备能力选择 JSON、寄存器表、OPC-UA Node、二进制帧等格式。Connector 与 Converter 负责协议侧格式到 <code>DeviceMessage</code> 的转换，核心管线不直接依赖南向协议细节。</p>
+<h2 id="3-运行模式设计">3. 运行模式设计</h2>
+<h3 id="31-方案a嵌入式部署">3.1 方案A：嵌入式部署</h3>
+<p>方案A适用于数据传递微服务与数据处理、规则缓存、命令编排、设备注册等服务部署在同一边缘控制节点内的场景。北向接口使用 gRPC，默认监听 <code>localhost:50051</code>，管理接口默认监听 <code>:8080</code>。</p>
+<p>方案A中北向通信为本地调用，首版可以不启用持久化缓冲。内部仍应保留队列和背压控制，因为上游 gRPC stream 消费变慢时，消息生产速度仍可能超过消费速度。此时可以使用应用层背压控制 Connector 采集节奏，防止内存无限增长。</p>
+<h3 id="32-方案b分体式部署">3.2 方案B：分体式部署</h3>
+<p>方案B适用于数据传递微服务运行在边缘网关设备上，通过网络连接边缘控制节点的场景。北向接口使用 MQTT，Topic 按 <code>dt/v1/{direction}/{gatewayId}/{messageType}</code> 命名，Payload 使用 Protobuf 二进制编码。</p>
+<p>方案B必须启用本地缓冲、续传限速和两阶段确认。实时数据与历史补发数据应拆成两条逻辑通道：实时通道负责当前采集消息，续传通道按时间次序读取缓冲中的 pending 记录并批量发送。两条通道共享北向连接状态、发送速率限制和错误处理策略。</p>
+<h3 id="33-运行模式选择">3.3 运行模式选择</h3>
+<p>运行模式由配置项 <code>deployment.mode</code> 控制：</p>
+<pre><code class="language-yaml"><span class="hljs-attr">deployment:</span>
+  <span class="hljs-attr">mode:</span> <span class="hljs-string">embedded</span> <span class="hljs-comment"># embedded | split</span>
+<span class="hljs-attr">gateway:</span>
+  <span class="hljs-attr">id:</span> <span class="hljs-string">edge-gateway-001</span>
+<span class="hljs-attr">northbound:</span>
+  <span class="hljs-attr">grpc:</span>
+    <span class="hljs-attr">listen:</span> <span class="hljs-string">&quot;127.0.0.1:50051&quot;</span>
+  <span class="hljs-attr">mqtt:</span>
+    <span class="hljs-attr">broker:</span> <span class="hljs-string">&quot;ssl://edge-controller:8883&quot;</span>
+    <span class="hljs-attr">client_id:</span> <span class="hljs-string">&quot;gateway-edge-gateway-001&quot;</span>
+<span class="hljs-attr">management:</span>
+  <span class="hljs-attr">listen:</span> <span class="hljs-string">&quot;0.0.0.0:8080&quot;</span>
+</code></pre>
+<p>首版开发应避免让同一实例同时开启完整 gRPC 与 MQTT 北向交付路径。可以保留管理端和配置校验能力，但数据上报与下行命令应根据运行模式选择一个主通道，以减少状态分裂。</p>
+<h2 id="4-总体架构">4. 总体架构</h2>
+<p>微服务运行时建议划分为十个核心模块：</p>
+<pre><code class="language-text">Bootstrap
+  └─ Runtime Supervisor
+       ├─ Config Manager
+       ├─ Connector Runtime
+       │    ├─ Built-in Connectors
+       │    └─ External Plugin Bridge
+       ├─ Converter Engine
+       ├─ Device Registry Cache
+       ├─ Report Strategy Engine
+       ├─ Backpressure Controller
+       ├─ Northbound Adapter
+       │    ├─ gRPC Adapter
+       │    └─ MQTT Adapter
+       ├─ Command Router
+       ├─ Buffer Store / Replay Worker
+       └─ Observability
+</code></pre>
+<h3 id="41-bootstrap">4.1 Bootstrap</h3>
+<p>Bootstrap 负责读取本地配置、解析命令行参数、应用环境变量覆盖、初始化日志、启动管理端口并创建 Runtime Supervisor。配置加载应按以下次序处理：</p>
+<ol>
+<li>默认配置；</li>
+<li>YAML 配置文件；</li>
+<li>环境变量；</li>
+<li>命令行参数；</li>
+<li>设备注册微服务推送的运行时配置。</li>
+</ol>
+<p>后来的配置来源覆盖前面的配置来源，但运行时推送配置必须经过校验、差异分析和变更日志记录。</p>
+<h3 id="42-runtime-supervisor">4.2 Runtime Supervisor</h3>
+<p>Runtime Supervisor 是主流程协调器，负责各模块生命周期管理。它不宜成为“所有状态的巨型仓库”，否则后续插件扩展、配置热加载和错误隔离都会变得困难。更合适的方式是让 Supervisor 负责调度和状态汇总，让业务状态分别保存在 Connector Runtime、Device Registry Cache、Buffer Store、Ack Tracker 等专门模块中。</p>
+<p>Supervisor 需要提供以下能力：</p>
+<table>
+<thead>
+<tr>
+<th>能力</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>启动编排</td>
+<td>按配置启动 Connector、北向适配器、管理接口、缓冲与续传任务</td>
+</tr>
+<tr>
+<td>停止编排</td>
+<td>接到退出信号后取消 context，等待 Connector 和后台任务归还资源</td>
+</tr>
+<tr>
+<td>异常隔离</td>
+<td>单个 Connector 异常时只重启或标记该 Connector</td>
+</tr>
+<tr>
+<td>运行状态汇总</td>
+<td>聚合设备数、Connector 状态、队列容量、北向连接状态等指标</td>
+</tr>
+<tr>
+<td>热加载调度</td>
+<td>接到配置变更后选择局部更新、Connector 重载或拒绝变更</td>
+</tr>
+</tbody>
+</table>
+<h3 id="43-connector-runtime">4.3 Connector Runtime</h3>
+<p>Connector Runtime 负责实例化、启动、停止和重载协议 Connector。每个 Connector 实例必须具备独立生命周期：<code>initializing</code>、<code>running</code>、<code>error</code>、<code>stopped</code>。单个 Connector 异常不得阻断其他 Connector 的数据采集和指令执行。</p>
+<p>内置 Connector 的首版范围建议为：</p>
+<table>
+<thead>
+<tr>
+<th>协议</th>
+<th>首版能力</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Modbus TCP</td>
+<td>读寄存器、读状态位、写寄存器、写线圈、基础重连</td>
+</tr>
+<tr>
+<td>MQTT Device</td>
+<td>订阅设备遥测、状态、事件，发布下行指令，处理设备回执</td>
+</tr>
+<tr>
+<td>OPC-UA</td>
+<td>可作为首版后续能力；若工期允许，优先支持 Read、Write、Subscription</td>
+</tr>
+</tbody>
+</table>
+<p>BACnet、HTTP、S7、串口 RTU、自定义 TCP 等协议可通过同一接口扩展。首版不宜一次覆盖过多协议，否则 Converter、配置模型和测试夹具都难以充分验证。</p>
+<p>Connector 的开发契约以接口文档中的 Go 接口为基础，建议在代码中拆成三类接口：</p>
+<pre><code class="language-go"><span class="hljs-keyword">type</span> Connector <span class="hljs-keyword">interface</span> {
+    Init(config ConnectorConfig) <span class="hljs-type">error</span>
+    Start(ctx context.Context, upstream <span class="hljs-keyword">chan</span>&lt;- *DeviceMessage) <span class="hljs-type">error</span>
+    SendCommand(ctx context.Context, cmd *DeviceMessage) (*CommandResponsePayload, <span class="hljs-type">error</span>)
+    ReloadConfig(config ConnectorConfig) <span class="hljs-type">error</span>
+    Stop() <span class="hljs-type">error</span>
+    Status() ConnectorStatus
+    Devices() []DeviceInfo
+}
+</code></pre>
+<p>如果某些协议天然只支持上行采集，不支持下行控制，也应显式返回 <code>DT-CMD-003</code> 或能力不足的错误，不应让 Command Router 猜测协议能力。</p>
+<h3 id="44-converter-engine">4.4 Converter Engine</h3>
+<p>Converter Engine 负责协议原始数据与 <code>DeviceMessage</code> 的双向转换。它是本微服务区别于 ThingsBoard IoT Gateway 的关键模块：同一个设备配置应同时描述上行解析和下行编码，保证数据点命名、单位、值转换、寄存器地址或节点地址的映射关系一致。</p>
+<p>建议配置结构包含以下内容：</p>
+<pre><code class="language-yaml"><span class="hljs-attr">devices:</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-attr">device_id:</span> <span class="hljs-string">sensor-001</span>
+    <span class="hljs-attr">device_name:</span> <span class="hljs-string">&quot;车间A温度传感器&quot;</span>
+    <span class="hljs-attr">device_type:</span> <span class="hljs-string">temperature_sensor</span>
+    <span class="hljs-attr">tags:</span>
+      <span class="hljs-attr">workshop:</span> <span class="hljs-string">&quot;车间A&quot;</span>
+      <span class="hljs-attr">line:</span> <span class="hljs-string">&quot;产线3&quot;</span>
+    <span class="hljs-attr">address:</span>
+      <span class="hljs-attr">unit_id:</span> <span class="hljs-number">1</span>
+    <span class="hljs-attr">datapoints:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">key:</span> <span class="hljs-string">temperature</span>
+        <span class="hljs-attr">source:</span> <span class="hljs-string">&quot;holding_register[0]&quot;</span>
+        <span class="hljs-attr">type:</span> <span class="hljs-string">int16</span>
+        <span class="hljs-attr">transform:</span> <span class="hljs-string">&quot;value * 0.1&quot;</span>
+        <span class="hljs-attr">unit:</span> <span class="hljs-string">&quot;deg C&quot;</span>
+        <span class="hljs-attr">writable:</span> <span class="hljs-literal">false</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">key:</span> <span class="hljs-string">setpoint</span>
+        <span class="hljs-attr">source:</span> <span class="hljs-string">&quot;holding_register[9]&quot;</span>
+        <span class="hljs-attr">type:</span> <span class="hljs-string">int16</span>
+        <span class="hljs-attr">transform:</span> <span class="hljs-string">&quot;value * 0.1&quot;</span>
+        <span class="hljs-attr">inverse_transform:</span> <span class="hljs-string">&quot;value / 0.1&quot;</span>
+        <span class="hljs-attr">unit:</span> <span class="hljs-string">&quot;deg C&quot;</span>
+        <span class="hljs-attr">writable:</span> <span class="hljs-literal">true</span>
+</code></pre>
+<p>上行转换流程：</p>
+<ol>
+<li>Connector 读取原始帧或协议对象；</li>
+<li>Converter 定位设备与数据点配置；</li>
+<li>执行类型解析、字节序处理、表达式转换、单位标注；</li>
+<li>合并 Connector 默认标签与设备标签；</li>
+<li>生成 <code>DeviceMessage</code>，填充 <code>messageId</code>、<code>timestamp</code>、<code>device</code>、<code>type</code> 和 payload；</li>
+<li>转换失败时记录 <code>DT-CVT-001</code>，跳过单条异常数据，不阻塞同一 Connector 的后续数据。</li>
+</ol>
+<p>下行转换流程：</p>
+<ol>
+<li>Command Router 根据 <code>deviceId</code> 定位 Connector 和设备配置；</li>
+<li>Converter 根据 <code>ControlPayload</code>、<code>ParamUpdatePayload</code> 或 <code>QueryPayload</code> 定位可写数据点或动作映射；</li>
+<li>执行反向表达式、类型编码、协议帧构造；</li>
+<li>Connector 发送协议帧或调用协议服务；</li>
+<li>Ack Tracker 记录执行状态并生成回执。</li>
+</ol>
+<p>表达式引擎需要限制能力范围：只允许无副作用表达式，不允许文件、网络、系统调用等能力。表达式编译结果应缓存，避免每条数据重复解析。</p>
+<h3 id="45-device-registry-cache">4.5 Device Registry Cache</h3>
+<p>设备注册微服务是设备元数据与标签的权威来源。数据传递微服务本地只维护运行时缓存，用于路由、标签填充和状态查询。</p>
+<p>缓存内容包括：</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>来源</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>deviceId</code></td>
+<td>设备注册微服务</td>
+<td>指令路由、消息来源</td>
+</tr>
+<tr>
+<td><code>deviceName</code></td>
+<td>设备注册微服务</td>
+<td>运维展示</td>
+</tr>
+<tr>
+<td><code>deviceType</code></td>
+<td>设备注册微服务</td>
+<td>订阅过滤、指标分组</td>
+</tr>
+<tr>
+<td><code>connectorId</code></td>
+<td>配置推送</td>
+<td>定位 Connector</td>
+</tr>
+<tr>
+<td><code>protocol</code></td>
+<td>Connector 配置</td>
+<td>协议统计</td>
+</tr>
+<tr>
+<td><code>tags</code></td>
+<td>Connector 默认值 + 设备级覆盖</td>
+<td>上游过滤、聚合维度</td>
+</tr>
+<tr>
+<td><code>state</code></td>
+<td>Connector Runtime</td>
+<td>在线、离线、异常状态</td>
+</tr>
+<tr>
+<td><code>lastSeen</code></td>
+<td>Connector Runtime</td>
+<td>设备活跃度判断</td>
+</tr>
+</tbody>
+</table>
+<p>标签合并规则为设备级覆盖 Connector 级默认值。微服务只透传标签，不解释标签语义，也不做标签白名单限制。</p>
+<h3 id="46-report-strategy-engine">4.6 Report Strategy Engine</h3>
+<p>上报策略只作用于 <code>TELEMETRY</code> 消息，<code>STATUS</code>、<code>EVENT</code>、<code>CMD_RESPONSE</code> 必须即时进入北向通道。策略模式包含：</p>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>行为</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ON_RECEIVED</code></td>
+<td>数据到达即交付</td>
+</tr>
+<tr>
+<td><code>ON_CHANGE</code></td>
+<td>值发生变化且超过死区后交付</td>
+</tr>
+<tr>
+<td><code>ON_REPORT_PERIOD</code></td>
+<td>按周期交付最新值</td>
+</tr>
+<tr>
+<td><code>ON_CHANGE_OR_REPORT_PERIOD</code></td>
+<td>变化时立即交付，无变化时按周期交付最新值</td>
+</tr>
+</tbody>
+</table>
+<p>策略配置优先级为数据点级、Connector 级、全局默认。实际实现时，应将策略状态按 <code>connectorId + deviceId + datapointKey</code> 建立索引，保存上次交付值、上次交付时间和被过滤计数。策略变更热加载后，需要谨慎处理历史状态：模式变化时可以重建相关 key 的策略状态，避免旧状态影响新策略。</p>
+<h3 id="47-backpressure-controller">4.7 Backpressure Controller</h3>
+<p>背压控制负责在上行生产速率高于北向消费速率时保护进程内存和缓冲存储。建议设置三级水位：</p>
+<table>
+<thead>
+<tr>
+<th>水位</th>
+<th>触发条件</th>
+<th>行为</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>观察水位</td>
+<td>队列使用率 &gt;= 60%</td>
+<td>记录指标，增加日志采样</td>
+</tr>
+<tr>
+<td>控制水位</td>
+<td>队列使用率 &gt;= 80%</td>
+<td>启动配置的背压策略</td>
+</tr>
+<tr>
+<td>恢复水位</td>
+<td>队列使用率 &lt;= 50%</td>
+<td>解除背压，记录恢复事件</td>
+</tr>
+</tbody>
+</table>
+<p>背压策略可选：</p>
+<table>
+<thead>
+<tr>
+<th>策略</th>
+<th>实现方式</th>
+<th>风险</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>BP_BLOCK</code></td>
+<td>暂停或延迟 Connector 向上行队列写入</td>
+<td>可能导致采集周期漂移</td>
+</tr>
+<tr>
+<td><code>BP_DROP_OLDEST</code></td>
+<td>淘汰队列里最早的遥测消息</td>
+<td>需要记录丢弃范围，并保持状态、事件、回执优先</td>
+</tr>
+<tr>
+<td><code>BP_DEGRADE</code></td>
+<td>临时调低采集频率或跳过部分轮询周期</td>
+<td>需要 Connector 支持动态采集节奏</td>
+</tr>
+</tbody>
+</table>
+<p><code>STATUS</code>、<code>EVENT</code>、<code>CMD_RESPONSE</code> 的优先级应高于普通遥测。对于控制回执，不应因为遥测积压而延迟到上游误判超时。</p>
+<h3 id="48-northbound-adapter">4.8 Northbound Adapter</h3>
+<p>Northbound Adapter 负责将内部 <code>DeviceMessage</code> 转为部署模式对应的北向交付方式。</p>
+<p>gRPC Adapter 实现：</p>
+<table>
+<thead>
+<tr>
+<th>接口</th>
+<th>设计说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SubscribeTelemetry</code></td>
+<td>使用服务端流式响应，只发送 <code>TELEMETRY</code></td>
+</tr>
+<tr>
+<td><code>SubscribeEvents</code></td>
+<td>发送 <code>STATUS</code>、<code>EVENT</code>、<code>CMD_RESPONSE</code></td>
+</tr>
+<tr>
+<td><code>PullMessages</code></td>
+<td><strong>方案A专用</strong>：从内存环形缓冲中拉取近期消息，用于上游服务重启后追赶最近 N 分钟的数据，不涉及持久化；<strong>方案B下不使用</strong>——积压数据由 Replay Worker 通过 MQTT 补发，上游重新订阅即可</td>
+</tr>
+<tr>
+<td><code>SendCommand</code></td>
+<td>同步等待执行结果</td>
+</tr>
+<tr>
+<td><code>SendCommandAsync</code></td>
+<td>立即返回接纳结果，执行回执经事件流推送</td>
+</tr>
+<tr>
+<td><code>PushDeviceConfig</code></td>
+<td>承接设备注册微服务配置推送</td>
+</tr>
+<tr>
+<td><code>ListDevices</code></td>
+<td>返回本地设备缓存状态</td>
+</tr>
+<tr>
+<td><code>GetMetrics</code></td>
+<td>返回结构化指标快照</td>
+</tr>
+</tbody>
+</table>
+<p>MQTT Adapter 实现：</p>
+<table>
+<thead>
+<tr>
+<th>Topic</th>
+<th>Payload</th>
+<th>设计说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>dt/v1/up/{gatewayId}/telemetry</code></td>
+<td><code>DeviceMessageBatch</code></td>
+<td>批量遥测，QoS 1</td>
+</tr>
+<tr>
+<td><code>dt/v1/up/{gatewayId}/status</code></td>
+<td><code>DeviceMessageBatch</code></td>
+<td>状态消息，QoS 1</td>
+</tr>
+<tr>
+<td><code>dt/v1/up/{gatewayId}/event</code></td>
+<td><code>DeviceMessageBatch</code></td>
+<td>事件消息，QoS 1</td>
+</tr>
+<tr>
+<td><code>dt/v1/up/{gatewayId}/cmd-response</code></td>
+<td><code>DeviceMessageBatch</code></td>
+<td>指令回执，QoS 2</td>
+</tr>
+<tr>
+<td><code>dt/v1/up/{gatewayId}/discovery</code></td>
+<td>待设备注册服务确认</td>
+<td>自动发现候选设备</td>
+</tr>
+<tr>
+<td><code>dt/v1/down/{gatewayId}/command</code></td>
+<td><code>DeviceMessage</code></td>
+<td>下行指令，QoS 2</td>
+</tr>
+<tr>
+<td><code>dt/v1/down/{gatewayId}/config</code></td>
+<td><code>DeviceConfigUpdate</code></td>
+<td>配置热加载，QoS 2</td>
+</tr>
+<tr>
+<td><code>dt/v1/meta/{gatewayId}/devices</code></td>
+<td><code>ListDevicesResponse</code></td>
+<td>当前设备列表快照（retained），QoS 1，网关定期发布</td>
+</tr>
+<tr>
+<td><code>dt/v1/meta/{gatewayId}/metrics</code></td>
+<td>指标快照</td>
+<td>周期发布，QoS 0</td>
+</tr>
+<tr>
+<td><code>dt/v1/meta/{gatewayId}/lwt</code></td>
+<td>离线状态</td>
+<td>Broker 遗嘱消息</td>
+</tr>
+</tbody>
+</table>
+<p>接口文档要求 MQTT 下行指令使用 QoS 2。开发时仍需要额外实现指令幂等保护：QoS 2只能约束 MQTT 传输层的一次投递语义，无法保证设备侧动作不会因重试、重连、设备自身回执异常而重复执行。<code>command_id</code> 必须进入 Ack Tracker 和 Connector 执行去重逻辑。</p>
+<h3 id="49-command-router-与-ack-tracker">4.9 Command Router 与 Ack Tracker</h3>
+<p>Command Router 负责根据 <code>DeviceMessage.device.deviceId</code> 定位目标 Connector，校验设备在线状态、指令类型、协议能力和超时设置。若设备离线、Connector 不存在、Connector 状态异常或协议不支持该指令，应立即返回 <code>REJECTED</code> 或 <code>FAILURE</code>，并记录错误码。</p>
+<p><strong>command_id 去重（FR-S-012, DT-CMD-005）：</strong> Command Router 在分发指令前，必须检查 <code>DeviceMessage.command_id</code> 是否已在 Ack Tracker 中存在。已存在的 command_id 应直接返回已有结果或 <code>REJECTED</code>（附原因&quot;duplicate command&quot;），不得重复下发至 Connector。<code>command_id</code> 位于 DeviceMessage 信封层（字段编号 6），由调用方分配并保证全局唯一，与 <code>message_id</code>（消息传输追踪）职责分离。这是对 MQTT QoS 2 传输层语义的应用层补充——即使传输层保证了&quot;精确一次投递&quot;，设备侧重连、Broker 故障恢复等场景仍可能产生重复指令。</p>
+<p>Ack Tracker 负责维护下行指令生命周期：</p>
+<pre><code class="language-text">PENDING -&gt; SENT -&gt; DELIVERED -&gt; EXECUTED
+                         └──-&gt; FAILED
+                         └──-&gt; TIMEOUT
+</code></pre>
+<p>建议将状态记录保存在内存索引中，并按 <code>command_id</code> 设置 TTL。方案B中，如果需要在服务重启后追踪未完成指令，需要额外讨论是否将 Ack Tracker 持久化；当前需求文档要求断连期间下行指令直接返回设备不可达，未要求本地排队，因此首版可以不持久化未完成指令。</p>
+<p>同步指令 <code>SendCommand</code> 的响应应来自实际执行结果或超时结果。异步指令 <code>SendCommandAsync</code> 只返回接纳结果，最终结果通过 <code>CMD_RESPONSE</code> 上行消息交付。</p>
+<h3 id="410-buffer-store-与-replay-worker">4.10 Buffer Store 与 Replay Worker</h3>
+<p>方案B下，本地缓冲采用两阶段确认：</p>
+<ol>
+<li>上行消息生成后先写入 Buffer Store，状态为 <code>pending</code>；</li>
+<li>Northbound Adapter 批量读取 pending 消息并发送；</li>
+<li>Broker 确认或发送成功后标记为 <code>completed</code>；</li>
+<li>清理任务按批次删除 completed 记录；</li>
+<li>TTL 到期或容量超限时按策略清理，并记录丢弃范围。</li>
+</ol>
+<p>SQLite 表结构可按以下方向设计：</p>
+<pre><code class="language-sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> outbound_messages (
+  id <span class="hljs-type">INTEGER</span> <span class="hljs-keyword">PRIMARY</span> KEY AUTOINCREMENT,
+  message_id TEXT <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>,
+  batch_key TEXT <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>,
+  message_type <span class="hljs-type">INTEGER</span> <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>,
+  device_id TEXT <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>,
+  connector_id TEXT <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>,
+  created_at_ms <span class="hljs-type">INTEGER</span> <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>,
+  status TEXT <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>,
+  payload <span class="hljs-type">BLOB</span> <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>,
+  retry_count <span class="hljs-type">INTEGER</span> <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-number">0</span>,
+  last_error TEXT
+);
+
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">UNIQUE</span> INDEX idx_outbound_message_id <span class="hljs-keyword">ON</span> outbound_messages(message_id);
+<span class="hljs-keyword">CREATE</span> INDEX idx_outbound_pending <span class="hljs-keyword">ON</span> outbound_messages(status, created_at_ms);
+<span class="hljs-keyword">CREATE</span> INDEX idx_outbound_device <span class="hljs-keyword">ON</span> outbound_messages(device_id, created_at_ms);
+</code></pre>
+<p>实时通道和续传通道都应通过统一发送器进入 MQTT Adapter，避免 QoS、限速、日志和错误处理分裂。续传通道需要支持 <code>buffer.resume_rate_limit</code> 和 <code>buffer.resume_batch_size</code>，防止网络恢复后产生流量尖峰。</p>
+<h2 id="5-数据模型设计">5. 数据模型设计</h2>
+<h3 id="51-devicemessage">5.1 <code>DeviceMessage</code></h3>
+<p>代码中的 Protobuf 定义应与接口文档保持同源维护，建议放在 <code>proto/datatransfer/v1/datatransfer.proto</code>。所有内部模块使用生成后的强类型结构，不在核心管线里传递松散 JSON。</p>
+<p>关键字段约定：</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>设计约束</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>message_id</code></td>
+<td>使用 UUID v7 或等价的时间有序 ID；用于去重、日志追踪和缓冲唯一键</td>
+</tr>
+<tr>
+<td><code>timestamp</code></td>
+<td>使用 Unix 毫秒；设备时间不可信时使用采集时间，并在 metadata 标注时间来源</td>
+</tr>
+<tr>
+<td><code>direction</code></td>
+<td>上行消息为 <code>UPSTREAM</code>，下行指令为 <code>DOWNSTREAM</code></td>
+</tr>
+<tr>
+<td><code>device</code></td>
+<td>本消息关联的设备：上行表示来源设备，下行表示目标设备。字段名 <code>device</code> 语义中立，无方向歧义</td>
+</tr>
+<tr>
+<td><code>command_id</code></td>
+<td>下行指令的唯一标识，由调用方分配。上行 CMD_RESPONSE 回填原指令 ID，其他上行消息留空。与 <code>message_id</code>（消息传输追踪）职责分离</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td>与 payload oneof 必须匹配</td>
+</tr>
+<tr>
+<td><code>metadata</code></td>
+<td>保存采集时间来源、协议补充信息、原始质量标识等扩展字段</td>
+</tr>
+</tbody>
+</table>
+<h3 id="52-数据质量与时间戳">5.2 数据质量与时间戳</h3>
+<p>数据点级 <code>quality</code> 必须由 Converter 填充。转换失败、取值越界、设备时间异常等情况不能简单丢弃；可转换但可信度不足的数据应标记为 <code>UNCERTAIN</code>，无法转换的数据记录 <code>DT-CVT-001</code> 后跳过。</p>
+<p>时间戳处理建议：</p>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>处理方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>设备提供可信时间</td>
+<td>使用设备时间，metadata 标注 <code>time_source=device</code></td>
+</tr>
+<tr>
+<td>设备未提供时间</td>
+<td>使用采集时间，metadata 标注 <code>time_source=collector</code></td>
+</tr>
+<tr>
+<td>设备时间明显异常</td>
+<td>使用采集时间，数据质量可标记 <code>UNCERTAIN</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="53-protobuf-兼容策略">5.3 Protobuf 兼容策略</h3>
+<p>字段编号一旦发布不得复用。删除字段时应使用 reserved 标记。新增字段允许向后兼容，修改字段语义必须升级包名或 Topic 版本。MQTT Topic 版本与 Protobuf 包版本需要同步规划，避免 <code>dt/v1</code> 携带语义已经变化的 v2 消息。</p>
+<h2 id="6-配置设计">6. 配置设计</h2>
+<h3 id="61-配置分层">6.1 配置分层</h3>
+<p>配置分为四层：</p>
+<table>
+<thead>
+<tr>
+<th>层级</th>
+<th>来源</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>全局运行配置</td>
+<td>本地 YAML、环境变量、命令行</td>
+<td>运行模式、管理端口、日志级别</td>
+</tr>
+<tr>
+<td>北向配置</td>
+<td>本地 YAML 或部署系统注入</td>
+<td>gRPC 地址、MQTT Broker、TLS、认证</td>
+</tr>
+<tr>
+<td>Connector 配置</td>
+<td>设备注册微服务推送、本地初始配置</td>
+<td>协议、连接参数、轮询策略、默认标签</td>
+</tr>
+<tr>
+<td>设备与数据点配置</td>
+<td>设备注册微服务推送</td>
+<td>地址、数据点映射、标签、上报策略覆盖</td>
+</tr>
+</tbody>
+</table>
+<h3 id="62-热加载流程">6.2 热加载流程</h3>
+<p>配置热加载按以下流程执行：</p>
+<pre><code class="language-text">接到 DeviceConfigUpdate
+  -&gt; 校验 update_id、action、payload
+  -&gt; 解析为强类型配置对象
+  -&gt; 执行协议与字段级校验
+  -&gt; 生成配置差异
+  -&gt; 判断影响范围
+  -&gt; 应用变更
+  -&gt; 记录变更日志
+  -&gt; 返回 ConfigUpdateResponse
+</code></pre>
+<p>影响范围判断：</p>
+<table>
+<thead>
+<tr>
+<th>变更</th>
+<th>处理方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>新增设备</td>
+<td>添加到 Device Registry Cache，通知对应 Connector 增量加载</td>
+</tr>
+<tr>
+<td>修改设备标签</td>
+<td>更新缓存，后续消息使用新标签</td>
+</tr>
+<tr>
+<td>修改数据点映射</td>
+<td>通知 Connector/Converter 重载相关设备配置</td>
+</tr>
+<tr>
+<td>删除设备</td>
+<td>停止采集该设备，上报离线或移除状态</td>
+</tr>
+<tr>
+<td>新增 Connector</td>
+<td>实例化并启动新 Connector</td>
+</tr>
+<tr>
+<td>修改 Connector 连接参数</td>
+<td>尝试局部重载；如果协议连接必须重建，只影响该 Connector</td>
+</tr>
+<tr>
+<td>删除 Connector</td>
+<td>停止该 Connector，并标记其设备离线</td>
+</tr>
+<tr>
+<td>修改全局上报策略</td>
+<td>重建受影响策略状态</td>
+</tr>
+<tr>
+<td>修改背压策略</td>
+<td>即时更新 Backpressure Controller 配置</td>
+</tr>
+</tbody>
+</table>
+<p>配置热加载失败时必须保持旧配置继续运行，并返回 <code>ConfigUpdateResponse.success=false</code>。对于同一个 <code>update_id</code> 的重复推送，应提供幂等处理，避免重复重载。</p>
+<h3 id="63-配置版本与乱序保护fr-s-029a">6.3 配置版本与乱序保护（FR-S-029a）</h3>
+<p>接口文档中 <code>DeviceConfigUpdate</code> 包含 <code>update_id</code>，用于操作级幂等（同一次推送重复到达时跳过）。但 <code>update_id</code> 不保证推送顺序，不同操作之间的先后关系无法仅凭 <code>update_id</code> 判断。</p>
+<p><strong>乱序保护机制：</strong> <code>DeviceConfigUpdate</code> 新增 <code>entity_revision: int64</code>（字段编号 5），由设备注册微服务为每个实体（device / connector）独立分配，每次变更 +1。数据传递微服务在本地为每个实体缓存已应用的 <code>entity_revision</code>，处理流程：</p>
+<ol>
+<li>收到 <code>DeviceConfigUpdate</code>，检查 <code>update_id</code> 是否已处理过（幂等去重）；</li>
+<li>已处理则忽略并返回 success；</li>
+<li>未处理则比对 <code>entity_revision</code>：小于或等于本地已应用版本 → 过时变更，记录警告并忽略，返回 success；</li>
+<li><code>entity_revision</code> 大于本地版本 → 应用变更，更新本地记录，记录变更日志。</li>
+</ol>
+<blockquote>
+<p>跨服务注意：<code>entity_revision</code> 是对设备注册微服务的跨服务需求（CSC-002）。设备注册微服务须保证同一实体的 revision 严格单调递增。数据传递侧收到 revision 小于等于已应用版本的推送时将静默忽略（返回 success 但不应用）。</p>
+</blockquote>
+<h2 id="7-接口对接设计">7. 接口对接设计</h2>
+<h3 id="71-与数据处理与聚合微服务">7.1 与数据处理与聚合微服务</h3>
+<p>上行 <code>TELEMETRY</code>、<code>STATUS</code> 和部分 <code>EVENT</code> 由数据处理与聚合微服务消费。该服务可通过 gRPC 订阅或 MQTT Topic 获取消息，并使用 <code>DeviceIdentity.tags</code> 做过滤与聚合。</p>
+<p>需要对齐的问题：</p>
+<table>
+<thead>
+<tr>
+<th>问题</th>
+<th>初步设计</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>tags 是否足够</td>
+<td>当前保留 <code>workshop</code>、<code>line</code>、<code>zone</code>、<code>system</code>、<code>floor</code>、<code>building</code> 等建议键，也允许项目扩展</td>
+</tr>
+<tr>
+<td>过滤能力</td>
+<td>首版使用精确匹配 <code>tag_match</code>；正则、NOT 条件、范围条件留待确认</td>
+</tr>
+<tr>
+<td>标签变更通知</td>
+<td>首版让后续消息携带新标签；是否需要独立变更事件待确认</td>
+</tr>
+</tbody>
+</table>
+<h3 id="72-与智能命令编排与下发引擎微服务">7.2 与智能命令编排与下发引擎微服务</h3>
+<p>命令编排引擎通过 <code>SendCommand</code>、<code>SendCommandAsync</code> 或 MQTT command Topic 发送下行指令。数据传递微服务负责校验、路由、转换、执行与回执。</p>
+<p>需要对齐的问题：</p>
+<table>
+<thead>
+<tr>
+<th>问题</th>
+<th>初步设计</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ControlPayload.action</code> 表达能力</td>
+<td>首版使用字符串 action + params；复杂动作建议由设备配置中的 action mapping 解释</td>
+</tr>
+<tr>
+<td>批量指令</td>
+<td>接口文档当前为单条；若编排引擎需要批量下发，应新增批量接口或 batch payload</td>
+</tr>
+<tr>
+<td>异步回执</td>
+<td>首版通过 <code>CMD_RESPONSE</code> 上行交付；是否需要回调地址或专用回执流待确认</td>
+</tr>
+<tr>
+<td>指令幂等</td>
+<td><code>command_id</code> 必须参与执行去重和日志追踪</td>
+</tr>
+</tbody>
+</table>
+<h3 id="73-与设备注册微服务">7.3 与设备注册微服务</h3>
+<p>设备注册微服务负责设备台账、标签、Connector 配置和设备准入。数据传递微服务通过 <code>PushDeviceConfig</code> 或 MQTT config Topic 承接配置变更，并通过发现事件上报候选设备。</p>
+<p>需要对齐的问题：</p>
+<table>
+<thead>
+<tr>
+<th>问题</th>
+<th>初步设计</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>自动发现接入</td>
+<td>数据传递侧只上报候选设备，等待设备注册侧确认</td>
+</tr>
+<tr>
+<td>配置推送触发条件</td>
+<td>由设备注册服务定义；数据传递侧只承接接口</td>
+</tr>
+<tr>
+<td>批量配置</td>
+<td>当前接口偏单条变更；首版开发应预留批量变更处理入口</td>
+</tr>
+<tr>
+<td>版本与幂等</td>
+<td>当前 <code>update_id</code> 可用于幂等，配置版本仍需跨服务确认</td>
+</tr>
+</tbody>
+</table>
+<h3 id="74-与本地策略与规则缓存微服务">7.4 与本地策略与规则缓存微服务</h3>
+<p>该服务主要消费设备事件。数据传递微服务只提供 <code>EVENT</code> 交付，不进行策略判断。事件 payload 中的 <code>event_type</code>、<code>severity</code>、<code>description</code> 和 <code>data</code> 字段需与规则缓存服务进一步确认，尤其是事件类型命名、严重级别映射与是否需要工艺上下文。</p>
+<h2 id="8-安全设计">8. 安全设计</h2>
+<p>方案A默认为同机通信，可在有要求时启用 mTLS。方案B必须启用 TLS，并支持 Token 或客户端证书认证。MQTT Client ID 使用 <code>gateway-{gatewayId}</code>，<code>gatewayId</code> 需要全局唯一。</p>
+<p>第三层纯自定义插件需要隔离策略：</p>
+<table>
+<thead>
+<tr>
+<th>插件类型</th>
+<th>隔离方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>可信、性能敏感插件</td>
+<td>进程内注册，配合 panic 恢复、超时控制和权限边界</td>
+</tr>
+<tr>
+<td>不可信、复杂或供应商交付插件</td>
+<td>独立进程 sidecar，通过本地 gRPC 或 Unix domain socket 与主进程交互</td>
+</tr>
+</tbody>
+</table>
+<p>插件不得直接访问核心状态、其他 Connector 数据、北向认证凭据和缓冲存储。sidecar 插件的接口应只暴露必要的上行消息、下行指令和状态查询能力。</p>
+<h2 id="9-可观测性设计">9. 可观测性设计</h2>
+<p>管理接口统一提供：</p>
+<table>
+<thead>
+<tr>
+<th>端点</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/healthz</code></td>
+<td>进程存活检查，只要主进程可响应即返回 200</td>
+</tr>
+<tr>
+<td><code>/readyz</code></td>
+<td>就绪检查，需要 Connector 初始化、北向通道状态满足运行模式要求</td>
+</tr>
+<tr>
+<td><code>/metrics</code></td>
+<td>Prometheus 兼容指标</td>
+</tr>
+</tbody>
+</table>
+<p>核心指标：</p>
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>指标</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Connector</td>
+<td>状态、设备数、错误数、平均延迟、重启次数</td>
+</tr>
+<tr>
+<td>设备</td>
+<td>在线数、离线数、最后通信时间</td>
+</tr>
+<tr>
+<td>上行</td>
+<td>原始采集速率、策略通过率、北向发送速率</td>
+</tr>
+<tr>
+<td>下行</td>
+<td>指令接纳数、执行成功率、超时率、重试次数</td>
+</tr>
+<tr>
+<td>缓冲</td>
+<td>pending 数量、completed 数量、容量使用率、续传进度</td>
+</tr>
+<tr>
+<td>背压</td>
+<td>队列使用率、触发次数、当前策略、解除耗时</td>
+</tr>
+<tr>
+<td>系统</td>
+<td>CPU、内存、goroutine 数、文件描述符数量</td>
+</tr>
+</tbody>
+</table>
+<p>日志应采用 JSON 格式。转换失败、Connector 异常、配置热加载失败、缓冲容量告警、指令超时、背压触发等事件必须有明确错误码和关联 ID。</p>
+<h2 id="10-可靠性与错误处理">10. 可靠性与错误处理</h2>
+<p>错误处理遵循四个原则：</p>
+<ol>
+<li>单条数据异常只影响该条数据；</li>
+<li>单个 Connector 异常只影响其管理的设备；</li>
+<li>北向断连时方案B进入缓冲模式，方案A进入背压或错误返回；</li>
+<li>所有数据丢弃、指令失败、配置拒绝都必须可追踪。</li>
+</ol>
+<p>错误码沿用接口文档中的 <code>DT-{模块}-{序号}</code> 结构（含 DT-CMD-005 command_id 重复拒绝）。开发时建议将错误码定义为统一枚举或常量，避免各模块手写字符串。</p>
+<p>对于 MQTT QoS 1 产生的重复上行消息，上游消费者可通过 <code>message_id</code> 去重。对于 QoS 2 指令，微服务自身仍需记录 <code>command_id</code>，防止重复执行同一控制动作。</p>
+<h2 id="11-工程结构建议">11. 工程结构建议</h2>
+<p>首版仓库结构可按以下方向组织：</p>
+<pre><code class="language-text">cmd/
+  datatransfer/
+    main.go
+proto/
+  datatransfer/v1/
+    datatransfer.proto
+internal/
+  bootstrap/
+  runtime/
+  config/
+  connector/
+    modbus/
+    mqttdevice/
+    opcua/
+  converter/
+  registry/
+  strategy/
+  backpressure/
+  northbound/
+    grpc/
+    mqtt/
+  command/
+  buffer/
+  observability/
+  errors/
+pkg/
+  pluginapi/
+configs/
+  datatransfer.example.yaml
+tests/
+  integration/
+  fixtures/
+</code></pre>
+<p><code>internal</code> 保存主进程实现，<code>pkg/pluginapi</code> 只暴露插件开发必须依赖的接口和类型。Protobuf 生成代码可以根据团队习惯置于 <code>gen/</code> 或 <code>pkg/api/</code>，但应与 <code>.proto</code> 文件保持生成流程一致。</p>
+<h2 id="12-开发阶段划分">12. 开发阶段划分</h2>
+<h3 id="121-p0骨架与接口">12.1 P0：骨架与接口</h3>
+<p>P0 目标是让服务可启动、可加载配置、可暴露管理端口、可通过 gRPC 或 MQTT 完成最小消息流转。</p>
+<p>交付内容：</p>
+<table>
+<thead>
+<tr>
+<th>模块</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Protobuf</td>
+<td><code>DeviceMessage</code>、payload、配置更新、指标消息</td>
+</tr>
+<tr>
+<td>Bootstrap</td>
+<td>配置加载、环境变量覆盖、日志初始化</td>
+</tr>
+<tr>
+<td>Runtime</td>
+<td>Supervisor、context 生命周期、模块启动停止</td>
+</tr>
+<tr>
+<td>管理接口</td>
+<td><code>/healthz</code>、<code>/readyz</code>、<code>/metrics</code></td>
+</tr>
+<tr>
+<td>gRPC Adapter</td>
+<td>方案A最小订阅与下行命令接口</td>
+</tr>
+<tr>
+<td>MQTT Adapter</td>
+<td>方案B最小发布、订阅、重连</td>
+</tr>
+</tbody>
+</table>
+<h3 id="122-p1首个南向协议闭环">12.2 P1：首个南向协议闭环</h3>
+<p>P1 目标是完成一个协议从采集到上报、从指令到回执的闭环。建议优先选择 Modbus TCP，因为寄存器映射、轮询、写寄存器和测试模拟较容易控制。</p>
+<p>交付内容：</p>
+<table>
+<thead>
+<tr>
+<th>模块</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Modbus TCP Connector</td>
+<td>轮询读取、状态检测、写寄存器或线圈</td>
+</tr>
+<tr>
+<td>Converter Engine</td>
+<td>上行解析、下行编码、表达式转换、标签合并</td>
+</tr>
+<tr>
+<td>Command Router</td>
+<td>deviceId 路由、超时、重试、错误返回</td>
+</tr>
+<tr>
+<td>Ack Tracker</td>
+<td>指令状态追踪、同步与异步回执</td>
+</tr>
+<tr>
+<td>单元测试</td>
+<td>Converter、路由、配置校验</td>
+</tr>
+</tbody>
+</table>
+<h3 id="123-p2方案b可靠传输">12.3 P2：方案B可靠传输</h3>
+<p>P2 目标是补齐分体式部署所需的缓冲、续传、限速和北向断连恢复。</p>
+<p>交付内容：</p>
+<table>
+<thead>
+<tr>
+<th>模块</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Buffer Store</td>
+<td>SQLite pending/completed 两阶段确认</td>
+</tr>
+<tr>
+<td>Replay Worker</td>
+<td>历史数据按时间次序补发、限速、批量确认</td>
+</tr>
+<tr>
+<td>MQTT QoS</td>
+<td>按消息类型设置 QoS，处理重连和遗嘱消息</td>
+</tr>
+<tr>
+<td>背压控制</td>
+<td>队列水位、策略触发、指标暴露</td>
+</tr>
+<tr>
+<td>集成测试</td>
+<td>Broker 断连、恢复、重复消息、TTL 清理</td>
+</tr>
+</tbody>
+</table>
+<h3 id="124-p3配置热加载与扩展协议">12.4 P3：配置热加载与扩展协议</h3>
+<p>P3 目标是让设备注册微服务可以动态增删改设备和 Connector，并逐步扩展 MQTT Device、OPC-UA 等协议。</p>
+<p>交付内容：</p>
+<table>
+<thead>
+<tr>
+<th>模块</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Config Manager</td>
+<td><code>DeviceConfigUpdate</code> 校验、幂等、差异分析、entity_revision 乱序保护</td>
+</tr>
+<tr>
+<td>Connector Reload</td>
+<td>增量设备变更、Connector 局部重载</td>
+</tr>
+<tr>
+<td>OPC-UA Connector</td>
+<td>Subscription、Read、Write、Call（与 MQTT Device 并行推进）</td>
+</tr>
+<tr>
+<td>MQTT Device Connector</td>
+<td>设备侧 JSON Topic 接入（与 OPC-UA 并行推进）</td>
+</tr>
+<tr>
+<td>插件接口</td>
+<td>进程内注册；sidecar 接口 proto 定义 + mock 实现（验证接口可行性）</td>
+</tr>
+</tbody>
+</table>
+<h2 id="13-测试策略">13. 测试策略</h2>
+<p>测试应覆盖以下层次：</p>
+<table>
+<thead>
+<tr>
+<th>层次</th>
+<th>测试内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>单元测试</td>
+<td>Converter 表达式、标签合并、策略判断、错误码、配置校验</td>
+</tr>
+<tr>
+<td>合约测试</td>
+<td>Protobuf 字段兼容、gRPC 方法、MQTT Topic 与 Payload 类型</td>
+</tr>
+<tr>
+<td>Connector 模拟测试</td>
+<td>Modbus TCP 模拟设备、MQTT 设备模拟器、OPC-UA 模拟服务</td>
+</tr>
+<tr>
+<td>集成测试</td>
+<td>上行批量、下行同步与异步指令、配置热加载、北向断连恢复</td>
+</tr>
+<tr>
+<td>压测</td>
+<td>500 设备、5000 msg/s、队列水位、内存占用、下行延迟</td>
+</tr>
+<tr>
+<td>故障注入</td>
+<td>Connector 崩溃、设备超时、Broker 断连、SQLite 写入失败、配置错误</td>
+</tr>
+</tbody>
+</table>
+<p>性能基线中的 “500 设备、5000 msg/s、下行 200ms、内存 256MB” 应视为测试目标。开发早期不宜把它作为已经达成的能力写入对外承诺，必须通过压测报告确认。</p>
+<h2 id="14-需要讨论或确认的设计点">14. 需要讨论或确认的设计点</h2>
+<p>以下内容来自需求、接口文档和跨服务协作备忘中的未定边界。它们不应阻塞基础开发，但会影响接口冻结和首版范围。</p>
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>问题</th>
+<th>影响</th>
+<th>处理结果</th>
+<th>状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DQ-001</td>
+<td>设备注册微服务尚未定义受理自动发现通知的 gRPC 接口</td>
+<td>方案A自动发现链路无法闭环</td>
+<td>数据传递侧先定义内部 <code>DiscoveryEvent</code>，P1 阶段用日志+指标记录发现事件，P3 再接通。已登记 CSC-001</td>
+<td><strong>不阻塞开发，待跨服务对齐</strong></td>
+</tr>
+<tr>
+<td>DQ-002</td>
+<td><code>DeviceConfigUpdate</code> 缺少配置版本号或乐观锁</td>
+<td>配置重复、乱序、全量替换场景风险较高</td>
+<td>接口新增 <code>entity_revision</code> 字段（由设备注册微服务提供），6.3 节据此实现乱序保护。已更新 CSC-002</td>
+<td><strong>已锚定（v2.2）</strong></td>
+</tr>
+<tr>
+<td>DQ-003</td>
+<td>下行指令是否需要批量下发尚未确认</td>
+<td>当前接口单条指令可能无法满足编排引擎批量控制场景</td>
+<td>首版实现单条，未来扩展可新增 <code>SendCommandBatch(DeviceMessageBatch)</code> 方法，不影响现有接口。已登记 CSC-003</td>
+<td><strong>首版单条，接口预留</strong></td>
+</tr>
+<tr>
+<td>DQ-004</td>
+<td><code>ControlPayload.action + params</code> 是否足以表达复杂动作</td>
+<td>不同协议和设备动作映射可能过度依赖字符串</td>
+<td>action 字符串作为索引键，实际协议映射由设备配置中的 action mapping 定义（见 4.4 Converter Engine 配置）。已更新 CSC-003</td>
+<td><strong>已锚定</strong></td>
+</tr>
+<tr>
+<td>DQ-005</td>
+<td>tags 是否需要复杂过滤</td>
+<td>数据处理服务可能需要 NOT、OR、正则或层级匹配</td>
+<td>首版只做精确匹配 <code>tag_match</code>。复杂过滤是数据处理服务自身的职责，不应由数据传递微服务承担。已登记 CSC-004</td>
+<td><strong>首版精确匹配，已明确边界</strong></td>
+</tr>
+<tr>
+<td>DQ-006</td>
+<td>MQTT 指令 QoS 2 是否会让控制链路过度依赖 Broker 能力</td>
+<td>QoS 2 成本较高，且设备侧仍需幂等</td>
+<td>保留 QoS 2 + 应用层 command_id 去重（已写入 4.9 Command Router 契约）。压测后评估是否按指令类型区分 QoS</td>
+<td><strong>已锚定，压测后复查</strong></td>
+</tr>
+<tr>
+<td>DQ-007</td>
+<td>方案A是否完全无需本地缓冲</td>
+<td>本地上游服务短暂不可用时可能仍有数据积压</td>
+<td>方案A 用内存队列 + 背压控制（4.7），不做持久化缓冲。微服务重启时队列数据丢失，运维文档须标注此限制</td>
+<td><strong>已锚定</strong></td>
+</tr>
+<tr>
+<td>DQ-008</td>
+<td>信创数据库与国密接口只要求预留，缺少具体产品目标</td>
+<td>后续替换可能影响 TLS、SQLite、协议库</td>
+<td>抽象 <code>StorageBackend</code> 和 <code>TLSProvider</code> 接口，等合规清单明确后再实现具体适配器</td>
+<td><strong>架构预留，不阻塞</strong></td>
+</tr>
+<tr>
+<td>DQ-009</td>
+<td>插件隔离采用进程内还是 sidecar 的默认策略</td>
+<td>影响性能、安全和交付方式</td>
+<td>首版内置协议进程内（panic 恢复 + 超时控制），P3 完成 sidecar 接口 proto 定义 + mock 实现</td>
+<td><strong>已锚定，P3 验证</strong></td>
+</tr>
+<tr>
+<td>DQ-010</td>
+<td><code>PullMessages</code> 的数据来源和时间范围尚不明确</td>
+<td>可能与缓冲、历史数据、启动追赶语义冲突</td>
+<td>已在 4.8 锚定：方案A 从内存环形缓冲拉取近期数据，方案B 不使用此方法</td>
+<td><strong>已锚定</strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="15-开发落地检查清单">15. 开发落地检查清单</h2>
+<p>开发启动前建议确认以下事项：</p>
+<table>
+<thead>
+<tr>
+<th>检查项</th>
+<th>状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Protobuf 文件路径与生成流程确定</td>
+<td>待开发</td>
+</tr>
+<tr>
+<td>运行模式 <code>embedded/split</code> 配置确定</td>
+<td>待开发</td>
+</tr>
+<tr>
+<td>首个内置 Connector 选择 Modbus TCP</td>
+<td>已确认</td>
+</tr>
+<tr>
+<td>P3 协议扩展：OPC-UA 与 MQTT Device 并行推进</td>
+<td>已确认（PM 决定）</td>
+</tr>
+<tr>
+<td>设备注册微服务配置推送版本语义</td>
+<td>已确认：entity_revision 由设备注册微服务提供（CSC-002）</td>
+</tr>
+<tr>
+<td>命令编排引擎是否需要批量指令</td>
+<td>待跨服务讨论（首版单条，接口预留）</td>
+</tr>
+<tr>
+<td>数据处理服务 tags 过滤能力</td>
+<td>待跨服务讨论（首版精确匹配）</td>
+</tr>
+<tr>
+<td>方案B MQTT Broker 选型与 TLS 证书来源</td>
+<td>待部署方案确认</td>
+</tr>
+<tr>
+<td>本地缓冲 SQLite 是否满足目标信创环境</td>
+<td>待合规清单确认</td>
+</tr>
+<tr>
+<td>性能基线压测方案</td>
+<td>待开发</td>
+</tr>
+</tbody>
+</table>
+<h2 id="16-结论">16. 结论</h2>
+<p>首版开发应围绕“统一数据模型、可扩展 Connector、双向 Converter、北向双模式、配置热加载、方案B可靠续传”六条主线推进。ThingsBoard IoT Gateway 的 Connector、ReportStrategy、EventStorage 和远程配置思路可以作为架构参考，但本微服务应保持独立数据模型、独立接口和独立实现路线，尤其要强化工业控制场景需要的下行指令生命周期、回执追踪和跨服务配置边界。</p>
+<p>从开发次序看，先完成 Go + Protobuf + gRPC/MQTT 的运行骨架，再用 Modbus TCP 做第一个端到端闭环，随后补齐方案B缓冲续传与配置热加载。跨服务未确认内容进入设计问题清单，在接口冻结前逐项确认；这样既能启动编码工作，也能避免把仍需讨论的外部依赖过早固化进实现。</p>
+
+            
+            
+        </body>
+        </html>

@@ -1,0 +1,106 @@
+{
+  "checked_at": "2026-10-05T06:43:32.160826+00:00",
+  "status": "passed",
+  "scope": "Release final PostgreSQL/race, shared regression and final application supplement raw logs; exact go-list coverage and archived input validation",
+  "inputs": [
+    {
+      "before": "/private/tmp/smartfactory-phase5-release-final-checks-20261005/actual-test-inputs-before.json",
+      "after": "/private/tmp/smartfactory-phase5-release-final-checks-20261005/actual-test-inputs-after.json",
+      "before_sha256": "51e9baaa645ee8ec71939789ad5a46003a6b9ae54acf4d3c2ee8ec005be81775",
+      "after_sha256": "51e9baaa645ee8ec71939789ad5a46003a6b9ae54acf4d3c2ee8ec005be81775",
+      "count": 5426,
+      "unchanged": true
+    },
+    {
+      "before": "/private/tmp/smartfactory-phase5-release-app-check-tenth-20261005/inputs-before.json",
+      "after": "/private/tmp/smartfactory-phase5-release-app-check-tenth-20261005/inputs-after.json",
+      "before_sha256": "07dfcdd12e2bfdcd17e058572ee9d2a4a6336ae1d979e27c0836a6f7103d070a",
+      "after_sha256": "07dfcdd12e2bfdcd17e058572ee9d2a4a6336ae1d979e27c0836a6f7103d070a",
+      "count": 5841,
+      "unchanged": true,
+      "archived_external": 5262,
+      "local_in_fixed_tenth_source": 579
+    }
+  ],
+  "commands": [
+    {
+      "name": "release-postgres-http",
+      "record": "/private/tmp/smartfactory-phase5-release-final-checks-20261005/release-postgres-http.json",
+      "sha256": "f73be7ebe30c0e755fea1f4372bc6ace0087b672f78a8ea90589cbe07cbc925f",
+      "exit_code": 0,
+      "top_pass": 14,
+      "all_pass": 22,
+      "failed": [],
+      "skipped": [],
+      "race_warning": false,
+      "stdout_sha256": "87b796dc57764fa14c6296bdfdbcc7f7d0b063b9e386b25aaf9c6a45054d4d5c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "release-race",
+      "record": "/private/tmp/smartfactory-phase5-release-final-checks-20261005/release-race.json",
+      "sha256": "b958f686f7d251f479e0caf6db3e9922acdacedd188f79358f702c9dfc302e86",
+      "exit_code": 0,
+      "top_pass": 14,
+      "all_pass": 22,
+      "failed": [],
+      "skipped": [],
+      "race_warning": false,
+      "stdout_sha256": "02898b25a4cdfbfbda8ed22baa10a8b0864c188e74d35a5fb4a9504c668edd18",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "shared-regression",
+      "record": "/private/tmp/smartfactory-phase5-release-final-checks-20261005/shared-regression.json",
+      "sha256": "361905b750db648fed317254246fcfa1ed4afe5d1ac951942449efaef6b26d5d",
+      "exit_code": 1,
+      "top_pass": 0,
+      "all_pass": 0,
+      "failed": [
+        "--- FAIL: TestStateBackupRestoresVersionsCredentialsAuditAndControlDedup (0.39s)",
+        "FAIL",
+        "FAIL\tcompetition2026/product/platform/internal/app\t5.964s",
+        "FAIL"
+      ],
+      "skipped": [],
+      "race_warning": false,
+      "stdout_sha256": "89a521d281a84a4638e8977e4a173aba83ef10720461fb0d0f859cf887785ad0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "app-supplement",
+      "record": "/private/tmp/smartfactory-phase5-release-app-check-tenth-20261005/result.json",
+      "sha256": "6cbf23e41c292b4f0276058f742adece70bb0d0151596472446cdcacaebea697",
+      "exit_code": 0,
+      "top_pass": 5,
+      "all_pass": 5,
+      "failed": [],
+      "skipped": [
+        "--- SKIP: TestControlledCloudEdgeControlIntervention (0.00s)",
+        "--- SKIP: TestControlBrowserFixture (0.00s)"
+      ],
+      "race_warning": false,
+      "stdout_sha256": "d6ce8603b8ed5302ed41dd0689240673271cf685b892da217b6f97bff9bc374d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "unique_hashes": 5362,
+  "findings": [],
+  "go_list_coverage": [
+    {
+      "path": "/private/tmp/smartfactory-phase5-release-final-checks-20261005/go-list-test-inputs.stdout.jsonl",
+      "sha256": "e3d6e7c5bd2faf1713d601f4bdd9894acc91486d0a30d9a69fcf1f33ab5a82c6",
+      "packages": 689,
+      "missing": [],
+      "package_errors": []
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-release-app-check-tenth-20261005/go-list-test-inputs.stdout.jsonl",
+      "sha256": "5c1c66057210dcd371a4f2d4aa941dd63c585402aaba59f9c497cae8174d3d43",
+      "packages": 666,
+      "missing": [],
+      "package_errors": []
+    }
+  ],
+  "supplement_unique_hashes": 5685
+}

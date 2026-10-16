@@ -1,0 +1,178 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" role="img" aria-labelledby="title desc">
+  <title id="title">ThingsBoard focused ecosystem architecture</title>
+  <desc id="desc">Architecture map for ThingsBoard Edge, ThingsBoard IoT Gateway, TBMQ MQTT Broker, and Trendz Analytics.</desc>
+  <defs>
+    <linearGradient id="headerGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#0f766e"/>
+      <stop offset="0.48" stop-color="#2563eb"/>
+      <stop offset="1" stop-color="#b45309"/>
+    </linearGradient>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="#1f2937" flood-opacity="0.12"/>
+    </filter>
+    <marker id="arrowBlue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2563eb"/>
+    </marker>
+    <marker id="arrowTeal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#0f766e"/>
+    </marker>
+    <marker id="arrowAmber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#b45309"/>
+    </marker>
+    <style>
+      .bg { fill: #f7fafc; }
+      .grid { stroke: #dbe3ec; stroke-width: 1; opacity: .65; }
+      .panel { fill: #ffffff; stroke: #d6dee8; stroke-width: 1.4; rx: 16; filter: url(#softShadow); }
+      .panel-title { font: 700 28px Inter, Arial, sans-serif; fill: #102033; }
+      .panel-subtitle { font: 500 15px Inter, Arial, sans-serif; fill: #5d6b7a; }
+      .mini-title { font: 700 16px Inter, Arial, sans-serif; fill: #111827; }
+      .mini { fill: #f8fbff; stroke: #d9e2ec; stroke-width: 1.1; rx: 10; }
+      .mini-teal { fill: #ecfdf5; stroke: #9bd7c3; }
+      .mini-blue { fill: #eff6ff; stroke: #a8c7f5; }
+      .mini-amber { fill: #fff7ed; stroke: #f1c27c; }
+      .mini-rose { fill: #fff1f2; stroke: #f0a8b5; }
+      .mini-text { font: 600 13px Inter, Arial, sans-serif; fill: #263241; }
+      .small { font: 500 12px Inter, Arial, sans-serif; fill: #5d6b7a; }
+      .chip { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1; rx: 12; }
+      .chip-text { font: 650 12px Inter, Arial, sans-serif; fill: #334155; }
+      .flow { fill: none; stroke-width: 3.5; marker-end: url(#arrowBlue); }
+      .flow-teal { stroke: #0f766e; marker-end: url(#arrowTeal); }
+      .flow-blue { stroke: #2563eb; marker-end: url(#arrowBlue); }
+      .flow-amber { stroke: #b45309; marker-end: url(#arrowAmber); }
+      .flow-dash { stroke-dasharray: 10 8; }
+      .flow-label { font: 700 12px Inter, Arial, sans-serif; fill: #334155; paint-order: stroke; stroke: #ffffff; stroke-width: 4; stroke-linejoin: round; }
+      .store { fill: #111827; rx: 12; }
+      .store-text { font: 700 13px Inter, Arial, sans-serif; fill: #ffffff; }
+      .store-sub { font: 500 11px Inter, Arial, sans-serif; fill: #d1d5db; }
+      .section-label { font: 800 13px Inter, Arial, sans-serif; fill: #0f172a; letter-spacing: .08em; }
+      .source-note { font: 500 11px Inter, Arial, sans-serif; fill: #64748b; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1600" height="1000"/>
+  <image href="thingsboard-image2-architecture-concept.png" x="0" y="0" width="1600" height="1000" preserveAspectRatio="xMidYMid slice" opacity="0.07"/>
+  <g opacity=".55">
+    <path class="grid" d="M80 120H1520M80 220H1520M80 320H1520M80 420H1520M80 520H1520M80 620H1520M80 720H1520M80 820H1520"/>
+    <path class="grid" d="M160 110V900M320 110V900M480 110V900M640 110V900M800 110V900M960 110V900M1120 110V900M1280 110V900M1440 110V900"/>
+  </g>
+
+  <rect x="56" y="34" width="1488" height="78" rx="22" fill="#ffffff" filter="url(#softShadow)"/>
+  <rect x="56" y="34" width="1488" height="7" rx="3.5" fill="url(#headerGrad)"/>
+  <text x="86" y="74" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="800" fill="#0f172a">ThingsBoard Focused IoT Architecture</text>
+  <text x="86" y="99" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="550" fill="#526273">Edge + IoT Gateway + TBMQ MQTT Broker + Trendz Analytics, with central ThingsBoard Server / Cloud as the coordination plane</text>
+  <text x="1330" y="78" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="750" fill="#334155">image2 concept layer</text>
+  <text x="1330" y="97" class="source-note">Generated visual base + deterministic labels</text>
+
+  <rect x="60" y="154" width="210" height="315" class="panel"/>
+  <text x="84" y="196" class="panel-title">Field Layer</text>
+  <text x="84" y="220" class="panel-subtitle">Devices, PLCs, machines, sensors</text>
+  <rect x="84" y="246" width="156" height="36" class="chip"/><text x="112" y="269" class="chip-text">Modbus</text>
+  <rect x="84" y="291" width="156" height="36" class="chip"/><text x="112" y="314" class="chip-text">OPC-UA</text>
+  <rect x="84" y="336" width="156" height="36" class="chip"/><text x="112" y="359" class="chip-text">BACnet / KNX</text>
+  <rect x="84" y="381" width="156" height="36" class="chip"/><text x="112" y="404" class="chip-text">CAN / BLE</text>
+  <rect x="84" y="426" width="156" height="36" class="chip"/><text x="112" y="449" class="chip-text">SNMP / OCPP</text>
+
+  <rect x="60" y="512" width="210" height="190" class="panel"/>
+  <text x="84" y="552" class="panel-title">Native APIs</text>
+  <text x="84" y="576" class="panel-subtitle">Devices that speak platform APIs</text>
+  <rect x="84" y="602" width="156" height="34" class="chip"/><text x="105" y="624" class="chip-text">MQTT</text>
+  <rect x="84" y="643" width="156" height="34" class="chip"/><text x="105" y="665" class="chip-text">HTTP / CoAP</text>
+  <rect x="84" y="684" width="156" height="34" class="chip"/><text x="105" y="706" class="chip-text">LwM2M / SNMP</text>
+
+  <rect x="325" y="146" width="285" height="345" class="panel"/>
+  <text x="354" y="188" class="panel-title">IoT Gateway</text>
+  <text x="354" y="212" class="panel-subtitle">Protocol bridge and local delivery buffer</text>
+  <rect x="354" y="236" width="228" height="43" class="mini mini-teal"/><text x="374" y="263" class="mini-title">Gateway Service</text>
+  <rect x="354" y="289" width="105" height="52" class="mini mini-blue"/><text x="369" y="310" class="mini-text">Connectors</text><text x="369" y="329" class="small">poll or subscribe</text>
+  <rect x="477" y="289" width="105" height="52" class="mini mini-blue"/><text x="492" y="310" class="mini-text">Converters</text><text x="492" y="329" class="small">uplink/downlink</text>
+  <rect x="354" y="354" width="228" height="51" class="mini mini-amber"/><text x="374" y="376" class="mini-text">Event Storage</text><text x="374" y="395" class="small">memory, file, SQLite in source</text>
+  <rect x="354" y="417" width="228" height="51" class="mini mini-rose"/><text x="374" y="439" class="mini-text">ThingsBoard Client</text><text x="374" y="458" class="small">MQTT batching and reconnect</text>
+
+  <rect x="665" y="146" width="300" height="420" class="panel"/>
+  <text x="696" y="188" class="panel-title">ThingsBoard Edge</text>
+  <text x="696" y="212" class="panel-subtitle">Local ThingsBoard runtime at a site</text>
+  <rect x="696" y="236" width="238" height="43" class="mini mini-blue"/><text x="716" y="263" class="mini-title">Device Transports</text>
+  <rect x="696" y="290" width="112" height="55" class="mini mini-teal"/><text x="714" y="312" class="mini-text">Rule Engine</text><text x="714" y="331" class="small">filter, enrich, act</text>
+  <rect x="822" y="290" width="112" height="55" class="mini mini-teal"/><text x="840" y="312" class="mini-text">Core / REST</text><text x="840" y="331" class="small">entities, WS, UI</text>
+  <rect x="696" y="358" width="112" height="55" class="mini mini-amber"/><text x="714" y="380" class="mini-text">Local DB</text><text x="714" y="399" class="small">PostgreSQL</text>
+  <rect x="822" y="358" width="112" height="55" class="mini mini-amber"/><text x="840" y="380" class="mini-text">Cloud Queue</text><text x="840" y="399" class="small">Postgres or Kafka</text>
+  <rect x="696" y="426" width="238" height="51" class="mini mini-rose"/><text x="716" y="448" class="mini-text">Cloud Manager</text><text x="716" y="467" class="small">ordered gRPC uplink and downlink</text>
+  <rect x="696" y="489" width="238" height="51" class="mini"/><text x="716" y="511" class="mini-text">Dashboards and local operations</text><text x="716" y="530" class="small">offline processing before cloud sync</text>
+
+  <rect x="1008" y="146" width="330" height="420" class="panel"/>
+  <text x="1039" y="188" class="panel-title">Server / Cloud</text>
+  <text x="1039" y="212" class="panel-subtitle">Central control, tenancy, entities, dashboards</text>
+  <rect x="1039" y="236" width="126" height="55" class="mini mini-blue"/><text x="1057" y="258" class="mini-text">Transports</text><text x="1057" y="277" class="small">MQTT HTTP CoAP</text>
+  <rect x="1182" y="236" width="126" height="55" class="mini mini-blue"/><text x="1200" y="258" class="mini-text">Core APIs</text><text x="1200" y="277" class="small">REST and WS</text>
+  <rect x="1039" y="304" width="126" height="55" class="mini mini-teal"/><text x="1057" y="326" class="mini-text">Rule Engine</text><text x="1057" y="345" class="small">chains and nodes</text>
+  <rect x="1182" y="304" width="126" height="55" class="mini mini-teal"/><text x="1200" y="326" class="mini-text">Actor System</text><text x="1200" y="345" class="small">tenant/device flow</text>
+  <rect x="1039" y="372" width="126" height="55" class="mini mini-amber"/><text x="1057" y="394" class="mini-text">Entity Model</text><text x="1057" y="413" class="small">devices, assets</text>
+  <rect x="1182" y="372" width="126" height="55" class="mini mini-amber"/><text x="1200" y="394" class="mini-text">Integrations</text><text x="1200" y="413" class="small">external systems</text>
+  <rect x="1039" y="440" width="269" height="51" class="mini mini-rose"/><text x="1057" y="462" class="mini-text">Edge gRPC Server</text><text x="1057" y="481" class="small">provisioning, assignments, downlinks</text>
+  <rect x="1039" y="503" width="269" height="36" class="mini"/><text x="1057" y="526" class="mini-text">Dashboards, alarms, OTA, users, API keys</text>
+
+  <rect x="325" y="620" width="470" height="240" class="panel"/>
+  <text x="354" y="662" class="panel-title">TBMQ MQTT Broker</text>
+  <text x="354" y="686" class="panel-subtitle">Scalable broker backbone for MQTT fleets and applications</text>
+  <rect x="354" y="710" width="126" height="48" class="mini mini-blue"/><text x="374" y="730" class="mini-text">Netty Listeners</text><text x="374" y="748" class="small">TCP TLS WS WSS</text>
+  <rect x="498" y="710" width="126" height="48" class="mini mini-teal"/><text x="518" y="730" class="mini-text">Auth</text><text x="518" y="748" class="small">Basic X.509 JWT</text>
+  <rect x="642" y="710" width="126" height="48" class="mini mini-teal"/><text x="662" y="730" class="mini-text">Sessions</text><text x="662" y="748" class="small">DEVICE / APP</text>
+  <rect x="354" y="774" width="126" height="48" class="mini mini-amber"/><text x="374" y="794" class="mini-text">Kafka Topics</text><text x="374" y="812" class="small">tbmq.msg.*</text>
+  <rect x="498" y="774" width="126" height="48" class="mini mini-amber"/><text x="518" y="794" class="mini-text">Redis Store</text><text x="518" y="812" class="small">device persistence</text>
+  <rect x="642" y="774" width="126" height="48" class="mini mini-rose"/><text x="662" y="794" class="mini-text">Integration IE</text><text x="662" y="812" class="small">HTTP MQTT Kafka</text>
+
+  <rect x="865" y="620" width="473" height="240" class="panel"/>
+  <text x="896" y="662" class="panel-title">Trendz Analytics</text>
+  <text x="896" y="686" class="panel-subtitle">Analytics, forecasting, anomaly detection, embedded views</text>
+  <rect x="896" y="710" width="128" height="48" class="mini mini-blue"/><text x="916" y="730" class="mini-text">TB API Link</text><text x="916" y="748" class="small">internal URLs</text>
+  <rect x="1042" y="710" width="128" height="48" class="mini mini-teal"/><text x="1062" y="730" class="mini-text">Topology</text><text x="1062" y="748" class="small">entities and relations</text>
+  <rect x="1188" y="710" width="128" height="48" class="mini mini-teal"/><text x="1208" y="730" class="mini-text">Metric Explorer</text><text x="1208" y="748" class="small">patterns, ranges</text>
+  <rect x="896" y="774" width="128" height="48" class="mini mini-amber"/><text x="916" y="794" class="mini-text">Calculated Fields</text><text x="916" y="812" class="small">save back to TB</text>
+  <rect x="1042" y="774" width="128" height="48" class="mini mini-rose"/><text x="1062" y="794" class="mini-text">Prediction</text><text x="1062" y="812" class="small">models and jobs</text>
+  <rect x="1188" y="774" width="128" height="48" class="mini mini-rose"/><text x="1208" y="794" class="mini-text">Anomaly / AI</text><text x="1208" y="812" class="small">alarms and prompts</text>
+
+  <path d="M270 315 C292 315 303 315 325 315" class="flow flow-teal"/>
+  <text x="281" y="300" class="flow-label">legacy protocol data</text>
+  <path d="M270 632 C430 594 524 553 665 490" class="flow flow-blue"/>
+  <text x="342" y="574" class="flow-label">native device APIs</text>
+  <path d="M610 392 C635 398 642 407 665 420" class="flow flow-blue"/>
+  <text x="611" y="376" class="flow-label">MQTT Gateway API</text>
+  <path d="M610 438 C785 590 915 582 1008 515" class="flow flow-blue flow-dash"/>
+  <text x="665" y="594" class="flow-label">gateway can target Edge or Server</text>
+  <path d="M965 442 C985 442 990 442 1008 442" class="flow flow-amber flow-dash"/>
+  <text x="900" y="424" class="flow-label">gRPC 7070, bidirectional</text>
+  <path d="M1008 472 C985 472 986 472 965 472" class="flow flow-amber flow-dash"/>
+  <text x="894" y="493" class="flow-label">config, assignments, downlinks</text>
+  <path d="M470 620 C505 558 598 540 665 520" class="flow flow-teal"/>
+  <text x="500" y="553" class="flow-label">brokered telemetry and commands</text>
+  <path d="M795 742 C832 742 838 742 865 742" class="flow flow-blue"/>
+  <text x="800" y="727" class="flow-label">application consumers</text>
+  <path d="M1105 620 C1120 596 1138 578 1160 566" class="flow flow-teal"/>
+  <text x="1130" y="599" class="flow-label">time-series, entities, alarms</text>
+  <path d="M1175 566 C1175 588 1165 608 1148 620" class="flow flow-teal"/>
+  <text x="1185" y="602" class="flow-label">views, calculated metrics, alarms</text>
+  <path d="M795 806 C866 866 1008 882 1110 860" class="flow flow-amber flow-dash"/>
+  <text x="834" y="880" class="flow-label">external MQTT streams can feed analytics apps</text>
+
+  <text x="64" y="910" class="section-label">DATA AND STATE BACKPLANE</text>
+  <rect x="64" y="930" width="205" height="46" class="store"/>
+  <text x="84" y="951" class="store-text">Gateway local buffer</text>
+  <text x="84" y="969" class="store-sub">memory, file, SQLite</text>
+  <rect x="290" y="930" width="205" height="46" class="store"/>
+  <text x="310" y="951" class="store-text">Edge PostgreSQL</text>
+  <text x="310" y="969" class="store-sub">entities, telemetry, cloud_events</text>
+  <rect x="516" y="930" width="205" height="46" class="store"/>
+  <text x="536" y="951" class="store-text">Server PostgreSQL</text>
+  <text x="536" y="969" class="store-sub">multi-tenant digital twin state</text>
+  <rect x="742" y="930" width="205" height="46" class="store"/>
+  <text x="762" y="951" class="store-text">Kafka queues</text>
+  <text x="762" y="969" class="store-sub">platform and TBMQ event streams</text>
+  <rect x="968" y="930" width="205" height="46" class="store"/>
+  <text x="988" y="951" class="store-text">Redis / Valkey</text>
+  <text x="988" y="969" class="store-sub">cache and persisted MQTT device data</text>
+  <rect x="1194" y="930" width="205" height="46" class="store"/>
+  <text x="1214" y="951" class="store-text">Trendz PostgreSQL</text>
+  <text x="1214" y="969" class="store-sub">analytics metadata, jobs, views</text>
+  <text x="1420" y="948" class="source-note">Scope: four requested core subjects.</text>
+  <text x="1420" y="967" class="source-note">Central Server / Cloud shown for context.</text>
+</svg>

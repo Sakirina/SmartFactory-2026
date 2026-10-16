@@ -1,0 +1,87 @@
+package engine
+
+import (
+ "context"
+ "encoding/json"
+ "fmt"
+ "reflect"
+ "testing"
+ "time"
+ "competition2026/product/platform/internal/store"
+ "competition2026/product/platform/pkg/model"
+)
+
+// Review fixture supplied through go -overlay; production files are unchanged.
+func TestIndependentRealtimeSimulationReplaySameInputs(t *testing.T) {
+ for _, mode := range []string{"counter", "window_sum"} {
+  t.Run(mode, func(t *testing.T) {
+   ctx := context.Background()
+   s := engineFixture(t)
+   base := time.UnixMilli(1800000000000)
+   clock := base.Add(-time.Second)
+   s.Store.Now = func() time.Time { return clock }
+   d := definition()
+   d.ID, d.EffectiveMS = "independent-"+mode, clock.UnixMilli()
+   d.Outputs[0].Unit = "piece"
+   initial := map[string]RuntimeState{}
+   if mode == "counter" {
+    d.Selector.WindowMS = 0
+    d.Nodes[1].Type, d.Nodes[1].Params = "counter", map[string]any{"mode":"delta"}
+    initial["sum"] = RuntimeState{Count:10}
+   } else {
+    d.Selector.WindowMS = 1500
+    d.Nodes[1].Params = map[string]any{"function":"sum"}
+   }
+   entity := model.Entity{ID:"device", Name:"Review device", Kind:"device", Status:"active", Version:1, SamplingMS:1000}
+   if _, err := s.Store.Put(ctx,"entity",entity.ID,0,entity); err != nil { t.Fatal(err) }
+   if _, err := s.Store.Put(ctx,"definition",d.ID,0,d); err != nil { t.Fatal(err) }
+   prepareLegacyFixture(t,s)
+   stateID := d.ID+":1:device"
+   raw,_ := json.Marshal(initial)
+   if err := s.Store.Write(ctx,func(tx *store.Tx) error { return tx.SetEphemeral("engine_state",stateID,initial) }); err != nil { t.Fatal(err) }
+   if _,err := s.Store.DB.Exec("INSERT INTO engine_checkpoints(state_id,bucket_ms,at_ms,data) VALUES($1,$2,$3,$4)",stateID,(base.UnixMilli()-1)/60000*60000,base.UnixMilli()-1,string(raw)); err != nil { t.Fatal(err) }
+   assets := []model.AssetVersion{{ID:"device",Version:1,EffectiveMS:clock.UnixMilli(),SamplingMS:1000}}
+   points := []model.Observation{}
+   for i,value := range []any{json.Number("9007199254740993"),2,-1} {
+    at := base.UnixMilli()+int64(i)*1000
+    points = append(points,model.Observation{ID:fmt.Sprint("review-input-",i),MessageID:fmt.Sprint("review-message-",i),SourceID:"source-a",SourceSequence:uint64(i+1),DeviceID:"device",Key:"temperature",Value:value,ObservedMS:at,ReceivedMS:at,Quality:"GOOD",TimeSource:"device",Unit:"piece",AssetVersion:1,EntityRevision:1,Revision:1})
+   }
+   simulation,err := s.SimulateSequence(ctx,d,SimulationRequest{Points:points,History:[]model.Observation{},AssetVersions:assets,InitialState:map[string]map[string]RuntimeState{"device":initial}})
+   if err != nil { t.Fatal(err) }
+   expectedValues := []string{"9007199254740993","9007199254740995","1"}
+   if mode == "counter" { expectedValues = []string{"9007199254741003","9007199254741005","9007199254741004"} }
+   for i,want := range expectedValues {
+    if got := fmt.Sprint(simulation.Results[i].Evaluation.Values["result"]); got != want { t.Fatalf("independent arithmetic expectation at %d: got %s want %s",i,got,want) }
+   }
+   for i,point := range points {
+    clock = time.UnixMilli(point.ObservedMS)
+    if err := s.Store.Write(ctx,func(tx *store.Tx) error { return tx.InsertPoint(point) }); err != nil { t.Fatal(err) }
+    if err := s.ProcessCalculations(ctx,point,false); err != nil { t.Fatal(err) }
+    output,err := s.Store.Latest(ctx,"device",d.ID+".mean")
+    expected := simulation.Results[i]
+    if err != nil || fmt.Sprint(output.Value) != fmt.Sprint(expected.Evaluation.Values["result"]) || output.Quality!="GOOD" || output.Unit!="piece" || output.RuleVersion!=1 || output.AssetVersion!=1 || output.TimeSource!="analysis" || output.ObservedMS!=expected.ClockMS { t.Fatalf("live step %d: output=%+v simulation=%+v err=%v",i,output,expected,err) }
+    if !reflect.DeepEqual(expected.Evaluation.AssetVersions,assets) { t.Fatalf("asset snapshot changed: %+v",expected.Evaluation.AssetVersions) }
+   }
+   before,err := s.Store.Get(ctx,"engine_state",stateID)
+   if err != nil { t.Fatal(err) }
+   if store.Hash(json.RawMessage(before.Data)) != store.Hash(simulation.FinalState["device"]) { t.Fatalf("live and simulation state differ: live=%s simulation=%+v",before.Data,simulation.FinalState) }
+   beforeOutputs,err := s.Store.Query(ctx,store.Query{DeviceIDs:[]string{"device"},Keys:[]string{d.ID+".mean"},FromMS:points[0].ObservedMS,ToMS:points[2].ObservedMS,Limit:20})
+   if err != nil { t.Fatal(err) }
+   job := model.Job{ID:"review-replay-"+mode,Kind:"recompute",Status:"pending",DeviceID:"device",DefinitionID:d.ID,FromMS:points[0].ObservedMS,ToMS:points[2].ObservedMS}
+   doc,err := s.Store.Put(ctx,"job",job.ID,0,job)
+   if err != nil { t.Fatal(err) }
+   job,err = store.Decode[model.Job](doc)
+   if err != nil { t.Fatal(err) }; job.Version=doc.Version
+   if err := s.Recompute(ctx,job); err != nil { t.Fatal(err) }
+   after,err := s.Store.Get(ctx,"engine_state",stateID)
+   if err != nil || store.Hash(json.RawMessage(before.Data)) != store.Hash(json.RawMessage(after.Data)) { t.Fatalf("replay changed equivalent state: before=%s after=%s err=%v",before.Data,after.Data,err) }
+   afterOutputs,err := s.Store.Query(ctx,store.Query{DeviceIDs:[]string{"device"},Keys:[]string{d.ID+".mean"},FromMS:points[0].ObservedMS,ToMS:points[2].ObservedMS,Limit:20})
+   if err != nil || store.Hash(beforeOutputs.Points)!=store.Hash(afterOutputs.Points) { t.Fatalf("replay changed equal outputs: before=%+v after=%+v err=%v",beforeOutputs,afterOutputs,err) }
+   doc,err = s.Store.Get(ctx,"job",job.ID)
+   if err != nil { t.Fatal(err) }
+   completed,err := store.Decode[model.Job](doc)
+   if err != nil || completed.Status!="completed" || completed.ReplayPhase!="completed" || completed.CursorMS!=points[2].ObservedMS { t.Fatalf("job incomplete: %+v err=%v",completed,err) }
+   t.Logf("mode=%s; input_values=[9007199254740993,2,-1]; three modes preserve exact outputs, final state, quality=GOOD, unit=piece, rule_version=1, asset_version=1, event clocks; result=%v",mode,simulation.Results[2].Evaluation.Values["result"])
+  })
+ }
+}

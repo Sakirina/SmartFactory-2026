@@ -1,0 +1,274 @@
+{
+  "checked_at": "2026-10-05T10:32:27.778170+00:00",
+  "passed": true,
+  "scope": "公共 Store 本地版本修正及原始数据副本检查；发布恢复、最终 Linux 组合和独立审查继续由对应工程师完成",
+  "report": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/storage-version-r01-verified.json",
+    "sha256": "37202073c6267bb81156444b68e3ec8cc9484fcb5ee3e069c425ccca6fc19b82"
+  },
+  "reference_count": 181,
+  "physical_files_checked": 3127,
+  "input_manifests": 5,
+  "unique_retained_inputs": 2951,
+  "changed_compiled_inputs": [
+    "/path/to/SmartFactory-2026/Platform/internal/store/data.go",
+    "/path/to/SmartFactory-2026/Platform/internal/store/store.go"
+  ],
+  "go_list_correspondence": [
+    {
+      "label": "before-public-fix",
+      "packages": 591,
+      "selected_paths": 2979,
+      "recorded_inputs": 2987,
+      "go_list_argv": [
+        "go",
+        "list",
+        "-deps",
+        "-test",
+        "-compiled",
+        "-json",
+        "./internal/store"
+      ],
+      "missing": []
+    },
+    {
+      "label": "after-public-fix",
+      "packages": 591,
+      "selected_paths": 2979,
+      "recorded_inputs": 2987,
+      "go_list_argv": [
+        "go",
+        "list",
+        "-deps",
+        "-test",
+        "-compiled",
+        "-json",
+        "./internal/store"
+      ],
+      "missing": []
+    },
+    {
+      "label": "race-public-fix",
+      "packages": 592,
+      "selected_paths": 2983,
+      "recorded_inputs": 2991,
+      "go_list_argv": [
+        "go",
+        "list",
+        "-race",
+        "-deps",
+        "-test",
+        "-compiled",
+        "-json",
+        "./internal/store"
+      ],
+      "missing": []
+    },
+    {
+      "label": "original-backup-probe",
+      "packages": 581,
+      "selected_paths": 2925,
+      "recorded_inputs": 2933,
+      "go_list_argv": [
+        "go",
+        "list",
+        "-deps",
+        "-compiled",
+        "-json",
+        "./cmd/sf-storage-revision-probe"
+      ],
+      "missing": []
+    }
+  ],
+  "test_results": [
+    {
+      "label": "before-public-fix",
+      "exit_code": 1,
+      "counts": {
+        "all_named": {
+          "fail": 9,
+          "skip": 8,
+          "pass": 1
+        },
+        "top_level": {
+          "fail": 1,
+          "pass": 1
+        },
+        "leaf": {
+          "fail": 8,
+          "skip": 8
+        }
+      }
+    },
+    {
+      "label": "after-public-fix",
+      "exit_code": 0,
+      "counts": {
+        "all_named": {
+          "pass": 18
+        },
+        "top_level": {
+          "pass": 2
+        },
+        "leaf": {
+          "pass": 16
+        }
+      }
+    },
+    {
+      "label": "race-public-fix",
+      "exit_code": 0,
+      "counts": {
+        "all_named": {
+          "pass": 18
+        },
+        "top_level": {
+          "pass": 2
+        },
+        "leaf": {
+          "pass": 16
+        }
+      }
+    },
+    {
+      "label": "full-store",
+      "exit_code": 1,
+      "counts": {
+        "all_named": {
+          "pass": 94,
+          "fail": 1,
+          "skip": 1
+        },
+        "top_level": {
+          "pass": 46,
+          "fail": 1,
+          "skip": 1
+        },
+        "leaf": {
+          "pass": 84,
+          "fail": 1,
+          "skip": 1
+        }
+      }
+    },
+    {
+      "label": "full-store-cwd-repair",
+      "exit_code": 0,
+      "counts": {
+        "all_named": {
+          "pass": 1
+        },
+        "top_level": {
+          "pass": 1
+        },
+        "leaf": {
+          "pass": 1
+        }
+      }
+    }
+  ],
+  "store_regression_counts": {
+    "all_named": {
+      "pass": 95,
+      "skip": 1
+    },
+    "top_level": {
+      "pass": 47,
+      "skip": 1
+    },
+    "leaf": {
+      "pass": 85,
+      "skip": 1
+    }
+  },
+  "original_backup_files": 15,
+  "database_checks": [
+    {
+      "case": "public-put",
+      "table_count": 42,
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "changed_tables": [
+        "document_versions",
+        "documents"
+      ],
+      "history_versions": [
+        1,
+        2,
+        4,
+        6,
+        8,
+        10,
+        12,
+        14,
+        16,
+        18,
+        20,
+        22,
+        24,
+        26,
+        27
+      ],
+      "current_local_revision": 27
+    },
+    {
+      "case": "default-put",
+      "table_count": 42,
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "changed_tables": [],
+      "history_versions": [
+        1,
+        2,
+        4,
+        6,
+        8,
+        10,
+        12,
+        14,
+        16,
+        18,
+        20,
+        22,
+        24,
+        26
+      ],
+      "current_local_revision": null
+    },
+    {
+      "case": "original-control",
+      "table_count": 42,
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "changed_tables": [],
+      "history_versions": [
+        1,
+        2,
+        4,
+        6,
+        8,
+        10,
+        12,
+        14,
+        16,
+        18,
+        20,
+        22,
+        24,
+        26
+      ],
+      "current_local_revision": null
+    }
+  ],
+  "final_release_combination_verified": false,
+  "errors": []
+}

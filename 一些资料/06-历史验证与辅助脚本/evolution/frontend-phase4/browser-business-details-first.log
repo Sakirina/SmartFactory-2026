@@ -1,0 +1,143 @@
+
+Running 6 tests using 1 worker
+
+(node:6831) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/phase4-business-details.spec.ts:17:1 › alarm version conflict retains reviewed basis and reason until explicit adoption (1.5m)
+(node:6954) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 tests/phase4-business-details.spec.ts:37:1 › handover changes allowed actor and the new owner completes the work order (1.5m)
+(node:7165) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  3 tests/phase4-business-details.spec.ts:49:1 › template conflict keeps zero drafts and retry appends a persisted attempt (1.7s)
+  ✘  4 tests/phase4-business-details.spec.ts:63:1 › three protocol metadata forms validate required fields enums units and preserve numeric extensions (2.4s)
+(node:7186) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  5 tests/phase4-business-details.spec.ts:82:1 › node metadata checks ranges units enums and exact extension before saving a draft (1.9s)
+(node:7204) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  6 tests/phase4-business-details.spec.ts:92:1 › draft polling and version conflict retain current editing through explicit version refresh (2.7s)
+
+
+  1) tests/phase4-business-details.spec.ts:17:1 › alarm version conflict retains reviewed basis and reason until explicit adoption 
+
+    Test timeout of 90000ms exceeded.
+
+    Error: page.waitForResponse: Test timeout of 90000ms exceeded.
+
+      28 |   const oldInput = JSON.parse(rejected.request().postData()!);
+      29 |   await modal.getByRole('button', { name: '采用更新后的告警依据', exact: true }).click();
+    > 30 |   waiting = page.waitForResponse(response => response.request().method() === 'POST' && response.url().endsWith('/actions'));
+         |                  ^
+      31 |   await modal.getByRole('button', { name: '提交处置', exact: true }).click(); const saved = await waiting; expect(saved.status()).toBe(200);
+      32 |   const newInput = JSON.parse(saved.request().postData()!); expect(newInput.reason).toBe(reason); expect(newInput.expected_version).toBeGreaterThan(oldInput.expected_version); expect(newInput.request_id).not.toBe(oldInput.request_id);
+      33 |   await expect(modal).toBeHidden(); await expect(page.getByRole('button', { name: '完成处置', exact: true })).toBeDisabled();
+        at /path/to/SmartFactory-2026/Frontends/tests/phase4-business-details.spec.ts:30:18
+
+    Error: locator.click: Test timeout of 90000ms exceeded.
+    Call log:
+      - waiting for getByRole('dialog', { name: '添加备注', exact: true }).getByRole('button', { name: '提交处置', exact: true })
+
+
+      29 |   await modal.getByRole('button', { name: '采用更新后的告警依据', exact: true }).click();
+      30 |   waiting = page.waitForResponse(response => response.request().method() === 'POST' && response.url().endsWith('/actions'));
+    > 31 |   await modal.getByRole('button', { name: '提交处置', exact: true }).click(); const saved = await waiting; expect(saved.status()).toBe(200);
+         |                                                                  ^
+      32 |   const newInput = JSON.parse(saved.request().postData()!); expect(newInput.reason).toBe(reason); expect(newInput.expected_version).toBeGreaterThan(oldInput.expected_version); expect(newInput.request_id).not.toBe(oldInput.request_id);
+      33 |   await expect(modal).toBeHidden(); await expect(page.getByRole('button', { name: '完成处置', exact: true })).toBeDisabled();
+      34 |   await writeFile(path.join(evidence, 'alarm-conflict-adoption.json'), JSON.stringify({ other, oldInput, newInput, saved: await saved.json() }, null, 2)); await capture(page, 'alarm-conflict-explicit-adoption');
+        at /path/to/SmartFactory-2026/Frontends/tests/phase4-business-details.spec.ts:31:66
+
+    Error Context: ../../../../../private/tmp/smartfactory-frontend-phase4-20261005/playwright-results/phase4-business-details-al-e5c36-son-until-explicit-adoption/error-context.md
+
+  2) tests/phase4-business-details.spec.ts:37:1 › handover changes allowed actor and the new owner completes the work order 
+
+    Test timeout of 90000ms exceeded.
+
+    Error: locator.click: Test timeout of 90000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: '退出', exact: true })
+        - locator resolved to <button type="button" class="ant-btn css-19u5a7b css-var-_r_0_ ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-sm">…</button>
+      - attempting click action
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <div id="_r_5_" class="ant-drawer-title">工单责任与交接记录</div> from <div>…</div> subtree intercepts pointer events
+        - retrying click action
+        - waiting 20ms
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <div id="_r_5_" class="ant-drawer-title">工单责任与交接记录</div> from <div>…</div> subtree intercepts pointer events
+        - retrying click action
+          - waiting 100ms
+        171 × waiting for element to be visible, enabled and stable
+            - element is visible, enabled and stable
+            - scrolling into view if needed
+            - done scrolling
+            - <div id="_r_5_" class="ant-drawer-title">工单责任与交接记录</div> from <div>…</div> subtree intercepts pointer events
+          - retrying click action
+            - waiting 500ms
+
+
+      39 |   await login(page); await route(page, 'work-orders?work_order=' + encodeURIComponent(id));
+      40 |   await expect(page.getByRole('button', { name: '办理交接', exact: true })).toBeDisabled(); await capture(page, 'work-order-former-owner-permission');
+    > 41 |   await page.getByRole('button', { name: '退出', exact: true }).click(); await login(page, 'cloud', 'index.html', 'operator-b'); await route(page, 'work-orders?work_order=' + encodeURIComponent(id));
+         |                                                               ^
+      42 |   await page.getByRole('button', { name: '完成工单', exact: true }).click(); const modal = page.getByRole('dialog', { name: '完成工单', exact: true });
+      43 |   await modal.getByLabel('工单变更理由').fill('下一班次已完成温度与风机复核'); const waiting = page.waitForResponse(response => response.request().method() === 'POST' && response.url().endsWith('/actions'));
+      44 |   await modal.getByRole('button', { name: '提交工单变更', exact: true }).click(); const response = await waiting; expect(response.status()).toBe(200);
+        at /path/to/SmartFactory-2026/Frontends/tests/phase4-business-details.spec.ts:41:63
+
+    Error Context: ../../../../../private/tmp/smartfactory-frontend-phase4-20261005/playwright-results/phase4-business-details-ha-c4e5a-er-completes-the-work-order/error-context.md
+
+  3) tests/phase4-business-details.spec.ts:63:1 › three protocol metadata forms validate required fields enums units and preserve numeric extensions 
+
+    Error: locator.click: Error: strict mode violation: locator('.ant-select-dropdown:visible').getByText('GOOD', { exact: true }) resolved to 2 elements:
+        1) <div role="option" aria-label="GOOD" id="_r_f__list_0" aria-selected="false">GOOD</div> aka getByRole('option', { name: 'GOOD' })
+        2) <div class="ant-select-item-option-content">GOOD</div> aka getByText('GOOD').nth(2)
+
+    Call log:
+      - waiting for locator('.ant-select-dropdown:visible').getByText('GOOD', { exact: true })
+
+
+      68 |     const drawer = page.getByRole('dialog', { name: '设备基础参数编辑' }); await drawer.getByRole('tab', { name: '数据点', exact: true }).click(); const key = drawer.getByLabel(/^数据点 1：数据字段/); const oldKey = await key.inputValue();
+      69 |     await key.fill(''); await drawer.getByRole('button', { name: '配置预检', exact: true }).click(); await expect(drawer.getByText('配置预检存在问题', { exact: true })).toBeVisible(); await key.fill(oldKey);
+    > 70 |     const quality = drawer.getByLabel(/^数据点 1：质量/); await quality.click(); await expect(page.locator('.ant-select-dropdown:visible').getByText('UNCERTAIN', { exact: true })).toBeVisible(); await page.locator('.ant-select-dropdown:visible').getByText('GOOD', { exact: true }).click();
+         |                                                                                                                                                                                                                                                                                    ^
+      71 |     await drawer.getByRole('tab', { name: '采样', exact: true }).click(); await expect(drawer.getByLabel(/^采样周期（ms）/)).toBeVisible();
+      72 |     await drawer.getByRole('tab', { name: '完整参数与扩展', exact: true }).click(); const raw = drawer.getByLabel('完整协议参数'); const text = (await raw.inputValue()).trim(); await raw.fill(text.slice(0, -1) + ',"extension_counter":9007199254740993,"extension_object":{"保留":"未知扩展"}}');
+      73 |     await drawer.getByRole('button', { name: '配置预检', exact: true }).click(); await expect(drawer.getByText('配置预检通过', { exact: true })).toBeVisible();
+        at /path/to/SmartFactory-2026/Frontends/tests/phase4-business-details.spec.ts:70:276
+
+    Error Context: ../../../../../private/tmp/smartfactory-frontend-phase4-20261005/playwright-results/phase4-business-details-th-103b8-preserve-numeric-extensions/error-context.md
+
+  4) tests/phase4-business-details.spec.ts:82:1 › node metadata checks ranges units enums and exact extension before saving a draft 
+
+    Error: locator.click: Error: strict mode violation: locator('.ant-select-dropdown:visible').getByText('activation', { exact: true }) resolved to 2 elements:
+        1) <div role="option" id="_r_f__list_1" aria-selected="false" aria-label="activation">activation</div> aka getByRole('option', { name: 'activation' })
+        2) <div class="ant-select-item-option-content">activation</div> aka getByText('activation').nth(2)
+
+    Call log:
+      - waiting for locator('.ant-select-dropdown:visible').getByText('activation', { exact: true })
+
+
+      84 |   const drawer = page.locator('.editor-drawer'); await drawer.getByRole('button', { name: '延时与去抖', exact: true }).click(); await drawer.locator('.react-flow__node').filter({ hasText: '延时与去抖' }).click();
+      85 |   const duration = drawer.getByLabel('等待时间（ms）', { exact: true }); await duration.fill('86400001'); await drawer.getByRole('button', { name: '应用基础参数', exact: true }).click(); await expect(drawer.getByText('等待时间超过最大值 86400000', { exact: true })).toBeVisible();
+    > 86 |   await duration.fill('1500'); await drawer.getByLabel('延时模式', { exact: true }).click(); await page.locator('.ant-select-dropdown:visible').getByText('activation', { exact: true }).click(); await drawer.getByRole('button', { name: '应用基础参数', exact: true }).click();
+         |                                                                                                                                                                                      ^
+      87 |   await drawer.getByRole('tab', { name: '完整参数与扩展', exact: true }).click(); await drawer.getByLabel('节点完整参数').fill('{"duration_ms":1500,"mode":"activation","extension_counter":9007199254740993}'); await drawer.getByRole('button', { name: '应用基础参数', exact: true }).click();
+      88 |   const waiting = page.waitForResponse(response => response.request().method() === 'POST' && response.url().endsWith('/drafts')); await drawer.getByRole('button', { name: '保存草稿', exact: true }).click(); const response = await waiting; expect(response.status()).toBe(200); const raw = await response.text(); expect(raw).toMatch(/"extension_counter":9007199254740993/);
+      89 |   await writeFile(path.join(evidence, 'node-metadata-draft.json'), raw); await capture(page, 'node-metadata-exact-save');
+        at /path/to/SmartFactory-2026/Frontends/tests/phase4-business-details.spec.ts:86:182
+
+    Error Context: ../../../../../private/tmp/smartfactory-frontend-phase4-20261005/playwright-results/phase4-business-details-no-3b431-nsion-before-saving-a-draft/error-context.md
+
+  4 failed
+    tests/phase4-business-details.spec.ts:17:1 › alarm version conflict retains reviewed basis and reason until explicit adoption 
+    tests/phase4-business-details.spec.ts:37:1 › handover changes allowed actor and the new owner completes the work order 
+    tests/phase4-business-details.spec.ts:63:1 › three protocol metadata forms validate required fields enums units and preserve numeric extensions 
+    tests/phase4-business-details.spec.ts:82:1 › node metadata checks ranges units enums and exact extension before saving a draft 
+  2 passed (3.2m)

@@ -1,0 +1,131 @@
+- generic [ref=e1]:
+  - generic [ref=e50]:
+    - complementary [ref=e51]:
+      - link "SF SmartFactory 生产安全控制台" [ref=e52] [cursor=pointer]:
+        - /url: "#overview"
+        - generic [ref=e53]: SF
+        - generic [ref=e54]:
+          - text: SmartFactory
+          - generic [ref=e55]: 生产安全控制台
+      - generic [ref=e56]: 示例工厂 / history-fixture
+      - navigation "主导航" [ref=e57]:
+        - button "运行概览" [ref=e58] [cursor=pointer]
+        - button "设备与资产" [ref=e60] [cursor=pointer]
+        - button "数据监控" [ref=e62] [cursor=pointer]
+        - button "数据分析" [ref=e64] [cursor=pointer]
+        - button "告警编排" [ref=e66] [cursor=pointer]
+        - button "联动预案" [ref=e68] [cursor=pointer]
+        - button "审批与执行" [ref=e70] [cursor=pointer]
+        - button "通知记录" [ref=e72] [cursor=pointer]
+        - button "历史补算" [ref=e74] [cursor=pointer]
+        - button "后台任务" [ref=e76] [cursor=pointer]
+        - button "历史分析" [ref=e78] [cursor=pointer]
+        - button "组织与权限" [ref=e80] [cursor=pointer]
+        - button "配置中心" [ref=e82] [cursor=pointer]
+        - button "同步插件" [ref=e84] [cursor=pointer]
+        - button "业务审计" [ref=e86] [cursor=pointer]
+        - button "运行状态" [ref=e88] [cursor=pointer]
+        - button "AI 助手" [ref=e90] [cursor=pointer]
+      - generic [ref=e92]:
+        - text: 独立实例 · 云端运行
+        - generic [ref=e94]: 规则版本与操作记录全程保存
+    - generic [ref=e95]:
+      - banner [ref=e96]:
+        - generic [ref=e97]:
+          - text: 云端控制台
+          - generic [ref=e98]: /
+          - strong [ref=e99]: 运行概览
+        - generic [ref=e100]:
+          - generic [ref=e102] [cursor=pointer]:
+            - generic "每秒刷新" [ref=e103]:
+              - text: 每秒刷新
+              - combobox "页面刷新方式" [expanded] [active] [ref=e104]:
+                - listbox:
+                  - option "实时推送": "-1"
+                  - option "每秒刷新" [selected]: "1000"
+                  - option "每 5 秒刷新": "5000"
+            - img "down" [ref=e106]
+          - generic [ref=e109]: 平台管理员
+          - button "退出" [ref=e111] [cursor=pointer]
+      - main [ref=e113]:
+        - generic [ref=e114]:
+          - generic [ref=e115]:
+            - heading "工厂运行概览" [level=1] [ref=e116]
+            - paragraph [ref=e117]: 观测、告警与来源状态 · 最近更新 07:00:29
+          - button "更新数据" [ref=e119] [cursor=pointer]
+        - generic [ref=e121]:
+          - generic [ref=e122]:
+            - generic [ref=e123]: 设备与资产
+            - strong [ref=e124]: "4"
+            - generic [ref=e125]: 按当前资源权限展示
+          - generic [ref=e126]:
+            - generic [ref=e127]: 正在持续的告警
+            - strong [ref=e128]: "0"
+            - generic [ref=e129]: 当前没有持续中的告警
+          - generic [ref=e130]:
+            - generic [ref=e131]: 有效观测
+            - strong [ref=e132]: "13"
+            - generic [ref=e133]: 当前查询范围内的 GOOD 数据
+          - generic [ref=e134]:
+            - generic [ref=e135]: 等待投递
+            - strong [ref=e136]: "15"
+            - generic [ref=e137]: 包含同步、业务确认与外部适配
+        - generic [ref=e138]:
+          - generic [ref=e139]:
+            - generic [ref=e141]:
+              - generic [ref=e142]: 近期观测趋势
+              - link "历史与修订记录" [ref=e144] [cursor=pointer]:
+                - /url: "#data"
+            - generic [ref=e145]:
+              - img "测点历史趋势，虚线表示数据修订" [ref=e146]
+              - generic [ref=e149]:
+                - generic [ref=e150]:
+                  - text: 有效
+                  - strong [ref=e151]: "13"
+                - generic [ref=e152]:
+                  - text: 已排除
+                  - strong [ref=e153]: "0"
+                - generic [ref=e154]:
+                  - text: 缺失
+                  - strong [ref=e155]: 未知
+                - generic [ref=e156]:
+                  - text: 完整程度
+                  - strong [ref=e157]: 未知
+          - generic [ref=e158]:
+            - generic [ref=e159]: 现场来源
+            - generic [ref=e162]:
+              - table [ref=e169]:
+                - rowgroup [ref=e170]:
+                  - row [ref=e171]:
+                    - columnheader "来源" [ref=e172]
+                    - columnheader "运行状态" [ref=e173]
+                    - columnheader "最后通信" [ref=e174]
+                    - columnheader "补传" [ref=e175]
+                - rowgroup [ref=e176]:
+                  - row [ref=e177]:
+                    - cell "fixture-live-source" [ref=e178]
+                    - cell "离线" [ref=e179]
+                    - cell "06:35:29" [ref=e181]
+                    - cell "已完成" [ref=e182]
+              - generic [ref=e184]: 来源超过心跳时限后显示离线，补传与计算状态分别保留。
+        - generic [ref=e185]:
+          - generic [ref=e186]: 当前告警
+          - table [ref=e196]:
+            - rowgroup [ref=e197]:
+              - row [ref=e198]:
+                - columnheader "规则 / 设备" [ref=e199]
+                - columnheader "级别" [ref=e200]
+                - columnheader "状态" [ref=e201]
+                - columnheader "最近发生" [ref=e202]
+                - columnheader "合并次数" [ref=e203]
+            - rowgroup [ref=e204]:
+              - row [ref=e205]:
+                - cell "当前没有告警记录" [ref=e206]
+      - contentinfo [ref=e207]:
+        - text: SmartFactory · history-fixture
+        - generic [ref=e208]: 界面时间使用 Asia/Shanghai 时区
+  - generic [ref=e214]:
+    - generic "实时推送" [ref=e215] [cursor=pointer]
+    - generic "每秒刷新" [ref=e217] [cursor=pointer]
+    - generic "每 5 秒刷新" [ref=e219] [cursor=pointer]
+    - generic "手动查询" [ref=e221] [cursor=pointer]

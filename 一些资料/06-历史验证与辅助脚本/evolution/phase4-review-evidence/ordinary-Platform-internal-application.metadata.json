@@ -1,0 +1,164 @@
+{
+  "label": "ordinary-Platform-internal-application",
+  "command": [
+    "go",
+    "tool",
+    "test2json",
+    "-t",
+    "-p",
+    "competition2026/product/platform/internal/application",
+    "/private/tmp/smartfactory-phase4-independent-20261005/bin/Platform-internal-application.test",
+    "-test.v=test2json",
+    "-test.count=1",
+    "-test.parallel=1",
+    "-test.timeout=240s",
+    "-test.run=."
+  ],
+  "cwd": "/private/tmp/smartfactory-phase4-independent-20261005/workspace/Platform/internal/application",
+  "started_at": "2026-10-05T02:19:38.684240+00:00",
+  "completed_at": "2026-10-05T02:20:24.079147+00:00",
+  "elapsed_seconds": 45.394,
+  "exit_code": 0,
+  "postgres": false,
+  "stdout": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/ordinary-Platform-internal-application.stdout.log",
+    "sha256": "b152ba8e9638430a1f3cc441ac6732d1656b3fd948fea72ed2f702444ae595b6",
+    "bytes": 135956
+  },
+  "stderr": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/ordinary-Platform-internal-application.stderr.log",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "counts": {
+    "top_level": {
+      "pass": 40,
+      "fail": 0,
+      "skip": 9
+    },
+    "leaf": {
+      "pass": 72,
+      "fail": 0,
+      "skip": 19
+    },
+    "all_named": {
+      "pass": 85,
+      "fail": 0,
+      "skip": 19
+    },
+    "packages": {
+      "pass": 1,
+      "fail": 0,
+      "skip": 0
+    },
+    "skips": [
+      {
+        "package": "competition2026/product/platform/internal/application",
+        "test": "TestPostgresIndependentDraftsShareAuthorizationWithoutSerialization",
+        "reason": "=== RUN   TestPostgresIndependentDraftsShareAuthorizationWithoutSerialization\n    concurrency_postgres_test.go:19: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresIndependentDraftsShareAuthorizationWithoutSerialization (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/application",
+        "test": "TestHistoryCrashProcess",
+        "reason": "=== RUN   TestHistoryCrashProcess\n    history_restart_test.go:51: subprocess helper\n--- SKIP: TestHistoryCrashProcess (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/application",
+        "test": "TestPostgresHistoryReplayCrossVersionAssetsAndImmutableSnapshot",
+        "reason": "=== RUN   TestPostgresHistoryReplayCrossVersionAssetsAndImmutableSnapshot\n    history_test.go:102: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresHistoryReplayCrossVersionAssetsAndImmutableSnapshot (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/application",
+        "test": "TestPostgresHistoryRiverWorkerExecutesDurableAnalysis",
+        "reason": "=== RUN   TestPostgresHistoryRiverWorkerExecutesDurableAnalysis\n    history_test.go:355: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresHistoryRiverWorkerExecutesDurableAnalysis (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/application",
+        "test": "TestQueryApplicationPostgres/signed-paging-candidates-and-current-authorization",
+        "reason": "=== RUN   TestQueryApplicationPostgres/signed-paging-candidates-and-current-authorization\n    queries_test.go:99: isolated PostgreSQL integration DSN required\n--- SKIP: TestQueryApplicationPostgres/signed-paging-candidates-and-current-authorization (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/application",
+        "test": "TestQueryApplicationPostgres/shared-window-deletion-and-restart-resume",
+        "reason": "=== RUN   TestQueryApplicationPostgres/shared-window-deletion-and-restart-resume\n    queries_test.go:134: isolated PostgreSQL integration DSN required\n--- SKIP: TestQueryApplicationPostgres/shared-window-deletion-and-restart-resume (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/application",
+        "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/user",
+        "reason": "=== RUN   TestQueryApplicationPostgres/identity-grant-session-reset-and-release/user\n    queries_test.go:218: isolated PostgreSQL integration DSN required\n--- SKIP: TestQueryApplicationPostgres/identity-grant-session-reset-and-release/user (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/application",
+        "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/grant",
+        "reason": "=== RUN   TestQueryApplicationPostgres/identity-grant-session-reset-and-release/grant\n    queries_test.go:218: isolated PostgreSQL integration DSN required\n--- SKIP: TestQueryApplicationPostgres/identity-grant-session-reset-and-release/grant (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/application",
+        "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/session",
+        "reason": "=== RUN   TestQueryApplicationPostgres/identity-grant-session-reset-and-release/session\n    queries_test.go:218: isolated PostgreSQL integration DSN required\n--- SKIP: TestQueryApplicationPostgres/identity-grant-session-reset-and-release/session (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/application",
+        "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/ancestry",
+        "reason": "=== RUN   TestQueryApplicationPostgres/identity-grant-session-reset-and-release/ancestry\n    queries_test.go:218: isolated PostgreSQL integration DSN required\n--- SKIP: TestQueryApplicationPostgres/identity-grant-session-reset-and-release/ancestry (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/application",
+        "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/rebuild",
+        "reason": "=== RUN   TestQueryApplicationPostgres/identity-grant-session-reset-and-release/rebuild\n    queries_test.go:218: isolated PostgreSQL integration DSN required\n--- SKIP: TestQueryApplicationPostgres/identity-grant-session-reset-and-release/rebuild (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/application",
+        "test": "TestQueryApplicationPostgres/identity-grant-session-reset-and-release/expiry",
+        "reason": "=== RUN   TestQueryApplicationPostgres/identity-grant-session-reset-and-release/expiry\n    queries_test.go:218: isolated PostgreSQL integration DSN required\n--- SKIP: TestQueryApplicationPostgres/identity-grant-session-reset-and-release/expiry (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/application",
+        "test": "TestQueryApplicationPostgres/bounded-slow-consumer-and-monotonic-resume",
+        "reason": "=== RUN   TestQueryApplicationPostgres/bounded-slow-consumer-and-monotonic-resume\n    queries_test.go:281: isolated PostgreSQL integration DSN required\n--- SKIP: TestQueryApplicationPostgres/bounded-slow-consumer-and-monotonic-resume (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/application",
+        "test": "TestQueryApplicationPostgres/execution-candidates-refresh-definition-and-evidence",
+        "reason": "=== RUN   TestQueryApplicationPostgres/execution-candidates-refresh-definition-and-evidence\n    queries_test.go:329: isolated PostgreSQL integration DSN required\n--- SKIP: TestQueryApplicationPostgres/execution-candidates-refresh-definition-and-evidence (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/application",
+        "test": "TestPostgresShadowProductionDerivedRevisionComparedWithCommittedRecompute",
+        "reason": "=== RUN   TestPostgresShadowProductionDerivedRevisionComparedWithCommittedRecompute\n    shadow_test.go:21: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresShadowProductionDerivedRevisionComparedWithCommittedRecompute (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/application",
+        "test": "TestPostgresShadowProductionDeliveriesDeduplicateContinueAndWaitForParent",
+        "reason": "=== RUN   TestPostgresShadowProductionDeliveriesDeduplicateContinueAndWaitForParent\n    shadow_test.go:253: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresShadowProductionDeliveriesDeduplicateContinueAndWaitForParent (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/application",
+        "test": "TestBusinessConcurrentHandoverPostgres",
+        "reason": "=== RUN   TestBusinessConcurrentHandoverPostgres\n    business_concurrency_test.go:69: isolated PostgreSQL integration DSN required\n--- SKIP: TestBusinessConcurrentHandoverPostgres (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/application",
+        "test": "TestBusinessWorkflowPostgres",
+        "reason": "=== RUN   TestBusinessWorkflowPostgres\n    business_integration_test.go:144: isolated PostgreSQL integration DSN required\n--- SKIP: TestBusinessWorkflowPostgres (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/application",
+        "test": "TestBusinessConcurrentAlarmPostgres",
+        "reason": "=== RUN   TestBusinessConcurrentAlarmPostgres\n    business_integration_test.go:462: isolated PostgreSQL integration DSN required\n--- SKIP: TestBusinessConcurrentAlarmPostgres (0.00s)\n"
+      }
+    ],
+    "failures": [],
+    "races": 0
+  },
+  "build_inputs": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/build-inputs.json",
+    "sha256": "88fdc87b09a840748a6cadc356b019dcf324905175ecb4f7fb3e38f7c7981643",
+    "bytes": 1717015
+  },
+  "binary": {
+    "path": "/private/tmp/smartfactory-phase4-independent-20261005/bin/Platform-internal-application.test",
+    "sha256": "8df67dae1f229faa4584f78c4a347324059956ea582164509b14be5f54ea925a",
+    "bytes": 39926210
+  }
+}

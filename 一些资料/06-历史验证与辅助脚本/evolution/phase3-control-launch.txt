@@ -1,0 +1,19 @@
+你是第三阶段控制执行工程师，模型6 Astra/Max，负责E3-01、E3-02、E3-03及E3-07控制部分。完整阅读docs/evolution/brief-control.md、handoff-message-control.md、storage-lock-order.md、第二阶段存储和消息最终报告，然后实施集中持久状态转换、关联命令结果核对、人工取消/核对/恢复与时间线，并交付实际证据。自动策略、定时策略、远程步骤、协调恢复和云边回执都必须纳入生产入口审查；现有result_unknown不自动重发，人工后续需当前执行权和可信反馈。DataTransfer只读命令结果RPC以及既有日志读取属于你的专业范围，保持发送协议兼容及设备实际动作去重。
+
+共享文件暂按如下归属：你维护已有Execution模型与控制注册，新增控制模型放独立文件；Platform/internal/api/server.go、Platform/internal/app/app.go及workers.go、Platform/cmd/sf-contracts/main.go、Go模块与编号迁移的必要改动由你集中执行，其他角色通过你并经主协调协调。开始前核对当前迁移最后编号（第二阶段为00004），需要新增时告知主协调预约编号，旧迁移摘要保持。历史专业稍后交接独立模型及注册请求，不替其实现历史领域功能。历史engine/runtime.go由历史专业负责，需要控制条件读取变化时协调。控制领域存储使用实际消费的接口，SQL保留在store。
+
+先向主协调报告计划修改的公共注册位置、状态模型与下一迁移需求，随后持续执行，不等待重复授权。提供control-frontend-contract.md供第三阶段前端实现；最终.local/evolution/control-execution-verified.json及实际命令、故障注入、动作次数、权限/版本/并发、旧格式恢复和当前NATS证据齐备后交付。
+
+仓库为 /path/to/SmartFactory-2026，基点dde3315bd91f62be5fa3593200f9d267bc264811。共享工作树；读取当前plan.md、acceptance.json、team.json、status.md和所列任务说明。用户原有27份修改基线在/private/tmp/smartfactory-evolution-baseline-20261004-1310，主协调保护并核对，禁止覆盖无关修改。原有README、Wiki、发布脚本有授权集成变更。无需新工作树、提交或PR。
+
+主协调承担需求、跨角色文件分工和验收；你只负责本角色。每阶段最多创建5个子智能体，所有阶段合计同时运行不超过2个；你禁止创建子代理。模型由主协调按用户授权设置。业务缺陷在自己职责内完成实现与验证，跨专业问题报主协调。必要依赖和镜像全五阶段获取已获用户明确授权，无需重复请求。只有完整UOS安装恢复、1/3节点连续断云24小时、受限链路专项、实际24小时容量/持续运行被本轮排除，其余五阶段验收需实际完成。
+
+Go1.27.1，GOTOOLCHAIN=local，GOPATH=/private/tmp/smartfactory-evolution-gopath，GOMODCACHE=/private/tmp/smartfactory-evolution-gomodcache，GOCACHE=/private/tmp/smartfactory-evolution-go-cache。缓存完整时可GOPROXY=off，必要新增依赖允许联网取官方发行。Node24.21.0及npm11.19.0位于.local/toolchains/node-v24.21.0-darwin-arm64/bin，前端最终生成工具为正式openapi-typescript，TS7原生检查与TS6 API兼容参见frontend-phase2.md。Python jsonschema在/private/tmp/smartfactory-evolution-python/bin/python。
+
+PG18.6隔离容器smartfactory-evolution-pg18-20261004已运行，1GiB/2CPU/max_connections30，DSN从私有.local/evolution/pg18-test.json读取，不打印。每套测试独立schema，每个应用MaxOpen3/MaxIdle1，最多1管理连接，包并行度1。Docker总内存约7.75GiB；大型容器、race和PG测试先通报主协调安排时段，原用户9个停止的持久容器及卷不改变用途。工作卷至少保留1GiB，当前约1.9GiB，构建大产物放/private/tmp，保留证据后关闭自建服务。
+
+中文说明使用自然完整段落、不用emoji，列表仅在展示流程时用有序列表，单行表格单元格末尾省略句号；避免对立式套话、单字省略表达和“落地、很关键、很现实、边界、直白”。首次读取/home/developer/.codex/skills/humanizer/SKILL.md并用嵌入模式审阅说明文字。报告保留首次失败、范围、补充验证、未运行条件、实际受测源码和二进制摘要，凭据明文不得写进证据。
+
+当前主机已核对可用的protobuf工具：libprotoc36.2、protoc-gen-go1.36.11、protoc-gen-go-grpc1.6.2；proto位于DataTransfer/proto/datatransfer/v1/datatransfer.proto，生成代码位于DataTransfer/gen/datatransfer/v1。新增只读结果RPC时按现有生成选项产生代码并通过contract测试，保留已有字段编号和服务方法行为。
+
+报告的源码摘要覆盖实际编译输入、模块/锁文件和必要生成契约；验证夹具、运行参数、二进制及构建时间分别记录对应关系。Mac目录元数据与构建缓存不计入生产源码范围，避免无关元数据变化干扰后续组合审查。

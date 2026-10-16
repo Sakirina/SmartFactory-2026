@@ -1,0 +1,141 @@
+{
+  "schema_version": 1,
+  "failure_times_utc": [
+    "2026-10-04T14:23:07.987Z",
+    "2026-10-04T14:26:08.165Z",
+    "2026-10-04T14:28:04.688Z",
+    "2026-10-04T14:28:18.698Z"
+  ],
+  "failures": [
+    "PostgreSQL backend signal9; automatic WAL recovery",
+    "max_connections=30 exhausted by two default Hikari pools"
+  ],
+  "before": {
+    "postgres_memory_bytes": 536870912,
+    "postgres_max_connections": 30,
+    "tb_default_hikari_max_pool_per_instance": 16
+  },
+  "after": {
+    "postgres_memory_bytes": 1073741824,
+    "postgres_max_connections": 30,
+    "tb_hikari_max_pool_per_instance": 4,
+    "tb_hikari_min_idle_per_instance": 1
+  },
+  "resource_limits": {
+    "ce": 3221225472,
+    "edge": 1879048192,
+    "kafka": 1073741824,
+    "postgres": 1073741824
+  },
+  "steps": [
+    {
+      "name": "pg_live_memory_limit",
+      "exit_code": 0
+    },
+    {
+      "name": "edge_marker_copy",
+      "exit_code": 0
+    },
+    {
+      "name": "ce_restart_with_bounded_pool",
+      "exit_code": 0
+    },
+    {
+      "name": "edge_stop",
+      "exit_code": 0
+    },
+    {
+      "name": "edge_restart_with_bounded_pool",
+      "exit_code": 0
+    }
+  ],
+  "ce_container_id": "2cf6da3c7101b7d7a6e0c912402866890b9d2cfbaf6c9c904221b029e97ea634",
+  "edge_container_id": "fd82569e5b38b254fb97d092a485489c286697b20038192f54463ca5dc378ecb",
+  "status": "bounded_repair_verified",
+  "kafka_recovery": {
+    "container_id": "bdb9780031d2a24e622d442f199b922fbbe3e54be058b8237f00605ac9bda483",
+    "heap_max_mib": 256,
+    "log_segment_bytes": 16777216,
+    "status": "ready",
+    "at": "2026-10-04T14:42:42.356469+00:00",
+    "previous_temporary_queue": "OOM-terminated broker recreated with a fresh temporary queue; prior platform/TB persisted observations and duplicate suppression verified independently"
+  },
+  "first_connection_exhaustion_utc": "2026-10-04T14:23:07.913Z",
+  "docker_oom_events": [
+    {
+      "action": "oom",
+      "name": "smartfactory-evolution-pg18-20261004",
+      "time_unix": 1791123787,
+      "time_utc": "2026-10-04T14:23:07+00:00",
+      "time_nano": 1791123787998396304
+    },
+    {
+      "action": "oom",
+      "name": "smartfactory-evolution-pg18-20261004",
+      "time_unix": 1791123968,
+      "time_utc": "2026-10-04T14:26:08+00:00",
+      "time_nano": 1791123968176040721
+    },
+    {
+      "action": "oom",
+      "name": "smartfactory-evolution-pg18-20261004",
+      "time_unix": 1791124084,
+      "time_utc": "2026-10-04T14:28:04+00:00",
+      "time_nano": 1791124084698555761
+    },
+    {
+      "action": "oom",
+      "name": "smartfactory-evolution-pg18-20261004",
+      "time_unix": 1791124098,
+      "time_utc": "2026-10-04T14:28:18+00:00",
+      "time_nano": 1791124098714641795
+    },
+    {
+      "action": "oom",
+      "name": "sf-evolution-ce-20261004",
+      "time_unix": 1791124168,
+      "time_utc": "2026-10-04T14:29:28+00:00",
+      "time_nano": 1791124168740862508
+    },
+    {
+      "action": "oom",
+      "name": "sf-evolution-kafka-20261004",
+      "time_unix": 1791124831,
+      "time_utc": "2026-10-04T14:40:31+00:00",
+      "time_nano": 1791124831724586801
+    },
+    {
+      "action": "oom",
+      "name": "sf-evolution-ce-20261004",
+      "time_unix": 1791125515,
+      "time_utc": "2026-10-04T14:51:55+00:00",
+      "time_nano": 1791125515978409173
+    }
+  ],
+  "before_controlled_ce_repair": {
+    "container_memory_bytes": 2684354560,
+    "heap_max_mib": 640,
+    "metaspace_max_mib": 320,
+    "direct_max_mib": 96,
+    "code_cache_max_mib": 96,
+    "observed_failure": "Docker cgroup OOM at 2026-10-04T14:51:55Z followed by exit137"
+  },
+  "controlled_ce_repair": {
+    "container_memory_bytes": 3221225472,
+    "heap_max_mib": 512,
+    "metaspace_max_mib": 256,
+    "direct_max_mib": 64,
+    "code_cache_max_mib": 64,
+    "nmt": "summary",
+    "evidence": ".local/evolution/native-controlled-resources.json",
+    "result": "passed",
+    "elapsed_seconds": 164.019,
+    "exit_code": 143,
+    "oom_killed": false
+  },
+  "retained_data_evidence": [
+    ".local/evolution/native-post-resource-verification.json",
+    ".local/evolution/native-controlled-roundtrip.json",
+    ".local/evolution/native-controlled-resources.json"
+  ]
+}

@@ -1,0 +1,574 @@
+{
+  "snapshot": "/private/tmp/smartfactory-query-final-20261005-082007",
+  "runtime": {
+    "GOMAXPROCS": 2,
+    "GOPROXY": "off",
+    "package_parallelism": 1,
+    "postgres_database": "private isolated PostgreSQL DSN supplied through environment",
+    "max_application_connections": 3,
+    "max_idle_connections": 1
+  },
+  "runs": [
+    {
+      "name": "final-build-tests",
+      "command": [
+        "go",
+        "test",
+        "-c",
+        "-trimpath",
+        "-p",
+        "1",
+        "-o",
+        "/private/tmp/smartfactory-query-final-20261005-082007/binaries",
+        "./internal/store",
+        "./internal/application",
+        "./internal/api",
+        "./internal/cloudsync",
+        "./internal/control"
+      ],
+      "cwd": "/private/tmp/smartfactory-query-final-20261005-082007/Platform",
+      "started_at": "2026-10-05T00:21:52.567871+00:00",
+      "completed_at": "2026-10-05T00:22:34.927210+00:00",
+      "elapsed_seconds": 42.359,
+      "exit_code": 0,
+      "log": ".local/evolution/query-evidence/final-build-tests.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "input_manifest_sha256": "af5cf166fc6226e7bb819f2f9d077c756611a48887584b745779b57fc947d4ae"
+    },
+    {
+      "name": "final-store",
+      "command": [
+        "go",
+        "tool",
+        "test2json",
+        "-t",
+        "-p",
+        "competition2026/product/platform/internal/store",
+        "/private/tmp/smartfactory-query-final-20261005-082007/binaries/store.test",
+        "-test.v=test2json",
+        "-test.timeout=120s",
+        "-test.run=^Test(Query|ControlEvidenceAtomicReceiptAndImmutableIdentity|PostgresControlEvidenceAtomicReceiptAndImmutableIdentity)",
+        "-test.count=1"
+      ],
+      "cwd": "/private/tmp/smartfactory-query-final-20261005-082007/Platform",
+      "started_at": "2026-10-05T00:22:34.943139+00:00",
+      "completed_at": "2026-10-05T00:22:41.327890+00:00",
+      "elapsed_seconds": 6.385,
+      "exit_code": 0,
+      "log": ".local/evolution/query-evidence/final-store.jsonl",
+      "log_sha256": "628e23fb33b64b6eb884051c244c0e0e47cca7f7a93f3c5986b4d8d82a26a736",
+      "input_manifest_sha256": "af5cf166fc6226e7bb819f2f9d077c756611a48887584b745779b57fc947d4ae",
+      "executed_binary_sha256": "936ecf579be3178273310e0b682c68fcd30d135ab0d8dff68193391022c8caaf"
+    },
+    {
+      "name": "final-application",
+      "command": [
+        "go",
+        "tool",
+        "test2json",
+        "-t",
+        "-p",
+        "competition2026/product/platform/internal/application",
+        "/private/tmp/smartfactory-query-final-20261005-082007/binaries/application.test",
+        "-test.v=test2json",
+        "-test.timeout=120s",
+        "-test.run=^TestQuery",
+        "-test.count=1"
+      ],
+      "cwd": "/private/tmp/smartfactory-query-final-20261005-082007/Platform",
+      "started_at": "2026-10-05T00:22:41.352178+00:00",
+      "completed_at": "2026-10-05T00:22:45.609695+00:00",
+      "elapsed_seconds": 4.258,
+      "exit_code": 0,
+      "log": ".local/evolution/query-evidence/final-application.jsonl",
+      "log_sha256": "3c3b663be27f5776215e912bba4ec96985f3abb0228c65210e8fa88f50616c1d",
+      "input_manifest_sha256": "af5cf166fc6226e7bb819f2f9d077c756611a48887584b745779b57fc947d4ae",
+      "executed_binary_sha256": "877c6beb10c6446aad2ae70c2177923f04a270138622ce40e7f3f689249f9fd1"
+    },
+    {
+      "name": "final-api",
+      "command": [
+        "go",
+        "tool",
+        "test2json",
+        "-t",
+        "-p",
+        "competition2026/product/platform/internal/api",
+        "/private/tmp/smartfactory-query-final-20261005-082007/binaries/api.test",
+        "-test.v=test2json",
+        "-test.timeout=120s",
+        "-test.run=^TestQuery",
+        "-test.count=1"
+      ],
+      "cwd": "/private/tmp/smartfactory-query-final-20261005-082007/Platform",
+      "started_at": "2026-10-05T00:22:45.635098+00:00",
+      "completed_at": "2026-10-05T00:23:20.290591+00:00",
+      "elapsed_seconds": 34.655,
+      "exit_code": 0,
+      "log": ".local/evolution/query-evidence/final-api.jsonl",
+      "log_sha256": "23d1f05997cd729e5942f5db08d1152283e46b50dc3ac4f193949794e584f6ce",
+      "input_manifest_sha256": "af5cf166fc6226e7bb819f2f9d077c756611a48887584b745779b57fc947d4ae",
+      "executed_binary_sha256": "1ca73db73b4696f230cc626cc0a8c2f62836d871e9b7fdbae5fabd4735fd1f30"
+    },
+    {
+      "name": "final-cloudsync",
+      "command": [
+        "go",
+        "tool",
+        "test2json",
+        "-t",
+        "-p",
+        "competition2026/product/platform/internal/cloudsync",
+        "/private/tmp/smartfactory-query-final-20261005-082007/binaries/cloudsync.test",
+        "-test.v=test2json",
+        "-test.timeout=120s",
+        "-test.run=^Test(PostgresControlReceipt|ControlReceipt)",
+        "-test.count=1"
+      ],
+      "cwd": "/private/tmp/smartfactory-query-final-20261005-082007/Platform",
+      "started_at": "2026-10-05T00:23:20.308542+00:00",
+      "completed_at": "2026-10-05T00:23:20.975358+00:00",
+      "elapsed_seconds": 0.667,
+      "exit_code": 0,
+      "log": ".local/evolution/query-evidence/final-cloudsync.jsonl",
+      "log_sha256": "912425b44f84ccc24fc64bae18e4601aab55c4840b1970a9542c51f3ba85439b",
+      "input_manifest_sha256": "af5cf166fc6226e7bb819f2f9d077c756611a48887584b745779b57fc947d4ae",
+      "executed_binary_sha256": "2b721f44e6137093eef223137c372bc5e43fe007e94c0e151faed78d05d72df0"
+    },
+    {
+      "name": "final-control",
+      "command": [
+        "go",
+        "tool",
+        "test2json",
+        "-t",
+        "-p",
+        "competition2026/product/platform/internal/control",
+        "/private/tmp/smartfactory-query-final-20261005-082007/binaries/control.test",
+        "-test.v=test2json",
+        "-test.timeout=120s",
+        "-test.run=^Test",
+        "-test.count=1"
+      ],
+      "cwd": "/private/tmp/smartfactory-query-final-20261005-082007/Platform",
+      "started_at": "2026-10-05T00:23:20.991329+00:00",
+      "completed_at": "2026-10-05T00:23:23.037946+00:00",
+      "elapsed_seconds": 2.047,
+      "exit_code": 1,
+      "log": ".local/evolution/query-evidence/final-control-initial.jsonl",
+      "log_sha256": "27d1669236ec7572ddc6794fbec83f04591242e1f484cfe30dd5e9eb2f4fcf88",
+      "input_manifest_sha256": "af5cf166fc6226e7bb819f2f9d077c756611a48887584b745779b57fc947d4ae",
+      "executed_binary_sha256": "ee97eb8ddb6de7f1457424182b23e263bcbb56dd45701902ffe4e388c69f6173"
+    },
+    {
+      "input_manifest_sha256": "cde57b93c56fb20701d258fca5b06f88b93f15de9d3e8c664ae804186c7b3033",
+      "snapshot": "/private/tmp/smartfactory-query-final-20261005-082007-v2",
+      "name": "final-v2-build-control",
+      "command": [
+        "go",
+        "test",
+        "-c",
+        "-trimpath",
+        "-p",
+        "1",
+        "-o",
+        "/private/tmp/smartfactory-query-final-20261005-082007-v2/binaries/control.test",
+        "./internal/control"
+      ],
+      "cwd": "/private/tmp/smartfactory-query-final-20261005-082007-v2/Platform",
+      "started_at": "2026-10-05T00:27:44.687420+00:00",
+      "completed_at": "2026-10-05T00:27:46.945862+00:00",
+      "elapsed_seconds": 2.258,
+      "exit_code": 0,
+      "log": ".local/evolution/query-evidence/final-v2-build-control.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "executed_binary_sha256": "4d1db835fab6b3aa44be98372e6139b84d0282637ac0acd781b2e97053341119"
+    },
+    {
+      "input_manifest_sha256": "cde57b93c56fb20701d258fca5b06f88b93f15de9d3e8c664ae804186c7b3033",
+      "snapshot": "/private/tmp/smartfactory-query-final-20261005-082007-v2",
+      "name": "final-v2-control",
+      "command": [
+        "go",
+        "tool",
+        "test2json",
+        "-t",
+        "-p",
+        "competition2026/product/platform/internal/control",
+        "/private/tmp/smartfactory-query-final-20261005-082007-v2/binaries/control.test",
+        "-test.v=test2json",
+        "-test.timeout=120s",
+        "-test.run=^Test",
+        "-test.count=1"
+      ],
+      "cwd": "/private/tmp/smartfactory-query-final-20261005-082007-v2/Platform",
+      "started_at": "2026-10-05T00:27:46.975909+00:00",
+      "completed_at": "2026-10-05T00:27:49.015658+00:00",
+      "elapsed_seconds": 2.04,
+      "exit_code": 0,
+      "log": ".local/evolution/query-evidence/final-v2-control.jsonl",
+      "log_sha256": "ed82d9809646901244344f7231df7f072f3c30bb73aba34e05b6161be7c9dc0d",
+      "executed_binary_sha256": "4d1db835fab6b3aa44be98372e6139b84d0282637ac0acd781b2e97053341119"
+    },
+    {
+      "input_manifest_sha256": "cde57b93c56fb20701d258fca5b06f88b93f15de9d3e8c664ae804186c7b3033",
+      "snapshot": "/private/tmp/smartfactory-query-final-20261005-082007-v2",
+      "name": "final-build-sf-cloud",
+      "command": [
+        "go",
+        "build",
+        "-trimpath",
+        "-p",
+        "1",
+        "-o",
+        "/private/tmp/smartfactory-query-final-20261005-082007-v2/binaries/sf-cloud",
+        "./cmd/sf-cloud"
+      ],
+      "cwd": "/private/tmp/smartfactory-query-final-20261005-082007-v2/Platform",
+      "started_at": "2026-10-05T00:27:49.031661+00:00",
+      "completed_at": "2026-10-05T00:27:54.161971+00:00",
+      "elapsed_seconds": 5.13,
+      "exit_code": 0,
+      "log": ".local/evolution/query-evidence/final-build-sf-cloud.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "executed_binary_sha256": "26564e8bfab2c038f9e753451a3c359e9c9ae561589aece38b3aabb39e27963e"
+    },
+    {
+      "input_manifest_sha256": "cde57b93c56fb20701d258fca5b06f88b93f15de9d3e8c664ae804186c7b3033",
+      "snapshot": "/private/tmp/smartfactory-query-final-20261005-082007-v2",
+      "name": "final-build-sf-edge",
+      "command": [
+        "go",
+        "build",
+        "-trimpath",
+        "-p",
+        "1",
+        "-o",
+        "/private/tmp/smartfactory-query-final-20261005-082007-v2/binaries/sf-edge",
+        "./cmd/sf-edge"
+      ],
+      "cwd": "/private/tmp/smartfactory-query-final-20261005-082007-v2/Platform",
+      "started_at": "2026-10-05T00:27:54.204329+00:00",
+      "completed_at": "2026-10-05T00:27:55.103130+00:00",
+      "elapsed_seconds": 0.899,
+      "exit_code": 0,
+      "log": ".local/evolution/query-evidence/final-build-sf-edge.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "executed_binary_sha256": "903fcb2923c0ca0b8470ccc9161ac73ee0365d69fb74fa7f381c530332f2d36b"
+    },
+    {
+      "input_manifest_sha256": "cde57b93c56fb20701d258fca5b06f88b93f15de9d3e8c664ae804186c7b3033",
+      "snapshot": "/private/tmp/smartfactory-query-final-20261005-082007-v2",
+      "name": "final-build-sf-contracts",
+      "command": [
+        "go",
+        "build",
+        "-trimpath",
+        "-p",
+        "1",
+        "-o",
+        "/private/tmp/smartfactory-query-final-20261005-082007-v2/binaries/sf-contracts",
+        "./cmd/sf-contracts"
+      ],
+      "cwd": "/private/tmp/smartfactory-query-final-20261005-082007-v2/Platform",
+      "started_at": "2026-10-05T00:27:55.144726+00:00",
+      "completed_at": "2026-10-05T00:27:55.973464+00:00",
+      "elapsed_seconds": 0.829,
+      "exit_code": 0,
+      "log": ".local/evolution/query-evidence/final-build-sf-contracts.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "executed_binary_sha256": "99c186da9b7d14f2ec3af09806d07cc13dfc23e8dca714f1c9ff0565021b4340"
+    },
+    {
+      "input_manifest_sha256": "cde57b93c56fb20701d258fca5b06f88b93f15de9d3e8c664ae804186c7b3033",
+      "snapshot": "/private/tmp/smartfactory-query-final-20261005-082007-v2",
+      "name": "final-contract-generation",
+      "command": [
+        "/private/tmp/smartfactory-query-final-20261005-082007-v2/binaries/sf-contracts",
+        "-out",
+        "/private/tmp/smartfactory-query-final-20261005-082007-v2/contracts/1.0",
+        "-examples",
+        "/private/tmp/smartfactory-query-final-20261005-082007-v2/examples/factory/definitions.json"
+      ],
+      "cwd": "/private/tmp/smartfactory-query-final-20261005-082007-v2/Platform",
+      "started_at": "2026-10-05T00:27:56.009545+00:00",
+      "completed_at": "2026-10-05T00:27:56.061528+00:00",
+      "elapsed_seconds": 0.052,
+      "exit_code": 0,
+      "log": ".local/evolution/query-evidence/final-contract-generation.log",
+      "log_sha256": "522d8c1b10ce3db5b9c7f1ad93ea6432ca8434fb9597eaff362fa7dc235eb38c",
+      "executed_binary_sha256": "99c186da9b7d14f2ec3af09806d07cc13dfc23e8dca714f1c9ff0565021b4340"
+    },
+    {
+      "input_manifest_sha256": "cde57b93c56fb20701d258fca5b06f88b93f15de9d3e8c664ae804186c7b3033",
+      "snapshot": "/private/tmp/smartfactory-query-final-20261005-082007-v2",
+      "name": "final-contract-validation",
+      "command": [
+        "/private/tmp/smartfactory-evolution-python/bin/python",
+        "/private/tmp/smartfactory-query-final-20261005-082007-v2/scripts/check-contracts.py"
+      ],
+      "cwd": "/private/tmp/smartfactory-query-final-20261005-082007-v2/Platform",
+      "started_at": "2026-10-05T00:27:56.084572+00:00",
+      "completed_at": "2026-10-05T00:27:56.943319+00:00",
+      "elapsed_seconds": 0.859,
+      "exit_code": 0,
+      "log": ".local/evolution/query-evidence/final-contract-validation.log",
+      "log_sha256": "c20510cd176b9c9da0aaa3f7223cbac941b95001491859378c340de61479fef6"
+    },
+    {
+      "input_manifest_sha256": "cde57b93c56fb20701d258fca5b06f88b93f15de9d3e8c664ae804186c7b3033",
+      "snapshot": "/private/tmp/smartfactory-query-final-20261005-082007-v2",
+      "name": "final-race-build",
+      "command": [
+        "go",
+        "test",
+        "-c",
+        "-race",
+        "-trimpath",
+        "-p",
+        "1",
+        "-o",
+        "/private/tmp/smartfactory-query-final-20261005-082007-v2/binaries/race",
+        "./internal/application",
+        "./internal/api",
+        "./internal/store",
+        "./internal/cloudsync",
+        "./internal/control"
+      ],
+      "cwd": "/private/tmp/smartfactory-query-final-20261005-082007-v2/Platform",
+      "started_at": "2026-10-05T00:29:38.279338+00:00",
+      "completed_at": "2026-10-05T00:30:37.023501+00:00",
+      "elapsed_seconds": 58.744,
+      "exit_code": 0,
+      "log": ".local/evolution/query-evidence/final-race-build.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "input_manifest_sha256": "cde57b93c56fb20701d258fca5b06f88b93f15de9d3e8c664ae804186c7b3033",
+      "snapshot": "/private/tmp/smartfactory-query-final-20261005-082007-v2",
+      "name": "final-race-application",
+      "command": [
+        "go",
+        "tool",
+        "test2json",
+        "-t",
+        "-p",
+        "competition2026/product/platform/internal/application",
+        "/private/tmp/smartfactory-query-final-20261005-082007-v2/binaries/race/application.test",
+        "-test.v=test2json",
+        "-test.timeout=180s",
+        "-test.run=^TestQuery",
+        "-test.count=1"
+      ],
+      "cwd": "/private/tmp/smartfactory-query-final-20261005-082007-v2/Platform",
+      "started_at": "2026-10-05T00:30:37.046435+00:00",
+      "completed_at": "2026-10-05T00:30:46.795075+00:00",
+      "elapsed_seconds": 9.749,
+      "exit_code": 0,
+      "log": ".local/evolution/query-evidence/final-race-application.jsonl",
+      "log_sha256": "abac62471a8995aa7a27aa483075913ed77df6c9a328a6635714d70ad249a1a4",
+      "executed_binary_sha256": "6be3a6b91a1bf81ddd5af6a67506f2539620c3435bdcd54315d6f2c2346fadf6"
+    },
+    {
+      "input_manifest_sha256": "cde57b93c56fb20701d258fca5b06f88b93f15de9d3e8c664ae804186c7b3033",
+      "snapshot": "/private/tmp/smartfactory-query-final-20261005-082007-v2",
+      "name": "final-race-api",
+      "command": [
+        "go",
+        "tool",
+        "test2json",
+        "-t",
+        "-p",
+        "competition2026/product/platform/internal/api",
+        "/private/tmp/smartfactory-query-final-20261005-082007-v2/binaries/race/api.test",
+        "-test.v=test2json",
+        "-test.timeout=180s",
+        "-test.run=^TestQuerySSE",
+        "-test.count=1"
+      ],
+      "cwd": "/private/tmp/smartfactory-query-final-20261005-082007-v2/Platform",
+      "started_at": "2026-10-05T00:30:46.860294+00:00",
+      "completed_at": "2026-10-05T00:31:30.393062+00:00",
+      "elapsed_seconds": 43.533,
+      "exit_code": 0,
+      "log": ".local/evolution/query-evidence/final-race-api.jsonl",
+      "log_sha256": "f84781e303f4459849196fd2e2d95fd55ca3c0bc69ac5f1fc672a55a0e1bd073",
+      "executed_binary_sha256": "b3d7da50ba3541cfbad0cb13ea0a8a26dd6199eeecac965b81a6df60e29dff04"
+    },
+    {
+      "input_manifest_sha256": "cde57b93c56fb20701d258fca5b06f88b93f15de9d3e8c664ae804186c7b3033",
+      "snapshot": "/private/tmp/smartfactory-query-final-20261005-082007-v2",
+      "name": "final-race-store",
+      "command": [
+        "go",
+        "tool",
+        "test2json",
+        "-t",
+        "-p",
+        "competition2026/product/platform/internal/store",
+        "/private/tmp/smartfactory-query-final-20261005-082007-v2/binaries/race/store.test",
+        "-test.v=test2json",
+        "-test.timeout=180s",
+        "-test.run=^TestQuery(LateCommit|RebuildPostgres)",
+        "-test.count=1"
+      ],
+      "cwd": "/private/tmp/smartfactory-query-final-20261005-082007-v2/Platform",
+      "started_at": "2026-10-05T00:31:30.458267+00:00",
+      "completed_at": "2026-10-05T00:31:34.961105+00:00",
+      "elapsed_seconds": 4.503,
+      "exit_code": 0,
+      "log": ".local/evolution/query-evidence/final-race-store.jsonl",
+      "log_sha256": "37b091970dfc38b3196a149700ea33a22783054aa4995c73f9cdf015fd90b4dd",
+      "executed_binary_sha256": "b92b3035f04de389fb2a47e2d62f1eb2126977983ce926e5c5a1fc2d17e68d02"
+    },
+    {
+      "input_manifest_sha256": "cde57b93c56fb20701d258fca5b06f88b93f15de9d3e8c664ae804186c7b3033",
+      "snapshot": "/private/tmp/smartfactory-query-final-20261005-082007-v2",
+      "name": "final-race-cloudsync",
+      "command": [
+        "go",
+        "tool",
+        "test2json",
+        "-t",
+        "-p",
+        "competition2026/product/platform/internal/cloudsync",
+        "/private/tmp/smartfactory-query-final-20261005-082007-v2/binaries/race/cloudsync.test",
+        "-test.v=test2json",
+        "-test.timeout=180s",
+        "-test.run=^Test(ControlReceiptEvidenceMTLSResponseLossAndCurrentResources|PostgresControlReceiptEvidenceOrderingAndLegacyCompatibility)$",
+        "-test.count=1"
+      ],
+      "cwd": "/private/tmp/smartfactory-query-final-20261005-082007-v2/Platform",
+      "started_at": "2026-10-05T00:31:35.027063+00:00",
+      "completed_at": "2026-10-05T00:31:37.838911+00:00",
+      "elapsed_seconds": 2.812,
+      "exit_code": 0,
+      "log": ".local/evolution/query-evidence/final-race-cloudsync.jsonl",
+      "log_sha256": "4b7e5910e7c1c8f2b2b6717009dbd0b03ddbb9f7406ef1793c005aacbc27272d",
+      "executed_binary_sha256": "c4558111037f8495a63ac67ac7f55df092388a0f5d8aa7ec40d21a1ee8b4032e"
+    },
+    {
+      "input_manifest_sha256": "cde57b93c56fb20701d258fca5b06f88b93f15de9d3e8c664ae804186c7b3033",
+      "snapshot": "/private/tmp/smartfactory-query-final-20261005-082007-v2",
+      "name": "final-race-control",
+      "command": [
+        "go",
+        "tool",
+        "test2json",
+        "-t",
+        "-p",
+        "competition2026/product/platform/internal/control",
+        "/private/tmp/smartfactory-query-final-20261005-082007-v2/binaries/race/control.test",
+        "-test.v=test2json",
+        "-test.timeout=180s",
+        "-test.run=^Test(PostgresControlAtomicTransitionsAndConcurrentIntervention|CancelDuringCommandRetainsLateResultAndSkipsRemaining|ConcurrentManualOperationsHaveSingleVersionWinner)$",
+        "-test.count=1"
+      ],
+      "cwd": "/private/tmp/smartfactory-query-final-20261005-082007-v2/Platform",
+      "started_at": "2026-10-05T00:31:37.901487+00:00",
+      "completed_at": "2026-10-05T00:31:40.874348+00:00",
+      "elapsed_seconds": 2.973,
+      "exit_code": 0,
+      "log": ".local/evolution/query-evidence/final-race-control.jsonl",
+      "log_sha256": "53746c5dde95419be3049aa1f3582dbff98a91c062d9e61d95fd5df89d21636a",
+      "executed_binary_sha256": "716beadbc68d3cff02aebda729f9969b0b10f05408075caf73138bb9049d91ed"
+    }
+  ],
+  "binaries": {
+    "/private/tmp/smartfactory-query-final-20261005-082007/binaries/store.test": {
+      "sha256": "936ecf579be3178273310e0b682c68fcd30d135ab0d8dff68193391022c8caaf",
+      "bytes": 37505042,
+      "role": "normal test binary",
+      "recorded_at": "2026-10-05T00:22:34.942952+00:00"
+    },
+    "/private/tmp/smartfactory-query-final-20261005-082007/binaries/application.test": {
+      "sha256": "877c6beb10c6446aad2ae70c2177923f04a270138622ce40e7f3f689249f9fd1",
+      "bytes": 39500546,
+      "role": "normal test binary",
+      "recorded_at": "2026-10-05T00:22:41.351970+00:00"
+    },
+    "/private/tmp/smartfactory-query-final-20261005-082007/binaries/api.test": {
+      "sha256": "1ca73db73b4696f230cc626cc0a8c2f62836d871e9b7fdbae5fabd4735fd1f30",
+      "bytes": 47049570,
+      "role": "normal test binary",
+      "recorded_at": "2026-10-05T00:22:45.634862+00:00"
+    },
+    "/private/tmp/smartfactory-query-final-20261005-082007/binaries/cloudsync.test": {
+      "sha256": "2b721f44e6137093eef223137c372bc5e43fe007e94c0e151faed78d05d72df0",
+      "bytes": 40117938,
+      "role": "normal test binary",
+      "recorded_at": "2026-10-05T00:23:20.308341+00:00"
+    },
+    "/private/tmp/smartfactory-query-final-20261005-082007/binaries/control.test": {
+      "sha256": "ee97eb8ddb6de7f1457424182b23e263bcbb56dd45701902ffe4e388c69f6173",
+      "bytes": 37940994,
+      "role": "normal test binary",
+      "recorded_at": "2026-10-05T00:23:20.991120+00:00"
+    },
+    "/private/tmp/smartfactory-query-final-20261005-082007/binaries/control-initial.test": {
+      "sha256": "ee97eb8ddb6de7f1457424182b23e263bcbb56dd45701902ffe4e388c69f6173",
+      "bytes": 37940994,
+      "role": "initial control regression binary with incomplete v4 fixture",
+      "recorded_at": "2026-10-05T00:23:20.991120+00:00"
+    },
+    "/private/tmp/smartfactory-query-final-20261005-082007-v2/binaries/control.test": {
+      "sha256": "4d1db835fab6b3aa44be98372e6139b84d0282637ac0acd781b2e97053341119",
+      "bytes": 37940994,
+      "role": "normal control regression binary with complete migration-four fixture",
+      "recorded_at": "2026-10-05T00:27:46.975669+00:00"
+    },
+    "/private/tmp/smartfactory-query-final-20261005-082007-v2/binaries/sf-cloud": {
+      "sha256": "26564e8bfab2c038f9e753451a3c359e9c9ae561589aece38b3aabb39e27963e",
+      "bytes": 52888466,
+      "role": "application binary",
+      "recorded_at": "2026-10-05T00:27:54.204069+00:00"
+    },
+    "/private/tmp/smartfactory-query-final-20261005-082007-v2/binaries/sf-edge": {
+      "sha256": "903fcb2923c0ca0b8470ccc9161ac73ee0365d69fb74fa7f381c530332f2d36b",
+      "bytes": 52888466,
+      "role": "application binary",
+      "recorded_at": "2026-10-05T00:27:55.144489+00:00"
+    },
+    "/private/tmp/smartfactory-query-final-20261005-082007-v2/binaries/sf-contracts": {
+      "sha256": "99c186da9b7d14f2ec3af09806d07cc13dfc23e8dca714f1c9ff0565021b4340",
+      "bytes": 45371938,
+      "role": "application binary",
+      "recorded_at": "2026-10-05T00:27:56.009272+00:00"
+    },
+    "/private/tmp/smartfactory-query-final-20261005-082007-v2/binaries/race/application.test": {
+      "sha256": "6be3a6b91a1bf81ddd5af6a67506f2539620c3435bdcd54315d6f2c2346fadf6",
+      "bytes": 52019810,
+      "role": "race test binary",
+      "recorded_at": "2026-10-05T00:30:37.046208+00:00"
+    },
+    "/private/tmp/smartfactory-query-final-20261005-082007-v2/binaries/race/api.test": {
+      "sha256": "b3d7da50ba3541cfbad0cb13ea0a8a26dd6199eeecac965b81a6df60e29dff04",
+      "bytes": 61368146,
+      "role": "race test binary",
+      "recorded_at": "2026-10-05T00:30:46.860003+00:00"
+    },
+    "/private/tmp/smartfactory-query-final-20261005-082007-v2/binaries/race/store.test": {
+      "sha256": "b92b3035f04de389fb2a47e2d62f1eb2126977983ce926e5c5a1fc2d17e68d02",
+      "bytes": 49463282,
+      "role": "race test binary",
+      "recorded_at": "2026-10-05T00:31:30.458036+00:00"
+    },
+    "/private/tmp/smartfactory-query-final-20261005-082007-v2/binaries/race/cloudsync.test": {
+      "sha256": "c4558111037f8495a63ac67ac7f55df092388a0f5d8aa7ec40d21a1ee8b4032e",
+      "bytes": 52654178,
+      "role": "race test binary",
+      "recorded_at": "2026-10-05T00:31:35.026746+00:00"
+    },
+    "/private/tmp/smartfactory-query-final-20261005-082007-v2/binaries/race/control.test": {
+      "sha256": "716beadbc68d3cff02aebda729f9969b0b10f05408075caf73138bb9049d91ed",
+      "bytes": 50080242,
+      "role": "race test binary",
+      "recorded_at": "2026-10-05T00:31:37.901230+00:00"
+    }
+  },
+  "snapshots": [
+    "/private/tmp/smartfactory-query-final-20261005-082007",
+    "/private/tmp/smartfactory-query-final-20261005-082007-v2"
+  ],
+  "active_snapshot": "/private/tmp/smartfactory-query-final-20261005-082007-v2"
+}

@@ -1,0 +1,62 @@
+{
+  "checked_at": "2026-10-05T06:26:48.939483+00:00",
+  "status": "reproduced",
+  "source": "/private/tmp/smartfactory-phase5-release-process-eighth-20261005/private/cloud.db",
+  "source_sha256": "97073d8d0418d5822cd8e628f01ad191f65eef12a3ac8322b0171f45cd69db04",
+  "records": [
+    {
+      "id": "deploy-cutover-v1",
+      "state": "cancelled",
+      "targets": [
+        {
+          "identity_id": "release-a",
+          "node_id": "edge-a",
+          "generation": 1,
+          "state": "prepared",
+          "failure_component": null,
+          "failure_reason": null,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "id": "deploy-cutover-v2",
+      "state": "cancelled",
+      "targets": [
+        {
+          "identity_id": "release-a",
+          "node_id": "edge-a",
+          "generation": 2,
+          "state": "prepared",
+          "failure_component": null,
+          "failure_reason": null,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "id": "deploy-v1",
+      "state": "failed",
+      "targets": [
+        {
+          "identity_id": "release-a",
+          "node_id": "edge-a",
+          "generation": 3,
+          "state": "failed",
+          "failure_component": "connector-a",
+          "failure_reason": null,
+          "reason": "HTTP 400: Bad Request"
+        },
+        {
+          "identity_id": "release-b",
+          "node_id": "edge-b",
+          "generation": 1,
+          "state": "pending",
+          "failure_component": null,
+          "failure_reason": null,
+          "reason": null
+        }
+      ]
+    }
+  ]
+}

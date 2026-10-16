@@ -1,0 +1,158 @@
+{
+  "updated_at_ms": 1791154008354,
+  "findings": [
+    {
+      "id": "IR-P3-01",
+      "status": "independently_verified_after_C05",
+      "requirement": [
+        "E3-02",
+        "E3-03",
+        "E3-07"
+      ],
+      "summary": "云端控制详情缺少已在边缘保存的原命令核对证据与反馈时间线",
+      "reproduction": "云端离线提交 recover-browser reconcile，恢复链路处理，随后 resume 完成；同一执行边缘 evidence=1，云端 evidence=0，但 steps[0].evidence_id 相同",
+      "sources": [
+        "Platform/internal/store/control.go:135",
+        "Platform/internal/cloudsync/exchange.go:293",
+        "Platform/internal/control/intervention.go:513"
+      ],
+      "evidence": [
+        {
+          "path": ".local/evolution/phase3-review-evidence/control-resume-backend.json",
+          "sha256": "9c8358acab4dcbff79222fcc5df9aee47f3117db08088a4b7d9a450450cbc7a9"
+        },
+        {
+          "path": ".local/evolution/phase3-review-evidence/control-trusted-evidence.json",
+          "sha256": "a4cd709f49f64d46317e200a637c5440577855b7e0bb31da9f95cd8dc3025f29"
+        },
+        {
+          "path": "output/playwright/phase3-independent/control-trusted-evidence.png",
+          "sha256": "bd429fe2299c1279f5f1f2f7946d3af31bb68b5f98f870463987d09b24ab1b78"
+        }
+      ],
+      "physical_commands": {
+        "recover-browser:first": 1,
+        "recover-browser:remaining": 1
+      },
+      "coordinator_id": "P3-C05",
+      "resolution_evidence": [
+        ".local/evolution/phase3-review-evidence/c05-independent-dual-app-audit.json",
+        ".local/evolution/phase3-review-evidence/v2-control-recovered-backend.json",
+        ".local/evolution/phase3-review-evidence/v2-control-cancelled-backend.json",
+        ".local/evolution/phase3-review-evidence/v2-control-trusted-evidence-visible.json",
+        ".local/evolution/phase3-review-evidence/v2-control-feedback-visible.json"
+      ]
+    },
+    {
+      "id": "IR-P3-02",
+      "status": "scheduler_fix_verified_pending_single_read_cycle_after_T02",
+      "requirements": [
+        "E3-04",
+        "E3-06"
+      ],
+      "summary": "等待父代的分析任务每500ms更新队列版本，正常确认取消连续四次409",
+      "reproduction": "实际生产SQLite/River history fixture，analysis:shadow:fixture-failure:1:2处于waiting_parent；刷新详情后正常鼠标点击或键盘确认均使用刚读取的版本，完成确认约850ms，后台Snooze已更新版本；四次请求均409",
+      "sources": [
+        "Frontends/src/tasks.tsx",
+        "Platform/internal/tasks"
+      ],
+      "evidence_paths": [
+        ".local/evolution/phase3-review-evidence/v2-history-waiting-parent-cancel-first.json",
+        ".local/evolution/phase3-review-evidence/v2-history-waiting-parent-cancel-reviewed.json",
+        ".local/evolution/phase3-review-evidence/v2-history-cancel-timing.json",
+        ".local/evolution/phase3-review-evidence/v2-history-cancel-keyboard-timing.json",
+        ".local/evolution/phase3-review-evidence/v2-history-cancelled-identities.json"
+      ],
+      "observed_task_id": "analysis:shadow:fixture-failure:1:2",
+      "river_id": 26,
+      "observed_final_state": "available",
+      "observed_business_state": "waiting_parent",
+      "no_automatic_retry": true,
+      "no_page_or_api_bypass": true,
+      "coordinator_id": "P3-T01",
+      "resolution_evidence": [
+        ".local/evolution/phase3-review-evidence/t01-cancel-confirmed.json",
+        ".local/evolution/phase3-review-evidence/t01-first-cancel-backend.json",
+        ".local/evolution/phase3-review-evidence/t01-cancel-sqlite-race.metadata.json",
+        ".local/evolution/phase3-review-evidence/t01-cancel-postgres-race.metadata.json"
+      ],
+      "resolution_note": "原操作版本在页面首次读取后的42.33秒及持续生产Snooze期间保持一致，单次普通确认200；页面默认自动GET仍开启。随后通过可见选择器改为手动查询，重试后发现T02，尚待修复后完成单次GET延时确认。"
+    },
+    {
+      "id": "IR-P3-03",
+      "coordinator_id": "P3-T02",
+      "status": "waiting_for_specialist_fix",
+      "requirements": [
+        "E3-04",
+        "E3-06"
+      ],
+      "summary": "取消后的手动重试保留旧cancel_attempted_at，生产Snooze再次把队列任务取消，业务仍等待父代",
+      "reproduction": "普通页面取消200后，两次按许可重试均POST200；下一次生产Snooze后同一River任务恢复cancelled，业务run仍waiting_parent，取消按钮消失",
+      "task_id": "analysis:shadow:fixture-failure:1:2",
+      "river_id": 24,
+      "run_id": "shadow:fixture-failure:1:2",
+      "snapshot_id": "snapshot:a89a5981389f8bff992e622d9cb82d40b99c5d0bfb36a593512f2cdbb7cb4262",
+      "old_cancel_attempted_at": "2026-10-04T22:38:54.707Z",
+      "operation_revisions": [
+        1,
+        2,
+        3
+      ],
+      "snoozes": [
+        387,
+        388,
+        389
+      ],
+      "observed_steps": 0,
+      "expected": "重试后持续调度仍允许执行或等待，在父代完成后继续原输入计算，并可通过当前操作版本再次正常取消",
+      "source": "Platform/internal/store/tasks.go retry分支使用JobRetryTx，未清除River取消标记；River0.48.0的SQLite/PG JobRetry保留metadata，JobSetStateIfRunning把携带cancel_attempted_at的available/retryable/scheduled结果设为cancelled",
+      "test_gap": "原11场景只核对重试后的业务等待与操作代次；增加River仍可继续运行的独立断言后，原用例4.94秒失败",
+      "evidence": [
+        {
+          "path": ".local/evolution/phase3-review-evidence/t01-task-retried-manual-refresh.json",
+          "sha256": "6ec1ddbc563937f1f75bd931e53e1a83e791552080a083ec3065f3251564764d"
+        },
+        {
+          "path": ".local/evolution/phase3-review-evidence/t01-single-read-task-and-river.json",
+          "sha256": "a61b59913d1f68aa8137e116409f92eef8a77becb45333d0aae1cc5386fd8256"
+        },
+        {
+          "path": ".local/evolution/phase3-review-evidence/t01-retry-second-cancelled-with-waiting-parent.json",
+          "sha256": "e79e222281c60f7530d59811e70cb55628fcf093692119aa0fa1ab00f522aa57"
+        },
+        {
+          "path": ".local/evolution/phase3-review-evidence/t01-retry-second-backend.json",
+          "sha256": "7ed61f6d293f9d68da1fd236977253aaa549005058b8e253828b75cfaee4ee0b"
+        },
+        {
+          "path": ".local/evolution/phase3-review-evidence/t01-retry-second-river.json",
+          "sha256": "cd5853ea663afdb3b8fe42cf80d77b021718c86948bf5c6799758f56d39a0be7"
+        },
+        {
+          "path": ".local/evolution/phase3-review-evidence/t01-task-action-audit.json",
+          "sha256": "ffc80f6b1e5644e7e5db57d42f5fd1674bd92a975eca0dd1ef85c17fed832b7a"
+        },
+        {
+          "path": ".local/evolution/phase3-review-evidence/t01-retry-independent-reproduction.metadata.json",
+          "sha256": "c73c5dc6335063067ecbdc4360e08c4449f24ff246707969f2897068184ace89"
+        },
+        {
+          "path": ".local/evolution/phase3-review-evidence/t01-retry-independent-reproduction.stdout.log",
+          "sha256": "91634595eb56b7469e63c40114b1d3b6567997e197194ff7af3b7a8d6494c110"
+        },
+        {
+          "path": ".local/evolution/phase3-review-evidence/t01-retry-overlay_test.go",
+          "sha256": "af4c30d2b2f59a31bb5d552fec56a281e676b5bf1cd436b42357438f003474b5"
+        },
+        {
+          "path": ".local/evolution/phase3-review-evidence/t01-retry-overlay.json",
+          "sha256": "b2c207e8768494208a9ba7dc7c6720f33b075e3b0167f1ee6d2b69638374db39"
+        }
+      ],
+      "browser_png": {
+        "path": "output/playwright/phase3-independent/t01-retry-second-viewport.png",
+        "sha256": "f8dcc64132ad302326845e2ebac4d96f7aee026778bd5bacf10e649f070efd9b"
+      }
+    }
+  ]
+}

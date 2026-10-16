@@ -1,0 +1,286 @@
+{
+  "config": {
+    "argv": [
+      "/path/to/SmartFactory-2026/.local/toolchains/node-v24.21.0-darwin-arm64/bin/node",
+      "/path/to/SmartFactory-2026/Frontends/node_modules/.bin/playwright",
+      "test",
+      "-c",
+      "playwright.phase4.config.ts",
+      "phase4-business-details.spec.ts",
+      "-g",
+      "alarm version|handover changes|three protocol|node metadata"
+    ],
+    "configFile": "/path/to/SmartFactory-2026/Frontends/playwright.phase4.config.ts",
+    "rootDir": "/path/to/SmartFactory-2026/Frontends/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/private/tmp/smartfactory-frontend-phase4-20261005/playwright-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/path/to/SmartFactory-2026/Frontends/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "phase4*.spec.ts"
+        ],
+        "timeout": 90000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "../.local/evolution/frontend-phase4/browser-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "phase4-business-details.spec.ts",
+      "file": "phase4-business-details.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "alarm version conflict retains reviewed basis and reason until explicit adoption",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2213,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T03:06:07.146Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "83d40bd4b7390d427b61-459cd24a1e6e826865d5",
+          "file": "phase4-business-details.spec.ts",
+          "line": 17,
+          "column": 1
+        },
+        {
+          "title": "handover changes allowed actor and the new owner completes the work order",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2768,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T03:06:09.647Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "83d40bd4b7390d427b61-a9390adaf7384ebe5d47",
+          "file": "phase4-business-details.spec.ts",
+          "line": 37,
+          "column": 1
+        },
+        {
+          "title": "three protocol metadata forms validate required fields enums units and preserve numeric extensions",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 17879,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('dialog', { name: '设备基础参数编辑' }).getByText('配置预检通过', { exact: true })\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('dialog', { name: '设备基础参数编辑' }).getByText('配置预检通过', { exact: true }) with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('dialog', { name: '设备基础参数编辑' }).getByText('配置预检通过', { exact: true })\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('dialog', { name: '设备基础参数编辑' }).getByText('配置预检通过', { exact: true })\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('dialog', { name: '设备基础参数编辑' }).getByText('配置预检通过', { exact: true }) with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('dialog', { name: '设备基础参数编辑' }).getByText('配置预检通过', { exact: true })\u001b[22m\n\n    at /path/to/SmartFactory-2026/Frontends/tests/phase4-business-details.spec.ts:73:136",
+                    "location": {
+                      "file": "/path/to/SmartFactory-2026/Frontends/tests/phase4-business-details.spec.ts",
+                      "column": 136,
+                      "line": 73
+                    },
+                    "snippet": "  71 |     await drawer.getByRole('tab', { name: '采样', exact: true }).click(); await expect(drawer.getByLabel(/^采样周期（ms）/)).toBeVisible();\n  72 |     await drawer.getByRole('tab', { name: '完整参数与扩展', exact: true }).click(); const raw = drawer.getByLabel('完整协议参数'); const text = (await raw.inputValue()).trim(); await raw.fill(text.slice(0, -1) + ',\"extension_counter\":9007199254740993,\"extension_object\":{\"保留\":\"未知扩展\"}}');\n> 73 |     await drawer.getByRole('button', { name: '配置预检', exact: true }).click(); await expect(drawer.getByText('配置预检通过', { exact: true })).toBeVisible();\n     |                                                                                                                                        ^\n  74 |     const waiting = page.waitForResponse(response => response.request().method() === 'POST' && response.url().endsWith('/device-configurations'));\n  75 |     await drawer.getByRole('button', { name: '保存参数', exact: true }).click(); const response = await waiting; expect(response.status()).toBe(200); const result = await response.text(); expect(result).toMatch(/\"extension_counter\":9007199254740993/);\n  76 |     await expect(drawer).toBeHidden(); await page.getByRole('button', { name: '编辑设备参数', exact: true }).click(); await drawer.getByRole('tab', { name: '完整参数与扩展', exact: true }).click(); await expect(raw).toHaveValue(/\"extension_counter\":\\s*9007199254740993/);"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/path/to/SmartFactory-2026/Frontends/tests/phase4-business-details.spec.ts",
+                        "column": 136,
+                        "line": 73
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('dialog', { name: '设备基础参数编辑' }).getByText('配置预检通过', { exact: true })\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('dialog', { name: '设备基础参数编辑' }).getByText('配置预检通过', { exact: true }) with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('dialog', { name: '设备基础参数编辑' }).getByText('配置预检通过', { exact: true })\u001b[22m\n\n\n  71 |     await drawer.getByRole('tab', { name: '采样', exact: true }).click(); await expect(drawer.getByLabel(/^采样周期（ms）/)).toBeVisible();\n  72 |     await drawer.getByRole('tab', { name: '完整参数与扩展', exact: true }).click(); const raw = drawer.getByLabel('完整协议参数'); const text = (await raw.inputValue()).trim(); await raw.fill(text.slice(0, -1) + ',\"extension_counter\":9007199254740993,\"extension_object\":{\"保留\":\"未知扩展\"}}');\n> 73 |     await drawer.getByRole('button', { name: '配置预检', exact: true }).click(); await expect(drawer.getByText('配置预检通过', { exact: true })).toBeVisible();\n     |                                                                                                                                        ^\n  74 |     const waiting = page.waitForResponse(response => response.request().method() === 'POST' && response.url().endsWith('/device-configurations'));\n  75 |     await drawer.getByRole('button', { name: '保存参数', exact: true }).click(); const response = await waiting; expect(response.status()).toBe(200); const result = await response.text(); expect(result).toMatch(/\"extension_counter\":9007199254740993/);\n  76 |     await expect(drawer).toBeHidden(); await page.getByRole('button', { name: '编辑设备参数', exact: true }).click(); await drawer.getByRole('tab', { name: '完整参数与扩展', exact: true }).click(); await expect(raw).toHaveValue(/\"extension_counter\":\\s*9007199254740993/);\n    at /path/to/SmartFactory-2026/Frontends/tests/phase4-business-details.spec.ts:73:136"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T03:06:12.422Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/private/tmp/smartfactory-frontend-phase4-20261005/playwright-results/phase4-business-details-th-103b8-preserve-numeric-extensions/error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/path/to/SmartFactory-2026/Frontends/tests/phase4-business-details.spec.ts",
+                    "column": 136,
+                    "line": 73
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "83d40bd4b7390d427b61-8fba450b7d6a688c05a4",
+          "file": "phase4-business-details.spec.ts",
+          "line": 63,
+          "column": 1
+        },
+        {
+          "title": "node metadata checks ranges units enums and exact extension before saving a draft",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 2400,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m400\u001b[39m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m400\u001b[39m\n    at /path/to/SmartFactory-2026/Frontends/tests/phase4-business-details.spec.ts:88:262",
+                    "location": {
+                      "file": "/path/to/SmartFactory-2026/Frontends/tests/phase4-business-details.spec.ts",
+                      "column": 262,
+                      "line": 88
+                    },
+                    "snippet": "  86 |   await duration.fill('1500'); await drawer.getByLabel('延时模式', { exact: true }).click(); await page.locator('.ant-select-dropdown:visible .ant-select-item-option-content').getByText('activation', { exact: true }).click(); await drawer.getByRole('button', { name: '应用基础参数', exact: true }).click();\n  87 |   await drawer.getByRole('tab', { name: '完整参数与扩展', exact: true }).click(); await drawer.getByLabel('节点完整参数').fill('{\"duration_ms\":1500,\"mode\":\"activation\",\"extension_counter\":9007199254740993}'); await drawer.getByRole('button', { name: '应用基础参数', exact: true }).click();\n> 88 |   const waiting = page.waitForResponse(response => response.request().method() === 'POST' && response.url().endsWith('/drafts')); await drawer.getByRole('button', { name: '保存草稿', exact: true }).click(); const response = await waiting; expect(response.status()).toBe(200); const raw = await response.text(); expect(raw).toMatch(/\"extension_counter\":9007199254740993/);\n     |                                                                                                                                                                                                                                                                      ^\n  89 |   await writeFile(path.join(evidence, 'node-metadata-draft.json'), raw); await capture(page, 'node-metadata-exact-save');\n  90 | });\n  91 |"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/path/to/SmartFactory-2026/Frontends/tests/phase4-business-details.spec.ts",
+                        "column": 262,
+                        "line": 88
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m400\u001b[39m\n\n  86 |   await duration.fill('1500'); await drawer.getByLabel('延时模式', { exact: true }).click(); await page.locator('.ant-select-dropdown:visible .ant-select-item-option-content').getByText('activation', { exact: true }).click(); await drawer.getByRole('button', { name: '应用基础参数', exact: true }).click();\n  87 |   await drawer.getByRole('tab', { name: '完整参数与扩展', exact: true }).click(); await drawer.getByLabel('节点完整参数').fill('{\"duration_ms\":1500,\"mode\":\"activation\",\"extension_counter\":9007199254740993}'); await drawer.getByRole('button', { name: '应用基础参数', exact: true }).click();\n> 88 |   const waiting = page.waitForResponse(response => response.request().method() === 'POST' && response.url().endsWith('/drafts')); await drawer.getByRole('button', { name: '保存草稿', exact: true }).click(); const response = await waiting; expect(response.status()).toBe(200); const raw = await response.text(); expect(raw).toMatch(/\"extension_counter\":9007199254740993/);\n     |                                                                                                                                                                                                                                                                      ^\n  89 |   await writeFile(path.join(evidence, 'node-metadata-draft.json'), raw); await capture(page, 'node-metadata-exact-save');\n  90 | });\n  91 |\n    at /path/to/SmartFactory-2026/Frontends/tests/phase4-business-details.spec.ts:88:262"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T03:06:30.587Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/private/tmp/smartfactory-frontend-phase4-20261005/playwright-results/phase4-business-details-no-3b431-nsion-before-saving-a-draft/error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/path/to/SmartFactory-2026/Frontends/tests/phase4-business-details.spec.ts",
+                    "column": 262,
+                    "line": 88
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "83d40bd4b7390d427b61-49813ce6102a95f751bb",
+          "file": "phase4-business-details.spec.ts",
+          "line": 82,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-05T03:06:06.931Z",
+    "duration": 26463.667999999998,
+    "expected": 2,
+    "skipped": 0,
+    "unexpected": 2,
+    "flaky": 0
+  }
+}

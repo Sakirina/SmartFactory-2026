@@ -1,0 +1,530 @@
+- generic [ref=e1]:
+  - generic [ref=e50]:
+    - complementary [ref=e51]:
+      - link "SF SmartFactory 生产安全控制台" [ref=e52] [cursor=pointer]:
+        - /url: "#overview"
+        - generic [ref=e53]: SF
+        - generic [ref=e54]:
+          - text: SmartFactory
+          - generic [ref=e55]: 生产安全控制台
+      - generic [ref=e56]: 示例工厂 / frontend-phase2-cloud
+      - navigation "主导航" [ref=e57]:
+        - button "运行概览" [ref=e58] [cursor=pointer]
+        - button "设备与资产" [ref=e60] [cursor=pointer]
+        - button "数据监控" [ref=e62] [cursor=pointer]
+        - button "数据分析" [ref=e64] [cursor=pointer]
+        - button "告警编排" [ref=e66] [cursor=pointer]
+        - button "联动预案" [ref=e68] [cursor=pointer]
+        - button "审批与执行" [ref=e70] [cursor=pointer]
+        - button "通知记录" [ref=e72] [cursor=pointer]
+        - button "历史补算" [ref=e74] [cursor=pointer]
+        - button "后台任务" [ref=e76] [cursor=pointer]
+        - button "组织与权限" [ref=e78] [cursor=pointer]
+        - button "配置中心" [ref=e80] [cursor=pointer]
+        - button "同步插件" [ref=e82] [cursor=pointer]
+        - button "业务审计" [ref=e84] [cursor=pointer]
+        - button "运行状态" [ref=e86] [cursor=pointer]
+        - button "AI 助手" [ref=e88] [cursor=pointer]
+      - generic [ref=e90]:
+        - text: 独立实例 · 云端运行
+        - generic [ref=e92]: 规则版本与操作记录全程保存
+    - generic [ref=e93]:
+      - banner [ref=e94]:
+        - generic [ref=e95]:
+          - text: 云端控制台
+          - generic [ref=e96]: /
+          - strong [ref=e97]: 后台任务
+        - generic [ref=e98]:
+          - generic [ref=e100] [cursor=pointer]:
+            - generic "每秒刷新" [ref=e101]:
+              - text: 每秒刷新
+              - combobox "页面刷新方式" [ref=e102]
+            - img "down" [ref=e104]
+          - generic [ref=e107]: 平台管理员
+          - button "退出" [ref=e109] [cursor=pointer]
+      - main [ref=e111]:
+        - generic [ref=e817]:
+          - generic [ref=e818]:
+            - heading "后台任务" [level=1] [ref=e819]
+            - paragraph [ref=e820]: 查看历史补算、归档和外部投影的业务身份、执行阶段与失败原因，按照当前许可处理任务。
+          - button "更新任务列表" [ref=e822] [cursor=pointer]
+        - generic [ref=e824]:
+          - textbox "任务身份" [ref=e825]:
+            - /placeholder: 输入完整任务身份
+            - text: recompute:frontend:failure/with-identity:1
+          - button "查看指定任务" [ref=e826] [cursor=pointer]
+        - generic [ref=e828]:
+          - generic [ref=e830]:
+            - generic:
+              - generic:
+                - generic:
+                  - generic:
+                    - table:
+                      - rowgroup:
+                        - row "任务 / 业务身份 涉及资源 队列状态 / 业务阶段 尝试次数 逐点计算进度 下次执行 最近失败 操作":
+                          - columnheader "任务 / 业务身份"
+                          - columnheader "涉及资源"
+                          - columnheader "队列状态 / 业务阶段"
+                          - columnheader "尝试次数"
+                          - columnheader "逐点计算进度"
+                          - columnheader "下次执行"
+                          - columnheader "最近失败"
+                          - columnheader "操作"
+                      - rowgroup:
+                        - row "历史归档 358226433 archive:358226433 * 已完成 已完成 1 / 8 — 2026/10/5 00:42:49 任务详情":
+                          - cell "历史归档 358226433 archive:358226433":
+                            - button "历史归档"
+                            - generic: 358226433archive:358226433
+                          - cell "*"
+                          - cell "已完成 已完成":
+                            - generic: 已完成
+                            - generic: 已完成
+                          - cell "1 / 8"
+                          - cell "—"
+                          - cell "2026/10/5 00:42:49"
+                          - cell
+                          - cell "任务详情":
+                            - button "任务详情"
+                        - row "历史补算 frontend:failure/with-identity recompute:frontend:failure/with-identity:1 counter-1、factory 尝试次数已用完 尝试次数已用完 8 / 8 0 2026/10/5 00:48:13 invalid recomputation range 任务详情":
+                          - cell "历史补算 frontend:failure/with-identity recompute:frontend:failure/with-identity:1":
+                            - button "历史补算"
+                            - generic: frontend:failure/with-identityrecompute:frontend:failure/with-identity:1
+                          - cell "counter-1、factory"
+                          - cell "尝试次数已用完 尝试次数已用完":
+                            - generic: 尝试次数已用完
+                            - generic: 尝试次数已用完
+                          - cell "8 / 8"
+                          - cell "0":
+                            - progressbar:
+                              - generic:
+                                - generic "0%"
+                          - cell "2026/10/5 00:48:13"
+                          - cell "invalid recomputation range"
+                          - cell "任务详情":
+                            - button "任务详情"
+                        - row "定义投影 tb-definition:agv-resume:1 tb_definition:tb-definition:agv-resume:1 agv-1、factory 等待执行 等待执行 0 / 8 — 2026/10/5 00:42:48 任务详情":
+                          - cell "定义投影 tb-definition:agv-resume:1 tb_definition:tb-definition:agv-resume:1":
+                            - button "定义投影"
+                            - generic: tb-definition:agv-resume:1tb_definition:tb-definition:agv-resume:1
+                          - cell "agv-1、factory"
+                          - cell "等待执行 等待执行":
+                            - generic: 等待执行
+                            - generic: 等待执行
+                          - cell "0 / 8"
+                          - cell "—"
+                          - cell "2026/10/5 00:42:48"
+                          - cell
+                          - cell "任务详情":
+                            - button "任务详情"
+                        - row "定义投影 tb-definition:agv-stop:1 tb_definition:tb-definition:agv-stop:1 agv-1、factory 等待执行 等待执行 0 / 8 — 2026/10/5 00:42:48 任务详情":
+                          - cell "定义投影 tb-definition:agv-stop:1 tb_definition:tb-definition:agv-stop:1":
+                            - button "定义投影"
+                            - generic: tb-definition:agv-stop:1tb_definition:tb-definition:agv-stop:1
+                          - cell "agv-1、factory"
+                          - cell "等待执行 等待执行":
+                            - generic: 等待执行
+                            - generic: 等待执行
+                          - cell "0 / 8"
+                          - cell "—"
+                          - cell "2026/10/5 00:42:48"
+                          - cell
+                          - cell "任务详情":
+                            - button "任务详情"
+                        - row "定义投影 tb-definition:climate-alarm:1 tb_definition:tb-definition:climate-alarm:1 climate-1、factory 等待执行 等待执行 0 / 8 — 2026/10/5 00:42:48 任务详情":
+                          - cell "定义投影 tb-definition:climate-alarm:1 tb_definition:tb-definition:climate-alarm:1":
+                            - button "定义投影"
+                            - generic: tb-definition:climate-alarm:1tb_definition:tb-definition:climate-alarm:1
+                          - cell "climate-1、factory"
+                          - cell "等待执行 等待执行":
+                            - generic: 等待执行
+                            - generic: 等待执行
+                          - cell "0 / 8"
+                          - cell "—"
+                          - cell "2026/10/5 00:42:48"
+                          - cell
+                          - cell "任务详情":
+                            - button "任务详情"
+                        - row "定义投影 tb-definition:climate-average:1 tb_definition:tb-definition:climate-average:1 climate-1、factory 等待执行 等待执行 0 / 8 — 2026/10/5 00:42:48 任务详情":
+                          - cell "定义投影 tb-definition:climate-average:1 tb_definition:tb-definition:climate-average:1":
+                            - button "定义投影"
+                            - generic: tb-definition:climate-average:1tb_definition:tb-definition:climate-average:1
+                          - cell "climate-1、factory"
+                          - cell "等待执行 等待执行":
+                            - generic: 等待执行
+                            - generic: 等待执行
+                          - cell "0 / 8"
+                          - cell "—"
+                          - cell "2026/10/5 00:42:48"
+                          - cell
+                          - cell "任务详情":
+                            - button "任务详情"
+                        - row "定义投影 tb-definition:climate-low:1 tb_definition:tb-definition:climate-low:1 climate-1、factory 等待执行 等待执行 0 / 8 — 2026/10/5 00:42:48 任务详情":
+                          - cell "定义投影 tb-definition:climate-low:1 tb_definition:tb-definition:climate-low:1":
+                            - button "定义投影"
+                            - generic: tb-definition:climate-low:1tb_definition:tb-definition:climate-low:1
+                          - cell "climate-1、factory"
+                          - cell "等待执行 等待执行":
+                            - generic: 等待执行
+                            - generic: 等待执行
+                          - cell "0 / 8"
+                          - cell "—"
+                          - cell "2026/10/5 00:42:48"
+                          - cell
+                          - cell "任务详情":
+                            - button "任务详情"
+                        - row "定义投影 tb-definition:dehumidifier-off:1 tb_definition:tb-definition:dehumidifier-off:1 climate-1、factory 等待执行 等待执行 0 / 8 — 2026/10/5 00:42:48 任务详情":
+                          - cell "定义投影 tb-definition:dehumidifier-off:1 tb_definition:tb-definition:dehumidifier-off:1":
+                            - button "定义投影"
+                            - generic: tb-definition:dehumidifier-off:1tb_definition:tb-definition:dehumidifier-off:1
+                          - cell "climate-1、factory"
+                          - cell "等待执行 等待执行":
+                            - generic: 等待执行
+                            - generic: 等待执行
+                          - cell "0 / 8"
+                          - cell "—"
+                          - cell "2026/10/5 00:42:48"
+                          - cell
+                          - cell "任务详情":
+                            - button "任务详情"
+                        - row "定义投影 tb-definition:dehumidifier-on:1 tb_definition:tb-definition:dehumidifier-on:1 climate-1、factory 等待执行 等待执行 0 / 8 — 2026/10/5 00:42:48 任务详情":
+                          - cell "定义投影 tb-definition:dehumidifier-on:1 tb_definition:tb-definition:dehumidifier-on:1":
+                            - button "定义投影"
+                            - generic: tb-definition:dehumidifier-on:1tb_definition:tb-definition:dehumidifier-on:1
+                          - cell "climate-1、factory"
+                          - cell "等待执行 等待执行":
+                            - generic: 等待执行
+                            - generic: 等待执行
+                          - cell "0 / 8"
+                          - cell "—"
+                          - cell "2026/10/5 00:42:48"
+                          - cell
+                          - cell "任务详情":
+                            - button "任务详情"
+                        - row "定义投影 tb-definition:gas-co-alarm:1 tb_definition:tb-definition:gas-co-alarm:1 factory、gas-1 等待执行 等待执行 0 / 8 — 2026/10/5 00:42:48 任务详情":
+                          - cell "定义投影 tb-definition:gas-co-alarm:1 tb_definition:tb-definition:gas-co-alarm:1":
+                            - button "定义投影"
+                            - generic: tb-definition:gas-co-alarm:1tb_definition:tb-definition:gas-co-alarm:1
+                          - cell "factory、gas-1"
+                          - cell "等待执行 等待执行":
+                            - generic: 等待执行
+                            - generic: 等待执行
+                          - cell "0 / 8"
+                          - cell "—"
+                          - cell "2026/10/5 00:42:48"
+                          - cell
+                          - cell "任务详情":
+                            - button "任务详情"
+                        - row "定义投影 tb-definition:gas-combustible-alarm:1 tb_definition:tb-definition:gas-combustible-alarm:1 factory、gas-1 等待执行 等待执行 0 / 8 — 2026/10/5 00:42:48 任务详情":
+                          - cell "定义投影 tb-definition:gas-combustible-alarm:1 tb_definition:tb-definition:gas-combustible-alarm:1":
+                            - button "定义投影"
+                            - generic: tb-definition:gas-combustible-alarm:1tb_definition:tb-definition:gas-combustible-alarm:1
+                          - cell "factory、gas-1"
+                          - cell "等待执行 等待执行":
+                            - generic: 等待执行
+                            - generic: 等待执行
+                          - cell "0 / 8"
+                          - cell "—"
+                          - cell "2026/10/5 00:42:48"
+                          - cell
+                          - cell "任务详情":
+                            - button "任务详情"
+                        - row "定义投影 tb-definition:gas-combustible-response:1 tb_definition:tb-definition:gas-combustible-response:1 factory、gas-1 等待执行 等待执行 0 / 8 — 2026/10/5 00:42:48 任务详情":
+                          - cell "定义投影 tb-definition:gas-combustible-response:1 tb_definition:tb-definition:gas-combustible-response:1":
+                            - button "定义投影"
+                            - generic: tb-definition:gas-combustible-response:1tb_definition:tb-definition:gas-combustible-response:1
+                          - cell "factory、gas-1"
+                          - cell "等待执行 等待执行":
+                            - generic: 等待执行
+                            - generic: 等待执行
+                          - cell "0 / 8"
+                          - cell "—"
+                          - cell "2026/10/5 00:42:48"
+                          - cell
+                          - cell "任务详情":
+                            - button "任务详情"
+                        - row "定义投影 tb-definition:gas-co-response:1 tb_definition:tb-definition:gas-co-response:1 factory、gas-1 等待执行 等待执行 0 / 8 — 2026/10/5 00:42:48 任务详情":
+                          - cell "定义投影 tb-definition:gas-co-response:1 tb_definition:tb-definition:gas-co-response:1":
+                            - button "定义投影"
+                            - generic: tb-definition:gas-co-response:1tb_definition:tb-definition:gas-co-response:1
+                          - cell "factory、gas-1"
+                          - cell "等待执行 等待执行":
+                            - generic: 等待执行
+                            - generic: 等待执行
+                          - cell "0 / 8"
+                          - cell "—"
+                          - cell "2026/10/5 00:42:48"
+                          - cell
+                          - cell "任务详情":
+                            - button "任务详情"
+                        - row "定义投影 tb-definition:gas-smoke-alarm:1 tb_definition:tb-definition:gas-smoke-alarm:1 factory、gas-1 等待执行 等待执行 0 / 8 — 2026/10/5 00:42:48 任务详情":
+                          - cell "定义投影 tb-definition:gas-smoke-alarm:1 tb_definition:tb-definition:gas-smoke-alarm:1":
+                            - button "定义投影"
+                            - generic: tb-definition:gas-smoke-alarm:1tb_definition:tb-definition:gas-smoke-alarm:1
+                          - cell "factory、gas-1"
+                          - cell "等待执行 等待执行":
+                            - generic: 等待执行
+                            - generic: 等待执行
+                          - cell "0 / 8"
+                          - cell "—"
+                          - cell "2026/10/5 00:42:48"
+                          - cell
+                          - cell "任务详情":
+                            - button "任务详情"
+                        - row "定义投影 tb-definition:gas-smoke-response:1 tb_definition:tb-definition:gas-smoke-response:1 factory、gas-1 等待执行 等待执行 0 / 8 — 2026/10/5 00:42:48 任务详情":
+                          - cell "定义投影 tb-definition:gas-smoke-response:1 tb_definition:tb-definition:gas-smoke-response:1":
+                            - button "定义投影"
+                            - generic: tb-definition:gas-smoke-response:1tb_definition:tb-definition:gas-smoke-response:1
+                          - cell "factory、gas-1"
+                          - cell "等待执行 等待执行":
+                            - generic: 等待执行
+                            - generic: 等待执行
+                          - cell "0 / 8"
+                          - cell "—"
+                          - cell "2026/10/5 00:42:48"
+                          - cell
+                          - cell "任务详情":
+                            - button "任务详情"
+                        - row "定义投影 tb-definition:goods-count:1 tb_definition:tb-definition:goods-count:1 counter-1、factory 等待执行 等待执行 0 / 8 — 2026/10/5 00:42:48 任务详情":
+                          - cell "定义投影 tb-definition:goods-count:1 tb_definition:tb-definition:goods-count:1":
+                            - button "定义投影"
+                            - generic: tb-definition:goods-count:1tb_definition:tb-definition:goods-count:1
+                          - cell "counter-1、factory"
+                          - cell "等待执行 等待执行":
+                            - generic: 等待执行
+                            - generic: 等待执行
+                          - cell "0 / 8"
+                          - cell "—"
+                          - cell "2026/10/5 00:42:48"
+                          - cell
+                          - cell "任务详情":
+                            - button "任务详情"
+                        - row "定义投影 tb-definition:heating-off:1 tb_definition:tb-definition:heating-off:1 climate-1、factory 等待执行 等待执行 0 / 8 — 2026/10/5 00:42:48 任务详情":
+                          - cell "定义投影 tb-definition:heating-off:1 tb_definition:tb-definition:heating-off:1":
+                            - button "定义投影"
+                            - generic: tb-definition:heating-off:1tb_definition:tb-definition:heating-off:1
+                          - cell "climate-1、factory"
+                          - cell "等待执行 等待执行":
+                            - generic: 等待执行
+                            - generic: 等待执行
+                          - cell "0 / 8"
+                          - cell "—"
+                          - cell "2026/10/5 00:42:48"
+                          - cell
+                          - cell "任务详情":
+                            - button "任务详情"
+                        - row "定义投影 tb-definition:heating-on:1 tb_definition:tb-definition:heating-on:1 climate-1、factory 等待执行 等待执行 0 / 8 — 2026/10/5 00:42:48 任务详情":
+                          - cell "定义投影 tb-definition:heating-on:1 tb_definition:tb-definition:heating-on:1":
+                            - button "定义投影"
+                            - generic: tb-definition:heating-on:1tb_definition:tb-definition:heating-on:1
+                          - cell "climate-1、factory"
+                          - cell "等待执行 等待执行":
+                            - generic: 等待执行
+                            - generic: 等待执行
+                          - cell "0 / 8"
+                          - cell "—"
+                          - cell "2026/10/5 00:42:48"
+                          - cell
+                          - cell "任务详情":
+                            - button "任务详情"
+                        - row "定义投影 tb-definition:humidifier-off:1 tb_definition:tb-definition:humidifier-off:1 climate-1、factory 等待执行 等待执行 0 / 8 — 2026/10/5 00:42:48 任务详情":
+                          - cell "定义投影 tb-definition:humidifier-off:1 tb_definition:tb-definition:humidifier-off:1":
+                            - button "定义投影"
+                            - generic: tb-definition:humidifier-off:1tb_definition:tb-definition:humidifier-off:1
+                          - cell "climate-1、factory"
+                          - cell "等待执行 等待执行":
+                            - generic: 等待执行
+                            - generic: 等待执行
+                          - cell "0 / 8"
+                          - cell "—"
+                          - cell "2026/10/5 00:42:48"
+                          - cell
+                          - cell "任务详情":
+                            - button "任务详情"
+                        - row "定义投影 tb-definition:humidifier-on:1 tb_definition:tb-definition:humidifier-on:1 climate-1、factory 等待执行 等待执行 0 / 8 — 2026/10/5 00:42:48 任务详情":
+                          - cell "定义投影 tb-definition:humidifier-on:1 tb_definition:tb-definition:humidifier-on:1":
+                            - button "定义投影"
+                            - generic: tb-definition:humidifier-on:1tb_definition:tb-definition:humidifier-on:1
+                          - cell "climate-1、factory"
+                          - cell "等待执行 等待执行":
+                            - generic: 等待执行
+                            - generic: 等待执行
+                          - cell "0 / 8"
+                          - cell "—"
+                          - cell "2026/10/5 00:42:48"
+                          - cell
+                          - cell "任务详情":
+                            - button "任务详情"
+                        - row "定义投影 tb-definition:humidity-high:1 tb_definition:tb-definition:humidity-high:1 climate-1、factory 等待执行 等待执行 0 / 8 — 2026/10/5 00:42:48 任务详情":
+                          - cell "定义投影 tb-definition:humidity-high:1 tb_definition:tb-definition:humidity-high:1":
+                            - button "定义投影"
+                            - generic: tb-definition:humidity-high:1tb_definition:tb-definition:humidity-high:1
+                          - cell "climate-1、factory"
+                          - cell "等待执行 等待执行":
+                            - generic: 等待执行
+                            - generic: 等待执行
+                          - cell "0 / 8"
+                          - cell "—"
+                          - cell "2026/10/5 00:42:48"
+                          - cell
+                          - cell "任务详情":
+                            - button "任务详情"
+                        - row "定义投影 tb-definition:humidity-low:1 tb_definition:tb-definition:humidity-low:1 climate-1、factory 等待执行 等待执行 0 / 8 — 2026/10/5 00:42:48 任务详情":
+                          - cell "定义投影 tb-definition:humidity-low:1 tb_definition:tb-definition:humidity-low:1":
+                            - button "定义投影"
+                            - generic: tb-definition:humidity-low:1tb_definition:tb-definition:humidity-low:1
+                          - cell "climate-1、factory"
+                          - cell "等待执行 等待执行":
+                            - generic: 等待执行
+                            - generic: 等待执行
+                          - cell "0 / 8"
+                          - cell "—"
+                          - cell "2026/10/5 00:42:48"
+                          - cell
+                          - cell "任务详情":
+                            - button "任务详情"
+                        - row "定义投影 tb-definition:light-off:1 tb_definition:tb-definition:light-off:1 factory、light-1 等待执行 等待执行 0 / 8 — 2026/10/5 00:42:48 任务详情":
+                          - cell "定义投影 tb-definition:light-off:1 tb_definition:tb-definition:light-off:1":
+                            - button "定义投影"
+                            - generic: tb-definition:light-off:1tb_definition:tb-definition:light-off:1
+                          - cell "factory、light-1"
+                          - cell "等待执行 等待执行":
+                            - generic: 等待执行
+                            - generic: 等待执行
+                          - cell "0 / 8"
+                          - cell "—"
+                          - cell "2026/10/5 00:42:48"
+                          - cell
+                          - cell "任务详情":
+                            - button "任务详情"
+                        - row "定义投影 tb-definition:light-on:1 tb_definition:tb-definition:light-on:1 factory、light-1 等待执行 等待执行 0 / 8 — 2026/10/5 00:42:48 任务详情":
+                          - cell "定义投影 tb-definition:light-on:1 tb_definition:tb-definition:light-on:1":
+                            - button "定义投影"
+                            - generic: tb-definition:light-on:1tb_definition:tb-definition:light-on:1
+                          - cell "factory、light-1"
+                          - cell "等待执行 等待执行":
+                            - generic: 等待执行
+                            - generic: 等待执行
+                          - cell "0 / 8"
+                          - cell "—"
+                          - cell "2026/10/5 00:42:48"
+                          - cell
+                          - cell "任务详情":
+                            - button "任务详情"
+                        - row "定义投影 tb-definition:ventilation-off:1 tb_definition:tb-definition:ventilation-off:1 climate-1、factory 等待执行 等待执行 0 / 8 — 2026/10/5 00:42:48 任务详情":
+                          - cell "定义投影 tb-definition:ventilation-off:1 tb_definition:tb-definition:ventilation-off:1":
+                            - button "定义投影"
+                            - generic: tb-definition:ventilation-off:1tb_definition:tb-definition:ventilation-off:1
+                          - cell "climate-1、factory"
+                          - cell "等待执行 等待执行":
+                            - generic: 等待执行
+                            - generic: 等待执行
+                          - cell "0 / 8"
+                          - cell "—"
+                          - cell "2026/10/5 00:42:48"
+                          - cell
+                          - cell "任务详情":
+                            - button "任务详情"
+                        - row "定义投影 tb-definition:ventilation-plan:1 tb_definition:tb-definition:ventilation-plan:1 climate-1、factory 等待执行 等待执行 0 / 8 — 2026/10/5 00:42:48 任务详情":
+                          - cell "定义投影 tb-definition:ventilation-plan:1 tb_definition:tb-definition:ventilation-plan:1":
+                            - button "定义投影"
+                            - generic: tb-definition:ventilation-plan:1tb_definition:tb-definition:ventilation-plan:1
+                          - cell "climate-1、factory"
+                          - cell "等待执行 等待执行":
+                            - generic: 等待执行
+                            - generic: 等待执行
+                          - cell "0 / 8"
+                          - cell "—"
+                          - cell "2026/10/5 00:42:48"
+                          - cell
+                          - cell "任务详情":
+                            - button "任务详情"
+          - generic [ref=e1267]:
+            - button "上一页" [disabled] [ref=e1269]
+            - generic [ref=e1270]: 第 1 页
+            - button "下一页" [disabled] [ref=e1273]
+      - contentinfo [ref=e200]:
+        - text: SmartFactory · frontend-phase2-cloud
+        - generic [ref=e201]: 界面时间使用 Asia/Shanghai 时区
+  - dialog "后台任务详情" [ref=e1283]:
+    - generic [ref=e1284]:
+      - generic [ref=e1285]:
+        - button "关闭" [ref=e1286] [cursor=pointer]:
+          - img "close" [ref=e1287]
+        - generic [ref=e1290]: 后台任务详情
+      - button "更新详情" [ref=e1381] [cursor=pointer]
+    - generic [ref=e1295]:
+      - table [ref=e1298]:
+        - rowgroup [ref=e1299]:
+          - row [ref=e1300]:
+            - rowheader "任务身份" [ref=e1301]
+            - cell "recompute:frontend:failure/with-identity:1" [ref=e1302]
+          - row [ref=e1303]:
+            - rowheader "业务身份 / 创建版本" [ref=e1304]
+            - cell "frontend:failure/with-identity / 1" [ref=e1305]
+          - row [ref=e1306]:
+            - rowheader "队列行号 / 队列" [ref=e1307]
+            - cell "66 / recompute" [ref=e1308]
+          - row [ref=e1309]:
+            - rowheader "原投递记录" [ref=e1310]
+            - cell "未关联投递记录" [ref=e1311]
+          - row [ref=e1312]:
+            - rowheader "补算恢复身份" [ref=e1313]
+            - cell "尚未建立恢复记录" [ref=e1314]
+          - row [ref=e1315]:
+            - rowheader "涉及资源" [ref=e1316]
+            - cell "counter-1、factory" [ref=e1317]
+          - row [ref=e1318]:
+            - rowheader "队列状态" [ref=e1319]
+            - cell "尝试次数已用完" [ref=e1320]
+          - row [ref=e1323]:
+            - rowheader "业务阶段" [ref=e1324]
+            - cell "尝试次数已用完" [ref=e1325]
+          - row [ref=e1326]:
+            - rowheader "业务状态" [ref=e1327]
+            - cell "pending" [ref=e1328]
+          - row [ref=e1329]:
+            - rowheader "已开始次数 / 上限" [ref=e1330]
+            - cell "8 / 8" [ref=e1331]
+          - row [ref=e1332]:
+            - rowheader "下一次执行时间" [ref=e1333]
+            - cell "2026/10/5 00:48:13" [ref=e1334]
+          - row [ref=e1335]:
+            - rowheader "创建时间" [ref=e1336]
+            - cell "2026/10/5 00:46:05" [ref=e1337]
+          - row [ref=e1338]:
+            - rowheader "开始时间" [ref=e1339]
+            - cell "2026/10/5 00:48:13" [ref=e1340]
+          - row [ref=e1341]:
+            - rowheader "结束时间" [ref=e1342]
+            - cell "2026/10/5 00:48:13" [ref=e1343]
+          - row [ref=e1344]:
+            - rowheader "取消请求时间" [ref=e1345]
+            - cell "暂无记录" [ref=e1346]
+          - row [ref=e1347]:
+            - rowheader "历史窗口游标" [ref=e1348]
+            - cell "暂无记录" [ref=e1349]
+          - row [ref=e1350]:
+            - rowheader "最近失败原因" [ref=e1351]
+            - cell "invalid recomputation range" [ref=e1352]
+          - row [ref=e1353]:
+            - rowheader "任务代际" [ref=e1354]
+            - cell "当前业务任务" [ref=e1355]
+      - generic [ref=e1356]:
+        - heading "逐点计算进度" [level=4] [ref=e1357]
+        - progressbar [ref=e1358]:
+          - generic "0%" [ref=e1361]
+        - paragraph [ref=e1362]: 尝试次数已用完
+      - button "重试任务" [ref=e1365] [cursor=pointer]
+  - generic [ref=e1382]:
+    - dialog "重试后台任务":
+      - generic [ref=e1383]:
+        - button "关闭" [active] [ref=e1384] [cursor=pointer]:
+          - generic "关闭" [ref=e1385]:
+            - img "close" [ref=e1386]
+        - generic [ref=e1389]: 重试后台任务
+        - generic [ref=e1391]:
+          - paragraph [ref=e1392]: 本次重试沿用原任务与业务身份，从服务保存的进度继续处理。
+          - paragraph [ref=e1393]: 任务身份：recompute:frontend:failure/with-identity:1
+        - generic [ref=e1394]:
+          - button "取消" [ref=e1395] [cursor=pointer]
+          - button "确认重试任务" [ref=e1397] [cursor=pointer]

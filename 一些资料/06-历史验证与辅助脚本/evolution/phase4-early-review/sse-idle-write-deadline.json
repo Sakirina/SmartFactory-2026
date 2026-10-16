@@ -1,0 +1,30 @@
+{
+  "finding_id": "P4-Q01",
+  "recorded_at": "2026-10-04T23:57:05.415344+00:00",
+  "initial_source_observation_at": "2026-10-04T23:52:42Z",
+  "basis": "Coordinator source review and owner confirmation; runtime verification pending",
+  "observation": "streamQueries set a 3-second write deadline for each event while heartbeat interval was 15 seconds; the initial implementation did not clear that deadline after Flush. Go HTTP/2 fires onWriteTimeout when that deadline expires.",
+  "current_source_observation": "Owner has added deferred SetWriteDeadline(time.Time{}) within send; each write retains its 3-second budget.",
+  "source_refs": [
+    {
+      "path": "Platform/internal/api/query_routes.go",
+      "sha256": "c936b8ce749005e9914d25a5add13bcc11da03856d4443112bf39de7710893db",
+      "size_bytes": 5008
+    },
+    {
+      "path": "/opt/homebrew/Cellar/go/1.27.1/libexec/src/net/http/responsecontroller.go",
+      "sha256": "7276f45a5fed50dad368b75afe916b3e4dc45bca2e23e438f1095b0fdc6f4ad6",
+      "size_bytes": 4269
+    },
+    {
+      "path": "/opt/homebrew/Cellar/go/1.27.1/libexec/src/net/http/internal/http2/server.go",
+      "sha256": "e497753da92d55c194dc0627061b7a3a106ca62d2ec58e1b655f47324c80d9df",
+      "size_bytes": 101921
+    }
+  ],
+  "required_verification": [
+    "Actual HTTP/1.1 and HTTP/2 subscription: read first snapshot, remain idle through at least one 15-second heartbeat, then receive a new committed delta",
+    "Slow reader still bounded; cancellation releases subscription and shared polling resources"
+  ],
+  "runtime_verified": false
+}

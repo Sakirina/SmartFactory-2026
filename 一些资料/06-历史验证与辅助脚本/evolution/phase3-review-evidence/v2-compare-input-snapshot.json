@@ -1,0 +1,375 @@
+{
+  "id": "snapshot:e5255e27eb1ce8995b9ebceca28685bef2908e63fce72f340187af94a5ea0fd6",
+  "sha256": "e5255e27eb1ce8995b9ebceca28685bef2908e63fce72f340187af94a5ea0fd6",
+  "input_sha256": "464218436a693ab93fd1f573590c8795bb98d145d724ceaba5529494c58263a2",
+  "history_sha256": "454e4e344453bf86a8268c4c663cd5bfd05bfb753c2a5446e1665b1af9775636",
+  "captured_ms": 1791149966700,
+  "from_ms": 1791149869695,
+  "to_ms": 1791149870695,
+  "source": "provided",
+  "data_version": 0,
+  "data_gaps": null,
+  "completeness": "",
+  "order": "event_time",
+  "clock": {
+    "at_ms": 1791149875695,
+    "step_ms": 10,
+    "freshness_ms": 5000
+  },
+  "points": [
+    {
+      "id": "window-first",
+      "message_id": "window-first",
+      "source_id": "history-fixture-source",
+      "source_sequence": 3000,
+      "device_id": "history-device",
+      "key": "count",
+      "value": 9007199254740993,
+      "observed_ms": 1791149869695,
+      "received_ms": 1791149966695,
+      "quality": "GOOD",
+      "time_source": "device",
+      "unit": "piece",
+      "entity_revision": 0,
+      "asset_version": 1,
+      "late": false,
+      "revision": 1
+    },
+    {
+      "id": "window-second",
+      "message_id": "window-second",
+      "source_id": "history-fixture-source",
+      "source_sequence": 3500,
+      "device_id": "history-device",
+      "key": "count",
+      "value": 2,
+      "observed_ms": 1791149870195,
+      "received_ms": 1791149966695,
+      "quality": "GOOD",
+      "time_source": "device",
+      "unit": "piece",
+      "entity_revision": 0,
+      "asset_version": 1,
+      "late": false,
+      "revision": 1
+    },
+    {
+      "id": "window-third",
+      "message_id": "window-third",
+      "source_id": "history-fixture-source",
+      "source_sequence": 4000,
+      "device_id": "history-device",
+      "key": "count",
+      "value": 5,
+      "observed_ms": 1791149870695,
+      "received_ms": 1791149966695,
+      "quality": "GOOD",
+      "time_source": "device",
+      "unit": "piece",
+      "entity_revision": 0,
+      "asset_version": 1,
+      "late": false,
+      "revision": 1
+    }
+  ],
+  "history": [
+    {
+      "id": "window-history",
+      "message_id": "window-history",
+      "source_id": "history-fixture-source",
+      "source_sequence": 2501,
+      "device_id": "history-device",
+      "key": "count",
+      "value": 3,
+      "observed_ms": 1791149869196,
+      "received_ms": 1791149966695,
+      "quality": "GOOD",
+      "time_source": "device",
+      "unit": "piece",
+      "entity_revision": 0,
+      "asset_version": 1,
+      "late": false,
+      "revision": 1
+    }
+  ],
+  "asset_versions": [
+    {
+      "id": "history-device",
+      "version": 1,
+      "effective_ms": 1791149866695,
+      "parent_id": "history-line-a",
+      "sampling_ms": 1000
+    },
+    {
+      "id": "history-device",
+      "version": 2,
+      "effective_ms": 1791149869695,
+      "parent_id": "history-line-b",
+      "sampling_ms": 1000
+    },
+    {
+      "id": "history-factory",
+      "version": 1,
+      "effective_ms": 1791149866695,
+      "parent_id": "",
+      "sampling_ms": 0
+    },
+    {
+      "id": "history-line-a",
+      "version": 1,
+      "effective_ms": 1791149866695,
+      "parent_id": "history-factory",
+      "sampling_ms": 0
+    },
+    {
+      "id": "history-line-b",
+      "version": 1,
+      "effective_ms": 1791149866695,
+      "parent_id": "history-factory",
+      "sampling_ms": 0
+    }
+  ],
+  "initial_state": {},
+  "initial_state_source": "provided",
+  "rules": [
+    {
+      "definition": {
+        "id": "history-window",
+        "name": "history-window",
+        "kind": "analysis",
+        "schema_version": "1.0",
+        "version": 1,
+        "status": "published",
+        "effective_ms": 1791149867695,
+        "group_id": "history-factory",
+        "nodes": [
+          {
+            "id": "sum",
+            "type": "aggregate",
+            "params": {
+              "function": "sum"
+            }
+          },
+          {
+            "id": "value",
+            "type": "expression",
+            "params": {
+              "code": "value"
+            }
+          }
+        ],
+        "connections": [
+          {
+            "from": "sum",
+            "from_port": "",
+            "to": "value",
+            "to_port": ""
+          }
+        ],
+        "outputs": [
+          {
+            "key": "result",
+            "type": "number",
+            "unit": "piece",
+            "node_id": "value"
+          }
+        ],
+        "dependencies": null,
+        "selector": {
+          "device_ids": [
+            "history-device"
+          ],
+          "keys": [
+            "count"
+          ],
+          "window_ms": 1000
+        },
+        "policy": {}
+      },
+      "plan": {
+        "id": "history-window:1:1beaa95d7e214c4df1ccf536f0ee40efc22843f3769844938ecfa8be6d8909eb",
+        "format": "smartfactory.rules/1",
+        "definition_id": "history-window",
+        "definition_version": 1,
+        "content_sha256": "1beaa95d7e214c4df1ccf536f0ee40efc22843f3769844938ecfa8be6d8909eb",
+        "sha256": "dbb63a38be39efb315fd78b52ebeb623b5808839fcbc5d05a7c332b1a32c5357",
+        "kind": "analysis",
+        "selector": {
+          "device_ids": [
+            "history-device"
+          ],
+          "keys": [
+            "count"
+          ],
+          "window_ms": 1000
+        },
+        "outputs": [
+          {
+            "key": "result",
+            "type": "number",
+            "unit": "piece",
+            "node_id": "value"
+          }
+        ],
+        "policy": {},
+        "dependencies": null,
+        "nodes": [
+          {
+            "id": "sum",
+            "type": "aggregate",
+            "inputs": [],
+            "params": {
+              "function": "sum"
+            },
+            "error_output": false
+          },
+          {
+            "id": "value",
+            "type": "expression",
+            "inputs": [
+              {
+                "from": "sum",
+                "from_port": "",
+                "to": "value",
+                "to_port": ""
+              }
+            ],
+            "params": {},
+            "expression": {
+              "op": "variable",
+              "name": "value"
+            },
+            "error_output": false
+          }
+        ]
+      }
+    },
+    {
+      "definition": {
+        "id": "history-window",
+        "name": "history-window",
+        "kind": "analysis",
+        "schema_version": "1.0",
+        "version": 2,
+        "status": "published",
+        "effective_ms": 1791149868695,
+        "group_id": "history-factory",
+        "nodes": [
+          {
+            "id": "sum",
+            "type": "aggregate",
+            "params": {
+              "function": "sum"
+            }
+          },
+          {
+            "id": "value",
+            "type": "expression",
+            "params": {
+              "code": "value+1"
+            }
+          }
+        ],
+        "connections": [
+          {
+            "from": "sum",
+            "from_port": "",
+            "to": "value",
+            "to_port": ""
+          }
+        ],
+        "outputs": [
+          {
+            "key": "result",
+            "type": "number",
+            "unit": "piece",
+            "node_id": "value"
+          }
+        ],
+        "dependencies": null,
+        "selector": {
+          "device_ids": [
+            "history-device"
+          ],
+          "keys": [
+            "count"
+          ],
+          "window_ms": 1000
+        },
+        "policy": {}
+      },
+      "plan": {
+        "id": "history-window:2:95b0b520ddbacaf0460074a33936b5c77c194f03d11d480143ffbd5bf5fab7f6",
+        "format": "smartfactory.rules/1",
+        "definition_id": "history-window",
+        "definition_version": 2,
+        "content_sha256": "95b0b520ddbacaf0460074a33936b5c77c194f03d11d480143ffbd5bf5fab7f6",
+        "sha256": "7f5c9b34e41896a66a12bf18d3259f4ddc9f76976bbffb4b6d9228c7d1e30814",
+        "kind": "analysis",
+        "selector": {
+          "device_ids": [
+            "history-device"
+          ],
+          "keys": [
+            "count"
+          ],
+          "window_ms": 1000
+        },
+        "outputs": [
+          {
+            "key": "result",
+            "type": "number",
+            "unit": "piece",
+            "node_id": "value"
+          }
+        ],
+        "policy": {},
+        "dependencies": null,
+        "nodes": [
+          {
+            "id": "sum",
+            "type": "aggregate",
+            "inputs": [],
+            "params": {
+              "function": "sum"
+            },
+            "error_output": false
+          },
+          {
+            "id": "value",
+            "type": "expression",
+            "inputs": [
+              {
+                "from": "sum",
+                "from_port": "",
+                "to": "value",
+                "to_port": ""
+              }
+            ],
+            "params": {},
+            "expression": {
+              "op": "+",
+              "args": [
+                {
+                  "op": "variable",
+                  "name": "value"
+                },
+                {
+                  "op": "literal",
+                  "value": 1
+                }
+              ]
+            },
+            "error_output": false
+          }
+        ]
+      }
+    }
+  ],
+  "resources": [
+    "history-device",
+    "history-factory",
+    "history-line-a",
+    "history-line-b"
+  ]
+}

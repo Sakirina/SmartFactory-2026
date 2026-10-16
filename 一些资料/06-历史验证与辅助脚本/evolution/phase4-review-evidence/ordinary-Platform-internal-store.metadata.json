@@ -1,0 +1,184 @@
+{
+  "label": "ordinary-Platform-internal-store",
+  "command": [
+    "go",
+    "tool",
+    "test2json",
+    "-t",
+    "-p",
+    "competition2026/product/platform/internal/store",
+    "/private/tmp/smartfactory-phase4-independent-20261005/bin/Platform-internal-store.test",
+    "-test.v=test2json",
+    "-test.count=1",
+    "-test.parallel=1",
+    "-test.timeout=240s",
+    "-test.run=."
+  ],
+  "cwd": "/private/tmp/smartfactory-phase4-independent-20261005/workspace/Platform/internal/store",
+  "started_at": "2026-10-05T02:19:01.613406+00:00",
+  "completed_at": "2026-10-05T02:19:27.876223+00:00",
+  "elapsed_seconds": 26.262,
+  "exit_code": 0,
+  "postgres": false,
+  "stdout": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/ordinary-Platform-internal-store.stdout.log",
+    "sha256": "ef79f2c78b9fddce5889a5d9fed01b518b7de7e011826a4018267f04053e9bd9",
+    "bytes": 85229
+  },
+  "stderr": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/ordinary-Platform-internal-store.stderr.log",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "counts": {
+    "top_level": {
+      "pass": 31,
+      "fail": 0,
+      "skip": 15
+    },
+    "leaf": {
+      "pass": 47,
+      "fail": 0,
+      "skip": 23
+    },
+    "all_named": {
+      "pass": 55,
+      "fail": 0,
+      "skip": 23
+    },
+    "packages": {
+      "pass": 1,
+      "fail": 0,
+      "skip": 0
+    },
+    "skips": [
+      {
+        "package": "competition2026/product/platform/internal/store",
+        "test": "TestPostgresArchiveCASAndTransactionDuration",
+        "reason": "=== RUN   TestPostgresArchiveCASAndTransactionDuration\n    archive_cas_test.go:100: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresArchiveCASAndTransactionDuration (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/store",
+        "test": "TestPostgresArchiveRetirementAndCreationRace",
+        "reason": "=== RUN   TestPostgresArchiveRetirementAndCreationRace\n    archive_cas_test.go:205: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresArchiveRetirementAndCreationRace (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/store",
+        "test": "TestPostgresArchiveCapacityAndLatePartitionRecovery",
+        "reason": "=== RUN   TestPostgresArchiveCapacityAndLatePartitionRecovery\n    archive_postgres_test.go:21: isolated PostgreSQL fixture required\n--- SKIP: TestPostgresArchiveCapacityAndLatePartitionRecovery (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/store",
+        "test": "TestPostgresBulkIngestTasksBudget",
+        "reason": "=== RUN   TestPostgresBulkIngestTasksBudget\n    bulk_tasks_test.go:42: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresBulkIngestTasksBudget (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/store",
+        "test": "TestPostgresIndependentObjectsAndContendedIdentity",
+        "reason": "=== RUN   TestPostgresIndependentObjectsAndContendedIdentity\n    concurrency_postgres_test.go:39: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresIndependentObjectsAndContendedIdentity (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/store",
+        "test": "TestPostgresLateCommitSyncAuditAndAtomicFinalization",
+        "reason": "=== RUN   TestPostgresLateCommitSyncAuditAndAtomicFinalization\n    concurrency_postgres_test.go:138: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresLateCommitSyncAuditAndAtomicFinalization (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/store",
+        "test": "TestPostgresDeadlockIsRecognizableWithoutCallbackReplay",
+        "reason": "=== RUN   TestPostgresDeadlockIsRecognizableWithoutCallbackReplay\n    concurrency_postgres_test.go:245: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresDeadlockIsRecognizableWithoutCallbackReplay (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/store",
+        "test": "TestPostgresControlEvidenceAtomicReceiptAndImmutableIdentity",
+        "reason": "=== RUN   TestPostgresControlEvidenceAtomicReceiptAndImmutableIdentity\n    control_evidence_test.go:79: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresControlEvidenceAtomicReceiptAndImmutableIdentity (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/store",
+        "test": "TestPostgresNumberedMigrationsPreserveExistingSchema",
+        "reason": "=== RUN   TestPostgresNumberedMigrationsPreserveExistingSchema\n    migrations_test.go:159: set SF_TEST_POSTGRES_DATABASE to an isolated PostgreSQL fixture\n--- SKIP: TestPostgresNumberedMigrationsPreserveExistingSchema (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/store",
+        "test": "TestPostgresRetentionDropsExpiredPartitionBeforeRowDeletion",
+        "reason": "=== RUN   TestPostgresRetentionDropsExpiredPartitionBeforeRowDeletion\n    postgres_retention_test.go:15: set SF_TEST_POSTGRES_DATABASE to an isolated PostgreSQL fixture\n--- SKIP: TestPostgresRetentionDropsExpiredPartitionBeforeRowDeletion (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/store",
+        "test": "TestQueryProjectionPostgres/snapshot-paging-filter-atomic-delete",
+        "reason": "=== RUN   TestQueryProjectionPostgres/snapshot-paging-filter-atomic-delete\n    query_projection_test.go:63: isolated PostgreSQL integration DSN required\n--- SKIP: TestQueryProjectionPostgres/snapshot-paging-filter-atomic-delete (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/store",
+        "test": "TestQueryProjectionPostgres/alarm-case-ephemeral-execution-evidence",
+        "reason": "=== RUN   TestQueryProjectionPostgres/alarm-case-ephemeral-execution-evidence\n    query_projection_test.go:144: isolated PostgreSQL integration DSN required\n--- SKIP: TestQueryProjectionPostgres/alarm-case-ephemeral-execution-evidence (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/store",
+        "test": "TestQueryProjectionPostgres/trend-archive-rollup-revisions-rebuild",
+        "reason": "=== RUN   TestQueryProjectionPostgres/trend-archive-rollup-revisions-rebuild\n    query_projection_test.go:208: isolated PostgreSQL integration DSN required\n--- SKIP: TestQueryProjectionPostgres/trend-archive-rollup-revisions-rebuild (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/store",
+        "test": "TestQueryProjectionPostgres/failure-cancel-compaction-import",
+        "reason": "=== RUN   TestQueryProjectionPostgres/failure-cancel-compaction-import\n    query_projection_test.go:270: isolated PostgreSQL integration DSN required\n--- SKIP: TestQueryProjectionPostgres/failure-cancel-compaction-import (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/store",
+        "test": "TestQueryLateCommitAndConcurrentRebuildPostgres",
+        "reason": "=== RUN   TestQueryLateCommitAndConcurrentRebuildPostgres\n    query_projection_test.go:329: isolated PostgreSQL integration DSN required\n--- SKIP: TestQueryLateCommitAndConcurrentRebuildPostgres (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/store",
+        "test": "TestQueryRebuildPostgresCancellationAndBlockedWriter",
+        "reason": "=== RUN   TestQueryRebuildPostgresCancellationAndBlockedWriter\n    query_projection_test.go:388: isolated PostgreSQL integration DSN required\n--- SKIP: TestQueryRebuildPostgresCancellationAndBlockedWriter (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/store",
+        "test": "TestQueryAllKindsStableKeyset/postgres=true/entities",
+        "reason": "=== RUN   TestQueryAllKindsStableKeyset/postgres=true/entities\n    query_projection_test.go:487: isolated PostgreSQL integration DSN required\n--- SKIP: TestQueryAllKindsStableKeyset/postgres=true/entities (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/store",
+        "test": "TestQueryAllKindsStableKeyset/postgres=true/alarms",
+        "reason": "=== RUN   TestQueryAllKindsStableKeyset/postgres=true/alarms\n    query_projection_test.go:487: isolated PostgreSQL integration DSN required\n--- SKIP: TestQueryAllKindsStableKeyset/postgres=true/alarms (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/store",
+        "test": "TestQueryAllKindsStableKeyset/postgres=true/executions",
+        "reason": "=== RUN   TestQueryAllKindsStableKeyset/postgres=true/executions\n    query_projection_test.go:487: isolated PostgreSQL integration DSN required\n--- SKIP: TestQueryAllKindsStableKeyset/postgres=true/executions (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/store",
+        "test": "TestQueryAllKindsStableKeyset/postgres=true/trend",
+        "reason": "=== RUN   TestQueryAllKindsStableKeyset/postgres=true/trend\n    query_projection_test.go:487: isolated PostgreSQL integration DSN required\n--- SKIP: TestQueryAllKindsStableKeyset/postgres=true/trend (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/store",
+        "test": "TestPostgresRiverMigrationHandoffResumes",
+        "reason": "=== RUN   TestPostgresRiverMigrationHandoffResumes\n    river_migration_test.go:84: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresRiverMigrationHandoffResumes (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/store",
+        "test": "TestPostgresRiverTransactionalEnqueue",
+        "reason": "=== RUN   TestPostgresRiverTransactionalEnqueue\n    river_test.go:112: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresRiverTransactionalEnqueue (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/store",
+        "test": "TestControlledPostgresUpgradeFixture",
+        "reason": "=== RUN   TestControlledPostgresUpgradeFixture\n    upgrade_fixture_test.go:33: controlled PostgreSQL 16 -> 18 fixture\n--- SKIP: TestControlledPostgresUpgradeFixture (0.00s)\n"
+      }
+    ],
+    "failures": [],
+    "races": 0
+  },
+  "build_inputs": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/build-inputs.json",
+    "sha256": "88fdc87b09a840748a6cadc356b019dcf324905175ecb4f7fb3e38f7c7981643",
+    "bytes": 1717015
+  },
+  "binary": {
+    "path": "/private/tmp/smartfactory-phase4-independent-20261005/bin/Platform-internal-store.test",
+    "sha256": "d2a1a7a6f8ba332f605d8555e1b0c206f637463536c56f36c7e2ccc38485484d",
+    "bytes": 37604306
+  }
+}

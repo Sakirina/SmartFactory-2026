@@ -1,0 +1,681 @@
+environment: development
+run_mode: embedded
+log:
+    level: info
+management:
+    addr: 127.0.0.1:18082
+grpc:
+    enabled: true
+    addr: 127.0.0.1:50051
+    reflection: false
+    tls:
+        enabled: false
+        insecure_skip_verify: false
+        cert_file: ""
+        key_file: ""
+        ca_file: ""
+mqtt:
+    enabled: false
+    broker: ""
+    gateway_id: ""
+    client_id: ""
+    username: ""
+    password: ""
+    connect_timeout_seconds: 5
+    tls:
+        enabled: false
+        insecure_skip_verify: false
+        cert_file: ""
+        key_file: ""
+        ca_file: ""
+buffer:
+    enabled: false
+    storage_type: sqlite
+    path: data/datatransfer-buffer.db
+    max_size_mb: 512
+    ttl_hours: 168
+    resume_rate_limit: 1000
+    resume_batch_size: 100
+    cleanup_interval_seconds: 60
+runtime:
+    state_path: ':memory:'
+    ring_size: 1024
+    command_ttl_seconds: 3600
+    command_retry:
+        interval_mode: exponential
+        interval_ms: 200
+        max_interval_ms: 5000
+connectors:
+    - process: null
+      connector_id: simulation-modbus
+      protocol: modbus_tcp
+      default_tags: {}
+      connection:
+        mqtt_version: ""
+        url: tcp://127.0.0.1:1502
+        host: ""
+        port: 0
+        unit_id: 0
+        timeout_millis: 500
+        username: ""
+        password: ""
+        security_policy: ""
+        security_mode: ""
+        cert_file: ""
+        key_file: ""
+        ca_file: ""
+        telemetry_topic: ""
+        status_topic: ""
+        event_topic: ""
+        cmd_response_topic: ""
+        command_topic: ""
+        tls:
+            enabled: false
+            insecure_skip_verify: false
+            cert_file: ""
+            key_file: ""
+            ca_file: ""
+      polling:
+        mode: ""
+        publish_interval_millis: 0
+        interval_millis: 500
+        timeout_millis: 0
+      devices:
+        - device_id: climate-1
+          device_name: 温湿度与通风设备
+          device_type: ""
+          protocol: modbus_tcp
+          unit_id: 1
+          tags: {}
+          address: []
+          datapoints:
+            - byte_order: ""
+              word_order: ""
+              bit_offset: 0
+              bit_length: 0
+              key: temperature
+              source: ""
+              node_id: ""
+              register_type: holding_register
+              address: 0
+              quantity: 0
+              data_type: uint16
+              scale: 0.1
+              offset: 0
+              unit: °C
+              quality: ""
+              report_strategy: null
+            - byte_order: ""
+              word_order: ""
+              bit_offset: 0
+              bit_length: 0
+              key: humidity
+              source: ""
+              node_id: ""
+              register_type: holding_register
+              address: 1
+              quantity: 0
+              data_type: uint16
+              scale: 0.1
+              offset: 0
+              unit: '%'
+              quality: ""
+              report_strategy: null
+            - byte_order: ""
+              word_order: ""
+              bit_offset: 0
+              bit_length: 0
+              key: fan
+              source: ""
+              node_id: ""
+              register_type: coil
+              address: 0
+              quantity: 0
+              data_type: bool
+              scale: null
+              offset: 0
+              unit: ""
+              quality: ""
+              report_strategy: null
+            - byte_order: ""
+              word_order: ""
+              bit_offset: 0
+              bit_length: 0
+              key: interlock
+              source: ""
+              node_id: ""
+              register_type: coil
+              address: 1
+              quantity: 0
+              data_type: bool
+              scale: null
+              offset: 0
+              unit: ""
+              quality: ""
+              report_strategy: null
+            - byte_order: ""
+              word_order: ""
+              bit_offset: 0
+              bit_length: 0
+              key: heater
+              source: ""
+              node_id: ""
+              register_type: coil
+              address: 2
+              quantity: 0
+              data_type: bool
+              scale: null
+              offset: 0
+              unit: ""
+              quality: ""
+              report_strategy: null
+            - byte_order: ""
+              word_order: ""
+              bit_offset: 0
+              bit_length: 0
+              key: humidifier
+              source: ""
+              node_id: ""
+              register_type: coil
+              address: 3
+              quantity: 0
+              data_type: bool
+              scale: null
+              offset: 0
+              unit: ""
+              quality: ""
+              report_strategy: null
+            - byte_order: ""
+              word_order: ""
+              bit_offset: 0
+              bit_length: 0
+              key: dehumidifier
+              source: ""
+              node_id: ""
+              register_type: coil
+              address: 4
+              quantity: 0
+              data_type: bool
+              scale: null
+              offset: 0
+              unit: ""
+              quality: ""
+              report_strategy: null
+          action_mappings:
+            set_dehumidifier:
+                inputs: []
+                byte_order: ""
+                word_order: ""
+                scale: null
+                offset: 0
+                type: write_single_coil
+                register_type: ""
+                address: 4
+                node_id: ""
+                method_id: ""
+                quantity: 0
+                data_type: ""
+                param: value
+                value: ""
+                values: []
+                topic: ""
+                template: ""
+            set_fan:
+                inputs: []
+                byte_order: ""
+                word_order: ""
+                scale: null
+                offset: 0
+                type: write_single_coil
+                register_type: ""
+                address: 0
+                node_id: ""
+                method_id: ""
+                quantity: 0
+                data_type: ""
+                param: value
+                value: ""
+                values: []
+                topic: ""
+                template: ""
+            set_heater:
+                inputs: []
+                byte_order: ""
+                word_order: ""
+                scale: null
+                offset: 0
+                type: write_single_coil
+                register_type: ""
+                address: 2
+                node_id: ""
+                method_id: ""
+                quantity: 0
+                data_type: ""
+                param: value
+                value: ""
+                values: []
+                topic: ""
+                template: ""
+            set_humidifier:
+                inputs: []
+                byte_order: ""
+                word_order: ""
+                scale: null
+                offset: 0
+                type: write_single_coil
+                register_type: ""
+                address: 3
+                node_id: ""
+                method_id: ""
+                quantity: 0
+                data_type: ""
+                param: value
+                value: ""
+                values: []
+                topic: ""
+                template: ""
+        - device_id: agv-1
+          device_name: AGV避障
+          device_type: ""
+          protocol: modbus_tcp
+          unit_id: 2
+          tags: {}
+          address: []
+          datapoints:
+            - byte_order: ""
+              word_order: ""
+              bit_offset: 0
+              bit_length: 0
+              key: distance
+              source: ""
+              node_id: ""
+              register_type: holding_register
+              address: 0
+              quantity: 0
+              data_type: uint16
+              scale: null
+              offset: 0
+              unit: cm
+              quality: ""
+              report_strategy: null
+            - byte_order: ""
+              word_order: ""
+              bit_offset: 0
+              bit_length: 0
+              key: stopped
+              source: ""
+              node_id: ""
+              register_type: coil
+              address: 0
+              quantity: 0
+              data_type: bool
+              scale: null
+              offset: 0
+              unit: ""
+              quality: ""
+              report_strategy: null
+            - byte_order: ""
+              word_order: ""
+              bit_offset: 0
+              bit_length: 0
+              key: interlock
+              source: ""
+              node_id: ""
+              register_type: coil
+              address: 1
+              quantity: 0
+              data_type: bool
+              scale: null
+              offset: 0
+              unit: ""
+              quality: ""
+              report_strategy: null
+          action_mappings:
+            resume:
+                inputs: []
+                byte_order: ""
+                word_order: ""
+                scale: null
+                offset: 0
+                type: write_single_coil
+                register_type: ""
+                address: 0
+                node_id: ""
+                method_id: ""
+                quantity: 0
+                data_type: ""
+                param: ""
+                value: "false"
+                values: []
+                topic: ""
+                template: ""
+            stop:
+                inputs: []
+                byte_order: ""
+                word_order: ""
+                scale: null
+                offset: 0
+                type: write_single_coil
+                register_type: ""
+                address: 0
+                node_id: ""
+                method_id: ""
+                quantity: 0
+                data_type: ""
+                param: ""
+                value: "true"
+                values: []
+                topic: ""
+                template: ""
+      action_mappings: {}
+      report_strategy:
+        mode: ""
+        period_seconds: 0
+        deadband: 0
+    - process: null
+      connector_id: simulation-mqtt
+      protocol: mqtt_device
+      default_tags: {}
+      connection:
+        mqtt_version: "5.0"
+        url: tcp://127.0.0.1:18830
+        host: ""
+        port: 0
+        unit_id: 0
+        timeout_millis: 2000
+        username: ""
+        password: ""
+        security_policy: ""
+        security_mode: ""
+        cert_file: ""
+        key_file: ""
+        ca_file: ""
+        telemetry_topic: ""
+        status_topic: ""
+        event_topic: ""
+        cmd_response_topic: ""
+        command_topic: ""
+        tls:
+            enabled: false
+            insecure_skip_verify: false
+            cert_file: ""
+            key_file: ""
+            ca_file: ""
+      polling:
+        mode: ""
+        publish_interval_millis: 0
+        interval_millis: 0
+        timeout_millis: 0
+      devices:
+        - device_id: light-1
+          device_name: 红外照明
+          device_type: ""
+          protocol: ""
+          unit_id: 0
+          tags: {}
+          address: []
+          datapoints:
+            - byte_order: ""
+              word_order: ""
+              bit_offset: 0
+              bit_length: 0
+              key: presence
+              source: presence
+              node_id: ""
+              register_type: ""
+              address: 0
+              quantity: 0
+              data_type: bool
+              scale: null
+              offset: 0
+              unit: ""
+              quality: ""
+              report_strategy: null
+            - byte_order: ""
+              word_order: ""
+              bit_offset: 0
+              bit_length: 0
+              key: light
+              source: light
+              node_id: ""
+              register_type: ""
+              address: 0
+              quantity: 0
+              data_type: bool
+              scale: null
+              offset: 0
+              unit: ""
+              quality: ""
+              report_strategy: null
+            - byte_order: ""
+              word_order: ""
+              bit_offset: 0
+              bit_length: 0
+              key: interlock
+              source: interlock
+              node_id: ""
+              register_type: ""
+              address: 0
+              quantity: 0
+              data_type: bool
+              scale: null
+              offset: 0
+              unit: ""
+              quality: ""
+              report_strategy: null
+          action_mappings: {}
+        - device_id: counter-1
+          device_name: 货物计数
+          device_type: ""
+          protocol: ""
+          unit_id: 0
+          tags: {}
+          address: []
+          datapoints:
+            - byte_order: ""
+              word_order: ""
+              bit_offset: 0
+              bit_length: 0
+              key: total
+              source: total
+              node_id: ""
+              register_type: ""
+              address: 0
+              quantity: 0
+              data_type: uint64
+              scale: null
+              offset: 0
+              unit: 件
+              quality: ""
+              report_strategy: null
+            - byte_order: ""
+              word_order: ""
+              bit_offset: 0
+              bit_length: 0
+              key: enabled
+              source: enabled
+              node_id: ""
+              register_type: ""
+              address: 0
+              quantity: 0
+              data_type: bool
+              scale: null
+              offset: 0
+              unit: ""
+              quality: ""
+              report_strategy: null
+            - byte_order: ""
+              word_order: ""
+              bit_offset: 0
+              bit_length: 0
+              key: interlock
+              source: interlock
+              node_id: ""
+              register_type: ""
+              address: 0
+              quantity: 0
+              data_type: bool
+              scale: null
+              offset: 0
+              unit: ""
+              quality: ""
+              report_strategy: null
+          action_mappings: {}
+      action_mappings: {}
+      report_strategy:
+        mode: ""
+        period_seconds: 0
+        deadband: 0
+    - process: null
+      connector_id: simulation-opcua
+      protocol: opcua
+      default_tags: {}
+      connection:
+        mqtt_version: ""
+        url: opc.tcp://127.0.0.1:48400
+        host: ""
+        port: 0
+        unit_id: 0
+        timeout_millis: 2000
+        username: ""
+        password: ""
+        security_policy: ""
+        security_mode: ""
+        cert_file: ""
+        key_file: ""
+        ca_file: ""
+        telemetry_topic: ""
+        status_topic: ""
+        event_topic: ""
+        cmd_response_topic: ""
+        command_topic: ""
+        tls:
+            enabled: false
+            insecure_skip_verify: false
+            cert_file: ""
+            key_file: ""
+            ca_file: ""
+      polling:
+        mode: ""
+        publish_interval_millis: 0
+        interval_millis: 500
+        timeout_millis: 0
+      devices:
+        - device_id: gas-1
+          device_name: 危气监测
+          device_type: ""
+          protocol: ""
+          unit_id: 0
+          tags: {}
+          address: []
+          datapoints:
+            - byte_order: ""
+              word_order: ""
+              bit_offset: 0
+              bit_length: 0
+              key: smoke
+              source: ""
+              node_id: ns=2;s=gas-1.smoke
+              register_type: ""
+              address: 0
+              quantity: 0
+              data_type: float64
+              scale: null
+              offset: 0
+              unit: ""
+              quality: ""
+              report_strategy: null
+            - byte_order: ""
+              word_order: ""
+              bit_offset: 0
+              bit_length: 0
+              key: combustible
+              source: ""
+              node_id: ns=2;s=gas-1.combustible
+              register_type: ""
+              address: 0
+              quantity: 0
+              data_type: float64
+              scale: null
+              offset: 0
+              unit: ""
+              quality: ""
+              report_strategy: null
+            - byte_order: ""
+              word_order: ""
+              bit_offset: 0
+              bit_length: 0
+              key: co
+              source: ""
+              node_id: ns=2;s=gas-1.co
+              register_type: ""
+              address: 0
+              quantity: 0
+              data_type: float64
+              scale: null
+              offset: 0
+              unit: ""
+              quality: ""
+              report_strategy: null
+            - byte_order: ""
+              word_order: ""
+              bit_offset: 0
+              bit_length: 0
+              key: extractor
+              source: ""
+              node_id: ns=2;s=gas-1.extractor
+              register_type: ""
+              address: 0
+              quantity: 0
+              data_type: bool
+              scale: null
+              offset: 0
+              unit: ""
+              quality: ""
+              report_strategy: null
+            - byte_order: ""
+              word_order: ""
+              bit_offset: 0
+              bit_length: 0
+              key: interlock
+              source: ""
+              node_id: ns=2;s=gas-1.interlock
+              register_type: ""
+              address: 0
+              quantity: 0
+              data_type: bool
+              scale: null
+              offset: 0
+              unit: ""
+              quality: ""
+              report_strategy: null
+          action_mappings:
+            set_extractor:
+                inputs: []
+                byte_order: ""
+                word_order: ""
+                scale: null
+                offset: 0
+                type: write
+                register_type: ""
+                address: 0
+                node_id: ns=2;s=gas-1.extractor
+                method_id: ""
+                quantity: 0
+                data_type: bool
+                param: value
+                value: ""
+                values: []
+                topic: ""
+                template: ""
+      action_mappings: {}
+      report_strategy:
+        mode: ""
+        period_seconds: 0
+        deadband: 0
+report_strategy:
+    mode: ""
+    period_seconds: 0
+    deadband: 0
+backpressure:
+    policy: ""

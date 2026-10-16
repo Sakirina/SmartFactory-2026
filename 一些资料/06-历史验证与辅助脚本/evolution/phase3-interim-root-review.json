@@ -1,0 +1,534 @@
+{
+  "reviewed_at": "2026-10-04T20:20:45.844361+00:00",
+  "scope": "主协调核对本轮新产生的原始测试日志；专业最终报告及阶段独立审查尚未交付",
+  "acceptance_status": "verification_pending",
+  "review": [
+    {
+      "path": ".local/evolution/control-evidence/operation-started-receipt-first.jsonl",
+      "sha256": "e115fb06842ab87bff8b70f05cb1c90695b8b40bd2bd512137a516429a865e74",
+      "test_events": {
+        "pass": 11
+      },
+      "top_level_tests": {
+        "pass": 5
+      },
+      "tests": [
+        {
+          "action": "pass",
+          "test": "TestOperationStartSurvivesDuplicateAfterDeadline",
+          "elapsed": 0.04
+        },
+        {
+          "action": "pass",
+          "test": "TestStartedOperationResumesAfterDatabaseReopenBeyondDeadline",
+          "elapsed": 0.03
+        },
+        {
+          "action": "pass",
+          "test": "TestOperationDeadlineUsesStartTimeAndCloudAcceptsLateCompletion/starts_before_deadline_finishes_after",
+          "elapsed": 0.03
+        },
+        {
+          "action": "pass",
+          "test": "TestOperationDeadlineUsesStartTimeAndCloudAcceptsLateCompletion/expired_before_start",
+          "elapsed": 0.03
+        },
+        {
+          "action": "pass",
+          "test": "TestOperationDeadlineUsesStartTimeAndCloudAcceptsLateCompletion",
+          "elapsed": 0.06
+        },
+        {
+          "action": "pass",
+          "test": "TestCloudPendingConflictAndCurrentPermissionAreCheckedAtEdge/revision_changed",
+          "elapsed": 0.03
+        },
+        {
+          "action": "pass",
+          "test": "TestCloudPendingConflictAndCurrentPermissionAreCheckedAtEdge/permission_revoked",
+          "elapsed": 0.03
+        },
+        {
+          "action": "pass",
+          "test": "TestCloudPendingConflictAndCurrentPermissionAreCheckedAtEdge",
+          "elapsed": 0.06
+        },
+        {
+          "action": "pass",
+          "test": "TestLocalOperationSurvivesCommitBeforeProcessingAndSameIDRetry/worker_delivery",
+          "elapsed": 0.02
+        },
+        {
+          "action": "pass",
+          "test": "TestLocalOperationSurvivesCommitBeforeProcessingAndSameIDRetry/same_id_retry",
+          "elapsed": 0.02
+        },
+        {
+          "action": "pass",
+          "test": "TestLocalOperationSurvivesCommitBeforeProcessingAndSameIDRetry",
+          "elapsed": 0.03
+        }
+      ]
+    },
+    {
+      "path": ".local/evolution/control-evidence/operation-deadline-concurrent-first.jsonl",
+      "sha256": "e8086372c1bf2da68db5822d407334920a682dfadfeadf3edbf3a610cd3fe41e",
+      "test_events": {
+        "pass": 5
+      },
+      "top_level_tests": {
+        "pass": 3
+      },
+      "tests": [
+        {
+          "action": "pass",
+          "test": "TestOperationStartSurvivesDuplicateAfterDeadline",
+          "elapsed": 0.04
+        },
+        {
+          "action": "pass",
+          "test": "TestStartedOperationResumesAfterDatabaseReopenBeyondDeadline",
+          "elapsed": 0.03
+        },
+        {
+          "action": "pass",
+          "test": "TestOperationDeadlineUsesStartTimeAndCloudAcceptsLateCompletion/starts_before_deadline_finishes_after",
+          "elapsed": 0.03
+        },
+        {
+          "action": "pass",
+          "test": "TestOperationDeadlineUsesStartTimeAndCloudAcceptsLateCompletion/expired_before_start",
+          "elapsed": 0.03
+        },
+        {
+          "action": "pass",
+          "test": "TestOperationDeadlineUsesStartTimeAndCloudAcceptsLateCompletion",
+          "elapsed": 0.07
+        }
+      ]
+    },
+    {
+      "path": ".local/evolution/history-evidence/http-otlp-first.jsonl",
+      "sha256": "c99a27ed8b24eddc30354739fcd69ac8764fb073bd15d5aed3982ef802476d06",
+      "test_events": {
+        "fail": 1
+      },
+      "top_level_tests": {
+        "fail": 1
+      },
+      "tests": [
+        {
+          "action": "fail",
+          "test": "TestHistoryHTTPTasksExactValuesAuthorizationAndOTLP",
+          "elapsed": 0.17
+        }
+      ]
+    },
+    {
+      "path": ".local/evolution/history-evidence/http-otlp-repair.jsonl",
+      "sha256": "660b85234dda45705035f38551a4f3fcdbfde4592fb4a53aa7eafb20f268227c",
+      "test_events": {
+        "pass": 1
+      },
+      "top_level_tests": {
+        "pass": 1
+      },
+      "tests": [
+        {
+          "action": "pass",
+          "test": "TestHistoryHTTPTasksExactValuesAuthorizationAndOTLP",
+          "elapsed": 0.18
+        }
+      ]
+    },
+    {
+      "path": ".local/evolution/history-evidence/sigkill-first.jsonl",
+      "sha256": "7b283e8d46bc7744c4d2e51333f414d63df39a26c68507bd31cab299ca869f59",
+      "test_events": {
+        "pass": 6
+      },
+      "top_level_tests": {
+        "pass": 3
+      },
+      "tests": [
+        {
+          "action": "pass",
+          "test": "TestHistorySIGKILLResumesCommittedCheckpointUsingOfficialRiverRescue",
+          "elapsed": 18.62
+        },
+        {
+          "action": "pass",
+          "test": "TestShadowSIGKILLPreservesResolvedParentSnapshot",
+          "elapsed": 21.92
+        },
+        {
+          "action": "pass",
+          "test": "TestShadowSIGKILLAtProductionDeliveryStages/before-capture",
+          "elapsed": 0.13
+        },
+        {
+          "action": "pass",
+          "test": "TestShadowSIGKILLAtProductionDeliveryStages/after-capture",
+          "elapsed": 0.11
+        },
+        {
+          "action": "pass",
+          "test": "TestShadowSIGKILLAtProductionDeliveryStages/before-ack",
+          "elapsed": 0.11
+        },
+        {
+          "action": "pass",
+          "test": "TestShadowSIGKILLAtProductionDeliveryStages",
+          "elapsed": 0.35
+        }
+      ]
+    }
+  ],
+  "independent_trace_and_scope_review": {
+    "metadata_path": ".local/evolution/phase3-review-evidence/independent-trace-and-shadow-scope.metadata.json",
+    "metadata_sha256": "d08b1e9615dd3c1d3217decd563c8bb4c084d27247951bbcd333c9171a053aa3",
+    "exit_code": 0,
+    "references": [
+      {
+        "kind": "stdout",
+        "path": ".local/evolution/phase3-review-evidence/independent-trace-and-shadow-scope.stdout.log",
+        "sha256": "b1c069ec8d28753d50959d05ce2c5c9a3e264fb41effce92bed13632ddd07c63",
+        "matched": true
+      },
+      {
+        "kind": "stderr",
+        "path": ".local/evolution/phase3-review-evidence/independent-trace-and-shadow-scope.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "matched": true
+      }
+    ],
+    "counts_reparsed": {
+      "top_level_pass": 2,
+      "subtest_pass": 2
+    },
+    "top_level_tests": [
+      {
+        "test": "TestIndependentHistoryHTTPTraceBindingsAndFailureStatus",
+        "status": "pass"
+      },
+      {
+        "test": "TestIndependentShadowReplacementRetainsPreviousEpochAndRechecksCurrentFields",
+        "status": "pass"
+      }
+    ],
+    "source_changes_during_run": []
+  },
+  "updated_at": "2026-10-04T21:43:43.973078+00:00",
+  "c05_independent_current_combination": [
+    {
+      "path": ".local/evolution/phase3-review-evidence/c05-actual-dual-application.metadata.json",
+      "sha256": "b4e0304295717956968b13084a9e305c313968b8abf4de90d98d9ad6de2c0a1b",
+      "exit_code": 0,
+      "source_changes_during_run": [],
+      "references": [
+        {
+          "kind": "stdout",
+          "path": ".local/evolution/phase3-review-evidence/c05-actual-dual-application.stdout.log",
+          "expected": "2c7ede2d52a554aae4d45af1e55d699f0eac25725c2677c486288296c1fbcadc",
+          "actual": "2c7ede2d52a554aae4d45af1e55d699f0eac25725c2677c486288296c1fbcadc",
+          "matched": true
+        },
+        {
+          "kind": "stderr",
+          "path": ".local/evolution/phase3-review-evidence/c05-actual-dual-application.stderr.log",
+          "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "matched": true
+        }
+      ],
+      "counts_reparsed": {
+        "top_level": {
+          "pass": 1,
+          "fail": 0,
+          "skip": 0
+        },
+        "all_named_cases": {
+          "pass": 1,
+          "fail": 0,
+          "skip": 0
+        },
+        "leaf_cases": {
+          "pass": 1,
+          "fail": 0,
+          "skip": 0
+        },
+        "packages": {
+          "pass": 1,
+          "fail": 0,
+          "skip": 0
+        }
+      },
+      "reported_counts_match": {
+        "top_level": true,
+        "all_named_cases": true,
+        "leaf_cases": true,
+        "packages": true
+      }
+    },
+    {
+      "path": ".local/evolution/phase3-review-evidence/c05-contract-schema-validation.metadata.json",
+      "sha256": "1149c5f691cbf4e67f5f86ccc83eee5a68ccff52fde91caa03f3905b4f6acf69",
+      "exit_code": 0,
+      "source_changes_during_run": [],
+      "references": [
+        {
+          "kind": "stdout",
+          "path": ".local/evolution/phase3-review-evidence/c05-contract-schema-validation.stdout.log",
+          "expected": "fe7f25b07c78a74bc8b6b1c75e238de2d268189c03a4f7f78ccc2675954f18f0",
+          "actual": "fe7f25b07c78a74bc8b6b1c75e238de2d268189c03a4f7f78ccc2675954f18f0",
+          "matched": true
+        },
+        {
+          "kind": "stderr",
+          "path": ".local/evolution/phase3-review-evidence/c05-contract-schema-validation.stderr.log",
+          "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "matched": true
+        }
+      ]
+    },
+    {
+      "path": ".local/evolution/phase3-review-evidence/c05-control-race.metadata.json",
+      "sha256": "06da89783efd5df5dd192d4a598f84cbd7c59ae5fa322b9919bda902ad3df8ad",
+      "exit_code": 0,
+      "source_changes_during_run": [],
+      "references": [
+        {
+          "kind": "stdout",
+          "path": ".local/evolution/phase3-review-evidence/c05-control-race.stdout.log",
+          "expected": "00dcfe5a55d11ce8ac6f303ba6c349b434d210fa570a7f197f5ff7b274781089",
+          "actual": "00dcfe5a55d11ce8ac6f303ba6c349b434d210fa570a7f197f5ff7b274781089",
+          "matched": true
+        },
+        {
+          "kind": "stderr",
+          "path": ".local/evolution/phase3-review-evidence/c05-control-race.stderr.log",
+          "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "matched": true
+        }
+      ],
+      "counts_reparsed": {
+        "top_level": {
+          "pass": 11,
+          "fail": 0,
+          "skip": 1
+        },
+        "all_named_cases": {
+          "pass": 48,
+          "fail": 0,
+          "skip": 1
+        },
+        "leaf_cases": {
+          "pass": 43,
+          "fail": 0,
+          "skip": 1
+        },
+        "packages": {
+          "pass": 4,
+          "fail": 0,
+          "skip": 0
+        }
+      },
+      "reported_counts_match": {
+        "top_level": true,
+        "all_named_cases": true,
+        "leaf_cases": true,
+        "packages": true
+      }
+    },
+    {
+      "path": ".local/evolution/phase3-review-evidence/c05-frontend-production-build.metadata.json",
+      "sha256": "5d7ec96f6d8efc2c7866989f226b34f2d8e6ba84424bc87e28c0c75b1aef233b",
+      "exit_code": 0,
+      "source_changes_during_run": [],
+      "references": [
+        {
+          "kind": "stdout",
+          "path": ".local/evolution/phase3-review-evidence/c05-frontend-production-build.stdout.log",
+          "expected": "ad546b509574cba6372cb1b1b2dccde32ec5711d85bce5a2a73da464e4bf7614",
+          "actual": "ad546b509574cba6372cb1b1b2dccde32ec5711d85bce5a2a73da464e4bf7614",
+          "matched": true
+        },
+        {
+          "kind": "stderr",
+          "path": ".local/evolution/phase3-review-evidence/c05-frontend-production-build.stderr.log",
+          "expected": "351b524197fb492920789369e7f1a271420c757633fbb553b280a181ac4c31a4",
+          "actual": "351b524197fb492920789369e7f1a271420c757633fbb553b280a181ac4c31a4",
+          "matched": true
+        }
+      ]
+    },
+    {
+      "path": ".local/evolution/phase3-review-evidence/c05-frontend-typescript6.metadata.json",
+      "sha256": "bec8a58547e1bf95e0cdf364fc21e4619ce692ad22f245f40514c2bc64cbfa49",
+      "exit_code": 0,
+      "source_changes_during_run": [],
+      "references": [
+        {
+          "kind": "stdout",
+          "path": ".local/evolution/phase3-review-evidence/c05-frontend-typescript6.stdout.log",
+          "expected": "dbf8b195504f182a5e9d8670ea7a33528a7835c3f43b5d751ec4367ca5694b11",
+          "actual": "dbf8b195504f182a5e9d8670ea7a33528a7835c3f43b5d751ec4367ca5694b11",
+          "matched": true
+        },
+        {
+          "kind": "stderr",
+          "path": ".local/evolution/phase3-review-evidence/c05-frontend-typescript6.stderr.log",
+          "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "matched": true
+        }
+      ]
+    },
+    {
+      "path": ".local/evolution/phase3-review-evidence/c05-frontend-unit.metadata.json",
+      "sha256": "e8aa5b9ba21e69c3aba9ed9a18b6ec848a840a4c1e157688d7ebfc04c1e09f6f",
+      "exit_code": 0,
+      "source_changes_during_run": [],
+      "references": [
+        {
+          "kind": "stdout",
+          "path": ".local/evolution/phase3-review-evidence/c05-frontend-unit.stdout.log",
+          "expected": "9eb11b4c02f32c60d7997ca444d7be29b7f8d86655f78c7215dd3888ace7ec08",
+          "actual": "9eb11b4c02f32c60d7997ca444d7be29b7f8d86655f78c7215dd3888ace7ec08",
+          "matched": true
+        },
+        {
+          "kind": "stderr",
+          "path": ".local/evolution/phase3-review-evidence/c05-frontend-unit.stderr.log",
+          "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "matched": true
+        }
+      ]
+    },
+    {
+      "path": ".local/evolution/phase3-review-evidence/c05-go-contract-generation.metadata.json",
+      "sha256": "f1d3e318868093cb42b166ad1c99ce5289f41899e47bc0f1e10229a052c3c56a",
+      "exit_code": 0,
+      "source_changes_during_run": [],
+      "references": [
+        {
+          "kind": "stdout",
+          "path": ".local/evolution/phase3-review-evidence/c05-go-contract-generation.stdout.log",
+          "expected": "cf93969704f881d029b11b62432e5189b72b9f2f14fdb174137b9b67349b5863",
+          "actual": "cf93969704f881d029b11b62432e5189b72b9f2f14fdb174137b9b67349b5863",
+          "matched": true
+        },
+        {
+          "kind": "stderr",
+          "path": ".local/evolution/phase3-review-evidence/c05-go-contract-generation.stderr.log",
+          "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "matched": true
+        }
+      ]
+    },
+    {
+      "path": ".local/evolution/phase3-review-evidence/c05-platform-full.metadata.json",
+      "sha256": "8c3f663ec25ce412e96b78b048ba65d7c462eaec97c1261d46b07fba28c93e1e",
+      "exit_code": 0,
+      "source_changes_during_run": [],
+      "references": [
+        {
+          "kind": "stdout",
+          "path": ".local/evolution/phase3-review-evidence/c05-platform-full.stdout.log",
+          "expected": "bae84bc7884a03e0aec0c7feb080a329cf3a13fcade8538032ac6eb311dda74a",
+          "actual": "bae84bc7884a03e0aec0c7feb080a329cf3a13fcade8538032ac6eb311dda74a",
+          "matched": true
+        },
+        {
+          "kind": "stderr",
+          "path": ".local/evolution/phase3-review-evidence/c05-platform-full.stderr.log",
+          "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "matched": true
+        }
+      ],
+      "counts_reparsed": {
+        "top_level": {
+          "pass": 210,
+          "fail": 0,
+          "skip": 34
+        },
+        "all_named_cases": {
+          "pass": 390,
+          "fail": 0,
+          "skip": 34
+        },
+        "leaf_cases": {
+          "pass": 350,
+          "fail": 0,
+          "skip": 34
+        },
+        "packages": {
+          "pass": 21,
+          "fail": 0,
+          "skip": 17
+        }
+      },
+      "reported_counts_match": {
+        "top_level": true,
+        "all_named_cases": true,
+        "leaf_cases": true,
+        "packages": true
+      }
+    },
+    {
+      "path": ".local/evolution/phase3-review-evidence/c05-postgres-evidence.metadata.json",
+      "sha256": "acfd586431987ac8eae02143340da7e66078db47bb88f8f5f9bc4aaf33a0a444",
+      "exit_code": 0,
+      "source_changes_during_run": [],
+      "references": [
+        {
+          "kind": "stdout",
+          "path": ".local/evolution/phase3-review-evidence/c05-postgres-evidence.stdout.log",
+          "expected": "68b5568e07c923888a0085534341ede037b25da1dae72b2d417ebfad40b3bda5",
+          "actual": "68b5568e07c923888a0085534341ede037b25da1dae72b2d417ebfad40b3bda5",
+          "matched": true
+        },
+        {
+          "kind": "stderr",
+          "path": ".local/evolution/phase3-review-evidence/c05-postgres-evidence.stderr.log",
+          "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "matched": true
+        }
+      ],
+      "counts_reparsed": {
+        "top_level": {
+          "pass": 2,
+          "fail": 0,
+          "skip": 0
+        },
+        "all_named_cases": {
+          "pass": 2,
+          "fail": 0,
+          "skip": 0
+        },
+        "leaf_cases": {
+          "pass": 2,
+          "fail": 0,
+          "skip": 0
+        },
+        "packages": {
+          "pass": 2,
+          "fail": 0,
+          "skip": 0
+        }
+      },
+      "reported_counts_match": {
+        "top_level": true,
+        "all_named_cases": true,
+        "leaf_cases": true,
+        "packages": true
+      }
+    }
+  ]
+}

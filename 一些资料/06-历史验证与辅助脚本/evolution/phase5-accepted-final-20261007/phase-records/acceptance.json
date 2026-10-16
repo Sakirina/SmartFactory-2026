@@ -1,0 +1,2013 @@
+{
+  "schema_version": 1,
+  "plan": "plan.md",
+  "source_commit": "dde3315bd91f62be5fa3593200f9d267bc264811",
+  "started_at": "2026-10-04",
+  "overall_status": "complete",
+  "excluded_from_this_goal": [
+    "完整UOS安装与恢复专项",
+    "单节点和三节点连续断云24小时专项",
+    "受限链路补传补算专项",
+    "实际24小时容量与持续运行测量"
+  ],
+  "requirements": [
+    {
+      "id": "E1-01",
+      "phase": 1,
+      "title": "维护工具链一致性",
+      "requirement": "Go维护版本、CI、本地构建、构建镜像和模块声明具有明确一致的选版关系，记录实际受测编译器",
+      "verification_criteria": "各入口版本读取、一致性脚本、两个Go模块实际构建与测试、构建镜像检查",
+      "implementation_status": "complete",
+      "verification_status": "passed",
+      "implementation": [
+        "deploy/toolchains.json",
+        "scripts/toolchain.py",
+        "scripts/build-release.py",
+        "deploy/go-version",
+        "deploy/node-version",
+        ".github/workflows/build-release.yml"
+      ],
+      "evidence": [
+        ".local/evolution/toolchains-verified.json",
+        ".local/evolution/go-build-verification.json",
+        ".local/evolution/rules-root-review.json",
+        ".local/evolution/final-independent-review.json",
+        ".local/evolution/phase5-final-root-review.json"
+      ],
+      "notes": [
+        "Go1.27.1、Node24.21.0配置与实际工具一致；DataTransfer全量测试和Linux/amd64构建、Platform九个命令构建及当前全量188项测试通过，7项环境测试跳过另行按对应需求补验；最终整体验证继续核对受测摘要"
+      ],
+      "final_verification": {
+        "checked_at": "2026-10-07T05:46:49.670743+00:00",
+        "status": "passed",
+        "report": ".local/evolution/final-independent-review.json",
+        "requirement_id": "E1-01",
+        "source_sha256": "6c66570a31e7f921e4830fa2a0c16c6947a589c0d4cb0c57aab5fd8d4ba1fdbe",
+        "conclusion": "Go1.27.1及Node24.21.0的实际工具记录与版本入口一致，两个Go模块适用完整回归、当前原生程序和Linux十四程序构建形成对应"
+      }
+    },
+    {
+      "id": "E1-02",
+      "phase": 1,
+      "title": "原生平台与代理维护更新",
+      "requirement": "ThingsBoard CE、兼容Edge、Envoy、基础镜像和当前Go库完成所需维护更新，并锁定来源和摘要",
+      "verification_criteria": "官方发行与镜像元数据、真实获取记录、版本输出、原生通信与mTLS/流式路由回归",
+      "implementation_status": "complete",
+      "verification_status": "passed",
+      "implementation": [
+        "deploy/dependencies.json",
+        "deploy/images.lock.json",
+        "deploy/compose.native.json",
+        "scripts/check-native.py",
+        "scripts/check-envoy.py",
+        "scripts/check-kafka-upgrade.py",
+        "scripts/check-nats-upgrade.py",
+        "Wiki/消息组件升级.md"
+      ],
+      "evidence": [
+        ".local/evolution/image-fetch.json",
+        ".local/evolution/image-versions.json",
+        ".local/evolution/native-controlled-roundtrip.json",
+        ".local/evolution/native-controlled-resources.json",
+        ".local/evolution/envoy-runtime-verification.json",
+        ".local/evolution/toolchain-observability-verified.json",
+        ".local/evolution/toolchain-root-review.json",
+        ".local/evolution/message-infrastructure-verified.json",
+        ".local/evolution/message-infrastructure-root-review.json",
+        ".local/evolution/final-independent-review.json",
+        ".local/evolution/phase5-final-root-review.json"
+      ],
+      "notes": [
+        "CE4.3.1.6、Edge4.3.1.6EDGE原生回调、重复消息、遥测和审计通过；Envoy六项TLS/mTLS/应用授权/SSE实际通信通过，51项引用产物存在；受测服务及源码快照明确，Edge停止信号问题在E5-04继续验证",
+        "第二阶段补验Kafka4.0.0至4.3.1持久消息/消费位置与两种退回条件，NATS2.11.9经2.12.15至2.14.7六次逐节点升级、签名检查点与执行权、三节点五个子用例，当前原生计算/告警/保留命名用例均通过；330文件摘要、4个目录存在性、19项源码和2个受测二进制由主协调核对"
+      ],
+      "final_verification": {
+        "checked_at": "2026-10-07T05:46:49.670743+00:00",
+        "status": "passed",
+        "report": ".local/evolution/final-independent-review.json",
+        "requirement_id": "E1-02",
+        "source_sha256": "6c66570a31e7f921e4830fa2a0c16c6947a589c0d4cb0c57aab5fd8d4ba1fdbe",
+        "conclusion": "原生平台、Edge、Envoy及锁定镜像升级的实际版本和通信记录保留，当前包核对镜像摘要、依赖来源与许可，正式Linux入口和原生停止再启动专项覆盖当前集成"
+      }
+    },
+    {
+      "id": "E1-03",
+      "phase": 1,
+      "title": "依赖与兼容清单",
+      "requirement": "统一列出程序、API、规则格式、数据库、消息格式、云边节点及客户端的版本与兼容组合",
+      "verification_criteria": "机器可读清单、一致性检查、允许与拒绝组合测试",
+      "implementation_status": "complete",
+      "verification_status": "passed",
+      "implementation": [
+        "Platform/pkg/compatibility",
+        "Platform/internal/cloudsync/compatibility_test.go",
+        "contracts/compatibility.json"
+      ],
+      "evidence": [
+        ".local/evolution/compatibility-verified.json",
+        ".local/evolution/contracts-verified.json",
+        ".local/evolution/final-independent-review.json",
+        ".local/evolution/phase5-final-root-review.json"
+      ],
+      "notes": [
+        "版本清单与云边兼容检查、实时迁移报告、契约生成和旧客户端兼容测试已通过；后续迁移继续同步此清单"
+      ],
+      "final_verification": {
+        "checked_at": "2026-10-07T05:46:49.670743+00:00",
+        "status": "passed",
+        "report": ".local/evolution/final-independent-review.json",
+        "requirement_id": "E1-03",
+        "source_sha256": "6c66570a31e7f921e4830fa2a0c16c6947a589c0d4cb0c57aab5fd8d4ba1fdbe",
+        "conclusion": "兼容清单、正式契约和生成内容一致，允许组合与摘要、格式及版本拒绝通过当前普通回归和实际发布准备检查"
+      }
+    },
+    {
+      "id": "E1-04",
+      "phase": 1,
+      "title": "统一草稿应用用例",
+      "requirement": "保存、校验、发布拥有独立应用入口，各入口执行角色、所有引用资源、对象及依赖版本、审计和事务规则",
+      "verification_criteria": "直接应用调用与HTTP调用的权限等价、并发修改、依赖变化及事务回滚测试",
+      "implementation_status": "complete",
+      "verification_status": "passed",
+      "implementation": [
+        "Platform/internal/application/definitions.go",
+        "Platform/internal/application/definitioncommit/publish.go"
+      ],
+      "evidence": [
+        ".local/evolution/architecture-contracts-verified.json",
+        ".local/evolution/pilot-verified.json",
+        ".local/evolution/final-independent-review.json",
+        ".local/evolution/phase5-final-root-review.json"
+      ],
+      "notes": [
+        "直接调用与HTTP权限、递归依赖/授权版本变化、并发冲突、审计失败事务回滚和实际浏览器发布均已验证"
+      ],
+      "final_verification": {
+        "checked_at": "2026-10-07T05:46:49.670743+00:00",
+        "status": "passed",
+        "report": ".local/evolution/final-independent-review.json",
+        "requirement_id": "E1-04",
+        "source_sha256": "6c66570a31e7f921e4830fa2a0c16c6947a589c0d4cb0c57aab5fd8d4ba1fdbe",
+        "conclusion": "统一草稿应用的权限、对象版本、依赖变动和事务回滚由当前应用及HTTP回归验证，页面实际编辑与版本刷新保持输入"
+      }
+    },
+    {
+      "id": "E1-05",
+      "phase": 1,
+      "title": "类型化API与契约源",
+      "requirement": "验证并集成Huma类型化操作方案，操作输入输出生成OpenAPI3.1与JSON Schema2020-12，首批覆盖完整草稿流程",
+      "verification_criteria": "生成结果检查、实际请求响应验证、旧契约兼容、生成内容一致性",
+      "implementation_status": "complete",
+      "verification_status": "passed",
+      "implementation": [
+        "Platform/internal/api/definition_routes.go",
+        "Frontends/scripts/generate-api.mjs",
+        "contracts/1.0/openapi.json"
+      ],
+      "evidence": [
+        ".local/evolution/architecture-contracts-verified.json",
+        ".local/evolution/contracts-verified.json",
+        ".local/evolution/pilot-verified.json",
+        ".local/evolution/final-independent-review.json",
+        ".local/evolution/phase5-final-root-review.json"
+      ],
+      "notes": [
+        "首批4个类型化操作；其余45个操作保留既有契约描述；51个Schema、24个样本验证及重复生成一致性通过",
+        "第二阶段前端生成器已改用正式openapi-typescript，Go导出器继续维护JSON Schema与OpenAPI；当前71个Schema、56项操作，首阶段证据保留原受测快照，汇合一致性由第二阶段独立审查继续核对"
+      ],
+      "final_verification": {
+        "checked_at": "2026-10-07T05:46:49.670743+00:00",
+        "status": "passed",
+        "report": ".local/evolution/final-independent-review.json",
+        "requirement_id": "E1-05",
+        "source_sha256": "6c66570a31e7f921e4830fa2a0c16c6947a589c0d4cb0c57aab5fd8d4ba1fdbe",
+        "conclusion": "实时路由生成契约、旧接口及类型客户端通过检查，实际HTTP和页面执行对应当前契约；A01两类422保留字段位置与消息并省略凭据值"
+      }
+    },
+    {
+      "id": "E1-06",
+      "phase": 1,
+      "title": "编号数据库迁移",
+      "requirement": "集成Goose内嵌迁移，识别既有数据库并记录迁移编号和文件校验值，支持规定的中断继续方式",
+      "verification_criteria": "旧SQLite与PostgreSQL样本迁移、重复启动、中断与修改迁移文件拒绝测试",
+      "implementation_status": "complete",
+      "verification_status": "passed",
+      "implementation": [
+        "Platform/internal/store/migrations.go",
+        "Platform/internal/store/migrations"
+      ],
+      "evidence": [
+        ".local/evolution/architecture-contracts-verified.json",
+        ".local/evolution/final-independent-review.json",
+        ".local/evolution/phase5-final-root-review.json"
+      ],
+      "notes": [
+        "旧SQLite与独立PostgreSQL18数据保留、重复启动、迁移校验值及失败恢复检查通过"
+      ],
+      "final_verification": {
+        "checked_at": "2026-10-07T05:46:49.670743+00:00",
+        "status": "passed",
+        "report": ".local/evolution/final-independent-review.json",
+        "requirement_id": "E1-06",
+        "source_sha256": "6c66570a31e7f921e4830fa2a0c16c6947a589c0d4cb0c57aab5fd8d4ba1fdbe",
+        "conclusion": "SQLite与实际PG编号迁移、历史文档修订和重复启动通过，正式包迁移版本11与程序声明及保留数据再次启动一致"
+      }
+    },
+    {
+      "id": "E1-07",
+      "phase": 1,
+      "title": "统一观测基础",
+      "requirement": "运行追踪和指标可关联请求、业务身份与处理结果，敏感内容处理及指标维度具有明确规则",
+      "verification_criteria": "实际草稿发布追踪、内存导出器断言、HTTP上下文传播与指标聚合检查",
+      "implementation_status": "complete",
+      "verification_status": "passed",
+      "implementation": [
+        "DataTransfer/observability",
+        "Platform/internal/observability",
+        "Platform/internal/app/observability_test.go"
+      ],
+      "evidence": [
+        ".local/evolution/architecture-contracts-verified.json",
+        ".local/evolution/pilot-verified.json",
+        ".local/evolution/final-independent-review.json",
+        ".local/evolution/phase5-final-root-review.json"
+      ],
+      "notes": [
+        "实际浏览器发布的HTTP、应用、数据库跨度为同一追踪；身份和请求信息一致；指标属性只包含操作与结果"
+      ],
+      "final_verification": {
+        "checked_at": "2026-10-07T05:46:49.670743+00:00",
+        "status": "passed",
+        "report": ".local/evolution/final-independent-review.json",
+        "requirement_id": "E1-07",
+        "source_sha256": "6c66570a31e7f921e4830fa2a0c16c6947a589c0d4cb0c57aab5fd8d4ba1fdbe",
+        "conclusion": "追踪、上下文传播和指标聚合的当前命名回归通过，实际业务发布及审计、outbox仍与已验收调用入口对应"
+      }
+    },
+    {
+      "id": "E1-08",
+      "phase": 1,
+      "title": "生成前端接口基础",
+      "requirement": "从统一契约生成前端类型和请求调用，保持大整数解析与身份传递，首批用于草稿流程",
+      "verification_criteria": "生成检查、TypeScript构建、精确整数与错误状态测试",
+      "implementation_status": "complete",
+      "verification_status": "passed",
+      "implementation": [
+        "Frontends/src/generated-client.ts",
+        "Frontends/src/definitions.tsx",
+        "Frontends/tests/generated-client.test.mjs"
+      ],
+      "evidence": [
+        ".local/evolution/architecture-contracts-verified.json",
+        ".local/evolution/generated-client-verified.json",
+        ".local/evolution/pilot-verified.json",
+        ".local/evolution/final-independent-review.json",
+        ".local/evolution/phase5-final-root-review.json"
+      ],
+      "notes": [
+        "Node24类型检查和构建通过；生成客户端4项检查覆盖大整数、授权、路径转义、版本、409与401；浏览器发布通过"
+      ],
+      "final_verification": {
+        "checked_at": "2026-10-07T05:46:49.670743+00:00",
+        "status": "passed",
+        "report": ".local/evolution/final-independent-review.json",
+        "requirement_id": "E1-08",
+        "source_sha256": "6c66570a31e7f921e4830fa2a0c16c6947a589c0d4cb0c57aab5fd8d4ba1fdbe",
+        "conclusion": "生成客户端、精确整数、错误对象与生产类型检查通过，当前云端、现场和大屏实际显示、提示及完整导出保留数值表示"
+      }
+    },
+    {
+      "id": "E1-09",
+      "phase": 1,
+      "title": "首个完整交付流程",
+      "requirement": "在更新后的构建和依赖上完成草稿保存、校验、发布并追踪到数据库、审计及任务",
+      "verification_criteria": "实际API与浏览器流程、发布记录、审计与outbox、版本/构建/迁移证据关联",
+      "implementation_status": "complete",
+      "verification_status": "passed",
+      "implementation": [
+        "Frontends/src/definitions.tsx",
+        "Platform/internal/application/definitions.go"
+      ],
+      "evidence": [
+        ".local/evolution/pilot-verified.json",
+        ".local/evolution/final-independent-review.json",
+        ".local/evolution/phase5-final-root-review.json"
+      ],
+      "notes": [
+        "实际浏览器保存、校验、评审与发布通过；数据库定义/目录v2、草稿修订6、两条outbox、审计与OTLP记录齐全；原生TB实际消费由E1-02继续验证"
+      ],
+      "final_verification": {
+        "checked_at": "2026-10-07T05:46:49.670743+00:00",
+        "status": "passed",
+        "report": ".local/evolution/final-independent-review.json",
+        "requirement_id": "E1-09",
+        "source_sha256": "6c66570a31e7f921e4830fa2a0c16c6947a589c0d4cb0c57aab5fd8d4ba1fdbe",
+        "conclusion": "最初完整交付流程保留其受测记录，最终组合另验证当前发布、审计、版本和迁移声明以及正式包入口"
+      }
+    },
+    {
+      "id": "E2-01",
+      "phase": 2,
+      "title": "数据库大版本迁移",
+      "requirement": "使用PostgreSQL18验证业务数据与原生平台/Edge组合，更新镜像及数据目录约定",
+      "verification_criteria": "规定规模的旧数据迁移、查询/写入/归档、原生兼容与数据核对",
+      "implementation_status": "complete",
+      "verification_status": "passed",
+      "implementation": [
+        "Platform/internal/store/migrations.go",
+        "deploy/dependencies.json",
+        "deploy/images.lock.json",
+        "scripts/prepare-deploy.py",
+        "Wiki/operations/backup-restore.md"
+      ],
+      "evidence": [
+        ".local/evolution/pg16-to18-dump-restore.json",
+        ".local/evolution/postgres-migration-root-review.json",
+        ".local/evolution/toolchain-observability-verified.json",
+        ".local/evolution/storage-tasks-verified.json",
+        ".local/evolution/storage-root-review.json",
+        ".local/evolution/phase2-independent-review.json",
+        ".local/evolution/phase2-independent-root-review.json",
+        ".local/evolution/final-independent-review.json",
+        ".local/evolution/phase5-final-root-review.json"
+      ],
+      "notes": [
+        "16.15至18.6实际迁移九类记录前后行数和摘要一致，旧任务承接、目标读写归档及原生平台/Edge的PG18组合通过；部署使用PG18独立卷和目标目录",
+        "第二阶段独立组合审查通过；主协调核对194项审查证据、481项当前源码及16项命令记录，实际测试计数与原始日志一致"
+      ],
+      "final_verification": {
+        "checked_at": "2026-10-07T05:46:49.670743+00:00",
+        "status": "passed",
+        "report": ".local/evolution/final-independent-review.json",
+        "requirement_id": "E2-01",
+        "source_sha256": "6c66570a31e7f921e4830fa2a0c16c6947a589c0d4cb0c57aab5fd8d4ba1fdbe",
+        "conclusion": "规定规模PG16到18迁移和原生兼容保留实际历史记录；当前PG18持久实例执行独立schema回归，正式包的隔离数据库初始化、启动及保留数据再次启动逐项对应"
+      }
+    },
+    {
+      "id": "E2-02",
+      "phase": 2,
+      "title": "领域存储与写入并发",
+      "requirement": "业务模块使用明确存储接口，独立对象可并行；改造固定全局写锁并保持审计和同步顺序",
+      "verification_criteria": "不同对象并行、同对象竞争、审计哈希链、迟提交事务同步游标、业务inbox/outbox原子性测试",
+      "implementation_status": "complete",
+      "verification_status": "passed",
+      "implementation": [
+        "Platform/internal/application/repositories.go",
+        "Platform/internal/application/definitioncommit/publish.go",
+        "Platform/internal/tasks/repository.go",
+        "Platform/internal/store/store.go",
+        "Platform/internal/store/revisions.go",
+        "docs/evolution/storage-lock-order.md"
+      ],
+      "evidence": [
+        ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+        ".local/evolution/storage-tasks-verified.json",
+        ".local/evolution/storage-root-review.json",
+        ".local/evolution/phase2-independent-review.json",
+        ".local/evolution/phase2-independent-root-review.json",
+        ".local/evolution/final-independent-review.json",
+        ".local/evolution/phase5-final-root-review.json"
+      ],
+      "notes": [
+        "实际应用及worker使用领域存储接口；PostgreSQL不同对象并行、同对象竞争、迟提交日志序号、审计链及业务/inbox/outbox/River共同回滚通过",
+        "第二阶段独立组合审查通过；主协调核对194项审查证据、481项当前源码及16项命令记录，实际测试计数与原始日志一致"
+      ],
+      "final_verification": {
+        "checked_at": "2026-10-07T05:46:49.670743+00:00",
+        "status": "passed",
+        "report": ".local/evolution/final-independent-review.json",
+        "requirement_id": "E2-02",
+        "source_sha256": "6c66570a31e7f921e4830fa2a0c16c6947a589c0d4cb0c57aab5fd8d4ba1fdbe",
+        "conclusion": "当前普通和实际PG回归覆盖不同对象并发、同对象竞争、审计、迟提交可见性及事务原子性；来源登记N04以相同固定输入的PG/race加最终Linux并发组合验证"
+      }
+    },
+    {
+      "id": "E2-03",
+      "phase": 2,
+      "title": "归档事务调整",
+      "requirement": "归档计算在合适的事务范围执行，最终提交准确核对原记录集合及内容",
+      "verification_criteria": "归档往返全部字段与精度、并发晚到数据、失败回滚及事务持续时间对比",
+      "implementation_status": "complete",
+      "verification_status": "passed",
+      "implementation": [
+        "Platform/internal/store/archive.go",
+        "Platform/internal/store/archive_cas_test.go",
+        "Platform/internal/store/archive_postgres_test.go"
+      ],
+      "evidence": [
+        ".local/evolution/storage-evidence/storage-archive-total.jsonl",
+        ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+        ".local/evolution/storage-tasks-verified.json",
+        ".local/evolution/storage-root-review.json",
+        ".local/evolution/phase2-independent-review.json",
+        ".local/evolution/phase2-independent-root-review.json",
+        ".local/evolution/final-independent-review.json",
+        ".local/evolution/phase5-final-root-review.json"
+      ],
+      "notes": [
+        "编码压缩和完整解码校验在写入事务外执行；精确CAS、晚到数据保留、失败回滚和分区竞争通过。受控计时保存全部样本，单次耗时只用于说明事务内外工作分布",
+        "第二阶段独立组合审查通过；主协调核对194项审查证据、481项当前源码及16项命令记录，实际测试计数与原始日志一致"
+      ],
+      "final_verification": {
+        "checked_at": "2026-10-07T05:46:49.670743+00:00",
+        "status": "passed",
+        "report": ".local/evolution/final-independent-review.json",
+        "requirement_id": "E2-03",
+        "source_sha256": "6c66570a31e7f921e4830fa2a0c16c6947a589c0d4cb0c57aab5fd8d4ba1fdbe",
+        "conclusion": "当前PG归档CAS、迟到数据、分区与事务时长用例通过，精确字段往返与失败回滚仍保留专项结果及当前调用关系"
+      }
+    },
+    {
+      "id": "E2-04",
+      "phase": 2,
+      "title": "通用后台任务替换",
+      "requirement": "对归档、补算与外部投影验证River，完成经试点确定的实际替换与事务内入队",
+      "verification_criteria": "任务领取、崩溃恢复、重试、同事务提交/回滚和原业务身份保持；选型变更具有试点证据",
+      "implementation_status": "complete",
+      "verification_status": "passed",
+      "implementation": [
+        "Platform/internal/store/task_runtime.go",
+        "Platform/internal/tasks/service.go",
+        "Platform/internal/api/jobs.go",
+        "Platform/internal/store/tasks.go",
+        "Platform/internal/engine/history.go",
+        "Platform/internal/engine/replay_checkpoint.go"
+      ],
+      "evidence": [
+        ".local/evolution/storage-evidence/storage-platform-reviewed.jsonl",
+        ".local/evolution/storage-evidence/storage-postgres-reviewed.jsonl",
+        ".local/evolution/storage-evidence/storage-postgres-legacy-repair.jsonl",
+        ".local/evolution/storage-tasks-verified.json",
+        ".local/evolution/storage-root-review.json",
+        ".local/evolution/phase2-independent-review.json",
+        ".local/evolution/phase2-independent-root-review.json",
+        ".local/evolution/tasks-cancel-t01-verified.json",
+        ".local/evolution/tasks-cancel-t01-root-review.json",
+        ".local/evolution/tasks-cancel-t01-binary-root-review.json",
+        ".local/evolution/tasks-cancel-t01-source-scope-root-review.json",
+        ".local/evolution/tasks-retry-t02-verified.json",
+        ".local/evolution/tasks-retry-t02-root-review.json",
+        ".local/evolution/final-independent-review.json",
+        ".local/evolution/phase5-final-root-review.json"
+      ],
+      "notes": [
+        "官方River同事务入队、回滚、实际SIGKILL恢复及补算完整窗口/派生结果/汇总阶段恢复通过；旧jobs重试入口保持202和Job形状，已有映射保留task、River、replay身份，未映射旧任务原子承接",
+        "第二阶段独立组合审查通过；主协调核对194项审查证据、481项当前源码及16项命令记录，实际测试计数与原始日志一致"
+      ],
+      "final_verification": {
+        "checked_at": "2026-10-07T05:46:49.670743+00:00",
+        "status": "passed",
+        "report": ".local/evolution/final-independent-review.json",
+        "requirement_id": "E2-04",
+        "source_sha256": "6c66570a31e7f921e4830fa2a0c16c6947a589c0d4cb0c57aab5fd8d4ba1fdbe",
+        "conclusion": "River同事务入队、恢复、任务取消与重试通过当前普通及PG检查，原任务身份及页面流程与未变功能源码对应"
+      }
+    },
+    {
+      "id": "E2-05",
+      "phase": 2,
+      "title": "后台资源分配",
+      "requirement": "采集、控制、分析、补算和归档使用明确并发及调度预算，积压可观测",
+      "verification_criteria": "受控任务积压下的队列调度、并发限额、取消与前台业务处理记录",
+      "implementation_status": "complete",
+      "verification_status": "passed",
+      "implementation": [
+        "Platform/internal/tasks/service.go",
+        "Platform/internal/store/task_runtime.go",
+        "Platform/internal/store/bulk_tasks_test.go",
+        "Platform/internal/control/control.go"
+      ],
+      "evidence": [
+        ".local/evolution/storage-evidence/storage-platform-reviewed.jsonl",
+        ".local/evolution/storage-evidence/storage-race-reviewed.jsonl",
+        ".local/evolution/storage-tasks-verified.json",
+        ".local/evolution/storage-root-review.json",
+        ".local/evolution/phase2-independent-review.json",
+        ".local/evolution/phase2-independent-root-review.json",
+        ".local/evolution/final-independent-review.json",
+        ".local/evolution/phase5-final-root-review.json"
+      ],
+      "notes": [
+        "采集、控制及各后台队列采用明确进程预算，积压、并发上限、取消、前台采集/审批和追踪指标专项通过。race首次两个大样本达到正式时限，生产预算保持原值；普通大样本及PG专项通过，其余并发与恢复race通过",
+        "第二阶段独立组合审查通过；主协调核对194项审查证据、481项当前源码及16项命令记录，实际测试计数与原始日志一致"
+      ],
+      "final_verification": {
+        "checked_at": "2026-10-07T05:46:49.670743+00:00",
+        "status": "passed",
+        "report": ".local/evolution/final-independent-review.json",
+        "requirement_id": "E2-05",
+        "source_sha256": "6c66570a31e7f921e4830fa2a0c16c6947a589c0d4cb0c57aab5fd8d4ba1fdbe",
+        "conclusion": "队列预算、受控积压、取消与前台处理由当前平台回归及相同输入DataTransfer完整回归验证，原并发资源专项保留其有限负载条件"
+      }
+    },
+    {
+      "id": "E2-06",
+      "phase": 2,
+      "title": "发布编译执行计划",
+      "requirement": "规则在发布阶段校验并编译，执行计划具有不可变身份、节点依赖、参数与表达式缓存",
+      "verification_criteria": "发布错误定位、计划序列化/版本识别、运行时复用及禁止热路径重复解析检查",
+      "implementation_status": "complete",
+      "verification_status": "passed",
+      "implementation": [
+        "Platform/internal/rulecore",
+        "Platform/internal/compiledplan",
+        "Platform/internal/application/definitioncommit/publish.go"
+      ],
+      "evidence": [
+        ".local/evolution/rules-verified.json",
+        ".local/evolution/rules-root-review.json",
+        ".local/evolution/phase2-independent-review.json",
+        ".local/evolution/phase2-independent-root-review.json",
+        ".local/evolution/final-independent-review.json",
+        ".local/evolution/phase5-final-root-review.json"
+      ],
+      "notes": [
+        "发布、启动与批次导入准备及不可变计划验证通过；PG18并发8次相同写入保持版本1，损坏计划整批回滚；运行及重启复用计划",
+        "第二阶段独立组合审查通过；主协调核对194项审查证据、481项当前源码及16项命令记录，实际测试计数与原始日志一致"
+      ],
+      "final_verification": {
+        "checked_at": "2026-10-07T05:46:49.670743+00:00",
+        "status": "passed",
+        "report": ".local/evolution/final-independent-review.json",
+        "requirement_id": "E2-06",
+        "source_sha256": "6c66570a31e7f921e4830fa2a0c16c6947a589c0d4cb0c57aab5fd8d4ba1fdbe",
+        "conclusion": "发布计划序列化、加载复用和兼容拒绝由当前回归及实际发布验证，compiledplan实际PG用例按完全相同编译图沿用"
+      }
+    },
+    {
+      "id": "E2-07",
+      "phase": 2,
+      "title": "统一确定性计算",
+      "requirement": "实时、模拟与补算共享算子语义，历史、时间、初始状态和资产版本由运行层明确提供",
+      "verification_criteria": "同输入/顺序/状态/时间/版本产生确定结果，数值、质量、单位和历史版本样本核对",
+      "implementation_status": "complete",
+      "verification_status": "passed",
+      "implementation": [
+        "Platform/internal/engine/frame.go",
+        "Platform/internal/rulecore",
+        "Platform/pkg/precise",
+        "Platform/internal/engine/simulation.go"
+      ],
+      "evidence": [
+        ".local/evolution/rules-verified.json",
+        ".local/evolution/rules-root-review.json",
+        ".local/evolution/phase2-independent-review.json",
+        ".local/evolution/phase2-independent-root-review.json",
+        ".local/evolution/final-independent-review.json",
+        ".local/evolution/phase5-final-root-review.json"
+      ],
+      "notes": [
+        "统一显式计算帧、输入快照、时钟、实体状态与资产历史；大整数、窗口单位与质量、实时/定时/补算复用、取消和预算回归通过",
+        "第二阶段独立组合审查通过；主协调核对194项审查证据、481项当前源码及16项命令记录，实际测试计数与原始日志一致"
+      ],
+      "final_verification": {
+        "checked_at": "2026-10-07T05:46:49.670743+00:00",
+        "status": "passed",
+        "report": ".local/evolution/final-independent-review.json",
+        "requirement_id": "E2-07",
+        "source_sha256": "6c66570a31e7f921e4830fa2a0c16c6947a589c0d4cb0c57aab5fd8d4ba1fdbe",
+        "conclusion": "数值、质量、单位、顺序、状态和版本的确定结果通过当前回归，实际发布平均值、最大值及正式返回旧规则分别产生所记录结果和新激活版本"
+      }
+    },
+    {
+      "id": "E2-08",
+      "phase": 2,
+      "title": "统一节点元数据",
+      "requirement": "节点描述集中提供端口、参数、类型、适用定义及基础表单和工具描述",
+      "verification_criteria": "内建节点元数据完整性、后端参数校验、生成Schema一致性",
+      "implementation_status": "complete",
+      "verification_status": "passed",
+      "implementation": [
+        "Platform/pkg/model/node_types.go",
+        "Platform/internal/api/rule_routes.go",
+        "Platform/pkg/contracts",
+        "contracts/1.0/Node.schema.json"
+      ],
+      "evidence": [
+        ".local/evolution/rules-verified.json",
+        ".local/evolution/rules-root-review.json",
+        ".local/evolution/phase2-independent-review.json",
+        ".local/evolution/phase2-independent-root-review.json",
+        ".local/evolution/final-independent-review.json",
+        ".local/evolution/phase5-final-root-review.json"
+      ],
+      "notes": [
+        "12种节点目录驱动后端参数校验、条件Schema和节点API；67个Schema、51项API操作、24个定义样本校验通过",
+        "第二阶段独立组合审查通过；主协调核对194项审查证据、481项当前源码及16项命令记录，实际测试计数与原始日志一致"
+      ],
+      "final_verification": {
+        "checked_at": "2026-10-07T05:46:49.670743+00:00",
+        "status": "passed",
+        "report": ".local/evolution/final-independent-review.json",
+        "requirement_id": "E2-08",
+        "source_sha256": "6c66570a31e7f921e4830fa2a0c16c6947a589c0d4cb0c57aab5fd8d4ba1fdbe",
+        "conclusion": "内建节点元数据、后端参数和生成Schema一致，当前页面对范围、枚举、单位和精确扩展字段验证及保存通过"
+      }
+    },
+    {
+      "id": "E2-09",
+      "phase": 2,
+      "title": "连续输入模拟与任务详情",
+      "requirement": "模拟处理连续观测序列；队列和任务提供尝试次数、下次时间、失败原因、进度与可用操作",
+      "verification_criteria": "连续状态和窗口计算API/页面、任务故障注入和详情显示",
+      "implementation_status": "complete",
+      "verification_status": "passed",
+      "implementation": [
+        "Platform/internal/engine/simulation.go",
+        "Platform/internal/api/rule_routes.go",
+        "docs/evolution/rules-frontend-contract.md",
+        "Platform/internal/api/task_routes.go",
+        "Platform/internal/application/tasks.go",
+        "docs/evolution/tasks-frontend-contract.md",
+        "Frontends/src/simulation.tsx",
+        "Frontends/src/tasks.tsx",
+        "Frontends/src/task-status.ts",
+        "Frontends/src/generated-client.ts"
+      ],
+      "evidence": [
+        ".local/evolution/rules-verified.json",
+        ".local/evolution/rules-root-review.json",
+        ".local/evolution/storage-tasks-verified.json",
+        ".local/evolution/storage-root-review.json",
+        ".local/evolution/frontend-phase2-verified.json",
+        ".local/evolution/frontend-phase2-root-review.json",
+        ".local/evolution/frontend-behavior-root-review.json",
+        ".local/evolution/phase2-independent-review.json",
+        ".local/evolution/phase2-independent-root-review.json",
+        ".local/evolution/frontend-phase2/review-followup/review-correction.json",
+        ".local/evolution/frontend-phase2-followup-root-review.json",
+        ".local/evolution/tasks-cancel-t01-verified.json",
+        ".local/evolution/tasks-cancel-t01-root-review.json",
+        ".local/evolution/tasks-cancel-t01-binary-root-review.json",
+        ".local/evolution/tasks-cancel-t01-source-scope-root-review.json",
+        ".local/evolution/tasks-retry-t02-verified.json",
+        ".local/evolution/tasks-retry-t02-root-review.json",
+        ".local/evolution/final-independent-review.json",
+        ".local/evolution/phase5-final-root-review.json"
+      ],
+      "notes": [
+        "连续输入模拟、精确整数回放、版本冲突恢复、任务固定身份取消/重试、汇总故障恢复与权限撤销已有实际浏览器及数据库证据；主协调核对72项产物摘要全部匹配",
+        "任务顶部说明已改为随当前详情更新，失败、完成、取消三状态通过实际浏览器复查；当前14项前端测试及构建通过。首次二进制摘要和旧完整夹具未保留的情况继续按历史证据注明，当前正式应用独立验证补足连续模拟与冲突恢复",
+        "第二阶段独立组合审查通过；主协调核对194项审查证据、481项当前源码及16项命令记录，实际测试计数与原始日志一致"
+      ],
+      "final_verification": {
+        "checked_at": "2026-10-07T05:46:49.670743+00:00",
+        "status": "passed",
+        "report": ".local/evolution/final-independent-review.json",
+        "requirement_id": "E2-09",
+        "source_sha256": "6c66570a31e7f921e4830fa2a0c16c6947a589c0d4cb0c57aab5fd8d4ba1fdbe",
+        "conclusion": "连续模拟与任务详情功能源码及传输层与已验收版本对应，当前状态计算、持久任务、取消重试与PG执行结果补充验证共享后端"
+      }
+    },
+    {
+      "id": "E2-10",
+      "phase": 2,
+      "title": "官方MCP组件集成",
+      "requirement": "用官方Go SDK承载MCP，按客户端兼容需要协商协议并复用业务应用用例",
+      "verification_criteria": "官方客户端与既有客户端发现/读取/草稿操作，传输/会话/权限/错误测试",
+      "implementation_status": "complete",
+      "verification_status": "passed",
+      "implementation": [
+        "Platform/internal/ai/mcp.go",
+        "Platform/internal/ai/mcp_sdk_test.go",
+        "Platform/pkg/compatibility/manifest.json"
+      ],
+      "evidence": [
+        ".local/evolution/ai-protocols-verified.json",
+        ".local/evolution/ai-protocols-root-review.json",
+        ".local/evolution/phase2-independent-review.json",
+        ".local/evolution/phase2-independent-root-review.json",
+        ".local/evolution/final-independent-review.json",
+        ".local/evolution/phase5-final-root-review.json"
+      ],
+      "notes": [
+        "官方Go SDK v1.8.0承载无状态Streamable HTTP，五个实际支持协议逐个协商；官方及既有客户端、三类草稿、精确整数、媒体类型、请求预算与动态撤权通过，源码和日志由主协调者复核",
+        "旧有AI业务工具的资源ID正则仍限制斜杠，第四阶段E4-07整理工具查询与依据导航时统一修复；当前官方MCP传输和协议迁移验证使用报告中明确的三类草稿标识",
+        "第二阶段独立组合审查通过；主协调核对194项审查证据、481项当前源码及16项命令记录，实际测试计数与原始日志一致"
+      ],
+      "final_verification": {
+        "checked_at": "2026-10-07T05:46:49.670743+00:00",
+        "status": "passed",
+        "report": ".local/evolution/final-independent-review.json",
+        "requirement_id": "E2-10",
+        "source_sha256": "6c66570a31e7f921e4830fa2a0c16c6947a589c0d4cb0c57aab5fd8d4ba1fdbe",
+        "conclusion": "官方MCP客户端及既有协议的发现、读取、草稿、会话、权限和错误测试由当前完整平台回归验证，传输实现及兼容清单对应最终源码"
+      }
+    },
+    {
+      "id": "E2-11",
+      "phase": 2,
+      "title": "模型API适配",
+      "requirement": "按供应商与具体API提供适配器，统一结构化完整消息、流式事件、工具调用及错误",
+      "verification_criteria": "至少两种明确API适配的录制样本或模拟端点验证，分片重组、工具参数和异常结束测试",
+      "implementation_status": "complete",
+      "verification_status": "passed",
+      "implementation": [
+        "Platform/internal/ai/provider.go",
+        "Platform/internal/ai/provider_chat.go",
+        "Platform/internal/ai/provider_responses.go",
+        "Platform/internal/ai/chat.go",
+        "Platform/internal/configcenter/ai_schema.go"
+      ],
+      "evidence": [
+        ".local/evolution/ai-protocols-verified.json",
+        ".local/evolution/ai-protocols-root-review.json",
+        ".local/evolution/phase2-independent-review.json",
+        ".local/evolution/phase2-independent-root-review.json",
+        ".local/evolution/final-independent-review.json",
+        ".local/evolution/phase5-final-root-review.json"
+      ],
+      "notes": [
+        "Chat Completions与Responses流式/非流式本地HTTP端点、完整工具循环、原生reasoning与call_id续传、错误结束和精确整数通过；旧SQLite模型配置升级创建新修订并保留原回执；功能与race各39个顶层、80个末级测试通过",
+        "第二阶段独立组合审查通过；主协调核对194项审查证据、481项当前源码及16项命令记录，实际测试计数与原始日志一致"
+      ],
+      "final_verification": {
+        "checked_at": "2026-10-07T05:46:49.670743+00:00",
+        "status": "passed",
+        "report": ".local/evolution/final-independent-review.json",
+        "requirement_id": "E2-11",
+        "source_sha256": "6c66570a31e7f921e4830fa2a0c16c6947a589c0d4cb0c57aab5fd8d4ba1fdbe",
+        "conclusion": "Chat Completions和Responses的结构化消息、交错分片、工具参数与异常结束通过本地录制或模拟端点回归；当前八条AI页面用例验证证据和终止状态"
+      }
+    },
+    {
+      "id": "E2-12",
+      "phase": 2,
+      "title": "前端工具链迁移",
+      "requirement": "Node24LTS、Vite8.1和TypeScript6至7兼容迁移完成，生成工具使用可用编译器接口",
+      "verification_criteria": "锁文件、实际版本、构建与类型检查、三种页面入口及浏览器冒烟",
+      "implementation_status": "complete",
+      "verification_status": "passed",
+      "implementation": [
+        "Frontends/package.json",
+        "Frontends/package-lock.json",
+        "Frontends/scripts/generate-api.mjs",
+        "Frontends/vite.config.ts",
+        "deploy/toolchains.json",
+        "scripts/check-toolchains.py",
+        "docs/evolution/frontend-phase2.md"
+      ],
+      "evidence": [
+        ".local/evolution/frontend-phase2-verified.json",
+        ".local/evolution/frontend-phase2-root-review.json",
+        ".local/evolution/frontend-phase2/compiler-info.json",
+        ".local/evolution/frontend-phase2/frontend-toolchain-fields.json",
+        ".local/evolution/frontend-phase2/clean-artifacts.json",
+        ".local/evolution/phase2-independent-review.json",
+        ".local/evolution/phase2-independent-root-review.json",
+        ".local/evolution/frontend-phase2-followup-root-review.json",
+        ".local/evolution/final-independent-review.json",
+        ".local/evolution/phase5-final-root-review.json"
+      ],
+      "notes": [
+        "Node24.21.0、npm11.19.0、Vite8.1.5、TypeScript7.0.2原生检查和TypeScript6.0.2编译器API兼容检查通过；官方openapi-typescript7.13.0采用明确的TypeScript6包别名及局部peer覆盖",
+        "当前14项前端回归、7项工具链测试和生产构建通过；首次独立npm ci产物对应首次13项测试，提示修正后在该独立目录更新源码构建，当前5项产物逐字节一致，云端/边缘移动视图/大屏三入口具有实际浏览器证据",
+        "ECharts5.6.0的已知moderate审计项已纳入第四阶段E4-10，升级至官方修复版本6.1.0或更高维护版并再次审计；本阶段独立组合审查已通过",
+        "第二阶段独立组合审查通过；主协调核对194项审查证据、481项当前源码及16项命令记录，实际测试计数与原始日志一致"
+      ],
+      "final_verification": {
+        "checked_at": "2026-10-07T05:46:49.670743+00:00",
+        "status": "passed",
+        "report": ".local/evolution/final-independent-review.json",
+        "requirement_id": "E2-12",
+        "source_sha256": "6c66570a31e7f921e4830fa2a0c16c6947a589c0d4cb0c57aab5fd8d4ba1fdbe",
+        "conclusion": "锁定依赖、Node版本、TS7与TS6、单测和生产构建已固定并核对输入，当前业务浏览器和三入口九画面对应同一最终19份产物"
+      }
+    },
+    {
+      "id": "E3-01",
+      "phase": 3,
+      "title": "持久控制状态机",
+      "requirement": "审批、资格判断、下发、执行、降级和结果待核对的转换集中定义并持久化",
+      "verification_criteria": "合法/非法转换、过期与撤权、进程重启、重复请求和审计一致性",
+      "implementation_status": "complete",
+      "verification_status": "passed",
+      "implementation": [
+        "Platform/internal/control/state.go",
+        "Platform/internal/control/authorization.go",
+        "Platform/internal/control/run.go",
+        "Platform/internal/store/control.go",
+        "Platform/internal/store/migration00005.go",
+        "Frontends/src/executions.tsx",
+        "Frontends/src/control-status.ts"
+      ],
+      "evidence": [
+        ".local/evolution/control-execution-verified.json",
+        ".local/evolution/control-execution-root-review.json",
+        ".local/evolution/control-execution-c05-verified.json",
+        ".local/evolution/control-execution-c05-root-review.json",
+        ".local/evolution/control-c05-final-fixture-root-review.json",
+        ".local/evolution/frontend-phase3-verified.json",
+        ".local/evolution/frontend-phase3-root-review.json",
+        ".local/evolution/phase3-independent-review-checkpoint.json",
+        ".local/evolution/phase3-independent-checkpoint-root-review.json",
+        ".local/evolution/phase3-independent-review-t01-checkpoint.json",
+        ".local/evolution/phase3-independent-t01-checkpoint-root-review.json",
+        ".local/evolution/phase3-independent-review.json",
+        ".local/evolution/phase3-independent-root-review.json",
+        ".local/evolution/phase3-final-source-root-review.json",
+        ".local/evolution/phase3-accepted-source.json",
+        ".local/evolution/final-independent-review.json",
+        ".local/evolution/phase5-final-root-review.json"
+      ],
+      "notes": [
+        "对应实现、当前组合及实际页面独立审查均通过，主协调已核对原始输出、源码与二进制来源；十五项阶段问题全部完成修正和再验证",
+        "统一状态转换、原子审计与回执、来源版本、终止Journal、生产入口、历史资源读取授权"
+      ],
+      "final_verification": {
+        "checked_at": "2026-10-07T05:46:49.670743+00:00",
+        "status": "passed",
+        "report": ".local/evolution/final-independent-review.json",
+        "requirement_id": "E3-01",
+        "source_sha256": "6c66570a31e7f921e4830fa2a0c16c6947a589c0d4cb0c57aab5fd8d4ba1fdbe",
+        "conclusion": "持久控制状态、授权过期、重启、重复请求和审计通过当前普通及实际PG检查，控制状态机源码与既有受控进程专项一致"
+      }
+    },
+    {
+      "id": "E3-02",
+      "phase": 3,
+      "title": "动作日志与结果核对",
+      "requirement": "执行权和动作日志控制每次设备动作，结果未知时由核对流程决定后续状态",
+      "verification_criteria": "发送前后故障注入、重复command_id、执行权失效、明确设备反馈和恢复行为",
+      "implementation_status": "complete",
+      "verification_status": "passed",
+      "implementation": [
+        "Platform/internal/control/intervention.go",
+        "Platform/internal/control/remote.go",
+        "Platform/internal/datatransfer/command_result.go",
+        "DataTransfer/proto/datatransfer/v1/datatransfer.proto",
+        "DataTransfer/internal/command/result.go",
+        "DataTransfer/internal/state/command_result.go",
+        "Platform/internal/control/evidence.go",
+        "Platform/internal/cloudsync/control_receipts.go",
+        "Platform/internal/store/control.go",
+        "Frontends/src/executions.tsx",
+        "Frontends/src/control-status.ts"
+      ],
+      "evidence": [
+        ".local/evolution/control-execution-verified.json",
+        ".local/evolution/control-execution-root-review.json",
+        ".local/evolution/control-execution-c05-verified.json",
+        ".local/evolution/control-execution-c05-root-review.json",
+        ".local/evolution/control-c05-final-fixture-root-review.json",
+        ".local/evolution/frontend-phase3-verified.json",
+        ".local/evolution/frontend-phase3-root-review.json",
+        ".local/evolution/phase3-independent-review-checkpoint.json",
+        ".local/evolution/phase3-independent-checkpoint-root-review.json",
+        ".local/evolution/phase3-independent-review-t01-checkpoint.json",
+        ".local/evolution/phase3-independent-t01-checkpoint-root-review.json",
+        ".local/evolution/phase3-independent-review.json",
+        ".local/evolution/phase3-independent-root-review.json",
+        ".local/evolution/phase3-final-source-root-review.json",
+        ".local/evolution/phase3-accepted-source.json",
+        ".local/evolution/final-independent-review.json",
+        ".local/evolution/phase5-final-root-review.json"
+      ],
+      "notes": [
+        "对应实现、当前组合及实际页面独立审查均通过，主协调已核对原始输出、源码与二进制来源；十五项阶段问题全部完成修正和再验证",
+        "发送前持久预留、命令身份与内容去重、未知结果只读核对、可信来源绑定、证据云边同步、实际设备发送次数"
+      ],
+      "final_verification": {
+        "checked_at": "2026-10-07T05:46:49.670743+00:00",
+        "status": "passed",
+        "report": ".local/evolution/final-independent-review.json",
+        "requirement_id": "E3-02",
+        "source_sha256": "6c66570a31e7f921e4830fa2a0c16c6947a589c0d4cb0c57aab5fd8d4ba1fdbe",
+        "conclusion": "实际云边控制进程检查通过，原发送故障、未知结果核对、执行权与物理动作次数记录按其保存源码适用，当前控制和日志持久化回归覆盖受影响共享存储"
+      }
+    },
+    {
+      "id": "E3-03",
+      "phase": 3,
+      "title": "人工干预流程",
+      "requirement": "提供与状态对应的取消、核对和恢复操作及权限、版本与审计记录",
+      "verification_criteria": "不同角色与状态的操作检查、参数或版本变化后的拒绝及合法恢复",
+      "implementation_status": "complete",
+      "verification_status": "passed",
+      "implementation": [
+        "Platform/internal/control/operations.go",
+        "Platform/internal/control/receipts.go",
+        "Platform/internal/api/control_routes.go",
+        "Platform/internal/cloudsync/exchange.go",
+        "docs/evolution/control-frontend-contract.md",
+        "Frontends/src/executions.tsx",
+        "Frontends/src/control-status.ts"
+      ],
+      "evidence": [
+        ".local/evolution/control-execution-verified.json",
+        ".local/evolution/control-execution-root-review.json",
+        ".local/evolution/control-execution-c05-verified.json",
+        ".local/evolution/control-execution-c05-root-review.json",
+        ".local/evolution/control-c05-final-fixture-root-review.json",
+        ".local/evolution/frontend-phase3-verified.json",
+        ".local/evolution/frontend-phase3-root-review.json",
+        ".local/evolution/phase3-independent-review-checkpoint.json",
+        ".local/evolution/phase3-independent-checkpoint-root-review.json",
+        ".local/evolution/phase3-independent-review-t01-checkpoint.json",
+        ".local/evolution/phase3-independent-t01-checkpoint-root-review.json",
+        ".local/evolution/phase3-independent-review.json",
+        ".local/evolution/phase3-independent-root-review.json",
+        ".local/evolution/phase3-final-source-root-review.json",
+        ".local/evolution/phase3-accepted-source.json",
+        ".local/evolution/final-independent-review.json",
+        ".local/evolution/phase5-final-root-review.json"
+      ],
+      "notes": [
+        "对应实现、当前组合及实际页面独立审查均通过，主协调已核对原始输出、源码与二进制来源；十五项阶段问题全部完成修正和再验证",
+        "取消、核对、恢复、当前身份和授权、审批与条件、执行权、云端离线pending、重复/乱序/跨期、实际页面409/403/401"
+      ],
+      "final_verification": {
+        "checked_at": "2026-10-07T05:46:49.670743+00:00",
+        "status": "passed",
+        "report": ".local/evolution/final-independent-review.json",
+        "requirement_id": "E3-03",
+        "source_sha256": "6c66570a31e7f921e4830fa2a0c16c6947a589c0d4cb0c57aab5fd8d4ba1fdbe",
+        "conclusion": "角色、版本、参数及状态前提的人工操作由当前后端和受控云边过程验证，原页面核对及恢复记录与未变页面源码对应"
+      }
+    },
+    {
+      "id": "E3-04",
+      "phase": 3,
+      "title": "历史序列回放",
+      "requirement": "按历史规则和资产版本重放指定时间与输入序列，结果拥有独立运行身份",
+      "verification_criteria": "跨版本窗口、乱序与补传样本、来源与质量保留、回放隔离及结果查询",
+      "implementation_status": "complete",
+      "verification_status": "passed",
+      "implementation": [
+        "Platform/internal/application/history.go",
+        "Platform/internal/engine/analysis.go",
+        "Platform/internal/store/history.go",
+        "Platform/internal/store/migration00006.go",
+        "Platform/internal/api/history_routes.go",
+        "Frontends/src/history.tsx",
+        "Frontends/src/history-input.ts"
+      ],
+      "evidence": [
+        ".local/evolution/history-analysis-verified.json",
+        ".local/evolution/history-analysis-root-review.json",
+        ".local/evolution/frontend-phase3-verified.json",
+        ".local/evolution/frontend-phase3-root-review.json",
+        ".local/evolution/phase3-review-evidence/v2-history-cancel-keyboard-timing.json",
+        ".local/evolution/phase3-independent-review-checkpoint.json",
+        ".local/evolution/phase3-independent-checkpoint-root-review.json",
+        ".local/evolution/tasks-cancel-t01-verified.json",
+        ".local/evolution/tasks-cancel-t01-root-review.json",
+        ".local/evolution/tasks-cancel-t01-binary-root-review.json",
+        ".local/evolution/tasks-cancel-t01-source-scope-root-review.json",
+        ".local/evolution/phase3-independent-review-t01-checkpoint.json",
+        ".local/evolution/phase3-independent-t01-checkpoint-root-review.json",
+        ".local/evolution/tasks-retry-t02-verified.json",
+        ".local/evolution/tasks-retry-t02-root-review.json",
+        ".local/evolution/phase3-independent-review.json",
+        ".local/evolution/phase3-independent-root-review.json",
+        ".local/evolution/phase3-final-source-root-review.json",
+        ".local/evolution/phase3-accepted-source.json",
+        ".local/evolution/final-independent-review.json",
+        ".local/evolution/phase5-final-root-review.json"
+      ],
+      "notes": [
+        "对应实现、当前组合及实际页面独立审查均通过，主协调已核对原始输出、源码与二进制来源；十五项阶段问题全部完成修正和再验证",
+        "跨版本资产、精确数值、质量、时钟、历史窗口、独立状态、快照、SIGKILL恢复、同任务重试与正常页面取消均已核对"
+      ],
+      "final_verification": {
+        "checked_at": "2026-10-07T05:46:49.670743+00:00",
+        "status": "passed",
+        "report": ".local/evolution/final-independent-review.json",
+        "requirement_id": "E3-04",
+        "source_sha256": "6c66570a31e7f921e4830fa2a0c16c6947a589c0d4cb0c57aab5fd8d4ba1fdbe",
+        "conclusion": "当前跨版本历史、不可变快照、回放隔离、River持久执行与PG查询通过，原历史页面的来源、质量和精确值检查按保存版本适用"
+      }
+    },
+    {
+      "id": "E3-05",
+      "phase": 3,
+      "title": "规则版本效果比较",
+      "requirement": "对同一输入、初始状态与时间条件比较两个明确规则版本",
+      "verification_criteria": "变化/无变化样本、数值与质量差异、版本与来源显示、API和页面流程",
+      "implementation_status": "complete",
+      "verification_status": "passed",
+      "implementation": [
+        "Platform/internal/application/history.go",
+        "Platform/internal/engine/analysis.go",
+        "Platform/internal/historymodel/history.go",
+        "Platform/internal/historymodel/compare.go",
+        "docs/evolution/history-frontend-contract.md",
+        "Frontends/src/history.tsx",
+        "Frontends/src/history-input.ts"
+      ],
+      "evidence": [
+        ".local/evolution/history-analysis-verified.json",
+        ".local/evolution/history-analysis-root-review.json",
+        ".local/evolution/frontend-phase3-verified.json",
+        ".local/evolution/frontend-phase3-root-review.json",
+        ".local/evolution/phase3-independent-review-checkpoint.json",
+        ".local/evolution/phase3-independent-checkpoint-root-review.json",
+        ".local/evolution/phase3-independent-review-t01-checkpoint.json",
+        ".local/evolution/phase3-independent-t01-checkpoint-root-review.json",
+        ".local/evolution/phase3-independent-review.json",
+        ".local/evolution/phase3-independent-root-review.json",
+        ".local/evolution/phase3-final-source-root-review.json",
+        ".local/evolution/phase3-accepted-source.json",
+        ".local/evolution/final-independent-review.json",
+        ".local/evolution/phase5-final-root-review.json"
+      ],
+      "notes": [
+        "对应实现、当前组合及实际页面独立审查均通过，主协调已核对原始输出、源码与二进制来源；十五项阶段问题全部完成修正和再验证",
+        "两侧共同输入/时钟/历史/初态，独立状态，差异/一致/缺失分别呈现，创建与导出保留精确整数"
+      ],
+      "final_verification": {
+        "checked_at": "2026-10-07T05:46:49.670743+00:00",
+        "status": "passed",
+        "report": ".local/evolution/final-independent-review.json",
+        "requirement_id": "E3-05",
+        "source_sha256": "6c66570a31e7f921e4830fa2a0c16c6947a589c0d4cb0c57aab5fd8d4ba1fdbe",
+        "conclusion": "变化和无变化样本、数值与质量及来源版本的比较通过当前回归，原完整页面流程与未变历史功能及传输源码对应"
+      }
+    },
+    {
+      "id": "E3-06",
+      "phase": 3,
+      "title": "影子计算",
+      "requirement": "候选规则跟随规定的实时输入执行，独立保存计算结果并可与正式结果比较",
+      "verification_criteria": "实时输入传播、重复数据幂等、候选启停、正式状态/动作完整性与比较结果",
+      "implementation_status": "complete",
+      "verification_status": "passed",
+      "implementation": [
+        "Platform/internal/application/shadow.go",
+        "Platform/internal/store/history.go",
+        "Platform/internal/engine/runtime.go",
+        "Platform/internal/engine/definitions.go",
+        "Platform/internal/tasks/history.go",
+        "Frontends/src/history.tsx",
+        "Frontends/src/history-input.ts"
+      ],
+      "evidence": [
+        ".local/evolution/history-analysis-verified.json",
+        ".local/evolution/history-analysis-root-review.json",
+        ".local/evolution/frontend-phase3-verified.json",
+        ".local/evolution/frontend-phase3-root-review.json",
+        ".local/evolution/phase3-review-evidence/v2-history-cancel-keyboard-timing.json",
+        ".local/evolution/phase3-independent-review-checkpoint.json",
+        ".local/evolution/phase3-independent-checkpoint-root-review.json",
+        ".local/evolution/tasks-cancel-t01-verified.json",
+        ".local/evolution/tasks-cancel-t01-root-review.json",
+        ".local/evolution/tasks-cancel-t01-binary-root-review.json",
+        ".local/evolution/tasks-cancel-t01-source-scope-root-review.json",
+        ".local/evolution/phase3-independent-review-t01-checkpoint.json",
+        ".local/evolution/phase3-independent-t01-checkpoint-root-review.json",
+        ".local/evolution/tasks-retry-t02-verified.json",
+        ".local/evolution/tasks-retry-t02-root-review.json",
+        ".local/evolution/phase3-independent-review.json",
+        ".local/evolution/phase3-independent-root-review.json",
+        ".local/evolution/phase3-final-source-root-review.json",
+        ".local/evolution/phase3-accepted-source.json",
+        ".local/evolution/final-independent-review.json",
+        ".local/evolution/phase5-final-root-review.json"
+      ],
+      "notes": [
+        "对应实现、当前组合及实际页面独立审查均通过，主协调已核对原始输出、源码与二进制来源；十五项阶段问题全部完成修正和再验证",
+        "生产观测入口、重复/迟到/修订、正式补算来源、候选替换/停止、前序状态解析、有限增长量、等待父代任务的重试与正常页面取消均已核对"
+      ],
+      "final_verification": {
+        "checked_at": "2026-10-07T05:46:49.670743+00:00",
+        "status": "passed",
+        "report": ".local/evolution/final-independent-review.json",
+        "requirement_id": "E3-06",
+        "source_sha256": "6c66570a31e7f921e4830fa2a0c16c6947a589c0d4cb0c57aab5fd8d4ba1fdbe",
+        "conclusion": "当前影子执行、崩溃恢复、实时传播、幂等与正式状态检查通过，原影子页面和任务取消重试记录对应当前未变功能以及本轮共享后端回归"
+      }
+    },
+    {
+      "id": "E3-07",
+      "phase": 3,
+      "title": "计算及执行过程解释",
+      "requirement": "展示节点计算过程、控制状态转换、审批、动作与回执的关联时间线",
+      "verification_criteria": "记录关联完整性、资源授权、实际API与浏览器显示",
+      "implementation_status": "complete",
+      "verification_status": "passed",
+      "implementation": [
+        "Platform/internal/control/intervention.go",
+        "Platform/internal/api/control_routes.go",
+        "Platform/internal/application/history.go",
+        "Platform/internal/api/history_routes.go",
+        "docs/evolution/control-frontend-contract.md",
+        "docs/evolution/history-frontend-contract.md",
+        "Platform/internal/control/evidence.go",
+        "Platform/internal/cloudsync/control_receipts.go",
+        "Platform/internal/store/control.go",
+        "Frontends/src/executions.tsx",
+        "Frontends/src/history.tsx"
+      ],
+      "evidence": [
+        ".local/evolution/control-execution-verified.json",
+        ".local/evolution/control-execution-root-review.json",
+        ".local/evolution/history-analysis-verified.json",
+        ".local/evolution/history-analysis-root-review.json",
+        ".local/evolution/control-execution-c05-verified.json",
+        ".local/evolution/control-execution-c05-root-review.json",
+        ".local/evolution/control-c05-final-fixture-root-review.json",
+        ".local/evolution/frontend-phase3-verified.json",
+        ".local/evolution/frontend-phase3-root-review.json",
+        ".local/evolution/phase3-review-evidence/v2-history-cancel-keyboard-timing.json",
+        ".local/evolution/phase3-independent-review-checkpoint.json",
+        ".local/evolution/phase3-independent-checkpoint-root-review.json",
+        ".local/evolution/tasks-cancel-t01-verified.json",
+        ".local/evolution/tasks-cancel-t01-root-review.json",
+        ".local/evolution/tasks-cancel-t01-binary-root-review.json",
+        ".local/evolution/tasks-cancel-t01-source-scope-root-review.json",
+        ".local/evolution/phase3-independent-review-t01-checkpoint.json",
+        ".local/evolution/phase3-independent-t01-checkpoint-root-review.json",
+        ".local/evolution/tasks-retry-t02-verified.json",
+        ".local/evolution/tasks-retry-t02-root-review.json",
+        ".local/evolution/phase3-independent-review.json",
+        ".local/evolution/phase3-independent-root-review.json",
+        ".local/evolution/phase3-final-source-root-review.json",
+        ".local/evolution/phase3-accepted-source.json",
+        ".local/evolution/final-independent-review.json",
+        ".local/evolution/phase5-final-root-review.json"
+      ],
+      "notes": [
+        "对应实现、当前组合及实际页面独立审查均通过，主协调已核对原始输出、源码与二进制来源；十五项阶段问题全部完成修正和再验证",
+        "实际节点输入/输出/历史及资产版本、两侧计划OTLP、失败状态、控制证据及反馈时间线、当前授权"
+      ],
+      "final_verification": {
+        "checked_at": "2026-10-07T05:46:49.670743+00:00",
+        "status": "passed",
+        "report": ".local/evolution/final-independent-review.json",
+        "requirement_id": "E3-07",
+        "source_sha256": "6c66570a31e7f921e4830fa2a0c16c6947a589c0d4cb0c57aab5fd8d4ba1fdbe",
+        "conclusion": "执行、动作、回放和调查的记录关联与授权通过当前回归；原控制历史解释页面和当前AI证据导航覆盖各自实际内容"
+      }
+    },
+    {
+      "id": "E4-01",
+      "phase": 4,
+      "title": "查询读模型与分页",
+      "requirement": "设备、告警、趋势及执行查询采用数据库筛选分页和适合展示的可重建读模型",
+      "verification_criteria": "数据库查询范围、分页稳定性、投影重建、修订和权限过滤测试",
+      "implementation_status": "complete",
+      "verification_status": "passed",
+      "implementation": [
+        "Platform/pkg/model/query.go",
+        "Platform/internal/store/query_read.go",
+        "Platform/internal/store/query_projection.go",
+        "Platform/internal/application/queries.go",
+        "Platform/internal/api/query_routes.go",
+        "docs/evolution/query-frontend-contract.md",
+        "Frontends/src/query.ts",
+        "Frontends/src/data-monitor.tsx",
+        "Frontends/src/executions.tsx",
+        "Frontends/src/alarm-workbench.tsx"
+      ],
+      "evidence": [
+        ".local/evolution/phase4-coordinator-findings.json",
+        ".local/evolution/phase4-query-http-interim-root-review.json",
+        ".local/evolution/phase4-query-postgres-interim-root-review.json",
+        ".local/evolution/query-subscriptions-verified.json",
+        ".local/evolution/query-subscriptions-root-review.json",
+        ".local/evolution/phase4-query-inputs-root-review.json",
+        ".local/evolution/frontend-phase4-verified.json",
+        ".local/evolution/frontend-phase4-root-review.json",
+        ".local/evolution/frontend-phase4-r1-build-provenance-root-review.json",
+        ".local/evolution/phase4-independent-review.json",
+        ".local/evolution/phase4-independent-root-review.json",
+        ".local/evolution/phase4-independent-browser-root-review.json",
+        ".local/evolution/final-independent-review.json",
+        ".local/evolution/phase5-final-root-review.json"
+      ],
+      "notes": [
+        "专家SQLite、PostgreSQL与实际HTTP/SSE测试已开始；P4-Q01、P4-Q03修正后的对应专项通过，最终固定源码组合与独立验收仍在进行，阶段目标尚未通过",
+        "查询专家固定v1/v2组合的131项普通叶子场景、34项竞态叶子场景通过；两快照各3304输入、15二进制及19命令通过主协调核对，后续当前业务/AI/前端组合和独立审查继续进行",
+        "第四阶段独立审查与主协调最终验收通过：SQLite和PostgreSQL实际筛选、稳定分页、投影重建、删除修订及当前授权验证通过；页面范围变化后采用新快照，旧页和旧HTTP结果不会恢复已移出的记录。"
+      ],
+      "final_verification": {
+        "checked_at": "2026-10-07T05:46:49.670743+00:00",
+        "status": "passed",
+        "report": ".local/evolution/final-independent-review.json",
+        "requirement_id": "E4-01",
+        "source_sha256": "6c66570a31e7f921e4830fa2a0c16c6947a589c0d4cb0c57aab5fd8d4ba1fdbe",
+        "conclusion": "数据库投影、范围授权、分页修订和重建通过当前普通及PG回归；浏览器实际权限变化后的旧窗口清理和新快照获取通过"
+      }
+    },
+    {
+      "id": "E4-02",
+      "phase": 4,
+      "title": "可恢复增量订阅",
+      "requirement": "订阅提供初始状态与增量、提交可见游标、修订更新和恢复策略",
+      "verification_criteria": "断连恢复、迟提交、过期游标、权限变化及多个订阅者测试",
+      "implementation_status": "complete",
+      "verification_status": "passed",
+      "implementation": [
+        "Platform/pkg/model/query.go",
+        "Platform/internal/store/query_read.go",
+        "Platform/internal/store/query_projection.go",
+        "Platform/internal/application/queries.go",
+        "Platform/internal/api/query_routes.go",
+        "docs/evolution/query-frontend-contract.md",
+        "Frontends/src/query.ts",
+        "Frontends/src/query-window.ts",
+        "Frontends/src/query-cache.ts"
+      ],
+      "evidence": [
+        ".local/evolution/phase4-coordinator-findings.json",
+        ".local/evolution/phase4-query-http-interim-root-review.json",
+        ".local/evolution/phase4-query-postgres-interim-root-review.json",
+        ".local/evolution/query-subscriptions-verified.json",
+        ".local/evolution/query-subscriptions-root-review.json",
+        ".local/evolution/phase4-query-inputs-root-review.json",
+        ".local/evolution/frontend-phase4-verified.json",
+        ".local/evolution/frontend-phase4-root-review.json",
+        ".local/evolution/frontend-phase4-r1-build-provenance-root-review.json",
+        ".local/evolution/phase4-independent-review.json",
+        ".local/evolution/phase4-independent-root-review.json",
+        ".local/evolution/phase4-independent-browser-root-review.json",
+        ".local/evolution/final-independent-review.json",
+        ".local/evolution/phase5-final-root-review.json"
+      ],
+      "notes": [
+        "专家SQLite、PostgreSQL与实际HTTP/SSE测试已开始；P4-Q01、P4-Q03修正后的对应专项通过，最终固定源码组合与独立验收仍在进行，阶段目标尚未通过",
+        "查询专家固定v1/v2组合的131项普通叶子场景、34项竞态叶子场景通过；两快照各3304输入、15二进制及19命令通过主协调核对，后续当前业务/AI/前端组合和独立审查继续进行",
+        "第四阶段独立审查与主协调最终验收通过：初始快照、提交可见游标、迟提交、过期恢复、撤权、多订阅者和并发队列清理通过；实际HTTP/1.1及HTTP/2空闲心跳和慢客户端预算通过，页面15167毫秒后取得心跳及新增量，再以原游标恢复成功。"
+      ],
+      "final_verification": {
+        "checked_at": "2026-10-07T05:46:49.670743+00:00",
+        "status": "passed",
+        "report": ".local/evolution/final-independent-review.json",
+        "requirement_id": "E4-02",
+        "source_sha256": "6c66570a31e7f921e4830fa2a0c16c6947a589c0d4cb0c57aab5fd8d4ba1fdbe",
+        "conclusion": "迟提交、多个订阅、撤权和游标恢复通过当前PG及普通回归，实际浏览器核对心跳、新提交、opaque游标重连与延迟HTTP不覆盖SSE"
+      }
+    },
+    {
+      "id": "E4-03",
+      "phase": 4,
+      "title": "前端业务模块与状态组织",
+      "requirement": "按功能组织页面，TanStack Query和生成客户端用于服务端状态，画布领域模型与编辑状态独立",
+      "verification_criteria": "页面调用路径、缓存键/权限身份、增量更新、编辑切换和构建检查",
+      "implementation_status": "complete",
+      "verification_status": "passed",
+      "implementation": [
+        "Frontends/src/api.ts",
+        "Frontends/src/generated-client.ts",
+        "Frontends/src/generated-resource.ts",
+        "Frontends/src/editor-state.ts"
+      ],
+      "evidence": [
+        ".local/evolution/frontend-phase4-verified.json",
+        ".local/evolution/frontend-phase4-root-review.json",
+        ".local/evolution/frontend-phase4-r1-build-provenance-root-review.json",
+        ".local/evolution/phase4-independent-review.json",
+        ".local/evolution/phase4-independent-root-review.json",
+        ".local/evolution/phase4-independent-browser-root-review.json",
+        ".local/evolution/final-independent-review.json",
+        ".local/evolution/phase5-final-root-review.json"
+      ],
+      "notes": [
+        "前端专家已启动，按最终查询/业务及随后AI组合契约实施并进行实际浏览器验证",
+        "第四阶段独立审查与主协调最终验收通过：生成客户端和TanStack Query实际用于服务端读取与写入，缓存身份包含用户及授权信息；页面切换、并发冲突保留编辑，账号切换及会话失效清理缓存和编辑状态，迟到HTTP与SSE次序验证通过。"
+      ],
+      "final_verification": {
+        "checked_at": "2026-10-07T05:46:49.670743+00:00",
+        "status": "passed",
+        "report": ".local/evolution/final-independent-review.json",
+        "requirement_id": "E4-03",
+        "source_sha256": "6c66570a31e7f921e4830fa2a0c16c6947a589c0d4cb0c57aab5fd8d4ba1fdbe",
+        "conclusion": "页面模块、缓存身份与生成客户端通过最终构建；实际用户切换、撤权、编辑保留、同页发布URL来回及清除验证当前状态组织"
+      }
+    },
+    {
+      "id": "E4-04",
+      "phase": 4,
+      "title": "设备与节点参数表单",
+      "requirement": "统一元数据生成具有类型、单位、校验与帮助信息的设备/节点基础参数编辑",
+      "verification_criteria": "不同节点与协议表单、必填/枚举/数值范围、后端校验等价和编辑往返",
+      "implementation_status": "complete",
+      "verification_status": "passed",
+      "implementation": [
+        "Platform/internal/deviceconfig",
+        "Platform/internal/application/deviceconfiguration.go",
+        "DataTransfer/internal/config/tls_json.go",
+        "docs/evolution/business-frontend-contract.md",
+        "Frontends/src/metadata-form.tsx",
+        "Frontends/src/metadata-values.ts",
+        "Frontends/src/protocol-configurations.tsx",
+        "Frontends/src/definitions.tsx"
+      ],
+      "evidence": [
+        ".local/evolution/phase4-business-sqlite-interim-root-review.json",
+        ".local/evolution/phase4-coordinator-findings.json",
+        ".local/evolution/business-workflows-verified.json",
+        ".local/evolution/business-workflows-root-review.json",
+        ".local/evolution/frontend-phase4-verified.json",
+        ".local/evolution/frontend-phase4-root-review.json",
+        ".local/evolution/frontend-phase4-r1-build-provenance-root-review.json",
+        ".local/evolution/phase4-independent-review.json",
+        ".local/evolution/phase4-independent-root-review.json",
+        ".local/evolution/phase4-independent-browser-root-review.json",
+        ".local/evolution/final-independent-review.json",
+        ".local/evolution/phase5-final-root-review.json"
+      ],
+      "notes": [
+        "业务应用SQLite首轮专项通过，正式HTTP、云边、PostgreSQL、原生联动及页面验证仍在继续，当前尚未完成阶段验收",
+        "业务后端交付及主协调核对完成：最终报告202个产物引用、55次顶层测试执行与原生CE、mTLS、实际HTTP、固定源码/二进制对应关系通过；页面和当前组合独立验收继续进行",
+        "第四阶段独立审查与主协调最终验收通过：Modbus TCP、MQTT、OPC-UA及节点元数据的类型、单位、范围、枚举、必填和精确值往返通过；JSON修正、删除无效重复项和不同分区同名字段的错误状态正确更新，中文设备名称选择保存通过。"
+      ],
+      "final_verification": {
+        "checked_at": "2026-10-07T05:46:49.670743+00:00",
+        "status": "passed",
+        "report": ".local/evolution/final-independent-review.json",
+        "requirement_id": "E4-04",
+        "source_sha256": "6c66570a31e7f921e4830fa2a0c16c6947a589c0d4cb0c57aab5fd8d4ba1fdbe",
+        "conclusion": "三协议表单、节点元数据与精确扩展字段往返通过实际页面及后端检查，节点配置实际消费者验证动态、失败恢复及静态新进程采用"
+      }
+    },
+    {
+      "id": "E4-05",
+      "phase": 4,
+      "title": "语义差异与影响分析",
+      "requirement": "草稿显示语义变化并解析受影响依赖、设备和输出",
+      "verification_criteria": "节点/连线/参数变化样本、循环及缺失依赖、资源范围与页面检查",
+      "implementation_status": "complete",
+      "verification_status": "passed",
+      "implementation": [
+        "Platform/internal/application/semantic.go",
+        "docs/evolution/business-frontend-contract.md",
+        "Frontends/src/semantic-review.tsx",
+        "Frontends/src/definition-tools.tsx",
+        "Frontends/src/definitions.tsx"
+      ],
+      "evidence": [
+        ".local/evolution/phase4-business-sqlite-interim-root-review.json",
+        ".local/evolution/phase4-coordinator-findings.json",
+        ".local/evolution/business-workflows-verified.json",
+        ".local/evolution/business-workflows-root-review.json",
+        ".local/evolution/frontend-phase4-verified.json",
+        ".local/evolution/frontend-phase4-root-review.json",
+        ".local/evolution/frontend-phase4-r1-build-provenance-root-review.json",
+        ".local/evolution/phase4-independent-review.json",
+        ".local/evolution/phase4-independent-root-review.json",
+        ".local/evolution/phase4-independent-browser-root-review.json",
+        ".local/evolution/final-independent-review.json",
+        ".local/evolution/phase5-final-root-review.json"
+      ],
+      "notes": [
+        "业务应用SQLite首轮专项通过，正式HTTP、云边、PostgreSQL、原生联动及页面验证仍在继续，当前尚未完成阶段验收",
+        "业务后端交付及主协调核对完成：最终报告202个产物引用、55次顶层测试执行与原生CE、mTLS、实际HTTP、固定源码/二进制对应关系通过；页面和当前组合独立验收继续进行",
+        "第四阶段独立审查与主协调最终验收通过：节点、连接和参数语义差异、依赖及资源影响的后端验证通过；页面显示身份与版本，冲突时保留本地输入，用户明确采用新版本后继续保存。"
+      ],
+      "final_verification": {
+        "checked_at": "2026-10-07T05:46:49.670743+00:00",
+        "status": "passed",
+        "report": ".local/evolution/final-independent-review.json",
+        "requirement_id": "E4-05",
+        "source_sha256": "6c66570a31e7f921e4830fa2a0c16c6947a589c0d4cb0c57aab5fd8d4ba1fdbe",
+        "conclusion": "图节点、连接及参数变化的语义检查和编辑保持通过当前业务页面；循环、缺失依赖和资源范围由当前应用回归核对"
+      }
+    },
+    {
+      "id": "E4-06",
+      "phase": 4,
+      "title": "告警处置工作台",
+      "requirement": "告警拥有可执行确认、分配、备注和状态查看流程，并明确云边/原生状态归属",
+      "verification_criteria": "权限和并发版本、状态同步、告警生命周期、API及页面流程",
+      "implementation_status": "complete",
+      "verification_status": "passed",
+      "implementation": [
+        "Platform/internal/application/business.go",
+        "Platform/pkg/model/business.go",
+        "Platform/internal/thingsboard/alarms.go",
+        "Platform/internal/app/business_workers.go",
+        "docs/evolution/business-frontend-contract.md",
+        "Frontends/src/alarm-workbench.tsx"
+      ],
+      "evidence": [
+        ".local/evolution/phase4-business-sqlite-interim-root-review.json",
+        ".local/evolution/phase4-coordinator-findings.json",
+        ".local/evolution/business-workflows-verified.json",
+        ".local/evolution/business-workflows-root-review.json",
+        ".local/evolution/frontend-phase4-verified.json",
+        ".local/evolution/frontend-phase4-root-review.json",
+        ".local/evolution/frontend-phase4-r1-build-provenance-root-review.json",
+        ".local/evolution/phase4-independent-review.json",
+        ".local/evolution/phase4-independent-root-review.json",
+        ".local/evolution/phase4-independent-browser-root-review.json",
+        ".local/evolution/final-independent-review.json",
+        ".local/evolution/phase5-final-root-review.json"
+      ],
+      "notes": [
+        "业务应用SQLite首轮专项通过，正式HTTP、云边、PostgreSQL、原生联动及页面验证仍在继续，当前尚未完成阶段验收",
+        "业务后端交付及主协调核对完成：最终报告202个产物引用、55次顶层测试执行与原生CE、mTLS、实际HTTP、固定源码/二进制对应关系通过；页面和当前组合独立验收继续进行",
+        "第四阶段独立审查与主协调最终验收通过：持续规则输入后按已阅动作版本完成确认、分配和备注；普通观测更新允许人工处置，人工状态及权限变化仍触发正式校验。原生轮询的404、损坏内容、超过64项轮转、期限和worker周期恢复通过。"
+      ],
+      "final_verification": {
+        "checked_at": "2026-10-07T05:46:49.670743+00:00",
+        "status": "passed",
+        "report": ".local/evolution/final-independent-review.json",
+        "requirement_id": "E4-06",
+        "source_sha256": "6c66570a31e7f921e4830fa2a0c16c6947a589c0d4cb0c57aab5fd8d4ba1fdbe",
+        "conclusion": "持续采样时告警人工原因与版本依据保持，状态冲突、审计及处置动作通过当前页面和实际PG并发检查"
+      }
+    },
+    {
+      "id": "E4-07",
+      "phase": 4,
+      "title": "带依据的AI调查",
+      "requirement": "AI结果关联实际查询、规则、版本和执行记录，页面提供可访问证据引用",
+      "verification_criteria": "工具结果与引用一致性、无权资源拒绝、错误/缺失依据处理和页面导航",
+      "implementation_status": "complete",
+      "verification_status": "passed",
+      "implementation": [
+        "Platform/internal/ai/evidence.go",
+        "Platform/internal/ai/tools.go",
+        "Platform/internal/application/investigations.go",
+        "Platform/internal/application/investigation_resources.go",
+        "Platform/internal/store/investigations.go",
+        "Platform/internal/api/investigation_routes.go",
+        "Platform/pkg/model/investigation.go",
+        "Platform/cmd/sf-ai-evidence-fixture",
+        "docs/evolution/ai-evidence-frontend-contract.md",
+        "Frontends/src/assistant.tsx",
+        "Frontends/src/resource-navigation.ts"
+      ],
+      "evidence": [
+        ".local/evolution/ai-evidence-verified.json",
+        ".local/evolution/ai-evidence-root-review.json",
+        ".local/evolution/phase4-ai-build-provenance-root-review.json",
+        ".local/evolution/phase4-ai-ordinary-root-review.json",
+        ".local/evolution/phase4-coordinator-findings.json",
+        ".local/evolution/ai-evidence-a02-verified.json",
+        ".local/evolution/ai-evidence-a02-root-review.json",
+        ".local/evolution/phase4-ai-a02-build-provenance-root-review.json",
+        ".local/evolution/phase4-review-a02/summary.json",
+        ".local/evolution/phase4-independent-a02-root-review.json",
+        ".local/evolution/frontend-phase4-verified.json",
+        ".local/evolution/frontend-phase4-root-review.json",
+        ".local/evolution/frontend-phase4-r1-build-provenance-root-review.json",
+        ".local/evolution/phase4-independent-review.json",
+        ".local/evolution/phase4-independent-root-review.json",
+        ".local/evolution/phase4-independent-browser-root-review.json",
+        ".local/evolution/final-independent-review.json",
+        ".local/evolution/phase5-final-root-review.json"
+      ],
+      "notes": [
+        "当前ai/tools.go旧有id正则在按id读取和save_draft分支均拒绝斜杠，普通应用与HTTP入口支持这类ID；本阶段统一工具ID语义与路径转义，验证创建、读取及引用导航的往返。独立审查证据为ai-identifier-scope-review.json，该工具文件与实施前基线逐字节一致",
+        "当前Chat工具循环保留实际ToolCallID但SSE只发送工具名，最终done不包含调查依据；本阶段将已执行查询、实际返回内容和预算状态持久关联，并验证流式结束后的引用状态",
+        "AI后端和公共组合契约已完成；151项普通顶层、2项PG、13项有限race及42次实际HTTP通过。主协调核对361个产物引用与44组命令，保存首次失败、条件跳过和最终源码关系；前端及完整组合独立验收继续进行",
+        "独立审查新增P4-A02：原始resource在定义改绑后删除，显式授权仍存在时依据错误保持可访问；原始HTTP失败已保留，等待AI原专家修正与独立复验",
+        "P4-A02修正及主协调复核完成：新固定二进制普通84项顶层通过、AI专用PG3项、有限race17项通过；147个产物引用、8组日志及51次实际HTTP对应一致，原v3测试的JSON null断言修正单独保留。原独立审查已恢复，继续完成页面及最终组合验收。",
+        "A02独立后端新组合119项普通、17项PG、20项有限race及17项部署工具链检查通过；主协调核对25组运行与4729项摘要。页面新增P4-F04失效依据缓存问题由前端修正，最终页面组合仍在验收。",
+        "第四阶段独立审查与主协调最终验收通过：实际本地模型五类工具的ToolCallID、查询范围、原文和SHA256对应，中文斜杠冒号标识导航通过；不存在、伪造、无权、到期、工具失败和预算状态正确处理，原资源删除后依据404，调查答案、消息、参数和资源内容清除，页面轮询同步隐藏旧内容。"
+      ],
+      "final_verification": {
+        "checked_at": "2026-10-07T05:46:49.670743+00:00",
+        "status": "passed",
+        "report": ".local/evolution/final-independent-review.json",
+        "requirement_id": "E4-07",
+        "source_sha256": "6c66570a31e7f921e4830fa2a0c16c6947a589c0d4cb0c57aab5fd8d4ba1fdbe",
+        "conclusion": "当前八条AI实际页面流程及三项PG调查覆盖五工具依据、伪造引用、跨调查、撤权、过期、删除、会话切换与异常流"
+      }
+    },
+    {
+      "id": "E4-08",
+      "phase": 4,
+      "title": "工单与交接记录",
+      "requirement": "工单和交接具有状态、责任人、关联告警/执行及审计，支持实际业务流转",
+      "verification_criteria": "创建、分配、变更、完成/交接、权限与审计、页面完整流程",
+      "implementation_status": "complete",
+      "verification_status": "passed",
+      "implementation": [
+        "Platform/internal/application/workorders.go",
+        "Platform/pkg/model/business.go",
+        "docs/evolution/business-frontend-contract.md",
+        "Frontends/src/work-orders.tsx"
+      ],
+      "evidence": [
+        ".local/evolution/phase4-business-sqlite-interim-root-review.json",
+        ".local/evolution/phase4-coordinator-findings.json",
+        ".local/evolution/business-workflows-verified.json",
+        ".local/evolution/business-workflows-root-review.json",
+        ".local/evolution/frontend-phase4-verified.json",
+        ".local/evolution/frontend-phase4-root-review.json",
+        ".local/evolution/frontend-phase4-r1-build-provenance-root-review.json",
+        ".local/evolution/phase4-independent-review.json",
+        ".local/evolution/phase4-independent-root-review.json",
+        ".local/evolution/phase4-independent-browser-root-review.json",
+        ".local/evolution/final-independent-review.json",
+        ".local/evolution/phase5-final-root-review.json"
+      ],
+      "notes": [
+        "业务应用SQLite首轮专项通过，正式HTTP、云边、PostgreSQL、原生联动及页面验证仍在继续，当前尚未完成阶段验收",
+        "业务后端交付及主协调核对完成：最终报告202个产物引用、55次顶层测试执行与原生CE、mTLS、实际HTTP、固定源码/二进制对应关系通过；页面和当前组合独立验收继续进行",
+        "第四阶段独立审查与主协调最终验收通过：工单创建、开始处理、责任人变更、完成和交接两项未完成事项通过，关联告警和执行保留审计；事务内完整执行证据资源授权与并发集合变化验证通过，原责任人的操作权限随交接更新。"
+      ],
+      "final_verification": {
+        "checked_at": "2026-10-07T05:46:49.670743+00:00",
+        "status": "passed",
+        "report": ".local/evolution/final-independent-review.json",
+        "requirement_id": "E4-08",
+        "source_sha256": "6c66570a31e7f921e4830fa2a0c16c6947a589c0d4cb0c57aab5fd8d4ba1fdbe",
+        "conclusion": "创建、分配、处理、交接及由新负责人完成的实际页面通过，原始操作与当前版本依据、权限和审计通过当前后端并发检查"
+      }
+    },
+    {
+      "id": "E4-09",
+      "phase": 4,
+      "title": "场景模板与批量准备",
+      "requirement": "五类场景具有可复用模板、设备绑定、参数检查与批量实例化",
+      "verification_criteria": "五类模板实例化、引用与资源授权、冲突检测及生成结果验证",
+      "implementation_status": "complete",
+      "verification_status": "passed",
+      "implementation": [
+        "Platform/internal/application/templates.go",
+        "Platform/pkg/model/templates.go",
+        "docs/evolution/business-frontend-contract.md",
+        "Frontends/src/scene-templates.tsx"
+      ],
+      "evidence": [
+        ".local/evolution/phase4-business-sqlite-interim-root-review.json",
+        ".local/evolution/phase4-coordinator-findings.json",
+        ".local/evolution/business-workflows-verified.json",
+        ".local/evolution/business-workflows-root-review.json",
+        ".local/evolution/frontend-phase4-verified.json",
+        ".local/evolution/frontend-phase4-root-review.json",
+        ".local/evolution/frontend-phase4-r1-build-provenance-root-review.json",
+        ".local/evolution/phase4-independent-review.json",
+        ".local/evolution/phase4-independent-root-review.json",
+        ".local/evolution/phase4-independent-browser-root-review.json",
+        ".local/evolution/final-independent-review.json",
+        ".local/evolution/phase5-final-root-review.json"
+      ],
+      "notes": [
+        "业务应用SQLite首轮专项通过，正式HTTP、云边、PostgreSQL、原生联动及页面验证仍在继续，当前尚未完成阶段验收",
+        "业务后端交付及主协调核对完成：最终报告202个产物引用、55次顶层测试执行与原生CE、mTLS、实际HTTP、固定源码/二进制对应关系通过；页面和当前组合独立验收继续进行",
+        "第四阶段独立审查与主协调最终验收通过：五类模板通过固定设备和配置版本批量准备25份草稿，引用授权、版本冲突、参数错误及重试通过；失败批次保留失败信息并避免留下部分草稿。"
+      ],
+      "final_verification": {
+        "checked_at": "2026-10-07T05:46:49.670743+00:00",
+        "status": "passed",
+        "report": ".local/evolution/final-independent-review.json",
+        "requirement_id": "E4-09",
+        "source_sha256": "6c66570a31e7f921e4830fa2a0c16c6947a589c0d4cb0c57aab5fd8d4ba1fdbe",
+        "conclusion": "五类模板固定设备和连接器版本生成25份草稿，冲突零草稿及追加重试记录通过；最终模板依据刷新保留新参数并完成实际演进提交"
+      }
+    },
+    {
+      "id": "E4-10",
+      "phase": 4,
+      "title": "图表与三套页面验证",
+      "requirement": "ECharts6和前端维护依赖完成集成，云端/现场/大屏满足新增功能与精度要求",
+      "verification_criteria": "实际浏览器截图与断言、三种尺寸、图例坐标轴和精确数值导出",
+      "implementation_status": "complete",
+      "verification_status": "passed",
+      "implementation": [
+        "Frontends/src/chart.tsx",
+        "Frontends/src/chart-data.ts",
+        "Frontends/src/screen.tsx",
+        "Frontends/src/style.css"
+      ],
+      "evidence": [
+        ".local/evolution/frontend-phase4-verified.json",
+        ".local/evolution/frontend-phase4-root-review.json",
+        ".local/evolution/frontend-phase4-r1-build-provenance-root-review.json",
+        ".local/evolution/phase4-independent-review.json",
+        ".local/evolution/phase4-independent-root-review.json",
+        ".local/evolution/phase4-independent-browser-root-review.json",
+        ".local/evolution/final-independent-review.json",
+        ".local/evolution/phase5-final-root-review.json"
+      ],
+      "notes": [
+        "第二阶段npm安装审计报告现有ECharts5受GHSA-fgmj-fm8m-jvvx影响，报告修复范围为6.1.0及以后；第四阶段核对官方公告与维护版本，完成ECharts升级、实际图表回归及再次依赖审计",
+        "前端专家已启动，按最终查询/业务及随后AI组合契约实施并进行实际浏览器验证",
+        "第四阶段独立审查与主协调最终验收通过：ECharts6.1.0及锁定依赖完成独立安装、构建、类型和npm审计；云端、现场、大屏的1440×1000、1024×768、390×844实际图表和空数据页面均通过，九种空数据文档宽度等于视口且水平滚动为0，工具提示、表格及导出保持精确整数。"
+      ],
+      "final_verification": {
+        "checked_at": "2026-10-07T05:46:49.670743+00:00",
+        "status": "passed",
+        "report": ".local/evolution/final-independent-review.json",
+        "requirement_id": "E4-10",
+        "source_sha256": "6c66570a31e7f921e4830fa2a0c16c6947a589c0d4cb0c57aab5fd8d4ba1fdbe",
+        "conclusion": "云端、现场与大屏同一最终构建的三尺寸九画面记录通过，当前三条精确值、图表提示及完整导出用例另行通过"
+      }
+    },
+    {
+      "id": "E5-01",
+      "phase": 5,
+      "title": "完整发布清单",
+      "requirement": "程序、规则、配置及其依赖形成带内容摘要和版本的发布对象",
+      "verification_criteria": "清单校验、依赖解析、摘要不符与不兼容组合拒绝、构建产物核对",
+      "implementation_status": "complete",
+      "verification_status": "passed",
+      "implementation": [
+        "docs/evolution/release-frontend-contract.md",
+        "docs/evolution/release-deployment-contract.md",
+        "Platform/internal/releaseagent",
+        "Platform/internal/application/releases.go",
+        "Platform/internal/application/release_coordinator.go"
+      ],
+      "evidence": [
+        ".local/evolution/release-coordination-verified.json",
+        ".local/evolution/release-coordination-root-review.json",
+        ".local/evolution/phase5-release-process-tenth-root-review.json",
+        ".local/evolution/phase5-release-final-checks-root-review.json",
+        ".local/evolution/phase5-release-a01-root-review.json",
+        ".local/evolution/phase5-config-deadlock-root-review.json",
+        ".local/evolution/phase5-delivery-config-deadlock-checkpoint.json",
+        ".local/evolution/phase5-config-deadlock-checkpoint-root-review.json",
+        ".local/evolution/release-interface-verified.json",
+        ".local/evolution/phase5-frontend-final-inputs-root-review.json",
+        ".local/evolution/phase5-frontend-final-root-review.json",
+        ".local/evolution/phase5-linux-release-profile-root-review.json",
+        ".local/evolution/final-independent-review.json",
+        ".local/evolution/phase5-final-root-review.json"
+      ],
+      "notes": [
+        "发布专家和主协调已核对固定内容、实际双节点进程、批次及兼容退回、切换中断和报告时效；第十轮完整组合及A01补充通过，页面、正式部署与最终独立验收继续进行。",
+        "P5-N04已由实际Linux校验失败、PostgreSQL同对象锁升级死锁及源码调用顺序确认，原配置工程师待交付检查点结束后恢复修正；最终包与独立验收继续等待该项完成。",
+        "最终前端30931项输入及19项统一产物核对通过，8组9项浏览器用例、三入口九尺寸、精确导出与27项回归通过；最终Linux组合和独立审查按用户要求待恢复",
+        "2026-10-07恢复后，修正后的正式Linux入口55项检查通过；实际程序、固定消费者、规则与配置往返、离线缓存恢复、审计及停止通过主协调材料核对，最终十四程序包及独立组合审查继续进行。",
+        "2026-10-07最终验收：独立组合校验四类组件、依赖、摘要和兼容关系，空目录实际创建首份固定清单；正式包程序与源摘要及发布内容一致"
+      ],
+      "final_verification": {
+        "checked_at": "2026-10-07T05:46:49.670743+00:00",
+        "status": "passed",
+        "report": ".local/evolution/final-independent-review.json",
+        "requirement_id": "E5-01",
+        "source_sha256": "6c66570a31e7f921e4830fa2a0c16c6947a589c0d4cb0c57aab5fd8d4ba1fdbe",
+        "conclusion": "独立组合校验四类组件、依赖、摘要和兼容关系，空目录实际创建首份固定清单；正式包程序与源摘要及发布内容一致"
+      }
+    },
+    {
+      "id": "E5-02",
+      "phase": 5,
+      "title": "节点身份与配置分发",
+      "requirement": "节点能力和工作负载身份决定可取得的配置与凭据引用",
+      "verification_criteria": "目标节点/程序筛选、已停用身份、凭据授权与应用确认测试",
+      "implementation_status": "complete",
+      "verification_status": "passed",
+      "implementation": [
+        "docs/evolution/node-configuration-contract.md",
+        "scripts/prepare-runtime.py"
+      ],
+      "evidence": [
+        ".local/evolution/node-configuration-verified.json",
+        ".local/evolution/node-configuration-root-review.json",
+        ".local/evolution/phase5-node-process-final-root-review.json",
+        ".local/evolution/phase5-identity-refresh-root-review.json",
+        ".local/evolution/phase5-release-interface-checkpoint-root-review.json",
+        ".local/evolution/phase5-config-deadlock-root-review.json",
+        ".local/evolution/phase5-delivery-config-deadlock-checkpoint.json",
+        ".local/evolution/phase5-config-deadlock-checkpoint-root-review.json",
+        ".local/evolution/node-connector-deadlock-verified.json",
+        ".local/evolution/phase5-node-deadlock-root-review.json",
+        ".local/evolution/phase5-linux-release-profile-root-review.json",
+        ".local/evolution/final-independent-review.json",
+        ".local/evolution/phase5-final-root-review.json"
+      ],
+      "notes": [
+        "节点专家及主协调材料核对完成，实际动态/静态应用、身份及凭据变化、独立服务恢复和连接器采用均通过；页面与最终独立组合验收继续进行。",
+        "P5-N04已由实际Linux校验失败、PostgreSQL同对象锁升级死锁及源码调用顺序确认，原配置工程师待交付检查点结束后恢复修正；最终包与独立验收继续等待该项完成。",
+        "P5-N04配置来源登记与实际读取并发已完成专项修正，普通PG和race各4项顶层、19项含子场景通过；实际竞态程序和执行后补充输入已核对，正式Linux组合与最终独立审查按用户要求待恢复",
+        "2026-10-07恢复后，修正后的正式Linux入口55项检查通过；实际程序、固定消费者、规则与配置往返、离线缓存恢复、审计及停止通过主协调材料核对，最终十四程序包及独立组合审查继续进行。",
+        "2026-10-07最终验收：独立cloud/config/双edge和实际消费者验证节点范围、身份代际、撤权、轮换、固定版本与应用确认；收到明确授权拒绝后清理缓存，服务临时不可达时保留已核验配置"
+      ],
+      "final_verification": {
+        "checked_at": "2026-10-07T05:46:49.670743+00:00",
+        "status": "passed",
+        "report": ".local/evolution/final-independent-review.json",
+        "requirement_id": "E5-02",
+        "source_sha256": "6c66570a31e7f921e4830fa2a0c16c6947a589c0d4cb0c57aab5fd8d4ba1fdbe",
+        "conclusion": "独立cloud/config/双edge和实际消费者验证节点范围、身份代际、撤权、轮换、固定版本与应用确认；收到明确授权拒绝后清理缓存，服务临时不可达时保留已核验配置"
+      }
+    },
+    {
+      "id": "E5-03",
+      "phase": 5,
+      "title": "期望与运行状态协调",
+      "requirement": "跟踪期望版本、已准备/已应用/实际运行状态，协调器按声明目标推进",
+      "verification_criteria": "幂等协调、重复回执、节点重启、版本变化和实际运行报告",
+      "implementation_status": "complete",
+      "verification_status": "passed",
+      "implementation": [
+        "docs/evolution/release-frontend-contract.md",
+        "docs/evolution/release-deployment-contract.md",
+        "Platform/internal/releaseagent",
+        "Platform/internal/application/releases.go",
+        "Platform/internal/application/release_coordinator.go"
+      ],
+      "evidence": [
+        ".local/evolution/release-coordination-verified.json",
+        ".local/evolution/release-coordination-root-review.json",
+        ".local/evolution/phase5-release-process-tenth-root-review.json",
+        ".local/evolution/phase5-release-final-checks-root-review.json",
+        ".local/evolution/phase5-release-a01-root-review.json",
+        ".local/evolution/node-configuration-verified.json",
+        ".local/evolution/phase5-node-process-final-root-review.json",
+        ".local/evolution/phase5-release-restore-diagnosis-root-review.json",
+        ".local/evolution/phase5-coordinator-findings.json",
+        ".local/evolution/storage-version-r01-verified.json",
+        ".local/evolution/phase5-storage-version-root-review.json",
+        ".local/evolution/phase5-release-rule-roundtrip-failure-root-review.json",
+        ".local/evolution/phase5-release-recovery-inputs-root-review.json",
+        ".local/evolution/phase5-release-r02-inputs-root-review.json",
+        ".local/evolution/release-restore-recovery-verified.json",
+        ".local/evolution/phase5-release-recovery-root-review.json",
+        ".local/evolution/phase5-release-recovered-database-root-review.json",
+        ".local/evolution/release-interface-verified.json",
+        ".local/evolution/phase5-frontend-final-inputs-root-review.json",
+        ".local/evolution/phase5-frontend-final-root-review.json",
+        ".local/evolution/phase5-linux-release-profile-root-review.json",
+        ".local/evolution/final-independent-review.json",
+        ".local/evolution/phase5-final-root-review.json"
+      ],
+      "notes": [
+        "发布专家和主协调已核对固定内容、实际双节点进程、批次及兼容退回、切换中断和报告时效；第十轮完整组合及A01补充通过，页面、正式部署与最终独立验收继续进行。",
+        "P5-R01公共Store修正完成专家与主协调核对，SQLite/实际PG十六个专项场景和对应race全部通过；保留原固定参数版本一，原副本新增本地版本二十七，其余四十张表及历史内容完整。应用默认初始化、原缓存启动与正式发布恢复由发布工程师继续验证。",
+        "P5-R01与P5-R02正式恢复通过工程师和主协调核对，原始备份及历史保留，五模板二十九组件、同代失败等待、人工新代重试和兼容往返具备实际进程与报告；原前端已恢复，最终页面、Linux组合与独立验收继续进行。",
+        "最终前端30931项输入及19项统一产物核对通过，8组9项浏览器用例、三入口九尺寸、精确导出与27项回归通过；最终Linux组合和独立审查按用户要求待恢复",
+        "2026-10-07恢复后，修正后的正式Linux入口55项检查通过；实际程序、固定消费者、规则与配置往返、离线缓存恢复、审计及停止通过主协调材料核对，最终十四程序包及独立组合审查继续进行。",
+        "2026-10-07最终验收：期望、准备、实际应用和运行摘要来自实际程序；重复心跳保持业务版本，新实例取得当前代际，旧实例和旧分配被拒绝，运行报告15秒过期及恢复按实际进程核对"
+      ],
+      "final_verification": {
+        "checked_at": "2026-10-07T05:46:49.670743+00:00",
+        "status": "passed",
+        "report": ".local/evolution/final-independent-review.json",
+        "requirement_id": "E5-03",
+        "source_sha256": "6c66570a31e7f921e4830fa2a0c16c6947a589c0d4cb0c57aab5fd8d4ba1fdbe",
+        "conclusion": "期望、准备、实际应用和运行摘要来自实际程序；重复心跳保持业务版本，新实例取得当前代际，旧实例和旧分配被拒绝，运行报告15秒过期及恢复按实际进程核对"
+      }
+    },
+    {
+      "id": "E5-04",
+      "phase": 5,
+      "title": "分批发布与恢复",
+      "requirement": "程序规则配置按依赖分批启用，处理失败、离线等待、恢复与兼容退回",
+      "verification_criteria": "隔离节点实际发布、失败注入、离线恢复、批次阻断和兼容退回证据",
+      "implementation_status": "complete",
+      "verification_status": "passed",
+      "implementation": [
+        "docs/evolution/release-frontend-contract.md",
+        "docs/evolution/release-deployment-contract.md",
+        "Platform/internal/releaseagent",
+        "Platform/internal/application/releases.go",
+        "Platform/internal/application/release_coordinator.go"
+      ],
+      "evidence": [
+        ".local/evolution/release-coordination-verified.json",
+        ".local/evolution/release-coordination-root-review.json",
+        ".local/evolution/phase5-release-process-tenth-root-review.json",
+        ".local/evolution/phase5-release-final-checks-root-review.json",
+        ".local/evolution/phase5-release-a01-root-review.json",
+        ".local/evolution/phase5-native-delivery-root-review.json",
+        ".local/evolution/phase5-release-restore-diagnosis-root-review.json",
+        ".local/evolution/phase5-coordinator-findings.json",
+        ".local/evolution/phase5-datatransfer-shutdown-baseline-root-review.json",
+        ".local/evolution/phase5-datatransfer-runtime-root-review.json",
+        ".local/evolution/storage-version-r01-verified.json",
+        ".local/evolution/phase5-storage-version-root-review.json",
+        ".local/evolution/phase5-release-rule-roundtrip-failure-root-review.json",
+        ".local/evolution/phase5-release-recovery-inputs-root-review.json",
+        ".local/evolution/phase5-release-r02-inputs-root-review.json",
+        ".local/evolution/release-restore-recovery-verified.json",
+        ".local/evolution/phase5-release-recovery-root-review.json",
+        ".local/evolution/phase5-release-recovered-database-root-review.json",
+        ".local/evolution/release-interface-verified.json",
+        ".local/evolution/phase5-frontend-final-inputs-root-review.json",
+        ".local/evolution/phase5-frontend-final-root-review.json",
+        ".local/evolution/phase5-linux-release-profile-root-review.json",
+        ".local/evolution/phase5-compose-profile-root-review.json",
+        ".local/evolution/final-independent-review.json",
+        ".local/evolution/phase5-final-root-review.json"
+      ],
+      "notes": [
+        "第一阶段临时Edge容器停止后以137退出的事项已完成原生专项：正式准备入口让Java成为PID1并设置60秒停止等待；最终实际Edge约4.90秒退出143、OOM=false、数据库连接归零，保留数据库及持久目录再次启动后指定时间戳原始与派生值均为22.5，重复消息及两侧审计通过。原始停止观测和后续超时/准备失败保留，最终Linux包入口及独立验收继续核对。",
+        "发布专家和主协调已核对固定内容、实际双节点进程、批次及兼容退回、切换中断和报告时效；第十轮完整组合及A01补充通过，页面、正式部署与最终独立验收继续进行。",
+        "P5-R01公共Store修正完成专家与主协调核对，SQLite/实际PG十六个专项场景和对应race全部通过；保留原固定参数版本一，原副本新增本地版本二十七，其余四十张表及历史内容完整。应用默认初始化、原缓存启动与正式发布恢复由发布工程师继续验证。",
+        "P5-R01与P5-R02正式恢复通过工程师和主协调核对，原始备份及历史保留，五模板二十九组件、同代失败等待、人工新代重试和兼容往返具备实际进程与报告；原前端已恢复，最终页面、Linux组合与独立验收继续进行。",
+        "最终前端30931项输入及19项统一产物核对通过，8组9项浏览器用例、三入口九尺寸、精确导出与27项回归通过；最终Linux组合和独立审查按用户要求待恢复",
+        "2026-10-07恢复后，修正后的正式Linux入口55项检查通过；实际程序、固定消费者、规则与配置往返、离线缓存恢复、审计及停止通过主协调材料核对，最终十四程序包及独立组合审查继续进行。",
+        "2026-10-07最终验收：双节点独立组合完成离线等待、失败阻断、显式重试、兼容退回和中断恢复；同代失败等待及新发布恢复有普通、PG、race和历史原数据证据，正式Linux入口完成保留数据再次启动"
+      ],
+      "final_verification": {
+        "checked_at": "2026-10-07T05:46:49.670743+00:00",
+        "status": "passed",
+        "report": ".local/evolution/final-independent-review.json",
+        "requirement_id": "E5-04",
+        "source_sha256": "6c66570a31e7f921e4830fa2a0c16c6947a589c0d4cb0c57aab5fd8d4ba1fdbe",
+        "conclusion": "双节点独立组合完成离线等待、失败阻断、显式重试、兼容退回和中断恢复；同代失败等待及新发布恢复有普通、PG、race和历史原数据证据，正式Linux入口完成保留数据再次启动"
+      }
+    },
+    {
+      "id": "E5-05",
+      "phase": 5,
+      "title": "发布与模板界面",
+      "requirement": "界面呈现批次、节点、运行状态和人工处理事项，场景模板支持批量发布及版本演进",
+      "verification_criteria": "API与浏览器发布流程、节点筛选、状态刷新、模板升级",
+      "implementation_status": "complete",
+      "verification_status": "passed",
+      "implementation": [
+        "Frontends/src/releases.tsx",
+        "Frontends/src/workload-identities.tsx",
+        "Frontends/src/template-evolution.tsx"
+      ],
+      "evidence": [
+        ".local/evolution/phase5-first-release-flow-root-review.json",
+        ".local/evolution/phase5-coordinator-findings.json",
+        ".local/evolution/phase5-refresh-basis-root-review.json",
+        ".local/evolution/phase5-permissions-root-review.json",
+        ".local/evolution/phase5-acceptance-watchpoints.json",
+        ".local/evolution/phase5-identity-refresh-root-review.json",
+        ".local/evolution/phase5-release-restore-diagnosis-root-review.json",
+        ".local/evolution/phase5-release-interface-checkpoint-root-review.json",
+        ".local/evolution/phase5-datatransfer-runtime-root-review.json",
+        ".local/evolution/storage-version-r01-verified.json",
+        ".local/evolution/phase5-storage-version-root-review.json",
+        ".local/evolution/phase5-release-rule-roundtrip-failure-root-review.json",
+        ".local/evolution/release-restore-recovery-verified.json",
+        ".local/evolution/phase5-release-recovery-root-review.json",
+        ".local/evolution/phase5-release-recovered-database-root-review.json",
+        ".local/evolution/phase5-release-navigation-root-review.json",
+        ".local/evolution/release-interface-verified.json",
+        ".local/evolution/phase5-frontend-final-inputs-root-review.json",
+        ".local/evolution/phase5-frontend-final-root-review.json",
+        ".local/evolution/final-independent-review.json",
+        ".local/evolution/phase5-final-root-review.json"
+      ],
+      "notes": [
+        "首次空目录四组件清单实际通过；分批发布、节点身份和模板演进的完整页面验证继续进行，刷新输入保留与只读权限问题等待修正后复验和独立结论。",
+        "前端检查点的282份源码、19份受测产物及38轮浏览器统计完成核对，身份停用与轮换原始状态通过；当前源码含构建后的适用性修改，最终统一构建仍待原数据恢复后进行。",
+        "P5-R01公共Store修正完成专家与主协调核对，SQLite/实际PG十六个专项场景和对应race全部通过；保留原固定参数版本一，原副本新增本地版本二十七，其余四十张表及历史内容完整。应用默认初始化、原缓存启动与正式发布恢复由发布工程师继续验证。",
+        "P5-R01与P5-R02正式恢复通过工程师和主协调核对，原始备份及历史保留，五模板二十九组件、同代失败等待、人工新代重试和兼容往返具备实际进程与报告；原前端已恢复，最终页面、Linux组合与独立验收继续进行。",
+        "P5-F04同页URL切换批次后保留原详情已由实际请求与截图确认，原前端工程师正在修正并复验导航及编辑状态。",
+        "最终前端30931项输入及19项统一产物核对通过，8组9项浏览器用例、三入口九尺寸、精确导出与27项回归通过；最终Linux组合和独立审查按用户要求待恢复",
+        "2026-10-07最终验收：当前页面完成空目录组合、固定清单与目标筛选、发布双节点进度、权限、URL切换、身份和模板版本冲突刷新；实际模板演进提交保留新输入"
+      ],
+      "final_verification": {
+        "checked_at": "2026-10-07T05:46:49.670743+00:00",
+        "status": "passed",
+        "report": ".local/evolution/final-independent-review.json",
+        "requirement_id": "E5-05",
+        "source_sha256": "6c66570a31e7f921e4830fa2a0c16c6947a589c0d4cb0c57aab5fd8d4ba1fdbe",
+        "conclusion": "当前页面完成空目录组合、固定清单与目标筛选、发布双节点进度、权限、URL切换、身份和模板版本冲突刷新；实际模板演进提交保留新输入"
+      }
+    },
+    {
+      "id": "E5-06",
+      "phase": 5,
+      "title": "最终交付与回归",
+      "requirement": "生成包含更新代码、依赖清单、契约、迁移与文档的交付包，完成适用旧功能回归",
+      "verification_criteria": "两Go模块测试、契约、前端、有限协议/云边/控制验证、打包与verify-release结果",
+      "implementation_status": "complete",
+      "verification_status": "passed",
+      "implementation": [
+        "scripts/build-release.py",
+        "scripts/verify-release.py",
+        "scripts/verify-delivery-runtime.py",
+        "scripts/bootstrap-runtime.py",
+        "deploy/dependencies.json",
+        "deploy/licenses/provenance.json",
+        "Wiki/releases/1.1.md"
+      ],
+      "evidence": [
+        ".local/evolution/phase5-delivery-protocols-root-review.json",
+        ".local/evolution/phase5-nats-cold-restore-root-review.json",
+        ".local/evolution/phase5-native-delivery-root-review.json",
+        ".local/evolution/phase5-delivery-regressions-root-review.json",
+        ".local/evolution/phase5-delivery-regressions-verified.json",
+        ".local/evolution/phase5-delivery-regressions-correspondence-root-review.json",
+        ".local/evolution/phase5-historical-source-correspondence-root-review.json",
+        ".local/evolution/phase5-delivery-linux-preflight-checkpoint.json",
+        ".local/evolution/phase5-linux-checkpoint-root-review.json",
+        ".local/evolution/phase5-release-restore-diagnosis-root-review.json",
+        ".local/evolution/phase5-coordinator-findings.json",
+        ".local/evolution/phase5-datatransfer-shutdown-baseline-root-review.json",
+        ".local/evolution/phase5-datatransfer-runtime-root-review.json",
+        ".local/evolution/storage-version-r01-verified.json",
+        ".local/evolution/phase5-storage-version-root-review.json",
+        ".local/evolution/phase5-linux-metadata-root-review.json",
+        ".local/evolution/phase5-release-rule-roundtrip-failure-root-review.json",
+        ".local/evolution/phase5-delivery-current-regressions-root-review.json",
+        ".local/evolution/phase5-release-recovery-inputs-root-review.json",
+        ".local/evolution/phase5-release-r02-inputs-root-review.json",
+        ".local/evolution/release-restore-recovery-verified.json",
+        ".local/evolution/phase5-release-recovery-root-review.json",
+        ".local/evolution/phase5-release-recovered-database-root-review.json",
+        ".local/evolution/phase5-config-deadlock-root-review.json",
+        ".local/evolution/phase5-delivery-config-deadlock-checkpoint.json",
+        ".local/evolution/phase5-config-deadlock-checkpoint-root-review.json",
+        ".local/evolution/node-connector-deadlock-verified.json",
+        ".local/evolution/phase5-node-deadlock-root-review.json",
+        ".local/evolution/release-interface-verified.json",
+        ".local/evolution/phase5-frontend-final-inputs-root-review.json",
+        ".local/evolution/phase5-frontend-final-root-review.json",
+        ".local/evolution/phase5-linux-release-profile-root-review.json",
+        ".local/evolution/phase5-final-platform-ordinary-root-review.json",
+        ".local/evolution/phase5-compose-profile-root-review.json",
+        ".local/evolution/phase5-final-pg-root-review.json",
+        ".local/evolution/phase5-final-race-root-review.json",
+        ".local/evolution/phase5-container-provenance-observation.json",
+        ".local/evolution/phase5-container-licenses-verified.json",
+        ".local/evolution/phase5-container-provenance-root-review.json",
+        ".local/evolution/phase5-final-package-root-review.json",
+        ".local/evolution/phase5-final-archive-root-review.json",
+        ".local/evolution/delivery/SmartFactory-1.1.0-dev-linux-amd64-20261007-6c66570a31e7.json",
+        ".local/evolution/final-independent-review.json",
+        ".local/evolution/phase5-final-root-review.json"
+      ],
+      "notes": [
+        "Kafka4.3.1、NATS2.14.7及中间版2.12.15的正式锁、许可证、部署生成一致性和实际持久迁移已完成，见message-infrastructure-verified.json及message-infrastructure-root-review.json",
+        "最终离线材料提供NATS中间镜像归档或可复现的锁定准备流程；消息交接要求在独立项目完成旧版三节点冷备全量恢复并核对备份后数据补回范围",
+        "Kafka冷备恢复已验证42条消息，提升元数据后的最终状态45条，备份之后3条需重放；正式组合采用的512MiB堆/1GiB容器资源配置由最终交付重新验证，Edge停止信号事项继续归E5-04",
+        "外部OPC UA签名加密及证书拒绝、HTTP扩展进程、MQTT实际代理和十万条持久消息故障专项已由专家与主协调核对；NATS旧版独立三节点冷备恢复及执行权切换续跑通过，151份冷备文件、4944项前后编译输入和原始结果对应。正式CE/Edge/Kafka组合、最终包及独立整体审查继续进行。",
+        "最终CE/Edge/Kafka有限原生组合完成十三项检查，三个容器均退出143且无OOM、两个业务进程退出0；3226份实际编译输入前后对应且保存固定字节，七份驱动与三十一个命令日志通过主协调核对。正式Linux包和独立整体审查继续进行。",
+        "最终两个Go模块串行PG回归已完成：Platform 618项、DataTransfer 103项（均含子测试）通过，分别12项和7项专用环境或辅助入口跳过，最终交付逐项对应既有专项。六份输入集合与实际go-list对应，6235个唯一原路径及保存内容通过主协调核对；配置消费者退出0，隔离库无残余连接和schema并已删除。",
+        "正式Linux入口预验证保存八轮未完成或失败记录，5997项固定输入、四次七程序构建及原始结果由主协调核对一致；最后一轮36项已执行检查通过，整体在第二次部署的配置来源409处失败。完整运行、缓存恢复和十四程序最终包继续进行。",
+        "P5-D01停机误报已完成受控Linux前后对比、普通与竞态检查及正式采集程序隔离退出；4483份保留输入和34份清单通过主协调核对，最终完整Linux包入口继续验证。",
+        "P5-R01公共Store修正完成专家与主协调核对，SQLite/实际PG十六个专项场景和对应race全部通过；保留原固定参数版本一，原副本新增本地版本二十七，其余四十张表及历史内容完整。应用默认初始化、原缓存启动与正式发布恢复由发布工程师继续验证。",
+        "原Linux配置引用409的双服务复查完成：旧cloud/config及保留数据库副本按v2、v1、v2执行十二次实际TLS元数据请求，均返回200；主协调核对二十六份命令日志与实际退出0、无OOM和连接归零。原部署创建瞬间的409原因尚未确定，最终完整组合继续保存关联请求与时间。",
+        "发布恢复候选candidate-final-second的完整两模块回归通过主协调核对：Platform 649项、DataTransfer 109项含子测试通过，分别12项和7项条件跳过；十六组命令、六份实际输入清单与6240个原始路径一致，保留内容及前后输入核对通过。此轮尚未包含随后正式往返发现的P5-R02，最终按该运行文件差异补充受影响包与实际组合验证。",
+        "P5-R01与P5-R02正式恢复通过工程师和主协调核对，原始备份及历史保留，五模板二十九组件、同代失败等待、人工新代重试和兼容往返具备实际进程与报告；原前端已恢复，最终页面、Linux组合与独立验收继续进行。",
+        "P5-N04已由实际Linux校验失败、PostgreSQL同对象锁升级死锁及源码调用顺序确认，原配置工程师待交付检查点结束后恢复修正；最终包与独立验收继续等待该项完成。",
+        "P5-N04配置来源登记与实际读取并发已完成专项修正，普通PG和race各4项顶层、19项含子场景通过；实际竞态程序和执行后补充输入已核对，正式Linux组合与最终独立审查按用户要求待恢复",
+        "最终前端30931项输入及19项统一产物核对通过，8组9项浏览器用例、三入口九尺寸、精确导出与27项回归通过；最终Linux组合和独立审查按用户要求待恢复",
+        "2026-10-07恢复后，修正后的正式Linux入口55项检查通过；实际程序、固定消费者、规则与配置往返、离线缓存恢复、审计及停止通过主协调材料核对，最终十四程序包及独立组合审查继续进行。",
+        "当前Platform普通完整模块589项含子测试通过、93项条件跳过；5536项实际输入及原始命令计数由主协调核对，依赖PG与外部环境的条件用例由独立报告逐项对应。",
+        "2026-10-07独立PG专项91项及发布恢复有限race19项通过，条件清单继续逐项对应；P5-B01已修正，P5-B02容器来源与许可材料待补全后固定最终交付包。",
+        "2026-10-07最终十四程序交付包、完整Linux55项及全部归档成员通过主协调对应核对，P5-B02许可材料已补全；独立45项总报告与交付清理记录完成核对后更新正式验收。",
+        "2026-10-07最终验收：两个Go模块适用回归、有限PG/race、生成契约、最终前端、协议与云边控制专项和正式Linux包均已对应；归档1534个文件与受测包一致，十四程序及依赖来源和许可完整"
+      ],
+      "final_verification": {
+        "checked_at": "2026-10-07T05:46:49.670743+00:00",
+        "status": "passed",
+        "report": ".local/evolution/final-independent-review.json",
+        "requirement_id": "E5-06",
+        "source_sha256": "6c66570a31e7f921e4830fa2a0c16c6947a589c0d4cb0c57aab5fd8d4ba1fdbe",
+        "conclusion": "两个Go模块适用回归、有限PG/race、生成契约、最终前端、协议与云边控制专项和正式Linux包均已对应；归档1534个文件与受测包一致，十四程序及依赖来源和许可完整"
+      }
+    },
+    {
+      "id": "E5-07",
+      "phase": 5,
+      "title": "逐项完成审查",
+      "requirement": "按本清单核对每个目标、实现和验证证据，剩余问题具有准确状态",
+      "verification_criteria": "主协调者和独立审查的逐项证据核对，全部目标完成后再更新整体目标状态",
+      "implementation_status": "complete",
+      "verification_status": "passed",
+      "implementation": [
+        "docs/evolution/brief-final-independent-review.md",
+        "docs/evolution/acceptance.json",
+        "docs/evolution/status.md",
+        "docs/evolution/team.json"
+      ],
+      "evidence": [
+        ".local/evolution/final-review/execution-matrix.json",
+        ".local/evolution/phase5-final-platform-ordinary-root-review.json",
+        ".local/evolution/phase5-linux-release-profile-root-review.json",
+        ".local/evolution/final-independent-review.json",
+        ".local/evolution/phase5-final-root-review.json"
+      ],
+      "notes": [
+        "最终独立审查已核对45项目标与固定输入，完成当前Platform普通完整模块、双节点实际进程和部分浏览器流程；PG专项、余下页面及最终包审查继续进行，整体目标完成状态等待最终逐项结论。",
+        "2026-10-07最终验收：独立审查逐项确认45条适用结果，14个问题完成修正后验证、14项关注条件有定位证据；自建运行资源已清理，整体状态由主协调完成最终登记"
+      ],
+      "final_verification": {
+        "checked_at": "2026-10-07T05:46:49.670743+00:00",
+        "status": "passed",
+        "report": ".local/evolution/final-independent-review.json",
+        "requirement_id": "E5-07",
+        "source_sha256": "6c66570a31e7f921e4830fa2a0c16c6947a589c0d4cb0c57aab5fd8d4ba1fdbe",
+        "conclusion": "独立审查逐项确认45条适用结果，14个问题完成修正后验证、14项关注条件有定位证据；自建运行资源已清理，整体状态由主协调完成最终登记"
+      }
+    }
+  ],
+  "updated_at": "2026-10-07T05:46:49.670743+00:00",
+  "resumed_at": "2026-10-07T04:09:20.974939+00:00",
+  "last_pause_reason": "用户明确要求完成当前配置与前端两项后暂停，正式Linux交付与最终独立审查待恢复",
+  "resume_reason": "用户明确恢复原计划；正式Linux交付与最终独立审查继续进行",
+  "completed_at": "2026-10-07T05:46:49.670743+00:00",
+  "final_review": {
+    "status": "passed",
+    "checked_at": "2026-10-07T05:46:49.670743+00:00",
+    "source_sha256": "6c66570a31e7f921e4830fa2a0c16c6947a589c0d4cb0c57aab5fd8d4ba1fdbe",
+    "independent": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/final-independent-review.json",
+      "sha256": "0d7f0ec5f2dad588de737680f1c8b731f6b9d4bfab63367afabf423dd7cfbcf9",
+      "bytes": 522996
+    },
+    "coordinator": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-final-root-review.json",
+      "sha256": "17be706005b89a5ec8ae93f8baed31ed72ef2f657f36492cc37b316894de0889",
+      "bytes": 34409
+    },
+    "delivery": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/final-delivery-verified.json",
+      "sha256": "12cb89e36ebb8ab1ae5c50bdea04c0d0fd69350bb52e351d5f314605d0af4e7c",
+      "bytes": 85516
+    },
+    "archive": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/delivery/SmartFactory-1.1.0-dev-linux-amd64-20261007-6c66570a31e7.tar.gz",
+      "bytes": 137796066,
+      "sha256": "376f11ba9f0b1f6319b22bccdc7f704d55d0567b306ca72a133005fa82099218"
+    }
+  }
+}

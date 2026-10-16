@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>支撑服务 · ThingsBoard 核心平台拆解</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="components.css">
+  <style>
+    body { --accent:#e11d48; --accent-soft:rgba(225,29,72,0.08); --accent-line:rgba(225,29,72,0.2); }
+  </style>
+</head>
+<body data-accent="rose">
+  <header>
+    <nav>
+      <a class="back-link" href="index.html">返回总览</a>
+      <div class="crumb">核心平台 <span class="sep">/</span> <b>⑤ 支撑服务</b></div>
+      <div class="nav-mini">
+        <a href="layer-1-access.html">接入层</a>
+        <a href="layer-2-transport.html">传输层</a>
+        <a href="layer-3-queue.html">消息总线</a>
+        <a href="layer-4-core.html">核心处理</a>
+        <a href="layer-6-persistence.html">持久化</a>
+      </div>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-inner">
+      <div class="hero-eyebrow"><span class="layer-no">5</span> 第五层 · Platform Services</div>
+      <h1>支撑服务<span class="en">不在主链路上，却一个都少不了</span></h1>
+      <p class="hero-lead">这一层是环绕在核心周围的一圈服务。它们不直接处在数据流的主干道上，却各自承担着一项专门的职责：有的负责安全地执行规则脚本，有的负责给配置做版本管理，有的负责清理与计量，还有的负责服务发现与实体分区。其中分区服务尤其关键——集群能否正确地横向扩展，正系于它身上。</p>
+      <dl class="hero-facts">
+        <div class="fact"><dt>脚本执行</dt><dd>JS Executor 沙箱</dd></div>
+        <div class="fact"><dt>配置管理</dt><dd>Version Control（Git）</dd></div>
+        <div class="fact"><dt>清理与计量</dt><dd>Housekeeper · Usage Stats</dd></div>
+        <div class="fact"><dt>集群基础</dt><dd>Discovery &amp; Partition · Zookeeper</dd></div>
+      </dl>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <section>
+      <div class="reveal">
+        <div class="section-label">Overview</div>
+        <h2>这一层在做什么</h2>
+      </div>
+      <div class="prose reveal rd1">
+        <p>主链路负责把设备数据接进来、处理掉、存下去，是平台运转的主干。但仅有主干还不够——总有一些工作，既不适合并入主链路、拖慢它的节奏，又确实必须有人来做。支撑服务正是这样一圈"配角"：它们各自从核心分担一项专门的职责，让主链路得以保持专注与轻快。</p>
+        <p>这些服务大多通过各自的队列与核心交互，彼此之间相对独立。把它们从核心剥离出来，一方面避免了相互干扰，另一方面也让每一项能力都能够单独部署、单独伸缩。</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="reveal">
+        <div class="section-label">Internals</div>
+        <h2>内部结构</h2>
+        <p class="section-desc">四项任务服务环绕着核心，各通过专属队列交互；底部的 Discovery 与 Partition Service 则作为集群基础设施支撑全局。</p>
+      </div>
+      <div class="diagram-frame reveal rd1" data-cap="支撑服务 · 环绕核心的一圈平台服务（点击空白处关闭）">
+        <span class="diagram-hint">点击放大</span>
+        <img src="diagrams/platform-services.svg" alt="支撑服务：JS Executor、Version Control、Housekeeper、Usage Stats 环绕核心，Discovery 与 Partition 作为基础设施">
+      </div>
+    </section>
+
+    <section>
+      <div class="reveal">
+        <div class="section-label">Services</div>
+        <h2>五项服务，逐一说明</h2>
+      </div>
+      <div class="grid cols-2">
+        <div class="card reveal rd1">
+          <h3>JS Executor <span class="tag">沙箱</span></h3>
+          <p>规则链里的脚本类节点，需要执行用户自定义的逻辑。这些脚本是不可信的代码，直接在主进程里跑会带来风险。JS Executor 把它们放进一个隔离的执行环境——远程的 NodeJS 进程池，或本地引擎——既限制了影响范围，也避免某段脚本拖慢核心处理。</p>
+          <div class="src"><code>msa/js-executor · js-executor 队列</code></div>
+        </div>
+        <div class="card reveal rd2">
+          <h3>Version Control <span class="tag">Git</span></h3>
+          <p>把实体配置接入 Git 做版本化。规则链、仪表盘这类配置的每一次改动都可追溯、可回滚，团队协作时也有了清晰的变更历史。由独立的 vc-executor 承载这部分工作。</p>
+          <div class="src"><code>msa/vc-executor · version-control 队列</code></div>
+        </div>
+        <div class="card reveal rd3">
+          <h3>Housekeeper <span class="tag">清理</span></h3>
+          <p>负责删除级联与过期清理。一个实体被删除后，与它相关的数据需要被一并清理干净；遥测等数据也会按照设定的存活时长（TTL）被分批清除。这些工作放在后台异步进行，不占用主链路。</p>
+          <div class="src"><code>tb_housekeeper · reprocessing 队列</code></div>
+        </div>
+        <div class="card reveal rd4">
+          <h3>Usage Stats <span class="tag">计量</span></h3>
+          <p>统计各租户的用量，例如消息条数等指标，作为配额与计费的依据。它让平台能够清楚地知道，每个租户实际消耗了多少资源。</p>
+          <div class="src"><code>tb_usage_stats 队列</code></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="reveal">
+        <div class="section-label">The Key One</div>
+        <h2>分区服务：集群正确扩展的关键</h2>
+      </div>
+      <div class="prose reveal rd1">
+        <p>在这一圈服务里，Discovery 与 Partition Service 的分量明显更重。它借助 Zookeeper 完成服务发现，并以一致性哈希为每个实体分配归属节点，回答的是一个根本问题：某一台设备的消息，究竟该由哪个节点来处理？</p>
+        <p>它的关键之处，在于应对集群的动态变化。当一个服务实例上线或下线时，分区会重新分配，负载随之再均衡。倘若这件事没做对，同一台设备的消息就可能在节点之间漂移，顺序与状态都将失去保障。可以说，它是<a href="layer-3-queue.html">消息总线</a>里那套分区机制，在运行期的真正承载者——分区的规则在那里定义，而把规则落到具体节点上的，是这里。</p>
+      </div>
+      <div class="callout reveal rd2">
+        <div class="ico">!</div>
+        <p><b>把脚本执行单独隔离，是另一处值得留意的取舍。</b>规则引擎完全可以在主进程里直接跑脚本，省去一次跨进程调用。把它放进独立的沙箱，付出的是一点调用开销，换回的是安全边界与稳定性——不可信代码即便出问题，也困在沙箱之内，伤不到核心。</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="reveal">
+        <div class="section-label">Position</div>
+        <h2>在整套架构中的位置</h2>
+        <p class="section-desc">与其他几层不同，支撑服务并不严格处在线性的数据流上，而是横向地服务于整套系统。</p>
+      </div>
+      <div class="passage reveal rd1">
+        <span class="node">① 接入层</span>
+        <span class="ar">→</span>
+        <span class="node">② 传输层</span>
+        <span class="ar">→</span>
+        <span class="node">③ 消息总线</span>
+        <span class="ar">→</span>
+        <span class="node">④ 核心处理</span>
+        <span class="ar">→</span>
+        <span class="node">⑥ 持久化</span>
+      </div>
+      <div class="prose reveal rd2">
+        <p>主链路上的每一层都各管一段流程，而支撑服务更像是横跨其上的一组公共能力：脚本执行服务于规则引擎，分区服务服务于整个集群，清理与计量则服务于平台的长期健康。它们不在序列里占一个固定的位置，却让序列得以稳定运转。</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="reveal">
+        <div class="section-label">Source Map</div>
+        <h2>源码位置</h2>
+      </div>
+      <div class="grid cols-3">
+        <div class="card reveal rd1"><h3>独立可执行服务</h3><p>脚本执行与版本控制的独立进程。</p><div class="src"><code>msa/js-executor · msa/vc-executor</code></div></div>
+        <div class="card reveal rd2"><h3>清理与用量</h3><p>Housekeeper 与 Usage Stats 的队列处理。</p><div class="src"><code>common/queue/housekeeper · usagestats</code></div></div>
+        <div class="card reveal rd3"><h3>发现与分区</h3><p>服务发现接口与分区归属判定。</p><div class="src"><code>common/discovery-api · queue/discovery</code></div></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="siblings reveal">
+        <a class="sib" href="layer-4-core.html"><span class="dir">← 上一层</span><span class="nm">④ 核心处理 <span class="en">Core Processing</span></span></a>
+        <a class="sib next" href="layer-6-persistence.html"><span class="dir">下一层 →</span><span class="nm">⑥ 持久化层 <span class="en">Persistence</span></span></a>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <p>ThingsBoard 核心平台拆解 · 第五层 支撑服务 · <a href="index.html">返回总览</a></p>
+      <div class="dots">
+        <span style="background:var(--amber)"></span><span style="background:var(--cyan)"></span>
+        <span style="background:var(--blue)"></span><span style="background:var(--teal)"></span>
+        <span style="background:var(--violet)"></span><span style="background:var(--emerald)"></span>
+      </div>
+    </div>
+  </footer>
+
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <span class="lightbox-close">&times;</span>
+    <img id="lightbox-img" src="" alt="放大查看">
+    <div class="lightbox-cap" id="lightbox-cap"></div>
+  </div>
+
+  <script src="deepdive.js"></script>
+</body>
+</html>

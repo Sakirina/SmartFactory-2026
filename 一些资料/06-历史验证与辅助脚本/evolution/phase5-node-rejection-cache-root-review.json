@@ -1,0 +1,158 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-10-05T06:24:04.082116+00:00",
+  "status": "passed",
+  "scope": "Evidence integrity, actual go-list coverage, archived inputs and raw-log recount",
+  "test_outcome": "passed",
+  "source_directory": "/private/tmp/smartfactory-phase5-node-rejection-cache-checks-20261005",
+  "result_sha256": "a785039f0785f9b6f071de32dba865bbe669ae9d8a72baba266cd3d2db6bcd39",
+  "commands_sha256": "29bb374d14a92d60074f7060fe08f8b5dcb2d6e29821fc5d6f17cec40ce6abf1",
+  "commands": [
+    {
+      "name": "go-version",
+      "argv": [
+        "go",
+        "version"
+      ],
+      "cwd": "/path/to/SmartFactory-2026/Platform",
+      "exit_code": 0,
+      "started_unix": 1791181325.9150348,
+      "elapsed_seconds": 0.0068433284759521484,
+      "stdout": "/private/tmp/smartfactory-phase5-node-rejection-cache-checks-20261005/go-version.stdout.log",
+      "stderr": "/private/tmp/smartfactory-phase5-node-rejection-cache-checks-20261005/go-version.stderr.log",
+      "source_before": null,
+      "source_after": null,
+      "input_unchanged": null,
+      "raw_log_sha256s": {
+        "stdout": "c528ba02b39880f1357f51dee70e41c1ef03e3a70c7a03055c080532b9635f58",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "top_pass": [],
+      "all_pass_count": 0,
+      "failed": [],
+      "skipped": [],
+      "race_warning": false
+    },
+    {
+      "name": "postgres-workloads",
+      "argv": [
+        "go",
+        "test",
+        "-count=1",
+        "-p",
+        "1",
+        "./internal/configcenter",
+        "-run",
+        "TestWorkloadRevocationBetweenConnections",
+        "-v"
+      ],
+      "cwd": "/path/to/SmartFactory-2026/Platform",
+      "exit_code": 0,
+      "started_unix": 1791181327.018621,
+      "elapsed_seconds": 4.315317869186401,
+      "stdout": "/private/tmp/smartfactory-phase5-node-rejection-cache-checks-20261005/postgres-workloads.stdout.log",
+      "stderr": "/private/tmp/smartfactory-phase5-node-rejection-cache-checks-20261005/postgres-workloads.stderr.log",
+      "source_before": "/private/tmp/smartfactory-phase5-node-rejection-cache-checks-20261005/postgres-workloads-before.inputs.json",
+      "source_after": "/private/tmp/smartfactory-phase5-node-rejection-cache-checks-20261005/postgres-workloads-after.inputs.json",
+      "input_unchanged": true,
+      "raw_log_sha256s": {
+        "stdout": "0a29921d68d837d510c269bd962f516f151ef18b9ba0475e77febb81bea72c57",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "top_pass": [
+        "TestWorkloadRevocationBetweenConnectionsClearsActualCachedPolicy"
+      ],
+      "all_pass_count": 3,
+      "failed": [],
+      "skipped": [],
+      "race_warning": false,
+      "verified_before_after_equal": true,
+      "input_count": 4847,
+      "input_manifest_sha256s": {
+        "before": "68fd4b31c25271f9e40f2bca5d613230a949bce1d372fcc0ce47ade06c52ad6f",
+        "after": "68fd4b31c25271f9e40f2bca5d613230a949bce1d372fcc0ce47ade06c52ad6f"
+      },
+      "go_list_coverage": [
+        {
+          "phase": "before",
+          "path": "/private/tmp/smartfactory-phase5-node-rejection-cache-checks-20261005/postgres-workloads-before.go-list.json",
+          "sha256": "b00c5f6251a32d987fe98ad1172b33e50d371257d726ab8c48f36b1e1165be7d",
+          "packages": 591,
+          "missing": [],
+          "package_errors": []
+        },
+        {
+          "phase": "after",
+          "path": "/private/tmp/smartfactory-phase5-node-rejection-cache-checks-20261005/postgres-workloads-after.go-list.json",
+          "sha256": "778d314693d3e9e12134fec8b3af0d477c93b0b84347ac8dece15c65583ab90a",
+          "packages": 591,
+          "missing": [],
+          "package_errors": []
+        }
+      ]
+    },
+    {
+      "name": "race-node-configuration",
+      "argv": [
+        "go",
+        "test",
+        "-race",
+        "-count=1",
+        "-p",
+        "1",
+        "./internal/configcenter",
+        "-run",
+        "TestWorkloadRevocationBetweenConnections",
+        "-v"
+      ],
+      "cwd": "/path/to/SmartFactory-2026/Platform",
+      "exit_code": 0,
+      "started_unix": 1791181331.852169,
+      "elapsed_seconds": 6.760796070098877,
+      "stdout": "/private/tmp/smartfactory-phase5-node-rejection-cache-checks-20261005/race-node-configuration.stdout.log",
+      "stderr": "/private/tmp/smartfactory-phase5-node-rejection-cache-checks-20261005/race-node-configuration.stderr.log",
+      "source_before": "/private/tmp/smartfactory-phase5-node-rejection-cache-checks-20261005/race-node-configuration-before.inputs.json",
+      "source_after": "/private/tmp/smartfactory-phase5-node-rejection-cache-checks-20261005/race-node-configuration-after.inputs.json",
+      "input_unchanged": true,
+      "raw_log_sha256s": {
+        "stdout": "0cd0038166037a3f9855dbf3e63f753d3fb975522e021401ac1dfeba794cdfc5",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "top_pass": [
+        "TestWorkloadRevocationBetweenConnectionsClearsActualCachedPolicy"
+      ],
+      "all_pass_count": 3,
+      "failed": [],
+      "skipped": [],
+      "race_warning": false,
+      "verified_before_after_equal": true,
+      "input_count": 4847,
+      "input_manifest_sha256s": {
+        "before": "68fd4b31c25271f9e40f2bca5d613230a949bce1d372fcc0ce47ade06c52ad6f",
+        "after": "68fd4b31c25271f9e40f2bca5d613230a949bce1d372fcc0ce47ade06c52ad6f"
+      },
+      "go_list_coverage": [
+        {
+          "phase": "before",
+          "path": "/private/tmp/smartfactory-phase5-node-rejection-cache-checks-20261005/race-node-configuration-before.go-list.json",
+          "sha256": "778d314693d3e9e12134fec8b3af0d477c93b0b84347ac8dece15c65583ab90a",
+          "packages": 591,
+          "missing": [],
+          "package_errors": []
+        },
+        {
+          "phase": "after",
+          "path": "/private/tmp/smartfactory-phase5-node-rejection-cache-checks-20261005/race-node-configuration-after.go-list.json",
+          "sha256": "778d314693d3e9e12134fec8b3af0d477c93b0b84347ac8dece15c65583ab90a",
+          "packages": 591,
+          "missing": [],
+          "package_errors": []
+        }
+      ]
+    }
+  ],
+  "binaries": [],
+  "artifacts": {},
+  "unique_hashed_files": 4793,
+  "findings": []
+}

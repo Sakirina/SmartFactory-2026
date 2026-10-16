@@ -1,0 +1,549 @@
+{
+  "started_at": "2026-10-04T17:55:31.004291+00:00",
+  "fixture": "sf-native-calculated-20261005",
+  "work_directory": "/private/tmp/sf-native-calculated-20261005",
+  "platform": "linux/amd64",
+  "docker_host_arch": "aarch64",
+  "architecture_emulation": true,
+  "checks": {
+    "TestNativeCalculatedFieldAlarmAndRetention": true
+  },
+  "resources": {
+    "postgres_limit_bytes": 1073741824,
+    "kafka_limit_bytes": 2147483648,
+    "ce_limit_bytes": 3221225472,
+    "combined_limit_bytes": 6442450944
+  },
+  "commands": [
+    {
+      "at": "2026-10-04T17:55:31.046320+00:00",
+      "argv": [
+        "docker",
+        "network",
+        "create",
+        "--label",
+        "sf.evolution.fixture=sf-native-calculated-20261005",
+        "sf-native-calculated-20261005"
+      ],
+      "exit_code": 0,
+      "output": "command-001.txt"
+    },
+    {
+      "at": "2026-10-04T17:55:31.138859+00:00",
+      "argv": [
+        "docker",
+        "run",
+        "-d",
+        "--pull",
+        "never",
+        "--platform",
+        "linux/amd64",
+        "--name",
+        "sf-native-calculated-20261005-kafka",
+        "--label",
+        "sf.evolution.fixture=sf-native-calculated-20261005",
+        "--network",
+        "sf-native-calculated-20261005",
+        "--memory",
+        "2g",
+        "--memory-swap",
+        "2g",
+        "--cpus",
+        "2",
+        "--tmpfs",
+        "/tmp/kraft-combined-logs:rw,size=512m,uid=1000,gid=1000",
+        "--env",
+        "CLUSTER_ID",
+        "--env",
+        "KAFKA_NODE_ID",
+        "--env",
+        "KAFKA_PROCESS_ROLES",
+        "--env",
+        "KAFKA_LISTENERS",
+        "--env",
+        "KAFKA_ADVERTISED_LISTENERS",
+        "--env",
+        "KAFKA_LISTENER_SECURITY_PROTOCOL_MAP",
+        "--env",
+        "KAFKA_CONTROLLER_QUORUM_VOTERS",
+        "--env",
+        "KAFKA_CONTROLLER_LISTENER_NAMES",
+        "--env",
+        "KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR",
+        "--env",
+        "KAFKA_OFFSETS_TOPIC_NUM_PARTITIONS",
+        "--env",
+        "KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR",
+        "--env",
+        "KAFKA_TRANSACTION_STATE_LOG_MIN_ISR",
+        "--env",
+        "KAFKA_LOG_DIRS",
+        "--env",
+        "KAFKA_HEAP_OPTS",
+        "--env",
+        "KAFKA_NUM_PARTITIONS",
+        "--env",
+        "KAFKA_LOG_RETENTION_BYTES",
+        "--env",
+        "KAFKA_LOG_SEGMENT_BYTES",
+        "--env",
+        "KAFKA_JVM_PERFORMANCE_OPTS",
+        "apache/kafka@sha256:ccd1314e47ec76909e01f86308b4dcf2064f19f7c89759234322314b0e319e26"
+      ],
+      "exit_code": 0,
+      "output": "command-002.txt"
+    },
+    {
+      "at": "2026-10-04T17:55:35.268379+00:00",
+      "argv": [
+        "docker",
+        "exec",
+        "--env",
+        "KAFKA_HEAP_OPTS=-Xms32m -Xmx96m",
+        "sf-native-calculated-20261005-kafka",
+        "/opt/kafka/bin/kafka-broker-api-versions.sh",
+        "--bootstrap-server",
+        "localhost:9092"
+      ],
+      "exit_code": 1,
+      "output": "command-003.txt"
+    },
+    {
+      "at": "2026-10-04T17:55:40.787642+00:00",
+      "argv": [
+        "docker",
+        "exec",
+        "--env",
+        "KAFKA_HEAP_OPTS=-Xms32m -Xmx96m",
+        "sf-native-calculated-20261005-kafka",
+        "/opt/kafka/bin/kafka-broker-api-versions.sh",
+        "--bootstrap-server",
+        "localhost:9092"
+      ],
+      "exit_code": 0,
+      "output": "command-004.txt"
+    },
+    {
+      "at": "2026-10-04T17:55:40.911847+00:00",
+      "argv": [
+        "docker",
+        "run",
+        "-d",
+        "--pull",
+        "never",
+        "--platform",
+        "linux/amd64",
+        "--name",
+        "sf-native-calculated-20261005-ce",
+        "--label",
+        "sf.evolution.fixture=sf-native-calculated-20261005",
+        "--network",
+        "sf-native-calculated-20261005",
+        "--memory",
+        "3g",
+        "--memory-swap",
+        "3g",
+        "--cpus",
+        "3",
+        "--add-host",
+        "host.docker.internal:host-gateway",
+        "--publish",
+        "127.0.0.1:19080:8080",
+        "--env",
+        "SPRING_DATASOURCE_URL",
+        "--env",
+        "SPRING_DATASOURCE_USERNAME",
+        "--env",
+        "SPRING_DATASOURCE_PASSWORD",
+        "--env",
+        "SPRING_DATASOURCE_MAXIMUM_POOL_SIZE",
+        "--env",
+        "SPRING_DATASOURCE_MINIMUM_IDLE",
+        "--env",
+        "SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE",
+        "--env",
+        "SPRING_DATASOURCE_HIKARI_MINIMUM_IDLE",
+        "--env",
+        "TB_QUEUE_TYPE",
+        "--env",
+        "TB_KAFKA_SERVERS",
+        "--env",
+        "TB_QUEUE_KAFKA_BOOTSTRAP_SERVERS",
+        "--env",
+        "EDGES_ENABLED",
+        "--env",
+        "JS_EVALUATOR",
+        "--env",
+        "MALLOC_ARENA_MAX",
+        "--env",
+        "LOCAL_JS_THREAD_POOL_SIZE",
+        "--env",
+        "LOCAL_JS_SANDBOX_MONITOR_THREAD_POOL_SIZE",
+        "--env",
+        "TBEL_THREAD_POOL_SIZE",
+        "--env",
+        "ACTORS_RULE_EXTERNAL_CALL_THREAD_POOL_SIZE",
+        "--env",
+        "JAVA_OPTS",
+        "--env",
+        "TB_SERVICE_ID",
+        "thingsboard/tb-node@sha256:20636ba63175d4b680d4f00882c604723745006b8382770f373f546ff94f6254"
+      ],
+      "exit_code": 0,
+      "output": "command-005.txt"
+    },
+    {
+      "at": "2026-10-04T17:57:04.158554+00:00",
+      "argv": [
+        "docker",
+        "exec",
+        "sf-native-calculated-20261005-ce",
+        "sh",
+        "-c",
+        "tr \"\\000\" \" \" < /proc/1/cmdline"
+      ],
+      "exit_code": 0,
+      "output": "command-006.txt"
+    },
+    {
+      "at": "2026-10-04T17:57:27.712618+00:00",
+      "argv": [
+        "/private/tmp/sf-native-calculated-20261005.test",
+        "-test.v",
+        "-test.run",
+        "^TestNativeCalculatedFieldAlarmAndRetention$",
+        "-test.timeout",
+        "2m"
+      ],
+      "exit_code": 0,
+      "output": "command-007.txt"
+    },
+    {
+      "at": "2026-10-04T17:57:27.775793+00:00",
+      "argv": [
+        "docker",
+        "exec",
+        "sf-native-calculated-20261005-ce",
+        "sh",
+        "-c",
+        "cat /sys/fs/cgroup/memory.current /sys/fs/cgroup/memory.peak"
+      ],
+      "exit_code": 0,
+      "output": "command-008.txt"
+    },
+    {
+      "at": "2026-10-04T17:57:28.351993+00:00",
+      "argv": [
+        "docker",
+        "exec",
+        "sf-native-calculated-20261005-ce",
+        "jcmd",
+        "1",
+        "VM.native_memory",
+        "summary"
+      ],
+      "exit_code": 0,
+      "output": "command-009.txt"
+    },
+    {
+      "at": "2026-10-04T17:57:36.571003+00:00",
+      "argv": [
+        "docker",
+        "stop",
+        "-t",
+        "30",
+        "sf-native-calculated-20261005-ce"
+      ],
+      "exit_code": 0,
+      "output": "command-010.txt"
+    },
+    {
+      "at": "2026-10-04T17:57:36.595323+00:00",
+      "argv": [
+        "docker",
+        "inspect",
+        "sf-native-calculated-20261005-ce"
+      ],
+      "exit_code": 0,
+      "output": "command-011.txt"
+    },
+    {
+      "at": "2026-10-04T17:57:36.621899+00:00",
+      "argv": [
+        "docker",
+        "logs",
+        "sf-native-calculated-20261005-ce"
+      ],
+      "exit_code": 0,
+      "output": "command-012.txt"
+    },
+    {
+      "at": "2026-10-04T17:57:36.646325+00:00",
+      "argv": [
+        "docker",
+        "rm",
+        "sf-native-calculated-20261005-ce"
+      ],
+      "exit_code": 0,
+      "output": "command-013.txt"
+    },
+    {
+      "at": "2026-10-04T17:57:36.687010+00:00",
+      "argv": [
+        "docker",
+        "exec",
+        "sf-native-calculated-20261005-kafka",
+        "sh",
+        "-c",
+        "cat /sys/fs/cgroup/memory.current /sys/fs/cgroup/memory.peak"
+      ],
+      "exit_code": 0,
+      "output": "command-014.txt"
+    },
+    {
+      "at": "2026-10-04T17:57:37.592599+00:00",
+      "argv": [
+        "docker",
+        "stop",
+        "-t",
+        "30",
+        "sf-native-calculated-20261005-kafka"
+      ],
+      "exit_code": 0,
+      "output": "command-015.txt"
+    },
+    {
+      "at": "2026-10-04T17:57:37.614308+00:00",
+      "argv": [
+        "docker",
+        "inspect",
+        "sf-native-calculated-20261005-kafka"
+      ],
+      "exit_code": 0,
+      "output": "command-016.txt"
+    },
+    {
+      "at": "2026-10-04T17:57:37.645010+00:00",
+      "argv": [
+        "docker",
+        "logs",
+        "sf-native-calculated-20261005-kafka"
+      ],
+      "exit_code": 0,
+      "output": "command-017.txt"
+    },
+    {
+      "at": "2026-10-04T17:57:37.668982+00:00",
+      "argv": [
+        "docker",
+        "rm",
+        "sf-native-calculated-20261005-kafka"
+      ],
+      "exit_code": 0,
+      "output": "command-018.txt"
+    },
+    {
+      "at": "2026-10-04T17:57:37.763882+00:00",
+      "argv": [
+        "docker",
+        "network",
+        "rm",
+        "sf-native-calculated-20261005"
+      ],
+      "exit_code": 0,
+      "output": "command-019.txt"
+    }
+  ],
+  "readiness_attempts": [
+    {
+      "at": "2026-10-04T17:55:40.928152+00:00",
+      "error": "RemoteDisconnected"
+    },
+    {
+      "at": "2026-10-04T17:55:42.945743+00:00",
+      "error": "RemoteDisconnected"
+    },
+    {
+      "at": "2026-10-04T17:55:44.957050+00:00",
+      "error": "RemoteDisconnected"
+    },
+    {
+      "at": "2026-10-04T17:55:46.972412+00:00",
+      "error": "RemoteDisconnected"
+    },
+    {
+      "at": "2026-10-04T17:55:48.990604+00:00",
+      "error": "RemoteDisconnected"
+    },
+    {
+      "at": "2026-10-04T17:55:51.007207+00:00",
+      "error": "RemoteDisconnected"
+    },
+    {
+      "at": "2026-10-04T17:55:53.024259+00:00",
+      "error": "RemoteDisconnected"
+    },
+    {
+      "at": "2026-10-04T17:55:55.032751+00:00",
+      "error": "RemoteDisconnected"
+    },
+    {
+      "at": "2026-10-04T17:55:57.046865+00:00",
+      "error": "RemoteDisconnected"
+    },
+    {
+      "at": "2026-10-04T17:55:59.065067+00:00",
+      "error": "RemoteDisconnected"
+    },
+    {
+      "at": "2026-10-04T17:56:01.079634+00:00",
+      "error": "RemoteDisconnected"
+    },
+    {
+      "at": "2026-10-04T17:56:03.093601+00:00",
+      "error": "RemoteDisconnected"
+    },
+    {
+      "at": "2026-10-04T17:56:05.111587+00:00",
+      "error": "RemoteDisconnected"
+    },
+    {
+      "at": "2026-10-04T17:56:07.129503+00:00",
+      "error": "RemoteDisconnected"
+    },
+    {
+      "at": "2026-10-04T17:56:09.152717+00:00",
+      "error": "RemoteDisconnected"
+    },
+    {
+      "at": "2026-10-04T17:56:11.170426+00:00",
+      "error": "RemoteDisconnected"
+    },
+    {
+      "at": "2026-10-04T17:56:13.184627+00:00",
+      "error": "RemoteDisconnected"
+    },
+    {
+      "at": "2026-10-04T17:56:15.192532+00:00",
+      "error": "RemoteDisconnected"
+    },
+    {
+      "at": "2026-10-04T17:56:17.208545+00:00",
+      "error": "RemoteDisconnected"
+    },
+    {
+      "at": "2026-10-04T17:56:19.226793+00:00",
+      "error": "RemoteDisconnected"
+    },
+    {
+      "at": "2026-10-04T17:56:21.244347+00:00",
+      "error": "RemoteDisconnected"
+    },
+    {
+      "at": "2026-10-04T17:56:23.261475+00:00",
+      "error": "RemoteDisconnected"
+    },
+    {
+      "at": "2026-10-04T17:56:25.275155+00:00",
+      "error": "RemoteDisconnected"
+    },
+    {
+      "at": "2026-10-04T17:56:27.287653+00:00",
+      "error": "RemoteDisconnected"
+    },
+    {
+      "at": "2026-10-04T17:56:29.305027+00:00",
+      "error": "RemoteDisconnected"
+    },
+    {
+      "at": "2026-10-04T17:56:31.311872+00:00",
+      "error": "RemoteDisconnected"
+    },
+    {
+      "at": "2026-10-04T17:56:33.329839+00:00",
+      "error": "RemoteDisconnected"
+    },
+    {
+      "at": "2026-10-04T17:56:35.342006+00:00",
+      "error": "RemoteDisconnected"
+    },
+    {
+      "at": "2026-10-04T17:56:37.359294+00:00",
+      "error": "RemoteDisconnected"
+    },
+    {
+      "at": "2026-10-04T17:56:39.377161+00:00",
+      "error": "RemoteDisconnected"
+    },
+    {
+      "at": "2026-10-04T17:56:41.391460+00:00",
+      "error": "RemoteDisconnected"
+    },
+    {
+      "at": "2026-10-04T17:56:43.407724+00:00",
+      "error": "RemoteDisconnected"
+    },
+    {
+      "at": "2026-10-04T17:56:50.423174+00:00",
+      "error": "TimeoutError"
+    },
+    {
+      "at": "2026-10-04T17:56:57.438000+00:00",
+      "error": "TimeoutError"
+    },
+    {
+      "at": "2026-10-04T17:57:04.081432+00:00",
+      "result": "authenticated_http_200"
+    }
+  ],
+  "ready_at": "2026-10-04T17:57:04.081418+00:00",
+  "actual_jvm_command": "java -cp /usr/share/thingsboard/bin/thingsboard.jar -Xms128m -Xmx512m -XX:MaxMetaspaceSize=256m -XX:MaxDirectMemorySize=64m -XX:ReservedCodeCacheSize=64m -XX:ActiveProcessorCount=2 -Xss512k -XX:NativeMemoryTracking=summary -Dplatform=deb -Dinstall.data_dir=/usr/share/thingsboard/data -Xlog:gc*,heap*,age*,safepoint=debug:file=/var/log/thingsboard/gc.log:time,uptime,level,tags:filecount=10,filesize=10M -XX:+IgnoreUnrecognizedVMOptions -XX:+HeapDumpOnOutOfMemoryError -XX:-UseBiasedLocking -XX:+UseTLAB -XX:+ResizeTLAB -XX:+PerfDisableSharedMem -XX:+UseCondCardMark -XX:+UseG1GC -XX:MaxGCPauseMillis=500 -XX:+UseStringDeduplication -XX:+ParallelRefProcEnabled -XX:MaxTenuringThreshold=10 -Dloader.main=org.thingsboard.server.ThingsboardServerApplication -Dlogging.config=/usr/share/thingsboard/conf/logback.xml org.springframework.boot.loader.launch.PropertiesLauncher ",
+  "tested_binary_sha256": "547bdd4aafddad63d72c520dfd566dedea568cff271e0727cb961e7d404584a7",
+  "source_sha256": {
+    "Platform/internal/thingsboard/adapter.go": "2c0c22e3dd7c40071c7537066ae2652cf8a155ef6e5c547a836461f242f0ff65",
+    "Platform/internal/thingsboard/alarms.go": "40e94d32852c50619ecae25850a112eee981f69fbeb7233a27965c860bc55e9b",
+    "Platform/internal/thingsboard/client.go": "c2e1d8c05ca846fa4593d82b75e1cd57f2c495d51d311f9970f356d30f16b215",
+    "Platform/internal/thingsboard/definitions.go": "a40d9283d31a8c38ad4946aadf2011dbc0f23698c90e657389146938906cd921",
+    "Platform/internal/thingsboard/native_test.go": "ee9289dfcadf38dd55303d51c95705833b84c4c18a623dcf18148a8bfe81a1b7",
+    "Platform/internal/thingsboard/projection_test.go": "ea099e959b5527fda9928592c2d7e54c9ffbb20bd6afed205099f8111aa18f92",
+    "Platform/internal/thingsboard/retention.go": "6cf670f9d89dacda40d3fe0ef5827514160a901566c051ec0cc52d5a43b3ed19",
+    "Platform/internal/thingsboard/telemetry_test.go": "d7a867389870c0b3120e225a91968b0cef9ab2e26156a1a470cfd9c9e9c9a599"
+  },
+  "test_exit_code": 0,
+  "test_output": "command-007.txt",
+  "all_checks_passed": true,
+  "container_memory": {
+    "sf-native-calculated-20261005-ce": "1921396736\n1925427200\n",
+    "sf-native-calculated-20261005-kafka": "572157952\n584425472\n"
+  },
+  "jvm_nmt": "1:\n\nNative Memory Tracking:\n\n(Omitting categories weighting less than 1KB)\n\nTotal: reserved=1429122KB, committed=879922KB\n       malloc: 123782KB #958041, peak=137271KB #952893\n       mmap:   reserved=1305340KB, committed=756140KB\n\n-                 Java Heap (reserved=524288KB, committed=393216KB)\n                            (mmap: reserved=524288KB, committed=393216KB, at peak)\n\n-                     Class (reserved=216867KB, committed=33763KB)\n                            (classes #43254)\n                            (  instance classes #40733, array classes #2521)\n                            (malloc=3875KB tag=Class #83734) (at peak)\n                            (mmap: reserved=212992KB, committed=29888KB, at peak)\n                            (  Metadata:   )\n                            (    reserved=262144KB, committed=200768KB)\n                            (    used=199355KB)\n                            (    waste=1413KB =0.70%)\n                            (  Class space:)\n                            (    reserved=212992KB, committed=29888KB)\n                            (    used=28769KB)\n                            (    waste=1119KB =3.74%)\n\n-                    Thread (reserved=181644KB, committed=39240KB)\n                            (threads #343)\n                            (stack: reserved=180360KB, committed=37956KB, peak=37956KB)\n                            (malloc=884KB tag=Thread #2079) (peak=895KB #2083)\n                            (arena=400KB #682) (peak=3154KB #310)\n\n-                      Code (reserved=85005KB, committed=58821KB)\n                            (malloc=18956KB tag=Code #71804) (peak=19437KB #74164)\n                            (mmap: reserved=66048KB, committed=39864KB, at peak)\n                            (arena=1KB #1) (peak=34KB #2)\n\n-                        GC (reserved=50163KB, committed=47603KB)\n                            (malloc=7083KB tag=GC #24296) (peak=7105KB #24806)\n                            (mmap: reserved=43080KB, committed=40520KB, at peak)\n                            (arena=0KB #0) (peak=2KB #2)\n\n-                 GCCardSet (reserved=72KB, committed=72KB)\n                            (malloc=72KB tag=GCCardSet #67) (peak=232KB #165)\n\n-                  Compiler (reserved=1967KB, committed=1967KB)\n                            (malloc=1771KB tag=Compiler #669) (peak=1786KB #674)\n                            (arena=196KB #6) (peak=44897KB #14)\n\n-                  Internal (reserved=2499KB, committed=2499KB)\n                            (malloc=2463KB tag=Internal #33558) (at peak)\n                            (mmap: reserved=36KB, committed=36KB, at peak)\n\n-                     Other (reserved=6631KB, committed=6631KB)\n                            (malloc=6631KB tag=Other #546) (at peak)\n\n-                    Symbol (reserved=44971KB, committed=44971KB)\n                            (malloc=42789KB tag=Symbol #645357) (at peak)\n                            (arena=2182KB #1) (at peak)\n\n-    Native Memory Tracking (reserved=17141KB, committed=17141KB)\n                            (malloc=300KB tag=Native Memory Tracking #5289) (at peak)\n                            (tracking overhead=16841KB)\n\n-        Shared class space (reserved=16384KB, committed=13884KB, readonly=0KB)\n                            (mmap: reserved=16384KB, committed=13884KB, peak=14088KB)\n\n-               Arena Chunk (reserved=8989KB, committed=8989KB)\n                            (malloc=8989KB tag=Arena Chunk #1039) (peak=59983KB #1361)\n\n-                   Tracing (reserved=86KB, committed=86KB)\n                            (malloc=86KB tag=Tracing #352) (at peak)\n                            (arena=0KB #0) (peak=32KB #1)\n\n-                   Logging (reserved=0KB, committed=0KB)\n                            (malloc=0KB tag=Logging) (peak=1KB #1)\n\n-                    Module (reserved=257KB, committed=257KB)\n                            (malloc=257KB tag=Module #6467) (at peak)\n\n-                 Safepoint (reserved=8KB, committed=8KB)\n                            (mmap: reserved=8KB, committed=8KB, at peak)\n\n-           Synchronization (reserved=3020KB, committed=3020KB)\n                            (malloc=3020KB tag=Synchronization #29640) (at peak)\n\n-            Serviceability (reserved=19KB, committed=19KB)\n                            (malloc=19KB tag=Serviceability #54) (peak=22KB #58)\n\n-                 Metaspace (reserved=263176KB, committed=201800KB)\n                            (malloc=1032KB tag=Metaspace #496) (at peak)\n                            (mmap: reserved=262144KB, committed=200768KB, at peak)\n\n-      String Deduplication (reserved=5734KB, committed=5734KB)\n                            (malloc=5734KB tag=String Deduplication #51552) (peak=6383KB #51963)\n\n-           Object Monitors (reserved=202KB, committed=202KB)\n                            (malloc=202KB tag=Object Monitors #1034) (at peak)\n\n",
+  "final_container_states": {
+    "sf-native-calculated-20261005-ce": {
+      "Status": "exited",
+      "Running": false,
+      "Paused": false,
+      "Restarting": false,
+      "OOMKilled": false,
+      "Dead": false,
+      "Pid": 0,
+      "ExitCode": 143,
+      "Error": "",
+      "StartedAt": "2026-10-04T17:55:40.847581721Z",
+      "FinishedAt": "2026-10-04T17:57:36.460164594Z"
+    },
+    "sf-native-calculated-20261005-kafka": {
+      "Status": "exited",
+      "Running": false,
+      "Paused": false,
+      "Restarting": false,
+      "OOMKilled": false,
+      "Dead": false,
+      "Pid": 0,
+      "ExitCode": 143,
+      "Error": "",
+      "StartedAt": "2026-10-04T17:55:31.089640174Z",
+      "FinishedAt": "2026-10-04T17:57:37.527181928Z"
+    }
+  },
+  "completed_at": "2026-10-04T17:57:37.764116+00:00"
+}

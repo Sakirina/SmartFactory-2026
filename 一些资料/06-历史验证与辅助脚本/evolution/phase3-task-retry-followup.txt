@@ -1,0 +1,15 @@
+你继续担任原存储与后台任务工程师，处理第三阶段独立浏览器新发现的 P3-T02。仓库 /path/to/SmartFactory-2026，共享工作树；另一运行角色为 phase2_independent_review。你负责任务存储、任务应用及相关专业测试和契约说明，主协调负责需求与验收，不得创建子代理或修改全局记录。
+
+T01最终报告已完成并保留，主协调的 tasks-cancel-t01-root-review.json 已核对162个摘要引用、245份验证源码、98份契约、13份保护文件与146份编译输入。独立审查用你的当前二进制 /private/tmp/smartfactory-t01-current/sf-history-fixture 在生产River调度和正常页面上确认取消成功，随后发现以下重试问题。原报告、二进制和首次失败证据保持原件，本轮交付独立补充报告 .local/evolution/tasks-retry-t02-verified.json 和新名称的当前二进制。
+
+实际样本为新独立夹具 River ID24，Task和业务run、快照身份均保留。页面“重试任务”POST返回200，内部 sf_operation_revision=2，但下一次生产 JobSnooze 后 River 再次成为 cancelled，analysis_run仍为 waiting_parent，页面只允许再次重试。证据 .local/evolution/phase3-review-evidence/t01-single-read-task-and-river.json 记录 snoozes=388、旧 cancel_attempted_at=2026-10-04T22:38:54.707Z、步骤数0；审查角色正在保存第二次页面复现。请读取这些实际证据及当前驱动源码，复现后修正。
+
+源码初步定位为 ChangeTask 的retry调用 JobRetryTx 后仅清除 sf_tasks.cancelled_ms。River 0.48.0 的 SQLite/PG JobRetry 保留 cancel_attempted_at，后续 JobSetStateIfRunning 对 snooze/available 的更新读取该字段，可能再次转成 cancelled。请在当前任务身份、授权、对象版本和业务锁／River锁／审计事务中处理旧取消意图，使明确重试能够继续运行，同时保留其他 River 元数据、sf_trace、自定义字段与操作代次。核对两种数据库对删除字段、JSON null和字段存在性的差别；优先使用可表达正确语义的官方驱动能力，必要数据库操作由存储专业在现有事务内实现并说明。不要清空整份 metadata，保留目前T01的三秒确认、业务变化冲突、内部代次和原子审计行为。
+
+新增回归应真实制造带cancel_attempted_at的取消，而非仅取消尚未运行的调度行；先读取并确认取消标记存在，再正常重试同一任务。等待至少多次生产snooze或实际后续调度，验证River持续处于可运行阶段、业务等待状态一致、同一任务／River／run／快照和已提交步骤保持，之后再次正常取消成功。SQLite与PG均实际覆盖，补充取消／重试与旧worker完成或snooze并发的有限race、过期代次与重复操作拒绝、审计失败回滚和元数据保留。现有T01测试只等到业务waiting_parent就检查代次的断言需要加强，确认队列状态经过后续调度仍然正确。
+
+第三阶段独立审查已完成当前T01组合的Platform普通测试、六包PG、SQLite/PG有限race和契约检查；主协调把新增PG/race窗口交给你，审查只继续保存浏览器首次失败。使用独立schema，应用3open/1idle加最多一个管理连接，包并行1；私有DSN从.local/evolution/pg18-test.json读取且不打印。Go1.27.1/GOTOOLCHAIN=local，GOPATH=/private/tmp/smartfactory-evolution-gopath，GOMODCACHE=/private/tmp/smartfactory-evolution-gomodcache，GOCACHE=/private/tmp/smartfactory-evolution-go-cache。工作卷约1.6GiB，较大构建产物在/private/tmp，保留至少1GiB工作空间。
+
+既有迁移00001至00006、公开Task/TaskAction字段与前端产物继续使用当前版本。若生产源码重新修改，通知主协调和独立审查，原T01受测二进制的对应关系继续保留；新交付记录当前实际编译输入、源码归档、二进制、命令与环境条件。报告准确区别首次失败、修正后运行、顶层/叶用例和跳过条件，完成后关闭自建服务并清理自己的临时schema，保留证据。主协调安排独立审查用新构建继续页面取消、重试、持续等待、再次取消全过程。
+
+用户原有五阶段目标、每阶段最多五个新子智能体与全局同时最多两个运行角色的约定继续有效，本轮复用原专业角色。仅排除完整UOS安装恢复、单节点/三节点连续断云24小时、受限链路专项与实际24小时容量持续运行。中文按当前Humanizer内部审阅，采用自然完整段落、无emoji，仅在展示流程时使用有序列表。

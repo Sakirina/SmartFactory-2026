@@ -1,0 +1,162 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2400" height="1560" viewBox="0 0 2400 1560" role="img" aria-labelledby="title desc">
+  <title id="title">ThingsBoard 核心平台 · 端到端数据流</title>
+  <desc id="desc">以序列视角展示 ThingsBoard 两条主链路：遥测上行（设备→传输→消息总线→规则引擎→持久化/Core→前端）与控制下行（前端→Core→消息总线→传输→设备）。基于 upstream/thingsboard 源码 DefaultTransportService、规则引擎与 Actor 体系整理。</desc>
+  <defs>
+    <style>
+      .bg { fill: #f8fafc; }
+      .title { font: 800 42px 'Inter', Arial, sans-serif; fill: #0f172a; }
+      .subtitle { font: 400 18px 'Inter', Arial, sans-serif; fill: #475569; }
+      .phase { font: 800 22px 'Inter', Arial, sans-serif; }
+      .head { font: 700 18px 'Inter', Arial, sans-serif; fill: #0f172a; }
+      .head-sm { font: 400 12.5px 'Inter', Arial, sans-serif; fill: #64748b; }
+      .msg { font: 600 15px 'Inter', Arial, sans-serif; fill: #1e293b; }
+      .msg-sub { font: 400 13px 'Inter', Arial, sans-serif; fill: #64748b; }
+      .code { font: 600 13px Menlo, Consolas, monospace; fill: #0f172a; }
+      .lifeline { stroke: #cbd5e1; stroke-width: 2; stroke-dasharray: 4 6; }
+      .flow1 { fill: none; stroke: #0d9488; stroke-width: 2.6; marker-end: url(#aTeal); }
+      .flow1b { fill: none; stroke: #2563eb; stroke-width: 2.6; marker-end: url(#aBlue); }
+      .flow2 { fill: none; stroke: #d97706; stroke-width: 2.6; marker-end: url(#aAmber); }
+      .flow2b { fill: none; stroke: #e11d48; stroke-width: 2.6; marker-end: url(#aRose); }
+      .ret { fill: none; stroke: #94a3b8; stroke-width: 2; stroke-dasharray: 7 6; marker-end: url(#aGray); }
+    </style>
+    <marker id="aTeal" markerWidth="12" markerHeight="12" refX="9" refY="5.5" orient="auto"><path d="M2,2 L10,5.5 L2,9 Z" fill="#0d9488"/></marker>
+    <marker id="aBlue" markerWidth="12" markerHeight="12" refX="9" refY="5.5" orient="auto"><path d="M2,2 L10,5.5 L2,9 Z" fill="#2563eb"/></marker>
+    <marker id="aAmber" markerWidth="12" markerHeight="12" refX="9" refY="5.5" orient="auto"><path d="M2,2 L10,5.5 L2,9 Z" fill="#d97706"/></marker>
+    <marker id="aRose" markerWidth="12" markerHeight="12" refX="9" refY="5.5" orient="auto"><path d="M2,2 L10,5.5 L2,9 Z" fill="#e11d48"/></marker>
+    <marker id="aGray" markerWidth="12" markerHeight="12" refX="9" refY="5.5" orient="auto"><path d="M2,2 L10,5.5 L2,9 Z" fill="#94a3b8"/></marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="2400" height="1560"/>
+
+  <text class="title" x="60" y="58">ThingsBoard 核心平台 · 端到端数据流</text>
+  <text class="subtitle" x="62" y="90">序列视角：一条遥测如何从设备走到前端仪表盘，一条 RPC 如何从前端走回设备</text>
+
+  <!-- participant headers -->
+  <g>
+    <rect x="60" y="120" width="200" height="56" rx="10" fill="#fffbeb" stroke="#d97706" stroke-width="2"/>
+    <text class="head" x="160" y="146" text-anchor="middle">现场设备</text>
+    <text class="head-sm" x="160" y="166" text-anchor="middle">Device</text>
+    <rect x="380" y="120" width="200" height="56" rx="10" fill="#fffbeb" stroke="#d97706" stroke-width="2"/>
+    <text class="head" x="480" y="146" text-anchor="middle">传输层</text>
+    <text class="head-sm" x="480" y="166" text-anchor="middle">Transport Adapter</text>
+    <rect x="700" y="120" width="240" height="56" rx="10" fill="#ecfeff" stroke="#0891b2" stroke-width="2"/>
+    <text class="head" x="820" y="146" text-anchor="middle">消息总线</text>
+    <text class="head-sm" x="820" y="166" text-anchor="middle">In-Memory / Kafka</text>
+    <rect x="1050" y="120" width="260" height="56" rx="10" fill="#ecfdf5" stroke="#059669" stroke-width="2"/>
+    <text class="head" x="1180" y="146" text-anchor="middle">规则引擎 + Actor</text>
+    <text class="head-sm" x="1180" y="166" text-anchor="middle">TB Rule Engine</text>
+    <rect x="1430" y="120" width="220" height="56" rx="10" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+    <text class="head" x="1540" y="146" text-anchor="middle">持久化</text>
+    <text class="head-sm" x="1540" y="166" text-anchor="middle">SQL / 时序 / 缓存</text>
+    <rect x="1800" y="120" width="200" height="56" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+    <text class="head" x="1900" y="146" text-anchor="middle">TB Core</text>
+    <text class="head-sm" x="1900" y="166" text-anchor="middle">状态 · 订阅 · WS</text>
+    <rect x="2160" y="120" width="200" height="56" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+    <text class="head" x="2260" y="146" text-anchor="middle">前端 / 应用</text>
+    <text class="head-sm" x="2260" y="166" text-anchor="middle">Web UI · API</text>
+  </g>
+
+  <!-- lifelines -->
+  <line class="lifeline" x1="160" y1="176" x2="160" y2="1380"/>
+  <line class="lifeline" x1="480" y1="176" x2="480" y2="1380"/>
+  <line class="lifeline" x1="820" y1="176" x2="820" y2="1380"/>
+  <line class="lifeline" x1="1180" y1="176" x2="1180" y2="1380"/>
+  <line class="lifeline" x1="1540" y1="176" x2="1540" y2="1380"/>
+  <line class="lifeline" x1="1900" y1="176" x2="1900" y2="1380"/>
+  <line class="lifeline" x1="2260" y1="176" x2="2260" y2="1380"/>
+
+  <!-- ===== PHASE 1: TELEMETRY UPLINK ===== -->
+  <rect x="60" y="200" width="2300" height="640" rx="14" fill="#f0fdfa" stroke="#99f6e4" stroke-width="1.5"/>
+  <text class="phase" x="86" y="238" fill="#0d9488">遥测上行 · Telemetry Uplink</text>
+  <text class="msg-sub" x="350" y="238">设备数据进入平台、落库、并实时呈现到前端的完整链路</text>
+
+  <!-- 1 Device -> Transport -->
+  <line class="flow2" x1="160" y1="300" x2="474" y2="300"/>
+  <circle cx="160" cy="300" r="15" fill="#d97706"/><text class="msg" x="160" y="305" text-anchor="middle" fill="#fff">1</text>
+  <text class="msg" x="325" y="288" text-anchor="middle">发布遥测 / 属性</text>
+  <text class="msg-sub" x="325" y="322" text-anchor="middle">MQTT publish · CoAP · HTTP POST</text>
+
+  <!-- 2 Transport <-> Core auth via queue -->
+  <line class="ret" x1="486" y1="366" x2="1894" y2="366"/>
+  <line class="ret" x1="1894" y1="404" x2="486" y2="404"/>
+  <circle cx="480" cy="366" r="15" fill="#64748b"/><text class="msg" x="480" y="371" text-anchor="middle" fill="#fff">2</text>
+  <text class="msg" x="1190" y="354" text-anchor="middle">会话校验 · Transport API（经 tb_transport.api 请求/响应队列往返 Core）</text>
+  <text class="msg-sub" x="1190" y="426" text-anchor="middle">返回 deviceId · tenantId · 凭据有效性，结果缓存复用</text>
+
+  <!-- 3 Transport -> Queue -->
+  <line class="flow1" x1="486" y1="478" x2="814" y2="478"/>
+  <circle cx="480" cy="478" r="15" fill="#0d9488"/><text class="msg" x="480" y="483" text-anchor="middle" fill="#fff">3</text>
+  <text class="msg" x="655" y="466" text-anchor="middle">写入 ToRuleEngineMsg</text>
+  <text class="code" x="655" y="500" text-anchor="middle">→ tb_rule_engine</text>
+
+  <!-- 4 Queue -> Rule Engine -->
+  <line class="flow1" x1="826" y1="552" x2="1174" y2="552"/>
+  <circle cx="820" cy="552" r="15" fill="#0d9488"/><text class="msg" x="820" y="557" text-anchor="middle" fill="#fff">4</text>
+  <text class="msg" x="1000" y="540" text-anchor="middle">消费者按分区拉取</text>
+  <text class="msg-sub" x="1000" y="574" text-anchor="middle">tenantId + entityId 一致性哈希</text>
+
+  <!-- 5 Rule Engine self processing -->
+  <rect x="1120" y="600" width="392" height="96" rx="10" fill="#ecfdf5" stroke="#059669" stroke-width="2"/>
+  <circle cx="1180" cy="600" r="15" fill="#059669"/><text class="msg" x="1180" y="605" text-anchor="middle" fill="#fff">5</text>
+  <text class="msg" x="1316" y="634" text-anchor="middle">DeviceActor → 规则链处理</text>
+  <text class="msg-sub" x="1316" y="658" text-anchor="middle">富化 Enrichment · 过滤 Filter · 转换 Transform</text>
+  <text class="msg-sub" x="1316" y="680" text-anchor="middle">脚本节点下发 JS Executor 沙箱执行</text>
+
+  <!-- 6 Rule Engine -> DB -->
+  <line class="flow1" x1="1186" y1="744" x2="1534" y2="744"/>
+  <circle cx="1180" cy="744" r="15" fill="#0d9488"/><text class="msg" x="1180" y="749" text-anchor="middle" fill="#fff">6</text>
+  <text class="msg" x="1360" y="732" text-anchor="middle">Save Timeseries / Attributes（遥测写时序库 · 属性写 SQL）</text>
+
+  <!-- 7 Rule Engine -> Core -->
+  <line class="flow1b" x1="1186" y1="800" x2="1894" y2="800"/>
+  <circle cx="1180" cy="800" r="15" fill="#2563eb"/><text class="msg" x="1180" y="805" text-anchor="middle" fill="#fff">7</text>
+  <text class="msg" x="1545" y="788" text-anchor="middle">订阅更新 · 告警 · 设备状态（ToCoreMsg）</text>
+
+  <!-- 8 Core -> Client -->
+  <line class="flow1b" x1="1906" y1="824" x2="2254" y2="824"/>
+  <circle cx="1900" cy="824" r="15" fill="#2563eb"/><text class="msg" x="2086" y="812" text-anchor="middle">WebSocket 实时推送</text>
+  <text class="msg-sub" x="2086" y="846" text-anchor="middle">仪表盘秒级刷新</text>
+
+  <!-- ===== PHASE 2: RPC DOWNLINK ===== -->
+  <rect x="60" y="880" width="2300" height="470" rx="14" fill="#fff7ed" stroke="#fed7aa" stroke-width="1.5"/>
+  <text class="phase" x="86" y="918" fill="#d97706">控制下行 · RPC Downlink</text>
+  <text class="msg-sub" x="320" y="918">前端 / 应用如何把一条命令下发到具体设备</text>
+
+  <!-- 9 Client -> Core -->
+  <line class="flow2" x1="2254" y1="976" x2="1906" y2="976"/>
+  <circle cx="2260" cy="976" r="15" fill="#d97706"/><text class="msg" x="2260" y="981" text-anchor="middle" fill="#fff">9</text>
+  <text class="msg" x="2080" y="964" text-anchor="middle">REST 下发 RPC</text>
+  <text class="msg-sub" x="2080" y="998" text-anchor="middle">/rpc/oneway | twoway</text>
+
+  <!-- 10 Core -> Queue -->
+  <line class="flow2" x1="1894" y1="1046" x2="826" y2="1046"/>
+  <circle cx="1900" cy="1046" r="15" fill="#d97706"/><text class="msg" x="1900" y="1051" text-anchor="middle" fill="#fff">10</text>
+  <text class="msg" x="1360" y="1034" text-anchor="middle">定位设备所在传输节点 → 发 ToTransportMsg</text>
+  <text class="code" x="1360" y="1068" text-anchor="middle">→ tb_transport.notifications</text>
+
+  <!-- 11 Queue -> Transport -->
+  <line class="flow2" x1="814" y1="1120" x2="486" y2="1120"/>
+  <circle cx="820" cy="1120" r="15" fill="#d97706"/><text class="msg" x="820" y="1125" text-anchor="middle" fill="#fff">11</text>
+  <text class="msg" x="650" y="1108" text-anchor="middle">投递到目标传输节点</text>
+  <text class="msg-sub" x="650" y="1142" text-anchor="middle">定向通知队列</text>
+
+  <!-- 12 Transport -> Device -->
+  <line class="flow2b" x1="474" y1="1192" x2="166" y2="1192"/>
+  <circle cx="480" cy="1192" r="15" fill="#e11d48"/><text class="msg" x="480" y="1197" text-anchor="middle" fill="#fff">12</text>
+  <text class="msg" x="325" y="1180" text-anchor="middle">经设备协议下发命令</text>
+  <text class="msg-sub" x="325" y="1214" text-anchor="middle">MQTT 下行 topic · CoAP 响应</text>
+
+  <!-- 13 return path -->
+  <line class="ret" x1="166" y1="1272" x2="2254" y2="1272"/>
+  <circle cx="160" cy="1272" r="15" fill="#94a3b8"/><text class="msg" x="160" y="1277" text-anchor="middle" fill="#fff">13</text>
+  <text class="msg" x="1200" y="1260" text-anchor="middle">twoway RPC：设备执行结果原路回传 → Transport → Core → 前端（同一请求上下文关联响应）</text>
+
+  <!-- legend -->
+  <g transform="translate(86,1410)">
+    <line class="flow1" x1="0" y1="0" x2="44" y2="0"/><text class="msg-sub" x="54" y="5">上行写入 / 落库</text>
+    <line class="flow1b" x1="220" y1="0" x2="264" y2="0"/><text class="msg-sub" x="274" y="5">回写 Core / 推送前端</text>
+    <line class="flow2" x1="520" y1="0" x2="564" y2="0"/><text class="msg-sub" x="574" y="5">下行控制</text>
+    <line class="flow2b" x1="740" y1="0" x2="784" y2="0"/><text class="msg-sub" x="794" y="5">最后一跳到设备</text>
+    <line class="ret" x1="980" y1="0" x2="1024" y2="0"/><text class="msg-sub" x="1034" y="5">校验往返 / 响应回传</text>
+  </g>
+</svg>

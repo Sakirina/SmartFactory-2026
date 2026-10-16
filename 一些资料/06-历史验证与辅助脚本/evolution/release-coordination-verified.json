@@ -1,0 +1,1401 @@
+{
+  "schema_version": 1,
+  "phase": 5,
+  "role": "release_coordination",
+  "status": "verified_specialist_scope_frontend_fixture_running",
+  "generated_at": "2026-10-05T06:55:04.539470+00:00",
+  "scope": [
+    "E5-01",
+    "E5-03",
+    "E5-04",
+    "E5-05 template evolution backend and shared integration"
+  ],
+  "all_checks_passed": true,
+  "remaining_role_work": [],
+  "implementation": {
+    "E5-01": {
+      "summary": "程序、规则和配置组成固定发布，校验组件摘要、依赖闭环、节点范围、程序与格式兼容，程序工件按 SHA256 保持固定内容",
+      "cases": [
+        "manifest-valid-v1",
+        "rule-tamper-rejected",
+        "missing-dependency-rejected",
+        "preparation-failure-stops-batch"
+      ],
+      "unit_tests": [
+        "TestReleaseBundleDependencyContentCompatibilityAndNodeScope",
+        "TestReleaseArtifactTamperIsExplicit",
+        "TestReleaseRequestIdentityAndRuntimeContent",
+        "TestReleaseDeploymentRequiresApplicableConfigurationAndCurrentUser"
+      ]
+    },
+    "E5-03": {
+      "summary": "云端持久化期望、准备、应用和实际运行状态，工作负载身份及实例代际、分配代次、报告序号与内容共同验证；重复协调、心跳和重新启动保留对应状态",
+      "cases": [
+        "two-real-processes",
+        "heartbeats-preserve-business-version",
+        "agent-restart-adopts-without-process-replacement",
+        "configuration-target-new-epoch",
+        "coordinator-restart-preserves-generation",
+        "interrupted-switch-adopts-same-new-process",
+        "completed-history-retains-current-runtime-failure",
+        "runtime-recovery-preserves-assignment-and-clears-failure"
+      ],
+      "unit_tests": [
+        "TestReleaseCoordinationSQLite",
+        "TestReleaseCoordinationPostgres",
+        "TestReleaseConcurrentReconciliationPostgres",
+        "TestReleaseHTTPRequiredFieldsAndRevokedSession",
+        "TestReleaseHTTPRejectsUserAndSharedServiceTokenAsWorkload"
+      ]
+    },
+    "E5-04": {
+      "summary": "按明确节点批次推进，离线等待，确定性准备或应用失败停止后续批次；重新尝试与旧发布退回均使用当前授权和固定内容，原数据库及主密钥继续使用",
+      "cases": [
+        "offline-waits-without-advancing",
+        "failure-stops-following-batch",
+        "retry-increments-assignment",
+        "exit-before-readiness-a",
+        "exit-before-readiness-b",
+        "supported-old-release-running",
+        "combined-rollback-restores-actual-connector-content",
+        "incompatible-rollback-provides-recovery",
+        "interrupted-ready-process-precedes-active-commit",
+        "interrupted-switch-activates-rules-once",
+        "first-cutover-rechecks-changed-assignment"
+      ],
+      "unit_tests": [
+        "TestPreparationFailureSeparatesUnavailableServicesFromInvalidContent",
+        "TestReleaseCachedCredentialRequiresFreshAuthorityAndExactContent",
+        "TestRuntimeConfigurationRetainsOriginalStorageAndIntegrations",
+        "TestPrivateReleaseCacheAuthenticatedToNodeAndRelease"
+      ]
+    },
+    "E5-05-backend": {
+      "summary": "模板版本演进保留已有实例及设备、配置绑定，产生固定发布及影响记录；版本二的规则通过统一发布运行并产生实际持久化结果",
+      "cases": [
+        "template-evolution-preserves-existing-bindings",
+        "template-release-actual-program-and-component-content",
+        "template-runtime-new-window-and-retired-prior-rule",
+        "template-rule-actual-integer-count",
+        "template-source-batch-preserved",
+        "readonly-release-actions-unavailable"
+      ],
+      "unit_tests": [
+        "TestTemplateEvolutionUsesExistingBindingsAndIndependentVersions"
+      ]
+    },
+    "shared_api_validation_privacy": {
+      "finding": "P5-A01",
+      "result": "Typed HTTP validation errors copy only field location and constraint message, excluding the supplied value even when validation fails on a parent object or the credential field itself",
+      "http_cases": [
+        "missing required parent property",
+        "credential below minimum length",
+        "credential above maximum length",
+        "credential has nested object instead of string"
+      ],
+      "services": [
+        "cloud",
+        "config",
+        "edge-a",
+        "edge-b"
+      ],
+      "actual_invalid_requests": 16,
+      "workload_version_and_credential_generation_unchanged": true
+    }
+  },
+  "architecture": {
+    "authority": "Cloud retains authoritative users, sessions, grants, resources, workload identities, release and template records; configuration retains its independent original parameter, encrypted secret, master-key and audit store and rechecks authority over mTLS",
+    "transaction_order": "Cloud declaration and reports validate local authority in their own transaction; remote metadata is fetched before the cloud write; the agent calls configuration release-target and immutable versions after Desired returns",
+    "runtime_proof": "Actual sf-edge process reports executable SHA/build, PID/process instance, database migration, compiled rule identities and versions, fixed configuration references and the current consumer policy digest; connectors additionally compare the actual DataTransfer consumer update identity, generation and normalized public content",
+    "fixed_secrets": "Owning Edge retains connector credential versions; encrypted node release cache requires exact release and envelope content plus current online credential.resolve identity authority for preparation fallback; explicit 401/403/409 is never fallback",
+    "state_preservation": "Release agent retains original database, master key, explicit SF_ and OTEL_ integration settings; pending child and committed active state permit recovery after agent interruption; old actual process exit is observed before new readiness",
+    "config_removal": "A new release target replaces managed configuration references, and node startup removes previously managed references absent from the new release while preserving ordinary configuration",
+    "rule_rollback": "Pinned source rule revision and content digest remain fixed; each actual activation records its separate local rule revision, including supported older content",
+    "business_version": "Heartbeat time, report sequence and identical runtime refresh do not change action version; target, batch, failure and intervention changes do",
+    "runtime_freshness": "The actual runtime report timestamp is distinct from agent contact; the fifteen-second report freshness controls batch advancement while completed deployment history remains available"
+  },
+  "source_provenance": {
+    "final_process_source": "/private/tmp/smartfactory-phase5-release-a01-20261005/source",
+    "source_sha256": "6eaa64a9f642b5a45421d883cae4c29a309d94d1eb7df3ab02d551755dc1e693",
+    "compiled_local_inputs": {
+      "path": "/private/tmp/smartfactory-phase5-release-a01-20261005/evidence/compiled-inputs.json",
+      "sha256": "421799b53f8ca4744fa668f43529e3ccb0c8159d0e84c8f6aa6e109afe88115b",
+      "bytes": 51983
+    },
+    "compiled_local_count": 446,
+    "external_inputs": {
+      "path": "/private/tmp/smartfactory-phase5-release-a01-20261005/evidence/external-compiled-inputs.json",
+      "sha256": "7e42c3e4815c4a303044e0f4698d96bc899f7ce560e654f772ddfb0625f1bf2c",
+      "bytes": 1228094
+    },
+    "external_count": 3203,
+    "external_byte_copies": "/private/tmp/smartfactory-phase5-release-process-tenth-20261005/external-inputs",
+    "go_list_platform": {
+      "path": "/private/tmp/smartfactory-phase5-release-process-tenth-20261005/sealed-evidence/go-list-inputs.stdout.log",
+      "sha256": "dfe5ec65a0ae1d3324b20ed2b029b1eac51953ee959d73cb9b9806cb2bf95875",
+      "bytes": 2827934
+    },
+    "go_list_datatransfer": {
+      "path": "/private/tmp/smartfactory-phase5-release-process-tenth-20261005/sealed-evidence/go-list-datatransfer-inputs.stdout.log",
+      "sha256": "0782bdd0ea8e212bf79b8ec454cf52f834353fc28e522bb14b454713b70912c1",
+      "bytes": 1197113
+    },
+    "tool_environment": {
+      "path": "/private/tmp/smartfactory-phase5-release-process-tenth-20261005/sealed-evidence/go-environment.stdout.log",
+      "sha256": "a21f2eab5d2ac13ebb1cc89459149c2d8bcbbfc18348613ef49ba6fddbb44fcd",
+      "bytes": 284
+    },
+    "input_guard": "A01 affected API/schema tests, formal contract export and three API program builds hash the retained actual input set immediately before and after every execution; no input changed",
+    "builds_with_unchanged_inputs": 3,
+    "live_production_changes_after_freeze": [],
+    "verification_fixture": {
+      "path": "/private/tmp/smartfactory-phase5-release-process-tenth-20261005/source/scripts/verify-release-coordination.py",
+      "sha256": "f95d2dd43c1cf281b43d3b38bec7a2203f5b8ae7590bb03352d484801b82a3da",
+      "bytes": 60509
+    },
+    "test_source": "/private/tmp/smartfactory-phase5-release-process-sixth-20261005/source",
+    "test_actual_inputs_before": {
+      "path": "/private/tmp/smartfactory-phase5-release-final-checks-20261005/actual-test-inputs-before.json",
+      "sha256": "51e9baaa645ee8ec71939789ad5a46003a6b9ae54acf4d3c2ee8ec005be81775",
+      "bytes": 894537
+    },
+    "test_actual_inputs_after": {
+      "path": "/private/tmp/smartfactory-phase5-release-final-checks-20261005/actual-test-inputs-after.json",
+      "sha256": "51e9baaa645ee8ec71939789ad5a46003a6b9ae54acf4d3c2ee8ec005be81775",
+      "bytes": 894537
+    },
+    "retained_test_inputs": {
+      "path": "/private/tmp/smartfactory-phase5-release-final-checks-20261005/retained-test-inputs.json",
+      "sha256": "4d8cc632a62d72a2b3086bfc7a9eb0b230bc0e3e622f96c6592bdb6596526912",
+      "bytes": 2081533
+    },
+    "test_to_final_production_changes": [
+      {
+        "path": "Platform/internal/api/definition_routes.go",
+        "previous_sha256": "2c70cffa17e54cbbd6b087b45038a134b03d8ab27996b16f267c15f8ed24c818",
+        "final_sha256": "c9aac35309434f26bb181e58845c730c9d56bffca4ca6dafbda5296924748808",
+        "owner": "release_coordination_shared_api"
+      },
+      {
+        "path": "Platform/internal/configcenter/connector_sources.go",
+        "previous_sha256": "21c4abd076d537986524ed6a2d381e8c4e7c7aed67dd0737ef48a60ac4110934",
+        "final_sha256": "b6c8c8e1eccd79a387f7b3893c07a842523b4fd212b4b42da03e3f143598c953",
+        "owner": "phase5_node_configuration"
+      },
+      {
+        "path": "Platform/internal/configcenter/workload_http.go",
+        "previous_sha256": "0d65ef407324810191bbaf1b4865be3b1bc2edf5527588945ae4dd554c509af8",
+        "final_sha256": "f5d24f81bb3eda97c4325f521cd8747977f1db28ed14d4f2379607f1cc018fd5",
+        "owner": "phase5_node_configuration"
+      },
+      {
+        "path": "Platform/internal/configcenter/workload_subscriber.go",
+        "previous_sha256": "55511454d10b6bc6779e2fd57f6530e9f07f96a44463cbd93c056892108e3f8b",
+        "final_sha256": "231c5af4e2890bd1ddfeab07bfb19a5371af0a3a3b95f03051e53ecf09ea13df",
+        "owner": "phase5_node_configuration"
+      }
+    ],
+    "change_explanation": "The release PostgreSQL/race source is the sixth fixed snapshot. Three configuration-owner files changed for P5-N02/P5-N03 and passed the tenth combined process run. P5-A01 then changed only shared definition_routes.go; affected API/schema tests and all four real HTTP services passed against the A01 source. Release coordination behavior and its previous process evidence remain separately retained",
+    "application_supplement_inputs": {
+      "before": {
+        "path": "/private/tmp/smartfactory-phase5-release-app-check-tenth-20261005/inputs-before.json",
+        "sha256": "07dfcdd12e2bfdcd17e058572ee9d2a4a6336ae1d979e27c0836a6f7103d070a",
+        "bytes": 967642
+      },
+      "after": {
+        "path": "/private/tmp/smartfactory-phase5-release-app-check-tenth-20261005/inputs-after.json",
+        "sha256": "07dfcdd12e2bfdcd17e058572ee9d2a4a6336ae1d979e27c0836a6f7103d070a",
+        "bytes": 967642
+      },
+      "external_copies": {
+        "path": "/private/tmp/smartfactory-phase5-release-app-check-tenth-20261005/external-test-inputs.json",
+        "sha256": "c3384b4beafaea5743874cff32b03ea68b18c81c1594b9771382cf2176162426",
+        "bytes": 1922369
+      },
+      "count": 5841,
+      "changed_inputs": []
+    },
+    "prior_migrations": [
+      {
+        "path": "Platform/internal/store/migrations/sqlite/00001_baseline.sql",
+        "sha256": "8f8b3ff25cd9a9f55e99ab3abd851f20e8075d15242bec0e52ee4e2695a15631",
+        "same_as_accepted_phase4": true
+      },
+      {
+        "path": "Platform/internal/store/migrations/postgres/00001_baseline.sql",
+        "sha256": "b4f13649f266050f7b87cf9f0c7509b98af1fb40fd606666d1de5a91e02a7f62",
+        "same_as_accepted_phase4": true
+      },
+      {
+        "path": "Platform/internal/store/migration00002.go",
+        "sha256": "d41f217a598789ec94a29fdcf9db03547eb5bc79cb1671bdc2211891ccc1b626",
+        "same_as_accepted_phase4": true
+      },
+      {
+        "path": "Platform/internal/store/migration00003.go",
+        "sha256": "5b5c043c4d830ba6e77057b54654585e83fec0b0fb9e8e9b75e87e65bba9cfd4",
+        "same_as_accepted_phase4": true
+      },
+      {
+        "path": "Platform/internal/store/migration00004.go",
+        "sha256": "1a69098a1f06a9659d5b6d2f0d967b88a1e29a7a677bbf3014714ab2856bf854",
+        "same_as_accepted_phase4": true
+      },
+      {
+        "path": "Platform/internal/store/migration00005.go",
+        "sha256": "ef7dbe90ee1e57d318b600b2f7ff62416384f833031ba196fd238b45e8df16ac",
+        "same_as_accepted_phase4": true
+      },
+      {
+        "path": "Platform/internal/store/migration00006.go",
+        "sha256": "cfc2e96ad04880f7081db6b62a179ed52f37269ac0e46fd60c84fc40aafc15aa",
+        "same_as_accepted_phase4": true
+      },
+      {
+        "path": "Platform/internal/store/migration00007.go",
+        "sha256": "fb1a506bcdaf9d716923f7f33d5027bf9a395e9b4a2eb86eea065dedcd0890a7",
+        "same_as_accepted_phase4": true
+      },
+      {
+        "path": "Platform/internal/store/migration00008.go",
+        "sha256": "553c464b689eb3324b413ab31bfaa71f7d7b5184ab6061e6415abfd3a2ae2302",
+        "same_as_accepted_phase4": true
+      },
+      {
+        "path": "Platform/internal/store/migration00009.go",
+        "sha256": "a56772048222088f233e0e139e411c606b58d2261a7b49234299148816523b7d",
+        "same_as_accepted_phase4": true
+      }
+    ],
+    "new_migrations": [
+      {
+        "path": "/path/to/SmartFactory-2026/Platform/internal/store/migration00010.go",
+        "sha256": "59d0c41e9a81e9e447254ce0b560706e324d1dbcbe9ae623b52c4d24e227a0c3",
+        "bytes": 1732
+      },
+      {
+        "path": "/path/to/SmartFactory-2026/Platform/internal/store/migration00011.go",
+        "sha256": "9f1f12a44565e2079a84d548aae5fcc8e56eddc1d4a1e5f36ecfaf0af33275b9",
+        "bytes": 768
+      }
+    ],
+    "combined_process_source": "/private/tmp/smartfactory-phase5-release-process-tenth-20261005/source",
+    "combined_source_sha256": "82f00117ff624cb9ff9ff55ea49da25a5546bb0f9e76235fc8d797b1cb267b34",
+    "combined_compiled_local_inputs": {
+      "path": "/private/tmp/smartfactory-phase5-release-process-tenth-20261005/sealed-evidence/compiled-inputs.json",
+      "sha256": "51f1d1237872eb3f266dd0e927045c67bd30b8e5a0b9d0ec87fd8256c66dc5e1",
+      "bytes": 51748
+    },
+    "combined_external_inputs": {
+      "path": "/private/tmp/smartfactory-phase5-release-process-tenth-20261005/sealed-evidence/external-compiled-inputs.json",
+      "sha256": "7e42c3e4815c4a303044e0f4698d96bc899f7ce560e654f772ddfb0625f1bf2c",
+      "bytes": 1228094
+    },
+    "combined_build_input_guard": "Each of nine builds compares all 3649 local and external file hashes immediately before and after building; all lists agree",
+    "combined_builds_with_unchanged_inputs": 9,
+    "final_api_actual_inputs": {
+      "path": "/private/tmp/smartfactory-phase5-release-a01-20261005/evidence/actual-inputs.json",
+      "sha256": "1b013c9f9a247b8bfe39fc151c03184165a2e298eebaddd7cf84961ef66d50f9",
+      "bytes": 2117181
+    },
+    "final_api_actual_input_count": 5843,
+    "go_list_patched_programs": {
+      "path": "/private/tmp/smartfactory-phase5-release-a01-20261005/evidence/go-list-patched-programs.stdout.log",
+      "sha256": "6e7dacd8fbad086a86180182a6d6c4e9990a0faf781ffe7c77df10266912bb64",
+      "bytes": 2773954
+    },
+    "go_list_affected_tests": {
+      "path": "/private/tmp/smartfactory-phase5-release-a01-20261005/evidence/go-list-affected-tests.stdout.log",
+      "sha256": "b3a163e4fecc90dcaa607618fd3fd3a18b9f0640d52c5e3fe714735ba9b6741a",
+      "bytes": 2901479
+    },
+    "a01_production_delta": [
+      {
+        "path": "Platform/internal/api/definition_routes.go",
+        "before": "2c70cffa17e54cbbd6b087b45038a134b03d8ab27996b16f267c15f8ed24c818",
+        "after": "c9aac35309434f26bb181e58845c730c9d56bffca4ca6dafbda5296924748808"
+      }
+    ],
+    "a01_fixture_drivers": [
+      {
+        "path": "/private/tmp/smartfactory-phase5-release-a01-20261005/verify-a01.py",
+        "sha256": "d9ee197ccb7109c64bba190a835b2ad2724743702e5255508e12ec5d55bee13d",
+        "bytes": 17579
+      },
+      {
+        "path": "/private/tmp/smartfactory-phase5-release-a01-20261005/resume-live-check.py",
+        "sha256": "d3967cb426947cffb678fc17b0d76bb605abb08eb26bebd28255139e69208a58",
+        "bytes": 12192
+      },
+      {
+        "path": "/private/tmp/smartfactory-phase5-release-a01-20261005/resume-live-after-services.py",
+        "sha256": "fad347de465e7f6427f5b399fd1052488f304cf897349222563c729ce77155f0",
+        "bytes": 11268
+      },
+      {
+        "path": "/private/tmp/smartfactory-phase5-release-a01-20261005/resume-live-via-template.py",
+        "sha256": "3091893f31084b7a931d96d225b0b27cf4a190048699f709b27e8b0a5086f767",
+        "bytes": 12091
+      }
+    ]
+  },
+  "verification": {
+    "final_actual_process": {
+      "result": {
+        "path": "/private/tmp/smartfactory-phase5-release-process-tenth-20261005/result.json",
+        "sha256": "39adcd54dd387b5e783908e09daa100bd78a76957c429edede86a150d07391c8",
+        "bytes": 1044
+      },
+      "sealed_evidence_index": {
+        "path": "/private/tmp/smartfactory-phase5-release-process-tenth-20261005/sealed-evidence-index.json",
+        "sha256": "7f2a0c71b86f38850d6c53fc93c36047188a8b95af4a19fda367620ec297d41a",
+        "bytes": 37226
+      },
+      "assertions": {
+        "path": "/private/tmp/smartfactory-phase5-release-process-tenth-20261005/sealed-evidence/assertions.json",
+        "sha256": "70d25f757cdad84903a673558ef844491caf2e226f711a95f31d4fded2379218",
+        "bytes": 155363
+      },
+      "behavior_assertions": 59,
+      "secret_value_scans": 120,
+      "failed_assertions": 0,
+      "http": {
+        "path": "/private/tmp/smartfactory-phase5-release-process-tenth-20261005/sealed-evidence/http.json",
+        "sha256": "918631cd4469748e8a88cd7c8f8bc305b5260ae2d00fb0b6a695c887564e82d6",
+        "bytes": 365714
+      },
+      "http_record_count": 74,
+      "commands": {
+        "path": "/private/tmp/smartfactory-phase5-release-process-tenth-20261005/sealed-evidence/commands.json",
+        "sha256": "7dd8a2d819dae80ce04dd689ab50cffb3460f9f7bc5d6e975cb6f0f54b26b24f",
+        "bytes": 28315
+      },
+      "command_count": 29,
+      "processes": {
+        "path": "/private/tmp/smartfactory-phase5-release-process-tenth-20261005/sealed-evidence/processes.json",
+        "sha256": "159769d65dff1f0b15bc217b661e04e02ba87b032275d148395108c99cb19d73",
+        "bytes": 13030
+      },
+      "cloud_audit": {
+        "path": "/private/tmp/smartfactory-phase5-release-process-tenth-20261005/sealed-evidence/cloud-audit.json",
+        "sha256": "9bb7244ef9daa99f77aa932889542fc5dc8dc2165f1eb737de1a88c731ef5191",
+        "bytes": 620347
+      },
+      "configuration_reports": {
+        "path": "/private/tmp/smartfactory-phase5-release-process-tenth-20261005/sealed-evidence/configuration-reports.json",
+        "sha256": "35c4e5cd11bc5d37004bff8a727a7c4d03cbcefcbc69b9e66b2bd0279fc28856",
+        "bytes": 6117
+      },
+      "deployments": {
+        "path": "/private/tmp/smartfactory-phase5-release-process-tenth-20261005/sealed-evidence/final-deployments.json",
+        "sha256": "6fbe4defc8fb33fc9c2989190eaec507d485c307ad97fcf9c748adab5c05ede5",
+        "bytes": 57435
+      }
+    },
+    "postgres_http": {
+      "record": {
+        "path": "/private/tmp/smartfactory-phase5-release-final-checks-20261005/release-postgres-http.json",
+        "sha256": "f73be7ebe30c0e755fea1f4372bc6ace0087b672f78a8ea90589cbe07cbc925f",
+        "bytes": 942
+      },
+      "execution": {
+        "name": "release-postgres-http",
+        "command": [
+          "go",
+          "test",
+          "-p",
+          "1",
+          "-count=1",
+          "./internal/releasebundle",
+          "./internal/releaseruntime",
+          "./internal/releaseagent",
+          "./internal/application",
+          "./internal/api",
+          "-run",
+          "TestRelease|TestTemplateEvolution|TestPrivateRelease|TestPreparationFailure|TestRuntimeConfiguration",
+          "-v"
+        ],
+        "cwd": "/private/tmp/smartfactory-phase5-release-process-sixth-20261005/source/Platform",
+        "exit_code": 0,
+        "started_at": 1791181190.8701708,
+        "elapsed_seconds": 13.519850254058838,
+        "postgres_enabled": true,
+        "application_max_open": 3,
+        "application_max_idle": 1,
+        "management_max_open": 1,
+        "isolated_schema": true,
+        "stdout": "/private/tmp/smartfactory-phase5-release-final-checks-20261005/release-postgres-http.stdout.log",
+        "stderr": "/private/tmp/smartfactory-phase5-release-final-checks-20261005/release-postgres-http.stderr.log"
+      },
+      "stdout": {
+        "path": "/private/tmp/smartfactory-phase5-release-final-checks-20261005/release-postgres-http.stdout.log",
+        "sha256": "87b796dc57764fa14c6296bdfdbcc7f7d0b063b9e386b25aaf9c6a45054d4d5c",
+        "bytes": 4077
+      },
+      "passed_top_level": 14,
+      "passed_including_subtests": 22,
+      "passed_tests": [
+        "TestReleaseBundleDependencyContentCompatibilityAndNodeScope",
+        "TestReleaseBundleDependencyContentCompatibilityAndNodeScope/rule_content_changed",
+        "TestReleaseBundleDependencyContentCompatibilityAndNodeScope/dependency_absent",
+        "TestReleaseBundleDependencyContentCompatibilityAndNodeScope/dependency_version_changed",
+        "TestReleaseBundleDependencyContentCompatibilityAndNodeScope/cycle",
+        "TestReleaseBundleDependencyContentCompatibilityAndNodeScope/program_cannot_read_rule",
+        "TestReleaseBundleDependencyContentCompatibilityAndNodeScope/configuration_digest_changed",
+        "TestReleaseBundleDependencyContentCompatibilityAndNodeScope/cross_node_dependency",
+        "TestReleaseBundleDependencyContentCompatibilityAndNodeScope/missing_configuration",
+        "TestReleaseArtifactTamperIsExplicit",
+        "TestPrivateReleaseCacheAuthenticatedToNodeAndRelease",
+        "TestPreparationFailureSeparatesUnavailableServicesFromInvalidContent",
+        "TestReleaseCachedCredentialRequiresFreshAuthorityAndExactContent",
+        "TestRuntimeConfigurationRetainsOriginalStorageAndIntegrations",
+        "TestReleaseCoordinationSQLite",
+        "TestReleaseCoordinationPostgres",
+        "TestReleaseRequestIdentityAndRuntimeContent",
+        "TestReleaseDeploymentRequiresApplicableConfigurationAndCurrentUser",
+        "TestTemplateEvolutionUsesExistingBindingsAndIndependentVersions",
+        "TestReleaseConcurrentReconciliationPostgres",
+        "TestReleaseHTTPRequiredFieldsAndRevokedSession",
+        "TestReleaseHTTPRejectsUserAndSharedServiceTokenAsWorkload"
+      ],
+      "skipped_tests": []
+    },
+    "race": {
+      "record": {
+        "path": "/private/tmp/smartfactory-phase5-release-final-checks-20261005/release-race.json",
+        "sha256": "b958f686f7d251f479e0caf6db3e9922acdacedd188f79358f702c9dfc302e86",
+        "bytes": 926
+      },
+      "execution": {
+        "name": "release-race",
+        "command": [
+          "go",
+          "test",
+          "-race",
+          "-p",
+          "1",
+          "-count=1",
+          "./internal/releasebundle",
+          "./internal/releaseruntime",
+          "./internal/releaseagent",
+          "./internal/application",
+          "./internal/api",
+          "-run",
+          "TestRelease|TestTemplateEvolution|TestPrivateRelease|TestPreparationFailure|TestRuntimeConfiguration",
+          "-v"
+        ],
+        "cwd": "/private/tmp/smartfactory-phase5-release-process-sixth-20261005/source/Platform",
+        "exit_code": 0,
+        "started_at": 1791181204.390133,
+        "elapsed_seconds": 44.10945415496826,
+        "postgres_enabled": true,
+        "application_max_open": 3,
+        "application_max_idle": 1,
+        "management_max_open": 1,
+        "isolated_schema": true,
+        "stdout": "/private/tmp/smartfactory-phase5-release-final-checks-20261005/release-race.stdout.log",
+        "stderr": "/private/tmp/smartfactory-phase5-release-final-checks-20261005/release-race.stderr.log"
+      },
+      "stdout": {
+        "path": "/private/tmp/smartfactory-phase5-release-final-checks-20261005/release-race.stdout.log",
+        "sha256": "02898b25a4cdfbfbda8ed22baa10a8b0864c188e74d35a5fb4a9504c668edd18",
+        "bytes": 4078
+      },
+      "passed_top_level": 14,
+      "passed_including_subtests": 22,
+      "passed_tests": [
+        "TestReleaseBundleDependencyContentCompatibilityAndNodeScope",
+        "TestReleaseBundleDependencyContentCompatibilityAndNodeScope/rule_content_changed",
+        "TestReleaseBundleDependencyContentCompatibilityAndNodeScope/dependency_absent",
+        "TestReleaseBundleDependencyContentCompatibilityAndNodeScope/dependency_version_changed",
+        "TestReleaseBundleDependencyContentCompatibilityAndNodeScope/cycle",
+        "TestReleaseBundleDependencyContentCompatibilityAndNodeScope/program_cannot_read_rule",
+        "TestReleaseBundleDependencyContentCompatibilityAndNodeScope/configuration_digest_changed",
+        "TestReleaseBundleDependencyContentCompatibilityAndNodeScope/cross_node_dependency",
+        "TestReleaseBundleDependencyContentCompatibilityAndNodeScope/missing_configuration",
+        "TestReleaseArtifactTamperIsExplicit",
+        "TestPrivateReleaseCacheAuthenticatedToNodeAndRelease",
+        "TestPreparationFailureSeparatesUnavailableServicesFromInvalidContent",
+        "TestReleaseCachedCredentialRequiresFreshAuthorityAndExactContent",
+        "TestRuntimeConfigurationRetainsOriginalStorageAndIntegrations",
+        "TestReleaseCoordinationSQLite",
+        "TestReleaseCoordinationPostgres",
+        "TestReleaseRequestIdentityAndRuntimeContent",
+        "TestReleaseDeploymentRequiresApplicableConfigurationAndCurrentUser",
+        "TestTemplateEvolutionUsesExistingBindingsAndIndependentVersions",
+        "TestReleaseConcurrentReconciliationPostgres",
+        "TestReleaseHTTPRequiredFieldsAndRevokedSession",
+        "TestReleaseHTTPRejectsUserAndSharedServiceTokenAsWorkload"
+      ],
+      "skipped_tests": []
+    },
+    "shared_regression": {
+      "initial_run": {
+        "path": "/private/tmp/smartfactory-phase5-release-final-checks-20261005/shared-regression.json",
+        "sha256": "361905b750db648fed317254246fcfa1ed4afe5d1ac951942449efaef6b26d5d",
+        "bytes": 931
+      },
+      "initial_stdout": {
+        "path": "/private/tmp/smartfactory-phase5-release-final-checks-20261005/shared-regression.stdout.log",
+        "sha256": "89a521d281a84a4638e8977e4a173aba83ef10720461fb0d0f859cf887785ad0",
+        "bytes": 1766
+      },
+      "passed_packages": [
+        "internal/application",
+        "internal/api",
+        "internal/releaseagent",
+        "internal/releasebundle",
+        "internal/releaseruntime",
+        "pkg/contracts",
+        "pkg/compatibility",
+        "cmd/sf-contracts"
+      ],
+      "no_test_files": [
+        "internal/scenetemplates"
+      ],
+      "resolved_failure": "internal/app backup-state.py was missing from the sixth verification snapshot; the verification driver now preserves all scripts and the full app package passed against final fixed inputs"
+    },
+    "application_supplement": {
+      "record": {
+        "path": "/private/tmp/smartfactory-phase5-release-app-check-tenth-20261005/result.json",
+        "sha256": "6cbf23e41c292b4f0276058f742adece70bb0d0151596472446cdcacaebea697",
+        "bytes": 783
+      },
+      "execution": {
+        "status": "passed",
+        "command": [
+          "go",
+          "test",
+          "-p",
+          "1",
+          "-count=1",
+          "./internal/app",
+          "-v"
+        ],
+        "source": "/private/tmp/smartfactory-phase5-release-process-tenth-20261005/source",
+        "process_source_sha256": "82f00117ff624cb9ff9ff55ea49da25a5546bb0f9e76235fc8d797b1cb267b34",
+        "started_at": 1791181900.39073,
+        "elapsed_seconds": 14.266733169555664,
+        "exit_code": 0,
+        "input_count": 5841,
+        "changed_inputs": [],
+        "postgres_enabled": false,
+        "stdout": "/private/tmp/smartfactory-phase5-release-app-check-tenth-20261005/app.stdout.log",
+        "stderr": "/private/tmp/smartfactory-phase5-release-app-check-tenth-20261005/app.stderr.log",
+        "prior_failure": "/private/tmp/smartfactory-phase5-release-final-checks-20261005/shared-regression.json"
+      },
+      "stdout": {
+        "path": "/private/tmp/smartfactory-phase5-release-app-check-tenth-20261005/app.stdout.log",
+        "sha256": "d6ce8603b8ed5302ed41dd0689240673271cf685b892da217b6f97bff9bc374d",
+        "bytes": 13803
+      },
+      "passed_top_level": 5,
+      "passed_including_subtests": 5,
+      "passed_tests": [
+        "TestBusinessNativeWorkerImmediatePeriodicAndFailureRecovery",
+        "TestApplicationHTTPDraftAndTransactionTrace",
+        "TestStateBackupRestoresVersionsCredentialsAuditAndControlDedup",
+        "TestSceneTimersQualityHysteresisAndRecovery",
+        "TestWorkerBacksOffRemoteFailureAndCancelsPromptly"
+      ],
+      "skipped_tests": [
+        "TestControlledCloudEdgeControlIntervention",
+        "TestControlBrowserFixture"
+      ]
+    },
+    "coordinator_review": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-release-process-tenth-root-review.json",
+      "sha256": "c08fbb0f2b225d29e2c86c68d5f3fa95e591566a162827b59839367b3cf5b116",
+      "bytes": 1211078
+    },
+    "a01": {
+      "result": {
+        "path": "/private/tmp/smartfactory-phase5-release-a01-20261005/result.json",
+        "sha256": "baab27e9ae0f6b6c6b0b53290a05e92f7e99413cbdd2106d40415074bd767c7d",
+        "bytes": 1346
+      },
+      "commands": {
+        "path": "/private/tmp/smartfactory-phase5-release-a01-20261005/evidence/commands.json",
+        "sha256": "16e0210d9c4ca3f94425d3b03f9ae8a5117145c54d605e38c737a6d6ff3fa101",
+        "bytes": 5916
+      },
+      "actual_input_count": 5843,
+      "input_drift": [],
+      "api_schema_tests": {
+        "stdout": {
+          "path": "/private/tmp/smartfactory-phase5-release-a01-20261005/evidence/affected-api-schema-tests.stdout.log",
+          "sha256": "38a1673c36f713a33da31de9f669515fe27590eb5bace9e2550ebdb0476cf68d",
+          "bytes": 37219
+        },
+        "stderr": {
+          "path": "/private/tmp/smartfactory-phase5-release-a01-20261005/evidence/affected-api-schema-tests.stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "passed_top_level": 40,
+        "passed_including_subtests": 78,
+        "passed_tests": [
+          "TestAssetProposalNeedsCloudReviewAndPreservesCurrentVersion",
+          "TestDraftAndQueriesEnforceEveryReferencedResource",
+          "TestDraftAndQueriesEnforceEveryReferencedResource/selector",
+          "TestDraftAndQueriesEnforceEveryReferencedResource/condition",
+          "TestDraftAndQueriesEnforceEveryReferencedResource/step",
+          "TestDraftAndQueriesEnforceEveryReferencedResource/degraded",
+          "TestAIIdentityCannotInvokePrivilegedRoutes",
+          "TestBusinessHTTPRequiredInputFieldsAndDefaults",
+          "TestBusinessHTTPContinuousAlarmReviewAndNativeCallback",
+          "TestBusinessHTTPProtocolTemplatesSemanticAndHandover",
+          "TestHTTPAndBackgroundControlShareBudgetDuringTaskBacklog",
+          "TestHTTPImportedControlEvidenceAndCurrentResourcePermission",
+          "TestControlHTTPCloudPendingAndVersionContract",
+          "TestControlHTTPReadsHistoricalResourcesAndRechecksPrincipal",
+          "TestDashboardPermissionsVersionsAndReplication",
+          "TestTypedDraftRoutesRunReviewedPublicationAndPreserveJSONNumbers",
+          "TestTypedDraftRoutesAllowIncompleteGraphsAndRejectMalformedBodies",
+          "TestTypedDraftRoutesPropagateRemoteTraceAndBusinessIdentity",
+          "TestTypedCompatibilityEndpointReportsAppliedMigrations",
+          "TestHistoryHTTPTasksExactValuesAuthorizationAndOTLP",
+          "TestLegacyJobRetryResumesOriginalCheckpointAndRollupPhase",
+          "TestLegacyJobRetryResumesOriginalCheckpointAndRollupPhase/replaying",
+          "TestLegacyJobRetryResumesOriginalCheckpointAndRollupPhase/rollups",
+          "TestLegacyJobRetryAdoptsUnmappedJobAtomicallyAndChecksAllResources",
+          "TestLegacyJobRetryAdoptsUnmappedJobAtomicallyAndChecksAllResources/adopt",
+          "TestLegacyJobRetryAdoptsUnmappedJobAtomicallyAndChecksAllResources/forbidden",
+          "TestLegacyJobRetryAdoptsUnmappedJobAtomicallyAndChecksAllResources/mapped-forbidden",
+          "TestLegacyJobRetryAdoptsUnmappedJobAtomicallyAndChecksAllResources/viewer",
+          "TestLegacyJobRetryAdoptsUnmappedJobAtomicallyAndChecksAllResources/audit-failure",
+          "TestLegacyAndTaskRetryConcurrentRequestsShareOneAttempt",
+          "TestLegacyJobRetryReturnsNotFoundForExpiredRiverAttempt",
+          "TestLatestIndicatorsSurviveTrendWindowAndKeepResourceScope",
+          "TestQueryHTTPPaginationErrorsAndContracts",
+          "TestQuerySSEHTTPIdleAndRecovery",
+          "TestQuerySSEHTTPIdleAndRecovery/HTTP/1.1",
+          "TestQuerySSEHTTPIdleAndRecovery/HTTP/2.0",
+          "TestQuerySSESlowSocketDoesNotBlockOtherClients",
+          "TestQuerySSEExpiredCursor",
+          "TestReleaseHTTPRequiredFieldsAndRevokedSession",
+          "TestReleaseHTTPRejectsUserAndSharedServiceTokenAsWorkload",
+          "TestContinuousSimulationAPIRevisionPrecisionPermissionsAndCompatibility",
+          "TestContinuousSimulationAPIRevisionPrecisionPermissionsAndCompatibility/point",
+          "TestContinuousSimulationAPIRevisionPrecisionPermissionsAndCompatibility/history",
+          "TestContinuousSimulationAPIRevisionPrecisionPermissionsAndCompatibility/initial_state",
+          "TestContinuousSimulationAPIRevisionPrecisionPermissionsAndCompatibility/asset_parent",
+          "TestNodeCatalogAndPlanDiagnosticsEnforceResourceAccess",
+          "TestStaticAndAIHandlersCanCoexist",
+          "TestTaskOperationVersionsAllowHumanConfirmation",
+          "TestTaskOperationVersionsAllowHumanConfirmation/waiting_parent_delayed_cancel_and_retry",
+          "TestTaskOperationVersionsAllowHumanConfirmation/running_progress_delayed_cancel",
+          "TestTaskOperationVersionsAllowHumanConfirmation/resolved_parent_snapshot_rejects_old_version",
+          "TestTaskOperationVersionsAllowHumanConfirmation/parent_completed_child_still_waiting_and_worker_metadata",
+          "TestTaskOperationVersionsAllowHumanConfirmation/concurrent_confirmations_commit_one_cancel",
+          "TestTaskOperationVersionsAllowHumanConfirmation/terminal_state_rejects_old_version",
+          "TestTaskOperationVersionsAllowHumanConfirmation/role",
+          "TestTaskOperationVersionsAllowHumanConfirmation/resource_ancestry",
+          "TestTaskOperationVersionsAllowHumanConfirmation/task_resources_after_authorization",
+          "TestTaskOperationVersionsAllowHumanConfirmation/grant_after_authorization",
+          "TestTaskOperationVersionsAllowHumanConfirmation/audit_failure_rolls_back_cancel_and_operation_revision",
+          "TestPostgresTaskOperationVersionsAllowHumanConfirmation",
+          "TestTaskRetryClearsPriorCancellation",
+          "TestTaskRetryClearsPriorCancellation/running_cancel_retry_multiple_snoozes_then_cancel",
+          "TestTaskRetryClearsPriorCancellation/retry_audit_failure_restores_marker_business_and_revision",
+          "TestTaskRetryClearsPriorCancellation/retry_authorization_and_obsolete_generation",
+          "TestTaskRetryClearsPriorCancellation/concurrent_retries_commit_one_new_operation",
+          "TestTaskRetryClearsPriorCancellation/cancel_old_worker_commit_retry_preserves_completed_steps",
+          "TestTaskRetryClearsPriorCancellation/official_null_merge_differs_but_retry_removes_key",
+          "TestPostgresTaskRetryClearsPriorCancellation",
+          "TestTaskRoutesCheckResourcesRolesVersionsAndActualState",
+          "TestAITaskReaderCannotCancelOrRetry",
+          "TestRecomputeTaskResolvesDefinitionResourceScope",
+          "TestValidationErrorsExcludeRequestValues",
+          "TestValidationErrorsExcludeRequestValues/missing_parent_property",
+          "TestValidationErrorsExcludeRequestValues/credential_too_short",
+          "TestValidationErrorsExcludeRequestValues/credential_too_long",
+          "TestValidationErrorsExcludeRequestValues/credential_wrong_type",
+          "TestNodeCatalogFeedsSchemaAndCompilerParameterRules",
+          "TestGeneratedContractsMatchLiveRegistration"
+        ],
+        "skipped_tests": [
+          "TestBusinessNativeCEAlarmLifecycle",
+          "TestPostgresDeadlockReturnsHTTP409WithoutRepeatingCallback",
+          "TestPostgresLegacyAndTaskRetryConcurrentRequestsShareOneAttempt",
+          "TestQuerySSEPostgresSnapshotDeltaResumeReset",
+          "TestPostgresTaskOperationVersionsAllowHumanConfirmation/waiting_parent_delayed_cancel_and_retry",
+          "TestPostgresTaskOperationVersionsAllowHumanConfirmation/running_progress_delayed_cancel",
+          "TestPostgresTaskOperationVersionsAllowHumanConfirmation/resolved_parent_snapshot_rejects_old_version",
+          "TestPostgresTaskOperationVersionsAllowHumanConfirmation/parent_completed_child_still_waiting_and_worker_metadata",
+          "TestPostgresTaskOperationVersionsAllowHumanConfirmation/concurrent_confirmations_commit_one_cancel",
+          "TestPostgresTaskOperationVersionsAllowHumanConfirmation/terminal_state_rejects_old_version",
+          "TestPostgresTaskOperationVersionsAllowHumanConfirmation/role",
+          "TestPostgresTaskOperationVersionsAllowHumanConfirmation/resource_ancestry",
+          "TestPostgresTaskOperationVersionsAllowHumanConfirmation/task_resources_after_authorization",
+          "TestPostgresTaskOperationVersionsAllowHumanConfirmation/grant_after_authorization",
+          "TestPostgresTaskOperationVersionsAllowHumanConfirmation/audit_failure_rolls_back_cancel_and_operation_revision",
+          "TestPostgresTaskRetryClearsPriorCancellation/running_cancel_retry_multiple_snoozes_then_cancel",
+          "TestPostgresTaskRetryClearsPriorCancellation/retry_audit_failure_restores_marker_business_and_revision",
+          "TestPostgresTaskRetryClearsPriorCancellation/retry_authorization_and_obsolete_generation",
+          "TestPostgresTaskRetryClearsPriorCancellation/concurrent_retries_commit_one_new_operation",
+          "TestPostgresTaskRetryClearsPriorCancellation/cancel_old_worker_commit_retry_preserves_completed_steps",
+          "TestPostgresTaskRetryClearsPriorCancellation/official_null_merge_differs_but_retry_removes_key"
+        ],
+        "skipped_conditions": "External native CE and PostgreSQL-specific existing scenarios were not enabled in this targeted API supplement; release PostgreSQL/race coverage remains in the preceding fixed run"
+      },
+      "formal_contract_export": {
+        "path": "/private/tmp/smartfactory-phase5-release-a01-20261005/evidence/export-contracts.stdout.log",
+        "sha256": "5a60f0c9021f16c8773560848de3e22f6667980a529671c6573edcd0e9fd1f3d",
+        "bytes": 94
+      },
+      "formal_json_contracts_unchanged": true,
+      "assertions": {
+        "path": "/private/tmp/smartfactory-phase5-release-a01-20261005/evidence/assertions.json",
+        "sha256": "c5b83496bbcd2b601cc212db1a7894a8a87b77c170b07aa3adaaf60424ba2e28",
+        "bytes": 18798
+      },
+      "assertion_count": 41,
+      "http": {
+        "path": "/private/tmp/smartfactory-phase5-release-a01-20261005/evidence/http.json",
+        "sha256": "c011a7973b2ec7ec6ef2d83d7b473225a2dae5566035b53507660cb50f067d01",
+        "bytes": 112282
+      },
+      "processes": {
+        "path": "/private/tmp/smartfactory-phase5-release-a01-20261005/evidence/processes.json",
+        "sha256": "4e4c781c93a1fdc88f02388ab197bc2f7deab38a6117bff752a0935bd55516cd",
+        "bytes": 676
+      },
+      "service_logs": [
+        {
+          "original_path": "/private/tmp/smartfactory-phase5-release-a01-20261005/evidence/cloud-a01.stdout.log",
+          "path": "/private/tmp/smartfactory-phase5-release-a01-20261005/sealed-service-logs/cloud-a01.stdout.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        {
+          "original_path": "/private/tmp/smartfactory-phase5-release-a01-20261005/evidence/cloud-a01.stderr.log",
+          "path": "/private/tmp/smartfactory-phase5-release-a01-20261005/sealed-service-logs/cloud-a01.stderr.log",
+          "sha256": "2309b739a70e6c4380caecd8b01b6bcc372f4472628df866528a40bba00eeb03",
+          "bytes": 755
+        },
+        {
+          "original_path": "/private/tmp/smartfactory-phase5-release-a01-20261005/evidence/config-a01.stdout.log",
+          "path": "/private/tmp/smartfactory-phase5-release-a01-20261005/sealed-service-logs/config-a01.stdout.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        {
+          "original_path": "/private/tmp/smartfactory-phase5-release-a01-20261005/evidence/config-a01.stderr.log",
+          "path": "/private/tmp/smartfactory-phase5-release-a01-20261005/sealed-service-logs/config-a01.stderr.log",
+          "sha256": "c15e1cd1b832199e945c0e7740bf1ba6486458fd10b0bbbca32d5cbfc5cacf2d",
+          "bytes": 105
+        }
+      ],
+      "new_edge_build_info": {
+        "path": "/private/tmp/smartfactory-phase5-release-a01-20261005/evidence/edge-build-info.stdout.log",
+        "sha256": "3482e78c8e5ef006ecadb48cb1420d385090881823ced8587260058716364a78",
+        "bytes": 374
+      },
+      "coordinator_source_and_process_review": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-release-a01-root-review.json",
+        "sha256": "c6c67101717ae1801c6751f7933ea9bfe0644fdfb4acbc234a1bb8caed92e791",
+        "bytes": 12879
+      },
+      "coordinator_independent_http_replay": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-credential-validation-response-fixed-root-review.json",
+        "sha256": "f5319225e3eff04505ae3b094c0d0bfb0e031b0cbe8701d8377f6c974f475896",
+        "bytes": 720
+      },
+      "node_frontend_shared_binary_adoption": {
+        "path": "/private/tmp/smartfactory-phase5-node-frontend-live-20261005/evidence/public-api-a01-replacement.json",
+        "sha256": "d48614bca30908a0fc86015e11a423ece89bb1b7785a60bf7baae24f6cbf42b7",
+        "bytes": 5135
+      }
+    }
+  },
+  "binaries": [
+    {
+      "path": "/private/tmp/smartfactory-phase5-release-process-tenth-20261005/bin/dt-node-configuration-fixture",
+      "sha256": "46588b40ceec310b24d68c735a1c04cb8806c4aeab3047c032db771d0d5ae8c7",
+      "size": 25394082
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-release-process-tenth-20261005/bin/sf-cloud",
+      "sha256": "16372d92e5b18b602a132aaa3b86e950cca695d7e0887a6bc8ecdecd04bb497d",
+      "size": 54837666
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-release-process-tenth-20261005/bin/sf-config",
+      "sha256": "7aed0eef80ca898994b5d547dfab3aa5fc070655b9b4c74cbcb4959a5a5d6028",
+      "size": 54837666
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-release-process-tenth-20261005/bin/sf-edge-legacy",
+      "sha256": "94360fd2fa2aee958d9cabc8df8eac2e411a5a0841c6b397466aef9457772bb6",
+      "size": 54837826
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-release-process-tenth-20261005/bin/sf-edge-v1",
+      "sha256": "6e103e0702e113a4765dfd8834343d7f02e722d9d8f649e7c6fbfa25ed98724f",
+      "size": 54837826
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-release-process-tenth-20261005/bin/sf-edge-v2",
+      "sha256": "837dbf9413b2bd81604e111447b710ebb8d0d225b1a7f7b94c1dace793b7fbb7",
+      "size": 54837826
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-release-process-tenth-20261005/bin/sf-edge-v3",
+      "sha256": "1b2b9a90f3bf5ea368f8157e0ad3c433497956d90add940323d89ee578fa81a5",
+      "size": 54837826
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-release-process-tenth-20261005/bin/sf-pki",
+      "sha256": "a778c9f8ba76df2b8b7573027eb835c3473935549bfb57e5d28a91f7651c9e99",
+      "size": 6383202
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-release-process-tenth-20261005/bin/sf-release-agent",
+      "sha256": "9f16b25d5e4f935e00bb48715a52f26248da459d43597caf1f3cd72bfc6d16aa",
+      "size": 34017490
+    }
+  ],
+  "program_build_info": {
+    "v1": {
+      "path": "/private/tmp/smartfactory-phase5-release-process-tenth-20261005/sealed-evidence/build-info-v1.stdout.log",
+      "sha256": "1420c36ccc35c046fee0dd2846fce18ed8668d3c9beb858ccd813553edf9a15f",
+      "bytes": 369
+    },
+    "v2": {
+      "path": "/private/tmp/smartfactory-phase5-release-process-tenth-20261005/sealed-evidence/build-info-v2.stdout.log",
+      "sha256": "d26663fb9e1aaeee24d9c763195d0de2824288c14c2c32f56097daab7177a7cf",
+      "bytes": 369
+    },
+    "v3": {
+      "path": "/private/tmp/smartfactory-phase5-release-process-tenth-20261005/sealed-evidence/build-info-v3.stdout.log",
+      "sha256": "2750ddcda23e4ebf4e35e25c755c04c094e9a95910f6272d4021e6cb3c1c3d30",
+      "bytes": 369
+    },
+    "legacy": {
+      "path": "/private/tmp/smartfactory-phase5-release-process-tenth-20261005/sealed-evidence/build-info-legacy.stdout.log",
+      "sha256": "34073c4a73bea62459fadfc1eb994c72326c2a42ddd604debec6a360c362e7b4",
+      "bytes": 372
+    }
+  },
+  "contracts": {
+    "openapi": {
+      "path": "/path/to/SmartFactory-2026/contracts/1.0/openapi.json",
+      "sha256": "0874615ebca4cd17077fe3732f6ede55dd84d82268ecbdbf77b42e2a07af99b3",
+      "bytes": 592779
+    },
+    "api_types": {
+      "path": "/path/to/SmartFactory-2026/contracts/1.0/api-types.ts",
+      "sha256": "6e89b4f9e0240c17b61549eeb24fe1d76175ee32e0083ea08495252400092e4d",
+      "bytes": 484790
+    },
+    "operation_routes": {
+      "path": "/path/to/SmartFactory-2026/Frontends/src/generated-routes.ts",
+      "sha256": "717a239711e059dd31f9dfc91bd33e15d57885a74ba1e6734b7d51fd90f911f5",
+      "bytes": 10318
+    },
+    "schemas": 197,
+    "operations": 116,
+    "standalone_model_schemas": 196,
+    "exporter": "Platform/cmd/sf-contracts with api.RefineNodeConfigurationContracts and api.RefineReleaseContracts",
+    "generation": "Frontends/scripts/generate-api.mjs uses official openapi-typescript 7.13.0 and TypeScript API 6.0.2",
+    "final_check": {
+      "command": ".local/toolchains/node-v24.21.0-darwin-arm64/bin/node Frontends/scripts/generate-api.mjs --check",
+      "exit_code": 0,
+      "output": {
+        "source_sha256": "0874615ebca4cd17077fe3732f6ede55dd84d82268ecbdbf77b42e2a07af99b3",
+        "schemas": 197,
+        "operations": 116,
+        "compiler_api": "6.0.2",
+        "checked": true
+      }
+    },
+    "frontend_contract": {
+      "path": "/path/to/SmartFactory-2026/docs/evolution/release-frontend-contract.md",
+      "sha256": "eb62e56189dbb9a45b40a4c3aae0dd813a1adb66e90e7babd63a3bcbcdd05240",
+      "bytes": 6156
+    },
+    "deployment_contract": {
+      "path": "/path/to/SmartFactory-2026/docs/evolution/release-deployment-contract.md",
+      "sha256": "3f001002aeff8ca0fa5a322b8ee8d66dcaedc8c5da1897f1702a2e095e528940",
+      "bytes": 7657
+    }
+  },
+  "frontend_delivery": {
+    "fixture": {
+      "path": "/private/tmp/smartfactory-phase5-release-a01-20261005/frontend-fixture.json",
+      "sha256": "876e45699b88aa8ce917ad7caf299fa0d5390e27b22b899b14ba9b0ce3f6cd37",
+      "bytes": 896
+    },
+    "live_check": {
+      "path": "/private/tmp/smartfactory-phase5-release-a01-20261005/frontend-live-check.json",
+      "sha256": "682ce05548885d256e2713895ec390adba74294fb144fb391f55ded197e46529",
+      "bytes": 6154
+    },
+    "cloud_url": "http://127.0.0.1:60047",
+    "config_url": "https://127.0.0.1:60048",
+    "node_urls": {
+      "a": "http://127.0.0.1:60050",
+      "b": "http://127.0.0.1:60051"
+    },
+    "source_sha256": "6eaa64a9f642b5a45421d883cae4c29a309d94d1eb7df3ab02d551755dc1e693",
+    "base_fixture": {
+      "path": "/private/tmp/smartfactory-phase5-release-process-tenth-20261005/frontend-fixture.json",
+      "sha256": "c94336d2566f53db1f59cac608aa367c308ca337359689a432cb95009b27d643",
+      "bytes": 723
+    },
+    "credential_delivery": "Private credential file paths for admin and release-viewer remain under the original private fixture directory; no plaintext credential is present in evidence",
+    "kept_running": true,
+    "program_upgrade": "The patched cloud/config use the same databases; A uses a formal template evolution and B an ordinary immutable release to activate the patched Edge, retaining rule and configuration content digests"
+  },
+  "first_failures_and_repairs": {
+    "process_attempts": [
+      {
+        "attempt": "first",
+        "status": "failed",
+        "classification": "shared integration compile error",
+        "detail": "节点配置同时集成期间调用 Tx.Delete 的参数数量不匹配，节点专业修正后重新构建",
+        "result": {
+          "path": "/private/tmp/smartfactory-phase5-release-process-first-20261005/result.json",
+          "sha256": "711d4e686cc570c31f7ef7199e803889c782b50dbcf285ad122218ce3f461b0f",
+          "bytes": 672
+        },
+        "source_sha256": "57d4ec557a5b9ac3e9048897ea9d2bad85708db8dc1de7646840aa6c3e56b46d",
+        "error": "RuntimeError: build-sf-cloud failed",
+        "node_ports_closed": null,
+        "kept_running": false,
+        "commands": {
+          "path": "/private/tmp/smartfactory-phase5-release-process-first-20261005/evidence/commands.json",
+          "sha256": "0faca0e416481b10f392d5dc92aedfbfa61f5def8f7f6357d31cb555bcc9aca4",
+          "bytes": 2080
+        }
+      },
+      {
+        "attempt": "second",
+        "status": "failed",
+        "classification": "fixture assertion error",
+        "detail": "观测点正式持久身份使用 message_id 加序号，用例按输入临时 id 查询失败；改为核对正式消息身份及保留的原始点",
+        "result": {
+          "path": "/private/tmp/smartfactory-phase5-release-process-second-20261005/result.json",
+          "sha256": "9cd72fb792f63f94e7ece2a11101e10e88067e5c11d658a431ade748c93eba37",
+          "bytes": 752
+        },
+        "source_sha256": "a739c26fbc7b96dc96ec48184b3900d8e187d0033edeb0069e2883e46d3c95d9",
+        "error": "AssertionError: retained-observations-after-upgrade",
+        "node_ports_closed": {
+          "a": true,
+          "b": true
+        },
+        "kept_running": false,
+        "commands": {
+          "path": "/private/tmp/smartfactory-phase5-release-process-second-20261005/evidence/commands.json",
+          "sha256": "1b007117a8bfe20c20ce2abe1f842ec36807fba43d57f3e71d90db917b1d5f51",
+          "bytes": 15972
+        },
+        "assertions": {
+          "path": "/private/tmp/smartfactory-phase5-release-process-second-20261005/evidence/assertions.json",
+          "sha256": "a8d02058848c977e4899b8a0cadec4d2190a2c2ee9489865fa6cef91d2810366",
+          "bytes": 39955
+        },
+        "http": {
+          "path": "/private/tmp/smartfactory-phase5-release-process-second-20261005/evidence/http.json",
+          "sha256": "f52cf6cf547619351531a86d5bc0853b2b7b00c9f089e63f87ab085df4ace20f",
+          "bytes": 185562
+        }
+      },
+      {
+        "attempt": "third",
+        "status": "passed",
+        "classification": "passed earlier process scope",
+        "detail": "程序、参数和规则的双节点进程场景通过，随后扩展连接器、首次服务转换和模板演进",
+        "result": {
+          "path": "/private/tmp/smartfactory-phase5-release-process-third-20261005/result.json",
+          "sha256": "e89ad09e6d4da389cc5858c24f99dc3c6b323fa24a01c73318993db938f4324d",
+          "bytes": 1026
+        },
+        "source_sha256": "0864ff6b79d8d45e814490d2bf77cea2131206868e09bdd9a6118809f833efd8",
+        "error": null,
+        "node_ports_closed": {
+          "a": true,
+          "b": true
+        },
+        "kept_running": false,
+        "commands": {
+          "path": "/private/tmp/smartfactory-phase5-release-process-third-20261005/evidence/commands.json",
+          "sha256": "d09560124f599775665d46e55db900e885819d0a01868f8c271e424b26f0c760",
+          "bytes": 15886
+        },
+        "assertions": {
+          "path": "/private/tmp/smartfactory-phase5-release-process-third-20261005/evidence/assertions.json",
+          "sha256": "05c3efdae2ca6eeca006409621906c9f3c3e6be1fb7d23b6354eec9cf3c3bb77",
+          "bytes": 80879
+        },
+        "http": {
+          "path": "/private/tmp/smartfactory-phase5-release-process-third-20261005/evidence/http.json",
+          "sha256": "7c5829ea7c15d77818c4189a2f0e58319f559d5465959b1ee703c7f0652ce7c6",
+          "bytes": 274496
+        }
+      },
+      {
+        "attempt": "fourth",
+        "status": "passed",
+        "classification": "passed earlier process scope",
+        "detail": "补充进程切换中断、运行报告过期与恢复后通过，后续继续增加正式连接器和模板场景",
+        "result": {
+          "path": "/private/tmp/smartfactory-phase5-release-process-fourth-20261005/result.json",
+          "sha256": "3e06f4311c04608fb4492ffc5b51d63ecc23aa8b580af5e91ab3736795250d46",
+          "bytes": 1032
+        },
+        "source_sha256": "ff5210844d066e69e56e4ff50b89a548af9d83b087fd6e13dcb726d927e1a4d2",
+        "error": null,
+        "node_ports_closed": {
+          "a": true,
+          "b": true
+        },
+        "kept_running": false,
+        "commands": {
+          "path": "/private/tmp/smartfactory-phase5-release-process-fourth-20261005/evidence/commands.json",
+          "sha256": "d69062b776d0bb13542eb3519097f4eb6bffd792c8021beaffb49edbead0346a",
+          "bytes": 15969
+        },
+        "assertions": {
+          "path": "/private/tmp/smartfactory-phase5-release-process-fourth-20261005/evidence/assertions.json",
+          "sha256": "f5234793a536573dfd9b6cfc06fee1f9f4d6d0a959f1340ff9297e3306f71491",
+          "bytes": 103227
+        },
+        "http": {
+          "path": "/private/tmp/smartfactory-phase5-release-process-fourth-20261005/evidence/http.json",
+          "sha256": "07b9b14ded6ded0f9c44fd6dd52846448aa9781c5343be7be5815b87e62ad5b6",
+          "bytes": 287550
+        }
+      },
+      {
+        "attempt": "fifth",
+        "status": "failed",
+        "classification": "evidence preservation error",
+        "detail": "保存系统 clang 二进制时复制了 macOS 文件标记，系统拒绝 chflags；调整为只保存字节及所有者权限",
+        "result": {
+          "path": "/private/tmp/smartfactory-phase5-release-process-fifth-20261005/result.json",
+          "sha256": "bd070993ffabff483f1bab4f9b9f9b388ebb8d79c9aac2b174beb31f951ebae1",
+          "bytes": 661
+        },
+        "source_sha256": null,
+        "error": "PermissionError: [Errno 1] Operation not permitted: '/private/tmp/smartfactory-phase5-release-process-fifth-20261005/external-inputs/5b1ddb7e9c11b87a034fc88b212e8ac243cfe2b4db696d767aa44c79595fc09a'",
+        "node_ports_closed": null,
+        "kept_running": false,
+        "commands": {
+          "path": "/private/tmp/smartfactory-phase5-release-process-fifth-20261005/evidence/commands.json",
+          "sha256": "70a62ef622d913b124266d6f180464c5c5ba46fa8a6bdcc23a4dde3d5720c5ac",
+          "bytes": 2485
+        }
+      },
+      {
+        "attempt": "sixth",
+        "status": "failed",
+        "classification": "fixture response-shape error",
+        "detail": "连接器列表返回 configuration 内嵌对象，用例访问顶层 id 失败；按正式 DTO 读取",
+        "result": {
+          "path": "/private/tmp/smartfactory-phase5-release-process-sixth-20261005/result.json",
+          "sha256": "82869626afe98f1c004aacf9be88608df54e85d535f3367af2c59c5f34988b5b",
+          "bytes": 856
+        },
+        "source_sha256": "5a4cc590c2dbccd45b9f69beb7d1eb23c253c630ddb8ed4a730ef59914007a73",
+        "error": "AssertionError: connector public versions synchronize a timed out: KeyError: 'id'",
+        "node_ports_closed": {
+          "a": true,
+          "b": true
+        },
+        "kept_running": false,
+        "commands": {
+          "path": "/private/tmp/smartfactory-phase5-release-process-sixth-20261005/evidence/commands.json",
+          "sha256": "10669e2436bbe9ade7cba38b3a2dcef024ee4b97d7fb3fa6ca973b924bdb29d4",
+          "bytes": 23215
+        },
+        "http": {
+          "path": "/private/tmp/smartfactory-phase5-release-process-sixth-20261005/evidence/http.json",
+          "sha256": "3536198087ea5ba8bd6c205dca9786160bff94df61c99783668b4056c108b7f8",
+          "bytes": 12400
+        }
+      },
+      {
+        "attempt": "seventh",
+        "status": "failed",
+        "classification": "fixture workflow error",
+        "detail": "用例在前一次发布仍活动时创建后续发布，正式协调器拒绝；增加显式取消再变更目标",
+        "result": {
+          "path": "/private/tmp/smartfactory-phase5-release-process-seventh-20261005/result.json",
+          "sha256": "550b9810ab0c6ae15d7ce3294e056b6e29cccad86c16b1f57edc5f92cc42db52",
+          "bytes": 925
+        },
+        "source_sha256": "4181f77be2ab069af7d6e40f26b33c1748c374b14d5ffbf88ee90abbb76aa387",
+        "error": "AssertionError: POST /api/sf/v1/release-deployments: HTTP 400, expected 200: {'error': 'workload release-a already has an active deployment'}",
+        "node_ports_closed": {
+          "a": true,
+          "b": true
+        },
+        "kept_running": false,
+        "commands": {
+          "path": "/private/tmp/smartfactory-phase5-release-process-seventh-20261005/evidence/commands.json",
+          "sha256": "1c64dd6362ff99fe73ddcc2d92ac3f3cf51f575ff152ceed9fcca8892145c125",
+          "bytes": 25190
+        },
+        "assertions": {
+          "path": "/private/tmp/smartfactory-phase5-release-process-seventh-20261005/evidence/assertions.json",
+          "sha256": "744fb7f634248bfd62a9cf3ca1a34d6a6da537fdc43fe9224f2f3b10a0aca283",
+          "bytes": 1799
+        },
+        "http": {
+          "path": "/private/tmp/smartfactory-phase5-release-process-seventh-20261005/evidence/http.json",
+          "sha256": "dd9fec4c853ebaae5f7e9993e0aa9160214788d4d1c19199765f8e7665c6ce0a",
+          "bytes": 189808
+        }
+      },
+      {
+        "attempt": "eighth",
+        "status": "failed",
+        "classification": "product finding P5-N03",
+        "detail": "所属 Edge 退出后的网络错误被映射为 400，导致固定凭据准备失败；节点专业将明确网络不可用映射为 503，保留授权、输入和摘要错误语义",
+        "result": {
+          "path": "/private/tmp/smartfactory-phase5-release-process-eighth-20261005/result.json",
+          "sha256": "901f1a92813840408017fab9457b4aa0d3b6cccbc0b7f5ba526f483026911203",
+          "bytes": 1844
+        },
+        "source_sha256": "4181f77be2ab069af7d6e40f26b33c1748c374b14d5ffbf88ee90abbb76aa387",
+        "error": "AssertionError: first batch with offline second node timed out: {'id': 'deploy-v1', 'release_id': 'release-v1', 'release_sha256': 'a43288a7206fa0857190132b542410fb6b4fd3977510d5d381fafb95464dd69f', 'group_id': 'factory', 'version': 2, 'state': 'failed', 'current_batch': 0, 'batches': [{'index': 0, 'identity_ids': ['release-a'], 'state': 'failed', 'entered_ms': 1791181342162, 'completed_ms': 0, 'entry_condition': 'release and every target capability have been validated'}, {'index': 1, 'identity_ids': ['release-b'], 'state': 'pending', 'entered_ms': 0, 'completed_ms': 0, 'entry_condition': 'all workloads in the previous batch report the desired running content'}], 'targets': [{'identity_id': 'release-a', 'node_id': 'edge-a', 'program': 'edge', 'batch': 0, 'generation': 3, 'state': 'failed', 'desired_sha256': 'a43288a7206fa0857190132b542410fb6b4fd3977510d5d381fafb95464dd69f', 'prepared_sha256': '', 'applied_sha256': '', 'running_sha256': '', 'agent_instance_id': '7024cf54e9585635422192da993994d4', 'agent_instance_epoch': 4, 'last_sequence': 1, 'last_r",
+        "node_ports_closed": {
+          "a": true,
+          "b": true
+        },
+        "kept_running": false,
+        "commands": {
+          "path": "/private/tmp/smartfactory-phase5-release-process-eighth-20261005/evidence/commands.json",
+          "sha256": "71eca228724a3732376a1e506f48f4a33c33f4b96eae0a8c121f6218208ff171",
+          "bytes": 26772
+        },
+        "assertions": {
+          "path": "/private/tmp/smartfactory-phase5-release-process-eighth-20261005/evidence/assertions.json",
+          "sha256": "ab8083f72d9ac13d964d037a6b2a34c371a8f4be18d88c2d207ab6c2d2e112eb",
+          "bytes": 1894
+        },
+        "http": {
+          "path": "/private/tmp/smartfactory-phase5-release-process-eighth-20261005/evidence/http.json",
+          "sha256": "d6d7ded3082ecdb51402fc17b6799a16e037085c5ec0cbc3b74da7f603bcf9f2",
+          "bytes": 200400
+        }
+      },
+      {
+        "attempt": "ninth",
+        "status": "failed",
+        "classification": "fixture workflow error",
+        "detail": "模板用例绕过所属 Edge，向云端直接创建已批准设备，被正式规则拒绝；调整为 Edge 审批并等待同步",
+        "result": {
+          "path": "/private/tmp/smartfactory-phase5-release-process-ninth-20261005/result.json",
+          "sha256": "9a389a88a118a736ad0d1e63dd375d8ad310d7bd06a1bd18a6c71dfffa2c6f47",
+          "bytes": 905
+        },
+        "source_sha256": "4fa27388278805a3666abc177a4ca348891eabfec8c772bb9db8d8089e9be1c1",
+        "error": "AssertionError: POST /api/sf/v1/entities: HTTP 400, expected 200: {'error': 'physical devices must be approved through their edge'}",
+        "node_ports_closed": {
+          "a": true,
+          "b": true
+        },
+        "kept_running": false,
+        "commands": {
+          "path": "/private/tmp/smartfactory-phase5-release-process-ninth-20261005/evidence/commands.json",
+          "sha256": "50a6882a2acd56a35b57b7f19923589ed0bad0ee56b353490204363798395562",
+          "bytes": 28307
+        },
+        "assertions": {
+          "path": "/private/tmp/smartfactory-phase5-release-process-ninth-20261005/evidence/assertions.json",
+          "sha256": "b15967c54d357f752e489beb3e32e71bd44a074c9cf66ef2e05bc03014b60f91",
+          "bytes": 115350
+        },
+        "http": {
+          "path": "/private/tmp/smartfactory-phase5-release-process-ninth-20261005/evidence/http.json",
+          "sha256": "5be2fe4f41c9cd1fe3967ffca619c026631d160a1f447060aa862d3017f07ab2",
+          "bytes": 242723
+        }
+      },
+      {
+        "attempt": "tenth",
+        "status": "passed",
+        "classification": "passed final combined scope",
+        "detail": "最终固定输入完成程序、配置、连接器、模板、恢复、退回与故障组合验证",
+        "result": {
+          "path": "/private/tmp/smartfactory-phase5-release-process-tenth-20261005/result.json",
+          "sha256": "39adcd54dd387b5e783908e09daa100bd78a76957c429edede86a150d07391c8",
+          "bytes": 1044
+        },
+        "source_sha256": "82f00117ff624cb9ff9ff55ea49da25a5546bb0f9e76235fc8d797b1cb267b34",
+        "error": null,
+        "node_ports_closed": null,
+        "kept_running": true,
+        "commands": {
+          "path": "/private/tmp/smartfactory-phase5-release-process-tenth-20261005/evidence/commands.json",
+          "sha256": "7dd8a2d819dae80ce04dd689ab50cffb3460f9f7bc5d6e975cb6f0f54b26b24f",
+          "bytes": 28315
+        },
+        "assertions": {
+          "path": "/private/tmp/smartfactory-phase5-release-process-tenth-20261005/evidence/assertions.json",
+          "sha256": "70d25f757cdad84903a673558ef844491caf2e226f711a95f31d4fded2379218",
+          "bytes": 155363
+        },
+        "http": {
+          "path": "/private/tmp/smartfactory-phase5-release-process-tenth-20261005/evidence/http.json",
+          "sha256": "918631cd4469748e8a88cd7c8f8bc305b5260ae2d00fb0b6a695c887564e82d6",
+          "bytes": 365714
+        }
+      }
+    ],
+    "first_unit_http_failure": {
+      "record": {
+        "path": "/private/tmp/smartfactory-phase5-release-checks-first-20261005/unit-http.json",
+        "sha256": "bb1a4d8a73d9b77aabecdfe909e696f5112b552e7a17881aa40a98b0548c8614",
+        "bytes": 909
+      },
+      "log": {
+        "path": "/private/tmp/smartfactory-phase5-release-checks-first-20261005/unit-http.stdout.log",
+        "sha256": "699aeb174ec0ec14b6dc76047f8b569e39415fb4d650c51e30d1d33463901e2d",
+        "bytes": 4767
+      },
+      "retained_tests": "/private/tmp/smartfactory-phase5-release-checks-first-20261005/failed-test-inputs",
+      "reason": "Tests initially expected denied/400 for revoked credentials and schema validation; the API correctly returned authentication failure/422. Only expected result assertions were corrected"
+    },
+    "unit_http_correction": {
+      "path": "/private/tmp/smartfactory-phase5-release-checks-second-20261005/unit-http.json",
+      "sha256": "935b4aed704130805a77549665363e74a162c578f9c89ee421ca64ec3c3a16df",
+      "bytes": 834
+    },
+    "first_race_after_correction": {
+      "path": "/private/tmp/smartfactory-phase5-release-checks-second-20261005/race.json",
+      "sha256": "ff1d9a78aa2b0a52aa6590654f6459f0484b08e9109000c61a6273272aadfc07",
+      "bytes": 837
+    },
+    "coordinator_findings": ".local/evolution/phase5-coordinator-findings.json",
+    "acceptance_watchpoints": ".local/evolution/phase5-acceptance-watchpoints.json",
+    "P5-A01": {
+      "coordinator_reproduction": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-credential-validation-response-root-review.json",
+        "sha256": "e016114400d7efb2f24dfbe5be20865b3786b77495844ef0b962d24df8557da3",
+        "bytes": 850
+      },
+      "pre_fix_unit_result": {
+        "path": "/private/tmp/smartfactory-phase5-a01-first-20261005/result.json",
+        "sha256": "51286c4aa0ce8a6772c73f700b1b7c6045121755e9c95cc55d7795e6ee95cad6",
+        "bytes": 306
+      },
+      "pre_fix_unit_stdout": {
+        "path": "/private/tmp/smartfactory-phase5-a01-first-20261005/stdout.log",
+        "sha256": "667bee5e7f02a22d590d87a2c6f3ea84b65e3df442078b1f72c4820b4a9f9dec",
+        "bytes": 1516
+      },
+      "post_fix_targeted_result": {
+        "path": "/private/tmp/smartfactory-phase5-a01-second-20261005/result.json",
+        "sha256": "d01e1dcf872a43bf4cc367a19f23e8cc9e69ed5e65e50582d683f89c1376a32f",
+        "bytes": 280
+      },
+      "post_fix_targeted_stdout": {
+        "path": "/private/tmp/smartfactory-phase5-a01-second-20261005/stdout.log",
+        "sha256": "16b09c77ab7eaf8bc0be53ff9a50773ee423555ac621c0f15d8604c52d08e1f8",
+        "bytes": 1069
+      },
+      "pre_fix_report": {
+        "path": "/private/tmp/smartfactory-phase5-release-process-tenth-20261005/release-coordination-verified-before-a01.json",
+        "sha256": "045eb94102776f6c68af8f7b0898d47c93cdc304442e8a7f907caeb4b4533608",
+        "bytes": 51052
+      },
+      "process_fixture_failures": [
+        {
+          "result": {
+            "path": "/private/tmp/smartfactory-phase5-release-a01-20261005/first-process-start-failure.json",
+            "sha256": "f19400e13b1ca86857ac96984a599238a1142d0a53ddd9a2c477ea4baf0b17c7",
+            "bytes": 964
+          },
+          "reason": "The sandbox denied /bin/ps before service replacement; an approved scoped execution subsequently verified and normally stopped the known self-started services"
+        },
+        {
+          "result": {
+            "path": "/private/tmp/smartfactory-phase5-release-a01-20261005/second-process-start-failure.json",
+            "sha256": "c1244a863fe7e5703846f146e302f649438c8df96b2d17a544ceeb1958ee1628",
+            "bytes": 1070
+          },
+          "reason": "The supplemental driver iterated nullable depends_on as an array; it was adjusted to the existing nullable contract"
+        },
+        {
+          "result": {
+            "path": "/private/tmp/smartfactory-phase5-release-a01-20261005/third-process-fixture-failure.json",
+            "sha256": "a4ac8a6065bb03e99be5fdf52618933f639ed8cdfb4671beeff713cf8cf71196",
+            "bytes": 1089
+          },
+          "reason": "The driver tried to create a template-origin manifest through ordinary release creation; the formal API rejected it and the driver was corrected to use template evolution"
+        }
+      ],
+      "production_changes": [
+        {
+          "path": "Platform/internal/api/definition_routes.go",
+          "before": "2c70cffa17e54cbbd6b087b45038a134b03d8ab27996b16f267c15f8ed24c818",
+          "after": "c9aac35309434f26bb181e58845c730c9d56bffca4ca6dafbda5296924748808"
+        }
+      ],
+      "new_regression_test": {
+        "path": "/private/tmp/smartfactory-phase5-release-a01-20261005/source/Platform/internal/api/validation_errors_test.go",
+        "sha256": "321581c2595d4e5f0a57b7dedbd9878f186f6372ab510c589526bcec800c6f24",
+        "bytes": 3375
+      }
+    }
+  },
+  "resources_and_cleanup": {
+    "postgres": {
+      "container": "smartfactory-evolution-pg18-20261004",
+      "memory_limit": "1 GiB",
+      "cpus": 2,
+      "server_max_connections": 30,
+      "per_application_max_open": 3,
+      "per_application_max_idle": 1,
+      "management_max_open": 1,
+      "package_parallelism": 1,
+      "unique_schema_per_test": true,
+      "window_released": true
+    },
+    "earlier_process_attempts": "Stopped on completion or failure; each result preserves its actual node-port cleanup outcome",
+    "final_process_fixture": "The tenth complete scenario remains preserved; its old cloud/config processes exited normally during A01 replacement. The A01 cloud/config and upgraded Edge processes remain running for the frontend and independent review, which own final cleanup",
+    "original_user_containers": "unchanged",
+    "work_volume_free_bytes": 1492307968,
+    "temporary_volume_free_bytes": 11240005632
+  },
+  "remaining_stage_handoffs": [
+    "E5-05 frontend implementation and browser acceptance",
+    "E5-06 final Linux package and prepared deployment integration",
+    "Independent phase-five review and overall acceptance"
+  ],
+  "verification_scope": {
+    "host": "darwin/arm64",
+    "programs": "Production sf-cloud, sf-config, sf-release-agent and actual sf-edge executables; independent databases and master keys",
+    "datatransfer": "Two independent actual ConfigManager/ConnectorManager/gRPC consumers with persisted configuration and an isolated protocol adapter; adapter runtime exposes consumed polling values and credential-use presence",
+    "report_unit_fixtures": "Application report validation tests construct typed reports; process acceptance uses actual child runtime responses",
+    "app_tests_not_repeated": "The prior-phase external control-device and interactive browser fixtures retain their environment-based skip conditions in the app supplement",
+    "user_excluded_long_runs": [
+      "完整 UOS 安装与恢复",
+      "1/3 节点连续断云 24 小时",
+      "受限链路专项",
+      "实际 24 小时容量与持续运行"
+    ]
+  },
+  "current_api_binaries": [
+    {
+      "path": "/private/tmp/smartfactory-phase5-release-a01-20261005/bin/sf-config",
+      "sha256": "2cd0f047b65f5a7464b21f40958ce5d8f006316f8c8d091d3a4ad51f94109742",
+      "bytes": 54837666
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-release-a01-20261005/bin/sf-edge",
+      "sha256": "9ffcdcf27ad3c8242b6a9256c438038599c4b5b1d1002cd4475e5365b5f9bff4",
+      "bytes": 54837666
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-release-a01-20261005/bin/sf-cloud",
+      "sha256": "3ee7de59988b11dbc379e1f2660509b354f410f4af3ec8ed2b32e8996db4ccd7",
+      "bytes": 54821154
+    }
+  ]
+}

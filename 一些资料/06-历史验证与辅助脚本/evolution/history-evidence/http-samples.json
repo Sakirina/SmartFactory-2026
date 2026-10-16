@@ -1,0 +1,928 @@
+{
+  "authorization": {
+    "error": "permission denied"
+  },
+  "authorization_snapshot": {
+    "error": "permission denied"
+  },
+  "authorization_steps": {
+    "error": "permission denied"
+  },
+  "cancelled_run": {
+    "id": "http-compare",
+    "kind": "compare",
+    "definition_id": "http-comparison",
+    "left_version": 1,
+    "right_version": 2,
+    "snapshot_id": "snapshot:7cbef16f718b8761a388ce8d1da12e07b2e6f705a8f10040f19db4fa87766f11",
+    "captured_snapshot_id": "snapshot:7cbef16f718b8761a388ce8d1da12e07b2e6f705a8f10040f19db4fa87766f11",
+    "snapshot_sha256": "7cbef16f718b8761a388ce8d1da12e07b2e6f705a8f10040f19db4fa87766f11",
+    "input_sha256": "03f2fda85700d9e0e396863648dc65f29af27bcd959026da75fcf31a05efe1a7",
+    "task_id": "analysis:http-compare",
+    "status": "cancelled",
+    "cursor": 0,
+    "total": 1,
+    "progress": 0,
+    "final_state": {},
+    "resources": [
+      "a",
+      "device-a"
+    ],
+    "created_ms": 1791145153681,
+    "updated_ms": 1791145153684,
+    "version": 2,
+    "initial_state_resolved": true
+  },
+  "cancelled_task": {
+    "business_state": "cancelled",
+    "phase": "analysis",
+    "replay_id": "http-compare",
+    "superseded": false,
+    "id": "analysis:http-compare",
+    "kind": "analysis",
+    "business_id": "http-compare",
+    "business_version": 1,
+    "river_id": 1,
+    "queue": "history_analysis",
+    "resources": [
+      "a",
+      "device-a"
+    ],
+    "state": "cancelled",
+    "attempt": 0,
+    "max_attempts": 8,
+    "next_ms": 1791145153682,
+    "created_ms": 1791145153681,
+    "finished_ms": 1791145153684,
+    "cancel_requested_ms": 1791145153684,
+    "progress": 0,
+    "version": "6c3f573d3f10da0e05dc9a0c157d511917fcf13c35133e70739cc4b34b7bab26",
+    "allowed_actions": [
+      "retry"
+    ]
+  },
+  "candidate": {
+    "id": "http-candidate",
+    "definition_id": "http-comparison",
+    "definition_version": 1,
+    "version": 1,
+    "epoch": 1,
+    "status": "active",
+    "device_ids": [
+      "device-a"
+    ],
+    "keys": [
+      "count"
+    ],
+    "resources": [
+      "a",
+      "device-a"
+    ],
+    "started_ms": 1791145153734,
+    "generation": 0,
+    "completed_generation": 0,
+    "input_count": 0,
+    "context": [],
+    "base_snapshot": {
+      "id": "snapshot:48ebde57661681bd77c1a5d4eb4e1da45506a6609d97e4622aefc6acb46bf127",
+      "sha256": "48ebde57661681bd77c1a5d4eb4e1da45506a6609d97e4622aefc6acb46bf127",
+      "input_sha256": "",
+      "history_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "captured_ms": 1791145153734,
+      "from_ms": 1791145153734,
+      "to_ms": 1791145153734,
+      "source": "shadow_activation",
+      "data_version": 0,
+      "data_gaps": null,
+      "completeness": "",
+      "order": "event_time",
+      "clock": {},
+      "points": [],
+      "history": [],
+      "asset_versions": [],
+      "initial_state": {},
+      "initial_state_source": "empty",
+      "rules": [
+        {
+          "definition": {
+            "id": "http-comparison",
+            "name": "HTTP comparison",
+            "kind": "analysis",
+            "schema_version": "1.0",
+            "version": 1,
+            "status": "published",
+            "effective_ms": 1791145143676,
+            "group_id": "a",
+            "nodes": [
+              {
+                "id": "value",
+                "type": "expression",
+                "params": {
+                  "code": "value"
+                }
+              }
+            ],
+            "connections": null,
+            "outputs": [
+              {
+                "key": "count",
+                "type": "number",
+                "node_id": "value"
+              }
+            ],
+            "dependencies": null,
+            "selector": {
+              "device_ids": [
+                "device-a"
+              ],
+              "keys": [
+                "count"
+              ]
+            },
+            "policy": {}
+          },
+          "plan": {
+            "id": "http-comparison:1:2828fd729bc900ec1621ae0ce49836d8615d96b69e1f7a0b34eb95ca68568305",
+            "format": "smartfactory.rules/1",
+            "definition_id": "http-comparison",
+            "definition_version": 1,
+            "content_sha256": "2828fd729bc900ec1621ae0ce49836d8615d96b69e1f7a0b34eb95ca68568305",
+            "sha256": "7bb4319e5b00e57a08d5a46d4a0cdb9ddc45a8ea9633a6dc9867ea6931e511fb",
+            "kind": "analysis",
+            "selector": {
+              "device_ids": [
+                "device-a"
+              ],
+              "keys": [
+                "count"
+              ]
+            },
+            "outputs": [
+              {
+                "key": "count",
+                "type": "number",
+                "node_id": "value"
+              }
+            ],
+            "policy": {},
+            "dependencies": null,
+            "nodes": [
+              {
+                "id": "value",
+                "type": "expression",
+                "inputs": [],
+                "params": {},
+                "expression": {
+                  "op": "variable",
+                  "name": "value"
+                },
+                "error_output": false
+              }
+            ]
+          }
+        }
+      ],
+      "resources": [
+        "a",
+        "device-a"
+      ]
+    }
+  },
+  "completed_run": {
+    "id": "http-compare",
+    "kind": "compare",
+    "definition_id": "http-comparison",
+    "left_version": 1,
+    "right_version": 2,
+    "snapshot_id": "snapshot:7cbef16f718b8761a388ce8d1da12e07b2e6f705a8f10040f19db4fa87766f11",
+    "captured_snapshot_id": "snapshot:7cbef16f718b8761a388ce8d1da12e07b2e6f705a8f10040f19db4fa87766f11",
+    "snapshot_sha256": "7cbef16f718b8761a388ce8d1da12e07b2e6f705a8f10040f19db4fa87766f11",
+    "input_sha256": "03f2fda85700d9e0e396863648dc65f29af27bcd959026da75fcf31a05efe1a7",
+    "task_id": "analysis:http-compare",
+    "status": "completed",
+    "cursor": 1,
+    "total": 1,
+    "progress": 1,
+    "final_state": {
+      "left": {
+        "device-a": {
+          "value": {
+            "active": false,
+            "candidate": false,
+            "since_ms": 0,
+            "count": 0,
+            "previous": 9007199254740993,
+            "last_ms": 1791145143776
+          }
+        }
+      },
+      "right": {
+        "device-a": {
+          "value": {
+            "active": false,
+            "candidate": false,
+            "since_ms": 0,
+            "count": 0,
+            "previous": 9007199254740994,
+            "last_ms": 1791145143776
+          }
+        }
+      }
+    },
+    "resources": [
+      "a",
+      "device-a"
+    ],
+    "created_ms": 1791145153681,
+    "updated_ms": 1791145153690,
+    "version": 5,
+    "initial_state_resolved": true
+  },
+  "create_error": {
+    "error": "record not found"
+  },
+  "created_run": {
+    "id": "http-compare",
+    "kind": "compare",
+    "definition_id": "http-comparison",
+    "left_version": 1,
+    "right_version": 2,
+    "snapshot_id": "snapshot:7cbef16f718b8761a388ce8d1da12e07b2e6f705a8f10040f19db4fa87766f11",
+    "captured_snapshot_id": "snapshot:7cbef16f718b8761a388ce8d1da12e07b2e6f705a8f10040f19db4fa87766f11",
+    "snapshot_sha256": "7cbef16f718b8761a388ce8d1da12e07b2e6f705a8f10040f19db4fa87766f11",
+    "input_sha256": "03f2fda85700d9e0e396863648dc65f29af27bcd959026da75fcf31a05efe1a7",
+    "task_id": "analysis:http-compare",
+    "status": "pending",
+    "cursor": 0,
+    "total": 1,
+    "progress": 0,
+    "final_state": {},
+    "resources": [
+      "a",
+      "device-a"
+    ],
+    "created_ms": 1791145153681,
+    "updated_ms": 1791145153681,
+    "version": 1,
+    "initial_state_resolved": true
+  },
+  "failed_run": {
+    "id": "execution-failure",
+    "kind": "replay",
+    "definition_id": "http-failure",
+    "snapshot_id": "snapshot:2aab3a2b06b07edd82779fffafba756678459602888a136c2e16cd8f21b5b02a",
+    "captured_snapshot_id": "snapshot:2aab3a2b06b07edd82779fffafba756678459602888a136c2e16cd8f21b5b02a",
+    "snapshot_sha256": "2aab3a2b06b07edd82779fffafba756678459602888a136c2e16cd8f21b5b02a",
+    "input_sha256": "03f2fda85700d9e0e396863648dc65f29af27bcd959026da75fcf31a05efe1a7",
+    "task_id": "analysis:execution-failure",
+    "status": "failed",
+    "error": "input http-input version 1: input missing_field is missing",
+    "cursor": 0,
+    "total": 1,
+    "progress": 0,
+    "final_state": {},
+    "resources": [
+      "a",
+      "device-a"
+    ],
+    "created_ms": 1791145153686,
+    "updated_ms": 1791145153710,
+    "version": 3,
+    "initial_state_resolved": true
+  },
+  "failure_created": {
+    "id": "execution-failure",
+    "kind": "replay",
+    "definition_id": "http-failure",
+    "snapshot_id": "snapshot:2aab3a2b06b07edd82779fffafba756678459602888a136c2e16cd8f21b5b02a",
+    "captured_snapshot_id": "snapshot:2aab3a2b06b07edd82779fffafba756678459602888a136c2e16cd8f21b5b02a",
+    "snapshot_sha256": "2aab3a2b06b07edd82779fffafba756678459602888a136c2e16cd8f21b5b02a",
+    "input_sha256": "03f2fda85700d9e0e396863648dc65f29af27bcd959026da75fcf31a05efe1a7",
+    "task_id": "analysis:execution-failure",
+    "status": "pending",
+    "cursor": 0,
+    "total": 1,
+    "progress": 0,
+    "final_state": {},
+    "resources": [
+      "a",
+      "device-a"
+    ],
+    "created_ms": 1791145153686,
+    "updated_ms": 1791145153686,
+    "version": 1,
+    "initial_state_resolved": true
+  },
+  "original_task": {
+    "business_state": "pending",
+    "phase": "analysis",
+    "replay_id": "http-compare",
+    "superseded": false,
+    "id": "analysis:http-compare",
+    "kind": "analysis",
+    "business_id": "http-compare",
+    "business_version": 1,
+    "river_id": 1,
+    "queue": "history_analysis",
+    "resources": [
+      "a",
+      "device-a"
+    ],
+    "state": "available",
+    "attempt": 0,
+    "max_attempts": 8,
+    "next_ms": 1791145153682,
+    "created_ms": 1791145153681,
+    "progress": 0,
+    "version": "2caf4caa43081f340491a0d94b012c84f58c55d3564a9c6b8ebc676ad949d3be",
+    "allowed_actions": [
+      "cancel"
+    ]
+  },
+  "retried_task": {
+    "business_state": "pending",
+    "phase": "analysis",
+    "replay_id": "http-compare",
+    "superseded": false,
+    "id": "analysis:http-compare",
+    "kind": "analysis",
+    "business_id": "http-compare",
+    "business_version": 1,
+    "river_id": 1,
+    "queue": "history_analysis",
+    "resources": [
+      "a",
+      "device-a"
+    ],
+    "state": "available",
+    "attempt": 0,
+    "max_attempts": 8,
+    "next_ms": 1791145153685,
+    "created_ms": 1791145153681,
+    "progress": 0,
+    "version": "80ce48fc7fd9a11e874a24beceb41fd7437bf9419f8612c3899407225ae649d4",
+    "allowed_actions": [
+      "cancel"
+    ]
+  },
+  "run_page": {
+    "items": [
+      {
+        "id": "execution-failure",
+        "kind": "replay",
+        "definition_id": "http-failure",
+        "snapshot_id": "snapshot:2aab3a2b06b07edd82779fffafba756678459602888a136c2e16cd8f21b5b02a",
+        "captured_snapshot_id": "snapshot:2aab3a2b06b07edd82779fffafba756678459602888a136c2e16cd8f21b5b02a",
+        "snapshot_sha256": "2aab3a2b06b07edd82779fffafba756678459602888a136c2e16cd8f21b5b02a",
+        "input_sha256": "03f2fda85700d9e0e396863648dc65f29af27bcd959026da75fcf31a05efe1a7",
+        "task_id": "analysis:execution-failure",
+        "status": "failed",
+        "error": "input http-input version 1: input missing_field is missing",
+        "cursor": 0,
+        "total": 1,
+        "progress": 0,
+        "final_state": {},
+        "resources": [
+          "a",
+          "device-a"
+        ],
+        "created_ms": 1791145153686,
+        "updated_ms": 1791145153710,
+        "version": 3,
+        "initial_state_resolved": true
+      }
+    ],
+    "next": "execution-failure"
+  },
+  "snapshot": {
+    "id": "snapshot:7cbef16f718b8761a388ce8d1da12e07b2e6f705a8f10040f19db4fa87766f11",
+    "sha256": "7cbef16f718b8761a388ce8d1da12e07b2e6f705a8f10040f19db4fa87766f11",
+    "input_sha256": "03f2fda85700d9e0e396863648dc65f29af27bcd959026da75fcf31a05efe1a7",
+    "history_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "captured_ms": 1791145153681,
+    "from_ms": 1791145143776,
+    "to_ms": 1791145143776,
+    "source": "provided",
+    "data_version": 0,
+    "data_gaps": null,
+    "completeness": "",
+    "order": "event_time",
+    "clock": {},
+    "points": [
+      {
+        "id": "http-input",
+        "message_id": "http-message",
+        "source_id": "",
+        "source_sequence": 0,
+        "device_id": "device-a",
+        "key": "count",
+        "value": 9007199254740993,
+        "observed_ms": 1791145143776,
+        "received_ms": 1791145143777,
+        "quality": "GOOD",
+        "time_source": "",
+        "entity_revision": 0,
+        "asset_version": 0,
+        "late": false,
+        "revision": 1
+      }
+    ],
+    "history": [],
+    "asset_versions": [],
+    "initial_state": {},
+    "initial_state_source": "empty",
+    "rules": [
+      {
+        "definition": {
+          "id": "http-comparison",
+          "name": "HTTP comparison",
+          "kind": "analysis",
+          "schema_version": "1.0",
+          "version": 1,
+          "status": "published",
+          "effective_ms": 1791145143676,
+          "group_id": "a",
+          "nodes": [
+            {
+              "id": "value",
+              "type": "expression",
+              "params": {
+                "code": "value"
+              }
+            }
+          ],
+          "connections": null,
+          "outputs": [
+            {
+              "key": "count",
+              "type": "number",
+              "node_id": "value"
+            }
+          ],
+          "dependencies": null,
+          "selector": {
+            "device_ids": [
+              "device-a"
+            ],
+            "keys": [
+              "count"
+            ]
+          },
+          "policy": {}
+        },
+        "plan": {
+          "id": "http-comparison:1:2828fd729bc900ec1621ae0ce49836d8615d96b69e1f7a0b34eb95ca68568305",
+          "format": "smartfactory.rules/1",
+          "definition_id": "http-comparison",
+          "definition_version": 1,
+          "content_sha256": "2828fd729bc900ec1621ae0ce49836d8615d96b69e1f7a0b34eb95ca68568305",
+          "sha256": "7bb4319e5b00e57a08d5a46d4a0cdb9ddc45a8ea9633a6dc9867ea6931e511fb",
+          "kind": "analysis",
+          "selector": {
+            "device_ids": [
+              "device-a"
+            ],
+            "keys": [
+              "count"
+            ]
+          },
+          "outputs": [
+            {
+              "key": "count",
+              "type": "number",
+              "node_id": "value"
+            }
+          ],
+          "policy": {},
+          "dependencies": null,
+          "nodes": [
+            {
+              "id": "value",
+              "type": "expression",
+              "inputs": [],
+              "params": {},
+              "expression": {
+                "op": "variable",
+                "name": "value"
+              },
+              "error_output": false
+            }
+          ]
+        }
+      },
+      {
+        "definition": {
+          "id": "http-comparison",
+          "name": "HTTP comparison",
+          "kind": "analysis",
+          "schema_version": "1.0",
+          "version": 2,
+          "status": "published",
+          "effective_ms": 1791145143677,
+          "group_id": "a",
+          "nodes": [
+            {
+              "id": "value",
+              "type": "expression",
+              "params": {
+                "code": "value+1"
+              }
+            }
+          ],
+          "connections": null,
+          "outputs": [
+            {
+              "key": "count",
+              "type": "number",
+              "node_id": "value"
+            }
+          ],
+          "dependencies": null,
+          "selector": {
+            "device_ids": [
+              "device-a"
+            ],
+            "keys": [
+              "count"
+            ]
+          },
+          "policy": {}
+        },
+        "plan": {
+          "id": "http-comparison:2:089f103e83664989178b9420a6683426036c33ea48630fc683158845baa675d4",
+          "format": "smartfactory.rules/1",
+          "definition_id": "http-comparison",
+          "definition_version": 2,
+          "content_sha256": "089f103e83664989178b9420a6683426036c33ea48630fc683158845baa675d4",
+          "sha256": "8f0e26b189bd2861aa9ef624769bc15ef1f8422da884c331312a41d5c6e71f4d",
+          "kind": "analysis",
+          "selector": {
+            "device_ids": [
+              "device-a"
+            ],
+            "keys": [
+              "count"
+            ]
+          },
+          "outputs": [
+            {
+              "key": "count",
+              "type": "number",
+              "node_id": "value"
+            }
+          ],
+          "policy": {},
+          "dependencies": null,
+          "nodes": [
+            {
+              "id": "value",
+              "type": "expression",
+              "inputs": [],
+              "params": {},
+              "expression": {
+                "op": "+",
+                "args": [
+                  {
+                    "op": "variable",
+                    "name": "value"
+                  },
+                  {
+                    "op": "literal",
+                    "value": 1
+                  }
+                ]
+              },
+              "error_output": false
+            }
+          ]
+        }
+      }
+    ],
+    "resources": [
+      "a",
+      "device-a"
+    ]
+  },
+  "stale_task_error": {
+    "error": "version or message content conflict"
+  },
+  "steps": {
+    "items": [
+      {
+        "id": "http-compare:0",
+        "run_id": "http-compare",
+        "input_index": 0,
+        "input_sha256": "0693f1c6b0f0f30b4413364c882669b113b00f8c63373c98ead7fe7049e5b7d8",
+        "point": {
+          "id": "http-input",
+          "message_id": "http-message",
+          "source_id": "",
+          "source_sequence": 0,
+          "device_id": "device-a",
+          "key": "count",
+          "value": 9007199254740993,
+          "observed_ms": 1791145143776,
+          "received_ms": 1791145143777,
+          "quality": "GOOD",
+          "time_source": "",
+          "entity_revision": 0,
+          "asset_version": 0,
+          "late": false,
+          "revision": 1
+        },
+        "clock_ms": 1791145143776,
+        "freshness_at_ms": 1791145143776,
+        "lanes": [
+          {
+            "side": "left",
+            "definition_version": 1,
+            "effective_ms": 1791145143676,
+            "plan_id": "http-comparison:1:2828fd729bc900ec1621ae0ce49836d8615d96b69e1f7a0b34eb95ca68568305",
+            "plan_sha256": "7bb4319e5b00e57a08d5a46d4a0cdb9ddc45a8ea9633a6dc9867ea6931e511fb",
+            "evaluation": {
+              "definition_id": "http-comparison",
+              "version": 1,
+              "plan_id": "http-comparison:1:2828fd729bc900ec1621ae0ce49836d8615d96b69e1f7a0b34eb95ca68568305",
+              "plan_sha256": "7bb4319e5b00e57a08d5a46d4a0cdb9ddc45a8ea9633a6dc9867ea6931e511fb",
+              "entity_id": "device-a",
+              "at_ms": 1791145143776,
+              "values": {
+                "value": 9007199254740993
+              },
+              "states": {
+                "value": {
+                  "active": false,
+                  "candidate": false,
+                  "since_ms": 0,
+                  "count": 0,
+                  "previous": 9007199254740993,
+                  "last_ms": 1791145143776
+                }
+              },
+              "trigger": false,
+              "severity": "WARNING",
+              "quality": {
+                "good": 1,
+                "bad": 0,
+                "uncertain": 0,
+                "excluded": 0,
+                "missing": null,
+                "completeness": "unknown"
+              },
+              "historical": true,
+              "run_id": "http-compare",
+              "input_ids": [
+                "http-input"
+              ],
+              "asset_versions": [],
+              "trace": [
+                {
+                  "node_id": "value",
+                  "type": "expression",
+                  "input": 9007199254740993,
+                  "output": 9007199254740993,
+                  "before": {
+                    "active": false,
+                    "candidate": false,
+                    "since_ms": 0,
+                    "count": 0,
+                    "previous": null,
+                    "last_ms": 0
+                  },
+                  "after": {
+                    "active": false,
+                    "candidate": false,
+                    "since_ms": 0,
+                    "count": 0,
+                    "previous": 9007199254740993,
+                    "last_ms": 1791145143776
+                  },
+                  "skipped": false
+                }
+              ]
+            },
+            "action_intents": []
+          },
+          {
+            "side": "right",
+            "definition_version": 2,
+            "effective_ms": 1791145143677,
+            "plan_id": "http-comparison:2:089f103e83664989178b9420a6683426036c33ea48630fc683158845baa675d4",
+            "plan_sha256": "8f0e26b189bd2861aa9ef624769bc15ef1f8422da884c331312a41d5c6e71f4d",
+            "evaluation": {
+              "definition_id": "http-comparison",
+              "version": 2,
+              "plan_id": "http-comparison:2:089f103e83664989178b9420a6683426036c33ea48630fc683158845baa675d4",
+              "plan_sha256": "8f0e26b189bd2861aa9ef624769bc15ef1f8422da884c331312a41d5c6e71f4d",
+              "entity_id": "device-a",
+              "at_ms": 1791145143776,
+              "values": {
+                "value": 9007199254740994
+              },
+              "states": {
+                "value": {
+                  "active": false,
+                  "candidate": false,
+                  "since_ms": 0,
+                  "count": 0,
+                  "previous": 9007199254740994,
+                  "last_ms": 1791145143776
+                }
+              },
+              "trigger": false,
+              "severity": "WARNING",
+              "quality": {
+                "good": 1,
+                "bad": 0,
+                "uncertain": 0,
+                "excluded": 0,
+                "missing": null,
+                "completeness": "unknown"
+              },
+              "historical": true,
+              "run_id": "http-compare",
+              "input_ids": [
+                "http-input"
+              ],
+              "asset_versions": [],
+              "trace": [
+                {
+                  "node_id": "value",
+                  "type": "expression",
+                  "input": 9007199254740993,
+                  "output": 9007199254740994,
+                  "before": {
+                    "active": false,
+                    "candidate": false,
+                    "since_ms": 0,
+                    "count": 0,
+                    "previous": null,
+                    "last_ms": 0
+                  },
+                  "after": {
+                    "active": false,
+                    "candidate": false,
+                    "since_ms": 0,
+                    "count": 0,
+                    "previous": 9007199254740994,
+                    "last_ms": 1791145143776
+                  },
+                  "skipped": false
+                }
+              ]
+            },
+            "action_intents": []
+          }
+        ],
+        "difference": {
+          "changed": true,
+          "values": true,
+          "quality": false,
+          "alarm": false,
+          "state": true,
+          "path": false,
+          "trigger": false
+        },
+        "formal_outputs": [],
+        "formal_difference": {
+          "changed": false,
+          "values": false,
+          "quality": false,
+          "alarm": false,
+          "state": false,
+          "path": false,
+          "trigger": false
+        }
+      }
+    ],
+    "next": 1
+  },
+  "stopped_candidate": {
+    "id": "http-candidate",
+    "definition_id": "http-comparison",
+    "definition_version": 1,
+    "version": 2,
+    "epoch": 1,
+    "status": "stopped",
+    "device_ids": [
+      "device-a"
+    ],
+    "keys": [
+      "count"
+    ],
+    "resources": [
+      "a",
+      "device-a"
+    ],
+    "started_ms": 1791145153734,
+    "stopped_ms": 1791145153735,
+    "generation": 0,
+    "completed_generation": 0,
+    "input_count": 0,
+    "context": [],
+    "base_snapshot": {
+      "id": "snapshot:48ebde57661681bd77c1a5d4eb4e1da45506a6609d97e4622aefc6acb46bf127",
+      "sha256": "48ebde57661681bd77c1a5d4eb4e1da45506a6609d97e4622aefc6acb46bf127",
+      "input_sha256": "",
+      "history_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "captured_ms": 1791145153734,
+      "from_ms": 1791145153734,
+      "to_ms": 1791145153734,
+      "source": "shadow_activation",
+      "data_version": 0,
+      "data_gaps": null,
+      "completeness": "",
+      "order": "event_time",
+      "clock": {},
+      "points": [],
+      "history": [],
+      "asset_versions": [],
+      "initial_state": {},
+      "initial_state_source": "empty",
+      "rules": [
+        {
+          "definition": {
+            "id": "http-comparison",
+            "name": "HTTP comparison",
+            "kind": "analysis",
+            "schema_version": "1.0",
+            "version": 1,
+            "status": "published",
+            "effective_ms": 1791145143676,
+            "group_id": "a",
+            "nodes": [
+              {
+                "id": "value",
+                "type": "expression",
+                "params": {
+                  "code": "value"
+                }
+              }
+            ],
+            "connections": null,
+            "outputs": [
+              {
+                "key": "count",
+                "type": "number",
+                "node_id": "value"
+              }
+            ],
+            "dependencies": null,
+            "selector": {
+              "device_ids": [
+                "device-a"
+              ],
+              "keys": [
+                "count"
+              ]
+            },
+            "policy": {}
+          },
+          "plan": {
+            "id": "http-comparison:1:2828fd729bc900ec1621ae0ce49836d8615d96b69e1f7a0b34eb95ca68568305",
+            "format": "smartfactory.rules/1",
+            "definition_id": "http-comparison",
+            "definition_version": 1,
+            "content_sha256": "2828fd729bc900ec1621ae0ce49836d8615d96b69e1f7a0b34eb95ca68568305",
+            "sha256": "7bb4319e5b00e57a08d5a46d4a0cdb9ddc45a8ea9633a6dc9867ea6931e511fb",
+            "kind": "analysis",
+            "selector": {
+              "device_ids": [
+                "device-a"
+              ],
+              "keys": [
+                "count"
+              ]
+            },
+            "outputs": [
+              {
+                "key": "count",
+                "type": "number",
+                "node_id": "value"
+              }
+            ],
+            "policy": {},
+            "dependencies": null,
+            "nodes": [
+              {
+                "id": "value",
+                "type": "expression",
+                "inputs": [],
+                "params": {},
+                "expression": {
+                  "op": "variable",
+                  "name": "value"
+                },
+                "error_output": false
+              }
+            ]
+          }
+        }
+      ],
+      "resources": [
+        "a",
+        "device-a"
+      ]
+    }
+  }
+}

@@ -1,0 +1,335 @@
+{
+  "run": {
+    "id": "fixture-replay-assets",
+    "kind": "replay",
+    "definition_id": "history-assets",
+    "snapshot_id": "snapshot:b040df463e43a60ee934e49792e444e09575a526f5476ff87d3178056e1c5376",
+    "captured_snapshot_id": "snapshot:b040df463e43a60ee934e49792e444e09575a526f5476ff87d3178056e1c5376",
+    "snapshot_sha256": "b040df463e43a60ee934e49792e444e09575a526f5476ff87d3178056e1c5376",
+    "input_sha256": "cc188b6ad1a033f9d5616182df1a4a27910141bba52773434bd195302660a831",
+    "task_id": "analysis:fixture-replay-assets",
+    "status": "completed",
+    "cursor": 2,
+    "total": 2,
+    "progress": 1,
+    "final_state": {
+      "version:1": {
+        "history-line-a": {
+          "value": {
+            "active": false,
+            "candidate": false,
+            "since_ms": 0,
+            "count": 0,
+            "previous": 9007199254740994,
+            "last_ms": 1791147202798
+          }
+        }
+      },
+      "version:2": {
+        "history-line-b": {
+          "value": {
+            "active": false,
+            "candidate": false,
+            "since_ms": 0,
+            "count": 0,
+            "previous": null,
+            "last_ms": 1791147204298
+          }
+        }
+      }
+    },
+    "resources": [
+      "history-device",
+      "history-factory",
+      "history-line-a",
+      "history-line-b"
+    ],
+    "created_ms": 1791147300801,
+    "updated_ms": 1791147300802,
+    "version": 4,
+    "initial_state_resolved": true
+  },
+  "after": 0,
+  "next": -1,
+  "items": [
+    {
+      "id": "fixture-replay-assets:0",
+      "run_id": "fixture-replay-assets",
+      "input_index": 0,
+      "input_sha256": "be1c5a366d765bba2091955ef27f5ecd1f13d144d7e4bd72a853993faa7a9066",
+      "point": {
+        "id": "asset-before",
+        "message_id": "asset-before",
+        "source_id": "history-fixture-source",
+        "source_sequence": 2000,
+        "device_id": "history-device",
+        "key": "count",
+        "value": 9007199254740993,
+        "observed_ms": 1791147202798,
+        "received_ms": 1791147300798,
+        "quality": "GOOD",
+        "time_source": "device",
+        "unit": "piece",
+        "entity_revision": 0,
+        "asset_version": 1,
+        "late": false,
+        "revision": 1
+      },
+      "clock_ms": 1791147202798,
+      "freshness_at_ms": 1791147202798,
+      "lanes": [
+        {
+          "side": "version:1",
+          "definition_version": 1,
+          "effective_ms": 1791147201798,
+          "plan_id": "history-assets:1:52481c7d971f01c0d639f542ca355e87afe5e9844da8800e7ca253b7b42474b6",
+          "plan_sha256": "ce8e9f1c32d12491aa927ac2ecd1ebc4a95b5f64e290fcd03f375d5eedb5952f",
+          "evaluation": {
+            "definition_id": "history-assets",
+            "version": 1,
+            "plan_id": "history-assets:1:52481c7d971f01c0d639f542ca355e87afe5e9844da8800e7ca253b7b42474b6",
+            "plan_sha256": "ce8e9f1c32d12491aa927ac2ecd1ebc4a95b5f64e290fcd03f375d5eedb5952f",
+            "entity_id": "history-line-a",
+            "at_ms": 1791147202798,
+            "values": {
+              "value": 9007199254740994
+            },
+            "states": {
+              "value": {
+                "active": false,
+                "candidate": false,
+                "since_ms": 0,
+                "count": 0,
+                "previous": 9007199254740994,
+                "last_ms": 1791147202798
+              }
+            },
+            "trigger": false,
+            "severity": "WARNING",
+            "quality": {
+              "good": 1,
+              "bad": 0,
+              "uncertain": 0,
+              "excluded": 0,
+              "missing": null,
+              "completeness": "unknown"
+            },
+            "historical": true,
+            "run_id": "fixture-replay-assets",
+            "input_ids": [
+              "asset-before"
+            ],
+            "asset_versions": [
+              {
+                "id": "history-device",
+                "version": 1,
+                "effective_ms": 1791147200798,
+                "parent_id": "history-line-a",
+                "sampling_ms": 1000
+              },
+              {
+                "id": "history-line-a",
+                "version": 1,
+                "effective_ms": 1791147200798,
+                "parent_id": "history-factory",
+                "sampling_ms": 0
+              },
+              {
+                "id": "history-factory",
+                "version": 1,
+                "effective_ms": 1791147200798,
+                "parent_id": "",
+                "sampling_ms": 0
+              }
+            ],
+            "trace": [
+              {
+                "node_id": "value",
+                "type": "expression",
+                "input": 9007199254740993,
+                "output": 9007199254740994,
+                "before": {
+                  "active": false,
+                  "candidate": false,
+                  "since_ms": 0,
+                  "count": 0,
+                  "previous": null,
+                  "last_ms": 0
+                },
+                "after": {
+                  "active": false,
+                  "candidate": false,
+                  "since_ms": 0,
+                  "count": 0,
+                  "previous": 9007199254740994,
+                  "last_ms": 1791147202798
+                },
+                "skipped": false
+              }
+            ]
+          },
+          "action_intents": []
+        }
+      ],
+      "difference": {
+        "changed": false,
+        "values": false,
+        "quality": false,
+        "alarm": false,
+        "state": false,
+        "path": false,
+        "trigger": false
+      },
+      "formal_outputs": [],
+      "formal_difference": {
+        "changed": false,
+        "values": false,
+        "quality": false,
+        "alarm": false,
+        "state": false,
+        "path": false,
+        "trigger": false
+      }
+    },
+    {
+      "id": "fixture-replay-assets:1",
+      "run_id": "fixture-replay-assets",
+      "input_index": 1,
+      "input_sha256": "3a8befaf52d6542c90b9bafa655108d2c34b1c83af57c4972c67f76f8b23c651",
+      "point": {
+        "id": "asset-after",
+        "message_id": "asset-after",
+        "source_id": "history-fixture-source",
+        "source_sequence": 3500,
+        "device_id": "history-device",
+        "key": "count",
+        "value": 4,
+        "observed_ms": 1791147204298,
+        "received_ms": 1791147300798,
+        "quality": "UNCERTAIN",
+        "quality_reason": "source sent after affiliation changed",
+        "time_source": "device",
+        "unit": "piece",
+        "entity_revision": 0,
+        "asset_version": 2,
+        "late": true,
+        "revision": 1
+      },
+      "clock_ms": 1791147204298,
+      "freshness_at_ms": 1791147204298,
+      "lanes": [
+        {
+          "side": "version:2",
+          "definition_version": 2,
+          "effective_ms": 1791147203798,
+          "plan_id": "history-assets:2:0af31e0c1396c9fb7e2e51543cf8e3d84be79dd9542c6d366088434bc9f8bbcb",
+          "plan_sha256": "5ab265171a1f380bad1a7da7b1c6546c21a3b000b1c80f3ed618d6956269e5ea",
+          "evaluation": {
+            "definition_id": "history-assets",
+            "version": 2,
+            "plan_id": "history-assets:2:0af31e0c1396c9fb7e2e51543cf8e3d84be79dd9542c6d366088434bc9f8bbcb",
+            "plan_sha256": "5ab265171a1f380bad1a7da7b1c6546c21a3b000b1c80f3ed618d6956269e5ea",
+            "entity_id": "history-line-b",
+            "at_ms": 1791147204298,
+            "values": {
+              "value": null
+            },
+            "states": {
+              "value": {
+                "active": false,
+                "candidate": false,
+                "since_ms": 0,
+                "count": 0,
+                "previous": null,
+                "last_ms": 1791147204298
+              }
+            },
+            "trigger": false,
+            "severity": "WARNING",
+            "quality": {
+              "good": 0,
+              "bad": 0,
+              "uncertain": 1,
+              "excluded": 1,
+              "missing": null,
+              "completeness": "unknown"
+            },
+            "historical": true,
+            "run_id": "fixture-replay-assets",
+            "input_ids": [
+              "asset-after"
+            ],
+            "asset_versions": [
+              {
+                "id": "history-device",
+                "version": 2,
+                "effective_ms": 1791147203798,
+                "parent_id": "history-line-b",
+                "sampling_ms": 1000
+              },
+              {
+                "id": "history-line-b",
+                "version": 1,
+                "effective_ms": 1791147200798,
+                "parent_id": "history-factory",
+                "sampling_ms": 0
+              },
+              {
+                "id": "history-factory",
+                "version": 1,
+                "effective_ms": 1791147200798,
+                "parent_id": "",
+                "sampling_ms": 0
+              }
+            ],
+            "trace": [
+              {
+                "node_id": "value",
+                "type": "expression",
+                "input": 4,
+                "output": null,
+                "before": {
+                  "active": false,
+                  "candidate": false,
+                  "since_ms": 0,
+                  "count": 0,
+                  "previous": null,
+                  "last_ms": 0
+                },
+                "after": {
+                  "active": false,
+                  "candidate": false,
+                  "since_ms": 0,
+                  "count": 0,
+                  "previous": null,
+                  "last_ms": 1791147204298
+                },
+                "skipped": false
+              }
+            ]
+          },
+          "action_intents": []
+        }
+      ],
+      "difference": {
+        "changed": false,
+        "values": false,
+        "quality": false,
+        "alarm": false,
+        "state": false,
+        "path": false,
+        "trigger": false
+      },
+      "formal_outputs": [],
+      "formal_difference": {
+        "changed": false,
+        "values": false,
+        "quality": false,
+        "alarm": false,
+        "state": false,
+        "path": false,
+        "trigger": false
+      }
+    }
+  ]
+}

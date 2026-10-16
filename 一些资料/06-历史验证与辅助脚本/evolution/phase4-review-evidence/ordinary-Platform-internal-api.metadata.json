@@ -1,0 +1,180 @@
+{
+  "label": "ordinary-Platform-internal-api",
+  "command": [
+    "go",
+    "tool",
+    "test2json",
+    "-t",
+    "-p",
+    "competition2026/product/platform/internal/api",
+    "/private/tmp/smartfactory-phase4-independent-20261005/bin/Platform-internal-api.test",
+    "-test.v=test2json",
+    "-test.count=1",
+    "-test.parallel=1",
+    "-test.timeout=240s",
+    "-test.run=."
+  ],
+  "cwd": "/private/tmp/smartfactory-phase4-independent-20261005/workspace/Platform/internal/api",
+  "started_at": "2026-10-05T02:20:33.705876+00:00",
+  "completed_at": "2026-10-05T02:22:02.468617+00:00",
+  "elapsed_seconds": 88.761,
+  "exit_code": 1,
+  "postgres": false,
+  "stdout": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/ordinary-Platform-internal-api.stdout.log",
+    "sha256": "e668961d7d335f831d70b4375d9e7eb41f5afed7f40164d627b2eae10009eb46",
+    "bytes": 145837
+  },
+  "stderr": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/ordinary-Platform-internal-api.stderr.log",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "counts": {
+    "top_level": {
+      "pass": 34,
+      "fail": 1,
+      "skip": 4
+    },
+    "leaf": {
+      "pass": 59,
+      "fail": 1,
+      "skip": 21
+    },
+    "all_named": {
+      "pass": 68,
+      "fail": 1,
+      "skip": 21
+    },
+    "packages": {
+      "pass": 0,
+      "fail": 1,
+      "skip": 0
+    },
+    "skips": [
+      {
+        "package": "competition2026/product/platform/internal/api",
+        "test": "TestBusinessNativeCEAlarmLifecycle",
+        "reason": "=== RUN   TestBusinessNativeCEAlarmLifecycle\n    business_native_test.go:21: isolated native CE URL and credential file required\n--- SKIP: TestBusinessNativeCEAlarmLifecycle (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/api",
+        "test": "TestPostgresDeadlockReturnsHTTP409WithoutRepeatingCallback",
+        "reason": "=== RUN   TestPostgresDeadlockReturnsHTTP409WithoutRepeatingCallback\n    concurrency_postgres_test.go:19: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresDeadlockReturnsHTTP409WithoutRepeatingCallback (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/api",
+        "test": "TestPostgresLegacyAndTaskRetryConcurrentRequestsShareOneAttempt",
+        "reason": "=== RUN   TestPostgresLegacyAndTaskRetryConcurrentRequestsShareOneAttempt\n    jobs_retry_test.go:254: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresLegacyAndTaskRetryConcurrentRequestsShareOneAttempt (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/api",
+        "test": "TestQuerySSEPostgresSnapshotDeltaResumeReset",
+        "reason": "=== RUN   TestQuerySSEPostgresSnapshotDeltaResumeReset\n    query_routes_test.go:312: isolated PostgreSQL integration DSN required\n--- SKIP: TestQuerySSEPostgresSnapshotDeltaResumeReset (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/api",
+        "test": "TestPostgresTaskOperationVersionsAllowHumanConfirmation/waiting_parent_delayed_cancel_and_retry",
+        "reason": "=== RUN   TestPostgresTaskOperationVersionsAllowHumanConfirmation/waiting_parent_delayed_cancel_and_retry\n    task_cancel_semantics_test.go:329: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresTaskOperationVersionsAllowHumanConfirmation/waiting_parent_delayed_cancel_and_retry (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/api",
+        "test": "TestPostgresTaskOperationVersionsAllowHumanConfirmation/running_progress_delayed_cancel",
+        "reason": "=== RUN   TestPostgresTaskOperationVersionsAllowHumanConfirmation/running_progress_delayed_cancel\n    task_cancel_semantics_test.go:359: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresTaskOperationVersionsAllowHumanConfirmation/running_progress_delayed_cancel (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/api",
+        "test": "TestPostgresTaskOperationVersionsAllowHumanConfirmation/resolved_parent_snapshot_rejects_old_version",
+        "reason": "=== RUN   TestPostgresTaskOperationVersionsAllowHumanConfirmation/resolved_parent_snapshot_rejects_old_version\n    task_cancel_semantics_test.go:377: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresTaskOperationVersionsAllowHumanConfirmation/resolved_parent_snapshot_rejects_old_version (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/api",
+        "test": "TestPostgresTaskOperationVersionsAllowHumanConfirmation/parent_completed_child_still_waiting_and_worker_metadata",
+        "reason": "=== RUN   TestPostgresTaskOperationVersionsAllowHumanConfirmation/parent_completed_child_still_waiting_and_worker_metadata\n    task_cancel_semantics_test.go:408: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresTaskOperationVersionsAllowHumanConfirmation/parent_completed_child_still_waiting_and_worker_metadata (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/api",
+        "test": "TestPostgresTaskOperationVersionsAllowHumanConfirmation/concurrent_confirmations_commit_one_cancel",
+        "reason": "=== RUN   TestPostgresTaskOperationVersionsAllowHumanConfirmation/concurrent_confirmations_commit_one_cancel\n    task_cancel_semantics_test.go:440: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresTaskOperationVersionsAllowHumanConfirmation/concurrent_confirmations_commit_one_cancel (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/api",
+        "test": "TestPostgresTaskOperationVersionsAllowHumanConfirmation/terminal_state_rejects_old_version",
+        "reason": "=== RUN   TestPostgresTaskOperationVersionsAllowHumanConfirmation/terminal_state_rejects_old_version\n    task_cancel_semantics_test.go:492: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresTaskOperationVersionsAllowHumanConfirmation/terminal_state_rejects_old_version (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/api",
+        "test": "TestPostgresTaskOperationVersionsAllowHumanConfirmation/role",
+        "reason": "=== RUN   TestPostgresTaskOperationVersionsAllowHumanConfirmation/role\n    task_cancel_semantics_test.go:504: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresTaskOperationVersionsAllowHumanConfirmation/role (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/api",
+        "test": "TestPostgresTaskOperationVersionsAllowHumanConfirmation/resource_ancestry",
+        "reason": "=== RUN   TestPostgresTaskOperationVersionsAllowHumanConfirmation/resource_ancestry\n    task_cancel_semantics_test.go:504: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresTaskOperationVersionsAllowHumanConfirmation/resource_ancestry (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/api",
+        "test": "TestPostgresTaskOperationVersionsAllowHumanConfirmation/task_resources_after_authorization",
+        "reason": "=== RUN   TestPostgresTaskOperationVersionsAllowHumanConfirmation/task_resources_after_authorization\n    task_cancel_semantics_test.go:504: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresTaskOperationVersionsAllowHumanConfirmation/task_resources_after_authorization (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/api",
+        "test": "TestPostgresTaskOperationVersionsAllowHumanConfirmation/grant_after_authorization",
+        "reason": "=== RUN   TestPostgresTaskOperationVersionsAllowHumanConfirmation/grant_after_authorization\n    task_cancel_semantics_test.go:504: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresTaskOperationVersionsAllowHumanConfirmation/grant_after_authorization (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/api",
+        "test": "TestPostgresTaskOperationVersionsAllowHumanConfirmation/audit_failure_rolls_back_cancel_and_operation_revision",
+        "reason": "=== RUN   TestPostgresTaskOperationVersionsAllowHumanConfirmation/audit_failure_rolls_back_cancel_and_operation_revision\n    task_cancel_semantics_test.go:560: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresTaskOperationVersionsAllowHumanConfirmation/audit_failure_rolls_back_cancel_and_operation_revision (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/api",
+        "test": "TestPostgresTaskRetryClearsPriorCancellation/running_cancel_retry_multiple_snoozes_then_cancel",
+        "reason": "=== RUN   TestPostgresTaskRetryClearsPriorCancellation/running_cancel_retry_multiple_snoozes_then_cancel\n    task_retry_semantics_test.go:222: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresTaskRetryClearsPriorCancellation/running_cancel_retry_multiple_snoozes_then_cancel (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/api",
+        "test": "TestPostgresTaskRetryClearsPriorCancellation/retry_audit_failure_restores_marker_business_and_revision",
+        "reason": "=== RUN   TestPostgresTaskRetryClearsPriorCancellation/retry_audit_failure_restores_marker_business_and_revision\n    task_retry_semantics_test.go:228: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresTaskRetryClearsPriorCancellation/retry_audit_failure_restores_marker_business_and_revision (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/api",
+        "test": "TestPostgresTaskRetryClearsPriorCancellation/retry_authorization_and_obsolete_generation",
+        "reason": "=== RUN   TestPostgresTaskRetryClearsPriorCancellation/retry_authorization_and_obsolete_generation\n    task_retry_semantics_test.go:260: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresTaskRetryClearsPriorCancellation/retry_authorization_and_obsolete_generation (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/api",
+        "test": "TestPostgresTaskRetryClearsPriorCancellation/concurrent_retries_commit_one_new_operation",
+        "reason": "=== RUN   TestPostgresTaskRetryClearsPriorCancellation/concurrent_retries_commit_one_new_operation\n    task_retry_semantics_test.go:302: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresTaskRetryClearsPriorCancellation/concurrent_retries_commit_one_new_operation (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/api",
+        "test": "TestPostgresTaskRetryClearsPriorCancellation/cancel_old_worker_commit_retry_preserves_completed_steps",
+        "reason": "=== RUN   TestPostgresTaskRetryClearsPriorCancellation/cancel_old_worker_commit_retry_preserves_completed_steps\n    task_retry_semantics_test.go:356: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresTaskRetryClearsPriorCancellation/cancel_old_worker_commit_retry_preserves_completed_steps (0.00s)\n"
+      },
+      {
+        "package": "competition2026/product/platform/internal/api",
+        "test": "TestPostgresTaskRetryClearsPriorCancellation/official_null_merge_differs_but_retry_removes_key",
+        "reason": "=== RUN   TestPostgresTaskRetryClearsPriorCancellation/official_null_merge_differs_but_retry_removes_key\n    task_retry_semantics_test.go:404: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresTaskRetryClearsPriorCancellation/official_null_merge_differs_but_retry_removes_key (0.00s)\n"
+      }
+    ],
+    "failures": [
+      {
+        "package": "competition2026/product/platform/internal/api",
+        "test": "TestHTTPAndBackgroundControlShareBudgetDuringTaskBacklog",
+        "output": "=== RUN   TestHTTPAndBackgroundControlShareBudgetDuringTaskBacklog\n2026/10/05 10:20:37 INFO River client started client_id=YL-Tilly-MB-A_local_2026_10_05T02_20_37_231642\n2026/10/05 10:20:42 INFO producer: Producer job counts num_completed_jobs=1 num_jobs_running=0 num_jobs_stuck=0 queue=maintenance\n2026/10/05 10:20:42 INFO producer: Producer job counts num_completed_jobs=0 num_jobs_running=1 num_jobs_stuck=0 queue=archive\n2026/10/05 10:20:42 INFO jobexecutor.JobExecutor: Job errored; retrying error=\"context deadline exceeded\" job_id=2 job_kind=smartfactory_task\n    control_budget_test.go:96: backlog worker was not active\n2026/10/05 10:20:42 INFO Client: Hard stop started; cancelling all work\n2026/10/05 10:20:42 INFO jobexecutor.JobExecutor: Job errored; retrying error=\"context canceled\" job_id=4 job_kind=smartfactory_task\n2026/10/05 10:20:42 INFO River client stopped client_id=YL-Tilly-MB-A_local_2026_10_05T02_20_37_231642\n--- FAIL: TestHTTPAndBackgroundControlShareBudgetDuringTaskBacklog (5.12s)\n"
+      }
+    ],
+    "races": 0
+  },
+  "build_inputs": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/build-inputs.json",
+    "sha256": "88fdc87b09a840748a6cadc356b019dcf324905175ecb4f7fb3e38f7c7981643",
+    "bytes": 1717015
+  },
+  "binary": {
+    "path": "/private/tmp/smartfactory-phase4-independent-20261005/bin/Platform-internal-api.test",
+    "sha256": "4cd8f3e08d766d1e7b3555741a7f7b351059e7cff1cc199f3f3eddc4f6ffdfa1",
+    "bytes": 47594322
+  }
+}

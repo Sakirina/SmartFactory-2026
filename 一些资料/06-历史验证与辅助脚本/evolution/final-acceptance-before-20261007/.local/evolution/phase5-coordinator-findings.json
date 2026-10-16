@@ -1,0 +1,534 @@
+{
+  "updated_at": "2026-10-07T05:11:51.272200+00:00",
+  "scope": "第五阶段已由实际运行复现的问题及修正复验；设计关注事项另见 phase5-acceptance-watchpoints.json",
+  "items": [
+    {
+      "id": "P5-N01",
+      "owner": "phase5_node_configuration",
+      "status": "corrected_specialist_and_coordinator_verified_independent_review_pending",
+      "requirements": [
+        "E5-02",
+        "E5-03",
+        "E5-04"
+      ],
+      "finding": "明确发布移除固定配置后，中心目标记录已删除，但本地参数密钥解析仅核对身份范围和固定内容，仍能读取该目标已移除的旧密钥",
+      "evidence": [
+        "/private/tmp/smartfactory-phase5-node-target-removal-checks-20261005/postgres-workloads.stdout.log",
+        ".local/evolution/phase5-node-target-removal-first-root-review.json",
+        ".local/evolution/phase5-node-target-removal-second-root-review.json",
+        ".local/evolution/phase5-node-target-removal-third-root-review.json"
+      ],
+      "runtime_reproduction": [
+        {
+          "path": "/private/tmp/smartfactory-phase5-node-target-removal-checks-20261005/postgres-workloads.stdout.log",
+          "sha256": "b69caf9c8be7584917f09a3a1033da7e3e37510c88f007ec29a582df1f52402f",
+          "bytes": 310
+        }
+      ],
+      "correction": "参数密钥与远端连接器解析均核对当前已发放目标、身份代际及实例代际；所属Edge原密钥库继续核对节点归属和当前发布授权",
+      "verification": "保存首次失败，固定新输入完成相同目标移除测试的PG与race复验；最终独立审查同时核对空目标订阅、旧密钥读取拒绝、旧运行报告拒绝及其他身份目标保留",
+      "verification_result": "第三轮PG与race各一项顶层通过；每轮4847项实际输入有固定副本且运行前后相同。第一轮保留产品失败；第二轮返回permission denied，测试预期not-found；第三轮仅调整该预期，第一轮至第二轮的唯一输入变化为workloads.go调用当前目标校验。最终独立服务组合与独立审查继续验证。"
+    },
+    {
+      "id": "P5-N02",
+      "owner": "phase5_node_configuration",
+      "status": "corrected_specialist_and_coordinator_verified_independent_review_pending",
+      "requirements": [
+        "E5-02",
+        "E5-03"
+      ],
+      "finding": "配置中心恢复后的重连间隔中撤销工作负载，客户端读取流入口返回401时沿用旧缓存，未经过已有流identity_changed的清理分支，实际B进程仍使用3100策略值",
+      "evidence": [
+        "/private/tmp/smartfactory-phase5-node-process-sixth-20261005/result.json",
+        "/private/tmp/smartfactory-phase5-node-process-sixth-20261005/evidence/commands.json",
+        "/private/tmp/smartfactory-phase5-node-process-sixth-20261005/evidence/http.json",
+        "/private/tmp/smartfactory-phase5-node-process-sixth-20261005/evidence/assertions.json",
+        "/private/tmp/smartfactory-phase5-node-process-sixth-20261005/evidence/schema-checks.json",
+        ".local/evolution/phase5-node-process-seventh-root-review.json",
+        ".local/evolution/phase5-node-rejection-cache-root-review.json"
+      ],
+      "runtime_reproduction": [
+        {
+          "path": "/private/tmp/smartfactory-phase5-node-process-sixth-20261005/result.json",
+          "sha256": "57ec7ac00b9cfa66d70a652b02e1b7eee4246e67c87b036632c59a171a4a3cb8",
+          "bytes": 583
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase5-node-process-sixth-20261005/evidence/commands.json",
+          "sha256": "bec8139f555177bbe33b951fff0d2fdff438c9663bec505e1e2adc7d6ce0b803",
+          "bytes": 14651,
+          "field": "commands",
+          "record_count": 17
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase5-node-process-sixth-20261005/evidence/http.json",
+          "sha256": "b334ebcde6ebcc0e53adc38878689890856db151c20187bc0a68deb69579c0e6",
+          "bytes": 611858,
+          "field": "http",
+          "record_count": 266
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase5-node-process-sixth-20261005/evidence/assertions.json",
+          "sha256": "adb9781e3f1c4607fccad4e11137f33a82ff84d4b44f27c38e158348ff1ece10",
+          "bytes": 40360,
+          "field": "assertions",
+          "record_count": 47
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase5-node-process-sixth-20261005/evidence/schema-checks.json",
+          "sha256": "37a357bc31f17175dc0af0274ac304403951b315b4dcd17ad4fc73780ad3de75",
+          "bytes": 2835,
+          "field": "schema_checks",
+          "record_count": 12
+        }
+      ],
+      "correction": "明确401或403拒绝清理该订阅使用的本地策略与连接器实际消费者；网络及权威服务暂时不可用沿用既有缓存恢复语义；失效客户端停止尝试抢占其他实例",
+      "verification": "保留第六轮失败及33项已通过过程断言、14项退出，使用第七轮固定源码验证启动缓存和重新连接的明确拒绝、撤销及轮换后实际消费者清空；补充相应PG/race测试并由最终独立审查复验",
+      "verification_result": "第七轮固定源码包含3444项输入、6个二进制，139次HTTP、36条过程断言及14次正常退出通过主协调核对。拒绝缓存专项PG与race各1项顶层、2项子场景通过，4847项实际输入前后相同并有固定副本；503保留策略2400，明确401后清理并恢复默认10000。最终独立复验待进行。"
+    },
+    {
+      "id": "P5-N03",
+      "owner": "phase5_node_configuration",
+      "integration_owner": "phase5_release_coordination",
+      "status": "corrected_specialist_and_coordinator_verified_independent_review_pending",
+      "requirements": [
+        "E5-02",
+        "E5-04",
+        "E5-06"
+      ],
+      "finding": "首次将已有Edge转为代理管理时，原Edge退出使所属连接器密钥源暂时不可达，配置中心将网络不可达返回为400，代理据此将connector-a记录为确定性准备失败，未使用已核验缓存完成当前分配",
+      "evidence": [
+        "/private/tmp/smartfactory-phase5-release-process-eighth-20261005/result.json",
+        ".local/evolution/phase5-release-first-conversion-failure-root-review.json",
+        ".local/evolution/phase5-node-process-eighth-root-review.json",
+        ".local/evolution/phase5-release-process-tenth-root-review.json",
+        ".local/evolution/phase5-backend-combination-root-review.json"
+      ],
+      "runtime_reproduction": [
+        {
+          "path": "/private/tmp/smartfactory-phase5-release-process-eighth-20261005/result.json",
+          "sha256": "901f1a92813840408017fab9457b4aa0d3b6cccbc0b7f5ba526f483026911203",
+          "bytes": 1844
+        }
+      ],
+      "correction": "明确的源服务连接失败或超时映射为503，输入、当前授权与摘要冲突保留各自错误状态；代理按当前分配核验已有加密缓存并完成首次转换",
+      "verification": "保留第八轮失败，实际源服务退出后通过HTTP确认暂时不可用状态；以当前分配对应的加密缓存启动实际进程，并核对原数据库、密钥、连接器实际内容及新的有效运行报告；同时保留授权/摘要错误拒绝和后续批次处理",
+      "verification_result": "节点第八轮及发布第十轮实际组合通过；所属服务暂时不可用返回503，原Edge退出后按当前身份、分配和固定内容核验加密缓存并启动实际程序。第十轮另覆盖准备后分配变化、连接器实际采用和退回；245项共同本地编译输入与当前源码一致。最终独立审查待执行。"
+    },
+    {
+      "id": "P5-A01",
+      "owner": "phase5_release_coordination",
+      "status": "corrected_specialist_and_coordinator_verified_independent_review_pending",
+      "requirements": [
+        "E5-02",
+        "E5-06"
+      ],
+      "finding": "凭据轮换请求缺少expected_version时，共享Huma错误转换器直接输出ErrorDetail.Value，422响应的父对象验证详情回显完整请求体中的credential值；凭据自身校验失败也需要相同保护",
+      "evidence": [
+        ".local/evolution/phase5-credential-validation-response-root-review.json",
+        ".local/evolution/phase5-release-a01-root-review.json",
+        ".local/evolution/phase5-credential-validation-response-fixed-root-review.json",
+        "/private/tmp/smartfactory-phase5-release-a01-20261005/result.json"
+      ],
+      "runtime_reproduction": [
+        {
+          "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-credential-validation-response-root-review.json",
+          "sha256": "e016114400d7efb2f24dfbe5be20865b3786b77495844ef0b962d24df8557da3",
+          "bytes": 850
+        }
+      ],
+      "observed_effect": "使用合成公开测试值复现回显，当前workload的业务版本和凭据代际未发生变化",
+      "correction": "公共验证错误省略敏感输入值，保留字段位置和可操作错误说明；归公共API负责人实施",
+      "verification": "原受测第十轮整体记录保留；修正后实际HTTP覆盖父对象缺字段与credential自身校验失败，核对响应、日志及页面错误显示，复验受影响API并登记新二进制和源码对应关系",
+      "verification_result": "补充固定输入5843项覆盖两份go-list，受影响API/Schema四十项顶层、七十八项含子场景通过；三份新二进制与五次执行的前后输入一致。四服务十六次422均省略value，四十一条实际断言通过；主协调另外对缺少expected_version请求复验，响应132字节且无合成凭据，身份版本和凭据代次未变。最终页面及独立审查继续核对。"
+    },
+    {
+      "id": "P5-F01",
+      "owner": "phase4_frontend",
+      "status": "corrected_specialist_and_coordinator_verified_final_independent_review_pending",
+      "requirements": [
+        "E5-01",
+        "E5-05"
+      ],
+      "finding": "发布目录为空时，组合清单只能从已有发布初始化，程序工件、正式规则和配置已经存在也无法创建首份发布",
+      "evidence": [
+        ".local/evolution/phase5-first-release-flow-root-review.json",
+        "/private/tmp/smartfactory-release-interface-20261005/initial-before/results.json",
+        "/private/tmp/smartfactory-release-interface-20261005/before-first-publish-fix/source-equivalence.json",
+        "/private/tmp/smartfactory-release-interface-20261005/browser-first-isolated/results.json"
+      ],
+      "runtime_reproduction": [
+        {
+          "path": "/private/tmp/smartfactory-release-interface-20261005/initial-before/empty-directory-first-publication-blocked.json",
+          "sha256": "dcd35b6681c6794c526690317c0e96ebefa6357685062cd2e4c8140cab41150e",
+          "bytes": 2365
+        },
+        {
+          "path": "/private/tmp/smartfactory-release-interface-20261005/initial-before/empty-directory-first-publication-blocked.png",
+          "sha256": "e5127ec23d9508e70581f5eb6d335b06d2e59b6a624dc50ccd5e2042db27eabd",
+          "bytes": 55301
+        }
+      ],
+      "observed_effect": "空发布目录的参考下拉没有候选，校验及登记按钮均不可操作；旧源码重构的19份产物与首次页面产物逐项一致",
+      "correction": "提供首份清单创建入口，从正式程序、已发布规则、固定参数与连接器直接选择组件，再执行正式依赖和兼容校验",
+      "verification": "在相同空目录场景创建四组件清单；同时复查既有清单组合及最终浏览器、数据库和审计记录",
+      "verification_result": "独立空目录实际复验一项通过，初始GET返回空数组，正式校验、登记和按ID读取均为200；页面与保存记录显示程序、规则、参数和连接器四个组件。先前保存后抽屉断言失败记录保留，最终固定页面组合与独立复验继续进行；一条控制台404等待定位实际URL。",
+      "final_verification": {
+        "specialist": ".local/evolution/release-interface-verified.json",
+        "coordinator": ".local/evolution/phase5-frontend-final-root-review.json",
+        "inputs": ".local/evolution/phase5-frontend-final-inputs-root-review.json"
+      },
+      "resumed_at": "2026-10-07T04:10:12.532715+00:00"
+    },
+    {
+      "id": "P5-F02",
+      "owner": "phase4_frontend",
+      "status": "corrected_specialist_and_coordinator_verified_final_independent_review_pending",
+      "requirements": [
+        "E5-04",
+        "E5-05"
+      ],
+      "finding": "手动刷新操作依据的请求尚未结束时填写处理原因，响应回调使用旧状态对象更新版本，覆盖后来填写的原因，暂停按钮保持禁用",
+      "evidence": [
+        "/private/tmp/smartfactory-release-interface-20261005/before-basis-fix/manifest.json",
+        "/private/tmp/smartfactory-release-interface-20261005/browser-pipeline-third/results.json",
+        "/private/tmp/smartfactory-release-interface-20261005/browser-pipeline-third/frontend-offline-1791187671910-heartbeat-basis.json",
+        ".local/evolution/phase5-refresh-basis-root-review.json",
+        ".local/evolution/phase5-identity-refresh-root-review.json"
+      ],
+      "runtime_reproduction": [
+        {
+          "path": "/private/tmp/smartfactory-release-interface-20261005/browser-pipeline-third/results.json",
+          "sha256": "e886930ff0dc2bfadbb53538df003696035c3927ad030ca25f918f9e502e2369",
+          "bytes": 6796
+        },
+        {
+          "path": "/private/tmp/smartfactory-release-interface-20261005/before-basis-fix/manifest.json",
+          "sha256": "a06aaf5dcd07754bf0fc23ff713b9313de22efc8b2da4788034555b33a6a76f7",
+          "bytes": 3375
+        }
+      ],
+      "observed_effect": "第一批已完成、第二节点等待恢复，前后业务版本均为5且暂停允许；实际页面原因变为空，暂停按钮等待超过180秒。旧回调setBasis({...basis, version})及三份受影响源文件、十九份静态产物已经保存。",
+      "correction": "由前端工程师对当前对象匹配的状态采用函数式版本更新，检查发布、身份、模板和配置的相同手动刷新流程",
+      "verification": "延迟真实HTTP响应后核对用户新输入、当前对象及业务版本，完成后续正式操作并检查请求和审计",
+      "verification_result": "发布第六轮完整操作通过；身份页面在旧静态上同条件复现输入覆盖，修正后输入保留，版本1经另一会话变为2，使用已阅版本2提交200并取得最终版本3。显式停用和三个空范围数组持久保存；最终固定组合、模板及独立复验继续进行。",
+      "final_verification": {
+        "specialist": ".local/evolution/release-interface-verified.json",
+        "coordinator": ".local/evolution/phase5-frontend-final-root-review.json",
+        "inputs": ".local/evolution/phase5-frontend-final-inputs-root-review.json"
+      },
+      "resumed_at": "2026-10-07T04:10:12.532715+00:00"
+    },
+    {
+      "id": "P5-F03",
+      "owner": "phase4_frontend",
+      "status": "corrected_specialist_and_coordinator_verified_final_independent_review_pending",
+      "requirements": [
+        "E5-01",
+        "E5-05"
+      ],
+      "finding": "发布只读身份进入页面后，无条件请求仅配置管理人员获准读取的目录，403触发页面缓存清理，已有读取权限的发布详情消失",
+      "evidence": [
+        "/private/tmp/smartfactory-release-interface-20261005/browser-permissions-before/results.json",
+        ".local/evolution/phase5-permissions-root-review.json"
+      ],
+      "runtime_reproduction": [
+        {
+          "path": "/private/tmp/smartfactory-release-interface-20261005/browser-permissions-before/results.json",
+          "sha256": "1aad7d88544a0e9f8a293a8e85730d43818796b8ff84693e9aa901b8212d8eae",
+          "bytes": 8029
+        }
+      ],
+      "observed_effect": "实际只读浏览器用例找不到已请求的发布详情，工程师继续保存发布读取200、编辑目录403与详情消失的完整时序",
+      "correction": "前端按正式权限决定编辑目录查询，使获准读取的发布状态在部分目录拒绝时继续可用",
+      "verification": "核对只读、部分编辑权限及完整管理权限三类实际身份，保留前后请求与页面结果",
+      "verification_result": "主协调核对同一只读身份的发布详情及配置报告200、配置管理目录403；只读与部分编辑权限各一项浏览器通过，最终固定页面组合与独立复验继续进行。首次失败的页面网络时序尚未索引，后续权限请求单独记录。",
+      "final_verification": {
+        "specialist": ".local/evolution/release-interface-verified.json",
+        "coordinator": ".local/evolution/phase5-frontend-final-root-review.json",
+        "inputs": ".local/evolution/phase5-frontend-final-inputs-root-review.json"
+      },
+      "resumed_at": "2026-10-07T04:10:12.532715+00:00"
+    },
+    {
+      "id": "P5-R01",
+      "owner": "phase2_storage_tasks",
+      "status": "corrected_specialist_and_coordinator_verified_final_combination_and_independent_review_pending",
+      "requirements": [
+        "E5-03",
+        "E5-04",
+        "E5-05",
+        "E5-06"
+      ],
+      "finding": "模板程序失败后，沿用原数据库和主密钥恢复已验证发布缓存，sf-edge启动因document_versions(kind,id,version)唯一性约束失败而退出1，A节点暂时不可用",
+      "runtime_reproduction": [
+        {
+          "path": "/private/tmp/smartfactory-phase5-release-restore-coordinator-evidence-20261005/program.log",
+          "sha256": "0812201633c001705e11e1d7d9abe08bd37db06ac7356ef0b1ecbdb7279a8cbd",
+          "bytes": 127876,
+          "observed_source": "/private/tmp/smartfactory-phase5-release-process-tenth-20261005/private/agent-a/program.log"
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase5-release-restore-coordinator-evidence-20261005/agent-cache-restore.state.json",
+          "sha256": "22f018808d37ec011bcb1be54be4ccf3f473955e692abe80654b10033ac86dde",
+          "bytes": 1251,
+          "observed_source": "/private/tmp/smartfactory-release-interface-20261005/browser-failure-rollback-fourth/agent-cache-restore.state.json"
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase5-release-restore-coordinator-evidence-20261005/agent-restore.stderr.log",
+          "sha256": "c93f8f87d54688963ed85bd576789b5f5b9e470c7a8b348df99ec508fba4492e",
+          "bytes": 56,
+          "observed_source": "/private/tmp/smartfactory-release-interface-20261005/browser-failure-rollback-fourth/agent-restore.stderr.log"
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase5-release-restore-coordinator-evidence-20261005/results.json",
+          "sha256": "22826937915c7795aba1d5c0259fb949a367c5adef5759f56942449eddad9369",
+          "bytes": 7949,
+          "observed_source": "/private/tmp/smartfactory-release-interface-20261005/browser-failure-rollback-fourth/results.json"
+        }
+      ],
+      "observed_effect": "代理记录application exited before becoming ready，A节点接口不可用，后续分批失败与退回场景无法完成；同一约束错误在较早后台任务日志中已出现",
+      "correction": "由原存储工程师修正保留历史与临时重建后的本地修订分配，再由原发布与配置工程师验证固定参数初始化和原缓存启动",
+      "verification": "保留原失败数据库、主密钥和发布缓存，固定修正输入复验相同缓存恢复、模板发布失败处理、兼容退回及实际历史与审计保留",
+      "evidence": [
+        ".local/evolution/phase5-release-restore-failure-root-review.json",
+        ".local/evolution/release-restore-followup-verified.json",
+        ".local/evolution/phase5-release-restore-diagnosis-root-review.json",
+        ".local/evolution/storage-version-r01-verified.json",
+        ".local/evolution/phase5-storage-version-root-review.json",
+        ".local/evolution/release-restore-recovery-verified.json",
+        ".local/evolution/phase5-release-recovery-root-review.json",
+        ".local/evolution/phase5-release-recovered-database-root-review.json"
+      ],
+      "integration_owner": "phase5_release_coordination",
+      "verification_result": "主协调核对181处引用、5份实际输入清单及2951份保留内容，构建前后输入一致。修正前SQLite八个专项场景失败；修正后SQLite与实际PG共十六个场景及相同race全部通过。存储回归九十五项命名测试通过，专用PG升级夹具一项跳过，首次启动目录错误及同一程序补验保留。三份原数据副本各四十二张表实际核对，公共写入只增加当前及历史两条记录，固定参数版本一和原历史完整；默认初始化冲突已交发布工程师继续恢复组合。 正式恢复最终报告586处引用、603份文件及5743项固定输入对应通过主协调核对；正式往返六十项行为、最终恢复二十四项及旧缓存失败后再次启动十二项通过。原始十五份备份完整，最初473条版本、280条审计及对应检查点全部仍存在，固定心跳版本完整行相同。普通专项、实际PG及竞态结果保留，原数据恢复后页面和Linux组合及最终独立验收继续进行。"
+    },
+    {
+      "id": "P5-D01",
+      "owner": "phase5_datatransfer_runtime",
+      "status": "corrected_specialist_and_coordinator_verified_final_packaged_combination_and_independent_review_pending",
+      "requirements": [
+        "E5-04",
+        "E5-06"
+      ],
+      "finding": "遥测订阅客户端停止读取，gRPC发送受流控阻塞；五秒等待耗尽后服务器被停止，程序才开始等待全部协程，并使用已经超时的context判断，导致业务工作已结束时仍返回worker shutdown错误",
+      "observed_effect": "生产App受控测试在5.003967秒返回worker shutdown: context deadline exceeded；一秒时的协程记录显示连接器管理及日志工作已退出，gRPC GracefulStop和发送仍在等待",
+      "runtime_reproduction": [
+        {
+          "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-stream-baseline-v1.command.json",
+          "sha256": "0e9d657227bb34d02174be86e9cee6d1001c7216283d53d199a19805335c217f",
+          "bytes": 1149
+        },
+        {
+          "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-stream-baseline-v1.stdout.log",
+          "sha256": "5342718d84a96230721013d608df9a7578f2d2f1fcfa35888b33ba963283404f",
+          "bytes": 2834
+        },
+        {
+          "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-stream-diagnostic-v2.selected-stacks.log",
+          "sha256": "875c2a0c7132397050e0d20b874d695df3e816dc39c1a400383780d4d88989ec",
+          "bytes": 5651
+        }
+      ],
+      "correction": "由采集运行工程师调整业务工作与服务器退出的等待次序，保留五秒时间预算及未结束业务工作的超时错误",
+      "verification": "保存修正前后相同阻塞订阅场景，检查未结束连接器仍返回超时，执行Linux同条件对比、有限竞态及最终正式组合",
+      "verification_result": "主协调核对129处报告引用、34份输入清单的4483份保留内容，以及受测Go列表与构建条件。普通bootstrap六项、三协议消费者一项顶层四项含子测试、最终race七项顶层十项含子测试均通过。相同Linux测试只修改app.go，旧实现退出1、新实现退出0且无OOM，未完成业务工作仍返回超时；正式Linux采集程序就绪后正常退出0。最终包完整组合和独立审查继续验证。",
+      "evidence": [
+        ".local/evolution/phase5-datatransfer-shutdown-baseline-root-review.json",
+        ".local/evolution/datatransfer-runtime-followup-verified.json",
+        ".local/evolution/phase5-datatransfer-runtime-root-review.json"
+      ]
+    },
+    {
+      "id": "P5-R02",
+      "owner": "phase5_release_coordination",
+      "status": "corrected_specialist_and_coordinator_verified_final_combination_and_independent_review_pending",
+      "requirements": [
+        "E5-03",
+        "E5-04",
+        "E5-05",
+        "E5-06"
+      ],
+      "finding": "五模板发布停用旧规则后，返回先前正式发布时仅依据该规则的旧激活摘要复用激活；当前生效发布已改变，旧规则为disabled，启动因active rule differs from its release activation退出",
+      "observed_effect": "正式目标完成准备后启动失败，未形成applied或running；数据库当前release_runtime属于五模板发布，旧规则激活仍指向返回目标，规则本地版本十一为disabled",
+      "correction": "发布运行工程师核对当前release_runtime/active与目标发布的一致性；跨发布返回创建新的本地规则应用版本，同一发布重复启动保持幂等，非发布修改的当前规则仍拒绝启动",
+      "verification": "保留A到不相交规则B再到A的失败与修正场景，同一发布重复启动、本地规则改写拒绝、正式五模板往返和原历史审计内容均纳入验证",
+      "evidence": [
+        ".local/evolution/phase5-release-rule-roundtrip-failure-root-review.json",
+        ".local/evolution/release-restore-recovery-verified.json",
+        ".local/evolution/phase5-release-recovery-root-review.json",
+        ".local/evolution/phase5-release-recovered-database-root-review.json"
+      ],
+      "runtime_reproduction": [
+        {
+          "path": "/private/tmp/smartfactory-phase5-release-rule-roundtrip-coordinator-20261005/result.json",
+          "observed_source": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-third/result.json",
+          "sha256": "556ec092efb81cfc428b286bc20f296e16415ec9463f341ea07a7b35bac044cc",
+          "bytes": 204
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase5-release-rule-roundtrip-coordinator-20261005/checks.json",
+          "observed_source": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-third/evidence/checks.json",
+          "sha256": "4ea2e969066ab3ba246964a00a5428621e86b877efa6c3ec40a86d73ad4d2f4a",
+          "bytes": 14403
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase5-release-rule-roundtrip-coordinator-20261005/processes.json",
+          "observed_source": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-third/evidence/processes.json",
+          "sha256": "9e2629a563d9d9ad736ae45322198fed467107bd1ca28fd495eac62b5459ff59",
+          "bytes": 2804
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase5-release-rule-roundtrip-coordinator-20261005/program.log",
+          "observed_source": "/private/tmp/smartfactory-phase5-release-process-tenth-20261005/private/agent-a/program.log",
+          "sha256": "606257072f59807c3f46503adcca6c1c1c32f99d4eb16880f8e3ad7ef8f65925",
+          "bytes": 239928
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase5-release-rule-roundtrip-coordinator-20261005/runtime-before-fix.go",
+          "observed_source": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final-second/source/Platform/internal/releaseruntime/runtime.go",
+          "sha256": "85b8d81b1352242904b48ec813e1fe0f3a9f1a6072d4b6191cf3452f51f6db2b",
+          "bytes": 11681
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase5-release-rule-roundtrip-coordinator-20261005/observed-rule-state.json",
+          "sha256": "7ada734d70c209a68d5a7d031ec44f37179b209a0ac1bf92bfb61019a13413f8",
+          "bytes": 1221
+        }
+      ],
+      "verification_result": " 正式恢复最终报告586处引用、603份文件及5743项固定输入对应通过主协调核对；正式往返六十项行为、最终恢复二十四项及旧缓存失败后再次启动十二项通过。原始十五份备份完整，最初473条版本、280条审计及对应检查点全部仍存在，固定心跳版本完整行相同。普通专项、实际PG及竞态结果保留，原数据恢复后页面和Linux组合及最终独立验收继续进行。"
+    },
+    {
+      "id": "P5-N04",
+      "owner": "phase5_node_configuration",
+      "status": "corrected_specialist_and_coordinator_verified_final_independent_review_pending",
+      "requirements": [
+        "E5-01",
+        "E5-02",
+        "E5-06"
+      ],
+      "finding": "并发EnsureConnectorVersions先通过tx.Read为同一连接器来源记录取得共享锁，随后SetEphemeral请求排他锁，实际PostgreSQL检测两事务死锁，固定发布校验返回配置来源不可用",
+      "observed_effect": "第二份清单校验HTTP为200但valid=false，mqtt组件不可用；当前config库OID208904，锁键5175393874658700308对应configuration_connector_source / edge-a/delivery-mqtt:2",
+      "correction": "由原配置与节点身份工程师核对并修正配置来源登记的事务读写和多引用锁定次序，保持现有Store调用契约、版本摘要及来源权限",
+      "verification": "保存实际Linux失败及PG锁日志，原代码与修正版执行同条件PG并发，覆盖已有来源更新、新版本登记、重叠及反向引用、固定版本和节点版本校验及事务回滚，再完成正式Linux组合",
+      "evidence": [
+        ".local/evolution/phase5-config-deadlock-root-review.json",
+        ".local/evolution/phase5-delivery-config-deadlock-checkpoint.json",
+        ".local/evolution/phase5-config-deadlock-checkpoint-root-review.json"
+      ],
+      "runtime_reproduction": [
+        {
+          "path": "/private/tmp/smartfactory-phase5-config-deadlock-coordinator-20261005/verification.json",
+          "observed_source": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/verification.json",
+          "sha256": "04f306cdd0d49d8f3bdd03a7753e639b8bf9cf521aec731be6b0a26b66a24d83",
+          "bytes": 248178
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase5-config-deadlock-coordinator-20261005/postgres-failure-window.log",
+          "observed_source": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/postgres-failure-window.log",
+          "sha256": "62775be53e7229be009860d5042f477c169e1a46dd7841e40d15501977a173a2",
+          "bytes": 713
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase5-config-deadlock-coordinator-20261005/postgres-original-409-window.log",
+          "observed_source": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/postgres-original-409-window.log",
+          "sha256": "9ce4d3210a30d9116c906abd2679085ccee32b9200c8049d8bfb7ab45705fc82",
+          "bytes": 1256
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase5-config-deadlock-coordinator-20261005/advisory-deadlock-identification.json",
+          "observed_source": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/advisory-deadlock-identification.json",
+          "sha256": "1c4da0e7f6fa445774fca781938f53e194655806178b7b213f6f9342401aedd6",
+          "bytes": 806
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase5-config-deadlock-coordinator-20261005/config-document-lock-identities.log",
+          "observed_source": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/config-document-lock-identities.log",
+          "sha256": "0e5d2aacec205e565a628ba0048f6883e735aa45cd38c94fcadf791b4836eab3",
+          "bytes": 2579
+        }
+      ],
+      "verification_result": "主协调核对88处检查点引用及6079项保留输入，当前Linux35项通过、1项失败；两个失败时点的PG死锁均处于各自HTTP请求等待区间内，旧OID98437及当前208904属于对应config库，同一来源锁映射一致。七服务全部正常退出0、无OOM、连接归零；原配置工程师已恢复进行旧实现可重复PG复现与修正。",
+      "final_verification": {
+        "specialist": ".local/evolution/node-connector-deadlock-verified.json",
+        "coordinator": ".local/evolution/phase5-node-deadlock-root-review.json",
+        "postgres_passed_including_subtests": 19,
+        "race_passed_including_subtests": 19,
+        "production_sha256": "facec76f2194c930358119042723d4b2847031e16ad600eea7d99059c60f0dc4",
+        "linux_preflight": ".local/evolution/phase5-linux-release-profile-root-review.json"
+      },
+      "resumed_at": "2026-10-07T04:10:12.532715+00:00"
+    },
+    {
+      "id": "P5-F04",
+      "owner": "phase4_frontend",
+      "status": "corrected_specialist_and_coordinator_verified_final_independent_review_pending",
+      "requirements": [
+        "E5-05"
+      ],
+      "finding": "同一发布页面的URL批次参数已切换，详情与后续HTTP仍指向先前批次",
+      "observed_effect": "URL指定recovery-r02-original-program-failure-fourth，截图详情仍为recovery-r02-final-frontend-confirm-second；34次详情请求均未查询新的目标批次，浏览器未报告脚本错误",
+      "correction": "由原前端工程师同步同页URL参数变化与当前批次状态，并按已有导航规则处理未提交编辑",
+      "verification": "原页面、网络和截图保留；复验进入另一个批次、返回前一个批次、清除参数及已编辑状态，最终统一静态产物上的相同操作继续独立检查",
+      "evidence": [
+        ".local/evolution/phase5-release-navigation-root-review.json"
+      ],
+      "runtime_reproduction": [
+        {
+          "path": "/private/tmp/smartfactory-phase5-release-navigation-coordinator-20261005/failure-recovery-fixtures-retain-original-identity-and-persistent-state-with-the-final-agent-and-normal-mani.page.json",
+          "observed_source": "/private/tmp/smartfactory-release-interface-20261005/browser-resume-first/failure-recovery-fixtures-retain-original-identity-and-persistent-state-with-the-final-agent-and-normal-mani.page.json",
+          "sha256": "8d52d8d5c8ec0dc83af6cc9925de660235341338113a31ffca921c1408707325",
+          "bytes": 35145
+        },
+        {
+          "path": "/private/tmp/smartfactory-phase5-release-navigation-coordinator-20261005/failure-recovery-fixtures-retain-original-identity-and-persistent-state-with-the-final-agent-and-normal-mani.png",
+          "observed_source": "/private/tmp/smartfactory-release-interface-20261005/browser-resume-first/failure-recovery-fixtures-retain-original-identity-and-persistent-state-with-the-final-agent-and-normal-mani.png",
+          "sha256": "ed581a22fe768f40607b0e49a60dbfda2182f18b2471d5b1497b2e5a965513eb",
+          "bytes": 477621
+        }
+      ],
+      "final_verification": {
+        "specialist": ".local/evolution/release-interface-verified.json",
+        "coordinator": ".local/evolution/phase5-frontend-final-root-review.json",
+        "inputs": ".local/evolution/phase5-frontend-final-inputs-root-review.json"
+      },
+      "resumed_at": "2026-10-07T04:10:12.532715+00:00"
+    },
+    {
+      "id": "P5-B01",
+      "owner": "phase5_final_delivery",
+      "status": "corrected_specialist_and_coordinator_verified_final_package_and_independent_review_pending",
+      "requirements": [
+        "E5-04",
+        "E5-06"
+      ],
+      "finding": "已有节点转为发布代理管理后，正式enable-release停止后续节点及备份说明的数据库命令未启用release profile，Compose因代理依赖未启用而拒绝项目配置",
+      "observed_effect": "正式site/fleet三节点配置的首次A转换可解析，随后B转换的stop及原备份依赖图均以1退出",
+      "correction": "正式节点停止命令与备份文档的数据库启动、容器标识查询均显式使用release profile",
+      "verification": "保存原失败，修正版连续转换两节点及备份依赖图八次实际Compose只读解析全部通过；最终包内入口与独立审查继续进行",
+      "evidence": [
+        ".local/evolution/phase5-compose-profile-root-review.json",
+        "/private/tmp/smartfactory-delivery-final-20261007/profile-risk-fleet/verification.json",
+        "/private/tmp/smartfactory-delivery-final-20261007/profile-risk-fleet/after-verification.json"
+      ]
+    },
+    {
+      "id": "P5-B02",
+      "owner": "phase5_final_delivery",
+      "status": "corrected_specialist_and_coordinator_verified_final_package_and_independent_review_pending",
+      "requirements": [
+        "E5-06"
+      ],
+      "finding": "最终包五个基础容器组件缺少来源及许可文件引用",
+      "observed_effect": "postgres、go_builder、envoy、node_builder、runtime在components.json的source为null、license_files为空，交付静态许可核对停止",
+      "correction": "补齐锁定镜像对应官方来源及许可材料，明确主程序和镜像组件的适用范围，固定资料后重新生成最终包",
+      "verification": "检查全部容器组件来源及许可引用、材料文件摘要、包内公开文档，并验证最终重建与归档的实际内容",
+      "evidence": [
+        ".local/evolution/phase5-container-provenance-observation.json",
+        ".local/evolution/phase5-container-provenance-root-review.json"
+      ],
+      "verification_result": "894份当前及包内源码、36条来源材料、十个容器组件来源和许可引用完成主协调对应核对；七份既有公开文件修改、新增23份，Go生产源码和前端输入保持原固定内容，最终包实际运行及独立审查继续进行。"
+    }
+  ],
+  "all_findings_resolved": false
+}

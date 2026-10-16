@@ -1,0 +1,572 @@
+{
+  "checked_at": "2026-10-05T10:13:58.772241+00:00",
+  "passed": true,
+  "scope": "P5-D01 correction and isolated consumer evidence; final packaged full Linux combination and five-template browser verification remain pending",
+  "report": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/datatransfer-runtime-followup-verified.json",
+    "sha256": "9841f76976b4e640a6e6500f660e9efa187efa78d0c012a03e693b4642eb81eb"
+  },
+  "reference_count": 129,
+  "physical_files_checked": 4628,
+  "input_manifests": 34,
+  "unique_retained_inputs": 4483,
+  "source_files": [
+    {
+      "path": "/path/to/SmartFactory-2026/DataTransfer/internal/bootstrap/app.go",
+      "kind": "production lifecycle",
+      "current": {
+        "path": "/path/to/SmartFactory-2026/DataTransfer/internal/bootstrap/app.go",
+        "sha256": "fb86969f09a63d6a761702f453f7664b396c496f1708ddd5d7e4ebb20fec4cc9",
+        "bytes": 10494
+      },
+      "tested_fixed_copy": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/source/DataTransfer/internal/bootstrap/app.go",
+        "sha256": "fb86969f09a63d6a761702f453f7664b396c496f1708ddd5d7e4ebb20fec4cc9",
+        "bytes": 10494
+      },
+      "matches_tested_copy": true,
+      "before_this_task": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/baseline/DataTransfer/internal/bootstrap/app.go",
+        "sha256": "a08b1d9c602a7bc8ec7bbef7fad10fddcef0ef5d6f15fc0c6d736cf8dfec91c5",
+        "bytes": 9903
+      }
+    },
+    {
+      "path": "/path/to/SmartFactory-2026/DataTransfer/internal/bootstrap/shutdown_test.go",
+      "kind": "production lifecycle regression tests",
+      "current": {
+        "path": "/path/to/SmartFactory-2026/DataTransfer/internal/bootstrap/shutdown_test.go",
+        "sha256": "0ba0196f7080d487c73e3e2ae9809751595821ec2c5c8c493f5bb4f01e20d014",
+        "bytes": 5734
+      },
+      "tested_fixed_copy": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/source/DataTransfer/internal/bootstrap/shutdown_test.go",
+        "sha256": "0ba0196f7080d487c73e3e2ae9809751595821ec2c5c8c493f5bb4f01e20d014",
+        "bytes": 5734
+      },
+      "matches_tested_copy": true
+    },
+    {
+      "path": "/path/to/SmartFactory-2026/DataTransfer/cmd/dt-node-configuration-fixture/main.go",
+      "kind": "isolated configuration consumer",
+      "current": {
+        "path": "/path/to/SmartFactory-2026/DataTransfer/cmd/dt-node-configuration-fixture/main.go",
+        "sha256": "0e1b92b85de6793acacbc16b845b4e69fd625b1a3817d353c2aadd695e6ea382",
+        "bytes": 4434
+      },
+      "tested_fixed_copy": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/source/DataTransfer/cmd/dt-node-configuration-fixture/main.go",
+        "sha256": "0e1b92b85de6793acacbc16b845b4e69fd625b1a3817d353c2aadd695e6ea382",
+        "bytes": 4434
+      },
+      "matches_tested_copy": true,
+      "before_this_task": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/baseline/DataTransfer/cmd/dt-node-configuration-fixture/main.go",
+        "sha256": "ea493b042fef6484a0fc8033649cfb78b7fc61de5250bf12e1dedaa480227e10",
+        "bytes": 4268
+      }
+    },
+    {
+      "path": "/path/to/SmartFactory-2026/DataTransfer/cmd/dt-node-configuration-fixture/main_test.go",
+      "kind": "isolated configuration adoption regression tests",
+      "current": {
+        "path": "/path/to/SmartFactory-2026/DataTransfer/cmd/dt-node-configuration-fixture/main_test.go",
+        "sha256": "a7a9e1b907bf7b7781d0a60ba626747620de9f7f5a4c58efe73f51b0e192899a",
+        "bytes": 5515
+      },
+      "tested_fixed_copy": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/source/DataTransfer/cmd/dt-node-configuration-fixture/main_test.go",
+        "sha256": "a7a9e1b907bf7b7781d0a60ba626747620de9f7f5a4c58efe73f51b0e192899a",
+        "bytes": 5515
+      },
+      "matches_tested_copy": true
+    }
+  ],
+  "go_list_correspondence": [
+    {
+      "name": "shutdown-fix-tests-v2",
+      "stage": "before",
+      "packages": 525,
+      "selected_paths": 4128,
+      "recorded_inputs": 4174,
+      "missing": [],
+      "go_list_sha256": "d6e3e76c260f784f8e941fe5a89723c0aaebfb9ec335e28159d758cb8e226bb7",
+      "go_list_command": {
+        "argv": [
+          "go",
+          "list",
+          "-p",
+          "1",
+          "-deps",
+          "-test",
+          "-json",
+          "./internal/bootstrap"
+        ],
+        "cwd": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/source/DataTransfer",
+        "exit_code": 0
+      }
+    },
+    {
+      "name": "shutdown-fix-tests-v2",
+      "stage": "after",
+      "packages": 525,
+      "selected_paths": 4128,
+      "recorded_inputs": 4174,
+      "missing": [],
+      "go_list_sha256": "7bcd2353211811a0e37e93febc02f860dd6843b28c7fa3b86b7d7418d29c6a5b",
+      "go_list_command": {
+        "argv": [
+          "go",
+          "list",
+          "-p",
+          "1",
+          "-deps",
+          "-test",
+          "-json",
+          "./internal/bootstrap"
+        ],
+        "cwd": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/source/DataTransfer",
+        "exit_code": 0
+      }
+    },
+    {
+      "name": "fixture-tests-v1",
+      "stage": "before",
+      "packages": 389,
+      "selected_paths": 3132,
+      "recorded_inputs": 3150,
+      "missing": [],
+      "go_list_sha256": "cf86a8c3bf96d1f5554667804fdd8df7472668d1d1373ae21480651229179eac",
+      "go_list_command": {
+        "argv": [
+          "go",
+          "list",
+          "-p",
+          "1",
+          "-deps",
+          "-test",
+          "-json",
+          "./cmd/dt-node-configuration-fixture"
+        ],
+        "cwd": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/source/DataTransfer",
+        "exit_code": 0
+      }
+    },
+    {
+      "name": "fixture-tests-v1",
+      "stage": "after",
+      "packages": 389,
+      "selected_paths": 3132,
+      "recorded_inputs": 3150,
+      "missing": [],
+      "go_list_sha256": "d20de669a4f4dc1942ced7a3d88476889a44805f3b2042b23eeed26c4cc1a279",
+      "go_list_command": {
+        "argv": [
+          "go",
+          "list",
+          "-p",
+          "1",
+          "-deps",
+          "-test",
+          "-json",
+          "./cmd/dt-node-configuration-fixture"
+        ],
+        "cwd": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/source/DataTransfer",
+        "exit_code": 0
+      }
+    },
+    {
+      "name": "affected-race-v3",
+      "stage": "before",
+      "packages": 529,
+      "selected_paths": 4137,
+      "recorded_inputs": 4183,
+      "missing": [],
+      "go_list_sha256": "5578ef67ed37437f8be9f0d51e7ff4beabe55eefca8fffb66fc3b284b2a27107",
+      "go_list_command": {
+        "argv": [
+          "go",
+          "list",
+          "-p",
+          "1",
+          "-race",
+          "-deps",
+          "-test",
+          "-json",
+          "./internal/bootstrap",
+          "./cmd/dt-node-configuration-fixture"
+        ],
+        "cwd": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/source/DataTransfer",
+        "exit_code": 0
+      }
+    },
+    {
+      "name": "affected-race-v3",
+      "stage": "after",
+      "packages": 529,
+      "selected_paths": 4137,
+      "recorded_inputs": 4183,
+      "missing": [],
+      "go_list_sha256": "5578ef67ed37437f8be9f0d51e7ff4beabe55eefca8fffb66fc3b284b2a27107",
+      "go_list_command": {
+        "argv": [
+          "go",
+          "list",
+          "-p",
+          "1",
+          "-race",
+          "-deps",
+          "-test",
+          "-json",
+          "./internal/bootstrap",
+          "./cmd/dt-node-configuration-fixture"
+        ],
+        "cwd": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/source/DataTransfer",
+        "exit_code": 0
+      }
+    },
+    {
+      "name": "datatransfer-linux-build-v1",
+      "stage": "before",
+      "packages": 493,
+      "selected_paths": 4056,
+      "recorded_inputs": 4100,
+      "missing": [],
+      "go_list_sha256": "60ac2a48b4b058437383ed81f7d64211067fd3b914e9270a670f9590f15952e2",
+      "go_list_command": {
+        "argv": [
+          "go",
+          "list",
+          "-p",
+          "1",
+          "-deps",
+          "-test",
+          "-json",
+          "./cmd/datatransfer"
+        ],
+        "cwd": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/source/DataTransfer",
+        "exit_code": 0
+      }
+    },
+    {
+      "name": "datatransfer-linux-build-v1",
+      "stage": "after",
+      "packages": 493,
+      "selected_paths": 4056,
+      "recorded_inputs": 4100,
+      "missing": [],
+      "go_list_sha256": "60ac2a48b4b058437383ed81f7d64211067fd3b914e9270a670f9590f15952e2",
+      "go_list_command": {
+        "argv": [
+          "go",
+          "list",
+          "-p",
+          "1",
+          "-deps",
+          "-test",
+          "-json",
+          "./cmd/datatransfer"
+        ],
+        "cwd": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/source/DataTransfer",
+        "exit_code": 0
+      }
+    },
+    {
+      "name": "shutdown-baseline-linux-build-v2",
+      "stage": "before",
+      "packages": 502,
+      "selected_paths": 4137,
+      "recorded_inputs": 4181,
+      "missing": [],
+      "go_list_sha256": "785f9cb17d53a395f624c62464207c44943be25946c6bc28df4cad2466b26898",
+      "go_list_command": {
+        "argv": [
+          "go",
+          "list",
+          "-p",
+          "1",
+          "-deps",
+          "-test",
+          "-json",
+          "./internal/bootstrap"
+        ],
+        "cwd": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/source-baseline/DataTransfer",
+        "exit_code": 0
+      }
+    },
+    {
+      "name": "shutdown-baseline-linux-build-v2",
+      "stage": "after",
+      "packages": 502,
+      "selected_paths": 4137,
+      "recorded_inputs": 4181,
+      "missing": [],
+      "go_list_sha256": "785f9cb17d53a395f624c62464207c44943be25946c6bc28df4cad2466b26898",
+      "go_list_command": {
+        "argv": [
+          "go",
+          "list",
+          "-p",
+          "1",
+          "-deps",
+          "-test",
+          "-json",
+          "./internal/bootstrap"
+        ],
+        "cwd": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/source-baseline/DataTransfer",
+        "exit_code": 0
+      }
+    },
+    {
+      "name": "shutdown-candidate-linux-build-v2",
+      "stage": "before",
+      "packages": 502,
+      "selected_paths": 4137,
+      "recorded_inputs": 4181,
+      "missing": [],
+      "go_list_sha256": "2d969ed851dfa1e6127bf383a67faa248d50499a3ec501d2243ba8b29d9daa17",
+      "go_list_command": {
+        "argv": [
+          "go",
+          "list",
+          "-p",
+          "1",
+          "-deps",
+          "-test",
+          "-json",
+          "./internal/bootstrap"
+        ],
+        "cwd": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/source/DataTransfer",
+        "exit_code": 0
+      }
+    },
+    {
+      "name": "shutdown-candidate-linux-build-v2",
+      "stage": "after",
+      "packages": 502,
+      "selected_paths": 4137,
+      "recorded_inputs": 4181,
+      "missing": [],
+      "go_list_sha256": "2d969ed851dfa1e6127bf383a67faa248d50499a3ec501d2243ba8b29d9daa17",
+      "go_list_command": {
+        "argv": [
+          "go",
+          "list",
+          "-p",
+          "1",
+          "-deps",
+          "-test",
+          "-json",
+          "./internal/bootstrap"
+        ],
+        "cwd": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/source/DataTransfer",
+        "exit_code": 0
+      }
+    }
+  ],
+  "tests": [
+    {
+      "name": "shutdown-fix-tests-v2",
+      "top_level_passed": 6,
+      "all_passed": 6,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "name": "fixture-tests-v1",
+      "top_level_passed": 1,
+      "all_passed": 4,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "name": "affected-race-v3",
+      "top_level_passed": 7,
+      "all_passed": 10,
+      "failed": 0,
+      "skipped": 0
+    }
+  ],
+  "all_attempts": [
+    {
+      "name": "affected-race-v3",
+      "exit_code": 0,
+      "inputs": 4183
+    },
+    {
+      "name": "datatransfer-linux-build-v1",
+      "exit_code": 0,
+      "inputs": 4100
+    },
+    {
+      "name": "fixture-build-v1",
+      "exit_code": 0,
+      "inputs": 3150
+    },
+    {
+      "name": "fixture-race-v1",
+      "exit_code": 0,
+      "inputs": 3150
+    },
+    {
+      "name": "fixture-tests-v1",
+      "exit_code": 0,
+      "inputs": 3150
+    },
+    {
+      "name": "shutdown-baseline-linux-build-v2",
+      "exit_code": 0,
+      "inputs": 4181
+    },
+    {
+      "name": "shutdown-candidate-linux-build-v2",
+      "exit_code": 0,
+      "inputs": 4181
+    },
+    {
+      "name": "shutdown-fix-tests-v1",
+      "exit_code": 1,
+      "inputs": 4174
+    },
+    {
+      "name": "shutdown-fix-tests-v2",
+      "exit_code": 0,
+      "inputs": 4174
+    },
+    {
+      "name": "shutdown-linux-baseline-test-build-v1",
+      "exit_code": 0,
+      "inputs": 4181
+    },
+    {
+      "name": "shutdown-probe-build-linux-v2",
+      "exit_code": 0,
+      "inputs": 2772
+    },
+    {
+      "name": "shutdown-probe-build-v1",
+      "exit_code": 0,
+      "inputs": 2707
+    },
+    {
+      "name": "shutdown-probe-large-build-linux-v4",
+      "exit_code": 0,
+      "inputs": 2772
+    },
+    {
+      "name": "shutdown-probe-static-build-linux-v3",
+      "exit_code": 0,
+      "inputs": 2772
+    },
+    {
+      "name": "shutdown-race-v2",
+      "exit_code": 0,
+      "inputs": 4174
+    },
+    {
+      "name": "shutdown-stream-baseline-v1",
+      "exit_code": 1,
+      "inputs": 4174
+    },
+    {
+      "name": "shutdown-stream-diagnostic-v2",
+      "exit_code": 1,
+      "inputs": 4174
+    }
+  ],
+  "linux_source_differences": [
+    "internal/bootstrap/app.go"
+  ],
+  "linux_actual_runs": [
+    {
+      "name": "baseline_run",
+      "actual_exit": 1,
+      "oom_killed": false,
+      "log_sha256": "77f375d48c4d2b69ee1a64e36bdc7692d3fd403b6f5933518cb1a92dc075db8c"
+    },
+    {
+      "name": "candidate_run",
+      "actual_exit": 0,
+      "oom_killed": false,
+      "log_sha256": "dcd5bbba74a2f67ed1848dbb3e18de41ea20f22b2c67ca9f12b30a08fc0b39e8"
+    }
+  ],
+  "production_linux_isolated_result": {
+    "commands": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/candidate-isolated-v1/evidence/commands.json",
+    "observations": [
+      {
+        "round": 1,
+        "state": {
+          "Status": "exited",
+          "Running": false,
+          "Paused": false,
+          "Restarting": false,
+          "OOMKilled": false,
+          "Dead": false,
+          "Pid": 0,
+          "ExitCode": 0,
+          "Error": "",
+          "StartedAt": "2026-10-05T10:05:08.131322046Z",
+          "FinishedAt": "2026-10-05T10:05:16.507660091Z"
+        },
+        "stop_timeout": 60,
+        "gateway_id": "2d1343d5ac440875450c39b5f4bf408a4dd7eeb3b39cac0dc8c06850b5030ab8",
+        "binary_sha256": "bda2a5a8cbd5e09b5bd0cce94012c956ae3fc2a8d6e456f604dbc7d77e42f292",
+        "config_sha256": "16cedae59973291f99d9e8060d63134e45071e385339864fbb14715fb435223b",
+        "ready": {
+          "status": "ready"
+        },
+        "before_stop_state": {
+          "Status": "running",
+          "Running": true,
+          "Paused": false,
+          "Restarting": false,
+          "OOMKilled": false,
+          "Dead": false,
+          "Pid": 505,
+          "ExitCode": 0,
+          "Error": "",
+          "StartedAt": "2026-10-05T10:05:08.131322046Z",
+          "FinishedAt": "0001-01-01T00:00:00Z"
+        }
+      }
+    ],
+    "inputs": [
+      {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/bin/datatransfer-linux-v1",
+        "sha256": "bda2a5a8cbd5e09b5bd0cce94012c956ae3fc2a8d6e456f604dbc7d77e42f292",
+        "bytes": 37354228
+      },
+      {
+        "path": "/private/tmp/smartfactory-delivery-linux-preflight-build-signal-fixed-20261005/bundle/bin/dt-simulator",
+        "sha256": "97b734f6012862c63d3963fcdebd18597a1c7b64ed6765658b253de5a8cb61a0",
+        "bytes": 17305760
+      },
+      {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/candidate-isolated-v1/state/simulator.db",
+        "sha256": "4104330a81d28d414ef21bde0d81d95525f674d58e233191c0220a0fe17eadd0",
+        "bytes": 28672
+      },
+      {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/candidate-isolated-v1/state/datatransfer-state.db",
+        "sha256": "1c108e7a28ec67162717f740f2eb97a6d940b7a869e7d2eb5266663818f8b390",
+        "bytes": 77824
+      },
+      {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/candidate-isolated-v1/state/datatransfer.yaml",
+        "sha256": "16cedae59973291f99d9e8060d63134e45071e385339864fbb14715fb435223b",
+        "bytes": 18274
+      },
+      {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/lifecycle-candidate-run.py",
+        "sha256": "4ad3854d834d81da06ffb696b031feb50e2623882bf58b38e1ee7aafb7cf0a15",
+        "bytes": 6725
+      }
+    ],
+    "scope": "Retained source-diagnostic DataTransfer, simulator, configuration and journal snapshot; isolated namespace, simulator and gateway only; no cloud/edge workload",
+    "driver_sha256": "4ad3854d834d81da06ffb696b031feb50e2623882bf58b38e1ee7aafb7cf0a15"
+  },
+  "production_commands_checked": 10,
+  "final_linux_package_entrypoint_passed": false,
+  "errors": []
+}

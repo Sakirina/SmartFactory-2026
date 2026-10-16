@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "reviewed_at": "2026-10-04T16:21:11.343185+00:00",
+  "scope": "E2-01 PostgreSQL 16 to 18 migration sample",
+  "source_report": ".local/evolution/pg16-to18-dump-restore.json",
+  "source_report_sha256": "f02868ad249c6e879041eec42436699204240d397e6cf88354b87c3e9bc4a534",
+  "dump_sha256_verified": true,
+  "command_exits": [
+    0,
+    0,
+    0
+  ],
+  "categories": [
+    {
+      "category": "documents",
+      "rows_before": 2,
+      "rows_after": 2,
+      "same_row_count": true,
+      "same_sha256": true
+    },
+    {
+      "category": "history",
+      "rows_before": 4,
+      "rows_after": 4,
+      "same_row_count": true,
+      "same_sha256": true
+    },
+    {
+      "category": "observations",
+      "rows_before": 64,
+      "rows_after": 64,
+      "same_row_count": true,
+      "same_sha256": true
+    },
+    {
+      "category": "archive",
+      "rows_before": 1,
+      "rows_after": 1,
+      "same_row_count": true,
+      "same_sha256": true
+    },
+    {
+      "category": "audit",
+      "rows_before": 3,
+      "rows_after": 3,
+      "same_row_count": true,
+      "same_sha256": true
+    },
+    {
+      "category": "audit_checkpoints",
+      "rows_before": 3,
+      "rows_after": 3,
+      "same_row_count": true,
+      "same_sha256": true
+    },
+    {
+      "category": "sync",
+      "rows_before": 1,
+      "rows_after": 1,
+      "same_row_count": true,
+      "same_sha256": true
+    },
+    {
+      "category": "outbox",
+      "rows_before": 1,
+      "rows_after": 1,
+      "same_row_count": true,
+      "same_sha256": true
+    },
+    {
+      "category": "inbox",
+      "rows_before": 1,
+      "rows_after": 1,
+      "same_row_count": true,
+      "same_sha256": true
+    }
+  ],
+  "logs": [
+    {
+      "path": "/private/tmp/storage-upgrade-seed.log",
+      "sha256": "fc63523574ca436555dafd17853ead5e2a2e5f714e9c9206f90b2317b188a45d",
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/storage-upgrade-verify.log",
+      "sha256": "a2c249e1f5685e0f8357465d3cd1cabd0f91e1993d00497e4212e49bc0d1ab5e",
+      "passed": true
+    }
+  ],
+  "outcome": "migration_sample_passed",
+  "sample": "128 observations including64 archived,2 documents,4 document history rows,3 source audit rows,old cursor and pending outbox/job",
+  "pending": "Storage professional final report and generated deployment configuration review"
+}

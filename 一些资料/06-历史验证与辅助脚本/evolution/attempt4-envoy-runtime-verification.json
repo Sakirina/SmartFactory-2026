@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "image": "envoyproxy/envoy@sha256:be87c8b52663c1164a5bdf3c5419017a269cb3d8c74be1ec93638a71f1ffbd4b",
+  "checks": [],
+  "resources": {
+    "cpu_limit": 0.5,
+    "memory_limit_bytes": 134217728
+  },
+  "configuration_sha256": "26718ca052b5b5ff8b5004fdd24e6c89d182164702843b64a8e82df30ed962ad",
+  "container_id": "7cacc3db84fac5191bbbfd60583fe334119b20163a837fd260e0edfe38beb328",
+  "health_error": {
+    "type": "HTTPError",
+    "message": "HTTP Error 503: Service Unavailable",
+    "body": "upstream connect error or disconnect/reset before headers. reset reason: remote connection failure"
+  },
+  "all_checks_passed": false,
+  "error": "Envoy did not route application health",
+  "container_logs": "[2026-10-04 14:37:27.521][1][warning][main] [source/server/server.cc:1038] There is no configured limit to the number of allowed active downstream connections. Configure a limit in `envoy.resource_monitors.global_downstream_max_connections` resource monitor.\n",
+  "memory_observation": "55.27MiB / 128MiB"
+}

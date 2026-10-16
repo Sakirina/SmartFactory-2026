@@ -1,0 +1,27 @@
+test_release_exports_intermediate_source_license_and_verified_bytes (tests.test_message_deploy.MessageDeploymentTests.test_release_exports_intermediate_source_license_and_verified_bytes) ... ERROR
+
+======================================================================
+ERROR: test_release_exports_intermediate_source_license_and_verified_bytes (tests.test_message_deploy.MessageDeploymentTests.test_release_exports_intermediate_source_license_and_verified_bytes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/path/to/SmartFactory-2026/tests/test_message_deploy.py", line 127, in test_release_exports_intermediate_source_license_and_verified_bytes
+    builder.main()
+    ~~~~~~~~~~~~^^
+  File "/path/to/SmartFactory-2026/scripts/build-release.py", line 111, in main
+    rewrite_document_links(output)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "/path/to/SmartFactory-2026/scripts/build-release.py", line 79, in rewrite_document_links
+    document.write_text(re.sub(r'\]\(([^)]+)\)',replace,document.read_text()))
+                                                        ~~~~~~~~~~~~~~~~~~^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/pathlib/__init__.py", line 787, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:
+         ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/pathlib/__init__.py", line 771, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/private/var/folders/9j/tb1q6j457hd6fggl8vscg1f40000gn/T/tmpy1ot_dho/bundle/README.md'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.013s
+
+FAILED (errors=1)

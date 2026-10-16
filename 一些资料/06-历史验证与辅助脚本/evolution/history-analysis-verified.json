@@ -1,0 +1,803 @@
+{
+  "schema_version": 1,
+  "completed_at": "2026-10-04T20:33:17.552480+00:00",
+  "status": "implementation_and_backend_verification_complete",
+  "scope": [
+    "E3-04 independent cross-version history replay",
+    "E3-05 same-snapshot rule version comparison",
+    "E3-06 persistent observation-driven shadow analysis",
+    "E3-07 calculation explanations and trace correlation"
+  ],
+  "acceptance_owner": "main coordinator; frontend and combined phase acceptance remain with assigned roles",
+  "frontend_contract": "docs/evolution/history-frontend-contract.md",
+  "implementation": {
+    "domain_storage_interface": "application.History holds HistoryRepository and HistoryPlans; actual API, app and worker paths consume those interfaces; SQL stays in store",
+    "computation": "engine.AnalysisStep uses the persisted production ExecutionPlan and rulecore.Execute with saved frames, preserving precise.Number/json.Number; no analysis-specific operator implementation",
+    "snapshot": "Content stores selected observation revisions and provenance, history, definition/plan versions, asset affiliations, logical clock, ordering and initial states with SHA256; checkpoints commit each step and updated state in one transaction",
+    "persistence": [
+      "migration00006.go: sf_analysis_snapshots",
+      "sf_analysis_steps",
+      "sf_shadow_inputs",
+      "sf_analysis_formal",
+      "documents: analysis_run, shadow_candidate, analysis_formal_receipt; existing sf_tasks and river_job"
+    ],
+    "shared_hooks": [
+      "engine.Service.ObserveAnalysis invoked before late/freshness early return on durable production input paths; internal Recompute frames with run ID bypass capture",
+      "engine.commitEvaluation records formal explanation within the formal evaluation transaction",
+      "tasks.New registers history_analysis worker; app.Open and app.startWorkers bind the actual application service",
+      "typed API registration and contract export include History/Shadow models; no extra model changes after control generated contracts"
+    ],
+    "queue": {
+      "name": "history_analysis",
+      "workers_per_application": 1,
+      "attempt_timeout_seconds": 30,
+      "max_points": 10000,
+      "max_history": 40000,
+      "max_asset_versions": 40000,
+      "max_snapshot_bytes": 33554432,
+      "parent_pending_retry_ms": 500
+    },
+    "formal_state_isolation": "Candidate state, alarms/trigger outcomes and action intents are contained in analysis steps; candidate execution performs no formal state/alarm/projection/device-action transaction",
+    "api": [
+      "POST/GET /api/sf/v1/analysis-runs",
+      "GET /analysis-runs/{id}",
+      "GET /analysis-runs/{id}/snapshot",
+      "GET /analysis-runs/{id}/steps",
+      "POST/GET /shadow-candidates",
+      "GET /shadow-candidates/{id}",
+      "POST /shadow-candidates/{id}/stop",
+      "existing /tasks/{id}/cancel and /retry"
+    ]
+  },
+  "runtime": {
+    "go": "go1.27.1",
+    "host": "darwin/arm64",
+    "postgres": "18.6 controlled container",
+    "postgres_fixture": "private DSN read from .local/evolution/pg18-test.json; never written into evidence",
+    "postgres_connection_budget": {
+      "app_open": 3,
+      "app_idle": 1,
+      "management": 1,
+      "max_total": 4,
+      "package_parallelism": 1,
+      "isolation": "unique per-test schema; dropped after completion"
+    },
+    "test_environment": {
+      "GOTOOLCHAIN": "local",
+      "GOPROXY": "off",
+      "GOPATH": "/private/tmp/smartfactory-evolution-gopath",
+      "GOMODCACHE": "/private/tmp/smartfactory-evolution-gomodcache",
+      "GOCACHE": "/private/tmp/smartfactory-evolution-go-cache"
+    },
+    "race": {
+      "GOMAXPROCS": 2,
+      "package_parallelism": 1,
+      "scale": "same finite functional sample; sustained shadow case uses 20 inputs, no unbounded load"
+    }
+  },
+  "checks": [
+    {
+      "log": {
+        "path": ".local/evolution/history-evidence/compile-3.log",
+        "sha256": "7de19181b46a766c49b3087a342e8ce6027af15aceefbd2cd68d93ca30555993",
+        "bytes": 395
+      },
+      "command": "go test -p=1 ./internal/application ./internal/engine ./internal/store ./internal/tasks ./internal/api -run '^$' -count=1"
+    },
+    {
+      "log": {
+        "path": ".local/evolution/history-evidence/history-first.jsonl",
+        "sha256": "30ba425f0e6ce64a080988ae4ab2bde2cb4aef8614eec698366e5462be587dc4",
+        "bytes": 8801
+      },
+      "top_level": {
+        "pass": 5,
+        "fail": 0,
+        "skip": 0
+      },
+      "subtests": {
+        "pass": 0,
+        "fail": 0,
+        "skip": 0
+      },
+      "package_results": [
+        {
+          "package": "competition2026/product/platform/internal/application",
+          "result": "pass",
+          "seconds": 0.159
+        }
+      ],
+      "command": "go test -p=1 -json ./internal/application -run '^TestHistory' -count=1"
+    },
+    {
+      "log": {
+        "path": ".local/evolution/history-evidence/shadow-first.jsonl",
+        "sha256": "f2ee09ccacca279fb443906d8c391aa15c8d5af58877e038c9e4c020c7d09542",
+        "bytes": 11853
+      },
+      "top_level": {
+        "pass": 3,
+        "fail": 0,
+        "skip": 0
+      },
+      "subtests": {
+        "pass": 5,
+        "fail": 0,
+        "skip": 0
+      },
+      "package_results": [
+        {
+          "package": "competition2026/product/platform/internal/application",
+          "result": "pass",
+          "seconds": 0.159
+        }
+      ],
+      "command": "go test -p=1 -json ./internal/application -run '^TestShadow' -count=1"
+    },
+    {
+      "log": {
+        "path": ".local/evolution/history-evidence/shadow-revision-repair.jsonl",
+        "sha256": "ea23eff8d512ddd4a09aaa6d8d89dfb0a88be6c2074e2fa660ae0e747790fef3",
+        "bytes": 3638
+      },
+      "top_level": {
+        "pass": 2,
+        "fail": 0,
+        "skip": 0
+      },
+      "subtests": {
+        "pass": 0,
+        "fail": 0,
+        "skip": 0
+      },
+      "package_results": [
+        {
+          "package": "competition2026/product/platform/internal/application",
+          "result": "pass",
+          "seconds": 0.071
+        }
+      ],
+      "command": "go test -p=1 -json ./internal/application -run '^TestShadowProductionDerived|^TestShadowCalculation' -count=1"
+    },
+    {
+      "log": {
+        "path": ".local/evolution/history-evidence/postgres-first.jsonl",
+        "sha256": "e0b0c66912143db4a2f5ccac44ecd41e50d4a402cefac6600556d4684bf13735",
+        "bytes": 8221
+      },
+      "top_level": {
+        "pass": 4,
+        "fail": 0,
+        "skip": 0
+      },
+      "subtests": {
+        "pass": 0,
+        "fail": 0,
+        "skip": 0
+      },
+      "package_results": [
+        {
+          "package": "competition2026/product/platform/internal/application",
+          "result": "pass",
+          "seconds": 2.441
+        }
+      ],
+      "command": "SF_TEST_POSTGRES_DATABASE=<private isolated DSN> go test -p 1 -json ./internal/application -run TestPostgres(History|Shadow) -count=1 -timeout 90s"
+    },
+    {
+      "log": {
+        "path": ".local/evolution/history-evidence/sigkill-first.jsonl",
+        "sha256": "7b283e8d46bc7744c4d2e51333f414d63df39a26c68507bd31cab299ca869f59",
+        "bytes": 16518
+      },
+      "top_level": {
+        "pass": 3,
+        "fail": 0,
+        "skip": 0
+      },
+      "subtests": {
+        "pass": 3,
+        "fail": 0,
+        "skip": 0
+      },
+      "package_results": [
+        {
+          "package": "competition2026/product/platform/internal/application",
+          "result": "pass",
+          "seconds": 40.905
+        }
+      ],
+      "command": "go test -p 1 -json ./internal/application -run (History|Shadow)SIGKILL -count=1 -timeout 150s"
+    },
+    {
+      "log": {
+        "path": ".local/evolution/history-evidence/http-otlp-repair.jsonl",
+        "sha256": "660b85234dda45705035f38551a4f3fcdbfde4592fb4a53aa7eafb20f268227c",
+        "bytes": 3907
+      },
+      "top_level": {
+        "pass": 1,
+        "fail": 0,
+        "skip": 0
+      },
+      "subtests": {
+        "pass": 0,
+        "fail": 0,
+        "skip": 0
+      },
+      "package_results": [
+        {
+          "package": "competition2026/product/platform/internal/api",
+          "result": "pass",
+          "seconds": 0.194
+        }
+      ],
+      "command": "SF_HISTORY_HTTP_SAMPLE_OUTPUT=<evidence file> go test -p 1 -json ./internal/api -run TestHistoryHTTP -count=1 -timeout 60s"
+    },
+    {
+      "log": {
+        "path": ".local/evolution/history-evidence/race-first.jsonl",
+        "sha256": "233aa9d466ae5447293d5969b783705c82e99e972b0ac9ff6e9ef4eab4ed8eb9",
+        "bytes": 16681
+      },
+      "top_level": {
+        "pass": 7,
+        "fail": 0,
+        "skip": 0
+      },
+      "subtests": {
+        "pass": 2,
+        "fail": 0,
+        "skip": 0
+      },
+      "package_results": [
+        {
+          "package": "competition2026/product/platform/internal/application",
+          "result": "pass",
+          "seconds": 4.519
+        },
+        {
+          "package": "competition2026/product/platform/internal/api",
+          "result": "pass",
+          "seconds": 2.608
+        }
+      ],
+      "command": "GOMAXPROCS=2 go test -race -p 1 -json ./internal/application ./internal/api -run Test(HistoryReplay|HistoryCompare|HistoryCancellation|HistoryRiver|ShadowProductionDeliveries|ShadowCandidateStop|HistoryHTTP) -count=1 -timeout 90s"
+    },
+    {
+      "log": {
+        "path": ".local/evolution/history-evidence/combined-regression.jsonl",
+        "sha256": "05aaabbdfe6052a4dbb9d9b7d76105ccfd3ee08e81760dd673e23103aba4a963",
+        "bytes": 235366
+      },
+      "top_level": {
+        "pass": 97,
+        "fail": 1,
+        "skip": 22
+      },
+      "subtests": {
+        "pass": 59,
+        "fail": 0,
+        "skip": 0
+      },
+      "package_results": [
+        {
+          "package": "competition2026/product/platform/internal/application",
+          "result": "pass",
+          "seconds": 36.747
+        },
+        {
+          "package": "competition2026/product/platform/internal/api",
+          "result": "pass",
+          "seconds": 24.995
+        },
+        {
+          "package": "competition2026/product/platform/internal/engine",
+          "result": "pass",
+          "seconds": 0.433
+        },
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "result": "fail",
+          "seconds": 8.098
+        },
+        {
+          "package": "competition2026/product/platform/internal/tasks",
+          "result": "pass",
+          "seconds": 51.042
+        }
+      ],
+      "command": "go test -p 1 -json ./internal/application ./internal/api ./internal/engine ./internal/store ./internal/tasks -count=1 -timeout 180s"
+    },
+    {
+      "log": {
+        "path": ".local/evolution/history-evidence/store-regression-repair.jsonl",
+        "sha256": "c3879fa32d0abd0885e25c35a8b9cd0e09eb4d7052b046f98689c9ff31ec22f2",
+        "bytes": 57191
+      },
+      "top_level": {
+        "pass": 27,
+        "fail": 0,
+        "skip": 12
+      },
+      "subtests": {
+        "pass": 14,
+        "fail": 0,
+        "skip": 0
+      },
+      "package_results": [
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "result": "pass",
+          "seconds": 8.225
+        }
+      ],
+      "command": "go test -p 1 -json ./internal/store -count=1 -timeout 60s"
+    },
+    {
+      "log": {
+        "path": ".local/evolution/history-evidence/storage-volume.jsonl",
+        "sha256": "29f3ace23399c88d0ce97697860712bfdc7785ed39d97654c94cd9b06f49fb6d",
+        "bytes": 9283
+      },
+      "top_level": {
+        "pass": 2,
+        "fail": 0,
+        "skip": 0
+      },
+      "subtests": {
+        "pass": 0,
+        "fail": 0,
+        "skip": 0
+      },
+      "package_results": [
+        {
+          "package": "competition2026/product/platform/internal/application",
+          "result": "pass",
+          "seconds": 1.125
+        }
+      ],
+      "command": "SF_TEST_POSTGRES_DATABASE=<private isolated DSN> go test -p 1 -json ./internal/application -run Test(Postgres)?ShadowProductionDeliveriesDeduplicateContinueAndWaitForParent -count=1 -timeout 60s"
+    },
+    {
+      "log": {
+        "path": ".local/evolution/history-evidence/migration-compatibility-repair.jsonl",
+        "sha256": "68feb88ca3e9eaba16efa42dd00713c74bb3d488f2c95223c1d63ee302ac1421",
+        "bytes": 5543
+      },
+      "top_level": {
+        "pass": 4,
+        "fail": 0,
+        "skip": 0
+      },
+      "subtests": {
+        "pass": 0,
+        "fail": 0,
+        "skip": 0
+      },
+      "package_results": [
+        {
+          "package": "competition2026/product/platform/internal/store",
+          "result": "pass",
+          "seconds": 0.567
+        },
+        {
+          "package": "competition2026/product/platform/pkg/compatibility",
+          "result": "pass",
+          "seconds": 0.013
+        }
+      ],
+      "command": "SF_TEST_POSTGRES_DATABASE=<private isolated DSN> go test -p 1 -json ./internal/store ./pkg/compatibility -run Test(PostgresRiverMigrationHandoffResumes|RiverMigrationHandoffResumesSQLite|DatabaseMigrationRange|CompatibilityDatabaseRangeMatchesEmbeddedMigrations) -count=1 -timeout 60s"
+    }
+  ],
+  "verified_behavior": {
+    "replay": [
+      "crossed rule versions1/2 and asset affiliations line-a/line-b using saved metadata",
+      "9007199254740993+1 returned exactly9007199254740994",
+      "quality reason, source, unit, late status and revision retained",
+      "same saved snapshot and results on repeated execution; zero extra plan compilations during analysis"
+    ],
+    "compare": [
+      "same input/history/initial state/logical clock for both versions; independent lane state and plan identities",
+      "three changed steps for versions1/2; three unchanged steps for versions2/3",
+      "exact window left values9007199254740996,9007199254740998,7 with clock step10ms"
+    ],
+    "tasks": [
+      "actual River completion on SQLite and PostgreSQL",
+      "injected failure after first committed step then cancel/retry preserved task/River/run/snapshot identities",
+      "new DB input after capture did not enter retry; only two remaining inputs computed",
+      "actual HTTP stale task token409, cancel200, retry200; run snapshot unchanged"
+    ],
+    "authorization": [
+      "create verifies references for both rule versions, dependencies, inputs/history/asset ancestry and initial states",
+      "all detail/snapshot/steps routes reauthorize; real HTTP resource revocation403",
+      "formal evaluation resource references also reauthorized when attaching dynamic formal comparison"
+    ],
+    "guardrails": [
+      "10001 input request rejected",
+      "persisted snapshot corruption refused before computation",
+      "failure preserved with error and cursor for retry"
+    ],
+    "shadow": [
+      "actual durable engine and strategy deliveries share one capture per identity/revision/content",
+      "20 ordinary inputs produced20 shadow steps plus20 formal evaluations; single-point normal runs with prior generation state",
+      "waiting_parent persists once without rewriting unchanged waits",
+      "stop and replacement race rechecks current scope before capture; old epoch cannot add work",
+      "actual late raw input triggered formal Recompute, whose derived revision2 outbox produced generation4; final candidate61/formal60 and formal output revision2/run identity returned",
+      "candidate failure kept formal counter available and advanced to12 on next formal input; failed parent waits",
+      "candidate action intent persisted once; formal strategy triggers/device downlinks remained zero for tested false formal version"
+    ]
+  },
+  "process_recovery": {
+    "mechanism": "actual child processes terminated with SIGKILL, then reopened persistent SQLite and used production execution paths",
+    "river_age_injection": "only killed attempted_at changed to120s old against90s rescue threshold; official River rescuer changed state and scheduled attempt2",
+    "replay": {
+      "committed_cursor": 1,
+      "completed_cursor": 3,
+      "resumed_executions": 2,
+      "final_counter": 7,
+      "stable_identities": [
+        "run",
+        "task",
+        "River",
+        "captured snapshot",
+        "execution snapshot"
+      ]
+    },
+    "resolved_shadow": {
+      "initial_counter": 8,
+      "final_counter": 12,
+      "resumed_executions": 1,
+      "captured_vs_resolved": "different saved snapshot IDs; both remain stable across process recovery"
+    },
+    "delivery_stages": [
+      "before-capture",
+      "after-capture",
+      "after formal commit before acknowledgement"
+    ],
+    "each_delivery_stage_result": {
+      "input_receipts": 1,
+      "runs": 1,
+      "generation": 1,
+      "formal_counter": 7,
+      "candidate_counter": 8
+    },
+    "observed_identity_and_hash_lines": [
+      "history_restart_test.go:215: SIGKILL cursor=1; River official rescue attempt1->2 age=120s threshold=90s; task=analysis:crash-replay river=1 run=crash-replay captured=snapshot:1735ec988f3b6bbe8c827d1054a4d0d3d5a44bd5088b3dafb4eb29b30fc92881 resolved=1735ec988f3b6bbe8c827d1054a4d0d3d5a44bd5088b3dafb4eb29b30fc92881 input=272e7a164613321aec6b697c580d851d7e45101054877842566f8e5ed87658ea resumed_executions=2 steps=3 final_counter=7",
+      "history_restart_test.go:261: SIGKILL resolved shadow task=analysis:shadow:resolved:1:2 river=5 parent=shadow:resolved:1:1 captured=3ec84d21d30edfe06498c3ae7c821b8f3f641c54b8c126ea43a0df7d39c04d21 resolved_before=d447771e3d81fa55cb9cb00749bb651107e8056fb9a550a731129f1944d8c9e8 resolved_after=d447771e3d81fa55cb9cb00749bb651107e8056fb9a550a731129f1944d8c9e8 initial=8 final=12 resumed_executions=1",
+      "history_restart_test.go:303: actual SIGKILL at before-capture; durable outbox redelivery captured once; generation=1 receipts=1 runs=1 formal=7 candidate=8 snapshot=b04d7e4eb207e16a6c17cccaf9071f454e59f6ee73df4ff536b9aa7af2c11775",
+      "history_restart_test.go:303: actual SIGKILL at after-capture; durable outbox redelivery captured once; generation=1 receipts=1 runs=1 formal=7 candidate=8 snapshot=23e460f1938fbf42735f154149d015943234d04982dda258f5d803b3642263ee",
+      "history_restart_test.go:303: actual SIGKILL at before-ack; durable outbox redelivery captured once; generation=1 receipts=1 runs=1 formal=7 candidate=8 snapshot=f57d0c05af8700e539f71a0364c7bb4665e032aafe5c719862dbb15c0cf1957d"
+    ]
+  },
+  "observability": {
+    "transport": "actual OTLP/HTTP protobuf export to a local receiver using production observability runtime",
+    "comparison": "one evaluation span carries both plan IDs, versions1/2, left/right; trace11111111111111111111111111111111 propagated through HTTP->River metadata->worker->analysis",
+    "storage": "store.transaction child span parent matches analysis.evaluate span ID",
+    "failure_status": "analysis.create and analysis.run export ERROR when creation or execution fails",
+    "observed": [
+      "history_routes_test.go:230: real HTTP compare=202 cancel=200 stale=409 retry=200 completed exact integer=9007199254740994; read/snapshot/steps revoked=403; OTLP spans=35 trace=11111111111111111111111111111111 plans=values:{string_value:\"http-comparison:1:2828fd729bc900ec1621ae0ce49836d8615d96b69e1f7a0b34eb95ca68568305\"} values:{string_value:\"http-comparison:2:089f103e83664989178b9420a6683426036c33ea48630fc683158845baa675d4\"} versions=values:{int_value:1} values:{int_value:2} sides=values:{string_value:\"left\"} values:{string_value:\"right\"} transaction_parent=488e11f69ca6b4ec create_failure=ERROR run_failure=ERROR"
+    ]
+  },
+  "saved_volume_sample": {
+    "inputs": 20,
+    "measurement_point": "after all20 ordinary generations complete, before stopping/replacing candidate",
+    "scope": "SUM of UTF-8 data column bytes, counted with SQLite length(CAST(data AS BLOB)) and PostgreSQL octet_length(data); excludes row/index overhead, WAL, task and audit payloads",
+    "snapshots_explanation": "1 activation snapshot +20 captured snapshots +19 snapshots with resolved prior generation state",
+    "context": {
+      "rule_window_ms": 0,
+      "devices": 1,
+      "fields": 1,
+      "candidate_context_points": 1,
+      "snapshot_max_inputs": 1,
+      "snapshot_max_history": 1,
+      "general_rule": "Retain latest value per device/key and all observations newer than newest event time minus rule window; corrections use effective epoch inputs capped at10000"
+    },
+    "backends": {
+      "sqlite": {
+        "snapshots": {
+          "rows": 40,
+          "utf8_payload_bytes": 128531
+        },
+        "steps": {
+          "rows": 20,
+          "utf8_payload_bytes": 56864
+        },
+        "captured_inputs": {
+          "rows": 20,
+          "utf8_payload_bytes": 7210
+        },
+        "candidate_current": {
+          "rows": 1,
+          "utf8_payload_bytes": 3096
+        },
+        "candidate_versions": {
+          "rows": 41,
+          "utf8_payload_bytes": 125263
+        },
+        "runs_current": {
+          "rows": 20,
+          "utf8_payload_bytes": 20520
+        },
+        "runs_versions": {
+          "rows": 61,
+          "utf8_payload_bytes": 53056
+        },
+        "total_utf8_payload_bytes": 394540
+      },
+      "pgx": {
+        "snapshots": {
+          "rows": 40,
+          "utf8_payload_bytes": 128531
+        },
+        "steps": {
+          "rows": 20,
+          "utf8_payload_bytes": 56864
+        },
+        "captured_inputs": {
+          "rows": 20,
+          "utf8_payload_bytes": 7210
+        },
+        "candidate_current": {
+          "rows": 1,
+          "utf8_payload_bytes": 3096
+        },
+        "candidate_versions": {
+          "rows": 41,
+          "utf8_payload_bytes": 125263
+        },
+        "runs_current": {
+          "rows": 20,
+          "utf8_payload_bytes": 20520
+        },
+        "runs_versions": {
+          "rows": 61,
+          "utf8_payload_bytes": 53056
+        },
+        "total_utf8_payload_bytes": 394540
+      }
+    },
+    "log": {
+      "path": ".local/evolution/history-evidence/storage-volume.jsonl",
+      "sha256": "29f3ace23399c88d0ce97697860712bfdc7785ed39d97654c94cd9b06f49fb6d",
+      "bytes": 9283
+    }
+  },
+  "frontend_fixture": {
+    "command_source": "Platform/cmd/sf-history-fixture/main.go",
+    "run": "go run ./cmd/sf-history-fixture -dir <new isolated directory> -address 127.0.0.1:18094 [-static <frontend dist>] [-duration 10s]",
+    "actual_application_workers": true,
+    "run_count": 10,
+    "states": {
+      "fixture-cancelled": "cancelled",
+      "fixture-compare-changed": "completed",
+      "fixture-compare-unchanged": "completed",
+      "fixture-replay-assets": "completed",
+      "shadow:fixture-failure:1:1": "failed",
+      "shadow:fixture-failure:1:2": "waiting_parent",
+      "shadow:fixture-live:1:1": "completed",
+      "shadow:fixture-live:1:2": "completed",
+      "shadow:fixture-live:1:3": "completed",
+      "shadow:fixture-live:1:4": "completed"
+    },
+    "expected": {
+      "cancelled_run": "fixture-cancelled",
+      "cross_version_exact_value": "9007199254740994",
+      "derived_revision": 2,
+      "failed_run": "shadow:fixture-failure:1:1",
+      "formal_value": "60",
+      "shadow_candidate_value": "61",
+      "unchanged_comparison": false,
+      "waiting_run": "shadow:fixture-failure:1:2",
+      "window_left_values": [
+        "9007199254740996",
+        "9007199254740998",
+        "7"
+      ]
+    },
+    "ready_rule": "command validates actual late-derived revision2 candidate61/formal60 before announcing readiness",
+    "credentials": "generated per-run, 0600 private-credentials.json in isolated directory; values not included in evidence",
+    "artifacts": [
+      {
+        "path": ".local/evolution/history-evidence/browser-fixture-manifest.json",
+        "sha256": "f97cbb0d0d200fe41f15a45c613f5a68011f9b70b5f1f88e348bd2c0b5ec82d6",
+        "bytes": 14856
+      },
+      {
+        "path": ".local/evolution/history-evidence/browser-fixture-http-samples.json",
+        "sha256": "7d6d6be9cef2d6ce0582d0720fc087096d46c2c2a220b74fa42dc8cc4dabc639",
+        "bytes": 269723
+      },
+      {
+        "path": ".local/evolution/history-evidence/browser-fixture-first.log",
+        "sha256": "04c5646d2f309d23e8f1373bd9cd9dcd2aff2073c5eca05aa2d2b774fc4a064f",
+        "bytes": 1086
+      },
+      {
+        "path": ".local/evolution/history-evidence/http-samples.json",
+        "sha256": "8960dcde74d18c72c4f4414b3e15bbaabcdc1c3ffa271b3ad046153d30317a21",
+        "bytes": 27298
+      }
+    ],
+    "service_cleanup": "duration1s completed; local server and worker stopped, fixture data retained for inspection"
+  },
+  "first_failures_and_repairs": [
+    {
+      "log": ".local/evolution/history-evidence/first-compile.log",
+      "cause": "Epoch initially declared on ShadowRequest rather than persisted candidate, causing candidate.Epoch compile errors",
+      "repair": "Moved Epoch to persisted ShadowCandidate before functional verification"
+    },
+    {
+      "log": ".local/evolution/history-evidence/compile-2.log",
+      "cause": "shared control and migration files were being completed by their owner",
+      "repair": "owner completed the shared edits; compile-3 five packages passed"
+    },
+    {
+      "log": ".local/evolution/history-evidence/shadow-revision-first.jsonl",
+      "cause": "action intent test fixture omitted required edge_id",
+      "repair": "fixture supplied history-test edge identity; formal isolation and action intent checks passed"
+    },
+    {
+      "log": ".local/evolution/history-evidence/http-otlp-first.jsonl",
+      "cause": "test changed user resources through low-level Put without incrementing embedded User.Version, causing409",
+      "repair": "fixture synchronized User.Version with document version; real HTTP permission change then returned403"
+    },
+    {
+      "log": ".local/evolution/history-evidence/fixture-build-first.txt",
+      "cause": "missing closing brace in local fixture definition factory",
+      "repair": "syntax repaired; built binary and full production app fixture ran successfully"
+    },
+    {
+      "log": ".local/evolution/history-evidence/combined-regression.jsonl",
+      "test": "TestRiverMigrationHandoffResumesSQLite",
+      "cause": "old final migration count expected4 after new migrations5/6",
+      "repair": "authorized test-only edit reads current compatibility migration maximum; fixed stage3 and River8 assertions preserved; SQLite store full suite and PostgreSQL handoff plus compatibility tests passed; test pools explicitly capped3/1"
+    }
+  ],
+  "migration_integrity": [
+    {
+      "path": "Platform/internal/store/migrations/sqlite/00001_baseline.sql",
+      "sha256": "8f8b3ff25cd9a9f55e99ab3abd851f20e8075d15242bec0e52ee4e2695a15631",
+      "bytes": 3829
+    },
+    {
+      "path": "Platform/internal/store/migrations/postgres/00001_baseline.sql",
+      "sha256": "b4f13649f266050f7b87cf9f0c7509b98af1fb40fd606666d1de5a91e02a7f62",
+      "bytes": 3862
+    },
+    {
+      "path": "Platform/internal/store/migration00002.go",
+      "sha256": "d41f217a598789ec94a29fdcf9db03547eb5bc79cb1671bdc2211891ccc1b626",
+      "bytes": 856
+    },
+    {
+      "path": "Platform/internal/store/migration00003.go",
+      "sha256": "5b5c043c4d830ba6e77057b54654585e83fec0b0fb9e8e9b75e87e65bba9cfd4",
+      "bytes": 1221
+    },
+    {
+      "path": "Platform/internal/store/migration00004.go",
+      "sha256": "1a69098a1f06a9659d5b6d2f0d967b88a1e29a7a677bbf3014714ab2856bf854",
+      "bytes": 1884
+    },
+    {
+      "path": "Platform/internal/store/migration00005.go",
+      "sha256": "ef7dbe90ee1e57d318b600b2f7ff62416384f833031ba196fd238b45e8df16ac",
+      "bytes": 602
+    },
+    {
+      "path": "Platform/internal/store/migration00006.go",
+      "sha256": "cfc2e96ad04880f7081db6b62a179ed52f37269ac0e46fd60c84fc40aafc15aa",
+      "bytes": 1318
+    }
+  ],
+  "source_manifest": {
+    "path": ".local/evolution/history-evidence/source-manifest-final.json",
+    "sha256": "118f6b0b0ab8e103be4300a9dfb6627b0f7002e884403b8db1f7c1bfad889b86",
+    "bytes": 68279
+  },
+  "source_discovery": {
+    "path": ".local/evolution/history-evidence/compiled-packages.jsons",
+    "sha256": "cbcdc8e35f88b3c9b8f2b4eae306a0bcd34fd429db5285280034de8b8e1aaec5",
+    "bytes": 2902288
+  },
+  "fixture_binary": {
+    "path": "/private/tmp/sf-history-fixture-20261005",
+    "sha256": "171df7a4a6cbf818f7d26c0331fd1d506d5f06574ca9e06379eb6a8f4b8a3727",
+    "bytes": 51294162,
+    "build_finished_at": "2026-10-04T20:23:13.041787+00:00",
+    "command": "go build -o /private/tmp/sf-history-fixture-20261005 ./cmd/sf-history-fixture",
+    "run_command": "/private/tmp/sf-history-fixture-20261005 -dir /private/tmp/smartfactory-history-browser-20261005-first -address 127.0.0.1:18094 -duration 1s",
+    "exit_code": 0,
+    "log": ".local/evolution/history-evidence/browser-fixture-first.log",
+    "source_manifest": ".local/evolution/history-evidence/source-manifest-final.json",
+    "production_or_module_files_modified_after_build": []
+  },
+  "tested_binaries": [
+    {
+      "package": "./internal/application",
+      "binary_path": "/private/tmp/sf-history-application-verified-20261005.test",
+      "sha256": "760f5fa6c57de2f3df31fcf1850685535dca8f4dc0b4e9947f3a5bcb46e6c10d",
+      "bytes": 38188882,
+      "build_started_unix": 1791145719.3857448,
+      "build_command": [
+        "go",
+        "test",
+        "-c",
+        "-o",
+        "/private/tmp/sf-history-application-verified-20261005.test",
+        "./internal/application"
+      ],
+      "run_command": [
+        "/private/tmp/sf-history-application-verified-20261005.test",
+        "-test.v",
+        "-test.run=Test(HistoryReplay|HistoryCompare|HistoryCancellation|HistoryAuthorization|HistoryRiver|ShadowProduction|ShadowCalculation|ShadowCandidateStop|ShadowDeliveryInterruption|HistorySIGKILL|ShadowSIGKILL)",
+        "-test.timeout=150s"
+      ],
+      "run_exit_code": 0,
+      "verification_log": {
+        "path": ".local/evolution/history-evidence/application-binary-verification.log",
+        "sha256": "1ef707c2f86a0cd1725cc7ae0729f21792c4e94d5d709578ceff423fc828b944",
+        "bytes": 11028
+      },
+      "build_finished_at": "2026-10-04T20:28:40.124340+00:00",
+      "source_manifest": ".local/evolution/history-evidence/source-manifest-final.json",
+      "build_log": {
+        "path": ".local/evolution/history-evidence/application-binary-build.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
+      "package": "./internal/api",
+      "binary_path": "/private/tmp/sf-history-api-verified-20261005.test",
+      "sha256": "ba6ba9832f1b0d96120c96344547028fc33d01c586e6bae56ca75548d45a32e8",
+      "bytes": 44790818,
+      "build_started_unix": 1791145759.625271,
+      "build_command": [
+        "go",
+        "test",
+        "-c",
+        "-o",
+        "/private/tmp/sf-history-api-verified-20261005.test",
+        "./internal/api"
+      ],
+      "run_command": [
+        "/private/tmp/sf-history-api-verified-20261005.test",
+        "-test.v",
+        "-test.run=TestHistoryHTTP",
+        "-test.timeout=150s"
+      ],
+      "run_exit_code": 0,
+      "verification_log": {
+        "path": ".local/evolution/history-evidence/api-binary-verification.log",
+        "sha256": "4f5ac0ac8a6a9f47af4573fc113843284d984b21ea1e3b0cf19392a3838686ce",
+        "bytes": 1332
+      },
+      "build_finished_at": "2026-10-04T20:29:20.449501+00:00",
+      "source_manifest": ".local/evolution/history-evidence/source-manifest-final.json",
+      "build_log": {
+        "path": ".local/evolution/history-evidence/api-binary-build.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    }
+  ],
+  "verification_binding": {
+    "final_application_and_api_test_binaries": "built and executed after payload measurements and test fixture repairs; include current history implementation and tests",
+    "ordinary_combined_run": "five packages were run; four passed initially, store passed its later full rerun after migration-count fixture repair",
+    "postgres": "four actual history/shadow integration cases plus the payload recheck and authorized River migration/compatibility repair; each uses separate schema",
+    "source_changes_after_final_binary_execution": []
+  },
+  "remaining_scope": {
+    "history_backend": "none known after current checks",
+    "frontend": "assigned frontend engineer performs UI integration/browser acceptance using contract and live fixture",
+    "phase_acceptance": "owned by main coordinator and independent review",
+    "not_run_here": [
+      "unbounded capacity or24h history load",
+      "full-platform deployment acceptance, delegated to subsequent phases",
+      "PostgreSQL cases outside history scope were skipped by ordinary local combined run and remain covered by their owner reports"
+    ]
+  },
+  "evidence_policy": "Actual commands and initial failures retained; payload/fixture/binary/source scopes separated; no credentials, cache contents or macOS directory metadata included in source hashes"
+}

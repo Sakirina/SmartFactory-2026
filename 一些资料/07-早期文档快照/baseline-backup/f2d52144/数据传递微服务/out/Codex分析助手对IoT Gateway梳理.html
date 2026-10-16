@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title></title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <span id="markdown-mermaid" aria-hidden="true" data-config="{&quot;darkModeTheme&quot;:&quot;vscode&quot;,&quot;lightModeTheme&quot;:&quot;vscode&quot;,&quot;maxTextSize&quot;:50000,&quot;clickDrag&quot;:&quot;alt&quot;,&quot;showControls&quot;:&quot;onHoverOrFocus&quot;,&quot;resizable&quot;:true,&quot;maxHeight&quot;:&quot;&quot;}"></span>
+				<p><strong>整体定位</strong></p>
+<p>这个 IoT Gateway 的职责很集中：它运行在靠近设备、协议服务、数据库或文件源的一侧，把各种异构协议里的数据转换成 ThingsBoard 能理解的统一格式，再通过 MQTT Gateway API 发往 ThingsBoard 平台。同时，它也接平台下发的 RPC、属性更新、远程配置，把这些控制动作重新路由回对应的连接器或本地管理模块。</p>
+<p>所以它的核心可以理解成五层：入口与配置层、连接器层、统一数据层、本地缓冲与发送层、平台管理与下行控制层。</p>
+<p><strong>主编排器</strong></p>
+<p>整个运行时的中心是 <code>TBGatewayService</code>，源码在 <a href="/path/to/competition-workspace/upstream/thingsboard-gateway/thingsboard_gateway/gateway/tb_gateway_service.py">tb_gateway_service.py</a>。它启动后会读取 <code>tb_gateway.json</code>、<code>logs.json</code> 和各 connector 配置文件，然后创建存储、报送策略、设备过滤器、ThingsBoard 客户端、连接器实例、远程配置器，以及一组后台线程。</p>
+<p>图里的大框 “TBGatewayService - main orchestrator” 就对应这个类。它维护设备注册表、连接器索引、转换数据队列、RPC 队列、属性同步队列、已发布事件记录，以及 connector reload、watcher、统计、远程日志等辅助能力。换句话说，Gateway 的业务状态几乎都由它协调。</p>
+<p><strong>连接器层</strong></p>
+<p>连接器层负责接触外部世界。代码里的默认连接器来自 <code>DEFAULT_CONNECTORS</code>，实际是 15 类：MQTT、Modbus、OPC UA、BLE、Request、CAN、BACnet、ODBC、REST、SNMP、FTP、Socket、XMPP、OCPP、KNX。这里我按源码修正了 Claude 页面里容易引起误会的连接器数量。</p>
+<p>每个连接器都遵守 <code>Connector</code> 抽象接口：<code>open()</code>、<code>close()</code>、<code>is_connected()</code>、<code>on_attributes_update()</code>、<code>server_side_rpc_handler()</code> 等。它们各自管理协议连接、重连、轮询、订阅、请求、解析，然后把协议原始数据交给 converter。</p>
+<p>连接器的关键点是：协议差异都限制在 connector 与 converter 内部。到了 Gateway 中央层，数据会被转换成统一的 <code>ConvertedData</code>。</p>
+<p><strong>统一数据模型</strong></p>
+<p><code>ConvertedData</code> 是上行数据的标准形态，包含 <code>deviceName</code>、<code>deviceType</code>、<code>telemetry</code>、<code>attributes</code>、<code>metadata</code>。它还支持按 <code>maxPayloadSizeBytes</code> 拆分，避免单次 MQTT payload 超过配置限制。</p>
+<p>这一步很重要，因为后面的存储、过滤、报送策略、MQTT 发布逻辑，都依赖这个统一结构。也就是说，新增一个协议时，编码人员主要要实现 connector 生命周期、converter 转换规则，以及下行 RPC/属性写回逻辑；中间的数据管线可以复用。</p>
+<p><strong>上行数据路径</strong></p>
+<p>数据流动图 A 区展示的是上行主链路：设备或外部源先进入 connector，connector 解析协议数据并调用 converter，converter 输出 <code>ConvertedData</code>，然后 connector 调用 <code>gateway.send_to_storage()</code>。</p>
+<p>进入 <code>send_to_storage()</code> 后，Gateway 会先经过可选的 <code>DeviceFilter</code>，再处理延迟元数据和报送策略。报送策略支持 <code>ON_RECEIVED</code>、<code>ON_CHANGE</code>、<code>ON_REPORT_PERIOD</code>、<code>ON_CHANGE_OR_REPORT_PERIOD</code>、<code>DISABLED</code> 等模式，可以按全局、connector、数据点几个层级决定数据是否需要进入后续队列。</p>
+<p>通过策略的数据进入 <code>__converted_data_queue</code>。后台的 storage fill thread 会批量取出队列内容，触发设备生命周期副作用，比如 <code>add_device()</code>、<code>gw_connect_device()</code>、发送 connectorName 与 connectorType 属性，然后把 JSON 事件包写入本地 <code>EventStorage</code>。</p>
+<p><strong>本地存储与可靠发送</strong></p>
+<p>Gateway 有三种事件存储实现：内存、文件、SQLite。存储层的接口是 <code>put()</code>、<code>get_event_pack()</code>、<code>event_pack_processing_done()</code>。它承担的是“平台连接暂时不可用时，事件可以先留在本地，之后继续发送”的职责。</p>
+<p>发送线程 <code>__read_data_from_storage()</code> 会在 ThingsBoard 客户端已连接时读取事件包，按 <code>deviceName</code> 聚合 telemetry 与 attributes，然后调用 <code>__send_data()</code>。如果发布 future 全部成功，才调用 <code>event_pack_processing_done()</code> 确认这一批事件已经处理完成；如果发布失败，事件会留在存储里，等待之后再次发送。</p>
+<p>这就是图里从 EventStorage 到 Send data thread，再到 Publish、ThingsBoard 的那条红蓝混合路径。</p>
+<p><strong>平台连接层</strong></p>
+<p>平台连接由 <code>TBClient</code> 包装 <code>TBGatewayMqttClient</code> 完成，源码在 <a href="/path/to/competition-workspace/upstream/thingsboard-gateway/thingsboard_gateway/gateway/tb_client.py">tb_client.py</a>。它支持 access token、用户名密码、X.509、provisioning、TLS、proxy、rate limits、重连等。</p>
+<p>上行发送分两类：Gateway 自身属性/遥测用 <code>send_attributes()</code>、<code>send_telemetry()</code>；子设备数据用 <code>gw_send_attributes()</code>、<code>gw_send_telemetry()</code>。这也是 ThingsBoard Gateway API 的核心边界：平台看到的是一个 Gateway 设备，以及它代管的多个 child devices。</p>
+<p><strong>下行 RPC 与属性</strong></p>
+<p>数据流动图 B 区是平台到边缘侧的下行路径。平台下发 RPC 或属性后，MQTT 客户端的订阅回调会进入 <code>_rpc_request_handler()</code> 或 <code>_attribute_update_callback()</code>。</p>
+<p>RPC 分两类：如果目标是具体子设备，Gateway 会把请求写入 <code>__rpc_to_devices_queue</code>，再根据设备名找到所属 connector，调用 connector 的 <code>server_side_rpc_handler()</code>；如果目标是 Gateway 本身，则由 gateway RPC 方法处理，比如 ping、stats、devices、update、version、device_renamed、device_deleted 等。</p>
+<p>属性更新也类似。Gateway 会判断这是 Gateway 属性还是子设备属性，然后路由到对应 connector 的 <code>on_attributes_update()</code>。connector 再把属性变化翻译成协议写入、请求、命令或本地状态变化。</p>
+<p><strong>远程配置与 watcher</strong></p>
+<p>数据流动图 C 区讲的是管理面。<code>RemoteConfigurator</code> 会把当前配置作为 Gateway attributes 发到平台，也会监听平台发来的配置属性，例如 general、storage、grpc、logs、active_connectors、connector config 等。</p>
+<p>当配置更新进入 <code>RECEIVED_UPDATE_QUEUE</code> 后，远程配置线程会按类型执行处理：重建 TBClient、替换 EventStorage、初始化或关闭 gRPC、更新日志、重载 connector、更新设备过滤或报送策略。与此同时，<code>_watchers()</code> 会处理重连后的重新订阅、connector 配置文件变化检测、RPC 超时、共享属性请求、日志版本更新等周期性任务。</p>
+<p>这部分让 Gateway 可以通过平台进行运行时维护，但它仍然以本地配置文件和源码能力为边界；图里没有纳入 ThingsBoard 服务器内部实现。</p>
+<p><strong>可选 gRPC 连接器路径</strong></p>
+<p>D 区是可选的外部 connector 进程路径。Gateway 内部启动 <code>TBGRPCServerManager</code>，外部进程基于 <code>GwGrpcConnector</code> 连接到本地 gRPC 服务，注册 connector id，然后通过 protobuf 消息上送 telemetry、attributes、connect、disconnect、RPC response 等。</p>
+<p>Gateway 侧用 <code>GrpcUplinkConverter</code> 把这些消息转成核心 API 调用，例如 <code>send_to_storage()</code>、<code>add_device_async()</code>、<code>del_device_async()</code>、<code>send_rpc_reply()</code>。下行时则通过 <code>GrpcConnector</code> 和 <code>GrpcDownlinkConverter</code> 把属性更新或 RPC 请求写回外部进程。</p>
+<p>这个设计让某些 connector 可以脱离主进程运行，但进入 Gateway 中央管线之后，仍然复用同一套队列、存储、设备注册和 MQTT 发送逻辑。</p>
+<p><strong>实现视角</strong></p>
+<p>如果一个编码人员要按图实现这个 Gateway，关键骨架就是：先实现 <code>TBGatewayService</code> 这个编排中心；再定义 connector/converter 接口；接着实现 <code>ConvertedData</code>、report strategy、EventStorage；然后接入 ThingsBoard MQTT Gateway API；最后补齐 RPC、属性、远程配置、watcher、统计和可选 gRPC 扩展。</p>
+<p>分析助手这次图里刻意没有画 ThingsBoard Server、ThingsBoard Edge、UI widgets 或 dashboard 之类内容，因为这些都超出了 <code>upstream/thingsboard-gateway</code> 的运行时代码边界。这里的 Gateway 可以被理解成一个独立的、协议可扩展的边缘数据与控制中转层。</p>
+
+            
+            
+        </body>
+        </html>

@@ -1,0 +1,79 @@
+{
+  "checked_at": "2026-10-05T10:54:23.748653+00:00",
+  "passed": true,
+  "scope": "确认P5-R02原始返回失败与当前持久状态，修正及复验仍在进行",
+  "target_release": "4650fb4a0a38ea4c6598dc8d42d48fec1cef48c07f71f8787ffb329b713b69e5",
+  "target_generation": 18,
+  "failure": "application exited before becoming ready: exit status 1",
+  "observed_rule_state": [
+    {
+      "kind": "release_runtime",
+      "id": "active",
+      "local_revision": 12,
+      "body": {
+        "program_sha256": "1cdb0b64ce326610a8883280d7051151db2a41cefd95b3a57033c96225fe9110",
+        "release_id": "recovery-r01-final-five-v2",
+        "sha256": "ce6391fa421cc78eff5db19333783399f953aae06a7800ba90c275071f203580"
+      }
+    },
+    {
+      "kind": "release_rule_activation",
+      "id": "release-temperature",
+      "local_revision": 8,
+      "body": {
+        "release_sha256": "4650fb4a0a38ea4c6598dc8d42d48fec1cef48c07f71f8787ffb329b713b69e5",
+        "source_sha256": "2415e28716cbfc958f5f798198d4073ddee55eb22fe9d2dc994a8d41321d81c1",
+        "applied_sha256": "b84ef26399bc43eabd2af2fe5756715135415c8438c0877c9b3efb7b6acdad61",
+        "definition_version": 10
+      }
+    },
+    {
+      "kind": "definition",
+      "id": "release-temperature",
+      "local_revision": 11,
+      "body": {
+        "id": "release-temperature",
+        "version": 11,
+        "status": "disabled"
+      }
+    }
+  ],
+  "evidence": [
+    {
+      "path": "/private/tmp/smartfactory-phase5-release-rule-roundtrip-coordinator-20261005/result.json",
+      "observed_source": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-third/result.json",
+      "sha256": "556ec092efb81cfc428b286bc20f296e16415ec9463f341ea07a7b35bac044cc",
+      "bytes": 204
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-release-rule-roundtrip-coordinator-20261005/checks.json",
+      "observed_source": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-third/evidence/checks.json",
+      "sha256": "4ea2e969066ab3ba246964a00a5428621e86b877efa6c3ec40a86d73ad4d2f4a",
+      "bytes": 14403
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-release-rule-roundtrip-coordinator-20261005/processes.json",
+      "observed_source": "/private/tmp/smartfactory-release-restore-recovery-20261005/process-final-third/evidence/processes.json",
+      "sha256": "9e2629a563d9d9ad736ae45322198fed467107bd1ca28fd495eac62b5459ff59",
+      "bytes": 2804
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-release-rule-roundtrip-coordinator-20261005/program.log",
+      "observed_source": "/private/tmp/smartfactory-phase5-release-process-tenth-20261005/private/agent-a/program.log",
+      "sha256": "606257072f59807c3f46503adcca6c1c1c32f99d4eb16880f8e3ad7ef8f65925",
+      "bytes": 239928
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-release-rule-roundtrip-coordinator-20261005/runtime-before-fix.go",
+      "observed_source": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-final-second/source/Platform/internal/releaseruntime/runtime.go",
+      "sha256": "85b8d81b1352242904b48ec813e1fe0f3a9f1a6072d4b6191cf3452f51f6db2b",
+      "bytes": 11681
+    },
+    {
+      "path": "/private/tmp/smartfactory-phase5-release-rule-roundtrip-coordinator-20261005/observed-rule-state.json",
+      "sha256": "7ada734d70c209a68d5a7d031ec44f37179b209a0ac1bf92bfb61019a13413f8",
+      "bytes": 1221
+    }
+  ],
+  "corrected": false
+}

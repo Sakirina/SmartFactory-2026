@@ -1,0 +1,86 @@
+{
+  "checked_at": "2026-10-05T01:03:20.980735+00:00",
+  "status": "verified",
+  "scope": "Saved native and final business/query specialist source inputs; AI files intentionally excluded from final business snapshot as recorded by coordinator",
+  "results": [
+    {
+      "manifest": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/native-actual-inputs.json",
+        "sha256": "5f50ab092693f1ff3bceb87fc06f7fb7126a30142d89e57815f4513cd8b52aa9"
+      },
+      "snapshot": "/private/tmp/smartfactory-business-native-20261005-retry/compiled-source",
+      "input_selection": [
+        {
+          "argv": [
+            "go",
+            "list",
+            "-deps",
+            "-test",
+            "-json",
+            "./internal/api"
+          ],
+          "module": "Platform"
+        }
+      ],
+      "checked": {
+        "local": 174,
+        "generated": 1,
+        "module": 1475,
+        "toolchain": 1366
+      },
+      "reported_package_count": 615,
+      "errors": []
+    },
+    {
+      "manifest": {
+        "path": "/path/to/SmartFactory-2026/.local/evolution/business-evidence/final-actual-inputs.json",
+        "sha256": "740b7e2ed1cdac974410f86a30caec41aee187e013488b112a3521ec39b65146"
+      },
+      "snapshot": "/private/tmp/smartfactory-business-final-20261005-085650-v2",
+      "input_selection": [
+        {
+          "argv": [
+            "go",
+            "list",
+            "-deps",
+            "-test",
+            "-json",
+            "./internal/store",
+            "./internal/application",
+            "./internal/api",
+            "./internal/cloudsync",
+            "./internal/deviceconfig",
+            "./internal/thingsboard",
+            "./internal/app",
+            "./internal/scenetemplates",
+            "./cmd/sf-cloud",
+            "./cmd/sf-edge",
+            "./cmd/sf-contracts",
+            "./cmd/sf-business-fixture"
+          ],
+          "module": "Platform"
+        },
+        {
+          "argv": [
+            "go",
+            "list",
+            "-deps",
+            "-test",
+            "-json",
+            "./internal/config",
+            "./internal/configmanager"
+          ],
+          "module": "DataTransfer"
+        }
+      ],
+      "checked": {
+        "local": 274,
+        "generated": 10,
+        "module": 1786,
+        "toolchain": 1382
+      },
+      "reported_package_count": 1073,
+      "errors": []
+    }
+  ]
+}

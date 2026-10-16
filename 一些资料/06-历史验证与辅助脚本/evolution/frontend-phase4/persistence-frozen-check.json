@@ -1,0 +1,314 @@
+{
+  "captured_utc": "2026-10-05T04:03:11.486809+00:00",
+  "mode": "SQLite read-only after five owned services stopped; JSON integer types and original HTTP/model bytes preserved",
+  "checks": [
+    {
+      "name": "continuous sampling acknowledgement commits exactly once",
+      "passed": true,
+      "facts": {
+        "alarm_id": "424ad4ac7328392e365de9ac5b328fbf1bec9a52198da72690cd56c4851c7764",
+        "request_id": "412d9245-40ad-4dc7-b5cb-7c534339b0cb",
+        "stored_requests": 1,
+        "operations": 1,
+        "reviewed_action_version": "978abd2b31e85c55df16c6d6dd8e64b98c4d1fc3ad5e0c2da71b6b68559485fb"
+      }
+    },
+    {
+      "name": "acknowledgement has one matching actor and persisted audit snapshot",
+      "passed": true,
+      "facts": {
+        "operation_id": "alarm-op:c64d536e003633cd2251d2c81300efa43f9a2293936af8e9c5155de8707012d7"
+      }
+    },
+    {
+      "name": "conflicting manual alarm action has no persisted request",
+      "passed": true,
+      "facts": {
+        "failed_request_id": "ef9806f9-7b77-44a1-8233-887b81c11bb6"
+      }
+    },
+    {
+      "name": "reviewed handover and subsequent completion persist",
+      "passed": true,
+      "facts": {
+        "work_order_id": "work-7b7c626b-d326-4993-90a6-5e6f4f16c1a3",
+        "work_order_version": 4,
+        "status": "completed",
+        "owner": "operator-b",
+        "handover_id": "handover:9dc609736d528da8395a0e09ec275d10ed841dc21475a2a0bec48220883562e7",
+        "pending_items": 2
+      }
+    },
+    {
+      "name": "handover and completion actors match audit records",
+      "passed": true,
+      "facts": {
+        "handover_actor": "operator-a",
+        "completion_actor": "operator-b"
+      }
+    },
+    {
+      "name": "five templates and twenty-five exact drafts persist with pinned versions",
+      "passed": true,
+      "facts": {
+        "batch_id": "batch-f7612295-02ad-4b93-a717-6138633a4b6b",
+        "drafts": 25,
+        "bindings": 5
+      }
+    },
+    {
+      "name": "failed template retry preserves zero drafts and both attempts",
+      "passed": true,
+      "facts": {
+        "batch_id": "batch-0830243d-956c-4962-9f95-963dc32bade7",
+        "attempts": 2,
+        "drafts": 0
+      }
+    },
+    {
+      "name": "protocol exact integer and unknown extension persist: modbus_tcp",
+      "passed": true,
+      "facts": {
+        "device_id": "device-climate-ventilation",
+        "protocol": "modbus_tcp",
+        "version": 2,
+        "counter": 9007199254740993,
+        "integer_type": "int"
+      }
+    },
+    {
+      "name": "protocol exact integer and unknown extension persist: mqtt_device",
+      "passed": true,
+      "facts": {
+        "device_id": "device-infrared-lighting",
+        "protocol": "mqtt_device",
+        "version": 2,
+        "counter": 9007199254740993,
+        "integer_type": "int"
+      }
+    },
+    {
+      "name": "protocol exact integer and unknown extension persist: opcua",
+      "passed": true,
+      "facts": {
+        "device_id": "device-hazardous-gas",
+        "protocol": "opcua",
+        "version": 2,
+        "counter": 9007199254740993,
+        "integer_type": "int"
+      }
+    },
+    {
+      "name": "edge protocol preserves numeric string and extended datapoint",
+      "passed": true,
+      "facts": {
+        "device_id": "device-goods-counting",
+        "version": 2
+      }
+    },
+    {
+      "name": "node integer values extensions and Chinese device selection persist",
+      "passed": true,
+      "facts": {
+        "draft_id": "alarm-5fa74bbb",
+        "version": 1,
+        "device_ids": [
+          "device-climate-ventilation"
+        ]
+      }
+    },
+    {
+      "name": "draft conflict adoption retains edits with authoritative new revision",
+      "passed": true,
+      "facts": {
+        "draft_id": "scene-1/humidity-average",
+        "version": 4,
+        "draft_name": "后台修改之后仍保留的未提交编辑"
+      }
+    },
+    {
+      "name": "cloud production entrypoint normal Ingest persists all eight exact values",
+      "passed": true,
+      "facts": {
+        "rows": [
+          {
+            "key": "precise_signed",
+            "value_type": "int",
+            "exact_match": true,
+            "quality": "GOOD",
+            "unit": "count"
+          },
+          {
+            "key": "precise_unsigned",
+            "value_type": "int",
+            "exact_match": true,
+            "quality": "GOOD",
+            "unit": "count"
+          },
+          {
+            "key": "precise_integer",
+            "value_type": "int",
+            "exact_match": true,
+            "quality": "GOOD",
+            "unit": "count"
+          },
+          {
+            "key": "precise_float",
+            "value_type": "float",
+            "exact_match": true,
+            "quality": "GOOD",
+            "unit": "count"
+          },
+          {
+            "key": "precise_string",
+            "value_type": "str",
+            "exact_match": true,
+            "quality": "GOOD",
+            "unit": "count"
+          },
+          {
+            "key": "precise_boolean",
+            "value_type": "bool",
+            "exact_match": true,
+            "quality": "GOOD",
+            "unit": "count"
+          },
+          {
+            "key": "precise_aggregate",
+            "value_type": "dict",
+            "exact_match": true,
+            "quality": "GOOD",
+            "unit": "count"
+          },
+          {
+            "key": "precise_bad",
+            "value_type": "int",
+            "exact_match": true,
+            "quality": "BAD",
+            "unit": "count"
+          }
+        ]
+      }
+    },
+    {
+      "name": "edge production entrypoint normal Ingest persists all eight exact values",
+      "passed": true,
+      "facts": {
+        "rows": [
+          {
+            "key": "precise_signed",
+            "value_type": "int",
+            "exact_match": true,
+            "quality": "GOOD",
+            "unit": "count"
+          },
+          {
+            "key": "precise_unsigned",
+            "value_type": "int",
+            "exact_match": true,
+            "quality": "GOOD",
+            "unit": "count"
+          },
+          {
+            "key": "precise_integer",
+            "value_type": "int",
+            "exact_match": true,
+            "quality": "GOOD",
+            "unit": "count"
+          },
+          {
+            "key": "precise_float",
+            "value_type": "float",
+            "exact_match": true,
+            "quality": "GOOD",
+            "unit": "count"
+          },
+          {
+            "key": "precise_string",
+            "value_type": "str",
+            "exact_match": true,
+            "quality": "GOOD",
+            "unit": "count"
+          },
+          {
+            "key": "precise_boolean",
+            "value_type": "bool",
+            "exact_match": true,
+            "quality": "GOOD",
+            "unit": "count"
+          },
+          {
+            "key": "precise_aggregate",
+            "value_type": "dict",
+            "exact_match": true,
+            "quality": "GOOD",
+            "unit": "count"
+          },
+          {
+            "key": "precise_bad",
+            "value_type": "int",
+            "exact_match": true,
+            "quality": "BAD",
+            "unit": "count"
+          }
+        ]
+      }
+    },
+    {
+      "name": "five model-visible tool results persist byte-for-byte with ToolCallID and SHA256",
+      "passed": true,
+      "facts": {
+        "tool_results": [
+          {
+            "id": "f863b47d66044796d5e8db906eced956",
+            "tool_call_id": "fixture-call-0",
+            "sha256": "db559221dfbba2ae08698d085bc732dea7f9e4a974e4c47b73f2aee3286d07e3",
+            "matches": true
+          },
+          {
+            "id": "a9aeb32fa23c38917c420d5f22e02b58",
+            "tool_call_id": "fixture-call-1",
+            "sha256": "99993fb6a6effce28c4cd1b6640578ea2b58fe8f1a6fcced1186faa4ad5d16e0",
+            "matches": true
+          },
+          {
+            "id": "ae613ab4aa32e06db5fc792b0454a8a0",
+            "tool_call_id": "fixture-call-2",
+            "sha256": "299d257f61ed4b3721af412a54e144c07c62567977709eed3e0e3b47b2a04839",
+            "matches": true
+          },
+          {
+            "id": "665b9cee54ca105e70a56b1886169798",
+            "tool_call_id": "fixture-call-3",
+            "sha256": "44972a26669b75cbe5821f3a6395e67e51349f63f83c377ecbd774de1f484f2a",
+            "matches": true
+          },
+          {
+            "id": "e4ef7d306b6f569d12f8ce3f7263844b",
+            "tool_call_id": "fixture-call-4",
+            "sha256": "30dc3df180a4f68287c8de48b5ae22ee764e6f1c73bf2b6016d08975fdc62b8f",
+            "matches": true
+          }
+        ],
+        "model_transcript_checks": 5
+      }
+    },
+    {
+      "name": "explicit investigation content deletion persists cleared messages and answer",
+      "passed": true,
+      "facts": {
+        "investigation_id": "642a52c3bb0253de159a3a14fc28e54a"
+      }
+    },
+    {
+      "name": "all captured final browser pages have zero JavaScript exceptions",
+      "passed": true,
+      "facts": {
+        "captured_pages": 57,
+        "errors": []
+      }
+    }
+  ],
+  "passed": 18,
+  "failed": 0
+}

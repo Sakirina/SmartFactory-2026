@@ -1,0 +1,39 @@
+{
+  "finding_id": "P4-B03",
+  "recorded_at": "2026-10-05T00:14:31.816636+00:00",
+  "basis": "Coordinator compared work-order execution reference authorization with accepted control detail authorization; business owner confirmed omitted evidence DeviceID",
+  "sources_at_followup": [
+    {
+      "path": "Platform/internal/application/workorders.go",
+      "sha256": "22e6a339663da47373a086dcf044615736e7d8a0db00391b026a059316a19629",
+      "size_bytes": 20032
+    },
+    {
+      "path": "Platform/internal/application/definitions.go",
+      "sha256": "3c61daafd893d9c103efc10111c75a329922cb9caae74ef572641ae0de294efe",
+      "size_bytes": 11167
+    },
+    {
+      "path": "Platform/internal/store/control.go",
+      "sha256": "16d8f4d90c0a407631cd5d46251be7eff59f21fd0f819def5edaf6acb4f0e88a",
+      "size_bytes": 7835
+    },
+    {
+      "path": "Platform/internal/store/query_projection.go",
+      "sha256": "655296127bb23e721b8ce25fb4f0f2b41b1983c62aa2aea4796bb788a3da6fdc",
+      "size_bytes": 27607
+    }
+  ],
+  "observation": "Work-order execution references checked current and historical rule resources and execution snapshot devices, while control detail also checks command evidence devices.",
+  "agreed_design": "Authorize evidence devices, capture evidence collection digest, and compare within the operation transaction under consistent execution/evidence locking. Query projection reads evidence within its current transaction without acquiring the evidence lock again after final commit serialization.",
+  "ownership": {
+    "business": "linkedResources, revisions callbacks, smallest evidence collection read/write lock additions",
+    "query": "projection read implementation and common-store combination regression"
+  },
+  "required_cases": [
+    "Cross-asset command evidence prevents unauthorized work-order create/read/handover",
+    "Evidence inserted after authorization read is detected in transaction",
+    "Normal control evidence and cloud receipt paths still pass, without lock order regression"
+  ],
+  "independent_verification_pending": true
+}

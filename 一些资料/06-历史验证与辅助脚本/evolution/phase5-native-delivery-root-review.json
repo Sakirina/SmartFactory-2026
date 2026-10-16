@@ -1,0 +1,70 @@
+{
+  "checked_at": "2026-10-05T08:30:48.171966+00:00",
+  "status": "passed",
+  "scope": "Coordinator inspection of actual native execution, recorded prebuild/post-run input correspondence and retained source bytes",
+  "verification": {
+    "path": "/private/tmp/smartfactory-delivery-native-restart-verified-20261005/verification.json",
+    "sha256": "88feecd5b0d8906009132aac2aa9f21cbfbddc702872f0282ef48ce3e7aef132",
+    "bytes": 148314
+  },
+  "retained_verification": {
+    "path": "/private/tmp/smartfactory-phase5-native-coordinator-evidence-20261005/verification.json",
+    "sha256": "88feecd5b0d8906009132aac2aa9f21cbfbddc702872f0282ef48ce3e7aef132",
+    "bytes": 148314
+  },
+  "recorded_input_count": 3226,
+  "input_kinds": {
+    "GoFiles": 3105,
+    "SFiles": 61,
+    "HFiles": 6,
+    "EmbedFiles": 62,
+    "module_lock": 2
+  },
+  "current_go_list_selection_matches_recorded_before": true,
+  "current_absolute_selection_matches_recorded_after": true,
+  "retained_inputs": {
+    "path": "/private/tmp/smartfactory-phase5-native-coordinator-evidence-20261005/retained-inputs.json",
+    "sha256": "0df2b2e01c7cd81130313197b6004de2c47ec2fd1a3da21594990efb71123755",
+    "bytes": 1200671
+  },
+  "driver_count": 7,
+  "command_count": 31,
+  "binary_count": 3,
+  "behavior_check_count": 13,
+  "http_attempt_count": 264,
+  "edge_stop_seconds": 4.902562667004531,
+  "edge_exit_code": 143,
+  "final_container_exit_codes": {
+    "thingsboard": 143,
+    "edge-a-native": 143,
+    "kafka": 143
+  },
+  "all_final_containers_without_oom": true,
+  "native_restart_timestamp": 1791188556373,
+  "retained_original_and_derived_value": 22.5,
+  "slowest_recorded_request": {
+    "at": "2026-10-05T08:24:31.542212+00:00",
+    "base": "http://127.0.0.1:19081",
+    "path": "/api/plugins/telemetry/DEVICE/ce966630-c091-11f1-bdd3-c3306a85c578/values/timeseries?keys=temperature,climate-average.temperature&startTs=1791188556372&endTs=1791188556374&agg=NONE&limit=100",
+    "method": "GET",
+    "timeout_seconds": 30,
+    "status": 200,
+    "response_bytes": 121,
+    "duration_seconds": 20.313840624992736
+  },
+  "native_fixture_settings": "private cloned databases, isolated ports and data path, 3GiB CE budget and four-connection pools; generated native entrypoint and formal Kafka heap/container settings retained",
+  "native_state_origin": "continued the preceding verifier run's isolated PostgreSQL18 CE/Edge databases, copied business SQLite/master keys and retained native Edge data",
+  "finite_workload": {
+    "new_ingress_messages": 2,
+    "same_message_duplicate_requests": 3,
+    "authenticated_native_reads_per_service": 15,
+    "native_edge_restart_count": 1,
+    "source_fixture_copied_databases_and_master_keys": true
+  },
+  "original_failures_preserved": [
+    "/private/tmp/smartfactory-delivery-native-retained-20261005/verification.json",
+    "/private/tmp/smartfactory-delivery-native-restart-final-20261005/verification.json"
+  ],
+  "pending_requirement_scope": "Final Linux release package prepared service entry and independent overall review",
+  "errors": []
+}

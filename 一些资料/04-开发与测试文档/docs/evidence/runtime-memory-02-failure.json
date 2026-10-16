@@ -1,0 +1,19 @@
+{
+  "status": "failed",
+  "environment": "macOS arm64 with amd64 containers; PostgreSQL/Kafka test data in tmpfs",
+  "phase": "runtime-memory-02",
+  "findings": [
+    "ThingsBoard CE OOMKilled at 2 GiB",
+    "native callback payload fan-out amplified work",
+    "business process owned the shared network namespace, so an individual restart disconnected its companion processes"
+  ],
+  "repairs": [
+    "coalesce backfill jobs per committed device batch",
+    "stop superseded history replay after at most 128 inputs",
+    "select inputs per native definition and cap each callback at 64 points",
+    "use a separate per-node network container",
+    "raise CE container memory limit to 2560 MiB"
+  ],
+  "five_scene_report": ".local/evidence/five-scenes-native-runtime-02.json",
+  "raw_reports_retained": true
+}

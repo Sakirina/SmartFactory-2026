@@ -1,0 +1,55 @@
+{
+  "checked_at": "2026-10-05T12:20:29.766440+00:00",
+  "status": "passed",
+  "scope": "Frozen source and runtime catalogue, current browser outputs, independent build outputs, and synchronized workspace outputs",
+  "manifest": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/release-interface/final-inputs.json",
+    "sha256": "5e860d20c919301964d14d6cb19b3c4660b3471133d850c21b96dee004e49a6e"
+  },
+  "input_count": 30931,
+  "categories": {
+    "workspace": 295,
+    "dependencies": 25836,
+    "node-runtime": 4800
+  },
+  "physical_files_hashed": 30992,
+  "output_comparisons": [
+    {
+      "kind": "static_directory",
+      "path": "/private/tmp/smartfactory-release-interface-20261005/dist-frozen",
+      "file_count": 19,
+      "all_expected_outputs_equal": true
+    },
+    {
+      "kind": "tested_static",
+      "path": "/private/tmp/smartfactory-release-interface-20261005/dist-resumed",
+      "file_count": 19,
+      "all_expected_outputs_equal": true
+    },
+    {
+      "kind": "workspace_static",
+      "path": "/path/to/SmartFactory-2026/Frontends/dist",
+      "file_count": 19,
+      "all_expected_outputs_equal": true
+    }
+  ],
+  "recorded_build_input_changes": [],
+  "logs": {
+    "build_log": {
+      "path": "/private/tmp/smartfactory-release-interface-20261005/build-final.log",
+      "sha256": "3a1f732e082ac21682b78b4adab2ff146c441dbee7182410e3801c7c0ed76197",
+      "tail": "  0.95 kB\n../../dist-frozen/assets/release-state-NEjJpnbD.js                3.34 kB │ gzip:   1.71 kB\n../../dist-frozen/assets/protocol-configurations-B8JT9j-n.js      6.51 kB │ gzip:   2.76 kB\n../../dist-frozen/assets/metadata-form-BczVp8-9.js                6.73 kB │ gzip:   2.84 kB\n../../dist-frozen/assets/alarm-workbench-D3JTEwYP.js              7.20 kB │ gzip:   3.08 kB\n../../dist-frozen/assets/assistant-DIuJOFms.js                    8.35 kB │ gzip:   3.62 kB\n../../dist-frozen/assets/work-orders-DGtpPayb.js                  8.54 kB │ gzip:   3.06 kB\n../../dist-frozen/assets/workload-identities-ZksgLOkT.js          9.98 kB │ gzip:   3.87 kB\n../../dist-frozen/assets/scene-templates-bhqrwpdz.js             16.75 kB │ gzip:   5.61 kB\n../../dist-frozen/assets/releases-BcGYcKqT.js                    20.34 kB │ gzip:   6.63 kB\n../../dist-frozen/assets/definitions-BUyFU21T.js                205.43 kB │ gzip:  66.70 kB\n../../dist-frozen/assets/main-BNwGl7jM.js                     1,811.25 kB │ gzip: 578.37 kB\n\n✓ built in 368ms\n[plugin builtin:vite-reporter] \n(!) Some chunks are larger than 500 kB after minification. Consider:\n- Using dynamic import() to code-split the application\n- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting\n- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.\n"
+    },
+    "compatibility_typecheck_log": {
+      "path": "/private/tmp/smartfactory-release-interface-20261005/typecheck-compat-final.log",
+      "sha256": "dbf8b195504f182a5e9d8670ea7a33528a7835c3f43b5d751ec4367ca5694b11",
+      "tail": "\n> smartfactory-frontends@0.1.0 typecheck:compat\n> node node_modules/typescript/bin/tsc6 --noEmit --stableTypeOrdering\n\n"
+    },
+    "unit_log": {
+      "path": "/private/tmp/smartfactory-release-interface-20261005/unit-final.log",
+      "sha256": "6915baacf15cb9d7976e839c963e4a1599800145f57fcd85dc92f3df3fe02dcc",
+      "tail": "us acceptance (0.253084ms)\n✔ operation feedback uses persisted start time and current execution outcome (0.083708ms)\n✔ history request preserves retained versus empty history, scope, versions and numeric observations (0.33175ms)\n✔ analysis pagination permits empty authorized pages and preserves precise node values (0.265125ms)\n✔ shadow stop uses the read management version without retrying a conflict (0.13175ms)\n✔ formal source and waiting parent labels preserve independent comparison meaning (0.090625ms)\n✔ official generated types retain nullable collections, input parameters, response variants and failure statuses (271.908459ms)\n✔ complete delta applies exact revisions, removals and metadata before advancing opaque cursor (0.615708ms)\n✔ metadata-only events update source freshness even at the same commit cursor (0.068167ms)\n✔ invalid event revision leaves complete previous window intact (0.12ms)\n✔ metadata integer parsing retains numeric identity and validates enums, range and required fields (0.950667ms)\n✔ chart approximate coordinates retain precise tooltip values and units (29.488166ms)\n✔ resource navigation escapes complete Chinese slash and colon identifiers (0.136209ms)\n✔ a late HTTP window preserves the later committed SSE rows tombstones and opaque cursor (0.122375ms)\nℹ tests 27\nℹ suites 0\nℹ pass 27\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 429.325417\n"
+    }
+  },
+  "errors": []
+}

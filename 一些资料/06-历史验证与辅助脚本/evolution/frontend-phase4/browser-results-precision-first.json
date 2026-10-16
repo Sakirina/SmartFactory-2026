@@ -1,0 +1,280 @@
+{
+  "config": {
+    "argv": [
+      "/path/to/SmartFactory-2026/.local/toolchains/node-v24.21.0-darwin-arm64/bin/node",
+      "/path/to/SmartFactory-2026/Frontends/node_modules/.bin/playwright",
+      "test",
+      "-c",
+      "playwright.phase4.config.ts",
+      "phase4-precision.spec.ts"
+    ],
+    "configFile": "/path/to/SmartFactory-2026/Frontends/playwright.phase4.config.ts",
+    "rootDir": "/path/to/SmartFactory-2026/Frontends/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/private/tmp/smartfactory-frontend-phase4-20261005/playwright-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/path/to/SmartFactory-2026/Frontends/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "phase4*.spec.ts"
+        ],
+        "timeout": 90000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "../.local/evolution/frontend-phase4/browser-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "phase4-precision.spec.ts",
+      "file": "phase4-precision.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "cloud and edge real charts tables and complete export preserve every numeric representation",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 889,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 3\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"Cannot read properties of undefined (reading 'getDataParams')\",\u001b[39m\n\u001b[31m+ ]\u001b[39m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 3\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"Cannot read properties of undefined (reading 'getDataParams')\",\u001b[39m\n\u001b[31m+ ]\u001b[39m\n    at capture (/path/to/SmartFactory-2026/Frontends/tests/phase4-support.ts:14:298)\n    at /path/to/SmartFactory-2026/Frontends/tests/phase4-precision.spec.ts:11:1398",
+                    "location": {
+                      "file": "/path/to/SmartFactory-2026/Frontends/tests/phase4-support.ts",
+                      "column": 298,
+                      "line": 14
+                    },
+                    "snippet": "\u001b[90m   at \u001b[39mphase4-support.ts:14\n\n  12 | export async function instrument(page:Page){await mkdir(evidence,{recursive:true});const r={requests:[] as unknown[],console:[] as unknown[],errors:[] as string[]};records.set(page,r);page.on('pageerror',error=>r.errors.push(error.message));page.on('console',message=>{if(['warning','error'].includes(message.type()))r.console.push({type:message.type(),text:message.text()});});page.on('response',async response=>{const url=response.url();if(!url.includes('/api/sf/')||/\\/login|\\/logout|\\/me/.test(url))return;const request=response.request();let body;try{body=clean(JSON.parse(request.postData()||'null'));}catch{body='non-json';}r.requests.push({method:request.method(),url,status:response.status(),body});});}\n  13 | export async function login(page:Page,kind='cloud',surface='index.html',user='operator-a'){await instrument(page);const credentials=JSON.parse(await readFile(path.join(root,kind==='ai'?(process.env.SF_PHASE4_AI_DIR||'ai-first'):kind+'-'+(process.env.SF_PHASE4_DATA_SUFFIX||'first'),'private-credentials.json'),'utf8'));const base=kind==='edge'?edge:kind==='ai'?aiURL:cloud;await page.goto(base+'/'+surface);await page.getByLabel('账号',{exact:true}).fill(user);await page.getByLabel('密码',{exact:true}).fill(credentials.password);await page.getByRole('button',{name:'登录',exact:true}).click();await expect(page.getByRole('button',{name:'退出',exact:true})).toBeVisible();}\n> 14 | export async function capture(page:Page,name:string){const r=records.get(page)!;await page.screenshot({path:path.join(evidence,name+'.png'),fullPage:true});await writeFile(path.join(evidence,name+'.json'),JSON.stringify({url:page.url(),viewport:page.viewportSize(),...r},null,2));expect(r.errors).toEqual([]);}\n     |                                                                                                                                                                                                                                                                                                          ^\n  15 | export async function route(page:Page,hash:string){await page.evaluate(hash=>{location.hash=hash;},hash);}\n  16 | export async function jsonAPI(page:Page,resource:string,body?:unknown){return page.evaluate(async({resource,body})=>{const token=sessionStorage.getItem('smartfactory.session.'+location.host);const response=await fetch('/api/sf/v1'+resource,{method:body===undefined?'GET':'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+token},body:body===undefined?undefined:JSON.stringify(body)});return {status:response.status,text:await response.text()};},{resource,body});}\n  17 |"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/path/to/SmartFactory-2026/Frontends/tests/phase4-support.ts",
+                        "column": 298,
+                        "line": 14
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 3\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"Cannot read properties of undefined (reading 'getDataParams')\",\u001b[39m\n\u001b[31m+ ]\u001b[39m\n\n   at phase4-support.ts:14\n\n  12 | export async function instrument(page:Page){await mkdir(evidence,{recursive:true});const r={requests:[] as unknown[],console:[] as unknown[],errors:[] as string[]};records.set(page,r);page.on('pageerror',error=>r.errors.push(error.message));page.on('console',message=>{if(['warning','error'].includes(message.type()))r.console.push({type:message.type(),text:message.text()});});page.on('response',async response=>{const url=response.url();if(!url.includes('/api/sf/')||/\\/login|\\/logout|\\/me/.test(url))return;const request=response.request();let body;try{body=clean(JSON.parse(request.postData()||'null'));}catch{body='non-json';}r.requests.push({method:request.method(),url,status:response.status(),body});});}\n  13 | export async function login(page:Page,kind='cloud',surface='index.html',user='operator-a'){await instrument(page);const credentials=JSON.parse(await readFile(path.join(root,kind==='ai'?(process.env.SF_PHASE4_AI_DIR||'ai-first'):kind+'-'+(process.env.SF_PHASE4_DATA_SUFFIX||'first'),'private-credentials.json'),'utf8'));const base=kind==='edge'?edge:kind==='ai'?aiURL:cloud;await page.goto(base+'/'+surface);await page.getByLabel('账号',{exact:true}).fill(user);await page.getByLabel('密码',{exact:true}).fill(credentials.password);await page.getByRole('button',{name:'登录',exact:true}).click();await expect(page.getByRole('button',{name:'退出',exact:true})).toBeVisible();}\n> 14 | export async function capture(page:Page,name:string){const r=records.get(page)!;await page.screenshot({path:path.join(evidence,name+'.png'),fullPage:true});await writeFile(path.join(evidence,name+'.json'),JSON.stringify({url:page.url(),viewport:page.viewportSize(),...r},null,2));expect(r.errors).toEqual([]);}\n     |                                                                                                                                                                                                                                                                                                          ^\n  15 | export async function route(page:Page,hash:string){await page.evaluate(hash=>{location.hash=hash;},hash);}\n  16 | export async function jsonAPI(page:Page,resource:string,body?:unknown){return page.evaluate(async({resource,body})=>{const token=sessionStorage.getItem('smartfactory.session.'+location.host);const response=await fetch('/api/sf/v1'+resource,{method:body===undefined?'GET':'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+token},body:body===undefined?undefined:JSON.stringify(body)});return {status:response.status,text:await response.text()};},{resource,body});}\n  17 |\n    at capture (/path/to/SmartFactory-2026/Frontends/tests/phase4-support.ts:14:298)\n    at /path/to/SmartFactory-2026/Frontends/tests/phase4-precision.spec.ts:11:1398"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T02:45:05.788Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/private/tmp/smartfactory-frontend-phase4-20261005/playwright-results/phase4-precision-cloud-and-5a491-very-numeric-representation/error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/path/to/SmartFactory-2026/Frontends/tests/phase4-support.ts",
+                    "column": 298,
+                    "line": 14
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "b7db7b09d55b43b15674-d14b554c97facac1d07f",
+          "file": "phase4-precision.spec.ts",
+          "line": 9,
+          "column": 1
+        },
+        {
+          "title": "screen metric details tooltip and complete export preserve precise observation",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 17024,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('dialog', { name: '精确累计指标' }).locator('.sf-chart-tooltip:visible')\nExpected substring: \u001b[32m\"9007199254740993\"\u001b[39m\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('dialog', { name: '精确累计指标' }).locator('.sf-chart-tooltip:visible') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('dialog', { name: '精确累计指标' }).locator('.sf-chart-tooltip:visible')\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('dialog', { name: '精确累计指标' }).locator('.sf-chart-tooltip:visible')\nExpected substring: \u001b[32m\"9007199254740993\"\u001b[39m\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('dialog', { name: '精确累计指标' }).locator('.sf-chart-tooltip:visible') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('dialog', { name: '精确累计指标' }).locator('.sf-chart-tooltip:visible')\u001b[22m\n\n    at /path/to/SmartFactory-2026/Frontends/tests/phase4-precision.spec.ts:16:1444",
+                    "location": {
+                      "file": "/path/to/SmartFactory-2026/Frontends/tests/phase4-precision.spec.ts",
+                      "column": 1444,
+                      "line": 16
+                    },
+                    "snippet": "  14 |\n  15 | test('screen metric details tooltip and complete export preserve precise observation',async({page})=>{\n> 16 |   test.skip(phase!=='precision');await login(page,'cloud','screen.html','admin');const manifest=JSON.parse(await readFile(path.join(root,'cloud-precision','precision-manifest.json'),'utf8'));const entities=JSON.parse((await jsonAPI(page,'/entities')).text);const name=entities.find((entity:any)=>entity.id===manifest.device).name;await page.getByRole('button',{name:'配置大屏',exact:true}).click();const modal=page.getByRole('dialog',{name:'配置运行大屏'});while(await modal.getByRole('button',{name:'删除',exact:true}).count())await modal.getByRole('button',{name:'删除',exact:true}).first().click();await modal.getByRole('button',{name:'添加指标',exact:true}).click();await modal.getByLabel('指标 1 的设备').click();await page.locator('.ant-select-dropdown:visible').getByText(name,{exact:true}).click();await modal.getByLabel('指标 1 的测点').fill('precise_integer');await modal.getByLabel('指标 1 的标题').fill('精确累计指标');await modal.getByRole('button',{name:'保存大屏',exact:true}).click();await expect(modal).toBeHidden();const metric=page.getByRole('button',{name:/精确累计指标/});await expect(metric).toContainText('9007199254740993');await metric.click();const drawer=page.getByRole('dialog',{name:'精确累计指标'});await expect(drawer.getByText('9007199254740993',{exact:true})).toBeVisible();const box=(await drawer.getByRole('img',{name:/测点历史趋势/}).boundingBox())!;await page.mouse.move(box.x+box.width/2,box.y+box.height/2);await expect(drawer.locator('.sf-chart-tooltip:visible')).toContainText('9007199254740993');await capture(page,'screen-exact-detail-tooltip');await drawer.getByRole('button',{name:'关闭',exact:true}).click();const raw=await exactDownload(page,'导出精确大屏数据','screen-exact-export');expect(raw).toMatch(/\"value\":\\s*9007199254740993/);expect(raw).toContain('18446744073709551615');await capture(page,'screen-exact-metric-export');\n     |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ^\n  17 | });\n  18 |\n  19 | test('actual subscription passes a heartbeat new commit and opaque cursor reconnection',async({page,context})=>{"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/path/to/SmartFactory-2026/Frontends/tests/phase4-precision.spec.ts",
+                        "column": 1444,
+                        "line": 16
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('dialog', { name: '精确累计指标' }).locator('.sf-chart-tooltip:visible')\nExpected substring: \u001b[32m\"9007199254740993\"\u001b[39m\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('dialog', { name: '精确累计指标' }).locator('.sf-chart-tooltip:visible') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('dialog', { name: '精确累计指标' }).locator('.sf-chart-tooltip:visible')\u001b[22m\n\n\n  14 |\n  15 | test('screen metric details tooltip and complete export preserve precise observation',async({page})=>{\n> 16 |   test.skip(phase!=='precision');await login(page,'cloud','screen.html','admin');const manifest=JSON.parse(await readFile(path.join(root,'cloud-precision','precision-manifest.json'),'utf8'));const entities=JSON.parse((await jsonAPI(page,'/entities')).text);const name=entities.find((entity:any)=>entity.id===manifest.device).name;await page.getByRole('button',{name:'配置大屏',exact:true}).click();const modal=page.getByRole('dialog',{name:'配置运行大屏'});while(await modal.getByRole('button',{name:'删除',exact:true}).count())await modal.getByRole('button',{name:'删除',exact:true}).first().click();await modal.getByRole('button',{name:'添加指标',exact:true}).click();await modal.getByLabel('指标 1 的设备').click();await page.locator('.ant-select-dropdown:visible').getByText(name,{exact:true}).click();await modal.getByLabel('指标 1 的测点').fill('precise_integer');await modal.getByLabel('指标 1 的标题').fill('精确累计指标');await modal.getByRole('button',{name:'保存大屏',exact:true}).click();await expect(modal).toBeHidden();const metric=page.getByRole('button',{name:/精确累计指标/});await expect(metric).toContainText('9007199254740993');await metric.click();const drawer=page.getByRole('dialog',{name:'精确累计指标'});await expect(drawer.getByText('9007199254740993',{exact:true})).toBeVisible();const box=(await drawer.getByRole('img',{name:/测点历史趋势/}).boundingBox())!;await page.mouse.move(box.x+box.width/2,box.y+box.height/2);await expect(drawer.locator('.sf-chart-tooltip:visible')).toContainText('9007199254740993');await capture(page,'screen-exact-detail-tooltip');await drawer.getByRole('button',{name:'关闭',exact:true}).click();const raw=await exactDownload(page,'导出精确大屏数据','screen-exact-export');expect(raw).toMatch(/\"value\":\\s*9007199254740993/);expect(raw).toContain('18446744073709551615');await capture(page,'screen-exact-metric-export');\n     |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ^\n  17 | });\n  18 |\n  19 | test('actual subscription passes a heartbeat new commit and opaque cursor reconnection',async({page,context})=>{\n    at /path/to/SmartFactory-2026/Frontends/tests/phase4-precision.spec.ts:16:1444"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T02:45:07.249Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/private/tmp/smartfactory-frontend-phase4-20261005/playwright-results/phase4-precision-screen-me-9fc31-reserve-precise-observation/error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/path/to/SmartFactory-2026/Frontends/tests/phase4-precision.spec.ts",
+                    "column": 1444,
+                    "line": 16
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "b7db7b09d55b43b15674-c0a266b24b6a4dcac5c9",
+          "file": "phase4-precision.spec.ts",
+          "line": 15,
+          "column": 1
+        },
+        {
+          "title": "actual subscription passes a heartbeat new commit and opaque cursor reconnection",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 17078,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\nCall Log:\n- Timeout 15000ms exceeded while waiting on the predicate",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\nCall Log:\n- Timeout 15000ms exceeded while waiting on the predicate\n    at /path/to/SmartFactory-2026/Frontends/tests/phase4-precision.spec.ts:20:640",
+                    "location": {
+                      "file": "/path/to/SmartFactory-2026/Frontends/tests/phase4-precision.spec.ts",
+                      "column": 640,
+                      "line": 20
+                    },
+                    "snippet": "  18 |\n  19 | test('actual subscription passes a heartbeat new commit and opaque cursor reconnection',async({page,context})=>{\n> 20 |   test.skip(phase!=='precision');await login(page,'cloud','index.html','admin');await route(page,'alarm-workbench');await page.getByLabel('页面刷新方式').click();await page.locator('.ant-select-dropdown:visible').getByText('实时推送',{exact:true}).click();await expect(page.getByText('订阅已连接',{exact:true})).toBeVisible();const reconnects:string[]=[];page.on('request',request=>{if(request.url().endsWith('/queries/alarms/events'))reconnects.push(request.headers()['last-event-id']||'');});await context.setOffline(true);await page.waitForTimeout(1200);await context.setOffline(false);await expect.poll(()=>reconnects.some(cursor=>cursor.length>10)).toBe(true);await expect(page.getByText('订阅已连接',{exact:true})).toBeVisible();\n     |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ^\n  21 |   const scope={resource_ids:['agv-1'],keys:['heartbeat_precision'],from_ms:Date.now()-3600000,to_ms:Date.now()+60000,limit:20};const result=await page.evaluate(async scope=>{const token=sessionStorage.getItem('smartfactory.session.'+location.host);const headers={'Content-Type':'application/json',Authorization:'Bearer '+token};const controller=new AbortController();const response=await fetch('/api/sf/v1/queries/trend/events',{method:'POST',headers,body:JSON.stringify(scope),signal:controller.signal});const reader=response.body!.getReader();const decoder=new TextDecoder();let buffer='';const frames:string[]=[];let cursor='';let heartbeat=false;let delta=false;let submitted=false;const start=Date.now();try{while(Date.now()-start<23000){const chunk=await reader.read();if(chunk.done)break;buffer+=decoder.decode(chunk.value,{stream:true});let end;while((end=buffer.indexOf('\\n\\n'))>=0){const frame=buffer.slice(0,end);buffer=buffer.slice(end+2);frames.push(frame);const id=frame.split('\\n').find(line=>line.startsWith('id:'));if(id)cursor=id.slice(3).trim();if(frame.startsWith(':'))heartbeat=true;const data=frame.split('\\n').find(line=>line.startsWith('data:'));if(data&&JSON.parse(data.slice(5)).type==='delta')delta=true;}if(heartbeat&&!submitted){submitted=true;const at=Date.now();await fetch('/api/sf/v1/ingest',{method:'POST',headers,body:JSON.stringify({message_id:'heartbeat-'+at,source_id:'precision-source',payload_hash:'',critical:false,points:[{id:'heartbeat-'+at,message_id:'heartbeat-'+at,source_id:'precision-source',device_id:'agv-1',key:'heartbeat_precision',value:42,observed_ms:at,received_ms:at,source_sequence:at,revision:1,quality:'GOOD'}]})});}if(heartbeat&&delta)break;}}finally{controller.abort();}const resumed=new AbortController();const resume=await fetch('/api/sf/v1/queries/trend/events',{method:'POST',headers:{...headers,'Last-Event-ID':cursor},body:JSON.stringify(scope),signal:resumed.signal});const resumeReader=resume.body!.getReader();const first=await resumeReader.read();const firstFrame=new TextDecoder().decode(first.value);resumed.abort();return {status:response.status,elapsed_ms:Date.now()-start,heartbeat,delta,cursor,frames,resume_status:resume.status,resume_first_frame:firstFrame};},scope);\n  22 |   expect(result.status).toBe(200);expect(result.heartbeat).toBe(true);expect(result.delta).toBe(true);expect(result.elapsed_ms).toBeGreaterThanOrEqual(14000);expect(result.resume_status).toBe(200);expect(result.cursor.length).toBeGreaterThan(10);await writeFile(path.join(evidence,'query-heartbeat-resume.json'),JSON.stringify({ui_reconnect_cursors:reconnects,...result},null,2));await capture(page,'query-offline-resume');\n  23 | });"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/path/to/SmartFactory-2026/Frontends/tests/phase4-precision.spec.ts",
+                        "column": 640,
+                        "line": 20
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\nCall Log:\n- Timeout 15000ms exceeded while waiting on the predicate\n\n  18 |\n  19 | test('actual subscription passes a heartbeat new commit and opaque cursor reconnection',async({page,context})=>{\n> 20 |   test.skip(phase!=='precision');await login(page,'cloud','index.html','admin');await route(page,'alarm-workbench');await page.getByLabel('页面刷新方式').click();await page.locator('.ant-select-dropdown:visible').getByText('实时推送',{exact:true}).click();await expect(page.getByText('订阅已连接',{exact:true})).toBeVisible();const reconnects:string[]=[];page.on('request',request=>{if(request.url().endsWith('/queries/alarms/events'))reconnects.push(request.headers()['last-event-id']||'');});await context.setOffline(true);await page.waitForTimeout(1200);await context.setOffline(false);await expect.poll(()=>reconnects.some(cursor=>cursor.length>10)).toBe(true);await expect(page.getByText('订阅已连接',{exact:true})).toBeVisible();\n     |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ^\n  21 |   const scope={resource_ids:['agv-1'],keys:['heartbeat_precision'],from_ms:Date.now()-3600000,to_ms:Date.now()+60000,limit:20};const result=await page.evaluate(async scope=>{const token=sessionStorage.getItem('smartfactory.session.'+location.host);const headers={'Content-Type':'application/json',Authorization:'Bearer '+token};const controller=new AbortController();const response=await fetch('/api/sf/v1/queries/trend/events',{method:'POST',headers,body:JSON.stringify(scope),signal:controller.signal});const reader=response.body!.getReader();const decoder=new TextDecoder();let buffer='';const frames:string[]=[];let cursor='';let heartbeat=false;let delta=false;let submitted=false;const start=Date.now();try{while(Date.now()-start<23000){const chunk=await reader.read();if(chunk.done)break;buffer+=decoder.decode(chunk.value,{stream:true});let end;while((end=buffer.indexOf('\\n\\n'))>=0){const frame=buffer.slice(0,end);buffer=buffer.slice(end+2);frames.push(frame);const id=frame.split('\\n').find(line=>line.startsWith('id:'));if(id)cursor=id.slice(3).trim();if(frame.startsWith(':'))heartbeat=true;const data=frame.split('\\n').find(line=>line.startsWith('data:'));if(data&&JSON.parse(data.slice(5)).type==='delta')delta=true;}if(heartbeat&&!submitted){submitted=true;const at=Date.now();await fetch('/api/sf/v1/ingest',{method:'POST',headers,body:JSON.stringify({message_id:'heartbeat-'+at,source_id:'precision-source',payload_hash:'',critical:false,points:[{id:'heartbeat-'+at,message_id:'heartbeat-'+at,source_id:'precision-source',device_id:'agv-1',key:'heartbeat_precision',value:42,observed_ms:at,received_ms:at,source_sequence:at,revision:1,quality:'GOOD'}]})});}if(heartbeat&&delta)break;}}finally{controller.abort();}const resumed=new AbortController();const resume=await fetch('/api/sf/v1/queries/trend/events',{method:'POST',headers:{...headers,'Last-Event-ID':cursor},body:JSON.stringify(scope),signal:resumed.signal});const resumeReader=resume.body!.getReader();const first=await resumeReader.read();const firstFrame=new TextDecoder().decode(first.value);resumed.abort();return {status:response.status,elapsed_ms:Date.now()-start,heartbeat,delta,cursor,frames,resume_status:resume.status,resume_first_frame:firstFrame};},scope);\n  22 |   expect(result.status).toBe(200);expect(result.heartbeat).toBe(true);expect(result.delta).toBe(true);expect(result.elapsed_ms).toBeGreaterThanOrEqual(14000);expect(result.resume_status).toBe(200);expect(result.cursor.length).toBeGreaterThan(10);await writeFile(path.join(evidence,'query-heartbeat-resume.json'),JSON.stringify({ui_reconnect_cursors:reconnects,...result},null,2));await capture(page,'query-offline-resume');\n  23 | });\n    at /path/to/SmartFactory-2026/Frontends/tests/phase4-precision.spec.ts:20:640"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T02:45:24.737Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/private/tmp/smartfactory-frontend-phase4-20261005/playwright-results/phase4-precision-actual-su-c7387--opaque-cursor-reconnection/error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/path/to/SmartFactory-2026/Frontends/tests/phase4-precision.spec.ts",
+                    "column": 640,
+                    "line": 20
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "b7db7b09d55b43b15674-2f741a36af9ea398ee34",
+          "file": "phase4-precision.spec.ts",
+          "line": 19,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-05T02:45:05.615Z",
+    "duration": 36490.011,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 3,
+    "flaky": 0
+  }
+}

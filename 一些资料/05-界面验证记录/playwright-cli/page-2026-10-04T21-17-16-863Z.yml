@@ -1,0 +1,365 @@
+- generic [ref=e1]:
+  - generic [ref=e50]:
+    - complementary [ref=e51]:
+      - link "SF SmartFactory 生产安全控制台" [ref=e52] [cursor=pointer]:
+        - /url: "#overview"
+        - generic [ref=e53]: SF
+        - generic [ref=e54]:
+          - text: SmartFactory
+          - generic [ref=e55]: 生产安全控制台
+      - generic [ref=e56]: 示例工厂 / history-fixture
+      - navigation "主导航" [ref=e57]:
+        - button "运行概览" [ref=e58] [cursor=pointer]
+        - button "设备与资产" [ref=e60] [cursor=pointer]
+        - button "数据监控" [ref=e62] [cursor=pointer]
+        - button "数据分析" [ref=e64] [cursor=pointer]
+        - button "告警编排" [ref=e66] [cursor=pointer]
+        - button "联动预案" [ref=e68] [cursor=pointer]
+        - button "审批与执行" [ref=e70] [cursor=pointer]
+        - button "通知记录" [ref=e72] [cursor=pointer]
+        - button "历史补算" [ref=e74] [cursor=pointer]
+        - button "后台任务" [ref=e76] [cursor=pointer]
+        - button "历史分析" [ref=e78] [cursor=pointer]
+        - button "组织与权限" [ref=e80] [cursor=pointer]
+        - button "配置中心" [ref=e82] [cursor=pointer]
+        - button "同步插件" [ref=e84] [cursor=pointer]
+        - button "业务审计" [ref=e86] [cursor=pointer]
+        - button "运行状态" [ref=e88] [cursor=pointer]
+        - button "AI 助手" [ref=e90] [cursor=pointer]
+      - generic [ref=e92]:
+        - text: 独立实例 · 云端运行
+        - generic [ref=e94]: 规则版本与操作记录全程保存
+    - generic [ref=e95]:
+      - banner [ref=e96]:
+        - generic [ref=e97]:
+          - text: 云端控制台
+          - generic [ref=e98]: /
+          - strong [ref=e99]: 历史分析
+        - generic [ref=e100]:
+          - generic [ref=e102] [cursor=pointer]:
+            - generic "每秒刷新" [ref=e103]:
+              - text: 每秒刷新
+              - combobox "页面刷新方式" [ref=e104]
+            - img "down" [ref=e106]
+          - generic [ref=e109]: 平台管理员
+          - button "退出" [ref=e111] [cursor=pointer]
+      - main [ref=e113]:
+        - generic [ref=e114]:
+          - generic [ref=e115]:
+            - heading "历史分析与影子计算" [level=1] [ref=e116]
+            - paragraph [ref=e117]: 按保存的输入与历史规则分析结果，查看两侧计划、节点来源和候选与正式结果的差异。
+          - generic [ref=e119]:
+            - button "更新分析记录" [ref=e121] [cursor=pointer]
+            - button "启用影子候选" [ref=e124] [cursor=pointer]
+            - button "创建历史分析" [ref=e127] [cursor=pointer]
+        - generic [ref=e129]:
+          - tablist [ref=e130]:
+            - generic [ref=e132]:
+              - tab "回放与比较运行" [selected] [ref=e134] [cursor=pointer]
+              - tab "影子候选" [ref=e136] [cursor=pointer]
+          - tabpanel "回放与比较运行" [ref=e139]:
+            - generic [ref=e140]:
+              - textbox "分析运行身份" [ref=e141]:
+                - /placeholder: 输入完整分析运行身份
+                - text: shadow:fixture-live:1:4
+              - button "查看指定运行" [ref=e142] [cursor=pointer]
+            - generic [ref=e145]:
+              - table [ref=e152]:
+                - rowgroup [ref=e153]:
+                  - row [ref=e154]:
+                    - columnheader "运行 / 规则" [ref=e155]
+                    - columnheader "分析类别" [ref=e156]
+                    - columnheader "运行状态" [ref=e157]
+                    - columnheader "计算进度" [ref=e158]
+                    - columnheader "结果 / 原因" [ref=e159]
+                    - columnheader "操作" [ref=e160]
+                - rowgroup [ref=e161]:
+                  - row [ref=e162]:
+                    - cell "fixture-cancelled history-assets" [ref=e163]:
+                      - button "fixture-cancelled" [ref=e164] [cursor=pointer]
+                      - generic [ref=e166]: history-assets
+                    - cell "历史回放" [ref=e167]
+                    - cell "已取消后续计算" [ref=e168]
+                    - cell "0 已提交 0 / 2 条输入" [ref=e170]:
+                      - progressbar [ref=e171]:
+                        - generic "0%" [ref=e174]
+                      - generic [ref=e175]: 已提交 0 / 2 条输入
+                    - cell [ref=e176]
+                    - cell [ref=e177]:
+                      - button "运行详情" [ref=e178] [cursor=pointer]
+                  - row [ref=e180]:
+                    - cell "fixture-compare-changed history-window" [ref=e181]:
+                      - button "fixture-compare-changed" [ref=e182] [cursor=pointer]
+                      - generic [ref=e184]: history-window
+                    - cell "版本比较" [ref=e185]
+                    - cell "计算已完成" [ref=e186]
+                    - cell "100 已提交 3 / 3 条输入" [ref=e188]:
+                      - progressbar [ref=e189]:
+                        - img "check-circle" [ref=e194]
+                      - generic [ref=e197]: 已提交 3 / 3 条输入
+                    - cell [ref=e198]
+                    - cell [ref=e199]:
+                      - button "运行详情" [ref=e200] [cursor=pointer]
+                  - row [ref=e202]:
+                    - cell "fixture-compare-unchanged history-window" [ref=e203]:
+                      - button "fixture-compare-unchanged" [ref=e204] [cursor=pointer]
+                      - generic [ref=e206]: history-window
+                    - cell "版本比较" [ref=e207]
+                    - cell "计算已完成" [ref=e208]
+                    - cell "100 已提交 3 / 3 条输入" [ref=e210]:
+                      - progressbar [ref=e211]:
+                        - img "check-circle" [ref=e216]
+                      - generic [ref=e219]: 已提交 3 / 3 条输入
+                    - cell [ref=e220]
+                    - cell [ref=e221]:
+                      - button "运行详情" [ref=e222] [cursor=pointer]
+                  - row [ref=e224]:
+                    - cell "fixture-replay-assets history-assets" [ref=e225]:
+                      - button "fixture-replay-assets" [ref=e226] [cursor=pointer]
+                      - generic [ref=e228]: history-assets
+                    - cell "历史回放" [ref=e229]
+                    - cell "计算已完成" [ref=e230]
+                    - cell "100 已提交 2 / 2 条输入" [ref=e232]:
+                      - progressbar [ref=e233]:
+                        - img "check-circle" [ref=e238]
+                      - generic [ref=e241]: 已提交 2 / 2 条输入
+                    - cell [ref=e242]
+                    - cell [ref=e243]:
+                      - button "运行详情" [ref=e244] [cursor=pointer]
+                  - row [ref=e246]:
+                    - cell "shadow:fixture-failure:1:1 history-failed" [ref=e247]:
+                      - button "shadow:fixture-failure:1:1" [ref=e248] [cursor=pointer]
+                      - generic [ref=e250]: history-failed
+                    - cell "影子计算" [ref=e251]
+                    - cell "计算失败" [ref=e252]
+                    - cell "0 已提交 0 / 1 条输入" [ref=e254]:
+                      - progressbar [ref=e255]:
+                        - img "close-circle" [ref=e259]
+                      - generic [ref=e262]: 已提交 0 / 1 条输入
+                    - 'cell "input fixture-failure-0:0 version 1: input missing_field is missing" [ref=e263]'
+                    - cell [ref=e264]:
+                      - button "运行详情" [ref=e265] [cursor=pointer]
+                  - row [ref=e267]:
+                    - cell "shadow:fixture-failure:1:2 history-failed" [ref=e268]:
+                      - button "shadow:fixture-failure:1:2" [ref=e269] [cursor=pointer]
+                      - generic [ref=e271]: history-failed
+                    - cell "影子计算" [ref=e272]
+                    - cell "等待前序影子计算完成" [ref=e273]
+                    - cell "0 已提交 0 / 1 条输入" [ref=e275]:
+                      - progressbar [ref=e276]:
+                        - generic "0%" [ref=e279]
+                      - generic [ref=e280]: 已提交 0 / 1 条输入
+                    - cell "waiting for previous shadow generation shadow:fixture-failure:1:1" [ref=e281]
+                    - cell [ref=e282]:
+                      - button "运行详情" [ref=e283] [cursor=pointer]
+                  - row [ref=e285]:
+                    - cell "shadow:fixture-live:1:1 history-derived" [ref=e286]:
+                      - button "shadow:fixture-live:1:1" [ref=e287] [cursor=pointer]
+                      - generic [ref=e289]: history-derived
+                    - cell "影子计算" [ref=e290]
+                    - cell "计算已完成" [ref=e291]
+                    - cell "100 已提交 1 / 1 条输入" [ref=e293]:
+                      - progressbar [ref=e294]:
+                        - img "check-circle" [ref=e299]
+                      - generic [ref=e302]: 已提交 1 / 1 条输入
+                    - cell [ref=e303]
+                    - cell [ref=e304]:
+                      - button "运行详情" [ref=e305] [cursor=pointer]
+                  - row [ref=e307]:
+                    - cell "shadow:fixture-live:1:2 history-derived" [ref=e308]:
+                      - button "shadow:fixture-live:1:2" [ref=e309] [cursor=pointer]
+                      - generic [ref=e311]: history-derived
+                    - cell "影子计算" [ref=e312]
+                    - cell "计算已完成" [ref=e313]
+                    - cell "100 已提交 1 / 1 条输入" [ref=e315]:
+                      - progressbar [ref=e316]:
+                        - img "check-circle" [ref=e321]
+                      - generic [ref=e324]: 已提交 1 / 1 条输入
+                    - cell [ref=e325]
+                    - cell [ref=e326]:
+                      - button "运行详情" [ref=e327] [cursor=pointer]
+                  - row [ref=e329]:
+                    - cell "shadow:fixture-live:1:3 history-derived" [ref=e330]:
+                      - button "shadow:fixture-live:1:3" [ref=e331] [cursor=pointer]
+                      - generic [ref=e333]: history-derived
+                    - cell "影子计算" [ref=e334]
+                    - cell "计算已完成" [ref=e335]
+                    - cell "100 已提交 3 / 3 条输入" [ref=e337]:
+                      - progressbar [ref=e338]:
+                        - img "check-circle" [ref=e343]
+                      - generic [ref=e346]: 已提交 3 / 3 条输入
+                    - cell [ref=e347]
+                    - cell [ref=e348]:
+                      - button "运行详情" [ref=e349] [cursor=pointer]
+                  - row [ref=e351]:
+                    - cell "shadow:fixture-live:1:4 history-derived" [ref=e352]:
+                      - button "shadow:fixture-live:1:4" [ref=e353] [cursor=pointer]
+                      - generic [ref=e355]: history-derived
+                    - cell "影子计算" [ref=e356]
+                    - cell "计算已完成" [ref=e357]
+                    - cell "100 已提交 3 / 3 条输入" [ref=e359]:
+                      - progressbar [ref=e360]:
+                        - img "check-circle" [ref=e365]
+                      - generic [ref=e368]: 已提交 3 / 3 条输入
+                    - cell [ref=e369]
+                    - cell [ref=e370]:
+                      - button "运行详情" [ref=e371] [cursor=pointer]
+              - generic [ref=e373]:
+                - button "上一页" [disabled] [ref=e375]
+                - generic [ref=e376]: 第1页
+                - button "下一页" [disabled] [ref=e379]
+      - contentinfo [ref=e380]:
+        - text: SmartFactory · history-fixture
+        - generic [ref=e381]: 界面时间使用 Asia/Shanghai 时区
+  - dialog "历史分析运行详情" [ref=e383]:
+    - generic [ref=e384]:
+      - generic [ref=e385]:
+        - button "关闭" [ref=e386] [cursor=pointer]:
+          - img "close" [ref=e387]
+        - generic [ref=e390]: 历史分析运行详情
+      - button "loading 更新运行详情" [ref=e913] [cursor=pointer]:
+        - img "loading" [ref=e1092]
+        - generic [ref=e393]: 更新运行详情
+    - generic [ref=e1095]:
+      - table [ref=e1098]:
+        - rowgroup [ref=e1099]:
+          - row [ref=e1100]:
+            - rowheader "运行身份" [ref=e1101]
+            - cell "shadow:fixture-live:1:4" [ref=e1102]
+            - rowheader "分析类别 / 规则" [ref=e1103]
+            - cell "影子计算 / history-derived" [ref=e1104]
+          - row [ref=e1105]:
+            - rowheader "运行状态" [ref=e1106]
+            - cell "计算已完成" [ref=e1107]
+            - rowheader "处理原因" [ref=e1110]
+            - cell "暂无错误" [ref=e1111]
+          - row [ref=e1112]:
+            - rowheader "左侧 / 右侧规则版本" [ref=e1113]
+            - cell "按观测时刻选择 / 未指定" [ref=e1114]
+            - rowheader "实际计算快照身份" [ref=e1115]
+            - cell "snapshot:394a14e18bebea57b2da21955c70a8354b9404245fb5f002d3a5097657f072b2" [ref=e1116]
+          - row [ref=e1117]:
+            - rowheader "入口采集快照身份" [ref=e1118]
+            - cell "snapshot:394a14e18bebea57b2da21955c70a8354b9404245fb5f002d3a5097657f072b2" [ref=e1119]
+            - rowheader "初始状态是否已解析" [ref=e1120]
+            - cell "已解析并保存" [ref=e1121]
+          - row [ref=e1122]:
+            - rowheader "前序运行" [ref=e1123]
+            - cell "未关联前序运行" [ref=e1124]
+            - rowheader "共同输入条件摘要" [ref=e1125]
+            - cell "87122fac144ffacc2ef07104df9701294e1e04e164818bafecc323900f4dac16" [ref=e1126]
+          - row [ref=e1127]:
+            - rowheader "实际快照内容摘要" [ref=e1128]
+            - cell "394a14e18bebea57b2da21955c70a8354b9404245fb5f002d3a5097657f072b2" [ref=e1129]
+            - rowheader "已提交输入 / 总数" [ref=e1130]
+            - cell "3 / 3" [ref=e1131]
+      - progressbar [ref=e1132]:
+        - img "check-circle" [ref=e1137]
+      - generic [ref=e1140]:
+        - generic [ref=e1141]: 关联后台任务
+        - generic [ref=e1144]:
+          - table [ref=e1147]:
+            - rowgroup [ref=e1148]:
+              - row [ref=e1149]:
+                - 'cell "任务身份 : analysis:shadow:fixture-live:1:4" [ref=e1150]':
+                  - generic [ref=e1151]:
+                    - generic [ref=e1152]: "任务身份 :"
+                    - generic [ref=e1153]: analysis:shadow:fixture-live:1:4
+              - row [ref=e1154]:
+                - 'cell "当前任务状态 : 已完成 · 历史计算与汇总更新已完成" [ref=e1155]':
+                  - generic [ref=e1156]:
+                    - generic [ref=e1157]: "当前任务状态 :"
+                    - generic [ref=e1158]: 已完成 · 历史计算与汇总更新已完成
+              - row [ref=e1159]:
+                - 'cell "尝试次数 / 下次时间 : 1 / 8 · 2026/10/5 04:55:03" [ref=e1160]':
+                  - generic [ref=e1161]:
+                    - generic [ref=e1162]: "尝试次数 / 下次时间 :"
+                    - generic [ref=e1163]: 1 / 8 · 2026/10/5 04:55:03
+              - row [ref=e1164]:
+                - 'cell "最近失败 : 暂无失败" [ref=e1165]':
+                  - generic [ref=e1166]:
+                    - generic [ref=e1167]: "最近失败 :"
+                    - generic [ref=e1168]: 暂无失败
+          - button "查看任务详情与许可操作" [ref=e1169] [cursor=pointer]
+      - generic [ref=e1171]:
+        - tablist [ref=e1172]:
+          - generic [ref=e1174]:
+            - tab "逐点结果与差异" [selected] [ref=e1176] [cursor=pointer]
+            - tab "输入与历史快照" [ref=e1178] [cursor=pointer]
+        - tabpanel "逐点结果与差异" [ref=e1181]:
+          - table [ref=e1188]:
+            - rowgroup [ref=e1189]:
+              - row [ref=e1190]:
+                - columnheader "输入序号 / 原观测身份" [ref=e1191]
+                - columnheader "设备 / 测点 / 原始值" [ref=e1192]
+                - columnheader "观测 / 逻辑时钟" [ref=e1193]
+                - columnheader "质量 / 来源 / 修订" [ref=e1194]
+                - columnheader "采用版本 / 各侧结果" [ref=e1195]
+                - columnheader "正式与候选差异" [ref=e1196]
+                - columnheader "节点与来源" [ref=e1197]
+            - rowgroup [ref=e1198]:
+              - row [ref=e1199]:
+                - cell "0 955cc60a10723b551ab66517352b7161ee28821646d1d99e4b7a91c3d8f7d1db" [ref=e1200]:
+                  - text: "0"
+                  - generic [ref=e1201]: 955cc60a10723b551ab66517352b7161ee28821646d1d99e4b7a91c3d8f7d1db
+                - cell "history-device / history-source.result 10" [ref=e1202]:
+                  - text: history-device / history-source.result
+                  - generic [ref=e1203]: "10"
+                - cell [ref=e1204]:
+                  - text: 2026/10/5 04:54:57
+                  - generic [ref=e1205]: 2026/10/5 04:54:57新鲜度：2026/10/5 04:54:57
+                - cell [ref=e1206]:
+                  - text: GOOD
+                  - generic [ref=e1207]: history-fixture / r1按时观测
+                - 'cell "回放/候选 · v1 { \"value\": 11 }" [ref=e1208]':
+                  - generic [ref=e1209]:
+                    - strong [ref=e1210]: 回放/候选 · v1
+                    - generic [ref=e1211]: "{ \"value\": 11 }"
+                - cell "数值、状态" [ref=e1212]
+                - cell [ref=e1213]:
+                  - button "解释此输入" [ref=e1214] [cursor=pointer]
+              - row [ref=e1216]:
+                - cell "1 d0f1f35db563b6ee498ef0e64ddcc96208a30d03c1dfab66e9fd4eaa0381766f" [ref=e1217]:
+                  - text: "1"
+                  - generic [ref=e1218]: d0f1f35db563b6ee498ef0e64ddcc96208a30d03c1dfab66e9fd4eaa0381766f
+                - cell "history-device / history-source.result 30" [ref=e1219]:
+                  - text: history-device / history-source.result
+                  - generic [ref=e1220]: "30"
+                - cell [ref=e1221]:
+                  - text: 2026/10/5 04:54:58
+                  - generic [ref=e1222]: 2026/10/5 04:54:58新鲜度：2026/10/5 04:54:58
+                - cell [ref=e1223]:
+                  - text: GOOD
+                  - generic [ref=e1224]: history-fixture / r1迟到观测
+                - 'cell "回放/候选 · v1 { \"value\": 31 }" [ref=e1225]':
+                  - generic [ref=e1226]:
+                    - strong [ref=e1227]: 回放/候选 · v1
+                    - generic [ref=e1228]: "{ \"value\": 31 }"
+                - cell "数值、状态" [ref=e1229]
+                - cell [ref=e1230]:
+                  - button "解释此输入" [ref=e1231] [cursor=pointer]
+              - row [ref=e1233]:
+                - cell "2 1c7165d307109c694e1e345046275b5eba2ced789492efa4b04242b9a14203b4" [ref=e1234]:
+                  - text: "2"
+                  - generic [ref=e1235]: 1c7165d307109c694e1e345046275b5eba2ced789492efa4b04242b9a14203b4
+                - cell "history-device / history-source.result 60" [ref=e1236]:
+                  - text: history-device / history-source.result
+                  - generic [ref=e1237]: "60"
+                - cell [ref=e1238]:
+                  - text: 2026/10/5 04:54:59
+                  - generic [ref=e1239]: 2026/10/5 04:54:59新鲜度：2026/10/5 04:54:59
+                - cell [ref=e1240]:
+                  - text: GOOD
+                  - generic [ref=e1241]: history-fixture / r2迟到观测
+                - 'cell "回放/候选 · v1 { \"value\": 61 }" [ref=e1242]':
+                  - generic [ref=e1243]:
+                    - strong [ref=e1244]: 回放/候选 · v1
+                    - generic [ref=e1245]: "{ \"value\": 61 }"
+                - cell "数值、状态" [ref=e1246]
+                - cell [ref=e1247]:
+                  - button "解释此输入" [ref=e1248] [cursor=pointer]
+          - generic [ref=e1250]:
+            - button "上一页结果" [disabled] [ref=e1252]
+            - generic [ref=e1253]: 本页从第0条输入开始，显示3条，已读到当前可用结果末尾
+            - button "下一页结果" [disabled] [ref=e1256]
+            - button "导出本页结果（精确JSON）" [ref=e1258] [cursor=pointer]

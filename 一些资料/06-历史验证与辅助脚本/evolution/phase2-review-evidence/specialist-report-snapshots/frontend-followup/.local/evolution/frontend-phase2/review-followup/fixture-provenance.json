@@ -1,0 +1,71 @@
+{
+  "application_binary": {
+    "path": "/private/tmp/smartfactory-evolution-frontend-phase2/backend-current",
+    "sha256": "08ae272e557eaba7ed94dd6fad697a15c0d2562b810a3b89609c612f0205e6fb",
+    "file_mtime": "2026-10-05T01:02:48.785326+08:00",
+    "snapshot_time": "2026-10-05T01:04:01+0800",
+    "snapshot_fixture_sha256": "3ee9c0552fa5563ca8f31dc0bba8d6f1c588512bbb0adac0e4d900bf7d8b0927",
+    "fixture_paths": [
+      "Platform/.local/frontend-phase2-fixture/main.go",
+      "Frontends/tests/fixtures/phase2-backend.go.txt"
+    ],
+    "complete_old_fixture_copy_retained": false
+  },
+  "later_fixture_control": {
+    "path": "/private/tmp/smartfactory-evolution-frontend-phase2/backend-fixture-control",
+    "sha256": "81d7ebc8a102e18820c9622dd548efd8f1010b38d4341832961c8c6906c4ea16",
+    "file_mtime": "2026-10-05T01:09:38.288461+08:00",
+    "source_path": "Frontends/tests/fixtures/phase2-backend.go.txt",
+    "source_sha256": "210b80e65739463aec72bd33c2e8aa96b54729c29ac6fff599bd274096d70654",
+    "source_mtime": "2026-10-05T01:09:35.362935+08:00",
+    "temporary_wrapper_source_changed_after_application_build": true,
+    "temporary_wrapper_full_old_source_and_exact_update_time_retained": false,
+    "temporary_wrapper_matched_retained_template_before_cleanup": true,
+    "temporary_wrapper_cleanup_record": ".local/evolution/frontend-phase2/cleanup.json",
+    "cleanup_record_mtime": "2026-10-05T01:54:31.338704+08:00"
+  },
+  "confirmed_later_fixture_changes": [
+    "后续模板提供SF_FIXTURE_JOB_ID，默认业务身份为frontend:retry/with-identity，供新夹具使用",
+    "enqueue提交1条counter-1/pulse原始观测，限定实际补算窗口；显式提供相应TaskID",
+    "repair保存failed业务状态，沿用原任务身份；此前pending写入产生新任务代际已在早期409证据中保留"
+  ],
+  "browser_relationship": {
+    "earlier_superseded_task": "frontend:failure/with-identity",
+    "new_task_created_at": "2026-10-05T01:10:33.241000+08:00",
+    "later_control_usage": "01:09:38后的控制二进制执行enqueue和repair；业务记录由运行中的current应用及生产River worker处理",
+    "runtime_application_usage": "运行应用持续使用current二进制，控制夹具修改没有重新编译或替换该运行二进制",
+    "later_flows": [
+      "新任务失败与409",
+      "同Task/River/replay身份重试",
+      "汇总失败与完成",
+      "只读、资源不足及身份撤销",
+      "最终三入口"
+    ],
+    "new_review_followup": "同一current运行二进制和既有fixture-control用于独立schema中的顶部提示验证；生产Go源码未修改"
+  },
+  "comparison_with_application_build_snapshot": [
+    {
+      "path": "Platform/.local/frontend-phase2-fixture/main.go",
+      "snapshot_sha256": "3ee9c0552fa5563ca8f31dc0bba8d6f1c588512bbb0adac0e4d900bf7d8b0927",
+      "current_sha256": null,
+      "current_status": "removed",
+      "mtime": null
+    },
+    {
+      "path": "Platform/internal/coordination/integration_test.go",
+      "snapshot_sha256": "fed215b431c84763666a7e58002781ed2c4862f97ffa6df55c3560ecb73b83fa",
+      "current_sha256": "e73a8ed0eb7395170574fe8d888a0213f671125c21bb0b6856bbe1d67d4fead0",
+      "current_status": "present",
+      "mtime": "2026-10-05T01:45:15.900532+08:00"
+    },
+    {
+      "path": "Frontends/tests/fixtures/phase2-backend.go.txt",
+      "snapshot_sha256": "3ee9c0552fa5563ca8f31dc0bba8d6f1c588512bbb0adac0e4d900bf7d8b0927",
+      "current_sha256": "210b80e65739463aec72bd33c2e8aa96b54729c29ac6fff599bd274096d70654",
+      "current_status": "present",
+      "mtime": "2026-10-05T01:09:35.362935+08:00"
+    }
+  ],
+  "source_reconstruction_limit": "构建快照保留了两份3ee夹具摘要，旧完整文件没有独立留存。上述修改按过程记录、当前模板、文件mtime、控制二进制mtime和业务记录核对，未宣称完成旧文件的逐行差异复核",
+  "initial_binary_digest_retained": false
+}

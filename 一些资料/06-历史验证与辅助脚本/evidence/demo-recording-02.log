@@ -1,0 +1,18 @@
+SmartFactory 实际运行演示
+云端控制台、边缘现场页面与管理大屏共用业务数据
+分析、告警和联动预案共用编排与评审流程
+当前展示温度一分钟平均值的可编辑定义
+温湿度监控：升高温度后，边缘规则启动通风
+页面中的读数和执行状态来自实际协议采集
+温度恢复至回差范围后，通风关闭
+湿度升高时启动除湿；恢复后关闭除湿
+file:///path/to/SmartFactory-2026/scripts/record-demo.mjs:81
+const wait=async(fn,label,timeout=30000)=>{const until=Date.now()+timeout;while(Date.now()<until){if(await fn())return;await hold(200);}throw new Error(label);};
+                                                                                                                                              ^
+
+Error: climate-1/dehumidifier
+    at wait (file:///path/to/SmartFactory-2026/scripts/record-demo.mjs:81:143)
+    at async check (file:///path/to/SmartFactory-2026/scripts/record-demo.mjs:91:3)
+    at async file:///path/to/SmartFactory-2026/scripts/record-demo.mjs:107:40
+
+Node.js v22.22.3

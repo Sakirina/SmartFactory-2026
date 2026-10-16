@@ -1,0 +1,1784 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-10-05T10:08:16.318326+00:00",
+  "status": "passed_for_scoped_datatransfer_changes",
+  "evidence_root": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005",
+  "responsibility": "DataTransfer production lifecycle, isolated configuration consumer and directly affected tests",
+  "issue_id": "P5-D01",
+  "source_changes": [
+    {
+      "path": "/path/to/SmartFactory-2026/DataTransfer/internal/bootstrap/app.go",
+      "kind": "production lifecycle",
+      "current": {
+        "path": "/path/to/SmartFactory-2026/DataTransfer/internal/bootstrap/app.go",
+        "sha256": "fb86969f09a63d6a761702f453f7664b396c496f1708ddd5d7e4ebb20fec4cc9",
+        "bytes": 10494
+      },
+      "tested_fixed_copy": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/source/DataTransfer/internal/bootstrap/app.go",
+        "sha256": "fb86969f09a63d6a761702f453f7664b396c496f1708ddd5d7e4ebb20fec4cc9",
+        "bytes": 10494
+      },
+      "matches_tested_copy": true,
+      "before_this_task": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/baseline/DataTransfer/internal/bootstrap/app.go",
+        "sha256": "a08b1d9c602a7bc8ec7bbef7fad10fddcef0ef5d6f15fc0c6d736cf8dfec91c5",
+        "bytes": 9903
+      }
+    },
+    {
+      "path": "/path/to/SmartFactory-2026/DataTransfer/internal/bootstrap/shutdown_test.go",
+      "kind": "production lifecycle regression tests",
+      "current": {
+        "path": "/path/to/SmartFactory-2026/DataTransfer/internal/bootstrap/shutdown_test.go",
+        "sha256": "0ba0196f7080d487c73e3e2ae9809751595821ec2c5c8c493f5bb4f01e20d014",
+        "bytes": 5734
+      },
+      "tested_fixed_copy": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/source/DataTransfer/internal/bootstrap/shutdown_test.go",
+        "sha256": "0ba0196f7080d487c73e3e2ae9809751595821ec2c5c8c493f5bb4f01e20d014",
+        "bytes": 5734
+      },
+      "matches_tested_copy": true
+    },
+    {
+      "path": "/path/to/SmartFactory-2026/DataTransfer/cmd/dt-node-configuration-fixture/main.go",
+      "kind": "isolated configuration consumer",
+      "current": {
+        "path": "/path/to/SmartFactory-2026/DataTransfer/cmd/dt-node-configuration-fixture/main.go",
+        "sha256": "0e1b92b85de6793acacbc16b845b4e69fd625b1a3817d353c2aadd695e6ea382",
+        "bytes": 4434
+      },
+      "tested_fixed_copy": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/source/DataTransfer/cmd/dt-node-configuration-fixture/main.go",
+        "sha256": "0e1b92b85de6793acacbc16b845b4e69fd625b1a3817d353c2aadd695e6ea382",
+        "bytes": 4434
+      },
+      "matches_tested_copy": true,
+      "before_this_task": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/baseline/DataTransfer/cmd/dt-node-configuration-fixture/main.go",
+        "sha256": "ea493b042fef6484a0fc8033649cfb78b7fc61de5250bf12e1dedaa480227e10",
+        "bytes": 4268
+      }
+    },
+    {
+      "path": "/path/to/SmartFactory-2026/DataTransfer/cmd/dt-node-configuration-fixture/main_test.go",
+      "kind": "isolated configuration adoption regression tests",
+      "current": {
+        "path": "/path/to/SmartFactory-2026/DataTransfer/cmd/dt-node-configuration-fixture/main_test.go",
+        "sha256": "a7a9e1b907bf7b7781d0a60ba626747620de9f7f5a4c58efe73f51b0e192899a",
+        "bytes": 5515
+      },
+      "tested_fixed_copy": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/source/DataTransfer/cmd/dt-node-configuration-fixture/main_test.go",
+        "sha256": "a7a9e1b907bf7b7781d0a60ba626747620de9f7f5a4c58efe73f51b0e192899a",
+        "bytes": 5515
+      },
+      "matches_tested_copy": true
+    }
+  ],
+  "task_only_diff": {
+    "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/task-only.patch",
+    "sha256": "00713ecf4cdcec5547c2deeb2969f7dd9e8694367345e6b0dca55962ecdfdd7f",
+    "bytes": 16718
+  },
+  "production_change": {
+    "behavior": "Cancel and observe application workers concurrently with service shutdown; track HTTP/gRPC serving goroutines separately; after the existing five-second graceful deadline, force-stop gRPC and observe service completion. A completed worker group takes precedence over an already-expired shutdown context; an unfinished group still reports worker shutdown: context deadline exceeded.",
+    "shutdown_deadline_seconds": 5,
+    "confirmed_trigger": "A gRPC subscriber uses 64 KiB static connection/stream windows and stops reading while a connector sends 256 KiB telemetry messages. GracefulStop waits for the blocked SendMsg; application connector/journal workers have already stopped.",
+    "diagnostic_stacks": {
+      "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-stream-diagnostic-v2.selected-stacks.log",
+      "sha256": "875c2a0c7132397050e0d20b874d695df3e816dc39c1a400383780d4d88989ec",
+      "bytes": 5651
+    },
+    "first_controlled_failure": {
+      "name": "shutdown-stream-baseline-v1",
+      "argv": [
+        "go",
+        "test",
+        "-p",
+        "1",
+        "-count=1",
+        "-json",
+        "-run",
+        "^TestShutdownWithBlockedGRPCStream$",
+        "./internal/bootstrap"
+      ],
+      "cwd": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/source/DataTransfer",
+      "toolchain": "go version go1.27.1 darwin/arm64",
+      "environment": {
+        "GOTOOLCHAIN": "local",
+        "GOPATH": "/private/tmp/smartfactory-evolution-gopath",
+        "GOMODCACHE": "/private/tmp/smartfactory-evolution-gomodcache",
+        "GOCACHE": "/private/tmp/smartfactory-evolution-go-cache",
+        "GOPROXY": "off",
+        "GOMAXPROCS": "2"
+      },
+      "started_at": 1791193696.180714,
+      "elapsed_seconds": 8.307289123535156,
+      "exit_code": 1,
+      "before": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-stream-baseline-v1-before.inputs.json",
+      "after": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-stream-baseline-v1-after.inputs.json",
+      "input_count": 4174,
+      "inputs_unchanged": true,
+      "driver_sha256": "81b4dd1211eb8f9982b39d930d68ad84e9d88a62252262326e71e68e1eb12cc6",
+      "record": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-stream-baseline-v1.command.json",
+        "sha256": "0e9d657227bb34d02174be86e9cee6d1001c7216283d53d199a19805335c217f",
+        "bytes": 1149
+      },
+      "stdout": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-stream-baseline-v1.stdout.log",
+        "sha256": "5342718d84a96230721013d608df9a7578f2d2f1fcfa35888b33ba963283404f",
+        "bytes": 2834
+      },
+      "stderr": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-stream-baseline-v1.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    "diagnostic_failure": {
+      "name": "shutdown-stream-diagnostic-v2",
+      "argv": [
+        "go",
+        "test",
+        "-p",
+        "1",
+        "-count=1",
+        "-json",
+        "-run",
+        "^TestShutdownWithBlockedGRPCStream$",
+        "./internal/bootstrap"
+      ],
+      "cwd": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/source/DataTransfer",
+      "toolchain": "go version go1.27.1 darwin/arm64",
+      "environment": {
+        "GOTOOLCHAIN": "local",
+        "GOPATH": "/private/tmp/smartfactory-evolution-gopath",
+        "GOMODCACHE": "/private/tmp/smartfactory-evolution-gomodcache",
+        "GOCACHE": "/private/tmp/smartfactory-evolution-go-cache",
+        "GOPROXY": "off",
+        "GOMAXPROCS": "2"
+      },
+      "started_at": 1791193745.656249,
+      "elapsed_seconds": 5.981791973114014,
+      "exit_code": 1,
+      "before": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-stream-diagnostic-v2-before.inputs.json",
+      "after": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-stream-diagnostic-v2-after.inputs.json",
+      "input_count": 4174,
+      "inputs_unchanged": true,
+      "driver_sha256": "81b4dd1211eb8f9982b39d930d68ad84e9d88a62252262326e71e68e1eb12cc6",
+      "record": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-stream-diagnostic-v2.command.json",
+        "sha256": "703542c2cbec1616c095dc73c6f3375dea5ed3e247a292e439f98afcd0ce0961",
+        "bytes": 1155
+      },
+      "stdout": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-stream-diagnostic-v2.stdout.log",
+        "sha256": "ee9a4db8e569eb57f77790bf3d8db1a18bd4a6108d8379e35f305384087433b7",
+        "bytes": 59787
+      },
+      "stderr": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-stream-diagnostic-v2.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    "linux_same_test_comparison": {
+      "source_comparison": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/linux-shutdown-source-comparison-v2.json",
+        "sha256": "c6ec27df03c1935802b644fe2b75dac9cfcc310d0d8b0fb56fa92d8fcfa1cb52",
+        "bytes": 468
+      },
+      "only_source_difference": "internal/bootstrap/app.go",
+      "baseline_build": {
+        "name": "shutdown-baseline-linux-build-v2",
+        "argv": [
+          "go",
+          "test",
+          "-c",
+          "-p",
+          "1",
+          "-trimpath",
+          "-o",
+          "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/bin/bootstrap-baseline-linux-v2.test",
+          "./internal/bootstrap"
+        ],
+        "cwd": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/source-baseline/DataTransfer",
+        "toolchain": "go version go1.27.1 darwin/arm64",
+        "environment": {
+          "GOTOOLCHAIN": "local",
+          "GOPATH": "/private/tmp/smartfactory-evolution-gopath",
+          "GOMODCACHE": "/private/tmp/smartfactory-evolution-gomodcache",
+          "GOCACHE": "/private/tmp/smartfactory-evolution-go-cache",
+          "GOPROXY": "off",
+          "GOMAXPROCS": "2",
+          "GOOS": "linux",
+          "GOARCH": "amd64",
+          "CGO_ENABLED": "0"
+        },
+        "started_at": 1791194416.111428,
+        "elapsed_seconds": 2.176621913909912,
+        "exit_code": 0,
+        "before": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-baseline-linux-build-v2-before.inputs.json",
+        "after": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-baseline-linux-build-v2-after.inputs.json",
+        "input_count": 4181,
+        "inputs_unchanged": true,
+        "driver_sha256": "50f3a206a2ff39b881a9d256392e145c44b385a2e1df6e2bab6ed84b7021eae5",
+        "binary": {
+          "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/bin/bootstrap-baseline-linux-v2.test",
+          "sha256": "ac3b8bd6a35c59c1703c9f88eb802ad9e80591d6c7bd35ce06d79f64f6e2649a",
+          "bytes": 38754405
+        },
+        "record": {
+          "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-baseline-linux-build-v2.command.json",
+          "sha256": "ed03b0d612e4c76ef30bc2e172b20eec1c3c5b1a8c93bdb90898c92bf3d9ae6e",
+          "bytes": 1543
+        },
+        "stdout": {
+          "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-baseline-linux-build-v2.stdout.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "stderr": {
+          "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-baseline-linux-build-v2.stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        }
+      },
+      "candidate_build": {
+        "name": "shutdown-candidate-linux-build-v2",
+        "argv": [
+          "go",
+          "test",
+          "-c",
+          "-p",
+          "1",
+          "-trimpath",
+          "-o",
+          "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/bin/bootstrap-candidate-linux-v2.test",
+          "./internal/bootstrap"
+        ],
+        "cwd": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/source/DataTransfer",
+        "toolchain": "go version go1.27.1 darwin/arm64",
+        "environment": {
+          "GOTOOLCHAIN": "local",
+          "GOPATH": "/private/tmp/smartfactory-evolution-gopath",
+          "GOMODCACHE": "/private/tmp/smartfactory-evolution-gomodcache",
+          "GOCACHE": "/private/tmp/smartfactory-evolution-go-cache",
+          "GOPROXY": "off",
+          "GOMAXPROCS": "2",
+          "GOOS": "linux",
+          "GOARCH": "amd64",
+          "CGO_ENABLED": "0"
+        },
+        "started_at": 1791194442.3551092,
+        "elapsed_seconds": 1.1593358516693115,
+        "exit_code": 0,
+        "before": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-candidate-linux-build-v2-before.inputs.json",
+        "after": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-candidate-linux-build-v2-after.inputs.json",
+        "input_count": 4181,
+        "inputs_unchanged": true,
+        "driver_sha256": "50f3a206a2ff39b881a9d256392e145c44b385a2e1df6e2bab6ed84b7021eae5",
+        "binary": {
+          "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/bin/bootstrap-candidate-linux-v2.test",
+          "sha256": "ace041f5cb774c905a85c54128b7c2bc4579c8e71d89bf4a5301aba35abb515d",
+          "bytes": 38755133
+        },
+        "record": {
+          "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-candidate-linux-build-v2.command.json",
+          "sha256": "be988a07aedd3f9948f5186162fa79172dfae69f22632fff944551ff40d66fd6",
+          "bytes": 1541
+        },
+        "stdout": {
+          "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-candidate-linux-build-v2.stdout.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "stderr": {
+          "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-candidate-linux-build-v2.stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        }
+      },
+      "baseline_run": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/shutdown-baseline-linux-v2/verification.json",
+        "sha256": "8958f38c873ae4e6e0c59b7e3122215b7448b44de6855e30715f6b0ee82217b1",
+        "bytes": 1138
+      },
+      "baseline_actual_exit": 1,
+      "baseline_expected_failure_observed": true,
+      "candidate_run": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/shutdown-candidate-linux-v2/verification.json",
+        "sha256": "2afeb95d383893d7579adc6f2bc7b3b1a5f3dae09449b8cdfd93204c597530b3",
+        "bytes": 1140
+      },
+      "candidate_actual_exit": 0,
+      "candidate_tests": [
+        "TestAppShutdownWithBlockedGRPCStream",
+        "TestAppShutdownReportsUnfinishedWorker"
+      ],
+      "both_oom_killed": false
+    },
+    "ordinary_tests": {
+      "name": "shutdown-fix-tests-v2",
+      "argv": [
+        "go",
+        "test",
+        "-p",
+        "1",
+        "-count=1",
+        "-timeout",
+        "40s",
+        "-json",
+        "./internal/bootstrap"
+      ],
+      "cwd": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/source/DataTransfer",
+      "toolchain": "go version go1.27.1 darwin/arm64",
+      "environment": {
+        "GOTOOLCHAIN": "local",
+        "GOPATH": "/private/tmp/smartfactory-evolution-gopath",
+        "GOMODCACHE": "/private/tmp/smartfactory-evolution-gomodcache",
+        "GOCACHE": "/private/tmp/smartfactory-evolution-go-cache",
+        "GOPROXY": "off",
+        "GOMAXPROCS": "2"
+      },
+      "started_at": 1791194262.479837,
+      "elapsed_seconds": 12.141855955123901,
+      "exit_code": 0,
+      "before": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-fix-tests-v2-before.inputs.json",
+      "after": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-fix-tests-v2-after.inputs.json",
+      "input_count": 4174,
+      "inputs_unchanged": true,
+      "driver_sha256": "50f3a206a2ff39b881a9d256392e145c44b385a2e1df6e2bab6ed84b7021eae5",
+      "record": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-fix-tests-v2.command.json",
+        "sha256": "e8f963b3dd1b7c15339a96a2fbe5c47a8ebc8586808c18180cf31a9b97186037",
+        "bytes": 1104
+      },
+      "stdout": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-fix-tests-v2.stdout.log",
+        "sha256": "ccf35138bfeed959747bcf6221d9320d815e2c619b05c6ecfa5e640a6a661d86",
+        "bytes": 8311
+      },
+      "stderr": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-fix-tests-v2.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "top_level_passed": [
+        "TestAppSmokeStartsManagementAndGRPC",
+        "TestFailedGRPCStartupReleasesManagementListener",
+        "TestGRPCReflectionOverTLSInDevelopment",
+        "TestGRPCReflectionDisabledByDefault",
+        "TestAppShutdownWithBlockedGRPCStream",
+        "TestAppShutdownReportsUnfinishedWorker"
+      ],
+      "all_passed": [
+        "TestAppSmokeStartsManagementAndGRPC",
+        "TestFailedGRPCStartupReleasesManagementListener",
+        "TestGRPCReflectionOverTLSInDevelopment",
+        "TestGRPCReflectionDisabledByDefault",
+        "TestAppShutdownWithBlockedGRPCStream",
+        "TestAppShutdownReportsUnfinishedWorker"
+      ],
+      "failed": [],
+      "skipped": []
+    },
+    "production_linux_build": {
+      "name": "datatransfer-linux-build-v1",
+      "argv": [
+        "go",
+        "build",
+        "-p",
+        "1",
+        "-trimpath",
+        "-o",
+        "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/bin/datatransfer-linux-v1",
+        "./cmd/datatransfer"
+      ],
+      "cwd": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/source/DataTransfer",
+      "toolchain": "go version go1.27.1 darwin/arm64",
+      "environment": {
+        "GOTOOLCHAIN": "local",
+        "GOPATH": "/private/tmp/smartfactory-evolution-gopath",
+        "GOMODCACHE": "/private/tmp/smartfactory-evolution-gomodcache",
+        "GOCACHE": "/private/tmp/smartfactory-evolution-go-cache",
+        "GOPROXY": "off",
+        "GOMAXPROCS": "2",
+        "GOOS": "linux",
+        "GOARCH": "amd64",
+        "CGO_ENABLED": "0"
+      },
+      "started_at": 1791194664.7732742,
+      "elapsed_seconds": 1.7958877086639404,
+      "exit_code": 0,
+      "before": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/datatransfer-linux-build-v1-before.inputs.json",
+      "after": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/datatransfer-linux-build-v1-after.inputs.json",
+      "input_count": 4100,
+      "inputs_unchanged": true,
+      "driver_sha256": "a830347e00cde14b3888482c495e08a34b257e90d196b9e52f2ae5ede31c7f2c",
+      "go_list_build_flags": [],
+      "binary": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/bin/datatransfer-linux-v1",
+        "sha256": "bda2a5a8cbd5e09b5bd0cce94012c956ae3fc2a8d6e456f604dbc7d77e42f292",
+        "bytes": 37354228
+      },
+      "record": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/datatransfer-linux-build-v1.command.json",
+        "sha256": "f9958e9f51c2c2e30af2ecfb8b9fc779eb7127a626a67e12d2637f01aeba1931",
+        "bytes": 1517
+      },
+      "stdout": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/datatransfer-linux-build-v1.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "stderr": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/datatransfer-linux-build-v1.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    "production_linux_isolated_run": {
+      "record": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/candidate-isolated-v1/verification.json",
+        "sha256": "d80ee40a41150fa1073c67204035e6ab257294961d34d16149e331961eb26a2e",
+        "bytes": 2961
+      },
+      "compose": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/candidate-isolated-v1/compose.json",
+        "sha256": "cffa6f24ff73ae8486b12827bb6610b4648f9292ce38b3d3220b8ecf99b90235",
+        "bytes": 2727
+      },
+      "actual_ready": {
+        "status": "ready"
+      },
+      "actual_exit": 0,
+      "oom_killed": false,
+      "scope": "Retained configuration and SQLite snapshots, production datatransfer executable, simulator and isolated namespace; formal full Cloud/Edge deployment is assigned to the delivery engineer"
+    }
+  },
+  "isolated_consumer_change": {
+    "registered_protocols": [
+      "mqtt_device",
+      "modbus_tcp",
+      "opcua"
+    ],
+    "scope": "The isolated adapter consumes configuration through production gRPC, ConfigManager, connector Manager and application journal. Its adapter opens no field-device connections.",
+    "verified": [
+      "source version 1 at application revision 1",
+      "secret-only source version 2 at application revision 2",
+      "source version 1 rollback at application revision 3",
+      "same public digest across secret-only changes",
+      "complete expected payload matches adopted configuration",
+      "journal restart restores rollback payload and persistent identity",
+      "same application identity with conflicting payload is rejected"
+    ],
+    "ordinary_tests": {
+      "name": "fixture-tests-v1",
+      "argv": [
+        "go",
+        "test",
+        "-p",
+        "1",
+        "-count=1",
+        "-json",
+        "./cmd/dt-node-configuration-fixture"
+      ],
+      "cwd": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/source/DataTransfer",
+      "toolchain": "go version go1.27.1 darwin/arm64",
+      "environment": {
+        "GOTOOLCHAIN": "local",
+        "GOPATH": "/private/tmp/smartfactory-evolution-gopath",
+        "GOMODCACHE": "/private/tmp/smartfactory-evolution-gomodcache",
+        "GOCACHE": "/private/tmp/smartfactory-evolution-go-cache",
+        "GOPROXY": "off",
+        "GOMAXPROCS": "2"
+      },
+      "started_at": 1791192840.796604,
+      "elapsed_seconds": 1.978025197982788,
+      "exit_code": 0,
+      "before": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/fixture-tests-v1-before.inputs.json",
+      "after": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/fixture-tests-v1-after.inputs.json",
+      "input_count": 3150,
+      "inputs_unchanged": true,
+      "driver_sha256": "81b4dd1211eb8f9982b39d930d68ad84e9d88a62252262326e71e68e1eb12cc6",
+      "record": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/fixture-tests-v1.command.json",
+        "sha256": "6cd73cb3c4398f0793fc889a060bb6aa50a4057896729154ec581eaedcc2658a",
+        "bytes": 1076
+      },
+      "stdout": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/fixture-tests-v1.stdout.log",
+        "sha256": "8beeb1eb9820e07da566b415d909d8c170cad9b9a5be09c559278eb604b611ff",
+        "bytes": 11746
+      },
+      "stderr": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/fixture-tests-v1.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "top_level_passed": [
+        "TestTemplateProtocolsPersistAdoptionAndRollback"
+      ],
+      "all_passed": [
+        "TestTemplateProtocolsPersistAdoptionAndRollback/mqtt_device",
+        "TestTemplateProtocolsPersistAdoptionAndRollback/modbus_tcp",
+        "TestTemplateProtocolsPersistAdoptionAndRollback/opcua",
+        "TestTemplateProtocolsPersistAdoptionAndRollback"
+      ],
+      "failed": [],
+      "skipped": []
+    },
+    "binary_build": {
+      "name": "fixture-build-v1",
+      "argv": [
+        "go",
+        "build",
+        "-p",
+        "1",
+        "-trimpath",
+        "-o",
+        "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/bin/dt-node-configuration-fixture",
+        "./cmd/dt-node-configuration-fixture"
+      ],
+      "cwd": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/source/DataTransfer",
+      "toolchain": "go version go1.27.1 darwin/arm64",
+      "environment": {
+        "GOTOOLCHAIN": "local",
+        "GOPATH": "/private/tmp/smartfactory-evolution-gopath",
+        "GOMODCACHE": "/private/tmp/smartfactory-evolution-gomodcache",
+        "GOCACHE": "/private/tmp/smartfactory-evolution-go-cache",
+        "GOPROXY": "off",
+        "GOMAXPROCS": "2"
+      },
+      "started_at": 1791192871.965776,
+      "elapsed_seconds": 1.3450279235839844,
+      "exit_code": 0,
+      "before": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/fixture-build-v1-before.inputs.json",
+      "after": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/fixture-build-v1-after.inputs.json",
+      "input_count": 3150,
+      "inputs_unchanged": true,
+      "driver_sha256": "81b4dd1211eb8f9982b39d930d68ad84e9d88a62252262326e71e68e1eb12cc6",
+      "binary": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/bin/dt-node-configuration-fixture",
+        "sha256": "bfa5fee4d9a42ef0f2de6bcc83b7d17387942fd56b0d9cd59199451db276b479",
+        "bytes": 25394162
+      },
+      "record": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/fixture-build-v1.command.json",
+        "sha256": "f50d51a54b948eb963bbeb66d04d471f0d99c08f264cf7143d1dd1788016b16a",
+        "bytes": 1419
+      },
+      "stdout": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/fixture-build-v1.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "stderr": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/fixture-build-v1.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    "replacement": {
+      "path": "/private/tmp/smartfactory-release-interface-20261005/datatransfer-replacement/replacement.state.json",
+      "sha256": "37d92719eae167eb610662deab85100e9d2be24d549b8b05475eb1cc989c394b",
+      "bytes": 1309
+    },
+    "original_journal_backup": {
+      "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/baseline/frontend-consumer-a.db",
+      "sha256": "38ec45036d5f6a8ddbd6809bc008044554238cbd7d39209da1e1babdf9f503dc",
+      "bytes": 81920
+    },
+    "original_failed_receipts": {
+      "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/baseline/frontend-failed-receipts.json",
+      "sha256": "2f0128ae61fa84e75fcc1bd7ba22d5d80dbdecd23c12c7a2b47ecccf6c291c5c",
+      "bytes": 3178
+    },
+    "replacement_reason": "The prior MQTT-only consumer persisted unknown-protocol failures for Modbus/OPC UA identities. The frontend engineer retained the original process directory and journal snapshot and started the three-protocol consumer in a fresh private directory.",
+    "active_handoff_process": {
+      "name": "datatransfer-a",
+      "pid": 73847,
+      "argv": [
+        "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/bin/dt-node-configuration-fixture",
+        "--directory",
+        "/private/tmp/smartfactory-phase5-release-process-tenth-20261005/private/datatransfer-a-three-protocols",
+        "--grpc-listen",
+        "127.0.0.1:60055",
+        "--http-listen",
+        "127.0.0.1:60057"
+      ],
+      "started_at": 1791193094.032042,
+      "frontend_replacement": true
+    },
+    "final_observation": {
+      "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/frontend-consumer-final-runtime.json",
+      "sha256": "c0c9a1488e885b0a01d074b576b19a519e53183281eda7190014d37ff8079842",
+      "bytes": 30
+    },
+    "observed_connector_count": 0,
+    "handoff_process_retained_for_release_engineer": true,
+    "frontend_five_template_full_adoption_and_rollback": "pending original release/frontend engineers; upstream Edge document-version conflict had prevented complete adoption at handoff",
+    "independent_actual_protocol_evidence": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-delivery-protocols-root-review.json",
+      "sha256": "52e8eab32acf2eca9a702076e5362f1a36e4e8c460caf74c7d44b35eb804fff0",
+      "bytes": 14067
+    }
+  },
+  "final_affected_race": {
+    "name": "affected-race-v3",
+    "argv": [
+      "go",
+      "test",
+      "-p",
+      "1",
+      "-race",
+      "-count=1",
+      "-timeout",
+      "40s",
+      "-json",
+      "./internal/bootstrap",
+      "./cmd/dt-node-configuration-fixture"
+    ],
+    "cwd": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/source/DataTransfer",
+    "toolchain": "go version go1.27.1 darwin/arm64",
+    "environment": {
+      "GOTOOLCHAIN": "local",
+      "GOPATH": "/private/tmp/smartfactory-evolution-gopath",
+      "GOMODCACHE": "/private/tmp/smartfactory-evolution-gomodcache",
+      "GOCACHE": "/private/tmp/smartfactory-evolution-go-cache",
+      "GOPROXY": "off",
+      "GOMAXPROCS": "2"
+    },
+    "started_at": 1791194620.903732,
+    "elapsed_seconds": 14.2702157497406,
+    "exit_code": 0,
+    "before": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/affected-race-v3-before.inputs.json",
+    "after": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/affected-race-v3-after.inputs.json",
+    "input_count": 4183,
+    "inputs_unchanged": true,
+    "driver_sha256": "a830347e00cde14b3888482c495e08a34b257e90d196b9e52f2ae5ede31c7f2c",
+    "go_list_build_flags": [
+      "-race"
+    ],
+    "record": {
+      "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/affected-race-v3.command.json",
+      "sha256": "8244f5ea2469dccdf25ecdbc746a78e72bb99820fa19f3273249a10bb1312585",
+      "bytes": 1187
+    },
+    "stdout": {
+      "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/affected-race-v3.stdout.log",
+      "sha256": "480ba4dd55584a60f50e2400ac642d27d1166ee3cdd29ba5e3ac46b0000a0c79",
+      "bytes": 20058
+    },
+    "stderr": {
+      "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/affected-race-v3.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "top_level_passed": [
+      "TestAppSmokeStartsManagementAndGRPC",
+      "TestFailedGRPCStartupReleasesManagementListener",
+      "TestGRPCReflectionOverTLSInDevelopment",
+      "TestGRPCReflectionDisabledByDefault",
+      "TestAppShutdownWithBlockedGRPCStream",
+      "TestAppShutdownReportsUnfinishedWorker",
+      "TestTemplateProtocolsPersistAdoptionAndRollback"
+    ],
+    "all_passed": [
+      "TestAppSmokeStartsManagementAndGRPC",
+      "TestFailedGRPCStartupReleasesManagementListener",
+      "TestGRPCReflectionOverTLSInDevelopment",
+      "TestGRPCReflectionDisabledByDefault",
+      "TestAppShutdownWithBlockedGRPCStream",
+      "TestAppShutdownReportsUnfinishedWorker",
+      "TestTemplateProtocolsPersistAdoptionAndRollback/mqtt_device",
+      "TestTemplateProtocolsPersistAdoptionAndRollback/modbus_tcp",
+      "TestTemplateProtocolsPersistAdoptionAndRollback/opcua",
+      "TestTemplateProtocolsPersistAdoptionAndRollback"
+    ],
+    "failed": [],
+    "skipped": []
+  },
+  "historical_complete_stack_failure": {
+    "checkpoint": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-delivery-linux-preflight-checkpoint.json",
+      "sha256": "725c15d7472a0136dedab6c1827c74ce7a71401c4e7edda1723631381a317e3a",
+      "bytes": 314037
+    },
+    "root_review": {
+      "path": "/path/to/SmartFactory-2026/.local/evolution/phase5-linux-checkpoint-root-review.json",
+      "sha256": "8bcc86300e7e05c49533ae83bed8a109ab09ec8b8d1325743ce6dc31b9692094",
+      "bytes": 5562
+    },
+    "first_observed_record": {
+      "path": "/private/tmp/smartfactory-delivery-linux-preflight-runtime-source-diagnostic-20261005/verification.json",
+      "sha256": "eb409b39a8ea23f9fa843af666b7f21a6050a87ba6b6dde360eb7d12c4c6df26",
+      "bytes": 278284
+    },
+    "first_observed_log": {
+      "path": "/private/tmp/smartfactory-delivery-linux-preflight-runtime-source-diagnostic-20261005/evidence/final-log-edge-a-gateway.log",
+      "sha256": "be828932b2afcfcc2b6d8008c4db4d776d37f5c7e35842d4c85160baa31208fc",
+      "bytes": 1169
+    },
+    "relation_to_P5_D01": "The historical full-stack stop had the same error text but no contemporaneous goroutine stacks. Controlled reproduction confirms P5-D01; exact attribution of that historical full-stack occurrence remains undetermined.",
+    "earlier_reduced_environment_runs": [
+      {
+        "name": "original-isolated",
+        "record": {
+          "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/original-isolated/verification.json",
+          "sha256": "ab7c10ae7ad89192990d2f84582884184cbbc6bb4bfb3dfa1850f9a2802265c8",
+          "bytes": 3900
+        },
+        "rounds": 3,
+        "actual_exit_codes": [
+          0,
+          0,
+          0
+        ],
+        "oom_killed": [
+          false,
+          false,
+          false
+        ],
+        "scope": "Retained gateway/simulator/configuration in an isolated namespace with optional probes; original-large-flow changes one device name through PushDeviceConfig"
+      },
+      {
+        "name": "original-subscriber",
+        "record": {
+          "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/original-subscriber/verification.json",
+          "sha256": "3d673f954af24f1e1d8960e241c1e5b1fe9d8a5cd16a13c7bc2dbae10969591e",
+          "bytes": 3225
+        },
+        "rounds": 2,
+        "actual_exit_codes": [
+          0,
+          0
+        ],
+        "oom_killed": [
+          false,
+          false
+        ],
+        "scope": "Retained gateway/simulator/configuration in an isolated namespace with optional probes; original-large-flow changes one device name through PushDeviceConfig"
+      },
+      {
+        "name": "original-flow-controlled",
+        "record": {
+          "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/original-flow-controlled/verification.json",
+          "sha256": "d1b64e5de84b32c1fb9e27d958e81689f815427b604a5442c8649c5f439e8836",
+          "bytes": 3245
+        },
+        "rounds": 2,
+        "actual_exit_codes": [
+          0,
+          0
+        ],
+        "oom_killed": [
+          false,
+          false
+        ],
+        "scope": "Retained gateway/simulator/configuration in an isolated namespace with optional probes; original-large-flow changes one device name through PushDeviceConfig"
+      },
+      {
+        "name": "original-flow-controlled-long",
+        "record": {
+          "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/original-flow-controlled-long/verification.json",
+          "sha256": "badff1367562d13eb8095ad0ecb24bbecd6f600d2891dbe689700233296ee5ca",
+          "bytes": 2582
+        },
+        "rounds": 1,
+        "actual_exit_codes": [
+          0
+        ],
+        "oom_killed": [
+          false
+        ],
+        "scope": "Retained gateway/simulator/configuration in an isolated namespace with optional probes; original-large-flow changes one device name through PushDeviceConfig"
+      },
+      {
+        "name": "original-large-flow",
+        "record": {
+          "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/original-large-flow/verification.json",
+          "sha256": "6875da0ac757feb76a561dc3a3689d338fc3d12f0668c3e2da5473b4bcc5db90",
+          "bytes": 2542
+        },
+        "rounds": 1,
+        "actual_exit_codes": [
+          0
+        ],
+        "oom_killed": [
+          false
+        ],
+        "scope": "Retained gateway/simulator/configuration in an isolated namespace with optional probes; original-large-flow changes one device name through PushDeviceConfig"
+      }
+    ],
+    "earlier_reduced_environment_total_runs": 9,
+    "formal_full_linux_entrypoint_followup": "pending original delivery engineer with production fix"
+  },
+  "preserved_verification_corrections": [
+    {
+      "attempt": "shutdown-fix-tests-v1",
+      "actual_exit": 1,
+      "cause": "The first new test emitted its finite payload before the gRPC subscription became active and waited in Header; application cancellation had not started. A SIGQUIT preserved its stack after 148 seconds.",
+      "log": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-fix-tests-v1.full-output.log",
+        "sha256": "efddc348e5d18d04f4eb2f06003def8d425013ad5e79d23d48b354fa2bf8842b",
+        "bytes": 46688
+      },
+      "repair": "Final test emits on a five-millisecond ticker until cancellation and gives the client stream a ten-second timeout; ordinary, Linux and race checks pass.",
+      "executed_driver_correction": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-fix-tests-v1-driver-correction.json",
+        "sha256": "680cbf49474c3208f89f196fd026cf99d59dc10798429f044ffb694788d8f99b",
+        "bytes": 465
+      }
+    },
+    {
+      "attempts": [
+        "fixture-race-v1",
+        "shutdown-race-v2"
+      ],
+      "actual_exit": 0,
+      "cause": "Earlier input collector selected default go list build conditions for race commands.",
+      "repair": "affected-race-v3 reran the two affected packages with go list -race before/after, including race-specific source, assembly and syso inputs.",
+      "coverage_record": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/race-build-condition-coverage.json",
+        "sha256": "7bff00db2b2e7306410eb51e03f042d8f3d3977eada307d855abdeb68382027f",
+        "bytes": 5170
+      }
+    }
+  ],
+  "all_build_and_test_attempts": [
+    {
+      "name": "affected-race-v3",
+      "argv": [
+        "go",
+        "test",
+        "-p",
+        "1",
+        "-race",
+        "-count=1",
+        "-timeout",
+        "40s",
+        "-json",
+        "./internal/bootstrap",
+        "./cmd/dt-node-configuration-fixture"
+      ],
+      "cwd": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/source/DataTransfer",
+      "toolchain": "go version go1.27.1 darwin/arm64",
+      "environment": {
+        "GOTOOLCHAIN": "local",
+        "GOPATH": "/private/tmp/smartfactory-evolution-gopath",
+        "GOMODCACHE": "/private/tmp/smartfactory-evolution-gomodcache",
+        "GOCACHE": "/private/tmp/smartfactory-evolution-go-cache",
+        "GOPROXY": "off",
+        "GOMAXPROCS": "2"
+      },
+      "started_at": 1791194620.903732,
+      "elapsed_seconds": 14.2702157497406,
+      "exit_code": 0,
+      "before": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/affected-race-v3-before.inputs.json",
+      "after": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/affected-race-v3-after.inputs.json",
+      "input_count": 4183,
+      "inputs_unchanged": true,
+      "driver_sha256": "a830347e00cde14b3888482c495e08a34b257e90d196b9e52f2ae5ede31c7f2c",
+      "go_list_build_flags": [
+        "-race"
+      ],
+      "record": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/affected-race-v3.command.json",
+        "sha256": "8244f5ea2469dccdf25ecdbc746a78e72bb99820fa19f3273249a10bb1312585",
+        "bytes": 1187
+      },
+      "stdout": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/affected-race-v3.stdout.log",
+        "sha256": "480ba4dd55584a60f50e2400ac642d27d1166ee3cdd29ba5e3ac46b0000a0c79",
+        "bytes": 20058
+      },
+      "stderr": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/affected-race-v3.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
+      "name": "datatransfer-linux-build-v1",
+      "argv": [
+        "go",
+        "build",
+        "-p",
+        "1",
+        "-trimpath",
+        "-o",
+        "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/bin/datatransfer-linux-v1",
+        "./cmd/datatransfer"
+      ],
+      "cwd": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/source/DataTransfer",
+      "toolchain": "go version go1.27.1 darwin/arm64",
+      "environment": {
+        "GOTOOLCHAIN": "local",
+        "GOPATH": "/private/tmp/smartfactory-evolution-gopath",
+        "GOMODCACHE": "/private/tmp/smartfactory-evolution-gomodcache",
+        "GOCACHE": "/private/tmp/smartfactory-evolution-go-cache",
+        "GOPROXY": "off",
+        "GOMAXPROCS": "2",
+        "GOOS": "linux",
+        "GOARCH": "amd64",
+        "CGO_ENABLED": "0"
+      },
+      "started_at": 1791194664.7732742,
+      "elapsed_seconds": 1.7958877086639404,
+      "exit_code": 0,
+      "before": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/datatransfer-linux-build-v1-before.inputs.json",
+      "after": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/datatransfer-linux-build-v1-after.inputs.json",
+      "input_count": 4100,
+      "inputs_unchanged": true,
+      "driver_sha256": "a830347e00cde14b3888482c495e08a34b257e90d196b9e52f2ae5ede31c7f2c",
+      "go_list_build_flags": [],
+      "binary": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/bin/datatransfer-linux-v1",
+        "sha256": "bda2a5a8cbd5e09b5bd0cce94012c956ae3fc2a8d6e456f604dbc7d77e42f292",
+        "bytes": 37354228
+      },
+      "record": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/datatransfer-linux-build-v1.command.json",
+        "sha256": "f9958e9f51c2c2e30af2ecfb8b9fc779eb7127a626a67e12d2637f01aeba1931",
+        "bytes": 1517
+      },
+      "stdout": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/datatransfer-linux-build-v1.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "stderr": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/datatransfer-linux-build-v1.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
+      "name": "fixture-build-v1",
+      "argv": [
+        "go",
+        "build",
+        "-p",
+        "1",
+        "-trimpath",
+        "-o",
+        "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/bin/dt-node-configuration-fixture",
+        "./cmd/dt-node-configuration-fixture"
+      ],
+      "cwd": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/source/DataTransfer",
+      "toolchain": "go version go1.27.1 darwin/arm64",
+      "environment": {
+        "GOTOOLCHAIN": "local",
+        "GOPATH": "/private/tmp/smartfactory-evolution-gopath",
+        "GOMODCACHE": "/private/tmp/smartfactory-evolution-gomodcache",
+        "GOCACHE": "/private/tmp/smartfactory-evolution-go-cache",
+        "GOPROXY": "off",
+        "GOMAXPROCS": "2"
+      },
+      "started_at": 1791192871.965776,
+      "elapsed_seconds": 1.3450279235839844,
+      "exit_code": 0,
+      "before": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/fixture-build-v1-before.inputs.json",
+      "after": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/fixture-build-v1-after.inputs.json",
+      "input_count": 3150,
+      "inputs_unchanged": true,
+      "driver_sha256": "81b4dd1211eb8f9982b39d930d68ad84e9d88a62252262326e71e68e1eb12cc6",
+      "binary": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/bin/dt-node-configuration-fixture",
+        "sha256": "bfa5fee4d9a42ef0f2de6bcc83b7d17387942fd56b0d9cd59199451db276b479",
+        "bytes": 25394162
+      },
+      "record": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/fixture-build-v1.command.json",
+        "sha256": "f50d51a54b948eb963bbeb66d04d471f0d99c08f264cf7143d1dd1788016b16a",
+        "bytes": 1419
+      },
+      "stdout": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/fixture-build-v1.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "stderr": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/fixture-build-v1.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
+      "name": "fixture-race-v1",
+      "argv": [
+        "go",
+        "test",
+        "-p",
+        "1",
+        "-race",
+        "-count=1",
+        "-json",
+        "./cmd/dt-node-configuration-fixture"
+      ],
+      "cwd": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/source/DataTransfer",
+      "toolchain": "go version go1.27.1 darwin/arm64",
+      "environment": {
+        "GOTOOLCHAIN": "local",
+        "GOPATH": "/private/tmp/smartfactory-evolution-gopath",
+        "GOMODCACHE": "/private/tmp/smartfactory-evolution-gomodcache",
+        "GOCACHE": "/private/tmp/smartfactory-evolution-go-cache",
+        "GOPROXY": "off",
+        "GOMAXPROCS": "2"
+      },
+      "started_at": 1791193002.732749,
+      "elapsed_seconds": 3.378359079360962,
+      "exit_code": 0,
+      "before": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/fixture-race-v1-before.inputs.json",
+      "after": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/fixture-race-v1-after.inputs.json",
+      "input_count": 3150,
+      "inputs_unchanged": true,
+      "driver_sha256": "81b4dd1211eb8f9982b39d930d68ad84e9d88a62252262326e71e68e1eb12cc6",
+      "record": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/fixture-race-v1.command.json",
+        "sha256": "7f805c7a6887751938cdbe9c25300382e555dc0135da7def1154667ad0a052c4",
+        "bytes": 1086
+      },
+      "stdout": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/fixture-race-v1.stdout.log",
+        "sha256": "4d6171e09231c520c88e6c15bc3b6b85931d11b9b58a08a4a6e6b48452c6fda3",
+        "bytes": 11745
+      },
+      "stderr": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/fixture-race-v1.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
+      "name": "fixture-tests-v1",
+      "argv": [
+        "go",
+        "test",
+        "-p",
+        "1",
+        "-count=1",
+        "-json",
+        "./cmd/dt-node-configuration-fixture"
+      ],
+      "cwd": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/source/DataTransfer",
+      "toolchain": "go version go1.27.1 darwin/arm64",
+      "environment": {
+        "GOTOOLCHAIN": "local",
+        "GOPATH": "/private/tmp/smartfactory-evolution-gopath",
+        "GOMODCACHE": "/private/tmp/smartfactory-evolution-gomodcache",
+        "GOCACHE": "/private/tmp/smartfactory-evolution-go-cache",
+        "GOPROXY": "off",
+        "GOMAXPROCS": "2"
+      },
+      "started_at": 1791192840.796604,
+      "elapsed_seconds": 1.978025197982788,
+      "exit_code": 0,
+      "before": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/fixture-tests-v1-before.inputs.json",
+      "after": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/fixture-tests-v1-after.inputs.json",
+      "input_count": 3150,
+      "inputs_unchanged": true,
+      "driver_sha256": "81b4dd1211eb8f9982b39d930d68ad84e9d88a62252262326e71e68e1eb12cc6",
+      "record": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/fixture-tests-v1.command.json",
+        "sha256": "6cd73cb3c4398f0793fc889a060bb6aa50a4057896729154ec581eaedcc2658a",
+        "bytes": 1076
+      },
+      "stdout": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/fixture-tests-v1.stdout.log",
+        "sha256": "8beeb1eb9820e07da566b415d909d8c170cad9b9a5be09c559278eb604b611ff",
+        "bytes": 11746
+      },
+      "stderr": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/fixture-tests-v1.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
+      "name": "shutdown-baseline-linux-build-v2",
+      "argv": [
+        "go",
+        "test",
+        "-c",
+        "-p",
+        "1",
+        "-trimpath",
+        "-o",
+        "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/bin/bootstrap-baseline-linux-v2.test",
+        "./internal/bootstrap"
+      ],
+      "cwd": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/source-baseline/DataTransfer",
+      "toolchain": "go version go1.27.1 darwin/arm64",
+      "environment": {
+        "GOTOOLCHAIN": "local",
+        "GOPATH": "/private/tmp/smartfactory-evolution-gopath",
+        "GOMODCACHE": "/private/tmp/smartfactory-evolution-gomodcache",
+        "GOCACHE": "/private/tmp/smartfactory-evolution-go-cache",
+        "GOPROXY": "off",
+        "GOMAXPROCS": "2",
+        "GOOS": "linux",
+        "GOARCH": "amd64",
+        "CGO_ENABLED": "0"
+      },
+      "started_at": 1791194416.111428,
+      "elapsed_seconds": 2.176621913909912,
+      "exit_code": 0,
+      "before": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-baseline-linux-build-v2-before.inputs.json",
+      "after": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-baseline-linux-build-v2-after.inputs.json",
+      "input_count": 4181,
+      "inputs_unchanged": true,
+      "driver_sha256": "50f3a206a2ff39b881a9d256392e145c44b385a2e1df6e2bab6ed84b7021eae5",
+      "binary": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/bin/bootstrap-baseline-linux-v2.test",
+        "sha256": "ac3b8bd6a35c59c1703c9f88eb802ad9e80591d6c7bd35ce06d79f64f6e2649a",
+        "bytes": 38754405
+      },
+      "record": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-baseline-linux-build-v2.command.json",
+        "sha256": "ed03b0d612e4c76ef30bc2e172b20eec1c3c5b1a8c93bdb90898c92bf3d9ae6e",
+        "bytes": 1543
+      },
+      "stdout": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-baseline-linux-build-v2.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "stderr": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-baseline-linux-build-v2.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
+      "name": "shutdown-candidate-linux-build-v2",
+      "argv": [
+        "go",
+        "test",
+        "-c",
+        "-p",
+        "1",
+        "-trimpath",
+        "-o",
+        "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/bin/bootstrap-candidate-linux-v2.test",
+        "./internal/bootstrap"
+      ],
+      "cwd": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/source/DataTransfer",
+      "toolchain": "go version go1.27.1 darwin/arm64",
+      "environment": {
+        "GOTOOLCHAIN": "local",
+        "GOPATH": "/private/tmp/smartfactory-evolution-gopath",
+        "GOMODCACHE": "/private/tmp/smartfactory-evolution-gomodcache",
+        "GOCACHE": "/private/tmp/smartfactory-evolution-go-cache",
+        "GOPROXY": "off",
+        "GOMAXPROCS": "2",
+        "GOOS": "linux",
+        "GOARCH": "amd64",
+        "CGO_ENABLED": "0"
+      },
+      "started_at": 1791194442.3551092,
+      "elapsed_seconds": 1.1593358516693115,
+      "exit_code": 0,
+      "before": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-candidate-linux-build-v2-before.inputs.json",
+      "after": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-candidate-linux-build-v2-after.inputs.json",
+      "input_count": 4181,
+      "inputs_unchanged": true,
+      "driver_sha256": "50f3a206a2ff39b881a9d256392e145c44b385a2e1df6e2bab6ed84b7021eae5",
+      "binary": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/bin/bootstrap-candidate-linux-v2.test",
+        "sha256": "ace041f5cb774c905a85c54128b7c2bc4579c8e71d89bf4a5301aba35abb515d",
+        "bytes": 38755133
+      },
+      "record": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-candidate-linux-build-v2.command.json",
+        "sha256": "be988a07aedd3f9948f5186162fa79172dfae69f22632fff944551ff40d66fd6",
+        "bytes": 1541
+      },
+      "stdout": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-candidate-linux-build-v2.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "stderr": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-candidate-linux-build-v2.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
+      "name": "shutdown-fix-tests-v1",
+      "argv": [
+        "go",
+        "test",
+        "-p",
+        "1",
+        "-count=1",
+        "-json",
+        "./internal/bootstrap"
+      ],
+      "cwd": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/source/DataTransfer",
+      "toolchain": "go version go1.27.1 darwin/arm64",
+      "environment": {
+        "GOTOOLCHAIN": "local",
+        "GOPATH": "/private/tmp/smartfactory-evolution-gopath",
+        "GOMODCACHE": "/private/tmp/smartfactory-evolution-gomodcache",
+        "GOCACHE": "/private/tmp/smartfactory-evolution-go-cache",
+        "GOPROXY": "off",
+        "GOMAXPROCS": "2"
+      },
+      "started_at": 1791194070.8539882,
+      "elapsed_seconds": 148.089439868927,
+      "exit_code": 1,
+      "before": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-fix-tests-v1-before.inputs.json",
+      "after": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-fix-tests-v1-after.inputs.json",
+      "input_count": 4174,
+      "inputs_unchanged": true,
+      "driver_sha256": "50f3a206a2ff39b881a9d256392e145c44b385a2e1df6e2bab6ed84b7021eae5",
+      "record": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-fix-tests-v1.command.json",
+        "sha256": "96a21c3822fc27961c1c0191793c4b4d1dac411aab881a2de1b1798d25fc2aef",
+        "bytes": 1076
+      },
+      "stdout": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-fix-tests-v1.stdout.log",
+        "sha256": "b387e505b049465055b20653e83247ac5143691d9fa804e88a878565398e73db",
+        "bytes": 154849
+      },
+      "stderr": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-fix-tests-v1.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
+      "name": "shutdown-fix-tests-v2",
+      "argv": [
+        "go",
+        "test",
+        "-p",
+        "1",
+        "-count=1",
+        "-timeout",
+        "40s",
+        "-json",
+        "./internal/bootstrap"
+      ],
+      "cwd": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/source/DataTransfer",
+      "toolchain": "go version go1.27.1 darwin/arm64",
+      "environment": {
+        "GOTOOLCHAIN": "local",
+        "GOPATH": "/private/tmp/smartfactory-evolution-gopath",
+        "GOMODCACHE": "/private/tmp/smartfactory-evolution-gomodcache",
+        "GOCACHE": "/private/tmp/smartfactory-evolution-go-cache",
+        "GOPROXY": "off",
+        "GOMAXPROCS": "2"
+      },
+      "started_at": 1791194262.479837,
+      "elapsed_seconds": 12.141855955123901,
+      "exit_code": 0,
+      "before": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-fix-tests-v2-before.inputs.json",
+      "after": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-fix-tests-v2-after.inputs.json",
+      "input_count": 4174,
+      "inputs_unchanged": true,
+      "driver_sha256": "50f3a206a2ff39b881a9d256392e145c44b385a2e1df6e2bab6ed84b7021eae5",
+      "record": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-fix-tests-v2.command.json",
+        "sha256": "e8f963b3dd1b7c15339a96a2fbe5c47a8ebc8586808c18180cf31a9b97186037",
+        "bytes": 1104
+      },
+      "stdout": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-fix-tests-v2.stdout.log",
+        "sha256": "ccf35138bfeed959747bcf6221d9320d815e2c619b05c6ecfa5e640a6a661d86",
+        "bytes": 8311
+      },
+      "stderr": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-fix-tests-v2.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
+      "name": "shutdown-linux-baseline-test-build-v1",
+      "argv": [
+        "go",
+        "test",
+        "-c",
+        "-p",
+        "1",
+        "-trimpath",
+        "-o",
+        "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/bin/bootstrap-baseline-linux.test",
+        "./internal/bootstrap"
+      ],
+      "cwd": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/source-baseline/DataTransfer",
+      "toolchain": "go version go1.27.1 darwin/arm64",
+      "environment": {
+        "GOTOOLCHAIN": "local",
+        "GOPATH": "/private/tmp/smartfactory-evolution-gopath",
+        "GOMODCACHE": "/private/tmp/smartfactory-evolution-gomodcache",
+        "GOCACHE": "/private/tmp/smartfactory-evolution-go-cache",
+        "GOPROXY": "off",
+        "GOMAXPROCS": "2",
+        "GOOS": "linux",
+        "GOARCH": "amd64",
+        "CGO_ENABLED": "0"
+      },
+      "started_at": 1791194126.047952,
+      "elapsed_seconds": 9.594039916992188,
+      "exit_code": 0,
+      "before": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-linux-baseline-test-build-v1-before.inputs.json",
+      "after": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-linux-baseline-test-build-v1-after.inputs.json",
+      "input_count": 4181,
+      "inputs_unchanged": true,
+      "driver_sha256": "50f3a206a2ff39b881a9d256392e145c44b385a2e1df6e2bab6ed84b7021eae5",
+      "binary": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/bin/bootstrap-baseline-linux.test",
+        "sha256": "2478f307bdce1d61728b3831c1c704caf471fd685b611a0ef244499c2101425a",
+        "bytes": 38749901
+      },
+      "record": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-linux-baseline-test-build-v1.command.json",
+        "sha256": "098bcd6ab60b53ef1f3127625ea6e55def309ac0937fdedaf2219b8d60e7a14d",
+        "bytes": 1552
+      },
+      "stdout": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-linux-baseline-test-build-v1.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "stderr": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-linux-baseline-test-build-v1.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
+      "name": "shutdown-probe-build-linux-v2",
+      "argv": [
+        "go",
+        "build",
+        "-p",
+        "1",
+        "-trimpath",
+        "-o",
+        "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/bin/dt-shutdown-probe-linux",
+        "./cmd/dt-shutdown-probe"
+      ],
+      "cwd": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/source/DataTransfer",
+      "toolchain": "go version go1.27.1 darwin/arm64",
+      "environment": {
+        "GOTOOLCHAIN": "local",
+        "GOPATH": "/private/tmp/smartfactory-evolution-gopath",
+        "GOMODCACHE": "/private/tmp/smartfactory-evolution-gomodcache",
+        "GOCACHE": "/private/tmp/smartfactory-evolution-go-cache",
+        "GOPROXY": "off",
+        "GOMAXPROCS": "2",
+        "GOOS": "linux",
+        "GOARCH": "amd64",
+        "CGO_ENABLED": "0"
+      },
+      "started_at": 1791193269.037581,
+      "elapsed_seconds": 0.8788690567016602,
+      "exit_code": 0,
+      "before": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-probe-build-linux-v2-before.inputs.json",
+      "after": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-probe-build-linux-v2-after.inputs.json",
+      "input_count": 2772,
+      "inputs_unchanged": true,
+      "driver_sha256": "81b4dd1211eb8f9982b39d930d68ad84e9d88a62252262326e71e68e1eb12cc6",
+      "binary": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/bin/dt-shutdown-probe-linux",
+        "sha256": "8519ecebb82ccdf6d39ca8a78d7bcfe40a8d60dadf7e6b62b6b9fb3e39f05ce0",
+        "bytes": 16485164
+      },
+      "record": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-probe-build-linux-v2.command.json",
+        "sha256": "b90bd111136bf1604ade888621663d57ad9cf70cf855f89d99b30d5638917566",
+        "bytes": 1502
+      },
+      "stdout": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-probe-build-linux-v2.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "stderr": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-probe-build-linux-v2.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
+      "name": "shutdown-probe-build-v1",
+      "argv": [
+        "go",
+        "build",
+        "-p",
+        "1",
+        "-trimpath",
+        "-o",
+        "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/bin/dt-shutdown-probe",
+        "./cmd/dt-shutdown-probe"
+      ],
+      "cwd": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/source/DataTransfer",
+      "toolchain": "go version go1.27.1 darwin/arm64",
+      "environment": {
+        "GOTOOLCHAIN": "local",
+        "GOPATH": "/private/tmp/smartfactory-evolution-gopath",
+        "GOMODCACHE": "/private/tmp/smartfactory-evolution-gomodcache",
+        "GOCACHE": "/private/tmp/smartfactory-evolution-go-cache",
+        "GOPROXY": "off",
+        "GOMAXPROCS": "2"
+      },
+      "started_at": 1791193217.260353,
+      "elapsed_seconds": 0.9299697875976562,
+      "exit_code": 0,
+      "before": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-probe-build-v1-before.inputs.json",
+      "after": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-probe-build-v1-after.inputs.json",
+      "input_count": 2707,
+      "inputs_unchanged": true,
+      "driver_sha256": "81b4dd1211eb8f9982b39d930d68ad84e9d88a62252262326e71e68e1eb12cc6",
+      "binary": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/bin/dt-shutdown-probe",
+        "sha256": "74ecb251c6899360ccce71c59a4032b376657de9e233f93241b41ffd873ccfbe",
+        "bytes": 16007346
+      },
+      "record": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-probe-build-v1.command.json",
+        "sha256": "fb70838282445ed17c6228e6d669ed3bf0831a7039b63cc15c402fddb4e3d989",
+        "bytes": 1404
+      },
+      "stdout": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-probe-build-v1.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "stderr": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-probe-build-v1.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
+      "name": "shutdown-probe-large-build-linux-v4",
+      "argv": [
+        "go",
+        "build",
+        "-p",
+        "1",
+        "-trimpath",
+        "-o",
+        "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/bin/dt-shutdown-probe-large-linux",
+        "./cmd/dt-shutdown-probe"
+      ],
+      "cwd": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/source/DataTransfer",
+      "toolchain": "go version go1.27.1 darwin/arm64",
+      "environment": {
+        "GOTOOLCHAIN": "local",
+        "GOPATH": "/private/tmp/smartfactory-evolution-gopath",
+        "GOMODCACHE": "/private/tmp/smartfactory-evolution-gomodcache",
+        "GOCACHE": "/private/tmp/smartfactory-evolution-go-cache",
+        "GOPROXY": "off",
+        "GOMAXPROCS": "2",
+        "GOOS": "linux",
+        "GOARCH": "amd64",
+        "CGO_ENABLED": "0"
+      },
+      "started_at": 1791193936.259358,
+      "elapsed_seconds": 0.32167816162109375,
+      "exit_code": 0,
+      "before": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-probe-large-build-linux-v4-before.inputs.json",
+      "after": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-probe-large-build-linux-v4-after.inputs.json",
+      "input_count": 2772,
+      "inputs_unchanged": true,
+      "driver_sha256": "81b4dd1211eb8f9982b39d930d68ad84e9d88a62252262326e71e68e1eb12cc6",
+      "binary": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/bin/dt-shutdown-probe-large-linux",
+        "sha256": "b5e03a522196ffcf509264c4a56659349244eace875350bd7e271f7c4083e54b",
+        "bytes": 16486506
+      },
+      "record": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-probe-large-build-linux-v4.command.json",
+        "sha256": "82458b2d56d738c2af227523910443ff1d69acaabcf0a5cb5163b8362969e52e",
+        "bytes": 1533
+      },
+      "stdout": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-probe-large-build-linux-v4.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "stderr": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-probe-large-build-linux-v4.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
+      "name": "shutdown-probe-static-build-linux-v3",
+      "argv": [
+        "go",
+        "build",
+        "-p",
+        "1",
+        "-trimpath",
+        "-o",
+        "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/bin/dt-shutdown-probe-static-linux",
+        "./cmd/dt-shutdown-probe"
+      ],
+      "cwd": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/source/DataTransfer",
+      "toolchain": "go version go1.27.1 darwin/arm64",
+      "environment": {
+        "GOTOOLCHAIN": "local",
+        "GOPATH": "/private/tmp/smartfactory-evolution-gopath",
+        "GOMODCACHE": "/private/tmp/smartfactory-evolution-gomodcache",
+        "GOCACHE": "/private/tmp/smartfactory-evolution-go-cache",
+        "GOPROXY": "off",
+        "GOMAXPROCS": "2",
+        "GOOS": "linux",
+        "GOARCH": "amd64",
+        "CGO_ENABLED": "0"
+      },
+      "started_at": 1791193418.087166,
+      "elapsed_seconds": 0.34063100814819336,
+      "exit_code": 0,
+      "before": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-probe-static-build-linux-v3-before.inputs.json",
+      "after": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-probe-static-build-linux-v3-after.inputs.json",
+      "input_count": 2772,
+      "inputs_unchanged": true,
+      "driver_sha256": "81b4dd1211eb8f9982b39d930d68ad84e9d88a62252262326e71e68e1eb12cc6",
+      "binary": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/bin/dt-shutdown-probe-static-linux",
+        "sha256": "da67c234f1a67d6c81bf1d058204e88a765d6468224ae1a6cceb47965968d68c",
+        "bytes": 16486170
+      },
+      "record": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-probe-static-build-linux-v3.command.json",
+        "sha256": "d57486764cb9a53464b9b72f2a741f0f46cf8704ffac1b9f767befbe9057c173",
+        "bytes": 1538
+      },
+      "stdout": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-probe-static-build-linux-v3.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "stderr": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-probe-static-build-linux-v3.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
+      "name": "shutdown-race-v2",
+      "argv": [
+        "go",
+        "test",
+        "-p",
+        "1",
+        "-race",
+        "-count=1",
+        "-timeout",
+        "40s",
+        "-json",
+        "./internal/bootstrap"
+      ],
+      "cwd": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/source/DataTransfer",
+      "toolchain": "go version go1.27.1 darwin/arm64",
+      "environment": {
+        "GOTOOLCHAIN": "local",
+        "GOPATH": "/private/tmp/smartfactory-evolution-gopath",
+        "GOMODCACHE": "/private/tmp/smartfactory-evolution-gomodcache",
+        "GOCACHE": "/private/tmp/smartfactory-evolution-go-cache",
+        "GOPROXY": "off",
+        "GOMAXPROCS": "2"
+      },
+      "started_at": 1791194548.9769962,
+      "elapsed_seconds": 15.145005702972412,
+      "exit_code": 0,
+      "before": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-race-v2-before.inputs.json",
+      "after": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-race-v2-after.inputs.json",
+      "input_count": 4174,
+      "inputs_unchanged": true,
+      "driver_sha256": "50f3a206a2ff39b881a9d256392e145c44b385a2e1df6e2bab6ed84b7021eae5",
+      "record": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-race-v2.command.json",
+        "sha256": "b10f769c71a48f1b7553b757b4e17adb33c853dbe40db0b9da58278acc9f6f59",
+        "bytes": 1103
+      },
+      "stdout": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-race-v2.stdout.log",
+        "sha256": "c53b4a189f4da9a8bbdb00ddaebaade988b6d4c678bdb4af51b50e5537d386d5",
+        "bytes": 8316
+      },
+      "stderr": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-race-v2.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
+      "name": "shutdown-stream-baseline-v1",
+      "argv": [
+        "go",
+        "test",
+        "-p",
+        "1",
+        "-count=1",
+        "-json",
+        "-run",
+        "^TestShutdownWithBlockedGRPCStream$",
+        "./internal/bootstrap"
+      ],
+      "cwd": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/source/DataTransfer",
+      "toolchain": "go version go1.27.1 darwin/arm64",
+      "environment": {
+        "GOTOOLCHAIN": "local",
+        "GOPATH": "/private/tmp/smartfactory-evolution-gopath",
+        "GOMODCACHE": "/private/tmp/smartfactory-evolution-gomodcache",
+        "GOCACHE": "/private/tmp/smartfactory-evolution-go-cache",
+        "GOPROXY": "off",
+        "GOMAXPROCS": "2"
+      },
+      "started_at": 1791193696.180714,
+      "elapsed_seconds": 8.307289123535156,
+      "exit_code": 1,
+      "before": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-stream-baseline-v1-before.inputs.json",
+      "after": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-stream-baseline-v1-after.inputs.json",
+      "input_count": 4174,
+      "inputs_unchanged": true,
+      "driver_sha256": "81b4dd1211eb8f9982b39d930d68ad84e9d88a62252262326e71e68e1eb12cc6",
+      "record": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-stream-baseline-v1.command.json",
+        "sha256": "0e9d657227bb34d02174be86e9cee6d1001c7216283d53d199a19805335c217f",
+        "bytes": 1149
+      },
+      "stdout": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-stream-baseline-v1.stdout.log",
+        "sha256": "5342718d84a96230721013d608df9a7578f2d2f1fcfa35888b33ba963283404f",
+        "bytes": 2834
+      },
+      "stderr": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-stream-baseline-v1.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
+      "name": "shutdown-stream-diagnostic-v2",
+      "argv": [
+        "go",
+        "test",
+        "-p",
+        "1",
+        "-count=1",
+        "-json",
+        "-run",
+        "^TestShutdownWithBlockedGRPCStream$",
+        "./internal/bootstrap"
+      ],
+      "cwd": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/source/DataTransfer",
+      "toolchain": "go version go1.27.1 darwin/arm64",
+      "environment": {
+        "GOTOOLCHAIN": "local",
+        "GOPATH": "/private/tmp/smartfactory-evolution-gopath",
+        "GOMODCACHE": "/private/tmp/smartfactory-evolution-gomodcache",
+        "GOCACHE": "/private/tmp/smartfactory-evolution-go-cache",
+        "GOPROXY": "off",
+        "GOMAXPROCS": "2"
+      },
+      "started_at": 1791193745.656249,
+      "elapsed_seconds": 5.981791973114014,
+      "exit_code": 1,
+      "before": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-stream-diagnostic-v2-before.inputs.json",
+      "after": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-stream-diagnostic-v2-after.inputs.json",
+      "input_count": 4174,
+      "inputs_unchanged": true,
+      "driver_sha256": "81b4dd1211eb8f9982b39d930d68ad84e9d88a62252262326e71e68e1eb12cc6",
+      "record": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-stream-diagnostic-v2.command.json",
+        "sha256": "703542c2cbec1616c095dc73c6f3375dea5ed3e247a292e439f98afcd0ce0961",
+        "bytes": 1155
+      },
+      "stdout": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-stream-diagnostic-v2.stdout.log",
+        "sha256": "ee9a4db8e569eb57f77790bf3d8db1a18bd4a6108d8379e35f305384087433b7",
+        "bytes": 59787
+      },
+      "stderr": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/shutdown-stream-diagnostic-v2.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    }
+  ],
+  "retained_inputs_verified": {
+    "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/all-retained-inputs-verified.json",
+    "sha256": "18ff31f08794ee6cc9b4080cd1d797a6541a81fa51382e3c4381832b83b84873",
+    "bytes": 11166
+  },
+  "checks": [
+    {
+      "name": "git-diff-check",
+      "argv": [
+        "git",
+        "diff",
+        "--check",
+        "--",
+        "DataTransfer/internal/bootstrap/app.go",
+        "DataTransfer/internal/bootstrap/shutdown_test.go",
+        "DataTransfer/cmd/dt-node-configuration-fixture"
+      ],
+      "cwd": "/path/to/SmartFactory-2026",
+      "exit_code": 0,
+      "output": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/git-diff-check.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
+      "name": "gofmt-check",
+      "argv": [
+        "gofmt",
+        "-l",
+        "/path/to/SmartFactory-2026/DataTransfer/internal/bootstrap/app.go",
+        "/path/to/SmartFactory-2026/DataTransfer/internal/bootstrap/shutdown_test.go",
+        "/path/to/SmartFactory-2026/DataTransfer/cmd/dt-node-configuration-fixture/main.go",
+        "/path/to/SmartFactory-2026/DataTransfer/cmd/dt-node-configuration-fixture/main_test.go"
+      ],
+      "cwd": "/path/to/SmartFactory-2026",
+      "exit_code": 0,
+      "output": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/gofmt-check.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
+      "name": "docker-cleanup-check",
+      "argv": [
+        "docker",
+        "ps",
+        "-a",
+        "--filter",
+        "name=sf-dt-",
+        "--format",
+        "{{.Names}}"
+      ],
+      "cwd": "/path/to/SmartFactory-2026",
+      "exit_code": 0,
+      "output": {
+        "path": "/private/tmp/smartfactory-datatransfer-runtime-followup-20261005/evidence/docker-cleanup-check.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    }
+  ],
+  "resource_handoff": {
+    "own_docker_containers_remaining": 0,
+    "limited_race_window_released": true,
+    "frontend_consumer": "retained under its recorded frontend ownership"
+  }
+}

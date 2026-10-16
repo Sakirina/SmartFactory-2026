@@ -1,0 +1,2264 @@
+{
+  "schema_version": 1,
+  "phase": 3,
+  "finding": "P3-T02",
+  "role": "storage_and_background_tasks",
+  "generated_at": "2026-10-04T23:05:47.354786+00:00",
+  "status": "specialist_fix_and_verification_complete_pending_coordinator_and_independent_browser_review",
+  "scope": "Restore explicit task retry after a real running cancellation by removing the prior River cancellation intent inside the existing authorized action transaction",
+  "original_finding": {
+    "task": "analysis:shadow:fixture-failure:1:2",
+    "river_id": 24,
+    "observed": "retry200 increments sf_operation_revision but preserves cancel_attempted_at; the next actual JobSnooze cancels River again while analysis_run remains waiting_parent",
+    "evidence": [
+      {
+        "path": ".local/evolution/phase3-review-evidence/t01-single-read-task-and-river.json",
+        "sha256": "a61b59913d1f68aa8137e116409f92eef8a77becb45333d0aae1cc5386fd8256",
+        "bytes": 3578
+      },
+      {
+        "path": ".local/evolution/phase3-review-evidence/t01-retry-second-cancelled-with-waiting-parent.json",
+        "sha256": "e79e222281c60f7530d59811e70cb55628fcf093692119aa0fa1ab00f522aa57",
+        "bytes": 30230
+      },
+      {
+        "path": ".local/evolution/phase3-review-evidence/t01-retry-second-backend.json",
+        "sha256": "7ed61f6d293f9d68da1fd236977253aaa549005058b8e253828b75cfaee4ee0b",
+        "bytes": 2069
+      },
+      {
+        "path": ".local/evolution/phase3-review-evidence/t01-retry-second-river.json",
+        "sha256": "cd5853ea663afdb3b8fe42cf80d77b021718c86948bf5c6799758f56d39a0be7",
+        "bytes": 479
+      },
+      {
+        "path": ".local/evolution/phase3-review-evidence/t01-retry-independent-reproduction.metadata.json",
+        "sha256": "c73c5dc6335063067ecbdc4360e08c4449f24ff246707969f2897068184ace89",
+        "bytes": 88460
+      },
+      {
+        "path": ".local/evolution/phase3-review-evidence/t01-retry-independent-reproduction.stdout.log",
+        "sha256": "91634595eb56b7469e63c40114b1d3b6567997e197194ff7af3b7a8d6494c110",
+        "bytes": 3963
+      },
+      {
+        "path": ".local/evolution/phase3-review-evidence/independent-findings-through-t02.json",
+        "sha256": "54c4256253191623000f7b20491b71250d4c6a3a37b3b51af8dae2513c621abe",
+        "bytes": 7876
+      }
+    ]
+  },
+  "reproduction_and_first_failures": {
+    "failures": [
+      {
+        "run": "storage-t02-before-repair.jsonl",
+        "test": "TestTaskRetryClearsPriorCancellation/running_cancel_retry_multiple_snoozes_then_cancel",
+        "observed": "task_retry_semantics_test.go:197: retry stopped during production scheduling: queue=cancelled business=waiting_parent snoozes=2 metadata=map[cancel_attempted_at:\"2026-10-04T22:48:39.505208Z\" custom_null:null extension:{\"big\":9007199254740993,\"null\":null,\"nested\":{\"keep\":\"value\"}} fixture:{\"retained\":true} river:unique_nonce:\"retained-nonce\" sf_operation_revision:2 sf_trace:{\"traceparent\":\"00-11111111111111111111111111111111-2222222222222222-01\",\"tracestate\":\"test=retained\"} snoozes:2]"
+      },
+      {
+        "run": "storage-t02-sqlite-first.jsonl",
+        "test": "TestTaskRetryClearsPriorCancellation/retry_authorization_and_obsolete_generation",
+        "observed": "task_retry_semantics_test.go:263: GET /tasks/analysis:confirmed-run: status=409 expected=200 body={\"error\":\"version or message content conflict\"}"
+      }
+    ],
+    "pre_repair_production_source": {
+      "path": ".local/evolution/tasks-retry-t02-evidence/before-tasks.go",
+      "sha256": "2b09b58754019a9ae19fd095880754cbcc7e2abc848ed52fe9a4b99968b63d11",
+      "bytes": 21142
+    },
+    "pre_repair_source_manifest": {
+      "path": ".local/evolution/tasks-retry-t02-evidence/before-inputs.json",
+      "sha256": "3a1b92f71ea019fbaa70a7faa2e25c11bb6ce0d614f1b7fc2b37e3af2a1cb371",
+      "bytes": 41352
+    },
+    "test_source_provenance": "The initial new regression test was expanded after reproducing the failure; the exact pre-repair production source and raw failing run are preserved. Final test source is saved separately.",
+    "initial_test_fixture_repair": "The authorization scenario now increments the embedded model.User.Version with each fixture write and reauthenticates its principal before testing a concurrent grant mutation. No production authorization code changed.",
+    "evidence_collector_attempt": {
+      "path": ".local/evolution/tasks-retry-t02-evidence/evidence-preparation.json",
+      "sha256": "1a579fdfc9c3f9db0c337d50223e90543196e5a8057386864adf3d6e447e053a",
+      "bytes": 437
+    }
+  },
+  "implementation": {
+    "production_files": [
+      "Platform/internal/store/tasks.go"
+    ],
+    "transaction_order": "existing authorization revisions -> business object lock -> task identity lock -> River row lock -> current semantic version/state check -> business retry + official JobRetryTx -> sf_tasks cancellation-intent reset -> metadata cancellation-key deletion and operation revision increment -> audit and commit",
+    "metadata": "Read the latest locked River row into map[string]json.RawMessage, remove only cancel_attempted_at, advance sf_operation_revision, then use official JobUpdateFull with only MetadataDoUpdate enabled. Cancellation retains its existing official merge operation.",
+    "preserved": [
+      "all other River metadata including river:unique_nonce and snoozes",
+      "sf_trace",
+      "unknown custom values including integer9007199254740993, nested JSON null and a top-level JSON null field",
+      "same task ID, River ID, business run, captured snapshot and completed steps"
+    ],
+    "driver_semantics": "Both JobRetry implementations retain metadata. SQLite JobUpdate uses JSON merge patch and removes a null-valued supplied key; PostgreSQL JobUpdate concatenates JSONB and retains a null-valued key, while cancellation tests key presence. Locked full metadata replacement expresses deletion consistently.",
+    "official_driver_sources": {
+      "path": ".local/evolution/tasks-retry-t02-evidence/river-driver-source-hashes.json",
+      "sha256": "fdc1681e653431f8a36210a3084d6228189f4bdfa661d9353f5b084e9b900c30",
+      "bytes": 1861
+    },
+    "official_driver_excerpts": {
+      "path": ".local/evolution/tasks-retry-t02-evidence/river-driver-source-excerpts.txt",
+      "sha256": "bbfd9c616ba06092a83a85ce8576842d3c2fa51ad16a3a6c9fab47b3163134d7",
+      "bytes": 19536
+    },
+    "concurrency": "Retry stays unavailable while the cancelled worker still owns a running attempt. Tests overlap cancellation with the original worker snooze or second step commit, require premature retry409, then retry the finalized cancellation. Concurrent HTTP retries produce one200 and one409 with one retry audit and one operation revision increment.",
+    "rollback": "An injected task.retry audit failure restores the prior cancellation timestamp, metadata, sf_tasks cancellation intent, business document and semantic version; retry can then use the same confirmed version after removing the injected failure."
+  },
+  "verification": {
+    "checks": [
+      {
+        "name": "storage-t02-before-repair.jsonl",
+        "cwd": "Platform",
+        "argv": [
+          "go",
+          "test",
+          "-p",
+          "1",
+          "-json",
+          "./internal/api",
+          "-run",
+          "^TestTaskRetryClearsPriorCancellation$/running_cancel_retry_multiple_snoozes_then_cancel$",
+          "-count=1"
+        ],
+        "environment": {
+          "GOTOOLCHAIN": "local",
+          "GOPATH": "/private/tmp/smartfactory-evolution-gopath",
+          "GOMODCACHE": "/private/tmp/smartfactory-evolution-gomodcache",
+          "GOCACHE": "/private/tmp/smartfactory-evolution-go-cache",
+          "GOPROXY": "off"
+        },
+        "exit_code": 1,
+        "scope": "Real running cancellation against pre-fix production source: retry200 followed by a production snooze becomes cancelled while the business run remains waiting_parent",
+        "counts": {
+          "top_level_tests": {
+            "pass": 0,
+            "fail": 1,
+            "skip": 0
+          },
+          "leaf_tests": {
+            "pass": 0,
+            "fail": 1,
+            "skip": 0
+          },
+          "all_named_tests": {
+            "pass": 0,
+            "fail": 2,
+            "skip": 0
+          },
+          "packages": {
+            "pass": 0,
+            "fail": 1,
+            "skip": 0
+          },
+          "package_elapsed_seconds": 0.945,
+          "data_race_reports": 0
+        },
+        "conditional_skips": [],
+        "evidence": {
+          "path": ".local/evolution/tasks-retry-t02-evidence/storage-t02-before-repair.jsonl",
+          "sha256": "8a888feeec38bfdd58a45c1d04629ac57b8ee7fa2e3e4f959ce3eb2fd9776e40",
+          "bytes": 5167
+        }
+      },
+      {
+        "name": "storage-t02-sqlite-first.jsonl",
+        "cwd": "Platform",
+        "argv": [
+          "go",
+          "test",
+          "-p",
+          "1",
+          "-json",
+          "./internal/api",
+          "-run",
+          "^TestTaskRetryClearsPriorCancellation$",
+          "-count=1"
+        ],
+        "environment": {
+          "GOTOOLCHAIN": "local",
+          "GOPATH": "/private/tmp/smartfactory-evolution-gopath",
+          "GOMODCACHE": "/private/tmp/smartfactory-evolution-gomodcache",
+          "GOCACHE": "/private/tmp/smartfactory-evolution-go-cache",
+          "GOPROXY": "off"
+        },
+        "exit_code": 1,
+        "scope": "Initial three-case implementation run: sustained retry and audit rollback passed; the authorization fixture stored a stale embedded User.Version and its later GET returned409",
+        "counts": {
+          "top_level_tests": {
+            "pass": 0,
+            "fail": 1,
+            "skip": 0
+          },
+          "leaf_tests": {
+            "pass": 2,
+            "fail": 1,
+            "skip": 0
+          },
+          "all_named_tests": {
+            "pass": 2,
+            "fail": 2,
+            "skip": 0
+          },
+          "packages": {
+            "pass": 0,
+            "fail": 1,
+            "skip": 0
+          },
+          "package_elapsed_seconds": 4.749,
+          "data_race_reports": 0
+        },
+        "conditional_skips": [],
+        "evidence": {
+          "path": ".local/evolution/tasks-retry-t02-evidence/storage-t02-sqlite-first.jsonl",
+          "sha256": "fd32342fe7ec8e94c735c2d7d8e256be08c02b0efe519d9a827c88fe741c9218",
+          "bytes": 11445
+        }
+      },
+      {
+        "name": "storage-t02-sqlite-repaired.jsonl",
+        "cwd": "Platform",
+        "argv": [
+          "go",
+          "test",
+          "-p",
+          "1",
+          "-json",
+          "./internal/api",
+          "-run",
+          "^TestTaskRetryClearsPriorCancellation$",
+          "-count=1"
+        ],
+        "environment": {
+          "GOTOOLCHAIN": "local",
+          "GOPATH": "/private/tmp/smartfactory-evolution-gopath",
+          "GOMODCACHE": "/private/tmp/smartfactory-evolution-gomodcache",
+          "GOCACHE": "/private/tmp/smartfactory-evolution-go-cache",
+          "GOPROXY": "off"
+        },
+        "exit_code": 0,
+        "scope": "Six SQLite scenarios after correcting the fixture user version and adding concurrency, committed-step recovery and official null-merge comparison",
+        "counts": {
+          "top_level_tests": {
+            "pass": 1,
+            "fail": 0,
+            "skip": 0
+          },
+          "leaf_tests": {
+            "pass": 6,
+            "fail": 0,
+            "skip": 0
+          },
+          "all_named_tests": {
+            "pass": 7,
+            "fail": 0,
+            "skip": 0
+          },
+          "packages": {
+            "pass": 1,
+            "fail": 0,
+            "skip": 0
+          },
+          "package_elapsed_seconds": 11.388,
+          "data_race_reports": 0
+        },
+        "conditional_skips": [],
+        "evidence": {
+          "path": ".local/evolution/tasks-retry-t02-evidence/storage-t02-sqlite-repaired.jsonl",
+          "sha256": "4c32d067d0d95d55778a2193048ec409b204a47456d1086cda3b7d9ec861bd57",
+          "bytes": 20072
+        }
+      },
+      {
+        "name": "storage-t02-postgres-final.jsonl",
+        "cwd": "Platform",
+        "argv": [
+          "go",
+          "test",
+          "-p",
+          "1",
+          "-json",
+          "./internal/api",
+          "-run",
+          "^(TestPostgresTaskOperationVersionsAllowHumanConfirmation|TestPostgresTaskRetryClearsPriorCancellation)$",
+          "-count=1"
+        ],
+        "environment": {
+          "GOTOOLCHAIN": "local",
+          "GOPATH": "/private/tmp/smartfactory-evolution-gopath",
+          "GOMODCACHE": "/private/tmp/smartfactory-evolution-gomodcache",
+          "GOCACHE": "/private/tmp/smartfactory-evolution-go-cache",
+          "GOPROXY": "off"
+        },
+        "exit_code": 0,
+        "scope": "Actual PostgreSQL 18.6: all 11 T01 and six T02 scenarios; final production source",
+        "counts": {
+          "top_level_tests": {
+            "pass": 2,
+            "fail": 0,
+            "skip": 0
+          },
+          "leaf_tests": {
+            "pass": 17,
+            "fail": 0,
+            "skip": 0
+          },
+          "all_named_tests": {
+            "pass": 19,
+            "fail": 0,
+            "skip": 0
+          },
+          "packages": {
+            "pass": 1,
+            "fail": 0,
+            "skip": 0
+          },
+          "package_elapsed_seconds": 35.697,
+          "data_race_reports": 0
+        },
+        "conditional_skips": [],
+        "evidence": {
+          "path": ".local/evolution/tasks-retry-t02-evidence/storage-t02-postgres-final.jsonl",
+          "sha256": "074507b5c5870e83ce4c995472af0eadb4b56af807271e33b7be85afb64f9e91",
+          "bytes": 54602
+        },
+        "postgres_environment": "SF_TEST_POSTGRES_DATABASE loaded privately from .local/evolution/pg18-test.json dsn; value omitted",
+        "connection_budget": "One isolated schema per sequential case; 3 open / 1 idle application connections and at most 1 administration connection; package parallelism 1"
+      },
+      {
+        "name": "storage-t02-affected-final.jsonl",
+        "cwd": "Platform",
+        "argv": [
+          "go",
+          "test",
+          "-p",
+          "1",
+          "-json",
+          "./internal/store",
+          "./internal/tasks",
+          "./internal/application",
+          "./internal/api",
+          "./cmd/sf-contracts",
+          "-count=1"
+        ],
+        "environment": {
+          "GOTOOLCHAIN": "local",
+          "GOPATH": "/private/tmp/smartfactory-evolution-gopath",
+          "GOMODCACHE": "/private/tmp/smartfactory-evolution-gomodcache",
+          "GOCACHE": "/private/tmp/smartfactory-evolution-go-cache",
+          "GOPROXY": "off"
+        },
+        "exit_code": 0,
+        "scope": "Five complete affected packages with final source; PG environment omitted in this ordinary command; every conditional skip is listed",
+        "counts": {
+          "top_level_tests": {
+            "pass": 84,
+            "fail": 0,
+            "skip": 23
+          },
+          "leaf_tests": {
+            "pass": 139,
+            "fail": 0,
+            "skip": 40
+          },
+          "all_named_tests": {
+            "pass": 158,
+            "fail": 0,
+            "skip": 40
+          },
+          "packages": {
+            "pass": 5,
+            "fail": 0,
+            "skip": 0
+          },
+          "package_elapsed_seconds": 143.977,
+          "data_race_reports": 0
+        },
+        "conditional_skips": [
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresArchiveCASAndTransactionDuration",
+            "output": "=== RUN   TestPostgresArchiveCASAndTransactionDuration\n    archive_cas_test.go:100: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresArchiveCASAndTransactionDuration (0.00s)",
+            "disposition": "pre_existing_postgres_conditional_test_not_selected_in_the_t02_specific_postgres_command",
+            "note": "Recorded as a skip in this run; no user exclusion or equivalence claim is inferred"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresArchiveRetirementAndCreationRace",
+            "output": "=== RUN   TestPostgresArchiveRetirementAndCreationRace\n    archive_cas_test.go:205: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresArchiveRetirementAndCreationRace (0.00s)",
+            "disposition": "pre_existing_postgres_conditional_test_not_selected_in_the_t02_specific_postgres_command",
+            "note": "Recorded as a skip in this run; no user exclusion or equivalence claim is inferred"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresArchiveCapacityAndLatePartitionRecovery",
+            "output": "=== RUN   TestPostgresArchiveCapacityAndLatePartitionRecovery\n    archive_postgres_test.go:21: isolated PostgreSQL fixture required\n--- SKIP: TestPostgresArchiveCapacityAndLatePartitionRecovery (0.00s)",
+            "disposition": "pre_existing_postgres_conditional_test_not_selected_in_the_t02_specific_postgres_command",
+            "note": "Recorded as a skip in this run; no user exclusion or equivalence claim is inferred"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresBulkIngestTasksBudget",
+            "output": "=== RUN   TestPostgresBulkIngestTasksBudget\n    bulk_tasks_test.go:42: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresBulkIngestTasksBudget (0.00s)",
+            "disposition": "pre_existing_postgres_conditional_test_not_selected_in_the_t02_specific_postgres_command",
+            "note": "Recorded as a skip in this run; no user exclusion or equivalence claim is inferred"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresIndependentObjectsAndContendedIdentity",
+            "output": "=== RUN   TestPostgresIndependentObjectsAndContendedIdentity\n    concurrency_postgres_test.go:39: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresIndependentObjectsAndContendedIdentity (0.00s)",
+            "disposition": "pre_existing_postgres_conditional_test_not_selected_in_the_t02_specific_postgres_command",
+            "note": "Recorded as a skip in this run; no user exclusion or equivalence claim is inferred"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresLateCommitSyncAuditAndAtomicFinalization",
+            "output": "=== RUN   TestPostgresLateCommitSyncAuditAndAtomicFinalization\n    concurrency_postgres_test.go:138: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresLateCommitSyncAuditAndAtomicFinalization (0.00s)",
+            "disposition": "pre_existing_postgres_conditional_test_not_selected_in_the_t02_specific_postgres_command",
+            "note": "Recorded as a skip in this run; no user exclusion or equivalence claim is inferred"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresDeadlockIsRecognizableWithoutCallbackReplay",
+            "output": "=== RUN   TestPostgresDeadlockIsRecognizableWithoutCallbackReplay\n    concurrency_postgres_test.go:245: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresDeadlockIsRecognizableWithoutCallbackReplay (0.00s)",
+            "disposition": "pre_existing_postgres_conditional_test_not_selected_in_the_t02_specific_postgres_command",
+            "note": "Recorded as a skip in this run; no user exclusion or equivalence claim is inferred"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresControlEvidenceAtomicReceiptAndImmutableIdentity",
+            "output": "=== RUN   TestPostgresControlEvidenceAtomicReceiptAndImmutableIdentity\n    control_evidence_test.go:79: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresControlEvidenceAtomicReceiptAndImmutableIdentity (0.00s)",
+            "disposition": "pre_existing_postgres_conditional_test_not_selected_in_the_t02_specific_postgres_command",
+            "note": "Recorded as a skip in this run; no user exclusion or equivalence claim is inferred"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresNumberedMigrationsPreserveExistingSchema",
+            "output": "=== RUN   TestPostgresNumberedMigrationsPreserveExistingSchema\n    migrations_test.go:159: set SF_TEST_POSTGRES_DATABASE to an isolated PostgreSQL fixture\n--- SKIP: TestPostgresNumberedMigrationsPreserveExistingSchema (0.00s)",
+            "disposition": "pre_existing_postgres_conditional_test_not_selected_in_the_t02_specific_postgres_command",
+            "note": "Recorded as a skip in this run; no user exclusion or equivalence claim is inferred"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresRetentionDropsExpiredPartitionBeforeRowDeletion",
+            "output": "=== RUN   TestPostgresRetentionDropsExpiredPartitionBeforeRowDeletion\n    postgres_retention_test.go:15: set SF_TEST_POSTGRES_DATABASE to an isolated PostgreSQL fixture\n--- SKIP: TestPostgresRetentionDropsExpiredPartitionBeforeRowDeletion (0.00s)",
+            "disposition": "pre_existing_postgres_conditional_test_not_selected_in_the_t02_specific_postgres_command",
+            "note": "Recorded as a skip in this run; no user exclusion or equivalence claim is inferred"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresRiverMigrationHandoffResumes",
+            "output": "=== RUN   TestPostgresRiverMigrationHandoffResumes\n    river_migration_test.go:84: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresRiverMigrationHandoffResumes (0.00s)",
+            "disposition": "pre_existing_postgres_conditional_test_not_selected_in_the_t02_specific_postgres_command",
+            "note": "Recorded as a skip in this run; no user exclusion or equivalence claim is inferred"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestPostgresRiverTransactionalEnqueue",
+            "output": "=== RUN   TestPostgresRiverTransactionalEnqueue\n    river_test.go:112: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresRiverTransactionalEnqueue (0.00s)",
+            "disposition": "pre_existing_postgres_conditional_test_not_selected_in_the_t02_specific_postgres_command",
+            "note": "Recorded as a skip in this run; no user exclusion or equivalence claim is inferred"
+          },
+          {
+            "package": "competition2026/product/platform/internal/store",
+            "test": "TestControlledPostgresUpgradeFixture",
+            "output": "=== RUN   TestControlledPostgresUpgradeFixture\n    upgrade_fixture_test.go:33: controlled PostgreSQL 16 -> 18 fixture\n--- SKIP: TestControlledPostgresUpgradeFixture (0.00s)",
+            "disposition": "requires_explicit_upgrade_seed_or_verify_phase; not_selected_for_t02",
+            "prior_upgrade_evidence": {
+              "path": ".local/evolution/pg16-to18-dump-restore.json",
+              "sha256": "f02868ad249c6e879041eec42436699204240d397e6cf88354b87c3e9bc4a534",
+              "bytes": 4510
+            }
+          },
+          {
+            "package": "competition2026/product/platform/internal/tasks",
+            "test": "TestPostgresRiverRetryAndRunningCancellation",
+            "output": "=== RUN   TestPostgresRiverRetryAndRunningCancellation\n    service_test.go:130: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresRiverRetryAndRunningCancellation (0.00s)",
+            "disposition": "pre_existing_postgres_conditional_test_not_selected_in_the_t02_specific_postgres_command",
+            "note": "Recorded as a skip in this run; no user exclusion or equivalence claim is inferred"
+          },
+          {
+            "package": "competition2026/product/platform/internal/tasks",
+            "test": "TestTaskCrashProcess",
+            "output": "=== RUN   TestTaskCrashProcess\n    service_test.go:136: subprocess helper\n--- SKIP: TestTaskCrashProcess (0.00s)",
+            "disposition": "helper_invoked_as_a_real_sigkill_child_by_passing_parent_tests",
+            "passing_parents": [
+              "TestRiverRecoversRecomputeCheckpointAfterProcessKill",
+              "TestRiverRecoversAfterProcessKill"
+            ]
+          },
+          {
+            "package": "competition2026/product/platform/internal/application",
+            "test": "TestPostgresIndependentDraftsShareAuthorizationWithoutSerialization",
+            "output": "=== RUN   TestPostgresIndependentDraftsShareAuthorizationWithoutSerialization\n    concurrency_postgres_test.go:19: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresIndependentDraftsShareAuthorizationWithoutSerialization (0.00s)",
+            "disposition": "pre_existing_postgres_conditional_test_not_selected_in_the_t02_specific_postgres_command",
+            "note": "Recorded as a skip in this run; no user exclusion or equivalence claim is inferred"
+          },
+          {
+            "package": "competition2026/product/platform/internal/application",
+            "test": "TestHistoryCrashProcess",
+            "output": "=== RUN   TestHistoryCrashProcess\n    history_restart_test.go:51: subprocess helper\n--- SKIP: TestHistoryCrashProcess (0.00s)",
+            "disposition": "helper_invoked_as_a_real_sigkill_child_by_passing_parent_tests",
+            "passing_parents": [
+              "TestHistorySIGKILLResumesCommittedCheckpointUsingOfficialRiverRescue",
+              "TestShadowSIGKILLPreservesResolvedParentSnapshot",
+              "TestShadowSIGKILLAtProductionDeliveryStages"
+            ]
+          },
+          {
+            "package": "competition2026/product/platform/internal/application",
+            "test": "TestPostgresHistoryReplayCrossVersionAssetsAndImmutableSnapshot",
+            "output": "=== RUN   TestPostgresHistoryReplayCrossVersionAssetsAndImmutableSnapshot\n    history_test.go:102: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresHistoryReplayCrossVersionAssetsAndImmutableSnapshot (0.00s)",
+            "disposition": "pre_existing_postgres_conditional_test_not_selected_in_the_t02_specific_postgres_command",
+            "note": "Recorded as a skip in this run; no user exclusion or equivalence claim is inferred"
+          },
+          {
+            "package": "competition2026/product/platform/internal/application",
+            "test": "TestPostgresHistoryRiverWorkerExecutesDurableAnalysis",
+            "output": "=== RUN   TestPostgresHistoryRiverWorkerExecutesDurableAnalysis\n    history_test.go:355: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresHistoryRiverWorkerExecutesDurableAnalysis (0.00s)",
+            "disposition": "pre_existing_postgres_conditional_test_not_selected_in_the_t02_specific_postgres_command",
+            "note": "Recorded as a skip in this run; no user exclusion or equivalence claim is inferred"
+          },
+          {
+            "package": "competition2026/product/platform/internal/application",
+            "test": "TestPostgresShadowProductionDerivedRevisionComparedWithCommittedRecompute",
+            "output": "=== RUN   TestPostgresShadowProductionDerivedRevisionComparedWithCommittedRecompute\n    shadow_test.go:21: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresShadowProductionDerivedRevisionComparedWithCommittedRecompute (0.00s)",
+            "disposition": "pre_existing_postgres_conditional_test_not_selected_in_the_t02_specific_postgres_command",
+            "note": "Recorded as a skip in this run; no user exclusion or equivalence claim is inferred"
+          },
+          {
+            "package": "competition2026/product/platform/internal/application",
+            "test": "TestPostgresShadowProductionDeliveriesDeduplicateContinueAndWaitForParent",
+            "output": "=== RUN   TestPostgresShadowProductionDeliveriesDeduplicateContinueAndWaitForParent\n    shadow_test.go:253: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresShadowProductionDeliveriesDeduplicateContinueAndWaitForParent (0.00s)",
+            "disposition": "pre_existing_postgres_conditional_test_not_selected_in_the_t02_specific_postgres_command",
+            "note": "Recorded as a skip in this run; no user exclusion or equivalence claim is inferred"
+          },
+          {
+            "package": "competition2026/product/platform/internal/api",
+            "test": "TestPostgresDeadlockReturnsHTTP409WithoutRepeatingCallback",
+            "output": "=== RUN   TestPostgresDeadlockReturnsHTTP409WithoutRepeatingCallback\n    concurrency_postgres_test.go:19: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresDeadlockReturnsHTTP409WithoutRepeatingCallback (0.00s)",
+            "disposition": "pre_existing_postgres_conditional_test_not_selected_in_the_t02_specific_postgres_command",
+            "note": "Recorded as a skip in this run; no user exclusion or equivalence claim is inferred"
+          },
+          {
+            "package": "competition2026/product/platform/internal/api",
+            "test": "TestPostgresLegacyAndTaskRetryConcurrentRequestsShareOneAttempt",
+            "output": "=== RUN   TestPostgresLegacyAndTaskRetryConcurrentRequestsShareOneAttempt\n    jobs_retry_test.go:254: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresLegacyAndTaskRetryConcurrentRequestsShareOneAttempt (0.00s)",
+            "disposition": "pre_existing_postgres_conditional_test_not_selected_in_the_t02_specific_postgres_command",
+            "note": "Recorded as a skip in this run; no user exclusion or equivalence claim is inferred"
+          },
+          {
+            "package": "competition2026/product/platform/internal/api",
+            "test": "TestPostgresTaskOperationVersionsAllowHumanConfirmation/waiting_parent_delayed_cancel_and_retry",
+            "output": "=== RUN   TestPostgresTaskOperationVersionsAllowHumanConfirmation/waiting_parent_delayed_cancel_and_retry\n    task_cancel_semantics_test.go:329: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresTaskOperationVersionsAllowHumanConfirmation/waiting_parent_delayed_cancel_and_retry (0.00s)",
+            "disposition": "executed_on_real_postgres_in_the_dedicated_normal_and_race_runs",
+            "coverage": [
+              "storage-t02-postgres-final.jsonl",
+              "storage-t02-race-final.jsonl"
+            ]
+          },
+          {
+            "package": "competition2026/product/platform/internal/api",
+            "test": "TestPostgresTaskOperationVersionsAllowHumanConfirmation/running_progress_delayed_cancel",
+            "output": "=== RUN   TestPostgresTaskOperationVersionsAllowHumanConfirmation/running_progress_delayed_cancel\n    task_cancel_semantics_test.go:359: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresTaskOperationVersionsAllowHumanConfirmation/running_progress_delayed_cancel (0.00s)",
+            "disposition": "executed_on_real_postgres_in_the_dedicated_normal_and_race_runs",
+            "coverage": [
+              "storage-t02-postgres-final.jsonl",
+              "storage-t02-race-final.jsonl"
+            ]
+          },
+          {
+            "package": "competition2026/product/platform/internal/api",
+            "test": "TestPostgresTaskOperationVersionsAllowHumanConfirmation/resolved_parent_snapshot_rejects_old_version",
+            "output": "=== RUN   TestPostgresTaskOperationVersionsAllowHumanConfirmation/resolved_parent_snapshot_rejects_old_version\n    task_cancel_semantics_test.go:377: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresTaskOperationVersionsAllowHumanConfirmation/resolved_parent_snapshot_rejects_old_version (0.00s)",
+            "disposition": "executed_on_real_postgres_in_the_dedicated_normal_and_race_runs",
+            "coverage": [
+              "storage-t02-postgres-final.jsonl",
+              "storage-t02-race-final.jsonl"
+            ]
+          },
+          {
+            "package": "competition2026/product/platform/internal/api",
+            "test": "TestPostgresTaskOperationVersionsAllowHumanConfirmation/parent_completed_child_still_waiting_and_worker_metadata",
+            "output": "=== RUN   TestPostgresTaskOperationVersionsAllowHumanConfirmation/parent_completed_child_still_waiting_and_worker_metadata\n    task_cancel_semantics_test.go:408: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresTaskOperationVersionsAllowHumanConfirmation/parent_completed_child_still_waiting_and_worker_metadata (0.00s)",
+            "disposition": "executed_on_real_postgres_in_the_dedicated_normal_and_race_runs",
+            "coverage": [
+              "storage-t02-postgres-final.jsonl",
+              "storage-t02-race-final.jsonl"
+            ]
+          },
+          {
+            "package": "competition2026/product/platform/internal/api",
+            "test": "TestPostgresTaskOperationVersionsAllowHumanConfirmation/concurrent_confirmations_commit_one_cancel",
+            "output": "=== RUN   TestPostgresTaskOperationVersionsAllowHumanConfirmation/concurrent_confirmations_commit_one_cancel\n    task_cancel_semantics_test.go:440: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresTaskOperationVersionsAllowHumanConfirmation/concurrent_confirmations_commit_one_cancel (0.00s)",
+            "disposition": "executed_on_real_postgres_in_the_dedicated_normal_and_race_runs",
+            "coverage": [
+              "storage-t02-postgres-final.jsonl",
+              "storage-t02-race-final.jsonl"
+            ]
+          },
+          {
+            "package": "competition2026/product/platform/internal/api",
+            "test": "TestPostgresTaskOperationVersionsAllowHumanConfirmation/terminal_state_rejects_old_version",
+            "output": "=== RUN   TestPostgresTaskOperationVersionsAllowHumanConfirmation/terminal_state_rejects_old_version\n    task_cancel_semantics_test.go:492: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresTaskOperationVersionsAllowHumanConfirmation/terminal_state_rejects_old_version (0.00s)",
+            "disposition": "executed_on_real_postgres_in_the_dedicated_normal_and_race_runs",
+            "coverage": [
+              "storage-t02-postgres-final.jsonl",
+              "storage-t02-race-final.jsonl"
+            ]
+          },
+          {
+            "package": "competition2026/product/platform/internal/api",
+            "test": "TestPostgresTaskOperationVersionsAllowHumanConfirmation/role",
+            "output": "=== RUN   TestPostgresTaskOperationVersionsAllowHumanConfirmation/role\n    task_cancel_semantics_test.go:504: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresTaskOperationVersionsAllowHumanConfirmation/role (0.00s)",
+            "disposition": "executed_on_real_postgres_in_the_dedicated_normal_and_race_runs",
+            "coverage": [
+              "storage-t02-postgres-final.jsonl",
+              "storage-t02-race-final.jsonl"
+            ]
+          },
+          {
+            "package": "competition2026/product/platform/internal/api",
+            "test": "TestPostgresTaskOperationVersionsAllowHumanConfirmation/resource_ancestry",
+            "output": "=== RUN   TestPostgresTaskOperationVersionsAllowHumanConfirmation/resource_ancestry\n    task_cancel_semantics_test.go:504: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresTaskOperationVersionsAllowHumanConfirmation/resource_ancestry (0.00s)",
+            "disposition": "executed_on_real_postgres_in_the_dedicated_normal_and_race_runs",
+            "coverage": [
+              "storage-t02-postgres-final.jsonl",
+              "storage-t02-race-final.jsonl"
+            ]
+          },
+          {
+            "package": "competition2026/product/platform/internal/api",
+            "test": "TestPostgresTaskOperationVersionsAllowHumanConfirmation/task_resources_after_authorization",
+            "output": "=== RUN   TestPostgresTaskOperationVersionsAllowHumanConfirmation/task_resources_after_authorization\n    task_cancel_semantics_test.go:504: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresTaskOperationVersionsAllowHumanConfirmation/task_resources_after_authorization (0.00s)",
+            "disposition": "executed_on_real_postgres_in_the_dedicated_normal_and_race_runs",
+            "coverage": [
+              "storage-t02-postgres-final.jsonl",
+              "storage-t02-race-final.jsonl"
+            ]
+          },
+          {
+            "package": "competition2026/product/platform/internal/api",
+            "test": "TestPostgresTaskOperationVersionsAllowHumanConfirmation/grant_after_authorization",
+            "output": "=== RUN   TestPostgresTaskOperationVersionsAllowHumanConfirmation/grant_after_authorization\n    task_cancel_semantics_test.go:504: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresTaskOperationVersionsAllowHumanConfirmation/grant_after_authorization (0.00s)",
+            "disposition": "executed_on_real_postgres_in_the_dedicated_normal_and_race_runs",
+            "coverage": [
+              "storage-t02-postgres-final.jsonl",
+              "storage-t02-race-final.jsonl"
+            ]
+          },
+          {
+            "package": "competition2026/product/platform/internal/api",
+            "test": "TestPostgresTaskOperationVersionsAllowHumanConfirmation/audit_failure_rolls_back_cancel_and_operation_revision",
+            "output": "=== RUN   TestPostgresTaskOperationVersionsAllowHumanConfirmation/audit_failure_rolls_back_cancel_and_operation_revision\n    task_cancel_semantics_test.go:560: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresTaskOperationVersionsAllowHumanConfirmation/audit_failure_rolls_back_cancel_and_operation_revision (0.00s)",
+            "disposition": "executed_on_real_postgres_in_the_dedicated_normal_and_race_runs",
+            "coverage": [
+              "storage-t02-postgres-final.jsonl",
+              "storage-t02-race-final.jsonl"
+            ]
+          },
+          {
+            "package": "competition2026/product/platform/internal/api",
+            "test": "TestPostgresTaskRetryClearsPriorCancellation/running_cancel_retry_multiple_snoozes_then_cancel",
+            "output": "=== RUN   TestPostgresTaskRetryClearsPriorCancellation/running_cancel_retry_multiple_snoozes_then_cancel\n    task_retry_semantics_test.go:222: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresTaskRetryClearsPriorCancellation/running_cancel_retry_multiple_snoozes_then_cancel (0.00s)",
+            "disposition": "executed_on_real_postgres_in_the_dedicated_normal_and_race_runs",
+            "coverage": [
+              "storage-t02-postgres-final.jsonl",
+              "storage-t02-race-final.jsonl"
+            ]
+          },
+          {
+            "package": "competition2026/product/platform/internal/api",
+            "test": "TestPostgresTaskRetryClearsPriorCancellation/retry_audit_failure_restores_marker_business_and_revision",
+            "output": "=== RUN   TestPostgresTaskRetryClearsPriorCancellation/retry_audit_failure_restores_marker_business_and_revision\n    task_retry_semantics_test.go:228: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresTaskRetryClearsPriorCancellation/retry_audit_failure_restores_marker_business_and_revision (0.00s)",
+            "disposition": "executed_on_real_postgres_in_the_dedicated_normal_and_race_runs",
+            "coverage": [
+              "storage-t02-postgres-final.jsonl",
+              "storage-t02-race-final.jsonl"
+            ]
+          },
+          {
+            "package": "competition2026/product/platform/internal/api",
+            "test": "TestPostgresTaskRetryClearsPriorCancellation/retry_authorization_and_obsolete_generation",
+            "output": "=== RUN   TestPostgresTaskRetryClearsPriorCancellation/retry_authorization_and_obsolete_generation\n    task_retry_semantics_test.go:260: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresTaskRetryClearsPriorCancellation/retry_authorization_and_obsolete_generation (0.00s)",
+            "disposition": "executed_on_real_postgres_in_the_dedicated_normal_and_race_runs",
+            "coverage": [
+              "storage-t02-postgres-final.jsonl",
+              "storage-t02-race-final.jsonl"
+            ]
+          },
+          {
+            "package": "competition2026/product/platform/internal/api",
+            "test": "TestPostgresTaskRetryClearsPriorCancellation/concurrent_retries_commit_one_new_operation",
+            "output": "=== RUN   TestPostgresTaskRetryClearsPriorCancellation/concurrent_retries_commit_one_new_operation\n    task_retry_semantics_test.go:302: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresTaskRetryClearsPriorCancellation/concurrent_retries_commit_one_new_operation (0.00s)",
+            "disposition": "executed_on_real_postgres_in_the_dedicated_normal_and_race_runs",
+            "coverage": [
+              "storage-t02-postgres-final.jsonl",
+              "storage-t02-race-final.jsonl"
+            ]
+          },
+          {
+            "package": "competition2026/product/platform/internal/api",
+            "test": "TestPostgresTaskRetryClearsPriorCancellation/cancel_old_worker_commit_retry_preserves_completed_steps",
+            "output": "=== RUN   TestPostgresTaskRetryClearsPriorCancellation/cancel_old_worker_commit_retry_preserves_completed_steps\n    task_retry_semantics_test.go:356: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresTaskRetryClearsPriorCancellation/cancel_old_worker_commit_retry_preserves_completed_steps (0.00s)",
+            "disposition": "executed_on_real_postgres_in_the_dedicated_normal_and_race_runs",
+            "coverage": [
+              "storage-t02-postgres-final.jsonl",
+              "storage-t02-race-final.jsonl"
+            ]
+          },
+          {
+            "package": "competition2026/product/platform/internal/api",
+            "test": "TestPostgresTaskRetryClearsPriorCancellation/official_null_merge_differs_but_retry_removes_key",
+            "output": "=== RUN   TestPostgresTaskRetryClearsPriorCancellation/official_null_merge_differs_but_retry_removes_key\n    task_retry_semantics_test.go:404: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresTaskRetryClearsPriorCancellation/official_null_merge_differs_but_retry_removes_key (0.00s)",
+            "disposition": "executed_on_real_postgres_in_the_dedicated_normal_and_race_runs",
+            "coverage": [
+              "storage-t02-postgres-final.jsonl",
+              "storage-t02-race-final.jsonl"
+            ]
+          }
+        ],
+        "evidence": {
+          "path": ".local/evolution/tasks-retry-t02-evidence/storage-t02-affected-final.jsonl",
+          "sha256": "6fc16fe9c117ac53244c6607db87148bf49a9c751ee8aeada105de0624823580",
+          "bytes": 293911
+        }
+      },
+      {
+        "name": "storage-t02-race-final.jsonl",
+        "cwd": "Platform",
+        "argv": [
+          "go",
+          "test",
+          "-race",
+          "-p",
+          "1",
+          "-json",
+          "./internal/api",
+          "-run",
+          "^(TestTaskOperationVersionsAllowHumanConfirmation|TestPostgresTaskOperationVersionsAllowHumanConfirmation|TestTaskRetryClearsPriorCancellation|TestPostgresTaskRetryClearsPriorCancellation)$",
+          "-count=1"
+        ],
+        "environment": {
+          "GOTOOLCHAIN": "local",
+          "GOPATH": "/private/tmp/smartfactory-evolution-gopath",
+          "GOMODCACHE": "/private/tmp/smartfactory-evolution-gomodcache",
+          "GOCACHE": "/private/tmp/smartfactory-evolution-go-cache",
+          "GOPROXY": "off"
+        },
+        "exit_code": 0,
+        "scope": "Final source finite race: 17 SQLite plus 17 actual PostgreSQL cases; old-worker snooze/commit overlap, concurrent HTTP operations, waiting/progress versions, authorization and audit rollback",
+        "counts": {
+          "top_level_tests": {
+            "pass": 4,
+            "fail": 0,
+            "skip": 0
+          },
+          "leaf_tests": {
+            "pass": 34,
+            "fail": 0,
+            "skip": 0
+          },
+          "all_named_tests": {
+            "pass": 38,
+            "fail": 0,
+            "skip": 0
+          },
+          "packages": {
+            "pass": 1,
+            "fail": 0,
+            "skip": 0
+          },
+          "package_elapsed_seconds": 105.586,
+          "data_race_reports": 0
+        },
+        "conditional_skips": [],
+        "evidence": {
+          "path": ".local/evolution/tasks-retry-t02-evidence/storage-t02-race-final.jsonl",
+          "sha256": "28cb9a19a7e5ffe37eccb23b1eb19b9588228a8f82da7b2d22fd5024f5e3503a",
+          "bytes": 103616
+        },
+        "postgres_environment": "SF_TEST_POSTGRES_DATABASE loaded privately from .local/evolution/pg18-test.json dsn; value omitted",
+        "connection_budget": "One isolated schema per sequential case; 3 open / 1 idle application connections and at most 1 administration connection; package parallelism 1"
+      },
+      {
+        "name": "storage-t02-contract-check.log",
+        "cwd": ".",
+        "argv": [
+          "/private/tmp/smartfactory-evolution-python/bin/python",
+          "scripts/check-contracts.py"
+        ],
+        "exit_code": 0,
+        "evidence": {
+          "path": ".local/evolution/tasks-retry-t02-evidence/storage-t02-contract-check.log",
+          "sha256": "fe7f25b07c78a74bc8b6b1c75e238de2d268189c03a4f7f78ccc2675954f18f0",
+          "bytes": 158
+        }
+      },
+      {
+        "name": "storage-t02-diff-check.log",
+        "cwd": ".",
+        "argv": [
+          "git",
+          "diff",
+          "--check"
+        ],
+        "exit_code": 0,
+        "evidence": {
+          "path": ".local/evolution/tasks-retry-t02-evidence/storage-t02-diff-check.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        }
+      },
+      {
+        "name": "storage-t02-postgres-cleanup.log",
+        "exit_code": 0,
+        "command": "docker exec smartfactory-evolution-pg18-20261004 psql -U smartfactory_evolution -d smartfactory_evolution -At -c <read-only PostgreSQL version, data_directory, max_connections and own-schema count query>",
+        "result": {
+          "version": "PostgreSQL 18.6 (Debian 18.6-1.pgdg13+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit",
+          "database": "smartfactory_evolution",
+          "data_directory": "/var/lib/postgresql/18/docker",
+          "max_connections": "30",
+          "remaining_own_schemas": 0
+        },
+        "evidence": {
+          "path": ".local/evolution/tasks-retry-t02-evidence/storage-t02-postgres-cleanup.log",
+          "sha256": "b50c30be993f8bd52c53a010b35300a5750a969f86feb181706598b9283722fa",
+          "bytes": 277
+        }
+      }
+    ],
+    "observed_measurements": [
+      {
+        "run": "storage-t02-sqlite-repaired.jsonl",
+        "test": "TestTaskRetryClearsPriorCancellation/running_cancel_retry_multiple_snoozes_then_cancel",
+        "observed": "task_retry_semantics_test.go:219: real running cancellation: task=analysis:confirmed-run river=1 run=confirmed-run snapshot=snapshot:08377d88e12eb49758de9d12e631cdda7777f3ed4a519c8d33d4ba0f9700d80b marker=\"2026-10-04T22:51:34.939478Z\" snoozes=1"
+      },
+      {
+        "run": "storage-t02-sqlite-repaired.jsonl",
+        "test": "TestTaskRetryClearsPriorCancellation/running_cancel_retry_multiple_snoozes_then_cancel",
+        "observed": "task_retry_semantics_test.go:220: retry200 stayed active through 3 additional production snoozes; task=analysis:confirmed-run river=1 business=waiting_parent operation_revision=2"
+      },
+      {
+        "run": "storage-t02-sqlite-repaired.jsonl",
+        "test": "TestTaskRetryClearsPriorCancellation/retry_audit_failure_restores_marker_business_and_revision",
+        "observed": "task_retry_semantics_test.go:225: real running cancellation: task=analysis:confirmed-run river=1 run=confirmed-run snapshot=snapshot:1b6dde2cc821596b4a3e9def1309821c4d95410be95d25aa1e89c46b81446e5e marker=\"2026-10-04T22:51:37.102131Z\" snoozes=1"
+      },
+      {
+        "run": "storage-t02-sqlite-repaired.jsonl",
+        "test": "TestTaskRetryClearsPriorCancellation/retry_audit_failure_restores_marker_business_and_revision",
+        "observed": "task_retry_semantics_test.go:253: retry200 stayed active through 3 additional production snoozes; task=analysis:confirmed-run river=1 business=waiting_parent operation_revision=2"
+      },
+      {
+        "run": "storage-t02-sqlite-repaired.jsonl",
+        "test": "TestTaskRetryClearsPriorCancellation/retry_authorization_and_obsolete_generation",
+        "observed": "task_retry_semantics_test.go:257: real running cancellation: task=analysis:confirmed-run river=1 run=confirmed-run snapshot=snapshot:63dd02f2e1c9da5395d4dd1df5b4bc4bdfe19026d18c189e5e6ffbc1beb4b629 marker=\"2026-10-04T22:51:39.291737Z\" snoozes=1"
+      },
+      {
+        "run": "storage-t02-sqlite-repaired.jsonl",
+        "test": "TestTaskRetryClearsPriorCancellation/retry_authorization_and_obsolete_generation",
+        "observed": "task_retry_semantics_test.go:295: retry200 stayed active through 3 additional production snoozes; task=analysis:confirmed-run river=1 business=waiting_parent operation_revision=2"
+      },
+      {
+        "run": "storage-t02-sqlite-repaired.jsonl",
+        "test": "TestTaskRetryClearsPriorCancellation/concurrent_retries_commit_one_new_operation",
+        "observed": "task_retry_semantics_test.go:299: real running cancellation: task=analysis:confirmed-run river=1 run=confirmed-run snapshot=snapshot:5c843ce64ee5eb0a96f20b5042d424caa2c49b616242fe4cc6c5a8f84a428f06 marker=\"2026-10-04T22:51:41.491911Z\" snoozes=1"
+      },
+      {
+        "run": "storage-t02-sqlite-repaired.jsonl",
+        "test": "TestTaskRetryClearsPriorCancellation/cancel_old_worker_commit_retry_preserves_completed_steps",
+        "observed": "task_retry_semantics_test.go:397: old worker completion rejected after cancellation; same task=analysis:confirmed-run river=1 snapshot=snapshot:ecf8f632d59d75bae319fd8f13f620778bad884ae312b372ab7555b18c3db1fe resumed cursor1 and completed three unique steps"
+      },
+      {
+        "run": "storage-t02-sqlite-repaired.jsonl",
+        "test": "TestTaskRetryClearsPriorCancellation/official_null_merge_differs_but_retry_removes_key",
+        "observed": "task_retry_semantics_test.go:401: real running cancellation: task=analysis:confirmed-run river=1 run=confirmed-run snapshot=snapshot:1cdff4da5d088a9d6e3459fcb5148e551aae8dc0f392d24061945139c2ce83aa marker=\"2026-10-04T22:51:44.383245Z\" snoozes=1"
+      },
+      {
+        "run": "storage-t02-sqlite-repaired.jsonl",
+        "test": "TestTaskRetryClearsPriorCancellation/official_null_merge_differs_but_retry_removes_key",
+        "observed": "task_retry_semantics_test.go:419: official JobUpdate merge null: postgres=false key_present=false; retry must leave key absent on either database"
+      },
+      {
+        "run": "storage-t02-sqlite-repaired.jsonl",
+        "test": "TestTaskRetryClearsPriorCancellation/official_null_merge_differs_but_retry_removes_key",
+        "observed": "task_retry_semantics_test.go:420: retry200 stayed active through 3 additional production snoozes; task=analysis:confirmed-run river=1 business=waiting_parent operation_revision=2"
+      },
+      {
+        "run": "storage-t02-postgres-final.jsonl",
+        "test": "TestPostgresTaskRetryClearsPriorCancellation/running_cancel_retry_multiple_snoozes_then_cancel",
+        "observed": "task_retry_semantics_test.go:219: real running cancellation: task=analysis:confirmed-run river=1 run=confirmed-run snapshot=snapshot:0cbe244d51a1fec538eaf745632e9a78883d3924e23109aa233621d1e5b599f7 marker=\"2026-10-05T06:53:08.84648+08:00\" snoozes=1"
+      },
+      {
+        "run": "storage-t02-postgres-final.jsonl",
+        "test": "TestPostgresTaskRetryClearsPriorCancellation/running_cancel_retry_multiple_snoozes_then_cancel",
+        "observed": "task_retry_semantics_test.go:220: retry200 stayed active through 3 additional production snoozes; task=analysis:confirmed-run river=1 business=waiting_parent operation_revision=2"
+      },
+      {
+        "run": "storage-t02-postgres-final.jsonl",
+        "test": "TestPostgresTaskRetryClearsPriorCancellation/retry_audit_failure_restores_marker_business_and_revision",
+        "observed": "task_retry_semantics_test.go:225: real running cancellation: task=analysis:confirmed-run river=1 run=confirmed-run snapshot=snapshot:567ad268b8416d0152c1a18e9f2c074e43d50d7decd7b592bb29ad317d153dec marker=\"2026-10-05T06:53:11.932777+08:00\" snoozes=1"
+      },
+      {
+        "run": "storage-t02-postgres-final.jsonl",
+        "test": "TestPostgresTaskRetryClearsPriorCancellation/retry_audit_failure_restores_marker_business_and_revision",
+        "observed": "task_retry_semantics_test.go:253: retry200 stayed active through 3 additional production snoozes; task=analysis:confirmed-run river=1 business=waiting_parent operation_revision=2"
+      },
+      {
+        "run": "storage-t02-postgres-final.jsonl",
+        "test": "TestPostgresTaskRetryClearsPriorCancellation/retry_authorization_and_obsolete_generation",
+        "observed": "task_retry_semantics_test.go:257: real running cancellation: task=analysis:confirmed-run river=1 run=confirmed-run snapshot=snapshot:792f9ea154e9fdb7b22ce98eca69d3527eb57cf19326c96394e08198a2a2d4bd marker=\"2026-10-05T06:53:15.077595+08:00\" snoozes=1"
+      },
+      {
+        "run": "storage-t02-postgres-final.jsonl",
+        "test": "TestPostgresTaskRetryClearsPriorCancellation/retry_authorization_and_obsolete_generation",
+        "observed": "task_retry_semantics_test.go:295: retry200 stayed active through 3 additional production snoozes; task=analysis:confirmed-run river=1 business=waiting_parent operation_revision=2"
+      },
+      {
+        "run": "storage-t02-postgres-final.jsonl",
+        "test": "TestPostgresTaskRetryClearsPriorCancellation/concurrent_retries_commit_one_new_operation",
+        "observed": "task_retry_semantics_test.go:299: real running cancellation: task=analysis:confirmed-run river=1 run=confirmed-run snapshot=snapshot:d29669a54244e26ad72356e305a5f7e09be2139919e317cb5ffa77dda0dc4f56 marker=\"2026-10-05T06:53:18.350463+08:00\" snoozes=1"
+      },
+      {
+        "run": "storage-t02-postgres-final.jsonl",
+        "test": "TestPostgresTaskRetryClearsPriorCancellation/cancel_old_worker_commit_retry_preserves_completed_steps",
+        "observed": "task_retry_semantics_test.go:397: old worker completion rejected after cancellation; same task=analysis:confirmed-run river=1 snapshot=snapshot:3bc29b786940542eb6ac805d2f161b462976cf7c093a5ab8b7aeba3babd39b1f resumed cursor1 and completed three unique steps"
+      },
+      {
+        "run": "storage-t02-postgres-final.jsonl",
+        "test": "TestPostgresTaskRetryClearsPriorCancellation/official_null_merge_differs_but_retry_removes_key",
+        "observed": "task_retry_semantics_test.go:401: real running cancellation: task=analysis:confirmed-run river=1 run=confirmed-run snapshot=snapshot:ec4d15ed00e82ae0597b1adebbb762e92c29ced3073c877d5a433eaeb1e5fab6 marker=\"2026-10-05T06:53:23.007094+08:00\" snoozes=1"
+      },
+      {
+        "run": "storage-t02-postgres-final.jsonl",
+        "test": "TestPostgresTaskRetryClearsPriorCancellation/official_null_merge_differs_but_retry_removes_key",
+        "observed": "task_retry_semantics_test.go:419: official JobUpdate merge null: postgres=true key_present=true; retry must leave key absent on either database"
+      },
+      {
+        "run": "storage-t02-postgres-final.jsonl",
+        "test": "TestPostgresTaskRetryClearsPriorCancellation/official_null_merge_differs_but_retry_removes_key",
+        "observed": "task_retry_semantics_test.go:420: retry200 stayed active through 3 additional production snoozes; task=analysis:confirmed-run river=1 business=waiting_parent operation_revision=2"
+      },
+      {
+        "run": "storage-t02-affected-final.jsonl",
+        "test": "TestTaskRetryClearsPriorCancellation/running_cancel_retry_multiple_snoozes_then_cancel",
+        "observed": "task_retry_semantics_test.go:222: real running cancellation: task=analysis:confirmed-run river=1 run=confirmed-run snapshot=snapshot:d10039788c4ee2cc9d98d02088cf112ca5fe91b8b9b376c230b5e38a09df1e6d marker=\"2026-10-04T22:56:12.367524Z\" snoozes=1"
+      },
+      {
+        "run": "storage-t02-affected-final.jsonl",
+        "test": "TestTaskRetryClearsPriorCancellation/running_cancel_retry_multiple_snoozes_then_cancel",
+        "observed": "task_retry_semantics_test.go:223: retry200 stayed active through 3 additional production snoozes; task=analysis:confirmed-run river=1 business=waiting_parent operation_revision=2"
+      },
+      {
+        "run": "storage-t02-affected-final.jsonl",
+        "test": "TestTaskRetryClearsPriorCancellation/retry_audit_failure_restores_marker_business_and_revision",
+        "observed": "task_retry_semantics_test.go:228: real running cancellation: task=analysis:confirmed-run river=1 run=confirmed-run snapshot=snapshot:1bc54f7e24364c7209a3c6f34919b5ab99988605eba83bdeea2c975dc0c09478 marker=\"2026-10-04T22:56:14.533626Z\" snoozes=1"
+      },
+      {
+        "run": "storage-t02-affected-final.jsonl",
+        "test": "TestTaskRetryClearsPriorCancellation/retry_audit_failure_restores_marker_business_and_revision",
+        "observed": "task_retry_semantics_test.go:256: retry200 stayed active through 3 additional production snoozes; task=analysis:confirmed-run river=1 business=waiting_parent operation_revision=2"
+      },
+      {
+        "run": "storage-t02-affected-final.jsonl",
+        "test": "TestTaskRetryClearsPriorCancellation/retry_authorization_and_obsolete_generation",
+        "observed": "task_retry_semantics_test.go:260: real running cancellation: task=analysis:confirmed-run river=1 run=confirmed-run snapshot=snapshot:d4ad51b9969fb45bd191b461f3929f6755a17624a6b7779fe7d69ae09086129d marker=\"2026-10-04T22:56:16.485634Z\" snoozes=1"
+      },
+      {
+        "run": "storage-t02-affected-final.jsonl",
+        "test": "TestTaskRetryClearsPriorCancellation/retry_authorization_and_obsolete_generation",
+        "observed": "task_retry_semantics_test.go:298: retry200 stayed active through 3 additional production snoozes; task=analysis:confirmed-run river=1 business=waiting_parent operation_revision=2"
+      },
+      {
+        "run": "storage-t02-affected-final.jsonl",
+        "test": "TestTaskRetryClearsPriorCancellation/concurrent_retries_commit_one_new_operation",
+        "observed": "task_retry_semantics_test.go:302: real running cancellation: task=analysis:confirmed-run river=1 run=confirmed-run snapshot=snapshot:1f410e27a7977a9d63f206657d562664ce2d943b7d96c53dd2cd469547e6ecff marker=\"2026-10-04T22:56:18.681448Z\" snoozes=1"
+      },
+      {
+        "run": "storage-t02-affected-final.jsonl",
+        "test": "TestTaskRetryClearsPriorCancellation/cancel_old_worker_commit_retry_preserves_completed_steps",
+        "observed": "task_retry_semantics_test.go:400: old worker completion rejected after cancellation; same task=analysis:confirmed-run river=1 snapshot=snapshot:5f7dff63e393bbe045afaadc48ce9a1a9499d4cfcf4877ce2c6a1951af59463f resumed cursor1 and completed three unique steps"
+      },
+      {
+        "run": "storage-t02-affected-final.jsonl",
+        "test": "TestTaskRetryClearsPriorCancellation/official_null_merge_differs_but_retry_removes_key",
+        "observed": "task_retry_semantics_test.go:404: real running cancellation: task=analysis:confirmed-run river=1 run=confirmed-run snapshot=snapshot:e64ca6d796c4eeed78e30201e661a8114c9e6b7979bec208d60eb4fc71ad268c marker=\"2026-10-04T22:56:21.581765Z\" snoozes=1"
+      },
+      {
+        "run": "storage-t02-affected-final.jsonl",
+        "test": "TestTaskRetryClearsPriorCancellation/official_null_merge_differs_but_retry_removes_key",
+        "observed": "task_retry_semantics_test.go:422: official JobUpdate merge null: postgres=false key_present=false; retry must leave key absent on either database"
+      },
+      {
+        "run": "storage-t02-affected-final.jsonl",
+        "test": "TestTaskRetryClearsPriorCancellation/official_null_merge_differs_but_retry_removes_key",
+        "observed": "task_retry_semantics_test.go:423: retry200 stayed active through 3 additional production snoozes; task=analysis:confirmed-run river=1 business=waiting_parent operation_revision=2"
+      },
+      {
+        "run": "storage-t02-race-final.jsonl",
+        "test": "TestTaskRetryClearsPriorCancellation/running_cancel_retry_multiple_snoozes_then_cancel",
+        "observed": "task_retry_semantics_test.go:222: real running cancellation: task=analysis:confirmed-run river=1 run=confirmed-run snapshot=snapshot:2e4a819af0a2a382dcd671010e9fcbf4fd3cb16195a093eec34d1aafe5ebe396 marker=\"2026-10-04T22:58:22.533144Z\" snoozes=1"
+      },
+      {
+        "run": "storage-t02-race-final.jsonl",
+        "test": "TestTaskRetryClearsPriorCancellation/running_cancel_retry_multiple_snoozes_then_cancel",
+        "observed": "task_retry_semantics_test.go:223: retry200 stayed active through 3 additional production snoozes; task=analysis:confirmed-run river=1 business=waiting_parent operation_revision=2"
+      },
+      {
+        "run": "storage-t02-race-final.jsonl",
+        "test": "TestTaskRetryClearsPriorCancellation/retry_audit_failure_restores_marker_business_and_revision",
+        "observed": "task_retry_semantics_test.go:228: real running cancellation: task=analysis:confirmed-run river=1 run=confirmed-run snapshot=snapshot:e4315063a5aef26269c5d6cebb110d450b8a4fb4647111db018c9d154e7c1ed5 marker=\"2026-10-04T22:58:26.37734Z\" snoozes=1"
+      },
+      {
+        "run": "storage-t02-race-final.jsonl",
+        "test": "TestTaskRetryClearsPriorCancellation/retry_audit_failure_restores_marker_business_and_revision",
+        "observed": "task_retry_semantics_test.go:256: retry200 stayed active through 3 additional production snoozes; task=analysis:confirmed-run river=1 business=waiting_parent operation_revision=2"
+      },
+      {
+        "run": "storage-t02-race-final.jsonl",
+        "test": "TestTaskRetryClearsPriorCancellation/retry_authorization_and_obsolete_generation",
+        "observed": "task_retry_semantics_test.go:260: real running cancellation: task=analysis:confirmed-run river=1 run=confirmed-run snapshot=snapshot:bbb99ef22535ed71f316ac64722f46c3b5a95d628e5b8fa3f1187a1fdbcb3e26 marker=\"2026-10-04T22:58:30.132023Z\" snoozes=1"
+      },
+      {
+        "run": "storage-t02-race-final.jsonl",
+        "test": "TestTaskRetryClearsPriorCancellation/retry_authorization_and_obsolete_generation",
+        "observed": "task_retry_semantics_test.go:298: retry200 stayed active through 3 additional production snoozes; task=analysis:confirmed-run river=1 business=waiting_parent operation_revision=2"
+      },
+      {
+        "run": "storage-t02-race-final.jsonl",
+        "test": "TestTaskRetryClearsPriorCancellation/concurrent_retries_commit_one_new_operation",
+        "observed": "task_retry_semantics_test.go:302: real running cancellation: task=analysis:confirmed-run river=1 run=confirmed-run snapshot=snapshot:05a9cbf30ab31652148325c1a30d98612e1a6346b464b9216d901582414282ca marker=\"2026-10-04T22:58:33.902963Z\" snoozes=1"
+      },
+      {
+        "run": "storage-t02-race-final.jsonl",
+        "test": "TestTaskRetryClearsPriorCancellation/cancel_old_worker_commit_retry_preserves_completed_steps",
+        "observed": "task_retry_semantics_test.go:400: old worker completion rejected after cancellation; same task=analysis:confirmed-run river=1 snapshot=snapshot:a3415b9f7eb9c2e0e717b5b01a6dc10ea8a392df5ab1c5a656202f44dae780b7 resumed cursor1 and completed three unique steps"
+      },
+      {
+        "run": "storage-t02-race-final.jsonl",
+        "test": "TestTaskRetryClearsPriorCancellation/official_null_merge_differs_but_retry_removes_key",
+        "observed": "task_retry_semantics_test.go:404: real running cancellation: task=analysis:confirmed-run river=1 run=confirmed-run snapshot=snapshot:f8eb23997a293d11621dbbd0cb95d506ca48bd1fece67518efb4144d2dd2b54f marker=\"2026-10-04T22:58:40.337514Z\" snoozes=1"
+      },
+      {
+        "run": "storage-t02-race-final.jsonl",
+        "test": "TestTaskRetryClearsPriorCancellation/official_null_merge_differs_but_retry_removes_key",
+        "observed": "task_retry_semantics_test.go:422: official JobUpdate merge null: postgres=false key_present=false; retry must leave key absent on either database"
+      },
+      {
+        "run": "storage-t02-race-final.jsonl",
+        "test": "TestTaskRetryClearsPriorCancellation/official_null_merge_differs_but_retry_removes_key",
+        "observed": "task_retry_semantics_test.go:423: retry200 stayed active through 3 additional production snoozes; task=analysis:confirmed-run river=1 business=waiting_parent operation_revision=2"
+      },
+      {
+        "run": "storage-t02-race-final.jsonl",
+        "test": "TestPostgresTaskRetryClearsPriorCancellation/running_cancel_retry_multiple_snoozes_then_cancel",
+        "observed": "task_retry_semantics_test.go:222: real running cancellation: task=analysis:confirmed-run river=1 run=confirmed-run snapshot=snapshot:aceae59e38bd35ff372fbecdb11f08ca9d2a692672f0da1b41f01406f2624ff8 marker=\"2026-10-05T06:58:44.28337+08:00\" snoozes=1"
+      },
+      {
+        "run": "storage-t02-race-final.jsonl",
+        "test": "TestPostgresTaskRetryClearsPriorCancellation/running_cancel_retry_multiple_snoozes_then_cancel",
+        "observed": "task_retry_semantics_test.go:223: retry200 stayed active through 3 additional production snoozes; task=analysis:confirmed-run river=1 business=waiting_parent operation_revision=2"
+      },
+      {
+        "run": "storage-t02-race-final.jsonl",
+        "test": "TestPostgresTaskRetryClearsPriorCancellation/retry_audit_failure_restores_marker_business_and_revision",
+        "observed": "task_retry_semantics_test.go:228: real running cancellation: task=analysis:confirmed-run river=1 run=confirmed-run snapshot=snapshot:251bbefd248ee3df5cae31b17d9d269cef5407a6c82dd07e100f4a44094a3388 marker=\"2026-10-05T06:58:48.144915+08:00\" snoozes=1"
+      },
+      {
+        "run": "storage-t02-race-final.jsonl",
+        "test": "TestPostgresTaskRetryClearsPriorCancellation/retry_audit_failure_restores_marker_business_and_revision",
+        "observed": "task_retry_semantics_test.go:256: retry200 stayed active through 3 additional production snoozes; task=analysis:confirmed-run river=1 business=waiting_parent operation_revision=2"
+      },
+      {
+        "run": "storage-t02-race-final.jsonl",
+        "test": "TestPostgresTaskRetryClearsPriorCancellation/retry_authorization_and_obsolete_generation",
+        "observed": "task_retry_semantics_test.go:260: real running cancellation: task=analysis:confirmed-run river=1 run=confirmed-run snapshot=snapshot:777a54e09ff86bcbdf0cae19451c3926c85115126e52a60f948a342d0bd690c7 marker=\"2026-10-05T06:58:52.407819+08:00\" snoozes=1"
+      },
+      {
+        "run": "storage-t02-race-final.jsonl",
+        "test": "TestPostgresTaskRetryClearsPriorCancellation/retry_authorization_and_obsolete_generation",
+        "observed": "task_retry_semantics_test.go:298: retry200 stayed active through 3 additional production snoozes; task=analysis:confirmed-run river=1 business=waiting_parent operation_revision=2"
+      },
+      {
+        "run": "storage-t02-race-final.jsonl",
+        "test": "TestPostgresTaskRetryClearsPriorCancellation/concurrent_retries_commit_one_new_operation",
+        "observed": "task_retry_semantics_test.go:302: real running cancellation: task=analysis:confirmed-run river=1 run=confirmed-run snapshot=snapshot:72f6b702afe382a9eb3ee7e65552bb03d41003c94a02eddcbc8c04f8ad409362 marker=\"2026-10-05T06:58:56.637466+08:00\" snoozes=1"
+      },
+      {
+        "run": "storage-t02-race-final.jsonl",
+        "test": "TestPostgresTaskRetryClearsPriorCancellation/cancel_old_worker_commit_retry_preserves_completed_steps",
+        "observed": "task_retry_semantics_test.go:400: old worker completion rejected after cancellation; same task=analysis:confirmed-run river=1 snapshot=snapshot:a2293c4cbde4060d9af8906438464566714ffb90b17f0cfa70f7581f41a8ae15 resumed cursor1 and completed three unique steps"
+      },
+      {
+        "run": "storage-t02-race-final.jsonl",
+        "test": "TestPostgresTaskRetryClearsPriorCancellation/official_null_merge_differs_but_retry_removes_key",
+        "observed": "task_retry_semantics_test.go:404: real running cancellation: task=analysis:confirmed-run river=1 run=confirmed-run snapshot=snapshot:1e491b5370b0b160511be8b7450759e8b61405515862a205301eee0f160356d5 marker=\"2026-10-05T06:59:03.867307+08:00\" snoozes=1"
+      },
+      {
+        "run": "storage-t02-race-final.jsonl",
+        "test": "TestPostgresTaskRetryClearsPriorCancellation/official_null_merge_differs_but_retry_removes_key",
+        "observed": "task_retry_semantics_test.go:422: official JobUpdate merge null: postgres=true key_present=true; retry must leave key absent on either database"
+      },
+      {
+        "run": "storage-t02-race-final.jsonl",
+        "test": "TestPostgresTaskRetryClearsPriorCancellation/official_null_merge_differs_but_retry_removes_key",
+        "observed": "task_retry_semantics_test.go:423: retry200 stayed active through 3 additional production snoozes; task=analysis:confirmed-run river=1 business=waiting_parent operation_revision=2"
+      }
+    ],
+    "final_source": {
+      "path": ".local/evolution/tasks-retry-t02-evidence/final-verification-source-before.json",
+      "sha256": "6652c8f1c7d17250f63799dfc7a166041f2dff7e19d9d30f338694918990d61b",
+      "bytes": 29450
+    },
+    "postgres_normal_source": {
+      "path": ".local/evolution/tasks-retry-t02-evidence/verification-source-before.json",
+      "sha256": "bc253bbf15d8c95b559895bbf3e02c87bc6f881158c9187a4f61843a1033e618",
+      "bytes": 29191
+    },
+    "source_files_checked": 252,
+    "source_changes_during_final_verification": [],
+    "source_note": "After the normal PG command, the metadata test added an explicit key-presence assertion for retained JSON null. The final ordinary and SQLite/PG race commands include that assertion; production source was unchanged.",
+    "normal_top_level_pass_interpretation": "The two PostgreSQL scenario wrappers return pass when every child conditionally skips without a DSN. Their 17 leaf scenarios were executed on the actual PG18 fixture in both the dedicated normal and final race commands.",
+    "race_result": {
+      "top_level_tests": {
+        "pass": 4,
+        "fail": 0,
+        "skip": 0
+      },
+      "leaf_tests": {
+        "pass": 34,
+        "fail": 0,
+        "skip": 0
+      },
+      "all_named_tests": {
+        "pass": 38,
+        "fail": 0,
+        "skip": 0
+      },
+      "packages": {
+        "pass": 1,
+        "fail": 0,
+        "skip": 0
+      },
+      "package_elapsed_seconds": 105.586,
+      "data_race_reports": 0
+    },
+    "ordinary_result": {
+      "top_level_tests": {
+        "pass": 84,
+        "fail": 0,
+        "skip": 23
+      },
+      "leaf_tests": {
+        "pass": 139,
+        "fail": 0,
+        "skip": 40
+      },
+      "all_named_tests": {
+        "pass": 158,
+        "fail": 0,
+        "skip": 40
+      },
+      "packages": {
+        "pass": 5,
+        "fail": 0,
+        "skip": 0
+      },
+      "package_elapsed_seconds": 143.977,
+      "data_race_reports": 0
+    }
+  },
+  "provenance": {
+    "existing_files_changed": [
+      "Platform/internal/api/task_cancel_semantics_test.go",
+      "Platform/internal/store/tasks.go",
+      "docs/evolution/tasks-frontend-contract.md"
+    ],
+    "added_test": "Platform/internal/api/task_retry_semantics_test.go",
+    "patch": {
+      "path": ".local/evolution/tasks-retry-t02-evidence/t02.patch",
+      "sha256": "7a8ba0a0ca763757bb3effb4c7f838b98b497522f5cc5a32e089842cb3c496d9",
+      "bytes": 25199
+    },
+    "protected_migrations_compatibility_and_previous_reports": [
+      {
+        "path": "Platform/internal/store/migration00003.go",
+        "before_sha256": "5b5c043c4d830ba6e77057b54654585e83fec0b0fb9e8e9b75e87e65bba9cfd4",
+        "after_sha256": "5b5c043c4d830ba6e77057b54654585e83fec0b0fb9e8e9b75e87e65bba9cfd4",
+        "identical": true
+      },
+      {
+        "path": "Platform/internal/store/migration00006.go",
+        "before_sha256": "cfc2e96ad04880f7081db6b62a179ed52f37269ac0e46fd60c84fc40aafc15aa",
+        "after_sha256": "cfc2e96ad04880f7081db6b62a179ed52f37269ac0e46fd60c84fc40aafc15aa",
+        "identical": true
+      },
+      {
+        "path": "Platform/internal/store/migration00002.go",
+        "before_sha256": "d41f217a598789ec94a29fdcf9db03547eb5bc79cb1671bdc2211891ccc1b626",
+        "after_sha256": "d41f217a598789ec94a29fdcf9db03547eb5bc79cb1671bdc2211891ccc1b626",
+        "identical": true
+      },
+      {
+        "path": "Platform/internal/store/migration00005.go",
+        "before_sha256": "ef7dbe90ee1e57d318b600b2f7ff62416384f833031ba196fd238b45e8df16ac",
+        "after_sha256": "ef7dbe90ee1e57d318b600b2f7ff62416384f833031ba196fd238b45e8df16ac",
+        "identical": true
+      },
+      {
+        "path": "Platform/internal/store/migrations.go",
+        "before_sha256": "c584ad4fe8c1f73b40dfb13d38801456acb14dbf27b00e02b9c610f9f7bf6f83",
+        "after_sha256": "c584ad4fe8c1f73b40dfb13d38801456acb14dbf27b00e02b9c610f9f7bf6f83",
+        "identical": true
+      },
+      {
+        "path": "Platform/internal/store/migration00004.go",
+        "before_sha256": "1a69098a1f06a9659d5b6d2f0d967b88a1e29a7a677bbf3014714ab2856bf854",
+        "after_sha256": "1a69098a1f06a9659d5b6d2f0d967b88a1e29a7a677bbf3014714ab2856bf854",
+        "identical": true
+      },
+      {
+        "path": "Platform/internal/store/migrations/sqlite/00001_baseline.sql",
+        "before_sha256": "8f8b3ff25cd9a9f55e99ab3abd851f20e8075d15242bec0e52ee4e2695a15631",
+        "after_sha256": "8f8b3ff25cd9a9f55e99ab3abd851f20e8075d15242bec0e52ee4e2695a15631",
+        "identical": true
+      },
+      {
+        "path": "Platform/internal/store/migrations/postgres/00001_baseline.sql",
+        "before_sha256": "b4f13649f266050f7b87cf9f0c7509b98af1fb40fd606666d1de5a91e02a7f62",
+        "after_sha256": "b4f13649f266050f7b87cf9f0c7509b98af1fb40fd606666d1de5a91e02a7f62",
+        "identical": true
+      },
+      {
+        "path": "Platform/pkg/compatibility/manifest.json",
+        "before_sha256": "60621367d0b48e34b98342ea7ea66e7c3306833b70cf7589edb07cc061e5e1ad",
+        "after_sha256": "60621367d0b48e34b98342ea7ea66e7c3306833b70cf7589edb07cc061e5e1ad",
+        "identical": true
+      },
+      {
+        "path": ".local/evolution/control-execution-c05-verified.json",
+        "before_sha256": "22b0280cd8e57c0c16e9e576d39fefd10b36f0a24e10c51f7bb39ec220b9e1b0",
+        "after_sha256": "22b0280cd8e57c0c16e9e576d39fefd10b36f0a24e10c51f7bb39ec220b9e1b0",
+        "identical": true
+      },
+      {
+        "path": ".local/evolution/frontend-phase3-verified.json",
+        "before_sha256": "343360007380ed39bf4823b5cb6b4762f4ab5bc7611b2ee8be3a061ba1da0e58",
+        "after_sha256": "343360007380ed39bf4823b5cb6b4762f4ab5bc7611b2ee8be3a061ba1da0e58",
+        "identical": true
+      },
+      {
+        "path": ".local/evolution/storage-tasks-verified.json",
+        "before_sha256": "70e1f0a008968d9a0a07b2b55b05716fa62367546a2cbaa9f477b44f04926045",
+        "after_sha256": "70e1f0a008968d9a0a07b2b55b05716fa62367546a2cbaa9f477b44f04926045",
+        "identical": true
+      },
+      {
+        "path": ".local/evolution/history-analysis-verified.json",
+        "before_sha256": "cf8f4a1c754d696b12e8a1a1aaac4a754b5afa28501376b7629712939023175c",
+        "after_sha256": "cf8f4a1c754d696b12e8a1a1aaac4a754b5afa28501376b7629712939023175c",
+        "identical": true
+      },
+      {
+        "path": ".local/evolution/tasks-cancel-t01-binary-root-review.json",
+        "before_sha256": "c544d6c4a2d416948250001e7055a5670ff1a6cebf408192ad5b85d0d2d4bc08",
+        "after_sha256": "c544d6c4a2d416948250001e7055a5670ff1a6cebf408192ad5b85d0d2d4bc08",
+        "identical": true
+      },
+      {
+        "path": ".local/evolution/tasks-cancel-t01-root-review.json",
+        "before_sha256": "7b00cb48c8706e20190a1fedaddbb75bf75a8d91b081e3fbb54f63349b50fafb",
+        "after_sha256": "7b00cb48c8706e20190a1fedaddbb75bf75a8d91b081e3fbb54f63349b50fafb",
+        "identical": true
+      },
+      {
+        "path": ".local/evolution/tasks-cancel-t01-verified.json",
+        "before_sha256": "742e90fdd3a584cd78f856d670b8057fc5b8385a50bb089832af386aaf6ad5c3",
+        "after_sha256": "742e90fdd3a584cd78f856d670b8057fc5b8385a50bb089832af386aaf6ad5c3",
+        "identical": true
+      }
+    ],
+    "contract_files_unchanged": [
+      {
+        "path": "contracts/.DS_Store",
+        "sha256": "2e6f1101006c3a07abb053ede53f4be34c2271294cb0e27bef5918f335a6be5a",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/Actor.schema.json",
+        "sha256": "7a0da059299e9cc9b35708d008d88cc403af675f176ddff7b4f860ef39882fad",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/Aggregate.schema.json",
+        "sha256": "0e2b712c30535af5de568bea33b2e483fef7b2b3f797fce6f24605dc31de3420",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/Alarm.schema.json",
+        "sha256": "cd70976125a307151da0d9bceae23b9642fefe224317a2a627eca2aa0f2409ed",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/Application.schema.json",
+        "sha256": "76b955e4b652e7417200491851d7951c122ddf59809247126f5dde5b83bc0022",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/Approval.schema.json",
+        "sha256": "3426b3b23b010c0364f6ace5fe99ff6aba25b0fefb67ee483d06a80510655f6c",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/ApprovalBody.schema.json",
+        "sha256": "daaee42427215d8afcf22c41bce030494ccfc8d9504f3ab917d30d115fed92c7",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/AssetProposal.schema.json",
+        "sha256": "61255c86ac06a841ec5d20f3315f4ca8054240203e128bd60c81b28e4d589132",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/AssetVersion.schema.json",
+        "sha256": "890c393fefb2be9cc6ed6135958386ee9f65cfc951a7d89040d608f3ee37930d",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/AuditEvent.schema.json",
+        "sha256": "e4b81c4c193d583d528a52051806dd55dbf020f0ef2ca9d96eff2bee435d44e6",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/Combination.schema.json",
+        "sha256": "57edcdd4b09df9344f154f7118fb21a719bfb66f95026493a4c7f9cfc3a5f47e",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/CommandEvidence.schema.json",
+        "sha256": "94903a2fdfe60eef00d26276e5b9c432a5b026a3ff468373ecb8b6e446d78e42",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/CompatibilityStatus.schema.json",
+        "sha256": "7ce5fb5fe223ab50934ba2a25bfcd1da4fa9300af7742ce337ac17b025dde4b5",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/Condition.schema.json",
+        "sha256": "e95cd5556543c10533b5c76883403aab919b6d42bf1587ec545b41cf1f33ef12",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/Connection.schema.json",
+        "sha256": "8a184e654b91241d01f50fc8526d2e2af0b63d8510898489ece2aca63bb8d32b",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/ContractError.schema.json",
+        "sha256": "91d7efc0a59cbcf086b9a11359547efa06842c92ca7366da6922344d8aa5bc0e",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/ControlOperation.schema.json",
+        "sha256": "0e36760aaeb0bf841d591a64fb5642022b2683e00b6912f2334c94246b4dea6c",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/CreateExecutionBody.schema.json",
+        "sha256": "c221e60608f7d8bb741736cdd93589d8862efdda4b1430988dd2477907a0ad60",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/Dashboard.schema.json",
+        "sha256": "4a89a4bd85bebe4d99a5a9797d0c16f7f09b45c3e4704ab99d6d050a2a3ccb57",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/DashboardMetric.schema.json",
+        "sha256": "709dc71183ab16de408012dee0b848b01c6cca8a38277bd9176402c30c3b7288",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/DataGap.schema.json",
+        "sha256": "58c9d0e39cc1bfeb6d6020329d83546e2f59ac1f0766c165ba30264997fc5143",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/DataResult.schema.json",
+        "sha256": "2fddfd83a9a891efe972eb795f00a6c3d2246621b32abc2090daae20db0d1357",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/Database.schema.json",
+        "sha256": "d5ed060d1ab6205ec9c7fa6a8eb0064cec8fa0866335ef15fd5100222dd18c7e",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/Definition.schema.json",
+        "sha256": "cff73213655b54497264bc6e669b4076679bb8b5451a1a534ee066f4ae5252d2",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/Department.schema.json",
+        "sha256": "9834efeee0ac478667d0298fc157cc04ef1e0c75de6530ff3cedb727f683e5e1",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/Draft.schema.json",
+        "sha256": "393fbeffdb0168a0e0ae12118a71f14bb7e6c7b0bb3759e8ffc490f823e4dcd2",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/DraftRevisionRequest.schema.json",
+        "sha256": "258e6c1af3520a8fee70df516269288fc156c48e9f9e77e3c95b663d5e101c61",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/Entity.schema.json",
+        "sha256": "9745e0458514fb49c691008f40b79ade583cb30ef31c7e3f970757412882e96f",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/ErrorDetail.schema.json",
+        "sha256": "f9407f70b41b2295111f8a5089557787adebc88c21de5382870333b858612ce6",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/Evaluation.schema.json",
+        "sha256": "92a8eb7ec8da76ec5101542c2136d84e47a7d7e806df2adb832dee349ce7002b",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/Execution.schema.json",
+        "sha256": "8ffc8e203d746f54c993c78c1970f2b4b15ca9659ae7e953c96c1243c9ab2906",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/ExecutionAction.schema.json",
+        "sha256": "7fcfa76dd5107016e256ee04a7f7cec454683fd5fad86912f813e7131ed6fe19",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/ExecutionAllowedAction.schema.json",
+        "sha256": "07964fbcb4bce30438aa35b0da8160800b41d2c746543d130676db732e6124c0",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/ExecutionDetail.schema.json",
+        "sha256": "73fcab906d9d14170ac7a2abb46fea73bf39c7ce59c6c6b34d5be902e8585a66",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/ExecutionNode.schema.json",
+        "sha256": "65e7b9da718b6c1fe02e8eb556c3e670b329d66f85dcf7014c0c55faf33703d4",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/ExecutionPlan.schema.json",
+        "sha256": "208f78f890a3ea8b818b619a9669adf4b2266f5ddb7b0b4e4bd1316aec8c419a",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/ExecutionRevisionBody.schema.json",
+        "sha256": "454fa22d426aeb910af9f7172448c44b52f36b753e93bec62b165f7a0727c830",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/ExecutionTimelineEntry.schema.json",
+        "sha256": "11597cab498fc47f5649a8240d34ce5b29d2c55e4531614c668f35fdf557b3a4",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/ExecutionTransition.schema.json",
+        "sha256": "bb2b655845933478816339345bcf0e2e65c4cec9076cca0718800a490db55978",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/ExpressionTree.schema.json",
+        "sha256": "4524558b2fec48d5c6350315009d2d218cf2db1003797af722a868b9d9bf5758",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/Grant.schema.json",
+        "sha256": "98e459c3eb2788a3745c0473e848a2636401525fdc4824549aed404ce109edfc",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/HistoryClock.schema.json",
+        "sha256": "aee3259b305d209bc94d9fffe6bea5e458e4a7b86b2c2f82e2a7a9bfbf9946f2",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/HistoryDifference.schema.json",
+        "sha256": "c95fa38748ff72c18b83c0944a08afbd4bde9c9a2ed2376970acb224ffd46505",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/HistoryLane.schema.json",
+        "sha256": "e4d5971b9425bd9ae648297ffa8ba726d837afb6c1847512325f86e305505f35",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/HistoryRequest.schema.json",
+        "sha256": "7dad9321ac0784f3682e08d631308ae503ecbaed3692bfd53ab526864a87e7d0",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/HistoryRule.schema.json",
+        "sha256": "862d2226c2e2c7c271033adfd730421f80be72cd998a1756173721f874728b6f",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/HistoryRun.schema.json",
+        "sha256": "1327f939c6c800b7e264a5dc86c9811f7547f589499ff056b900429039dcd1d8",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/HistoryRunList.schema.json",
+        "sha256": "45767068998a75ff4a4a579bc79f435ba3802cfab150ce79bbd3c31b3d97ba0b",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/HistorySnapshot.schema.json",
+        "sha256": "e6c8854034f6eb618991d475e41c8af433ea27af44b05e49be7eb87541d7f10e",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/HistoryStep.schema.json",
+        "sha256": "65bbbebb58f03dd348ee1e9621f52e4603d8cce373dda9385d56849368657027",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/HistoryStepList.schema.json",
+        "sha256": "7d5d34845e90c6a53aa3d769e147e42dfeb31b8e935f887a848574759e2e3f4c",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/IngestBatch.schema.json",
+        "sha256": "89ce280c72ecea46100506a7e239794645039f9b37865fafa1dd2c121a76d4c1",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/IngestResult.schema.json",
+        "sha256": "530eb674e1d7c06c0e80f70804b2143876fb8e117542d811732014e231097401",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/Job.schema.json",
+        "sha256": "9240dfa1d47f569dd83a4766a0602cf8bff38d7c5ee2269c6739745a2aabff9e",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/Manifest.schema.json",
+        "sha256": "292cab0d3d1e87353a109b0ae94d587318000f903342a7c174017dfec80bef00",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/Member.schema.json",
+        "sha256": "e220d918bd30ea813adad71829366e9bc789ef101edbad1630cf2b9b3a80cbbd",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/MigrationRecord.schema.json",
+        "sha256": "0c20195b375fab3994a0a21e5f23a71b3e9c01a2c6bab350e2591333dc383d93",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/Node.schema.json",
+        "sha256": "bbb6457497492b53dd2027693c199f2c4353d808a11537b6221b21e8a60d62c7",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/NodeMetadata.schema.json",
+        "sha256": "35677d115e4ba82706788c0951e683e1102063260662a0fec3786a1a1178cece",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/NodeParameters.schema.json",
+        "sha256": "c6bcd2de9f35864cc93f76a6bf3120f1f21727f9885448b381ec99444811f12c",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/NodeTrace.schema.json",
+        "sha256": "6cc1e08461e2aea9f864d2199c44ac6114fe4513665c5003ee8eaf464aed2013",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/Observation.schema.json",
+        "sha256": "0ec968fb4b03698f21b4481899da838992fe38fff3eb3da8b0f613dbcbd3efe7",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/OrganizationSync.schema.json",
+        "sha256": "0d718a5ec55bd00039ca250ca82d8db80fab69a4084192c0911b0c94dedd46af",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/Output.schema.json",
+        "sha256": "cf751cd95a75198459381dcee2e4893084eb4c0570a9ecb2356faf77a2f26e40",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/Parameter.schema.json",
+        "sha256": "66d7021b4265e514ce3fccf55e3923c921feacba10a9b71f9f7a4a2e3d187b93",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/ParameterMetadata.schema.json",
+        "sha256": "b086f8cbff0ff380ccf8ffc3f5f5bf9f890e0f3246462f9be47dbd1ad3ef4264",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/PlanDiagnostic.schema.json",
+        "sha256": "5b6d1ace51de0b463fb72a3492f2208bb41216f118e7d1daf6739dd61ddfd4b0",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/PlanIssue.schema.json",
+        "sha256": "25c3d26e5bb46f8d17fec4a718c082ec04af924e73855a375e7445a6aab348e4",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/Policy.schema.json",
+        "sha256": "1bfd19002401ff4cc85f13a76ee46f56feeb11ffa82128ae2639f244b7083856",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/Port.schema.json",
+        "sha256": "6eb9a41778761f015741402fbd13a2f712d7aa4bd2af052eb6b84d7a0bbbcbc3",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/Protocol.schema.json",
+        "sha256": "a6fb6b9d46ff925313a6ef000d41a18ab1e213f87e99fbc0f1e66089e8803cd2",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/QualitySummary.schema.json",
+        "sha256": "08f0b761410e2b011b14ea864828b5c1e23ab0dac04083f6bc4052afafa8e2d5",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/QueueBudget.schema.json",
+        "sha256": "c0190202fbf33dc7dafdae77b2a63acd195890fdda9f937dd0e3cebf411b558c",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/Revision.schema.json",
+        "sha256": "55787ffac4f4e9649d91a93ccaeab1b1c7ded83330021514c35e171c234ac86e",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/RuntimeState.schema.json",
+        "sha256": "2223cf34fb4f1dc860767ea5e8acd80f237c1f33ae1a399a1ffe394a25613576",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/SaveDraftInput.schema.json",
+        "sha256": "1f9bd3019fadc355f2236bfe9555041bc2ea2bcacad2ea64266f85e8c75a94d5",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/Schedule.schema.json",
+        "sha256": "4e8e8a90c0bf1ab0033760bcf56f8472b083fe820d5f542ce3db23d44338d365",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/Selector.schema.json",
+        "sha256": "9510b470912676233f75999c5824275589c08fde4779ee096a645d96c4a85c88",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/ShadowCandidate.schema.json",
+        "sha256": "a73383305d13e747bf537977aa9f7ddfd38f6783cf2421a00cec104a27e43033",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/ShadowCandidateAction.schema.json",
+        "sha256": "902e9ec3da3edba8193f0efbd66c97275a2c768b7f59c482255a04e07687c1c7",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/ShadowCandidateList.schema.json",
+        "sha256": "025d39b400c03b529eb697bd5b106a147f5d2887ece6671f63454fe9c8b9103d",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/ShadowRequest.schema.json",
+        "sha256": "bf9a6bf85024ee643c5ba7a55eb4b5f29fd65a03da6e2e44b0efc5572159a3da",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/SimulationClock.schema.json",
+        "sha256": "2a6df86729eb2b52584222bb087fbbe7ccd510a5e965c5e6e2b2752e809466f2",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/SimulationRequest.schema.json",
+        "sha256": "8a623b86cbe3fb0047320bdfbe039fa601ebb6e21dcc9a243d7a0910ef858492",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/SimulationResult.schema.json",
+        "sha256": "ac23d1c519f3d10a184a9aa2d4316c09b02b4b1df0ff527c4aaf2fe6b40fe482",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/SimulationStep.schema.json",
+        "sha256": "c616383eb293489d82067044e568eb24b3859c2e937b34beaa5ebf7939c24b98",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/SourceState.schema.json",
+        "sha256": "0415a8bbcf34d9c44967e6e9dacf888c8ed247ec46ab57694fe672ed8043939a",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/Spec.schema.json",
+        "sha256": "1a2937e0221d6faaeb2c79be5ed9ff0d446c24673814391619911dcda78df83c",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/Status.schema.json",
+        "sha256": "0413ce33fd53f044406a70f80ddf8a3aa6bc829ae56decc58fad02fc60cd481f",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/Step.schema.json",
+        "sha256": "c572031eb0effd9e81810d41b58f117560ee9aaa4bfc43a553d8c5b81583feab",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/StepResult.schema.json",
+        "sha256": "b69d44ed70d9e48e6607259c0caa4b0da02a2ba827ae14041fdd366308d0a2d5",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/Task.schema.json",
+        "sha256": "3f3471b43adebf19a1db9b438679f6f3df1a197e1f490937a9c1e6dd870b44ff",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/TaskAction.schema.json",
+        "sha256": "591bffc9c7ca41fbb6745b42c643fa91d9a76bd1a351fb19f0e6cdc99cca412b",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/TaskList.schema.json",
+        "sha256": "53649935010f7132bbed8fffa6d9254670a61ee2ecf2c0c42939dec103755bc8",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/User.schema.json",
+        "sha256": "64f93db0ef376d8bae858f205d326496090f8c2d14f1c4542e1695db04a0d83b",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/Validation.schema.json",
+        "sha256": "debf6dd71c04df5b932872b343511479a6a2facd862ed42e2c2b38c78a1ce64a",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/api-types.ts",
+        "sha256": "1617e47bb8ba33973d4f67169638807ae0666c2c740cebc09e37404fccd92d45",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/openapi.json",
+        "sha256": "ebb25daf72d6ebc27c56497059d5fc2b43610e61a794fe9ffec7599a71757dc8",
+        "identical": true
+      },
+      {
+        "path": "contracts/compatibility.json",
+        "sha256": "29a5e45e12f7d300f6d26f3a31311d09a7aa06e688096fccc9c764104af7e5d8",
+        "identical": true
+      }
+    ],
+    "frontend_source_and_dist_unchanged": [
+      {
+        "path": "Frontends/edge.html",
+        "sha256": "6417451d886f2b32b72729abef5ff896874dbc8f736dfedde0e62b21a48fb5f6",
+        "identical": true
+      },
+      {
+        "path": "Frontends/index.html",
+        "sha256": "fd0cc0e63b2ae7eea8446da998bbd005694ca7c8470e439726bb82228f29d820",
+        "identical": true
+      },
+      {
+        "path": "Frontends/package-lock.json",
+        "sha256": "50da3bcc4d2c6685376a2fc44e58b2f3de3932dc4201ee2efdb6bb0f3e34214c",
+        "identical": true
+      },
+      {
+        "path": "Frontends/package.json",
+        "sha256": "3bbbb48990b6cf5dc5409447b9dd85f691563f86a8311580cbad74fe7dee7c34",
+        "identical": true
+      },
+      {
+        "path": "Frontends/playwright.config.ts",
+        "sha256": "d16ec816ee8cbe6e6df7396c5ba39f343230bf705d1908dfc54dbdc31bae4144",
+        "identical": true
+      },
+      {
+        "path": "Frontends/screen.html",
+        "sha256": "82e5b59675870faba45a7c047e0c341d474239f624ada6a48e2c052c5b7d4b2f",
+        "identical": true
+      },
+      {
+        "path": "Frontends/scripts/generate-api.mjs",
+        "sha256": "d1c9e5f046b8f2116447d5c887631add830c403858329bbc85f022e75527e1b9",
+        "identical": true
+      },
+      {
+        "path": "Frontends/src/api.ts",
+        "sha256": "9ef9c3491fa2668a93fcb12af58aa509e1144a7ee0ed8e2220924362d566c0d8",
+        "identical": true
+      },
+      {
+        "path": "Frontends/src/assistant.tsx",
+        "sha256": "ce4f8800a8c4850e7e6d4adff0038b3fe318fa20580015daf583a99671f43af1",
+        "identical": true
+      },
+      {
+        "path": "Frontends/src/chart.tsx",
+        "sha256": "3e53dd5bb306431d08646e0b6be3f716c26715ff401b77174f7efb70013cc157",
+        "identical": true
+      },
+      {
+        "path": "Frontends/src/configuration.tsx",
+        "sha256": "c426d7d8e0022324a4bedfeea2902f6f757846b3e2c1456fe57b86d85fa1b376",
+        "identical": true
+      },
+      {
+        "path": "Frontends/src/control-status.ts",
+        "sha256": "694386124a0b8fb9a5384ed1b61d1880b9798ce2991444f3e92314b29810287f",
+        "identical": true
+      },
+      {
+        "path": "Frontends/src/definition-tools.tsx",
+        "sha256": "686423667a00489c3c9e890f968836af08635f93c0e459bc9ef21166b72edd96",
+        "identical": true
+      },
+      {
+        "path": "Frontends/src/definitions.tsx",
+        "sha256": "edafffc6e8f1d92bf19972a73a3d3bd19b7785763e87b3cf0117d8799fe55732",
+        "identical": true
+      },
+      {
+        "path": "Frontends/src/executions.tsx",
+        "sha256": "833dc5ad6dd0b65c90de0225e1de93ee271c834ca81a5f81834cc312cda8686c",
+        "identical": true
+      },
+      {
+        "path": "Frontends/src/generated-client.ts",
+        "sha256": "f613191f4b0f2ef828eee6dfe53581f09fb934bd3cbba5d70422cf30a5109a74",
+        "identical": true
+      },
+      {
+        "path": "Frontends/src/generated-resource.ts",
+        "sha256": "a44bec9f3e076e3b071ebdcb0f4abf26618917cab78b0041bf4881c104c1d95d",
+        "identical": true
+      },
+      {
+        "path": "Frontends/src/generated-routes.ts",
+        "sha256": "4f80f45fb1cef8c3e49bafb12f927e5906fe18586cb7c33d40a4d68fa108f7e4",
+        "identical": true
+      },
+      {
+        "path": "Frontends/src/history-input.ts",
+        "sha256": "9425fea19d14aada24f5ae321de0b55882b03e3fe5ae2b12b293726740f790a5",
+        "identical": true
+      },
+      {
+        "path": "Frontends/src/history.tsx",
+        "sha256": "cf70a44fdd9088914a3812a8f615b99907cef8208271f6c888770f153e8e68f6",
+        "identical": true
+      },
+      {
+        "path": "Frontends/src/main.tsx",
+        "sha256": "0eb40cc0cfcd44d8100d60851395ae710b7692fe4b5131883d68b1bfe74795e0",
+        "identical": true
+      },
+      {
+        "path": "Frontends/src/precision.ts",
+        "sha256": "8bace0976ae3d45f1e66e78b4969884d036fd08c5ea2edcb23f18b05b8ba946f",
+        "identical": true
+      },
+      {
+        "path": "Frontends/src/screen.tsx",
+        "sha256": "79d81f3a3ce90a790f62f7399141bb8a34d65c088ffaa17dfb2638a81c6ae80e",
+        "identical": true
+      },
+      {
+        "path": "Frontends/src/shell.tsx",
+        "sha256": "3d7a1093978ddc5dbb135876a6416f494845238d1526519890696b26c12a19c7",
+        "identical": true
+      },
+      {
+        "path": "Frontends/src/simulation-input.ts",
+        "sha256": "ce39496073683d02b35ef92eba1f235d344228645323cd231ba80a1f7ecaeced",
+        "identical": true
+      },
+      {
+        "path": "Frontends/src/simulation.tsx",
+        "sha256": "1b6bfd5556843412fedefd114b3d30170d0efa94c81c9f2e7331c1120f8461f5",
+        "identical": true
+      },
+      {
+        "path": "Frontends/src/style.css",
+        "sha256": "1065cf446f4c9499f39055b2a11913cffecb2b1c2abc7b1ec147b521693bb11e",
+        "identical": true
+      },
+      {
+        "path": "Frontends/src/task-status.ts",
+        "sha256": "9d4638126be0b4cf920a357319492d4334d5ab939cc543f0ea89814ed5a322fa",
+        "identical": true
+      },
+      {
+        "path": "Frontends/src/tasks.tsx",
+        "sha256": "efc5c6e4b3cd0ef8b83481c69af28d16ac4a8618413fa6e94e646b3dbdc9a901",
+        "identical": true
+      },
+      {
+        "path": "Frontends/src/types.ts",
+        "sha256": "ef870f66799cccc683dbf2018bd528af4600dd7ec944b39aed8aecfd58b0bdcb",
+        "identical": true
+      },
+      {
+        "path": "Frontends/src/views.tsx",
+        "sha256": "aa24e15bede8663ca4901861019c9e018271ae2c41fa6ed2c194fe5ac79e70ef",
+        "identical": true
+      },
+      {
+        "path": "Frontends/src/workflows.tsx",
+        "sha256": "4106e592bf8290c3f88c35fd1878f5af7e0dfccd328618798760aae920ebb2d5",
+        "identical": true
+      },
+      {
+        "path": "Frontends/tests/assistant.spec.ts",
+        "sha256": "48cc6c4d7887c7337daeac5cc9f6899b524c26ac19c0032301aa8c818d59771e",
+        "identical": true
+      },
+      {
+        "path": "Frontends/tests/fixtures/phase2-backend.go.txt",
+        "sha256": "210b80e65739463aec72bd33c2e8aa96b54729c29ac6fff599bd274096d70654",
+        "identical": true
+      },
+      {
+        "path": "Frontends/tests/generated-client.test.mjs",
+        "sha256": "ba32b8be47e24d41f51afa7a55e1e87ebf531694c0f89fa433fed82a53c7f95b",
+        "identical": true
+      },
+      {
+        "path": "Frontends/tests/generated-types.test.mjs",
+        "sha256": "a0eb3194712a743fcf7096845f1c1f6fa867f55b05ab7b98fce80d4c743d69e4",
+        "identical": true
+      },
+      {
+        "path": "Frontends/tests/workspace.spec.ts",
+        "sha256": "544542afb4b8f2ec8a275375fd5caf2aa3e01569fa09bf2006dcddbd20da6668",
+        "identical": true
+      },
+      {
+        "path": "Frontends/tsconfig.json",
+        "sha256": "9e40e628c2627a2225b8c022cc7df0bcd8972ff274be860c7cb9911bb1190099",
+        "identical": true
+      },
+      {
+        "path": "Frontends/vite.config.ts",
+        "sha256": "d01865593fa6665f9f4d03105072236dfaea3eca4f1536069af6a6f97d52e6df",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/api-types.ts",
+        "sha256": "1617e47bb8ba33973d4f67169638807ae0666c2c740cebc09e37404fccd92d45",
+        "identical": true
+      },
+      {
+        "path": "contracts/1.0/openapi.json",
+        "sha256": "ebb25daf72d6ebc27c56497059d5fc2b43610e61a794fe9ffec7599a71757dc8",
+        "identical": true
+      },
+      {
+        "path": "Frontends/dist/assets/main-CiVE3bj4.js",
+        "sha256": "f02c8f65921cac0ef95ce2e8f7d001188e11b60c8e89c35215ac4c625b0dc9cd",
+        "identical": true
+      },
+      {
+        "path": "Frontends/dist/assets/main-D1Z1VJ4b.css",
+        "sha256": "1fee2298733a7f76b2085b74ec2a8b9d6b7db856676150e7894980abc6dbd72f",
+        "identical": true
+      },
+      {
+        "path": "Frontends/dist/edge.html",
+        "sha256": "406cfdacfd24dff5b21574d94a487867046e72c126dab99fb2a151759422ef9c",
+        "identical": true
+      },
+      {
+        "path": "Frontends/dist/index.html",
+        "sha256": "d772996006fe9daf828cbe7d6c488640f47aad93a3f1b9d164937a2c322139fc",
+        "identical": true
+      },
+      {
+        "path": "Frontends/dist/screen.html",
+        "sha256": "2e4ffb50536c0916a430fd937a661ad0cdc2b844a27e49e68fb73dab0bda5d53",
+        "identical": true
+      }
+    ],
+    "schema_min_max": {
+      "sqlite": [
+        6,
+        6
+      ],
+      "postgres": [
+        6,
+        6
+      ]
+    },
+    "t01_report_preserved": {
+      "path": ".local/evolution/tasks-cancel-t01-verified.json",
+      "sha256": "742e90fdd3a584cd78f856d670b8057fc5b8385a50bb089832af386aaf6ad5c3",
+      "bytes": 75665
+    },
+    "t01_binary_preserved": {
+      "path": "/private/tmp/smartfactory-t01-current/sf-history-fixture",
+      "sha256": "56ccb26c8420d45ab869f89ed4263865d55eb6f432919be5a95f3ab8090f2cf5",
+      "bytes": 51311682
+    },
+    "t01_archive_preserved": {
+      "path": "/private/tmp/smartfactory-t01-current/source.tar.gz",
+      "sha256": "27da610972f0d43aafe38930b8bec0a4dda1f34f8e2a178aa9fc3ba42fad075c",
+      "bytes": 259484
+    },
+    "t01_contract_document_preserved": {
+      "path": ".local/evolution/tasks-cancel-t01-document-preservation-root-review.json",
+      "sha256": "3f3a09aaa024ab5211894b0e2efb5abb4a502e4b0eba17d8dd11b28609a4288e",
+      "bytes": 434
+    },
+    "global_phase_record_changes_by_specialist": []
+  },
+  "binary_handoff": {
+    "manifest": {
+      "path": ".local/evolution/tasks-retry-t02-evidence/current-binaries-manifest.json",
+      "sha256": "09d510cae671641cc6e8c715e3161332329afa7f1be1e00cb5c318c1dbc19584",
+      "bytes": 104151
+    },
+    "external_manifest": {
+      "path": "/private/tmp/smartfactory-t02-current/build-inputs.json",
+      "sha256": "09d510cae671641cc6e8c715e3161332329afa7f1be1e00cb5c318c1dbc19584",
+      "bytes": 104151
+    },
+    "coordinator_review": {
+      "path": ".local/evolution/tasks-retry-t02-binary-root-review.json",
+      "sha256": "9988627d5c90c8d2981db8233382e6bc4411ad80cb8091639122cf6c5c359e20",
+      "bytes": 1955
+    },
+    "binaries": {
+      "sf-history-fixture": {
+        "path": "/private/tmp/smartfactory-t02-current/sf-history-fixture",
+        "sha256": "4110285737ca0a6105151329614d52f91b39a072b8b82a0a9cc9659b88b61221",
+        "bytes": 51311682
+      },
+      "sf-cloud": {
+        "path": "/private/tmp/smartfactory-t02-current/sf-cloud",
+        "sha256": "ba2f75a771dc8d79b9e52ef42d886bd3f30056e4baa254dfda728c515ddda4d9",
+        "bytes": 51278098
+      }
+    },
+    "combined_source_archive": {
+      "path": ".local/evolution/tasks-retry-t02-evidence/current-source.tar.gz",
+      "sha256": "ecbc05c88f01678e8e31a98e0c1093c75dd01fa98586ac348dafe3d501c98961",
+      "bytes": 260052
+    },
+    "launch_for_existing_failed_fixture_copy": {
+      "argv_template": [
+        "/private/tmp/smartfactory-t02-current/sf-cloud",
+        "-database",
+        "<isolated-copy>/history.db",
+        "-master-key",
+        "<isolated-copy>/master.key",
+        "-listen",
+        "127.0.0.1:<QA-port>",
+        "-node-id",
+        "history-fixture",
+        "-static",
+        "/path/to/SmartFactory-2026/Frontends/dist"
+      ],
+      "source": "Platform/internal/app/app.go:338 and Platform/cmd/sf-history-fixture/main.go:64",
+      "notes": "Copy the stopped SQLite fixture including any WAL/SHM files and its master.key into an isolated directory; preserve the original. Keep node-id history-fixture for this fixture. Existing private-credentials.json authenticates the retained admin. The fixture generator requires a new directory; sf-cloud opens an existing database. No production or fixture entrypoint changes."
+    },
+    "launch_validation": "Production flags checked in app.Main and both actual binaries returned help with exit0; independent QA owns starting a preserved failure-data copy and its browser workflow"
+  },
+  "cleanup": {
+    "self_started_long_running_services": [],
+    "httptest_servers_and_workers": "Closed by each test cleanup",
+    "postgres": {
+      "version": "PostgreSQL 18.6 (Debian 18.6-1.pgdg13+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit",
+      "database": "smartfactory_evolution",
+      "data_directory": "/var/lib/postgresql/18/docker",
+      "max_connections": "30",
+      "remaining_own_schemas": 0
+    },
+    "resource_window": "PostgreSQL, race and large-Go verification window returned to coordinator after final tests",
+    "independent_browser_service": "Owned by the independent review role and outside this specialist cleanup"
+  },
+  "artifacts": [
+    {
+      "path": ".local/evolution/tasks-retry-t02-evidence/before-inputs.json",
+      "sha256": "3a1b92f71ea019fbaa70a7faa2e25c11bb6ce0d614f1b7fc2b37e3af2a1cb371",
+      "bytes": 41352
+    },
+    {
+      "path": ".local/evolution/tasks-retry-t02-evidence/before-task_cancel_semantics_test.go",
+      "sha256": "e86734bb7244cfa7ea0ce8751a65b83a2585bdc16f88e2ef9999fc9d79685137",
+      "bytes": 22899
+    },
+    {
+      "path": ".local/evolution/tasks-retry-t02-evidence/before-tasks.go",
+      "sha256": "2b09b58754019a9ae19fd095880754cbcc7e2abc848ed52fe9a4b99968b63d11",
+      "bytes": 21142
+    },
+    {
+      "path": ".local/evolution/tasks-retry-t02-evidence/build-t02-binaries.py",
+      "sha256": "b54c6b6e3d8562a6c29795eef5c3423119f133857ee501ab3bd53f5071bd45f3",
+      "bytes": 5743
+    },
+    {
+      "path": ".local/evolution/tasks-retry-t02-evidence/current-binaries-manifest.json",
+      "sha256": "09d510cae671641cc6e8c715e3161332329afa7f1be1e00cb5c318c1dbc19584",
+      "bytes": 104151
+    },
+    {
+      "path": ".local/evolution/tasks-retry-t02-evidence/current-source.tar.gz",
+      "sha256": "ecbc05c88f01678e8e31a98e0c1093c75dd01fa98586ac348dafe3d501c98961",
+      "bytes": 260052
+    },
+    {
+      "path": ".local/evolution/tasks-retry-t02-evidence/evidence-preparation.json",
+      "sha256": "1a579fdfc9c3f9db0c337d50223e90543196e5a8057386864adf3d6e447e053a",
+      "bytes": 437
+    },
+    {
+      "path": ".local/evolution/tasks-retry-t02-evidence/final-source/Platform/internal/api/task_cancel_semantics_test.go",
+      "sha256": "23e293c1727692af4c534c49900c8d2f56cc2751496917b5e283bd75cf705852",
+      "bytes": 22855
+    },
+    {
+      "path": ".local/evolution/tasks-retry-t02-evidence/final-source/Platform/internal/api/task_retry_semantics_test.go",
+      "sha256": "7f21a8f200e792c47a8bb34b17bdb96210191c4355fe9afe9e2337dd62d4894d",
+      "bytes": 17287
+    },
+    {
+      "path": ".local/evolution/tasks-retry-t02-evidence/final-source/Platform/internal/store/tasks.go",
+      "sha256": "ff1b3eba2d9b6bd9d68a3213629f24372cb7237371c5a17896ace2627d572ed0",
+      "bytes": 22227
+    },
+    {
+      "path": ".local/evolution/tasks-retry-t02-evidence/final-source/docs/evolution/tasks-frontend-contract.md",
+      "sha256": "a459450b5ec1b4763f1e815417e1d95128beef6fc29d8dda3a6cf7abf92dc295",
+      "bytes": 10224
+    },
+    {
+      "path": ".local/evolution/tasks-retry-t02-evidence/final-verification-source-before.json",
+      "sha256": "6652c8f1c7d17250f63799dfc7a166041f2dff7e19d9d30f338694918990d61b",
+      "bytes": 29450
+    },
+    {
+      "path": ".local/evolution/tasks-retry-t02-evidence/river-driver-source-excerpts.txt",
+      "sha256": "bbfd9c616ba06092a83a85ce8576842d3c2fa51ad16a3a6c9fab47b3163134d7",
+      "bytes": 19536
+    },
+    {
+      "path": ".local/evolution/tasks-retry-t02-evidence/river-driver-source-hashes.json",
+      "sha256": "fdc1681e653431f8a36210a3084d6228189f4bdfa661d9353f5b084e9b900c30",
+      "bytes": 1861
+    },
+    {
+      "path": ".local/evolution/tasks-retry-t02-evidence/sf-cloud-help.txt",
+      "sha256": "e787239d884ebeee18bb097ca0eef4ee78b1541dbd810db5145c6f3f12988308",
+      "bytes": 635
+    },
+    {
+      "path": ".local/evolution/tasks-retry-t02-evidence/sf-history-fixture-help.txt",
+      "sha256": "c946f92342e287724d299832d7eaa8c60b08ef0090d3c5c49395d7fe63223b9f",
+      "bytes": 328
+    },
+    {
+      "path": ".local/evolution/tasks-retry-t02-evidence/storage-t02-affected-final.jsonl",
+      "sha256": "6fc16fe9c117ac53244c6607db87148bf49a9c751ee8aeada105de0624823580",
+      "bytes": 293911
+    },
+    {
+      "path": ".local/evolution/tasks-retry-t02-evidence/storage-t02-before-repair.jsonl",
+      "sha256": "8a888feeec38bfdd58a45c1d04629ac57b8ee7fa2e3e4f959ce3eb2fd9776e40",
+      "bytes": 5167
+    },
+    {
+      "path": ".local/evolution/tasks-retry-t02-evidence/storage-t02-build-sf-cloud.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".local/evolution/tasks-retry-t02-evidence/storage-t02-build-sf-history-fixture.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".local/evolution/tasks-retry-t02-evidence/storage-t02-build-summary.json",
+      "sha256": "b1ce11f1582bed656f68d92e81ebd23ad0eee25118c08176670df7043bbe3d8c",
+      "bytes": 1089
+    },
+    {
+      "path": ".local/evolution/tasks-retry-t02-evidence/storage-t02-contract-check.log",
+      "sha256": "fe7f25b07c78a74bc8b6b1c75e238de2d268189c03a4f7f78ccc2675954f18f0",
+      "bytes": 158
+    },
+    {
+      "path": ".local/evolution/tasks-retry-t02-evidence/storage-t02-diff-check.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".local/evolution/tasks-retry-t02-evidence/storage-t02-postgres-cleanup.log",
+      "sha256": "b50c30be993f8bd52c53a010b35300a5750a969f86feb181706598b9283722fa",
+      "bytes": 277
+    },
+    {
+      "path": ".local/evolution/tasks-retry-t02-evidence/storage-t02-postgres-final.jsonl",
+      "sha256": "074507b5c5870e83ce4c995472af0eadb4b56af807271e33b7be85afb64f9e91",
+      "bytes": 54602
+    },
+    {
+      "path": ".local/evolution/tasks-retry-t02-evidence/storage-t02-race-final.jsonl",
+      "sha256": "28cb9a19a7e5ffe37eccb23b1eb19b9588228a8f82da7b2d22fd5024f5e3503a",
+      "bytes": 103616
+    },
+    {
+      "path": ".local/evolution/tasks-retry-t02-evidence/storage-t02-sqlite-first.jsonl",
+      "sha256": "fd32342fe7ec8e94c735c2d7d8e256be08c02b0efe519d9a827c88fe741c9218",
+      "bytes": 11445
+    },
+    {
+      "path": ".local/evolution/tasks-retry-t02-evidence/storage-t02-sqlite-repaired.jsonl",
+      "sha256": "4c32d067d0d95d55778a2193048ec409b204a47456d1086cda3b7d9ec861bd57",
+      "bytes": 20072
+    },
+    {
+      "path": ".local/evolution/tasks-retry-t02-evidence/t02.patch",
+      "sha256": "7a8ba0a0ca763757bb3effb4c7f838b98b497522f5cc5a32e089842cb3c496d9",
+      "bytes": 25199
+    },
+    {
+      "path": ".local/evolution/tasks-retry-t02-evidence/verification-source-before.json",
+      "sha256": "bc253bbf15d8c95b559895bbf3e02c87bc6f881158c9187a4f61843a1033e618",
+      "bytes": 29191
+    },
+    {
+      "path": ".local/evolution/tasks-retry-t02-evidence/write-tasks-retry-t02-report.py",
+      "sha256": "be494d1d2441df1b71c95b1f1e33f8fa2aae9e2f917ad8da694434797e9ca4ee",
+      "bytes": 21152
+    }
+  ]
+}

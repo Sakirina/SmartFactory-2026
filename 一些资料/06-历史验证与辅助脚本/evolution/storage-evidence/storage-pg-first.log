@@ -1,0 +1,16 @@
+=== RUN   TestPostgresIndependentObjectsAndContendedIdentity
+    concurrency_postgres_test.go:134: independent callbacks=2 concurrent; contended increments=18; callbacks=18; missing identity success=1 conflict=1
+--- PASS: TestPostgresIndependentObjectsAndContendedIdentity (0.37s)
+=== RUN   TestPostgresLateCommitSyncAuditAndAtomicFinalization
+    concurrency_postgres_test.go:241: committed cursors fast=3 slow=4; local audit=14 remote=4; finalize rollback includes inbox/doc/history/sync/outbox/River
+--- PASS: TestPostgresLateCommitSyncAuditAndAtomicFinalization (0.44s)
+=== RUN   TestPostgresDeadlockIsRecognizableWithoutCallbackReplay
+    concurrency_postgres_test.go:286: PostgreSQL 40P01 returned as ErrRetryable and ErrConflict; 2 calls ran once each
+--- PASS: TestPostgresDeadlockIsRecognizableWithoutCallbackReplay (1.30s)
+PASS
+ok  	competition2026/product/platform/internal/store	2.124s
+=== RUN   TestPostgresIndependentDraftsShareAuthorizationWithoutSerialization
+    concurrency_postgres_test.go:102: two authenticated SaveDraft calls simultaneously reached distinct UPDATE triggers in 37.42675ms; shared user/grant/asset reads; both versions 2; audit verified
+--- PASS: TestPostgresIndependentDraftsShareAuthorizationWithoutSerialization (0.40s)
+PASS
+ok  	competition2026/product/platform/internal/application	0.410s

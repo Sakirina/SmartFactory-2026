@@ -1,0 +1,55 @@
+
+Running 2 tests using 1 worker
+
+(node:7759) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/phase4-business-details.spec.ts:63:1 › three protocol metadata forms validate required fields enums units and preserve numeric extensions (1.5m)
+(node:8024) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 tests/phase4-business-details.spec.ts:82:1 › node metadata checks ranges units enums and exact extension before saving a draft (1.5m)
+
+
+  1) tests/phase4-business-details.spec.ts:63:1 › three protocol metadata forms validate required fields enums units and preserve numeric extensions 
+
+    Test timeout of 90000ms exceeded.
+
+    Error: locator.click: Test timeout of 90000ms exceeded.
+    Call log:
+      - waiting for getByRole('dialog', { name: '设备基础参数编辑' }).getByRole('button', { name: '配置预检', exact: true })
+
+
+      71 |     await drawer.getByRole('tab', { name: '采样', exact: true }).click(); await expect(drawer.getByLabel(/^采样周期（ms）/)).toBeVisible();
+      72 |     await drawer.getByRole('tab', { name: '完整参数与扩展', exact: true }).click(); const raw = drawer.getByLabel('完整协议参数'); const value = JSON.parse(await raw.inputValue()); value.datapoints[0].extension_counter='__exact_counter__'; value.datapoints[0].extension_object={'保留':'未知扩展'}; await raw.fill(JSON.stringify(value,null,2).replace('"__exact_counter__"','9007199254740993'));
+    > 73 |     await drawer.getByRole('button', { name: '配置预检', exact: true }).click(); await expect(drawer.getByText('配置预检通过', { exact: true })).toBeVisible();
+         |                                                                     ^
+      74 |     const waiting = page.waitForResponse(response => response.request().method() === 'POST' && response.url().endsWith('/device-configurations'));
+      75 |     await drawer.getByRole('button', { name: '保存参数', exact: true }).click(); const response = await waiting; expect(response.status()).toBe(200); const result = await response.text(); expect(result).toMatch(/"extension_counter":9007199254740993/);
+      76 |     await expect(drawer).toBeHidden(); await page.getByRole('button', { name: '编辑设备参数', exact: true }).click(); await drawer.getByRole('tab', { name: '完整参数与扩展', exact: true }).click(); await expect(raw).toHaveValue(/"extension_counter":\s*9007199254740993/);
+        at /path/to/SmartFactory-2026/Frontends/tests/phase4-business-details.spec.ts:73:69
+
+    Error Context: ../../../../../private/tmp/smartfactory-frontend-phase4-20261005/playwright-results/phase4-business-details-th-103b8-preserve-numeric-extensions/error-context.md
+
+  2) tests/phase4-business-details.spec.ts:82:1 › node metadata checks ranges units enums and exact extension before saving a draft 
+
+    Test timeout of 90000ms exceeded.
+
+    Error: locator.click: Test timeout of 90000ms exceeded.
+    Call log:
+      - waiting for locator('.ant-select-dropdown:visible').getByText('温湿度与通风', { exact: true })
+
+
+       7 |   const field = page.getByLabel(label, { exact: true });
+       8 |   await field.click(); await field.fill(name);
+    >  9 |   await page.locator('.ant-select-dropdown:visible').getByText(name, { exact: true }).click();
+         |                                                                                       ^
+      10 | }
+      11 | async function alarmChange(page: Page, id: string, reason: string) {
+      12 |   const current = JSON.parse((await jsonAPI(page, '/alarms/' + encodeURIComponent(id))).text);
+        at choose (/path/to/SmartFactory-2026/Frontends/tests/phase4-business-details.spec.ts:9:87)
+        at /path/to/SmartFactory-2026/Frontends/tests/phase4-business-details.spec.ts:84:50
+
+    Error Context: ../../../../../private/tmp/smartfactory-frontend-phase4-20261005/playwright-results/phase4-business-details-no-3b431-nsion-before-saving-a-draft/error-context.md
+
+  2 failed
+    tests/phase4-business-details.spec.ts:63:1 › three protocol metadata forms validate required fields enums units and preserve numeric extensions 
+    tests/phase4-business-details.spec.ts:82:1 › node metadata checks ranges units enums and exact extension before saving a draft 

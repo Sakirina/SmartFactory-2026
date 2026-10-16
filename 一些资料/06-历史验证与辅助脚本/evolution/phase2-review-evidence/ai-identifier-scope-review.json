@@ -1,0 +1,30 @@
+{
+  "classification": "pre_existing_business_tool_identifier_restriction",
+  "new_mcp_transport_regression_observed": false,
+  "source_commit": "dde3315bd91f62be5fa3593200f9d267bc264811",
+  "file": "Platform/internal/ai/tools.go",
+  "base_sha256": "99041fdd2606f992145e7642e4b9b0d8f6601b4fe04780d9c0490f5ac1c94ee7",
+  "current_sha256": "99041fdd2606f992145e7642e4b9b0d8f6601b4fe04780d9c0490f5ac1c94ee7",
+  "entire_file_identical_to_base": true,
+  "identifier_pattern": "^[A-Za-z0-9_.:-]{1,200}$",
+  "current_checks": [
+    {
+      "line": 74,
+      "operation": "top-level id lookup tools",
+      "effect": "slash-containing identifier is rejected before business dispatch"
+    },
+    {
+      "line": 163,
+      "operation": "save_draft",
+      "effect": "both draft.ID and draft.Definition.ID are checked by the same pattern before API dispatch"
+    }
+  ],
+  "transport_path": {
+    "before": "MCP.ServeHTTP tools/call -> Tools.Call",
+    "after": "official SDK handler -> Tools.Call"
+  },
+  "application_comparison": "The normal drafts application/HTTP endpoint accepts escaped slash-containing IDs; independent browser evidence uses independent/simulation:counter successfully. AI Tools.Call applies an additional narrower identifier check.",
+  "assigned_followup": "E4-07",
+  "handoff": "docs/evolution/brief-ai-evidence.md",
+  "completion_condition": "Unify business identifier validation, URL path escaping and save/read/reference round trips in the assigned fourth-stage work before final overall delivery."
+}

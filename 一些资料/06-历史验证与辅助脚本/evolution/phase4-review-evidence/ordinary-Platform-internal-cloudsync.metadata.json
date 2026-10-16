@@ -1,0 +1,80 @@
+{
+  "label": "ordinary-Platform-internal-cloudsync",
+  "command": [
+    "go",
+    "tool",
+    "test2json",
+    "-t",
+    "-p",
+    "competition2026/product/platform/internal/cloudsync",
+    "/private/tmp/smartfactory-phase4-independent-20261005/bin/Platform-internal-cloudsync.test",
+    "-test.v=test2json",
+    "-test.count=1",
+    "-test.parallel=1",
+    "-test.timeout=240s",
+    "-test.run=."
+  ],
+  "cwd": "/private/tmp/smartfactory-phase4-independent-20261005/workspace/Platform/internal/cloudsync",
+  "started_at": "2026-10-05T02:22:23.144002+00:00",
+  "completed_at": "2026-10-05T02:22:26.404486+00:00",
+  "elapsed_seconds": 3.262,
+  "exit_code": 1,
+  "postgres": false,
+  "stdout": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/ordinary-Platform-internal-cloudsync.stdout.log",
+    "sha256": "54c0deb995b9b99059b2cb8a1edf658f909d3172278762916bb0c95d826792f4",
+    "bytes": 45470
+  },
+  "stderr": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/ordinary-Platform-internal-cloudsync.stderr.log",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "counts": {
+    "top_level": {
+      "pass": 19,
+      "fail": 1,
+      "skip": 1
+    },
+    "leaf": {
+      "pass": 37,
+      "fail": 1,
+      "skip": 1
+    },
+    "all_named": {
+      "pass": 39,
+      "fail": 1,
+      "skip": 1
+    },
+    "packages": {
+      "pass": 0,
+      "fail": 1,
+      "skip": 0
+    },
+    "skips": [
+      {
+        "package": "competition2026/product/platform/internal/cloudsync",
+        "test": "TestPostgresControlReceiptEvidenceOrderingAndLegacyCompatibility",
+        "reason": "=== RUN   TestPostgresControlReceiptEvidenceOrderingAndLegacyCompatibility\n    control_receipts_test.go:155: isolated PostgreSQL integration DSN required\n--- SKIP: TestPostgresControlReceiptEvidenceOrderingAndLegacyCompatibility (0.00s)\n"
+      }
+    ],
+    "failures": [
+      {
+        "package": "competition2026/product/platform/internal/cloudsync",
+        "test": "TestIdleExchangesDoNotWriteUntilHeartbeat",
+        "output": "=== RUN   TestIdleExchangesDoNotWriteUntilHeartbeat\n    idle_test.go:46: heartbeat changed 6 rows, want one\n--- FAIL: TestIdleExchangesDoNotWriteUntilHeartbeat (0.08s)\n"
+      }
+    ],
+    "races": 0
+  },
+  "build_inputs": {
+    "path": "/path/to/SmartFactory-2026/.local/evolution/phase4-review-evidence/build-inputs.json",
+    "sha256": "88fdc87b09a840748a6cadc356b019dcf324905175ecb4f7fb3e38f7c7981643",
+    "bytes": 1717015
+  },
+  "binary": {
+    "path": "/private/tmp/smartfactory-phase4-independent-20261005/bin/Platform-internal-cloudsync.test",
+    "sha256": "68f5ceb09cd571051faf0c037dc6543e709d86b0d6c0271f7187f38a53166be8",
+    "bytes": 40425218
+  }
+}

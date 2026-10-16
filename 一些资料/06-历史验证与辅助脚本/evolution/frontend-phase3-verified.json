@@ -1,0 +1,731 @@
+{
+  "schema_version": 1,
+  "completed_at": "2026-10-04T22:03:22.184742+00:00",
+  "status": "frontend_delivery_complete; independent stage acceptance owned by root",
+  "scope": {
+    "items": [
+      "E3-01",
+      "E3-02",
+      "E3-03",
+      "E3-04",
+      "E3-05",
+      "E3-06",
+      "E3-07"
+    ],
+    "ownership": "Frontends, official generated frontend artifacts, frontend tests and page operation documentation",
+    "global_acceptance_owner": "root",
+    "subagents_created": 0,
+    "commits_or_pushes": false
+  },
+  "documentation": {
+    "path": "docs/evolution/frontend-phase3.md",
+    "sha256": "2920c9a6d9d6566c9268f7b94f0d17b6d2ef8364e017261fbec957599f34327c",
+    "bytes": 6475
+  },
+  "implementation": {
+    "control": [
+      "Frontends/src/executions.tsx",
+      "Frontends/src/control-status.ts"
+    ],
+    "history": [
+      "Frontends/src/history.tsx",
+      "Frontends/src/history-input.ts"
+    ],
+    "request_and_permissions": [
+      "Frontends/src/generated-client.ts",
+      "Frontends/src/generated-resource.ts",
+      "Frontends/src/api.ts",
+      "Frontends/src/shell.tsx"
+    ],
+    "tests": [
+      "Frontends/tests/generated-client.test.mjs",
+      "Frontends/tests/generated-types.test.mjs"
+    ],
+    "generated": [
+      "contracts/1.0/api-types.ts",
+      "Frontends/src/generated-routes.ts"
+    ],
+    "layout": [
+      "Frontends/src/style.css",
+      "Frontends/src/views.tsx"
+    ]
+  },
+  "toolchain": {
+    "path": ".local/evolution/frontend-phase3/toolchain-info.json",
+    "sha256": "20af8009d898f3414cc8ff493fb383ac5c8cce39a48cd40db0da3186617786c9",
+    "bytes": 1025
+  },
+  "official_generation": {
+    "command": "npm --prefix Frontends run generate:api",
+    "exit_code": 0,
+    "source": {
+      "path": "contracts/1.0/openapi.json",
+      "sha256": "ebb25daf72d6ebc27c56497059d5fc2b43610e61a794fe9ffec7599a71757dc8",
+      "bytes": 339461
+    },
+    "schema_count": 95,
+    "operation_count": 70,
+    "generator": "openapi-typescript 7.13.0",
+    "generated_types": {
+      "path": "contracts/1.0/api-types.ts",
+      "sha256": "1617e47bb8ba33973d4f67169638807ae0666c2c740cebc09e37404fccd92d45",
+      "bytes": 268620
+    },
+    "generated_routes": {
+      "path": "Frontends/src/generated-routes.ts",
+      "sha256": "4f80f45fb1cef8c3e49bafb12f927e5906fe18586cb7c33d40a4d68fa108f7e4",
+      "bytes": 5922
+    },
+    "generator_loaded_compiler_api": "6.0.2",
+    "upstream_peer": "typescript ^5.x",
+    "override_reason": "This project uses the API-bearing @typescript/typescript6 6.0.2 alias for schema transformation and official generation. The generator resolves the same compiler API; the build checks that equality before generation. Type checking uses official TypeScript7.0.2 native separately; TypeScript6.0.2 compatibility also passed. Existing Phase2 override and upstream peer declaration remain documented.",
+    "c05_public_http_schema_unchanged": true
+  },
+  "three_frontend_builds": [
+    {
+      "generation": "first",
+      "manifest": {
+        "path": ".local/evolution/frontend-phase3/builds/first/manifest.json",
+        "sha256": "b23b95f448bddf61bf61f994891a463cd27b0ec6254a62fa3aa1a49493c48312",
+        "bytes": 4920
+      },
+      "manifest_saved_utc": null,
+      "source_tree_sha256": "8c298098b75f06568d504909fc000cdc414302f2092403fae0ca2c10a01384b7",
+      "javascript": {
+        "assets/main-Bi59DXdo.js": "5a915be5770ee9996e062fecd4bd7f619a6003d201409ca9d269c9613e8e3ebe"
+      },
+      "commands": {
+        "path": ".local/evolution/frontend-phase3/commands-first.json",
+        "sha256": "bf74a161889f3d5c10d9abc2ba1b73876a14030ca922a1b1db703a56309ea749",
+        "bytes": 705
+      },
+      "exit_codes": {
+        "unit": 0,
+        "compat": 0,
+        "build": 0
+      },
+      "unit_tests": 20,
+      "backend_and_case_binding": "Original control v2 57807/57808: result_unknown, offline reconcile HTTP202, completed reconcile, edge resume HTTP200, first=1 and remaining=1. First pending screenshot contains the original F01 display error."
+    },
+    {
+      "generation": "second",
+      "manifest": {
+        "path": ".local/evolution/frontend-phase3/builds/second/manifest.json",
+        "sha256": "04d8c175daf05a9222ee930531e5202fb529864ea97ed7e66e7aa595d8d05ac5",
+        "bytes": 5116
+      },
+      "manifest_saved_utc": "2026-10-04T21:11:44.886194+00:00",
+      "source_tree_sha256": "0ed56c7487054fdf44aa9cff36b424b0cbe33ab832ad06ffa4de06c38291952c",
+      "javascript": {
+        "assets/main-C_SEIvAT.js": "a958e628f0e85d75b81b657be9d37303adeda603c12b06dc81f2d642106c8a9c"
+      },
+      "commands": {
+        "path": ".local/evolution/frontend-phase3/commands-second.json",
+        "sha256": "6ed36f06ba1b59a07a8fd4224cd89e9993716fefae6635abc36b26451e4e5672",
+        "bytes": 726
+      },
+      "exit_codes": {
+        "unit": 0,
+        "compat": 0,
+        "build": 0
+      },
+      "unit_tests": 20,
+      "backend_and_case_binding": "Original control v2 57807/57808: cancel dispatch, offline cancellation HTTP202, cancelled_result_unknown, late feedback and cancelled with remaining=0. History 19050: replay/assets, comparisons, node explanation, JSON exports, retained replay and explicit comparison creation, original shadow stop409 and F03 dialog interception."
+    },
+    {
+      "generation": "third",
+      "manifest": {
+        "path": ".local/evolution/frontend-phase3/builds/third/manifest.json",
+        "sha256": "94f6ba2b797df4f2545e3666760cacba57b6e1ad0bdc42e8f47fe17e6bc2cd74",
+        "bytes": 5150
+      },
+      "manifest_saved_utc": "2026-10-04T21:28:36.892353+00:00",
+      "source_tree_sha256": "d2b7a691dfb941dae5f95b5e3b31c4789e7711471ce2f7ed67fa8b1426c2ee85",
+      "javascript": {
+        "assets/main-CiVE3bj4.js": "f02c8f65921cac0ef95ce2e8f7d001188e11b60c8e89c35215ac4c625b0dc9cd"
+      },
+      "commands": {
+        "path": ".local/evolution/frontend-phase3/commands-third.json",
+        "sha256": "65ede24f49c58831798d90ee595598137f5d83f5091537b41291602a821b422b",
+        "bytes": 723
+      },
+      "exit_codes": {
+        "unit": 0,
+        "compat": 0,
+        "build": 0
+      },
+      "unit_tests": 20,
+      "backend_and_case_binding": "History 19050: corrected ordinary re-enable/stop, failed task retry, waiting-parent cancellation409 then reviewed current-version200, role403/resource403/identity401 clearing, read-only history and screen. C05 final 64486/64487: offline reconcile202, edge resume200, identical trusted evidence and feedback timeline."
+    }
+  ],
+  "current_frontend": {
+    "source_manifest": {
+      "path": ".local/evolution/frontend-phase3/source-manifest.json",
+      "sha256": "437ae1ec9ea096cbd171db9b78885c6ee6e2ee75a47cc551646e783a8466d1c6",
+      "bytes": 7092
+    },
+    "source_tree_sha256": "d2b7a691dfb941dae5f95b5e3b31c4789e7711471ce2f7ed67fa8b1426c2ee85",
+    "source_file_count": 41,
+    "javascript_path": "Frontends/dist/assets/main-CiVE3bj4.js",
+    "javascript_sha256": "f02c8f65921cac0ef95ce2e8f7d001188e11b60c8e89c35215ac4c625b0dc9cd",
+    "current_source_and_five_dist_files_match_saved_third_manifest": true,
+    "checks": [
+      "20 unit tests (14 existing + 6 added), pass20/fail0",
+      "TypeScript6.0.2 compatibility exit0",
+      "check:api official regeneration comparison exit0",
+      "TypeScript7.0.2 native noEmit exit0",
+      "Vite8.1.5 production build exit0"
+    ],
+    "command_evidence": {
+      "path": ".local/evolution/frontend-phase3/commands-third.json",
+      "sha256": "65ede24f49c58831798d90ee595598137f5d83f5091537b41291602a821b422b",
+      "bytes": 723
+    },
+    "unit_log": {
+      "path": ".local/evolution/frontend-phase3/third-unit.log",
+      "sha256": "484c05cf97790c150208352be0eb50236902c56e14b8806e4b1b9e243ea35169",
+      "bytes": 2232
+    },
+    "compat_log": {
+      "path": ".local/evolution/frontend-phase3/third-compat.log",
+      "sha256": "dbf8b195504f182a5e9d8670ea7a33528a7835c3f43b5d751ec4367ca5694b11",
+      "bytes": 120
+    },
+    "build_log": {
+      "path": ".local/evolution/frontend-phase3/third-build.log",
+      "sha256": "afdd70224359362df2a93d2257fc27451649ad6c79c8fabc23b8a7ef614479dc",
+      "bytes": 1274
+    },
+    "bundle_warning": "Vite reports one 2426.53kB minified JavaScript chunk; planned Phase4 frontend refactoring remains the assigned follow-up scope"
+  },
+  "backends": {
+    "original_control_v2": {
+      "manifest": {
+        "path": ".local/evolution/frontend-phase3/control-fixture-manifest.json",
+        "sha256": "44338befd4cd20f1d0c41ac1b8ea9fece72c472f348016bf5e6ba807a842a4e4",
+        "bytes": 4073
+      },
+      "directory": "/private/tmp/sf-control-browser-final-v2-20261005",
+      "ports": [
+        57807,
+        57808,
+        57815
+      ],
+      "compiled_input_count": 3643,
+      "compiled_input_sha256": "6431b5762fc5ada9638fb4b1a9a19e5825143e3e1599a634b94ef38ec0e92882",
+      "binary_binding": {
+        "device": {
+          "path": "/private/tmp/sf-control-browser-final-v2-20261005/device-control.test",
+          "sha256": "dc29f051ec8d1850fd2f27dcb198291fe864f56499d0904ec80d9fe57d060bc5",
+          "bytes": 25987858
+        },
+        "platform": {
+          "path": "/private/tmp/sf-control-browser-final-v2-20261005/platform-control.test",
+          "sha256": "3dac33c927bea5feb1ecbd23dc6b6c3edaa700e39ae733721f53e45a06e3899e",
+          "bytes": 52342530
+        },
+        "sf-cloud": {
+          "path": "/private/tmp/sf-control-browser-final-v2-20261005/sf-cloud",
+          "sha256": "cf7f6eef7997d71c3ad2b91440959cde9518828ce7f4ec8abfe18f1a01449990",
+          "bytes": 51244082
+        },
+        "sf-edge": {
+          "path": "/private/tmp/sf-control-browser-final-v2-20261005/sf-edge",
+          "sha256": "96c6cd512c9750c2ac704e81abb92c795c1137933836b07750652e67d7a400a9",
+          "bytes": 51244082
+        },
+        "datatransfer": {
+          "path": "/private/tmp/sf-control-browser-final-v2-20261005/datatransfer",
+          "sha256": "1c29ab30268760bf39a6eeda6ca203d03106ce04394f2914a203458717bbbc68",
+          "bytes": 36785970
+        }
+      },
+      "source_and_cleanup": "Original fixture identity preserved. Owner stopped the service after cancellation and late-feedback cases; original data retained. It predates C05 evidence forwarding repair."
+    },
+    "history": {
+      "binary": {
+        "path": "/private/tmp/sf-history-fixture-20261005",
+        "sha256": "171df7a4a6cbf818f7d26c0331fd1d506d5f06574ca9e06379eb6a8f4b8a3727",
+        "bytes": 51294162,
+        "build_finished_at": "2026-10-04T20:23:13.041787+00:00",
+        "command": "go build -o /private/tmp/sf-history-fixture-20261005 ./cmd/sf-history-fixture",
+        "run_command": "/private/tmp/sf-history-fixture-20261005 -dir /private/tmp/smartfactory-history-browser-20261005-first -address 127.0.0.1:18094 -duration 1s",
+        "exit_code": 0,
+        "log": ".local/evolution/history-evidence/browser-fixture-first.log",
+        "source_manifest": ".local/evolution/history-evidence/source-manifest-final.json",
+        "production_or_module_files_modified_after_build": []
+      },
+      "running_process_evidence": {
+        "path": "/private/tmp/smartfactory-evolution-frontend-phase3/history-process.json",
+        "sha256": "68a8192f88622ea62219caa5f40623d523a3bd4f80d02bce4a2ddf3239500811",
+        "bytes": 344
+      },
+      "port": 19050,
+      "directory": "/private/tmp/smartfactory-evolution-frontend-phase3/history-runtime",
+      "source_manifest": {
+        "path": ".local/evolution/history-evidence/source-manifest-final.json",
+        "sha256": "118f6b0b0ab8e103be4300a9dfb6627b0f7002e884403b8db1f7c1bfad889b86",
+        "bytes": 68279
+      },
+      "application": "Actual cloud Application, SQLite store, River tasks and production history worker",
+      "max_open_connections": 1,
+      "worker_retry_policy": "Original production8 attempts; explicit retry extends the same failed task from attempt8/max8 to attempt9/max9. No fixture max_attempts override.",
+      "scope_binding": "Historical app binary was built2026-10-04T20:23:13UTC and retains its original compilation source. Later C05 backend control-receipt changes are covered by the separate control fixture; this report does not assign the later backend source to earlier history captures."
+    },
+    "c05_final_control": {
+      "manifest": {
+        "path": ".local/evolution/frontend-phase3/control-c05-manifest.json",
+        "sha256": "311a4e518c60875f36855cbf9d35124bc566684c112c3d0ef36c29e5c74b43fc",
+        "bytes": 3982
+      },
+      "compiled_inputs": {
+        "path": ".local/evolution/frontend-phase3/control-c05-build-inputs.json",
+        "sha256": "a11fdde581405910a6b6daeed7660cd64a0df04bf12275a8c075f72154cfe33c",
+        "bytes": 783322
+      },
+      "compiled_input_count": 3645,
+      "compiled_input_sha256": "a11fdde581405910a6b6daeed7660cd64a0df04bf12275a8c075f72154cfe33c",
+      "binary_binding": {
+        "device": {
+          "path": "/private/tmp/sf-control-c05-final-20261005/device-control.test",
+          "sha256": "dc29f051ec8d1850fd2f27dcb198291fe864f56499d0904ec80d9fe57d060bc5",
+          "bytes": 25987858
+        },
+        "platform": {
+          "path": "/private/tmp/sf-control-c05-final-20261005/platform-control.test",
+          "sha256": "c4d3ed249ae46109353ab9e02157036d1aa44a480265a342680dce219c1adbb3",
+          "bytes": 52376562
+        },
+        "sf-cloud": {
+          "path": "/private/tmp/sf-control-c05-final-20261005/sf-cloud",
+          "sha256": "02da6bddbe71c5318a7fd47c0ab23a341adf92c6e13897808e528f9a7878a47a",
+          "bytes": 51244786
+        },
+        "sf-edge": {
+          "path": "/private/tmp/sf-control-c05-final-20261005/sf-edge",
+          "sha256": "1edb061dc4db55f688b26b935bf8bbeb0c831eb4093788db02ca1f9eb2c72c15",
+          "bytes": 51244786
+        },
+        "datatransfer": {
+          "path": "/private/tmp/sf-control-c05-final-20261005/datatransfer",
+          "sha256": "1c29ab30268760bf39a6eeda6ca203d03106ce04394f2914a203458717bbbc68",
+          "bytes": 36785970
+        }
+      },
+      "identity_assertions": {
+        "path": ".local/evolution/frontend-phase3/control-c05-manifest-assertions.json",
+        "sha256": "aa55ab9bdf6f5b5e9b3df477a789b9bf2c44b6c0a35a1eb543dfae79a34ae8ef",
+        "bytes": 128
+      },
+      "ports": [
+        64486,
+        64487,
+        64495
+      ],
+      "directory": "/private/tmp/sf-control-c05-final-20261005",
+      "frontend_artifact": "main-CiVE3bj4.js",
+      "cleanup": {
+        "path": ".local/evolution/control-c05-final-cleanup-root-review.json",
+        "sha256": "c9daeb93c5aa992f2304c96cf80685c7ab95ba1b22b7aa24287f0935b2089ac8",
+        "bytes": 496
+      }
+    }
+  },
+  "verified_behavior": {
+    "control_unknown_reconcile_resume": {
+      "original_cases": [
+        "browser-control-cloud-pending.json",
+        "browser-control-cloud-reconciled.json",
+        "browser-control-edge-resumed.json"
+      ],
+      "original_backend": [
+        "control-before.json",
+        "control-after-cloud-reconcile.json",
+        "control-after-edge-resume.json"
+      ],
+      "original_counts": {
+        "recover-browser:first": 1,
+        "recover-browser:remaining": 1
+      },
+      "final_c05_cases": [
+        "browser-control-c05-pending.json",
+        "browser-control-c05-resumed.json",
+        "browser-control-c05-cloud-evidence.json",
+        "browser-control-c05-cloud-timeline.json"
+      ],
+      "final_c05_backend": [
+        "control-c05-before.json",
+        "control-c05-reconciled.json",
+        "control-c05-final.json"
+      ],
+      "final_assertions": {
+        "path": ".local/evolution/frontend-phase3/control-c05-assertions.json",
+        "sha256": "eb4291467eed56d236bc07ab77cb4bdef0328e1a548287b9854ccbcb50445214",
+        "bytes": 304
+      },
+      "final_counts": {
+        "recover-browser:first": 1,
+        "recover-browser:remaining": 1
+      },
+      "screenshots": [
+        ".local/evolution/frontend-phase3/control-c05-pending-final.png",
+        ".local/evolution/frontend-phase3/control-c05-edge-resumed-final.png",
+        ".local/evolution/frontend-phase3/control-c05-cloud-evidence-detail-final.png",
+        ".local/evolution/frontend-phase3/control-c05-cloud-feedback-final.png"
+      ]
+    },
+    "control_cancel_late_feedback": {
+      "cases": [
+        "browser-control-cancel-pending.json",
+        "browser-control-cancelled-unknown.json",
+        "browser-control-cancel-final.json"
+      ],
+      "backend": [
+        "control-cancel-before.json",
+        "control-cancel-applied.json",
+        "control-cancel-final.json"
+      ],
+      "statuses": [
+        "running",
+        "cancelled_result_unknown",
+        "cancelled"
+      ],
+      "counts": {
+        "cancel-browser:first": 1,
+        "cancel-browser:remaining": 0
+      },
+      "source_binding": "Second frontend build / original control v2. C05 late cancellation is separately independently reviewed by QA.",
+      "screenshots": [
+        "output/playwright/frontend-phase3/control-cloud-pending-corrected.png",
+        "output/playwright/frontend-phase3/control-cancel-final.png"
+      ]
+    },
+    "replay_assets_and_node_provenance": {
+      "cases": [
+        "browser-history-replay.json",
+        "browser-history-node.json",
+        "browser-history-snapshot.json",
+        "browser-viewer-history-final.json"
+      ],
+      "input_exact_integer": "9007199254740993",
+      "node_output_exact_integer": "9007199254740994",
+      "historical_assets": [
+        "v1",
+        "v2"
+      ],
+      "different_ancestor_result": "UNCERTAIN/null; exact actual snapshot retained",
+      "screenshots": [
+        "output/playwright/frontend-phase3/history-replay-result-corrected.png",
+        "output/playwright/frontend-phase3/history-node-exact.png",
+        "output/playwright/frontend-phase3/history-replay-final.png"
+      ]
+    },
+    "created_replay_and_compare": {
+      "cases": [
+        "browser-history-empty-range.json",
+        "browser-history-created-replay-corrected.json",
+        "browser-history-created-compare.json"
+      ],
+      "backend": [
+        "history-created-replay-final.json",
+        "history-created-compare-steps.json"
+      ],
+      "invalid_empty_range": {
+        "status": 400,
+        "form_values_retained": true
+      },
+      "created_retained_replay": {
+        "status": 202,
+        "id": "browser-replay-retained",
+        "final_status": "completed",
+        "points": 3,
+        "last_value": 60
+      },
+      "created_explicit_compare": {
+        "status": 202,
+        "id": "browser-compare-exact",
+        "final_status": "completed",
+        "points": 3,
+        "history": [],
+        "left_values": [
+          "9007199254740993",
+          "9007199254740995",
+          "7"
+        ],
+        "right_values": [
+          "9007199254740994",
+          "9007199254740996",
+          "8"
+        ]
+      },
+      "changed_unchanged_cases": [
+        "browser-history-compare-changed.json",
+        "browser-history-compare-unchanged.json"
+      ]
+    },
+    "shadow_management_and_formal_comparison": {
+      "cases": [
+        "browser-history-shadow-formal.json",
+        "browser-shadow-enabled.json",
+        "browser-shadow-conflict.json",
+        "browser-shadow-reenabled-corrected.json",
+        "browser-shadow-stopped.json"
+      ],
+      "formal_source": "historical_recompute_projection",
+      "formal_value": 60,
+      "candidate_value": 61,
+      "formal_revision": 2,
+      "management_sequence": "enablev1; concurrent stopv2; stale expected_versionv1 rejected409; reviewed re-enablev3/epoch2; stopv4. Later dedicated engineer session enabledv5/epoch3 for revocation checks.",
+      "automatic_conflict_retry": false,
+      "screenshots": [
+        "output/playwright/frontend-phase3/history-shadow-formal.png",
+        "output/playwright/frontend-phase3/shadow-version-conflict.png",
+        "output/playwright/frontend-phase3/shadow-reenabled-corrected.png"
+      ]
+    },
+    "tasks": {
+      "cases": [
+        "browser-history-waiting-parent.json",
+        "browser-history-task-retry.json",
+        "browser-history-task-cancel.json",
+        "browser-history-task-cancel-refreshed.json"
+      ],
+      "backend": [
+        "history-failed-task-before.json",
+        "history-failed-task-after-retry.json",
+        "history-waiting-task-before.json",
+        "history-waiting-task-final.json"
+      ],
+      "retry_identity": {
+        "task": "analysis:shadow:fixture-failure:1:1",
+        "river_id": 25,
+        "replay_id": "shadow:fixture-failure:1:1",
+        "attempt_before": 8,
+        "attempt_after": 9,
+        "final_state": "discarded",
+        "business_state": "failed"
+      },
+      "cancel_identity": {
+        "task": "analysis:shadow:fixture-failure:1:2",
+        "river_id": 26,
+        "replay_id": "shadow:fixture-failure:1:2",
+        "final_state": "cancelled"
+      },
+      "cancel_conflict": "First actual UI submit409 because worker changed the opaque version; operator refreshed/reviewed current detail and explicitly submitted again, resulting200. No automatic retry."
+    },
+    "permissions_and_identity": {
+      "cases": [
+        "browser-engineer-before-revocation.json",
+        "browser-role-revoked.json",
+        "browser-resource-revoked.json",
+        "browser-identity-revoked.json",
+        "browser-identity-revoked-session-proof.json",
+        "browser-viewer-history-final.json"
+      ],
+      "backend": [
+        "history-role-revoked-api.json",
+        "history-resource-revoked-api.json",
+        "history-identity-revoked-api.json"
+      ],
+      "changes": "Existing session: engineer→viewer v2, resources→unrelated v3, active=false v4",
+      "http_statuses": [
+        403,
+        403,
+        401
+      ],
+      "page_behavior": "403 refreshed /me to viewer, management buttons and visible dialog cleared, prior success cleared and rejection reason preserved; resource403 cleared candidate/run/node detail;401 cleared actual sessionStorage and returned login",
+      "original_harness_correction": "browser-identity-revoked.json checked an unrelated localStorage key; its sessionPresent field is not used. The saved supplemental proof checks smartfactory.session.<host> in sessionStorage and confirms absence."
+    },
+    "exports": {
+      "results": {
+        "path": ".local/evolution/frontend-phase3/history-results-export.json",
+        "sha256": "3c20e4a8fa944405ff82afce6d5e09ca9a292e365d99e676552c0644dd156b72",
+        "bytes": 10209
+      },
+      "snapshot": {
+        "path": ".local/evolution/frontend-phase3/history-snapshot-export.json",
+        "sha256": "0e3a00a8bfd61a408c6ae705a7e9e49e6d3921a7d2894916d41c73f5efe13ba9",
+        "bytes": 9312
+      },
+      "assertions": {
+        "path": ".local/evolution/frontend-phase3/history-export-assertions.json",
+        "sha256": "0cab021010f5e3ab7b5f65e9b486481ea82755bd1abc48a6b62521cb614fcf19",
+        "bytes": 617
+      },
+      "precision": "JSON integer token9007199254740993 input and9007199254740994 computed output preserved"
+    },
+    "formal_data_isolation": {
+      "before": {
+        "path": ".local/evolution/frontend-phase3/history-isolation-before.json",
+        "sha256": "8a384433cdaba4d46002eb866b547f406ccb8f87697b6224c4cedf58e0f710cd",
+        "bytes": 1525
+      },
+      "final": {
+        "path": ".local/evolution/frontend-phase3/history-isolation-final.json",
+        "sha256": "d6f135d0ca02bf2a84b5d993f8a7d41d14687f63bdb4286b71ea3472cf1f9132",
+        "bytes": 1525
+      },
+      "assertions": {
+        "path": ".local/evolution/frontend-phase3/history-isolation-assertions.json",
+        "sha256": "41b75c5de441a3138529648c4195eb53ee60928da7f909862893c663e5d5bf78",
+        "bytes": 265
+      },
+      "equal_groups": 6,
+      "query_conditions": "Exact SQL and per-group scope are stored with each digest. Formal documents include kind IN(definition,compiled_plan,entity,parameter,source,engine_state,recompute_outputs,recompute_run,recompute_state,recompute_state_info,revision), ordered by kind/id.51 formal documents;15 observations;5 latest values;9 rollups;0 device action journals;3 engine checkpoints. Analysis, tasks, users, candidates and audit have expected mutations."
+    },
+    "screen": {
+      "case": {
+        "path": ".local/evolution/frontend-phase3/browser-screen-final.json",
+        "sha256": "96eae2b5e889445c0848803248f3a279acad6a6510ff356c069558df27859d27",
+        "bytes": 1141
+      },
+      "artifact": "main-CiVE3bj4.js",
+      "screenshot": "output/playwright/frontend-phase3/screen-final.png"
+    }
+  },
+  "review_fixes": [
+    {
+      "id": "P3-F01",
+      "original": "First pending notification used a green success icon and duplicated title text",
+      "change": "Pending/started show informational processing; completed maps live execution outcome; rejected/expired remain warning",
+      "unit_coverage": "control operation status/outcome test includes asynchronous state-to-notice mapping",
+      "original_screenshot": "output/playwright/frontend-phase3/control-cloud-pending.png",
+      "corrected_screenshot": "output/playwright/frontend-phase3/control-cloud-pending-corrected.png",
+      "current_final_screenshot": ".local/evolution/frontend-phase3/control-c05-pending-final.png"
+    },
+    {
+      "id": "P3-F02",
+      "original": "Replay with one lane and no difference displayed behavior equal",
+      "change": "run.kind controls result wording: replay result, actual compare difference, shadow formal-source comparison; missing difference data has no equality statement",
+      "unit_coverage": "formal source/waiting parent test includes replay and missing difference mapping",
+      "independent_original_evidence": ".playwright-cli/page-2026-10-04T20-59-43-856Z.yml",
+      "corrected_screenshot": "output/playwright/frontend-phase3/history-replay-result-corrected.png"
+    },
+    {
+      "id": "P3-F03",
+      "original": "Ordinary re-enable button click timed out because shadow modal sat below detail drawer",
+      "change": "Management modal zIndex1200 and role-dependent availability; lost role clears obsolete success and closes management dialogs",
+      "original_case": "browser-shadow-reenabled.json",
+      "corrected_case": "browser-shadow-reenabled-corrected.json",
+      "corrected_screenshot": "output/playwright/frontend-phase3/shadow-reenabled-corrected.png"
+    },
+    {
+      "id": "P3-C05",
+      "owner": "control backend engineer coordinated by root",
+      "original": "Cloud execution step had evidence_id but evidence=[] and timeline lacked feedback; edge retained evidence",
+      "original_evidence": ".local/evolution/phase3-review-evidence/control-resume-backend.json",
+      "backend_fix": "Cloud receipt transaction preserves original command evidence and feedback timeline; public HTTP detail schema unchanged",
+      "current_validation": "control-c05-assertions.json passes9 recorded fields;8 boolean assertions plus evidence_count1",
+      "current_screenshot": ".local/evolution/frontend-phase3/control-c05-cloud-feedback-final.png"
+    }
+  ],
+  "first_failures_and_repairs": [
+    {
+      "kind": "typecheck",
+      "evidence": {
+        "path": ".local/evolution/frontend-phase3/first-typecheck.json",
+        "sha256": "2b311780790ec7da973277b99301157c1f0aa82b1232227fcef5a9ff1367cff0",
+        "bytes": 336
+      },
+      "cause": "Four number|string|bigint values used directly where bounded numeric UI cursors were required",
+      "repair": "Explicit bounded safe-integer conversion for pagination/cursors; exact source values retained; all later TS6/TS7 checks passed"
+    },
+    {
+      "kind": "harness",
+      "cause": "Initial CLI run-code wrapper syntax and snapshot-refs helper syntax failed",
+      "repair": "Corrected helper and documented async(page) wrapper before actual cases; original command log retained"
+    },
+    {
+      "kind": "harness",
+      "cause": "Driver returns HTTP204 without JSON, first proof attempted JSON decode",
+      "repair": "Save empty body as null and independently GET actual driver state"
+    },
+    {
+      "kind": "harness_assertion",
+      "evidence": {
+        "path": ".local/evolution/frontend-phase3/history-export-assertions.json",
+        "sha256": "0cab021010f5e3ab7b5f65e9b486481ea82755bd1abc48a6b62521cb614fcf19",
+        "bytes": 617
+      },
+      "cause": "First assertion expected computed994 as raw input; actual rule adds1 to raw993",
+      "repair": "Assert raw input993 and computed output994 separately; exact exported integer tokens retained"
+    },
+    {
+      "kind": "expected_validation",
+      "cause": "First retained replay range used times from explicitly provided fixtures; retained raw range was empty",
+      "evidence": "browser-history-created-replay.json",
+      "repair": "Actual POST400 shown with preserved form; operator selected retained history-source range and new POST202 completed"
+    },
+    {
+      "kind": "expected_conflict",
+      "cause": "Waiting-parent task worker updated opaque task version before cancel",
+      "evidence": "browser-history-task-cancel.json",
+      "repair": "Actual409 retained; reviewed refresh and explicit second submit200 retained separately"
+    },
+    {
+      "kind": "harness",
+      "cause": "After detail refresh, one old Playwright reference no longer existed; an exploratory snapshot field lookup also used a nonexistent field",
+      "repair": "Fresh snapshot references and actual snapshot keys used; no request mutation was fabricated"
+    },
+    {
+      "kind": "harness_metadata",
+      "cause": "Metadata probe first used @typescript/native-preview/bin/tsc and typescript/bin/tsc paths, which are not this project aliases; first manifest has no generated_utc field; compilation input file is a list",
+      "repair": "Read package.json and saved correct actual native bin/tsc (7.0.2) and compatibility bin/tsc6 (6.0.2). Original first manifest retains no added historical timestamp; compilation input count read as list."
+    },
+    {
+      "kind": "cleanup",
+      "cause": "Workspace sandbox rejected direct cross-session SIGTERM for own history process",
+      "repair": "Exact PID51423 SIGTERM approved by automatic review and exited0; service port closed and River worker stop log recorded"
+    }
+  ],
+  "provenance_limits": {
+    "first_build_time": "The first manifest records hashes and build log without generated_utc. Later manifests record their capture UTC. No historical timestamp was added to the original.",
+    "source_storage": "All three dist snapshots and input hashes are retained. Current frontend41-file source matches third manifest; complete copies of earlier frontend source files were not separately preserved.",
+    "module_fields": "Original cases that lack module field are unchanged; build interval and adjacent module-bearing captures are used for their relation, as noted in browser-case-index.json.",
+    "screenshot_name": "control-cancelled-unknown.png actually shows cancelled after late feedback; the unknown state is proved by its earlier browser JSON and backend JSON.",
+    "excluded_by_user": [
+      "Full UOS installation/restoration",
+      "One/three-node24h cloud outage",
+      "Restricted link specialty",
+      "Actual24h capacity/continuous run"
+    ]
+  },
+  "browser_case_index": {
+    "path": ".local/evolution/frontend-phase3/browser-case-index.json",
+    "sha256": "6aaf0fa812c30289aa3ebf64e0c65956e00534f6877238d43460b031ec204fcc",
+    "bytes": 16305
+  },
+  "console": {
+    "path": ".local/evolution/frontend-phase3/console-index.json",
+    "sha256": "8523845520789f51d4db4c519f635cffaf44833e8ea4ccf4ad8847833cb8631c",
+    "bytes": 2815
+  },
+  "final_assertions": {
+    "path": ".local/evolution/frontend-phase3/final-assertions.json",
+    "sha256": "956a30d75da25a357e1054d87bbdcf461c9db066c6d111418745f5f581ab1b16",
+    "bytes": 486
+  },
+  "evidence_index": {
+    "path": ".local/evolution/frontend-phase3/evidence-index.json",
+    "sha256": "9cf939d998924547a2dcdf6899ba29954be5cde846f93ce4cb430071a4ef2386",
+    "bytes": 31041
+  },
+  "cleanup": {
+    "path": ".local/evolution/frontend-phase3/cleanup.json",
+    "sha256": "6c755726e6b0c56bdf43ab3fcddd37897b6afc8fbc016e1e269442c85874581b",
+    "bytes": 843
+  },
+  "credentials": {
+    "scan_report": {
+      "path": ".local/evolution/frontend-phase3/credential-scan.json",
+      "sha256": "390851249bbc86ce3601eb53eb45a42be796f1da30f87c72910539e33a334aa6",
+      "bytes": 867
+    },
+    "policy": "Scan actual per-run temporary passwords and tokens from private access files, including command logs, requests, reports, snapshots, screenshots and console text. Only matching file/count is reported, never secret text.",
+    "scan_status": "passed; zero actual password or token occurrences",
+    "scanned_files": 313
+  },
+  "remaining_frontend_functional_failures": [],
+  "next_owner": "root and independent reviewer for final combined phase acceptance",
+  "cleanup_status": "own browser and history service stopped; root confirmed C05 stopped; all7 ports closed"
+}

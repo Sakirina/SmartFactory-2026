@@ -1,0 +1,1269 @@
+{"session": "history", "arguments": ["open", "http://127.0.0.1:19060/cloud/#history?run=fixture-replay-assets", "--headed"], "exit_code": 1}
+node:fs:621
+  return binding.open(
+                 ^
+
+Error: EPERM: operation not permitted, open '/home/developer/Library/Caches/ms-playwright/daemon/418688d0e960ea3c/sf-phase3-independent-history.err'
+    at Object.openSync (node:fs:621:18)
+    at Session.startDaemon (/private/tmp/smartfactory-evolution-npm-cache/_npx/31e32ef8478fbf80/node_modules/playwright-core/lib/tools/cli-client/session.js:126:35)
+    at async startSession (/private/tmp/smartfactory-evolution-npm-cache/_npx/31e32ef8478fbf80/node_modules/playwright-core/lib/tools/cli-client/program.js:263:10)
+    at async program (/private/tmp/smartfactory-evolution-npm-cache/_npx/31e32ef8478fbf80/node_modules/playwright-core/lib/tools/cli-client/program.js:130:23) {
+  errno: -1,
+  code: 'EPERM',
+  syscall: 'open',
+  path: '/home/developer/Library/Caches/ms-playwright/daemon/418688d0e960ea3c/sf-phase3-independent-history.err'
+}
+
+Node.js v24.21.0
+
+{"session": "cloud", "arguments": ["open", "http://127.0.0.1:59107/cloud/#executions?execution=recover-browser", "--headed"], "exit_code": 1}
+node:fs:621
+  return binding.open(
+                 ^
+
+Error: EPERM: operation not permitted, open '/home/developer/Library/Caches/ms-playwright/daemon/418688d0e960ea3c/sf-phase3-independent-cloud.err'
+    at Object.openSync (node:fs:621:18)
+    at Session.startDaemon (/private/tmp/smartfactory-evolution-npm-cache/_npx/31e32ef8478fbf80/node_modules/playwright-core/lib/tools/cli-client/session.js:126:35)
+    at async startSession (/private/tmp/smartfactory-evolution-npm-cache/_npx/31e32ef8478fbf80/node_modules/playwright-core/lib/tools/cli-client/program.js:263:10)
+    at async program (/private/tmp/smartfactory-evolution-npm-cache/_npx/31e32ef8478fbf80/node_modules/playwright-core/lib/tools/cli-client/program.js:130:23) {
+  errno: -1,
+  code: 'EPERM',
+  syscall: 'open',
+  path: '/home/developer/Library/Caches/ms-playwright/daemon/418688d0e960ea3c/sf-phase3-independent-cloud.err'
+}
+
+Node.js v24.21.0
+
+{"session": "cloud", "arguments": ["open", "http://127.0.0.1:59107/cloud/#executions?execution=recover-browser", "--headed"], "exit_code": 0}
+### Browser `sf-phase3-independent-cloud` opened with pid 52090.
+### Ran Playwright code
+```js
+await page.goto('http://127.0.0.1:59107/cloud/#executions?execution=recover-browser');
+```
+### Page
+- Page URL: http://127.0.0.1:59107/cloud/#executions?execution=recover-browser
+- HTTP status: 404 Not Found
+- Console: 2 errors, 0 warnings
+### Snapshot
+- [Snapshot](.playwright-cli/page-2026-10-04T20-58-07-410Z.yml)
+### Events
+- New console entries: .playwright-cli/console-2026-10-04T20-58-07-211Z.log#L1-L2
+
+{"session": "history", "arguments": ["open", "http://127.0.0.1:19060/cloud/#history?run=fixture-replay-assets", "--headed"], "exit_code": 0}
+### Browser `sf-phase3-independent-history` opened with pid 52145.
+### Ran Playwright code
+```js
+await page.goto('http://127.0.0.1:19060/cloud/#history?run=fixture-replay-assets');
+```
+### Page
+- Page URL: http://127.0.0.1:19060/cloud/#history?run=fixture-replay-assets
+- HTTP status: 404 Not Found
+- Console: 2 errors, 0 warnings
+### Snapshot
+- [Snapshot](.playwright-cli/page-2026-10-04T20-58-20-585Z.yml)
+### Events
+- New console entries: .playwright-cli/console-2026-10-04T20-58-20-390Z.log#L1-L2
+
+{"session": "cloud", "arguments": ["snapshot"], "exit_code": 0}
+### Page
+- Page URL: http://127.0.0.1:59107/cloud/#executions?execution=recover-browser
+- HTTP status: 404 Not Found
+- Console: 2 errors, 0 warnings
+### Snapshot
+```yaml
+- generic [active] [ref=e1]: 404 page not found
+```
+
+{"session": "history", "arguments": ["goto", "http://127.0.0.1:19060/#history?run=fixture-replay-assets"], "exit_code": 0}
+### Ran Playwright code
+```js
+await page.goto('http://127.0.0.1:19060/#history?run=fixture-replay-assets');
+```
+### Page
+- Page URL: http://127.0.0.1:19060/#history?run=fixture-replay-assets
+- Page Title: SmartFactory 云端控制台
+### Snapshot
+- [Snapshot](.playwright-cli/page-2026-10-04T20-58-44-759Z.yml)
+
+{"session": "cloud", "arguments": ["goto", "http://127.0.0.1:59107/#executions?execution=recover-browser"], "exit_code": 0}
+### Ran Playwright code
+```js
+await page.goto('http://127.0.0.1:59107/#executions?execution=recover-browser');
+```
+### Page
+- Page URL: http://127.0.0.1:59107/#executions?execution=recover-browser
+- Page Title: SmartFactory 云端控制台
+### Snapshot
+- [Snapshot](.playwright-cli/page-2026-10-04T20-58-44-850Z.yml)
+
+{"session": "history", "arguments": ["fill", "f1e31", "<value>"], "exit_code": 0}
+### Ran Playwright code
+```js
+await page.getByRole('textbox', { name: '账号' }).fill('admin');
+```
+
+{"session": "cloud", "arguments": ["fill", "f1e31", "<value>"], "exit_code": 0}
+### Ran Playwright code
+```js
+await page.getByRole('textbox', { name: '账号' }).fill('engineer');
+```
+
+{"session": "history", "arguments": ["fill", "f1e40", "<value>"], "exit_code": 0}
+### Ran Playwright code
+```js
+await page.getByRole('textbox', { name: '密码' }).fill('<redacted>');
+```
+
+{"session": "cloud", "arguments": ["fill", "f1e40", "<value>"], "exit_code": 0}
+### Ran Playwright code
+```js
+await page.getByRole('textbox', { name: '密码' }).fill('<redacted>');
+```
+
+{"session": "history", "arguments": ["click", "f1e47"], "exit_code": 0}
+### Ran Playwright code
+```js
+await page.getByRole('button', { name: '登录' }).click();
+```
+### Page
+- Page URL: http://127.0.0.1:19060/#history?run=fixture-replay-assets
+- Page Title: SmartFactory 云端控制台
+### Snapshot
+- [Snapshot](.playwright-cli/page-2026-10-04T20-59-43-856Z.yml)
+
+{"session": "cloud", "arguments": ["click", "f1e47"], "exit_code": 0}
+### Ran Playwright code
+```js
+await page.getByRole('button', { name: '登录' }).click();
+```
+### Page
+- Page URL: http://127.0.0.1:59107/#executions?execution=recover-browser
+- Page Title: SmartFactory 云端控制台
+### Snapshot
+- [Snapshot](.playwright-cli/page-2026-10-04T20-59-43-958Z.yml)
+
+{"session": "cloud", "arguments": ["run-code", "page.__sfPhase3=[]; page.on('response', async response => { const request=response.request(); if(request.method()!=='GET' && response.url().includes('/api/sf/v1/') && !response.url().includes('/login')) { page.__sfPhase3.push({url:response.url(),method:request.method(),request:request.postData(),status:response.status(),response:await response.text()}); } }); await page.screenshot({path:'output/playwright/phase3-independent/control-unknown.png',fullPage:true});"], "exit_code": 1}
+### Error
+SyntaxError: Unexpected token ';'
+
+{"session": "history", "arguments": ["click", "f1e514"], "exit_code": 0}
+### Ran Playwright code
+```js
+await page.getByRole('button', { name: '解释此输入' }).first().click();
+```
+### Page
+- Page URL: http://127.0.0.1:19060/#history?run=fixture-replay-assets
+- Page Title: SmartFactory 云端控制台
+### Snapshot
+- [Snapshot](.playwright-cli/page-2026-10-04T21-01-27-982Z.yml)
+
+{"session": "cloud", "arguments": ["run-code", "async page => { await page.evaluate(() => { window.__phase3={requests:[],errors:[]}; const original=window.fetch.bind(window); window.fetch=async (...args) => { const response=await original(...args); const path=String(args[0]); if (path.includes('/api/sf/v1/') && args[1]?.method && args[1].method !== 'GET' && !path.endsWith('/login')) window.__phase3.requests.push({path,method:args[1].method,body:args[1]?.body,status:response.status,response:await response.clone().text()}); return response; }; window.addEventListener('error',event=>window.__phase3.errors.push(event.message)); }); await page.setViewportSize({width:1440,height:1080}); await page.screenshot({path:'output/playwright/phase3-independent/control-unknown.png',fullPage:true}); return {captureInstalled:true}; }"], "exit_code": 0}
+### Result
+{"captureInstalled":true}
+### Ran Playwright code
+```js
+await (async page => { await page.evaluate(() => { window.__phase3={requests:[],errors:[]}; const original=window.fetch.bind(window); window.fetch=async (...args) => { const response=await original(...args); const path=String(args[0]); if (path.includes('/api/sf/v1/') && args[1]?.method && args[1].method !== 'GET' && !path.endsWith('/login')) window.__phase3.requests.push({path,method:args[1].method,body:args[1]?.body,status:response.status,response:await response.clone().text()}); return response; }; window.addEventListener('error',event=>window.__phase3.errors.push(event.message)); }); await page.setViewportSize({width:1440,height:1080}); await page.screenshot({path:'output/playwright/phase3-independent/control-unknown.png',fullPage:true}); return {captureInstalled:true}; })(page);
+```
+
+{"session": "cloud", "arguments": ["fill", "f1e247", "<value>"], "exit_code": 0}
+### Ran Playwright code
+```js
+await page.getByRole('textbox', { name: '人工操作理由' }).fill('独立浏览器核对原命令持久日志');
+```
+
+{"session": "cloud", "arguments": ["click", "f1e252"], "exit_code": 0}
+### Ran Playwright code
+```js
+await page.getByRole('button', { name: '核对原命令结果' }).click();
+```
+### Page
+- Page URL: http://127.0.0.1:59107/#executions?execution=recover-browser
+- Page Title: SmartFactory 云端控制台
+### Snapshot
+- [Snapshot](.playwright-cli/page-2026-10-04T21-02-08-667Z.yml)
+
+{"session": "history", "arguments": ["run-code", "async page => { await page.setViewportSize({width:1440,height:1080}); await page.getByRole('button',{name:'此次采用的资产版本与生效时间',exact:true}).click(); await page.screenshot({path:'output/playwright/phase3-independent/history-replay-node-assets.png',fullPage:true}); return {node:await page.getByRole('dialog',{name:'节点计算与来源解释',exact:true}).innerText()}; }"], "exit_code": 0}
+### Result
+{"node":"节点计算与来源解释\n运行 / 输入身份\nfixture-replay-assets / asset-before\n\n\n当前输入内容摘要\n47c4a0cd5d2f0697623e8c3f9c6dbebe8e997a152f9484b4e50bbfa50211b8f1\n\n\n来源 / 原始数值 / 单位\nhistory-fixture-source\n9007199254740993\npiece\n\n\n观测 / 逻辑 / 新鲜度时刻\n2026/10/5 04:55:01 / 2026/10/5 04:55:01 / 2026/10/5 04:55:01\n回放/候选计划 · v1\n计划身份 / 内容摘要\nhistory-assets:1:5d312c0e433a43e347c23de81a83f594f648954ff7914f3d91ec0e44a95b9bae\nbbdd09e3f8f38cae1d26b188a5490778b19d92ba38fcb5b2b1399f690f5e7f90\n\n\n规则生效时刻\n2026/10/5 04:55:00\n\n\n采用的输入观测身份\nasset-before\n\n\n计算结果 / 质量\n{\n  \"values\": {\n    \"value\": 9007199254740994\n  },\n  \"quality\": {\n    \"good\": 1,\n    \"bad\": 0,\n    \"uncertain\": 0,\n    \"excluded\": 0,\n    \"missing\": null,\n    \"completeness\": \"unknown\"\n  },\n  \"trigger\": false\n}\n\n\n跳过原因\n此次输入执行计算\n\t节点 / 类型\t节点输入\t节点输出\t处理结果\n\n \n\t\n节点 / 类型\n\t\n节点输入\n\t\n节点输出\n\t\n处理结果\n\n\tvalue\nexpression\n\t\n9007199254740993\n\t\n9007199254740994\n\t已执行\n此次采用的资产版本与生效时间\n[\n  {\n    \"id\": \"history-device\",\n    \"version\": 1,\n    \"effective_ms\": 1791147299204,\n    \"parent_id\": \"history-line-a\",\n    \"sampling_ms\": 1000\n  },\n  {\n    \"id\": \"history-line-a\",\n    \"version\": 1,\n    \"effective_ms\": 1791147299204,\n    \"parent_id\": \"history-factory\",\n    \"sampling_ms\": 0\n  },\n  {\n    \"id\": \"history-factory\",\n    \"version\": 1,\n    \"effective_ms\": 1791147299204,\n    \"parent_id\": \"\",\n    \"sampling_ms\": 0\n  }\n]\n此次候选产生的步骤意图"}
+### Ran Playwright code
+```js
+await (async page => { await page.setViewportSize({width:1440,height:1080}); await page.getByRole('button',{name:'此次采用的资产版本与生效时间',exact:true}).click(); await page.screenshot({path:'output/playwright/phase3-independent/history-replay-node-assets.png',fullPage:true}); return {node:await page.getByRole('dialog',{name:'节点计算与来源解释',exact:true}).innerText()}; })(page);
+```
+
+{"session": "cloud", "arguments": ["click", "f1e370"], "exit_code": 0}
+### Ran Playwright code
+```js
+await page.getByRole('button', { name: '提交此次人工操作' }).click();
+```
+### Page
+- Page URL: http://127.0.0.1:59107/#executions?execution=recover-browser
+- Page Title: SmartFactory 云端控制台
+### Snapshot
+- [Snapshot](.playwright-cli/page-2026-10-04T21-03-46-632Z.yml)
+
+{"session": "cloud", "arguments": ["run-code", "async page => { await page.screenshot({path:\"output/playwright/phase3-independent/control-offline-pending.png\",fullPage:true}); return {url:page.url(),text:await page.locator('body').innerText(),capture:await page.evaluate(()=>window.__phase3 ?? {requests:[],errors:[]})}; }"], "exit_code": 0}
+### Result
+{"url":"http://127.0.0.1:59107/#executions?execution=recover-browser","text":"SF\nSmartFactory\n生产安全控制台\n示例工厂 / cloud\n运行概览\n设备与资产\n数据监控\n数据分析\n告警编排\n联动预案\n审批与执行\n通知记录\n历史补算\n后台任务\n历史分析\n运行状态\nAI 助手\n独立实例 · 云端运行\n规则版本与操作记录全程保存\n云端控制台\n/\n审批与执行\n每秒刷新\nengineer\n退出\n审批与执行\n\n核对会签、现场条件、设备动作和反馈，按照当前许可取消、核对或恢复剩余步骤。\n\n更新执行列表\n发起即时控制\n查看指定执行\n执行 / 预案版本\t执行状态\t风险依据\t已有会签\t请求时间\t操作\n\n执行 / 预案版本\n\t\n执行状态\n\t\n风险依据\n\t\n已有会签\n\t\n请求时间\n\t\n操作\n\n\ncancel-browser\ncontrol-fixture · v1\n\t会签要求已满足\tbusiness / 1级\t2人\t2026/10/5 04:56:39\t\n执行详情\n\n\nrecover-browser\ncontrol-fixture · v1\n\t原命令结果待核对\tbusiness / 1级\t2人\t2026/10/5 04:56:39\t\n执行详情\n1\nSmartFactory · cloud\n界面时间使用 Asia/Shanghai 时区\n控制执行详情\n更新执行详情\n等待边缘处理\n等待边缘处理\n执行身份\trecover-browser\t预案版本\tcontrol-fixture · v1\n当前执行状态\t原命令结果待核对\t当前处理依据\trpc error: code = Unavailable desc = controlled reply loss after durable device SUCCESS\n当前应用版本\t8\t来源节点 / 边缘版本\tedge-a / 8\n执行分支\t正常步骤\t执行协调身份 / 执行权\t暂无协调身份 / 0\n当前原命令身份\t暂无等待中的命令\t会签有效期限\t2026/10/5 05:56:39\n执行开始期限\t2026/10/5 04:56:49\t取消请求时间\t暂无记录\n原命令结果待核对\n自动执行已经停止，请查询原命令的持久反馈；核对取得明确结果后再处理剩余步骤。\n人工操作理由\n取消后续步骤\n核对原命令结果\n恢复剩余步骤\n恢复剩余步骤：operation is unavailable in the current execution state\n重复提交原操作请求\n会签与设备步骤\n人工请求与回执\n原命令核对证据\n关联时间线\n人员会签\n人员 / 角色\t确认时间\t现场证据\nengineer / engineer\t2026/10/5 04:56:39\t账号会话\nleader / leader\t2026/10/5 04:56:39\t账号会话\n设备动作与回执\n步骤 / 命令身份\t设备 / 分支\t设备结果\t发送 / 反馈时间\t反馈说明\n\n步骤 / 命令身份\n\t\n设备 / 分支\n\t\n设备结果\n\t\n发送 / 反馈时间\n\t\n反馈说明\n\nfirst\nrecover-browser:first\n\tdevice-grpc / normal\t结果待核对\t2026/10/5 04:56:39\n2026/10/5 04:56:39\n\trpc error: code = Unavailable desc = controlled reply loss after durable device SUCCESS\n采用版本的条件、正常步骤和降级步骤\n执行记录绑定摘要\n判断时的现场观测与来源","capture":{"requests":[{"path":"/api/sf/v1/executions/recover-browser/reconcile","method":"POST","body":"{\"expected_version\":8,\"expected_source_version\":8,\"operation_id\":\"ee8d22b6-1487-4e07-9e4a-c98027cebed2\",\"reason\":\"独立浏览器核对原命令持久日志\"}","status":202,"response":"{\"id\":\"ee8d22b6-1487-4e07-9e4a-c98027cebed2\",\"execution_id\":\"recover-browser\",\"action\":\"reconcile\",\"status\":\"pending\",\"origin_node_id\":\"cloud\",\"target_node_id\":\"edge-a\",\"expected_version\":8,\"expected_source_version\":8,\"requested_ms\":1791147820603,\"deadline_ms\":1791151420603,\"reason\":\"独立浏览器核对原命令持久日志\",\"actor\":{\"user_id\":\"engineer\",\"name\":\"engineer\",\"department_id\":\"engineering\",\"roles\":[\"engineer\"],\"source\":\"127.0.0.1:59184\",\"session_id\":\"5d7b9d231e456294b2efbbc3336b1efd\",\"ai\":false},\"request_hash\":\"323051e3b1f7d2ca93a4b7557b96a755945a60a97aef6b103ba1418f01dbea9d\",\"version\":1,\"trace_id\":\"1ff1a38b4eb2d91e259148fa3afb63ff\"}\n"}],"errors":[]}}
+### Ran Playwright code
+```js
+await (async page => { await page.screenshot({path:"output/playwright/phase3-independent/control-offline-pending.png",fullPage:true}); return {url:page.url(),text:await page.locator('body').innerText(),capture:await page.evaluate(()=>window.__phase3 ?? {requests:[],errors:[]})}; })(page);
+```
+
+{"session": "history", "arguments": ["run-code", "async page => { await page.screenshot({path:\"output/playwright/phase3-independent/history-replay-node-assets.png\",fullPage:true}); return {url:page.url(),text:await page.locator('body').innerText(),capture:await page.evaluate(()=>window.__phase3 ?? {requests:[],errors:[]})}; }"], "exit_code": 0}
+### Result
+{"url":"http://127.0.0.1:19060/#history?run=fixture-replay-assets","text":"SF\nSmartFactory\n生产安全控制台\n示例工厂 / history-fixture\n运行概览\n设备与资产\n数据监控\n数据分析\n告警编排\n联动预案\n审批与执行\n通知记录\n历史补算\n后台任务\n历史分析\n组织与权限\n配置中心\n同步插件\n业务审计\n运行状态\nAI 助手\n独立实例 · 云端运行\n规则版本与操作记录全程保存\n云端控制台\n/\n历史分析\n每秒刷新\n平台管理员\n退出\n历史分析与影子计算\n\n按保存的输入与历史规则分析结果，查看两侧计划、节点来源和候选与正式结果的差异。\n\n更新分析记录\n启用影子候选\n创建历史分析\n回放与比较运行\n影子候选\n查看指定运行\n运行 / 规则\t分析类别\t运行状态\t计算进度\t结果 / 原因\t操作\n\n运行 / 规则\n\t\n分析类别\n\t\n运行状态\n\t\n计算进度\n\t\n结果 / 原因\n\t\n操作\n\n\nfixture-cancelled\nhistory-assets\n\t历史回放\t已取消后续计算\t\n0%\n已提交 0 / 2 条输入\n\t\t\n运行详情\n\n\nfixture-compare-changed\nhistory-window\n\t版本比较\t计算已完成\t\n已提交 3 / 3 条输入\n\t\t\n运行详情\n\n\nfixture-compare-unchanged\nhistory-window\n\t版本比较\t计算已完成\t\n已提交 3 / 3 条输入\n\t\t\n运行详情\n\n\nfixture-replay-assets\nhistory-assets\n\t历史回放\t计算已完成\t\n已提交 2 / 2 条输入\n\t\t\n运行详情\n\n\nshadow:fixture-failure:1:1\nhistory-failed\n\t影子计算\t计算失败\t\n已提交 0 / 1 条输入\n\tinput fixture-failure-0:0 version 1: input missing_field is missing\t\n运行详情\n\n\nshadow:fixture-failure:1:2\nhistory-failed\n\t影子计算\t等待前序影子计算完成\t\n0%\n已提交 0 / 1 条输入\n\twaiting for previous shadow generation shadow:fixture-failure:1:1\t\n运行详情\n\n\nshadow:fixture-live:1:1\nhistory-derived\n\t影子计算\t计算已完成\t\n已提交 1 / 1 条输入\n\t\t\n运行详情\n\n\nshadow:fixture-live:1:2\nhistory-derived\n\t影子计算\t计算已完成\t\n已提交 1 / 1 条输入\n\t\t\n运行详情\n\n\nshadow:fixture-live:1:3\nhistory-derived\n\t影子计算\t计算已完成\t\n已提交 3 / 3 条输入\n\t\t\n运行详情\n\n\nshadow:fixture-live:1:4\nhistory-derived\n\t影子计算\t计算已完成\t\n已提交 3 / 3 条输入\n\t\t\n运行详情\n上一页\n第1页\n下一页\nSmartFactory · history-fixture\n界面时间使用 Asia/Shanghai 时区\n历史分析运行详情\n更新运行详情\n运行身份\tfixture-replay-assets\t分析类别 / 规则\t历史回放 / history-assets\n运行状态\t计算已完成\t处理原因\t暂无错误\n左侧 / 右侧规则版本\t按观测时刻选择 / 未指定\t实际计算快照身份\tsnapshot:c5b73d1bfaecf37356e0401c0d4247d81ec3e89c1451cbca05660dd2b7982ffe\n入口采集快照身份\tsnapshot:c5b73d1bfaecf37356e0401c0d4247d81ec3e89c1451cbca05660dd2b7982ffe\t初始状态是否已解析\t已解析并保存\n前序运行\t未关联前序运行\t共同输入条件摘要\t21f380fd4fc85e6b8f85ebac8c3767e803e8e3839b3daf05590ee4383af46260\n实际快照内容摘要\tc5b73d1bfaecf37356e0401c0d4247d81ec3e89c1451cbca05660dd2b7982ffe\t已提交输入 / 总数\t2 / 2\n关联后台任务\n任务身份\nanalysis:fixture-replay-assets\n\n\n当前任务状态\n已完成 · 历史计算与汇总更新已完成\n\n\n尝试次数 / 下次时间\n1 / 8 · 2026/10/5 04:56:39\n\n\n最近失败\n暂无失败\n查看任务详情与许可操作\n逐点结果与差异\n输入与历史快照\n输入序号 / 原观测身份\t设备 / 测点 / 原始值\t观测 / 逻辑时钟\t质量 / 来源 / 修订\t采用版本 / 各侧结果\t版本差异\t节点与来源\n\n输入序号 / 原观测身份\n\t\n设备 / 测点 / 原始值\n\t\n观测 / 逻辑时钟\n\t\n质量 / 来源 / 修订\n\t\n采用版本 / 各侧结果\n\t\n版本差异\n\t\n节点与来源\n\n0\nasset-before\n\thistory-device / count\n9007199254740993\n\t2026/10/5 04:55:01\n2026/10/5 04:55:01\n新鲜度：2026/10/5 04:55:01\n\tGOOD\nhistory-fixture-source / r1\n按时观测\n\t\n回放/候选 · v1\n{\n  \"value\": 9007199254740994\n}\n\t行为一致\t\n解释此输入\n\n1\nasset-after\n\thistory-device / count\n4\n\t2026/10/5 04:55:02\n2026/10/5 04:55:02\n新鲜度：2026/10/5 04:55:02\n\tUNCERTAIN\nhistory-fixture-source / r1\n迟到观测\n\t\n回放/候选 · v2\n{\n  \"value\": null\n}\n\t行为一致\t\n解释此输入\n上一页结果\n本页从第0条输入开始，显示2条，已读到当前可用结果末尾\n下一页结果\n导出本页结果（精确JSON）\n节点计算与来源解释\n运行 / 输入身份\nfixture-replay-assets / asset-before\n\n\n当前输入内容摘要\n47c4a0cd5d2f0697623e8c3f9c6dbebe8e997a152f9484b4e50bbfa50211b8f1\n\n\n来源 / 原始数值 / 单位\nhistory-fixture-source\n9007199254740993\npiece\n\n\n观测 / 逻辑 / 新鲜度时刻\n2026/10/5 04:55:01 / 2026/10/5 04:55:01 / 2026/10/5 04:55:01\n回放/候选计划 · v1\n计划身份 / 内容摘要\nhistory-assets:1:5d312c0e433a43e347c23de81a83f594f648954ff7914f3d91ec0e44a95b9bae\nbbdd09e3f8f38cae1d26b188a5490778b19d92ba38fcb5b2b1399f690f5e7f90\n\n\n规则生效时刻\n2026/10/5 04:55:00\n\n\n采用的输入观测身份\nasset-before\n\n\n计算结果 / 质量\n{\n  \"values\": {\n    \"value\": 9007199254740994\n  },\n  \"quality\": {\n    \"good\": 1,\n    \"bad\": 0,\n    \"uncertain\": 0,\n    \"excluded\": 0,\n    \"missing\": null,\n    \"completeness\": \"unknown\"\n  },\n  \"trigger\": false\n}\n\n\n跳过原因\n此次输入执行计算\n\t节点 / 类型\t节点输入\t节点输出\t处理结果\n\n \n\t\n节点 / 类型\n\t\n节点输入\n\t\n节点输出\n\t\n处理结果\n\n\tvalue\nexpression\n\t\n9007199254740993\n\t\n9007199254740994\n\t已执行\n此次采用的资产版本与生效时间\n[\n  {\n    \"id\": \"history-device\",\n    \"version\": 1,\n    \"effective_ms\": 1791147299204,\n    \"parent_id\": \"history-line-a\",\n    \"sampling_ms\": 1000\n  },\n  {\n    \"id\": \"history-line-a\",\n    \"version\": 1,\n    \"effective_ms\": 1791147299204,\n    \"parent_id\": \"history-factory\",\n    \"sampling_ms\": 0\n  },\n  {\n    \"id\": \"history-factory\",\n    \"version\": 1,\n    \"effective_ms\": 1791147299204,\n    \"parent_id\": \"\",\n    \"sampling_ms\": 0\n  }\n]\n此次候选产生的步骤意图","capture":{"requests":[],"errors":[]}}
+### Ran Playwright code
+```js
+await (async page => { await page.screenshot({path:"output/playwright/phase3-independent/history-replay-node-assets.png",fullPage:true}); return {url:page.url(),text:await page.locator('body').innerText(),capture:await page.evaluate(()=>window.__phase3 ?? {requests:[],errors:[]})}; })(page);
+```
+
+{"session": "cloud", "arguments": ["run-code", "async page => { await page.getByRole('button',{name:'重复提交原操作请求',exact:true}).click(); await page.getByRole('button',{name:'重复提交原操作请求',exact:true}).waitFor(); }"], "exit_code": 0}
+### Ran Playwright code
+```js
+await (async page => { await page.getByRole('button',{name:'重复提交原操作请求',exact:true}).click(); await page.getByRole('button',{name:'重复提交原操作请求',exact:true}).waitFor(); })(page);
+```
+
+{"session": "cloud", "arguments": ["run-code", "async page => { await page.screenshot({path:\"output/playwright/phase3-independent/control-offline-duplicate.png\",fullPage:true}); return {url:page.url(),text:await page.locator('body').innerText(),capture:await page.evaluate(()=>window.__phase3 ?? {requests:[],errors:[]})}; }"], "exit_code": 0}
+### Result
+{"url":"http://127.0.0.1:59107/#executions?execution=recover-browser","text":"SF\nSmartFactory\n生产安全控制台\n示例工厂 / cloud\n运行概览\n设备与资产\n数据监控\n数据分析\n告警编排\n联动预案\n审批与执行\n通知记录\n历史补算\n后台任务\n历史分析\n运行状态\nAI 助手\n独立实例 · 云端运行\n规则版本与操作记录全程保存\n云端控制台\n/\n审批与执行\n每秒刷新\nengineer\n退出\n审批与执行\n\n核对会签、现场条件、设备动作和反馈，按照当前许可取消、核对或恢复剩余步骤。\n\n更新执行列表\n发起即时控制\n查看指定执行\n执行 / 预案版本\t执行状态\t风险依据\t已有会签\t请求时间\t操作\n\n执行 / 预案版本\n\t\n执行状态\n\t\n风险依据\n\t\n已有会签\n\t\n请求时间\n\t\n操作\n\n\ncancel-browser\ncontrol-fixture · v1\n\t会签要求已满足\tbusiness / 1级\t2人\t2026/10/5 04:56:39\t\n执行详情\n\n\nrecover-browser\ncontrol-fixture · v1\n\t原命令结果待核对\tbusiness / 1级\t2人\t2026/10/5 04:56:39\t\n执行详情\n1\nSmartFactory · cloud\n界面时间使用 Asia/Shanghai 时区\n控制执行详情\n更新执行详情\n等待边缘处理\n等待边缘处理\n执行身份\trecover-browser\t预案版本\tcontrol-fixture · v1\n当前执行状态\t原命令结果待核对\t当前处理依据\trpc error: code = Unavailable desc = controlled reply loss after durable device SUCCESS\n当前应用版本\t8\t来源节点 / 边缘版本\tedge-a / 8\n执行分支\t正常步骤\t执行协调身份 / 执行权\t暂无协调身份 / 0\n当前原命令身份\t暂无等待中的命令\t会签有效期限\t2026/10/5 05:56:39\n执行开始期限\t2026/10/5 04:56:49\t取消请求时间\t暂无记录\n原命令结果待核对\n自动执行已经停止，请查询原命令的持久反馈；核对取得明确结果后再处理剩余步骤。\n人工操作理由\n取消后续步骤\n核对原命令结果\n恢复剩余步骤\n恢复剩余步骤：operation is unavailable in the current execution state\n重复提交原操作请求\n会签与设备步骤\n人工请求与回执\n原命令核对证据\n关联时间线\n人员会签\n人员 / 角色\t确认时间\t现场证据\nengineer / engineer\t2026/10/5 04:56:39\t账号会话\nleader / leader\t2026/10/5 04:56:39\t账号会话\n设备动作与回执\n步骤 / 命令身份\t设备 / 分支\t设备结果\t发送 / 反馈时间\t反馈说明\n\n步骤 / 命令身份\n\t\n设备 / 分支\n\t\n设备结果\n\t\n发送 / 反馈时间\n\t\n反馈说明\n\nfirst\nrecover-browser:first\n\tdevice-grpc / normal\t结果待核对\t2026/10/5 04:56:39\n2026/10/5 04:56:39\n\trpc error: code = Unavailable desc = controlled reply loss after durable device SUCCESS\n采用版本的条件、正常步骤和降级步骤\n执行记录绑定摘要\n判断时的现场观测与来源","capture":{"requests":[{"path":"/api/sf/v1/executions/recover-browser/reconcile","method":"POST","body":"{\"expected_version\":8,\"expected_source_version\":8,\"operation_id\":\"ee8d22b6-1487-4e07-9e4a-c98027cebed2\",\"reason\":\"独立浏览器核对原命令持久日志\"}","status":202,"response":"{\"id\":\"ee8d22b6-1487-4e07-9e4a-c98027cebed2\",\"execution_id\":\"recover-browser\",\"action\":\"reconcile\",\"status\":\"pending\",\"origin_node_id\":\"cloud\",\"target_node_id\":\"edge-a\",\"expected_version\":8,\"expected_source_version\":8,\"requested_ms\":1791147820603,\"deadline_ms\":1791151420603,\"reason\":\"独立浏览器核对原命令持久日志\",\"actor\":{\"user_id\":\"engineer\",\"name\":\"engineer\",\"department_id\":\"engineering\",\"roles\":[\"engineer\"],\"source\":\"127.0.0.1:59184\",\"session_id\":\"5d7b9d231e456294b2efbbc3336b1efd\",\"ai\":false},\"request_hash\":\"323051e3b1f7d2ca93a4b7557b96a755945a60a97aef6b103ba1418f01dbea9d\",\"version\":1,\"trace_id\":\"1ff1a38b4eb2d91e259148fa3afb63ff\"}\n"},{"path":"/api/sf/v1/executions/recover-browser/reconcile","method":"POST","body":"{\"expected_version\":8,\"expected_source_version\":8,\"operation_id\":\"ee8d22b6-1487-4e07-9e4a-c98027cebed2\",\"reason\":\"独立浏览器核对原命令持久日志\"}","status":202,"response":"{\"id\":\"ee8d22b6-1487-4e07-9e4a-c98027cebed2\",\"execution_id\":\"recover-browser\",\"action\":\"reconcile\",\"status\":\"pending\",\"origin_node_id\":\"cloud\",\"target_node_id\":\"edge-a\",\"expected_version\":8,\"expected_source_version\":8,\"requested_ms\":1791147820603,\"deadline_ms\":1791151420603,\"reason\":\"独立浏览器核对原命令持久日志\",\"actor\":{\"user_id\":\"engineer\",\"name\":\"engineer\",\"department_id\":\"engineering\",\"roles\":[\"engineer\"],\"source\":\"127.0.0.1:59184\",\"session_id\":\"5d7b9d231e456294b2efbbc3336b1efd\",\"ai\":false},\"request_hash\":\"323051e3b1f7d2ca93a4b7557b96a755945a60a97aef6b103ba1418f01dbea9d\",\"version\":1,\"trace_id\":\"1ff1a38b4eb2d91e259148fa3afb63ff\"}\n"}],"errors":[]}}
+### Ran Playwright code
+```js
+await (async page => { await page.screenshot({path:"output/playwright/phase3-independent/control-offline-duplicate.png",fullPage:true}); return {url:page.url(),text:await page.locator('body').innerText(),capture:await page.evaluate(()=>window.__phase3 ?? {requests:[],errors:[]})}; })(page);
+```
+
+{"session": "cloud", "arguments": ["run-code", "async page => { await page.getByRole('dialog',{name:'控制执行详情',exact:true}).getByRole('cell',{name:'已核对结果，等待恢复剩余步骤',exact:true}).waitFor({timeout:20000}); }"], "exit_code": 0}
+### Ran Playwright code
+```js
+await (async page => { await page.getByRole('dialog',{name:'控制执行详情',exact:true}).getByRole('cell',{name:'已核对结果，等待恢复剩余步骤',exact:true}).waitFor({timeout:20000}); })(page);
+```
+
+{"session": "cloud", "arguments": ["run-code", "async page => { await page.screenshot({path:\"output/playwright/phase3-independent/control-reconciled-ready.png\",fullPage:true}); return {url:page.url(),text:await page.locator('body').innerText(),capture:await page.evaluate(()=>window.__phase3 ?? {requests:[],errors:[]})}; }"], "exit_code": 0}
+### Result
+{"url":"http://127.0.0.1:59107/#executions?execution=recover-browser","text":"SF\nSmartFactory\n生产安全控制台\n示例工厂 / cloud\n运行概览\n设备与资产\n数据监控\n数据分析\n告警编排\n联动预案\n审批与执行\n通知记录\n历史补算\n后台任务\n历史分析\n运行状态\nAI 助手\n独立实例 · 云端运行\n规则版本与操作记录全程保存\n云端控制台\n/\n审批与执行\n每秒刷新\nengineer\n退出\n审批与执行\n\n核对会签、现场条件、设备动作和反馈，按照当前许可取消、核对或恢复剩余步骤。\n\n更新执行列表\n发起即时控制\n查看指定执行\n执行 / 预案版本\t执行状态\t风险依据\t已有会签\t请求时间\t操作\n\n执行 / 预案版本\n\t\n执行状态\n\t\n风险依据\n\t\n已有会签\n\t\n请求时间\n\t\n操作\n\n\ncancel-browser\ncontrol-fixture · v1\n\t会签要求已满足\tbusiness / 1级\t2人\t2026/10/5 04:56:39\t\n执行详情\n\n\nrecover-browser\ncontrol-fixture · v1\n\t已核对结果，等待恢复剩余步骤\tbusiness / 1级\t2人\t2026/10/5 04:56:39\t\n执行详情\n1\nSmartFactory · cloud\n界面时间使用 Asia/Shanghai 时区\n控制执行详情\n更新执行详情\n人工操作已处理\n已核对结果，等待恢复剩余步骤\n执行身份\trecover-browser\t预案版本\tcontrol-fixture · v1\n当前执行状态\t已核对结果，等待恢复剩余步骤\t当前处理依据\t独立浏览器核对原命令持久日志\n当前应用版本\t9\t来源节点 / 边缘版本\tedge-a / 9\n执行分支\t正常步骤\t执行协调身份 / 执行权\t暂无协调身份 / 0\n当前原命令身份\t暂无等待中的命令\t会签有效期限\t2026/10/5 05:56:39\n执行开始期限\t2026/10/5 04:56:49\t取消请求时间\t暂无记录\n人工操作理由\n取消后续步骤\n核对原命令结果\n恢复剩余步骤\n核对原命令结果：operation is unavailable in the current execution state\n会签与设备步骤\n人工请求与回执\n原命令核对证据\n关联时间线\n人员会签\n人员 / 角色\t确认时间\t现场证据\nengineer / engineer\t2026/10/5 04:56:39\t账号会话\nleader / leader\t2026/10/5 04:56:39\t账号会话\n设备动作与回执\n步骤 / 命令身份\t设备 / 分支\t设备结果\t发送 / 反馈时间\t反馈说明\n\n步骤 / 命令身份\n\t\n设备 / 分支\n\t\n设备结果\n\t\n发送 / 反馈时间\n\t\n反馈说明\n\nfirst\nrecover-browser:first\n\tdevice-grpc / normal\t成功\t2026/10/5 04:56:39\n2026/10/5 04:56:39\n\tsuccess\n采用版本的条件、正常步骤和降级步骤\n执行记录绑定摘要\n判断时的现场观测与来源","capture":{"requests":[{"path":"/api/sf/v1/executions/recover-browser/reconcile","method":"POST","body":"{\"expected_version\":8,\"expected_source_version\":8,\"operation_id\":\"ee8d22b6-1487-4e07-9e4a-c98027cebed2\",\"reason\":\"独立浏览器核对原命令持久日志\"}","status":202,"response":"{\"id\":\"ee8d22b6-1487-4e07-9e4a-c98027cebed2\",\"execution_id\":\"recover-browser\",\"action\":\"reconcile\",\"status\":\"pending\",\"origin_node_id\":\"cloud\",\"target_node_id\":\"edge-a\",\"expected_version\":8,\"expected_source_version\":8,\"requested_ms\":1791147820603,\"deadline_ms\":1791151420603,\"reason\":\"独立浏览器核对原命令持久日志\",\"actor\":{\"user_id\":\"engineer\",\"name\":\"engineer\",\"department_id\":\"engineering\",\"roles\":[\"engineer\"],\"source\":\"127.0.0.1:59184\",\"session_id\":\"5d7b9d231e456294b2efbbc3336b1efd\",\"ai\":false},\"request_hash\":\"323051e3b1f7d2ca93a4b7557b96a755945a60a97aef6b103ba1418f01dbea9d\",\"version\":1,\"trace_id\":\"1ff1a38b4eb2d91e259148fa3afb63ff\"}\n"},{"path":"/api/sf/v1/executions/recover-browser/reconcile","method":"POST","body":"{\"expected_version\":8,\"expected_source_version\":8,\"operation_id\":\"ee8d22b6-1487-4e07-9e4a-c98027cebed2\",\"reason\":\"独立浏览器核对原命令持久日志\"}","status":202,"response":"{\"id\":\"ee8d22b6-1487-4e07-9e4a-c98027cebed2\",\"execution_id\":\"recover-browser\",\"action\":\"reconcile\",\"status\":\"pending\",\"origin_node_id\":\"cloud\",\"target_node_id\":\"edge-a\",\"expected_version\":8,\"expected_source_version\":8,\"requested_ms\":1791147820603,\"deadline_ms\":1791151420603,\"reason\":\"独立浏览器核对原命令持久日志\",\"actor\":{\"user_id\":\"engineer\",\"name\":\"engineer\",\"department_id\":\"engineering\",\"roles\":[\"engineer\"],\"source\":\"127.0.0.1:59184\",\"session_id\":\"5d7b9d231e456294b2efbbc3336b1efd\",\"ai\":false},\"request_hash\":\"323051e3b1f7d2ca93a4b7557b96a755945a60a97aef6b103ba1418f01dbea9d\",\"version\":1,\"trace_id\":\"1ff1a38b4eb2d91e259148fa3afb63ff\"}\n"}],"errors":[]}}
+### Ran Playwright code
+```js
+await (async page => { await page.screenshot({path:"output/playwright/phase3-independent/control-reconciled-ready.png",fullPage:true}); return {url:page.url(),text:await page.locator('body').innerText(),capture:await page.evaluate(()=>window.__phase3 ?? {requests:[],errors:[]})}; })(page);
+```
+
+{"session": "cloud", "arguments": ["run-code", "async page => { await page.getByRole('textbox',{name:'人工操作理由',exact:true}).fill('独立浏览器恢复剩余步骤'); await page.getByRole('button',{name:'恢复剩余步骤',exact:true}).click(); }"], "exit_code": 0}
+### Ran Playwright code
+```js
+await (async page => { await page.getByRole('textbox',{name:'人工操作理由',exact:true}).fill('独立浏览器恢复剩余步骤'); await page.getByRole('button',{name:'恢复剩余步骤',exact:true}).click(); })(page);
+```
+
+{"session": "history", "arguments": ["run-code", "async page => { await page.getByRole('dialog',{name:'节点计算与来源解释',exact:true}).getByRole('button',{name:'关闭',exact:true}).click(); await page.getByRole('button',{name:'解释此输入',exact:true}).nth(1).click(); await page.getByRole('button',{name:'此次采用的资产版本与生效时间',exact:true}).click(); }"], "exit_code": 0}
+### Ran Playwright code
+```js
+await (async page => { await page.getByRole('dialog',{name:'节点计算与来源解释',exact:true}).getByRole('button',{name:'关闭',exact:true}).click(); await page.getByRole('button',{name:'解释此输入',exact:true}).nth(1).click(); await page.getByRole('button',{name:'此次采用的资产版本与生效时间',exact:true}).click(); })(page);
+```
+
+{"session": "history", "arguments": ["run-code", "async page => { await page.screenshot({path:\"output/playwright/phase3-independent/history-replay-second-asset.png\",fullPage:true}); return {url:page.url(),text:await page.locator('body').innerText(),capture:await page.evaluate(()=>window.__phase3 ?? {requests:[],errors:[]})}; }"], "exit_code": 0}
+### Result
+{"url":"http://127.0.0.1:19060/#history?run=fixture-replay-assets","text":"SF\nSmartFactory\n生产安全控制台\n示例工厂 / history-fixture\n运行概览\n设备与资产\n数据监控\n数据分析\n告警编排\n联动预案\n审批与执行\n通知记录\n历史补算\n后台任务\n历史分析\n组织与权限\n配置中心\n同步插件\n业务审计\n运行状态\nAI 助手\n独立实例 · 云端运行\n规则版本与操作记录全程保存\n云端控制台\n/\n历史分析\n每秒刷新\n平台管理员\n退出\n历史分析与影子计算\n\n按保存的输入与历史规则分析结果，查看两侧计划、节点来源和候选与正式结果的差异。\n\n更新分析记录\n启用影子候选\n创建历史分析\n回放与比较运行\n影子候选\n查看指定运行\n运行 / 规则\t分析类别\t运行状态\t计算进度\t结果 / 原因\t操作\n\n运行 / 规则\n\t\n分析类别\n\t\n运行状态\n\t\n计算进度\n\t\n结果 / 原因\n\t\n操作\n\n\nfixture-cancelled\nhistory-assets\n\t历史回放\t已取消后续计算\t\n0%\n已提交 0 / 2 条输入\n\t\t\n运行详情\n\n\nfixture-compare-changed\nhistory-window\n\t版本比较\t计算已完成\t\n已提交 3 / 3 条输入\n\t\t\n运行详情\n\n\nfixture-compare-unchanged\nhistory-window\n\t版本比较\t计算已完成\t\n已提交 3 / 3 条输入\n\t\t\n运行详情\n\n\nfixture-replay-assets\nhistory-assets\n\t历史回放\t计算已完成\t\n已提交 2 / 2 条输入\n\t\t\n运行详情\n\n\nshadow:fixture-failure:1:1\nhistory-failed\n\t影子计算\t计算失败\t\n已提交 0 / 1 条输入\n\tinput fixture-failure-0:0 version 1: input missing_field is missing\t\n运行详情\n\n\nshadow:fixture-failure:1:2\nhistory-failed\n\t影子计算\t等待前序影子计算完成\t\n0%\n已提交 0 / 1 条输入\n\twaiting for previous shadow generation shadow:fixture-failure:1:1\t\n运行详情\n\n\nshadow:fixture-live:1:1\nhistory-derived\n\t影子计算\t计算已完成\t\n已提交 1 / 1 条输入\n\t\t\n运行详情\n\n\nshadow:fixture-live:1:2\nhistory-derived\n\t影子计算\t计算已完成\t\n已提交 1 / 1 条输入\n\t\t\n运行详情\n\n\nshadow:fixture-live:1:3\nhistory-derived\n\t影子计算\t计算已完成\t\n已提交 3 / 3 条输入\n\t\t\n运行详情\n\n\nshadow:fixture-live:1:4\nhistory-derived\n\t影子计算\t计算已完成\t\n已提交 3 / 3 条输入\n\t\t\n运行详情\n上一页\n第1页\n下一页\nSmartFactory · history-fixture\n界面时间使用 Asia/Shanghai 时区\n历史分析运行详情\n更新运行详情\n运行身份\tfixture-replay-assets\t分析类别 / 规则\t历史回放 / history-assets\n运行状态\t计算已完成\t处理原因\t暂无错误\n左侧 / 右侧规则版本\t按观测时刻选择 / 未指定\t实际计算快照身份\tsnapshot:c5b73d1bfaecf37356e0401c0d4247d81ec3e89c1451cbca05660dd2b7982ffe\n入口采集快照身份\tsnapshot:c5b73d1bfaecf37356e0401c0d4247d81ec3e89c1451cbca05660dd2b7982ffe\t初始状态是否已解析\t已解析并保存\n前序运行\t未关联前序运行\t共同输入条件摘要\t21f380fd4fc85e6b8f85ebac8c3767e803e8e3839b3daf05590ee4383af46260\n实际快照内容摘要\tc5b73d1bfaecf37356e0401c0d4247d81ec3e89c1451cbca05660dd2b7982ffe\t已提交输入 / 总数\t2 / 2\n关联后台任务\n任务身份\nanalysis:fixture-replay-assets\n\n\n当前任务状态\n已完成 · 历史计算与汇总更新已完成\n\n\n尝试次数 / 下次时间\n1 / 8 · 2026/10/5 04:56:39\n\n\n最近失败\n暂无失败\n查看任务详情与许可操作\n逐点结果与差异\n输入与历史快照\n输入序号 / 原观测身份\t设备 / 测点 / 原始值\t观测 / 逻辑时钟\t质量 / 来源 / 修订\t采用版本 / 各侧结果\t版本差异\t节点与来源\n\n输入序号 / 原观测身份\n\t\n设备 / 测点 / 原始值\n\t\n观测 / 逻辑时钟\n\t\n质量 / 来源 / 修订\n\t\n采用版本 / 各侧结果\n\t\n版本差异\n\t\n节点与来源\n\n0\nasset-before\n\thistory-device / count\n9007199254740993\n\t2026/10/5 04:55:01\n2026/10/5 04:55:01\n新鲜度：2026/10/5 04:55:01\n\tGOOD\nhistory-fixture-source / r1\n按时观测\n\t\n回放/候选 · v1\n{\n  \"value\": 9007199254740994\n}\n\t行为一致\t\n解释此输入\n\n1\nasset-after\n\thistory-device / count\n4\n\t2026/10/5 04:55:02\n2026/10/5 04:55:02\n新鲜度：2026/10/5 04:55:02\n\tUNCERTAIN\nhistory-fixture-source / r1\n迟到观测\n\t\n回放/候选 · v2\n{\n  \"value\": null\n}\n\t行为一致\t\n解释此输入\n上一页结果\n本页从第0条输入开始，显示2条，已读到当前可用结果末尾\n下一页结果\n导出本页结果（精确JSON）\n节点计算与来源解释\n运行 / 输入身份\nfixture-replay-assets / asset-after\n\n\n当前输入内容摘要\n035b21820fd1eda172f2cc4a5dfc49192af599090694eee1a3591c8d2b6302e8\n\n\n来源 / 原始数值 / 单位\nhistory-fixture-source\n4\npiece\n\n\n观测 / 逻辑 / 新鲜度时刻\n2026/10/5 04:55:02 / 2026/10/5 04:55:02 / 2026/10/5 04:55:02\n回放/候选计划 · v2\n计划身份 / 内容摘要\nhistory-assets:2:8f0998d425c6af8ac0acbd4cb878e04557e4c7864ba1094898a86f98342f0702\nc347ba1b3432a5d613de96d72e372fbb0dc80a4cae3f59b708455ca9801d6de8\n\n\n规则生效时刻\n2026/10/5 04:55:02\n\n\n采用的输入观测身份\nasset-after\n\n\n计算结果 / 质量\n{\n  \"values\": {\n    \"value\": null\n  },\n  \"quality\": {\n    \"good\": 0,\n    \"bad\": 0,\n    \"uncertain\": 1,\n    \"excluded\": 1,\n    \"missing\": null,\n    \"completeness\": \"unknown\"\n  },\n  \"trigger\": false\n}\n\n\n跳过原因\n此次输入执行计算\n\t节点 / 类型\t节点输入\t节点输出\t处理结果\n\n \n\t\n节点 / 类型\n\t\n节点输入\n\t\n节点输出\n\t\n处理结果\n\n\tvalue\nexpression\n\t\n4\n\t\nnull\n\t已执行\n此次采用的资产版本与生效时间\n[\n  {\n    \"id\": \"history-device\",\n    \"version\": 2,\n    \"effective_ms\": 1791147302204,\n    \"parent_id\": \"history-line-b\",\n    \"sampling_ms\": 1000\n  },\n  {\n    \"id\": \"history-line-b\",\n    \"version\": 1,\n    \"effective_ms\": 1791147299204,\n    \"parent_id\": \"history-factory\",\n    \"sampling_ms\": 0\n  },\n  {\n    \"id\": \"history-factory\",\n    \"version\": 1,\n    \"effective_ms\": 1791147299204,\n    \"parent_id\": \"\",\n    \"sampling_ms\": 0\n  }\n]\n此次候选产生的步骤意图","capture":{"requests":[],"errors":[]}}
+### Ran Playwright code
+```js
+await (async page => { await page.screenshot({path:"output/playwright/phase3-independent/history-replay-second-asset.png",fullPage:true}); return {url:page.url(),text:await page.locator('body').innerText(),capture:await page.evaluate(()=>window.__phase3 ?? {requests:[],errors:[]})}; })(page);
+```
+
+{"session": "history", "arguments": ["run-code", "async page => { await page.getByRole('dialog',{name:'节点计算与来源解释',exact:true}).getByRole('button',{name:'关闭',exact:true}).click(); await page.getByRole('tab',{name:'输入与历史快照',exact:true}).click(); }"], "exit_code": 0}
+### Ran Playwright code
+```js
+await (async page => { await page.getByRole('dialog',{name:'节点计算与来源解释',exact:true}).getByRole('button',{name:'关闭',exact:true}).click(); await page.getByRole('tab',{name:'输入与历史快照',exact:true}).click(); })(page);
+```
+
+{"session": "cloud", "arguments": ["run-code", "async page => { await page.screenshot({path:\"output/playwright/phase3-independent/control-resume-confirmation.png\",fullPage:true}); return {url:page.url(),text:await page.locator('body').innerText(),capture:await page.evaluate(()=>window.__phase3 ?? {requests:[],errors:[]})}; }"], "exit_code": 0}
+### Result
+{"url":"http://127.0.0.1:59107/#executions?execution=recover-browser","text":"SF\nSmartFactory\n生产安全控制台\n示例工厂 / cloud\n运行概览\n设备与资产\n数据监控\n数据分析\n告警编排\n联动预案\n审批与执行\n通知记录\n历史补算\n后台任务\n历史分析\n运行状态\nAI 助手\n独立实例 · 云端运行\n规则版本与操作记录全程保存\n云端控制台\n/\n审批与执行\n每秒刷新\nengineer\n退出\n审批与执行\n\n核对会签、现场条件、设备动作和反馈，按照当前许可取消、核对或恢复剩余步骤。\n\n更新执行列表\n发起即时控制\n查看指定执行\n执行 / 预案版本\t执行状态\t风险依据\t已有会签\t请求时间\t操作\n\n执行 / 预案版本\n\t\n执行状态\n\t\n风险依据\n\t\n已有会签\n\t\n请求时间\n\t\n操作\n\n\ncancel-browser\ncontrol-fixture · v1\n\t会签要求已满足\tbusiness / 1级\t2人\t2026/10/5 04:56:39\t\n执行详情\n\n\nrecover-browser\ncontrol-fixture · v1\n\t已核对结果，等待恢复剩余步骤\tbusiness / 1级\t2人\t2026/10/5 04:56:39\t\n执行详情\n1\nSmartFactory · cloud\n界面时间使用 Asia/Shanghai 时区\n控制执行详情\n更新执行详情\n人工操作已处理\n已核对结果，等待恢复剩余步骤\n执行身份\trecover-browser\t预案版本\tcontrol-fixture · v1\n当前执行状态\t已核对结果，等待恢复剩余步骤\t当前处理依据\t独立浏览器核对原命令持久日志\n当前应用版本\t9\t来源节点 / 边缘版本\tedge-a / 9\n执行分支\t正常步骤\t执行协调身份 / 执行权\t暂无协调身份 / 0\n当前原命令身份\t暂无等待中的命令\t会签有效期限\t2026/10/5 05:56:39\n执行开始期限\t2026/10/5 04:56:49\t取消请求时间\t暂无记录\n人工操作理由\n取消后续步骤\n核对原命令结果\n恢复剩余步骤\n核对原命令结果：operation is unavailable in the current execution state\n会签与设备步骤\n人工请求与回执\n原命令核对证据\n关联时间线\n人员会签\n人员 / 角色\t确认时间\t现场证据\nengineer / engineer\t2026/10/5 04:56:39\t账号会话\nleader / leader\t2026/10/5 04:56:39\t账号会话\n设备动作与回执\n步骤 / 命令身份\t设备 / 分支\t设备结果\t发送 / 反馈时间\t反馈说明\n\n步骤 / 命令身份\n\t\n设备 / 分支\n\t\n设备结果\n\t\n发送 / 反馈时间\n\t\n反馈说明\n\nfirst\nrecover-browser:first\n\tdevice-grpc / normal\t成功\t2026/10/5 04:56:39\n2026/10/5 04:56:39\n\tsuccess\n采用版本的条件、正常步骤和降级步骤\n执行记录绑定摘要\n判断时的现场观测与来源\n恢复剩余步骤\n\n使用已核对结果继续剩余步骤，原命令身份与已完成步骤保持在执行记录中。\n\n此次理由\n独立浏览器恢复剩余步骤\n\n\n当前 / 来源版本\n9 / 9\n取消\n提交此次人工操作","capture":{"requests":[{"path":"/api/sf/v1/executions/recover-browser/reconcile","method":"POST","body":"{\"expected_version\":8,\"expected_source_version\":8,\"operation_id\":\"ee8d22b6-1487-4e07-9e4a-c98027cebed2\",\"reason\":\"独立浏览器核对原命令持久日志\"}","status":202,"response":"{\"id\":\"ee8d22b6-1487-4e07-9e4a-c98027cebed2\",\"execution_id\":\"recover-browser\",\"action\":\"reconcile\",\"status\":\"pending\",\"origin_node_id\":\"cloud\",\"target_node_id\":\"edge-a\",\"expected_version\":8,\"expected_source_version\":8,\"requested_ms\":1791147820603,\"deadline_ms\":1791151420603,\"reason\":\"独立浏览器核对原命令持久日志\",\"actor\":{\"user_id\":\"engineer\",\"name\":\"engineer\",\"department_id\":\"engineering\",\"roles\":[\"engineer\"],\"source\":\"127.0.0.1:59184\",\"session_id\":\"5d7b9d231e456294b2efbbc3336b1efd\",\"ai\":false},\"request_hash\":\"323051e3b1f7d2ca93a4b7557b96a755945a60a97aef6b103ba1418f01dbea9d\",\"version\":1,\"trace_id\":\"1ff1a38b4eb2d91e259148fa3afb63ff\"}\n"},{"path":"/api/sf/v1/executions/recover-browser/reconcile","method":"POST","body":"{\"expected_version\":8,\"expected_source_version\":8,\"operation_id\":\"ee8d22b6-1487-4e07-9e4a-c98027cebed2\",\"reason\":\"独立浏览器核对原命令持久日志\"}","status":202,"response":"{\"id\":\"ee8d22b6-1487-4e07-9e4a-c98027cebed2\",\"execution_id\":\"recover-browser\",\"action\":\"reconcile\",\"status\":\"pending\",\"origin_node_id\":\"cloud\",\"target_node_id\":\"edge-a\",\"expected_version\":8,\"expected_source_version\":8,\"requested_ms\":1791147820603,\"deadline_ms\":1791151420603,\"reason\":\"独立浏览器核对原命令持久日志\",\"actor\":{\"user_id\":\"engineer\",\"name\":\"engineer\",\"department_id\":\"engineering\",\"roles\":[\"engineer\"],\"source\":\"127.0.0.1:59184\",\"session_id\":\"5d7b9d231e456294b2efbbc3336b1efd\",\"ai\":false},\"request_hash\":\"323051e3b1f7d2ca93a4b7557b96a755945a60a97aef6b103ba1418f01dbea9d\",\"version\":1,\"trace_id\":\"1ff1a38b4eb2d91e259148fa3afb63ff\"}\n"}],"errors":[]}}
+### Ran Playwright code
+```js
+await (async page => { await page.screenshot({path:"output/playwright/phase3-independent/control-resume-confirmation.png",fullPage:true}); return {url:page.url(),text:await page.locator('body').innerText(),capture:await page.evaluate(()=>window.__phase3 ?? {requests:[],errors:[]})}; })(page);
+```
+
+{"session": "cloud", "arguments": ["run-code", "async page => { await page.getByRole('button',{name:'提交此次人工操作',exact:true}).click(); await page.getByRole('dialog',{name:'控制执行详情',exact:true}).getByRole('cell',{name:'正常步骤已完成',exact:true}).waitFor({timeout:20000}); }"], "exit_code": 0}
+### Ran Playwright code
+```js
+await (async page => { await page.getByRole('button',{name:'提交此次人工操作',exact:true}).click(); await page.getByRole('dialog',{name:'控制执行详情',exact:true}).getByRole('cell',{name:'正常步骤已完成',exact:true}).waitFor({timeout:20000}); })(page);
+```
+
+{"session": "cloud", "arguments": ["run-code", "async page => { await page.screenshot({path:\"output/playwright/phase3-independent/control-resume-completed.png\",fullPage:true}); return {url:page.url(),text:await page.locator('body').innerText(),capture:await page.evaluate(()=>window.__phase3 ?? {requests:[],errors:[]})}; }"], "exit_code": 0}
+### Result
+{"url":"http://127.0.0.1:59107/#executions?execution=recover-browser","text":"SF\nSmartFactory\n生产安全控制台\n示例工厂 / cloud\n运行概览\n设备与资产\n数据监控\n数据分析\n告警编排\n联动预案\n审批与执行\n通知记录\n历史补算\n后台任务\n历史分析\n运行状态\nAI 助手\n独立实例 · 云端运行\n规则版本与操作记录全程保存\n云端控制台\n/\n审批与执行\n每秒刷新\nengineer\n退出\n审批与执行\n\n核对会签、现场条件、设备动作和反馈，按照当前许可取消、核对或恢复剩余步骤。\n\n更新执行列表\n发起即时控制\n查看指定执行\n执行 / 预案版本\t执行状态\t风险依据\t已有会签\t请求时间\t操作\n\n执行 / 预案版本\n\t\n执行状态\n\t\n风险依据\n\t\n已有会签\n\t\n请求时间\n\t\n操作\n\n\ncancel-browser\ncontrol-fixture · v1\n\t会签要求已满足\tbusiness / 1级\t2人\t2026/10/5 04:56:39\t\n执行详情\n\n\nrecover-browser\ncontrol-fixture · v1\n\t正常步骤已完成\tbusiness / 1级\t2人\t2026/10/5 04:56:39\t\n执行详情\n1\nSmartFactory · cloud\n界面时间使用 Asia/Shanghai 时区\n控制执行详情\n更新执行详情\n人工操作已处理\n正常步骤已完成\n执行身份\trecover-browser\t预案版本\tcontrol-fixture · v1\n当前执行状态\t正常步骤已完成\t当前处理依据\t独立浏览器恢复剩余步骤\n当前应用版本\t14\t来源节点 / 边缘版本\tedge-a / 14\n执行分支\t正常步骤\t执行协调身份 / 执行权\t暂无协调身份 / 0\n当前原命令身份\t暂无等待中的命令\t会签有效期限\t2026/10/5 05:56:39\n执行开始期限\t2026/10/5 05:06:29\t取消请求时间\t暂无记录\n人工操作理由\n取消后续步骤\n核对原命令结果\n恢复剩余步骤\n取消后续步骤：operation is unavailable in the current execution state\n核对原命令结果：operation is unavailable in the current execution state\n恢复剩余步骤：operation is unavailable in the current execution state\n会签与设备步骤\n人工请求与回执\n原命令核对证据\n关联时间线\n人员会签\n人员 / 角色\t确认时间\t现场证据\nengineer / engineer\t2026/10/5 04:56:39\t账号会话\nleader / leader\t2026/10/5 04:56:39\t账号会话\n设备动作与回执\n步骤 / 命令身份\t设备 / 分支\t设备结果\t发送 / 反馈时间\t反馈说明\n\n步骤 / 命令身份\n\t\n设备 / 分支\n\t\n设备结果\n\t\n发送 / 反馈时间\n\t\n反馈说明\n\nfirst\nrecover-browser:first\n\tdevice-grpc / normal\t成功\t2026/10/5 04:56:39\n2026/10/5 04:56:39\n\tsuccess\nremaining\nrecover-browser:remaining\n\tdevice-grpc / normal\t成功\t2026/10/5 05:06:19\n2026/10/5 05:06:19\n\tsuccess\n采用版本的条件、正常步骤和降级步骤\n执行记录绑定摘要\n判断时的现场观测与来源","capture":{"requests":[{"path":"/api/sf/v1/executions/recover-browser/reconcile","method":"POST","body":"{\"expected_version\":8,\"expected_source_version\":8,\"operation_id\":\"ee8d22b6-1487-4e07-9e4a-c98027cebed2\",\"reason\":\"独立浏览器核对原命令持久日志\"}","status":202,"response":"{\"id\":\"ee8d22b6-1487-4e07-9e4a-c98027cebed2\",\"execution_id\":\"recover-browser\",\"action\":\"reconcile\",\"status\":\"pending\",\"origin_node_id\":\"cloud\",\"target_node_id\":\"edge-a\",\"expected_version\":8,\"expected_source_version\":8,\"requested_ms\":1791147820603,\"deadline_ms\":1791151420603,\"reason\":\"独立浏览器核对原命令持久日志\",\"actor\":{\"user_id\":\"engineer\",\"name\":\"engineer\",\"department_id\":\"engineering\",\"roles\":[\"engineer\"],\"source\":\"127.0.0.1:59184\",\"session_id\":\"5d7b9d231e456294b2efbbc3336b1efd\",\"ai\":false},\"request_hash\":\"323051e3b1f7d2ca93a4b7557b96a755945a60a97aef6b103ba1418f01dbea9d\",\"version\":1,\"trace_id\":\"1ff1a38b4eb2d91e259148fa3afb63ff\"}\n"},{"path":"/api/sf/v1/executions/recover-browser/reconcile","method":"POST","body":"{\"expected_version\":8,\"expected_source_version\":8,\"operation_id\":\"ee8d22b6-1487-4e07-9e4a-c98027cebed2\",\"reason\":\"独立浏览器核对原命令持久日志\"}","status":202,"response":"{\"id\":\"ee8d22b6-1487-4e07-9e4a-c98027cebed2\",\"execution_id\":\"recover-browser\",\"action\":\"reconcile\",\"status\":\"pending\",\"origin_node_id\":\"cloud\",\"target_node_id\":\"edge-a\",\"expected_version\":8,\"expected_source_version\":8,\"requested_ms\":1791147820603,\"deadline_ms\":1791151420603,\"reason\":\"独立浏览器核对原命令持久日志\",\"actor\":{\"user_id\":\"engineer\",\"name\":\"engineer\",\"department_id\":\"engineering\",\"roles\":[\"engineer\"],\"source\":\"127.0.0.1:59184\",\"session_id\":\"5d7b9d231e456294b2efbbc3336b1efd\",\"ai\":false},\"request_hash\":\"323051e3b1f7d2ca93a4b7557b96a755945a60a97aef6b103ba1418f01dbea9d\",\"version\":1,\"trace_id\":\"1ff1a38b4eb2d91e259148fa3afb63ff\"}\n"},{"path":"/api/sf/v1/executions/recover-browser/resume","method":"POST","body":"{\"expected_version\":9,\"expected_source_version\":9,\"operation_id\":\"a81ef499-0064-491a-b576-14fdabb9c3de\",\"reason\":\"独立浏览器恢复剩余步骤\"}","status":202,"response":"{\"id\":\"a81ef499-0064-491a-b576-14fdabb9c3de\",\"execution_id\":\"recover-browser\",\"action\":\"resume\",\"status\":\"pending\",\"origin_node_id\":\"cloud\",\"target_node_id\":\"edge-a\",\"expected_version\":9,\"expected_source_version\":9,\"requested_ms\":1791147979747,\"deadline_ms\":1791151579747,\"reason\":\"独立浏览器恢复剩余步骤\",\"actor\":{\"user_id\":\"engineer\",\"name\":\"engineer\",\"department_id\":\"engineering\",\"roles\":[\"engineer\"],\"source\":\"127.0.0.1:59184\",\"session_id\":\"5d7b9d231e456294b2efbbc3336b1efd\",\"ai\":false},\"request_hash\":\"2aeafcc2a8c784c34b5f9bf602be192822bbb1c41916c53a72c8acd05788da58\",\"version\":1,\"trace_id\":\"dedc425d9ca050543461bd70c4fee65d\"}\n"}],"errors":[]}}
+### Ran Playwright code
+```js
+await (async page => { await page.screenshot({path:"output/playwright/phase3-independent/control-resume-completed.png",fullPage:true}); return {url:page.url(),text:await page.locator('body').innerText(),capture:await page.evaluate(()=>window.__phase3 ?? {requests:[],errors:[]})}; })(page);
+```
+
+{"session": "history", "arguments": ["snapshot"], "exit_code": 0}
+### Page
+- Page URL: http://127.0.0.1:19060/#history?run=fixture-replay-assets
+- Page Title: SmartFactory 云端控制台
+### Snapshot
+```yaml
+- generic [ref=f1e1]:
+  - generic [ref=f1e50]:
+    - complementary [ref=f1e51]:
+      - link "SF SmartFactory 生产安全控制台" [ref=f1e52] [cursor=pointer]:
+        - /url: "#overview"
+        - generic [ref=f1e53]: SF
+        - generic [ref=f1e54]:
+          - text: SmartFactory
+          - generic [ref=f1e55]: 生产安全控制台
+      - generic [ref=f1e56]: 示例工厂 / history-fixture
+      - navigation "主导航" [ref=f1e57]:
+        - button "运行概览" [ref=f1e58] [cursor=pointer]
+        - button "设备与资产" [ref=f1e60] [cursor=pointer]
+        - button "数据监控" [ref=f1e62] [cursor=pointer]
+        - button "数据分析" [ref=f1e64] [cursor=pointer]
+        - button "告警编排" [ref=f1e66] [cursor=pointer]
+        - button "联动预案" [ref=f1e68] [cursor=pointer]
+        - button "审批与执行" [ref=f1e70] [cursor=pointer]
+        - button "通知记录" [ref=f1e72] [cursor=pointer]
+        - button "历史补算" [ref=f1e74] [cursor=pointer]
+        - button "后台任务" [ref=f1e76] [cursor=pointer]
+        - button "历史分析" [ref=f1e78] [cursor=pointer]
+        - button "组织与权限" [ref=f1e80] [cursor=pointer]
+        - button "配置中心" [ref=f1e82] [cursor=pointer]
+        - button "同步插件" [ref=f1e84] [cursor=pointer]
+        - button "业务审计" [ref=f1e86] [cursor=pointer]
+        - button "运行状态" [ref=f1e88] [cursor=pointer]
+        - button "AI 助手" [ref=f1e90] [cursor=pointer]
+      - generic [ref=f1e92]:
+        - text: 独立实例 · 云端运行
+        - generic [ref=f1e94]: 规则版本与操作记录全程保存
+    - generic [ref=f1e95]:
+      - banner [ref=f1e96]:
+        - generic [ref=f1e97]:
+          - text: 云端控制台
+          - generic [ref=f1e98]: /
+          - strong [ref=f1e99]: 历史分析
+        - generic [ref=f1e100]:
+          - generic [ref=f1e102] [cursor=pointer]:
+            - generic "每秒刷新" [ref=f1e103]:
+              - text: 每秒刷新
+              - combobox "页面刷新方式" [ref=f1e104]
+            - img "down" [ref=f1e106]
+          - generic [ref=f1e109]: 平台管理员
+          - button "退出" [ref=f1e111] [cursor=pointer]
+      - main [ref=f1e113]:
+        - generic [ref=f1e114]:
+          - generic [ref=f1e115]:
+            - heading "历史分析与影子计算" [level=1] [ref=f1e116]
+            - paragraph [ref=f1e117]: 按保存的输入与历史规则分析结果，查看两侧计划、节点来源和候选与正式结果的差异。
+          - generic [ref=f1e119]:
+            - button "更新分析记录" [ref=f1e121] [cursor=pointer]
+            - button "启用影子候选" [ref=f1e124] [cursor=pointer]
+            - button "创建历史分析" [ref=f1e127] [cursor=pointer]
+        - generic [ref=f1e129]:
+          - tablist [ref=f1e130]:
+            - generic [ref=f1e132]:
+              - tab "回放与比较运行" [selected] [ref=f1e134] [cursor=pointer]
+              - tab "影子候选" [ref=f1e136] [cursor=pointer]
+          - tabpanel "回放与比较运行" [ref=f1e139]:
+            - generic [ref=f1e140]:
+              - textbox "分析运行身份" [ref=f1e141]:
+                - /placeholder: 输入完整分析运行身份
+                - text: fixture-replay-assets
+              - button "查看指定运行" [ref=f1e142] [cursor=pointer]
+            - generic [ref=f1e145]:
+              - table [ref=f1e152]:
+                - rowgroup [ref=f1e153]:
+                  - row [ref=f1e154]:
+                    - columnheader "运行 / 规则" [ref=f1e155]
+                    - columnheader "分析类别" [ref=f1e156]
+                    - columnheader "运行状态" [ref=f1e157]
+                    - columnheader "计算进度" [ref=f1e158]
+                    - columnheader "结果 / 原因" [ref=f1e159]
+                    - columnheader "操作" [ref=f1e160]
+                - rowgroup [ref=f1e161]:
+                  - row [ref=f1e162]:
+                    - cell "fixture-cancelled history-assets" [ref=f1e163]:
+                      - button "fixture-cancelled" [ref=f1e164] [cursor=pointer]
+                      - generic [ref=f1e166]: history-assets
+                    - cell "历史回放" [ref=f1e167]
+                    - cell "已取消后续计算" [ref=f1e168]
+                    - cell "0 已提交 0 / 2 条输入" [ref=f1e170]:
+                      - progressbar [ref=f1e171]:
+                        - generic "0%" [ref=f1e174]
+                      - generic [ref=f1e175]: 已提交 0 / 2 条输入
+                    - cell [ref=f1e176]
+                    - cell [ref=f1e177]:
+                      - button "运行详情" [ref=f1e178] [cursor=pointer]
+                  - row [ref=f1e180]:
+                    - cell "fixture-compare-changed history-window" [ref=f1e181]:
+                      - button "fixture-compare-changed" [ref=f1e182] [cursor=pointer]
+                      - generic [ref=f1e184]: history-window
+                    - cell "版本比较" [ref=f1e185]
+                    - cell "计算已完成" [ref=f1e186]
+                    - cell "100 已提交 3 / 3 条输入" [ref=f1e188]:
+                      - progressbar [ref=f1e189]:
+                        - img "check-circle" [ref=f1e194]
+                      - generic [ref=f1e197]: 已提交 3 / 3 条输入
+                    - cell [ref=f1e198]
+                    - cell [ref=f1e199]:
+                      - button "运行详情" [ref=f1e200] [cursor=pointer]
+                  - row [ref=f1e202]:
+                    - cell "fixture-compare-unchanged history-window" [ref=f1e203]:
+                      - button "fixture-compare-unchanged" [ref=f1e204] [cursor=pointer]
+                      - generic [ref=f1e206]: history-window
+                    - cell "版本比较" [ref=f1e207]
+                    - cell "计算已完成" [ref=f1e208]
+                    - cell "100 已提交 3 / 3 条输入" [ref=f1e210]:
+                      - progressbar [ref=f1e211]:
+                        - img "check-circle" [ref=f1e216]
+                      - generic [ref=f1e219]: 已提交 3 / 3 条输入
+                    - cell [ref=f1e220]
+                    - cell [ref=f1e221]:
+                      - button "运行详情" [ref=f1e222] [cursor=pointer]
+                  - row [ref=f1e224]:
+                    - cell "fixture-replay-assets history-assets" [ref=f1e225]:
+                      - button "fixture-replay-assets" [ref=f1e226] [cursor=pointer]
+                      - generic [ref=f1e228]: history-assets
+                    - cell "历史回放" [ref=f1e229]
+                    - cell "计算已完成" [ref=f1e230]
+                    - cell "100 已提交 2 / 2 条输入" [ref=f1e232]:
+                      - progressbar [ref=f1e233]:
+                        - img "check-circle" [ref=f1e238]
+                      - generic [ref=f1e241]: 已提交 2 / 2 条输入
+                    - cell [ref=f1e242]
+                    - cell [ref=f1e243]:
+                      - button "运行详情" [ref=f1e244] [cursor=pointer]
+                  - row [ref=f1e246]:
+                    - cell "shadow:fixture-failure:1:1 history-failed" [ref=f1e247]:
+                      - button "shadow:fixture-failure:1:1" [ref=f1e248] [cursor=pointer]
+                      - generic [ref=f1e250]: history-failed
+                    - cell "影子计算" [ref=f1e251]
+                    - cell "计算失败" [ref=f1e252]
+                    - cell "0 已提交 0 / 1 条输入" [ref=f1e254]:
+                      - progressbar [ref=f1e255]:
+                        - img "close-circle" [ref=f1e259]
+                      - generic [ref=f1e262]: 已提交 0 / 1 条输入
+                    - 'cell "input fixture-failure-0:0 version 1: input missing_field is missing" [ref=f1e263]'
+                    - cell [ref=f1e264]:
+                      - button "运行详情" [ref=f1e265] [cursor=pointer]
+                  - row [ref=f1e267]:
+                    - cell "shadow:fixture-failure:1:2 history-failed" [ref=f1e268]:
+                      - button "shadow:fixture-failure:1:2" [ref=f1e269] [cursor=pointer]
+                      - generic [ref=f1e271]: history-failed
+                    - cell "影子计算" [ref=f1e272]
+                    - cell "等待前序影子计算完成" [ref=f1e273]
+                    - cell "0 已提交 0 / 1 条输入" [ref=f1e275]:
+                      - progressbar [ref=f1e276]:
+                        - generic "0%" [ref=f1e279]
+                      - generic [ref=f1e280]: 已提交 0 / 1 条输入
+                    - cell "waiting for previous shadow generation shadow:fixture-failure:1:1" [ref=f1e281]
+                    - cell [ref=f1e282]:
+                      - button "运行详情" [ref=f1e283] [cursor=pointer]
+                  - row [ref=f1e285]:
+                    - cell "shadow:fixture-live:1:1 history-derived" [ref=f1e286]:
+                      - button "shadow:fixture-live:1:1" [ref=f1e287] [cursor=pointer]
+                      - generic [ref=f1e289]: history-derived
+                    - cell "影子计算" [ref=f1e290]
+                    - cell "计算已完成" [ref=f1e291]
+                    - cell "100 已提交 1 / 1 条输入" [ref=f1e293]:
+                      - progressbar [ref=f1e294]:
+                        - img "check-circle" [ref=f1e299]
+                      - generic [ref=f1e302]: 已提交 1 / 1 条输入
+                    - cell [ref=f1e303]
+                    - cell [ref=f1e304]:
+                      - button "运行详情" [ref=f1e305] [cursor=pointer]
+                  - row [ref=f1e307]:
+                    - cell "shadow:fixture-live:1:2 history-derived" [ref=f1e308]:
+                      - button "shadow:fixture-live:1:2" [ref=f1e309] [cursor=pointer]
+                      - generic [ref=f1e311]: history-derived
+                    - cell "影子计算" [ref=f1e312]
+                    - cell "计算已完成" [ref=f1e313]
+                    - cell "100 已提交 1 / 1 条输入" [ref=f1e315]:
+                      - progressbar [ref=f1e316]:
+                        - img "check-circle" [ref=f1e321]
+                      - generic [ref=f1e324]: 已提交 1 / 1 条输入
+                    - cell [ref=f1e325]
+                    - cell [ref=f1e326]:
+                      - button "运行详情" [ref=f1e327] [cursor=pointer]
+                  - row [ref=f1e329]:
+                    - cell "shadow:fixture-live:1:3 history-derived" [ref=f1e330]:
+                      - button "shadow:fixture-live:1:3" [ref=f1e331] [cursor=pointer]
+                      - generic [ref=f1e333]: history-derived
+                    - cell "影子计算" [ref=f1e334]
+                    - cell "计算已完成" [ref=f1e335]
+                    - cell "100 已提交 3 / 3 条输入" [ref=f1e337]:
+                      - progressbar [ref=f1e338]:
+                        - img "check-circle" [ref=f1e343]
+                      - generic [ref=f1e346]: 已提交 3 / 3 条输入
+                    - cell [ref=f1e347]
+                    - cell [ref=f1e348]:
+                      - button "运行详情" [ref=f1e349] [cursor=pointer]
+                  - row [ref=f1e351]:
+                    - cell "shadow:fixture-live:1:4 history-derived" [ref=f1e352]:
+                      - button "shadow:fixture-live:1:4" [ref=f1e353] [cursor=pointer]
+                      - generic [ref=f1e355]: history-derived
+                    - cell "影子计算" [ref=f1e356]
+                    - cell "计算已完成" [ref=f1e357]
+                    - cell "100 已提交 3 / 3 条输入" [ref=f1e359]:
+                      - progressbar [ref=f1e360]:
+                        - img "check-circle" [ref=f1e365]
+                      - generic [ref=f1e368]: 已提交 3 / 3 条输入
+                    - cell [ref=f1e369]
+                    - cell [ref=f1e370]:
+                      - button "运行详情" [ref=f1e371] [cursor=pointer]
+              - generic [ref=f1e373]:
+                - button "上一页" [disabled] [ref=f1e375]
+                - generic [ref=f1e376]: 第1页
+                - button "下一页" [disabled] [ref=f1e379]
+      - contentinfo [ref=f1e380]:
+        - text: SmartFactory · history-fixture
+        - generic [ref=f1e381]: 界面时间使用 Asia/Shanghai 时区
+  - dialog "历史分析运行详情" [ref=f1e383]:
+    - generic [ref=f1e384]:
+      - generic [ref=f1e385]:
+        - button "关闭" [ref=f1e386] [cursor=pointer]:
+          - img "close" [ref=f1e387]
+        - generic [ref=f1e390]: 历史分析运行详情
+      - button "loading 更新运行详情" [ref=f1e543] [cursor=pointer]:
+        - generic:
+          - img "loading"
+        - generic [ref=f1e393]: 更新运行详情
+    - generic [ref=f1e395]:
+      - table [ref=f1e398]:
+        - rowgroup [ref=f1e399]:
+          - row [ref=f1e400]:
+            - rowheader "运行身份" [ref=f1e401]
+            - cell "fixture-replay-assets" [ref=f1e402]
+            - rowheader "分析类别 / 规则" [ref=f1e661]
+            - cell "历史回放 / history-assets" [ref=f1e662]
+          - row [ref=f1e405]:
+            - rowheader "运行状态" [ref=f1e663]
+            - cell "计算已完成" [ref=f1e664]
+            - rowheader "处理原因" [ref=f1e667]
+            - cell "暂无错误" [ref=f1e668]
+          - row [ref=f1e412]:
+            - rowheader "左侧 / 右侧规则版本" [ref=f1e669]
+            - cell "按观测时刻选择 / 未指定" [ref=f1e670]
+            - rowheader "实际计算快照身份" [ref=f1e671]
+            - cell "snapshot:c5b73d1bfaecf37356e0401c0d4247d81ec3e89c1451cbca05660dd2b7982ffe" [ref=f1e672]
+          - row [ref=f1e417]:
+            - rowheader "入口采集快照身份" [ref=f1e673]
+            - cell "snapshot:c5b73d1bfaecf37356e0401c0d4247d81ec3e89c1451cbca05660dd2b7982ffe" [ref=f1e674]
+            - rowheader "初始状态是否已解析" [ref=f1e675]
+            - cell "已解析并保存" [ref=f1e676]
+          - row [ref=f1e677]:
+            - rowheader "前序运行" [ref=f1e678]
+            - cell "未关联前序运行" [ref=f1e679]
+            - rowheader "共同输入条件摘要" [ref=f1e680]
+            - cell "21f380fd4fc85e6b8f85ebac8c3767e803e8e3839b3daf05590ee4383af46260" [ref=f1e681]
+          - row [ref=f1e682]:
+            - rowheader "实际快照内容摘要" [ref=f1e683]
+            - cell "c5b73d1bfaecf37356e0401c0d4247d81ec3e89c1451cbca05660dd2b7982ffe" [ref=f1e684]
+            - rowheader "已提交输入 / 总数" [ref=f1e685]
+            - cell "2 / 2" [ref=f1e686]
+      - progressbar [ref=f1e432]:
+        - img "check-circle" [ref=f1e437]
+      - generic [ref=f1e440]:
+        - generic [ref=f1e441]: 关联后台任务
+        - generic [ref=f1e444]:
+          - table [ref=f1e447]:
+            - rowgroup [ref=f1e448]:
+              - row [ref=f1e449]:
+                - 'cell "任务身份 : analysis:fixture-replay-assets" [ref=f1e450]':
+                  - generic [ref=f1e451]:
+                    - generic [ref=f1e452]: "任务身份 :"
+                    - generic [ref=f1e453]: analysis:fixture-replay-assets
+              - row [ref=f1e454]:
+                - 'cell "当前任务状态 : 已完成 · 历史计算与汇总更新已完成" [ref=f1e455]':
+                  - generic [ref=f1e456]:
+                    - generic [ref=f1e457]: "当前任务状态 :"
+                    - generic [ref=f1e458]: 已完成 · 历史计算与汇总更新已完成
+              - row [ref=f1e459]:
+                - 'cell "尝试次数 / 下次时间 : 1 / 8 · 2026/10/5 04:56:39" [ref=f1e460]':
+                  - generic [ref=f1e461]:
+                    - generic [ref=f1e462]: "尝试次数 / 下次时间 :"
+                    - generic [ref=f1e463]: 1 / 8 · 2026/10/5 04:56:39
+              - row [ref=f1e464]:
+                - 'cell "最近失败 : 暂无失败" [ref=f1e465]':
+                  - generic [ref=f1e466]:
+                    - generic [ref=f1e467]: "最近失败 :"
+                    - generic [ref=f1e468]: 暂无失败
+          - button "查看任务详情与许可操作" [ref=f1e469] [cursor=pointer]
+      - generic [ref=f1e471]:
+        - tablist [ref=f1e472]:
+          - generic [ref=f1e474]:
+            - tab "逐点结果与差异" [ref=f1e476] [cursor=pointer]
+            - tab "输入与历史快照" [active] [selected] [ref=f1e478] [cursor=pointer]
+        - tabpanel "输入与历史快照" [ref=f1e687]:
+          - table [ref=f1e690]:
+            - rowgroup [ref=f1e691]:
+              - row [ref=f1e692]:
+                - rowheader "保存来源 / 数据版本" [ref=f1e693]
+                - cell "provided / 0" [ref=f1e694]
+              - row [ref=f1e695]:
+                - rowheader "实际范围" [ref=f1e696]
+                - cell "2026/10/5 04:55:00 至 2026/10/5 04:55:03" [ref=f1e697]
+              - row [ref=f1e698]:
+                - rowheader "排序 / 时钟" [ref=f1e699]
+                - 'cell "观测时间、来源序号和身份 {}" [ref=f1e700]':
+                  - generic [ref=f1e701]:
+                    - text: 观测时间、来源序号和身份
+                    - generic [ref=f1e702]: "{}"
+              - row [ref=f1e703]:
+                - rowheader "保留数据完整程度 / 缺口" [ref=f1e704]
+                - cell "未提供 / 0段" [ref=f1e705]
+              - row [ref=f1e706]:
+                - rowheader "输入 / 历史条数" [ref=f1e707]
+                - cell "2 / 0" [ref=f1e708]
+              - row [ref=f1e709]:
+                - rowheader "初始状态来源 / 前序运行" [ref=f1e710]
+                - cell "empty / 未关联" [ref=f1e711]
+              - row [ref=f1e712]:
+                - rowheader "完整快照 / 输入 / 历史摘要" [ref=f1e713]
+                - cell [ref=f1e714]:
+                  - generic [ref=f1e715]:
+                    - text: c5b73d1bfaecf37356e0401c0d4247d81ec3e89c1451cbca05660dd2b7982ffe
+                    - generic [ref=f1e716]: 21f380fd4fc85e6b8f85ebac8c3767e803e8e3839b3daf05590ee4383af462604f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945
+          - button "导出保存的完整快照（精确JSON）" [ref=f1e717] [cursor=pointer]
+          - generic [ref=f1e719]:
+            - button "实际排序后的输入观测" [ref=f1e721] [cursor=pointer]
+            - button "实际采用的计算历史" [ref=f1e728] [cursor=pointer]
+            - button "历史规则、生效时间和持久计划" [ref=f1e735] [cursor=pointer]
+            - button "设备和祖先资产版本" [ref=f1e742] [cursor=pointer]
+            - button "实际初始节点状态" [ref=f1e749] [cursor=pointer]
+            - button "数据缺口与完整性记录" [ref=f1e756] [cursor=pointer]
+```
+
+{"session": "history", "arguments": ["run-code", "async page => { const pending=page.waitForEvent('download'); await page.getByRole('button',{name:'导出保存的完整快照（精确JSON）',exact:true}).click(); const item=await pending; await item.saveAs('/path/to/SmartFactory-2026/.local/evolution/phase3-review-evidence/history-exported-replay-snapshot.json'); return {filename:item.suggestedFilename()}; }"], "exit_code": 0}
+### Result
+{"filename":"history-snapshot.json"}
+### Ran Playwright code
+```js
+await (async page => { const pending=page.waitForEvent('download'); await page.getByRole('button',{name:'导出保存的完整快照（精确JSON）',exact:true}).click(); const item=await pending; await item.saveAs('/path/to/SmartFactory-2026/.local/evolution/phase3-review-evidence/history-exported-replay-snapshot.json'); return {filename:item.suggestedFilename()}; })(page);
+```
+### Events
+- Downloading file history-snapshot.json ...
+- Downloaded file history-snapshot.json to ".playwright-cli/history-snapshot.json"
+
+{"session": "history", "arguments": ["run-code", "async page => { await page.getByRole('dialog',{name:'历史分析运行详情',exact:true}).getByRole('button',{name:'关闭',exact:true}).click(); await page.getByRole('button',{name:'创建历史分析',exact:true}).click(); }"], "exit_code": 0}
+### Ran Playwright code
+```js
+await (async page => { await page.getByRole('dialog',{name:'历史分析运行详情',exact:true}).getByRole('button',{name:'关闭',exact:true}).click(); await page.getByRole('button',{name:'创建历史分析',exact:true}).click(); })(page);
+```
+### Page
+- Page URL: http://127.0.0.1:19060/#history
+- Page Title: SmartFactory 云端控制台
+
+{"session": "cloud", "arguments": ["run-code", "async page => { await page.getByRole('tab',{name:'原命令核对证据',exact:true}).click(); }"], "exit_code": 0}
+### Ran Playwright code
+```js
+await (async page => { await page.getByRole('tab',{name:'原命令核对证据',exact:true}).click(); })(page);
+```
+
+{"session": "cloud", "arguments": ["run-code", "async page => { await page.screenshot({path:\"output/playwright/phase3-independent/control-trusted-evidence.png\",fullPage:true}); return {url:page.url(),text:await page.locator('body').innerText(),capture:await page.evaluate(()=>window.__phase3 ?? {requests:[],errors:[]})}; }"], "exit_code": 0}
+### Result
+{"url":"http://127.0.0.1:59107/#executions?execution=recover-browser","text":"SF\nSmartFactory\n生产安全控制台\n示例工厂 / cloud\n运行概览\n设备与资产\n数据监控\n数据分析\n告警编排\n联动预案\n审批与执行\n通知记录\n历史补算\n后台任务\n历史分析\n运行状态\nAI 助手\n独立实例 · 云端运行\n规则版本与操作记录全程保存\n云端控制台\n/\n审批与执行\n每秒刷新\nengineer\n退出\n审批与执行\n\n核对会签、现场条件、设备动作和反馈，按照当前许可取消、核对或恢复剩余步骤。\n\n更新执行列表\n发起即时控制\n查看指定执行\n执行 / 预案版本\t执行状态\t风险依据\t已有会签\t请求时间\t操作\n\n执行 / 预案版本\n\t\n执行状态\n\t\n风险依据\n\t\n已有会签\n\t\n请求时间\n\t\n操作\n\n\ncancel-browser\ncontrol-fixture · v1\n\t会签要求已满足\tbusiness / 1级\t2人\t2026/10/5 04:56:39\t\n执行详情\n\n\nrecover-browser\ncontrol-fixture · v1\n\t正常步骤已完成\tbusiness / 1级\t2人\t2026/10/5 04:56:39\t\n执行详情\n1\nSmartFactory · cloud\n界面时间使用 Asia/Shanghai 时区\n控制执行详情\n更新执行详情\n人工操作已处理\n正常步骤已完成\n执行身份\trecover-browser\t预案版本\tcontrol-fixture · v1\n当前执行状态\t正常步骤已完成\t当前处理依据\t独立浏览器恢复剩余步骤\n当前应用版本\t14\t来源节点 / 边缘版本\tedge-a / 14\n执行分支\t正常步骤\t执行协调身份 / 执行权\t暂无协调身份 / 0\n当前原命令身份\t暂无等待中的命令\t会签有效期限\t2026/10/5 05:56:39\n执行开始期限\t2026/10/5 05:06:29\t取消请求时间\t暂无记录\n人工操作理由\n取消后续步骤\n核对原命令结果\n恢复剩余步骤\n取消后续步骤：operation is unavailable in the current execution state\n核对原命令结果：operation is unavailable in the current execution state\n恢复剩余步骤：operation is unavailable in the current execution state\n会签与设备步骤\n人工请求与回执\n原命令核对证据\n关联时间线\n\t证据 / 命令身份\t设备 / 步骤\t反馈来源\t设备观测 / 平台取得时间\t结果 / 信任判断\t回执说明\n\n \n\t\n证据 / 命令身份\n\t\n设备 / 步骤\n\t\n反馈来源\n\t\n设备观测 / 平台取得时间\n\t\n结果 / 信任判断\n\t\n回执说明\n\n\n暂无数据","capture":{"requests":[{"path":"/api/sf/v1/executions/recover-browser/reconcile","method":"POST","body":"{\"expected_version\":8,\"expected_source_version\":8,\"operation_id\":\"ee8d22b6-1487-4e07-9e4a-c98027cebed2\",\"reason\":\"独立浏览器核对原命令持久日志\"}","status":202,"response":"{\"id\":\"ee8d22b6-1487-4e07-9e4a-c98027cebed2\",\"execution_id\":\"recover-browser\",\"action\":\"reconcile\",\"status\":\"pending\",\"origin_node_id\":\"cloud\",\"target_node_id\":\"edge-a\",\"expected_version\":8,\"expected_source_version\":8,\"requested_ms\":1791147820603,\"deadline_ms\":1791151420603,\"reason\":\"独立浏览器核对原命令持久日志\",\"actor\":{\"user_id\":\"engineer\",\"name\":\"engineer\",\"department_id\":\"engineering\",\"roles\":[\"engineer\"],\"source\":\"127.0.0.1:59184\",\"session_id\":\"5d7b9d231e456294b2efbbc3336b1efd\",\"ai\":false},\"request_hash\":\"323051e3b1f7d2ca93a4b7557b96a755945a60a97aef6b103ba1418f01dbea9d\",\"version\":1,\"trace_id\":\"1ff1a38b4eb2d91e259148fa3afb63ff\"}\n"},{"path":"/api/sf/v1/executions/recover-browser/reconcile","method":"POST","body":"{\"expected_version\":8,\"expected_source_version\":8,\"operation_id\":\"ee8d22b6-1487-4e07-9e4a-c98027cebed2\",\"reason\":\"独立浏览器核对原命令持久日志\"}","status":202,"response":"{\"id\":\"ee8d22b6-1487-4e07-9e4a-c98027cebed2\",\"execution_id\":\"recover-browser\",\"action\":\"reconcile\",\"status\":\"pending\",\"origin_node_id\":\"cloud\",\"target_node_id\":\"edge-a\",\"expected_version\":8,\"expected_source_version\":8,\"requested_ms\":1791147820603,\"deadline_ms\":1791151420603,\"reason\":\"独立浏览器核对原命令持久日志\",\"actor\":{\"user_id\":\"engineer\",\"name\":\"engineer\",\"department_id\":\"engineering\",\"roles\":[\"engineer\"],\"source\":\"127.0.0.1:59184\",\"session_id\":\"5d7b9d231e456294b2efbbc3336b1efd\",\"ai\":false},\"request_hash\":\"323051e3b1f7d2ca93a4b7557b96a755945a60a97aef6b103ba1418f01dbea9d\",\"version\":1,\"trace_id\":\"1ff1a38b4eb2d91e259148fa3afb63ff\"}\n"},{"path":"/api/sf/v1/executions/recover-browser/resume","method":"POST","body":"{\"expected_version\":9,\"expected_source_version\":9,\"operation_id\":\"a81ef499-0064-491a-b576-14fdabb9c3de\",\"reason\":\"独立浏览器恢复剩余步骤\"}","status":202,"response":"{\"id\":\"a81ef499-0064-491a-b576-14fdabb9c3de\",\"execution_id\":\"recover-browser\",\"action\":\"resume\",\"status\":\"pending\",\"origin_node_id\":\"cloud\",\"target_node_id\":\"edge-a\",\"expected_version\":9,\"expected_source_version\":9,\"requested_ms\":1791147979747,\"deadline_ms\":1791151579747,\"reason\":\"独立浏览器恢复剩余步骤\",\"actor\":{\"user_id\":\"engineer\",\"name\":\"engineer\",\"department_id\":\"engineering\",\"roles\":[\"engineer\"],\"source\":\"127.0.0.1:59184\",\"session_id\":\"5d7b9d231e456294b2efbbc3336b1efd\",\"ai\":false},\"request_hash\":\"2aeafcc2a8c784c34b5f9bf602be192822bbb1c41916c53a72c8acd05788da58\",\"version\":1,\"trace_id\":\"dedc425d9ca050543461bd70c4fee65d\"}\n"}],"errors":[]}}
+### Ran Playwright code
+```js
+await (async page => { await page.screenshot({path:"output/playwright/phase3-independent/control-trusted-evidence.png",fullPage:true}); return {url:page.url(),text:await page.locator('body').innerText(),capture:await page.evaluate(()=>window.__phase3 ?? {requests:[],errors:[]})}; })(page);
+```
+
+{"session": "history", "arguments": ["snapshot"], "exit_code": 0}
+### Page
+- Page URL: http://127.0.0.1:19060/#history
+- Page Title: SmartFactory 云端控制台
+### Snapshot
+```yaml
+- generic [ref=f1e1]:
+  - generic [ref=f1e50]:
+    - complementary [ref=f1e51]:
+      - link "SF SmartFactory 生产安全控制台" [ref=f1e52] [cursor=pointer]:
+        - /url: "#overview"
+        - generic [ref=f1e53]: SF
+        - generic [ref=f1e54]:
+          - text: SmartFactory
+          - generic [ref=f1e55]: 生产安全控制台
+      - generic [ref=f1e56]: 示例工厂 / history-fixture
+      - navigation "主导航" [ref=f1e57]:
+        - button "运行概览" [ref=f1e58] [cursor=pointer]
+        - button "设备与资产" [ref=f1e60] [cursor=pointer]
+        - button "数据监控" [ref=f1e62] [cursor=pointer]
+        - button "数据分析" [ref=f1e64] [cursor=pointer]
+        - button "告警编排" [ref=f1e66] [cursor=pointer]
+        - button "联动预案" [ref=f1e68] [cursor=pointer]
+        - button "审批与执行" [ref=f1e70] [cursor=pointer]
+        - button "通知记录" [ref=f1e72] [cursor=pointer]
+        - button "历史补算" [ref=f1e74] [cursor=pointer]
+        - button "后台任务" [ref=f1e76] [cursor=pointer]
+        - button "历史分析" [ref=f1e78] [cursor=pointer]
+        - button "组织与权限" [ref=f1e80] [cursor=pointer]
+        - button "配置中心" [ref=f1e82] [cursor=pointer]
+        - button "同步插件" [ref=f1e84] [cursor=pointer]
+        - button "业务审计" [ref=f1e86] [cursor=pointer]
+        - button "运行状态" [ref=f1e88] [cursor=pointer]
+        - button "AI 助手" [ref=f1e90] [cursor=pointer]
+      - generic [ref=f1e92]:
+        - text: 独立实例 · 云端运行
+        - generic [ref=f1e94]: 规则版本与操作记录全程保存
+    - generic [ref=f1e95]:
+      - banner [ref=f1e96]:
+        - generic [ref=f1e97]:
+          - text: 云端控制台
+          - generic [ref=f1e98]: /
+          - strong [ref=f1e99]: 历史分析
+        - generic [ref=f1e100]:
+          - generic [ref=f1e102] [cursor=pointer]:
+            - generic "每秒刷新" [ref=f1e103]:
+              - text: 每秒刷新
+              - combobox "页面刷新方式" [ref=f1e104]
+            - img "down" [ref=f1e106]
+          - generic [ref=f1e109]: 平台管理员
+          - button "退出" [ref=f1e111] [cursor=pointer]
+      - main [ref=f1e113]:
+        - generic [ref=f1e114]:
+          - generic [ref=f1e115]:
+            - heading "历史分析与影子计算" [level=1] [ref=f1e116]
+            - paragraph [ref=f1e117]: 按保存的输入与历史规则分析结果，查看两侧计划、节点来源和候选与正式结果的差异。
+          - generic [ref=f1e119]:
+            - button "更新分析记录" [ref=f1e121] [cursor=pointer]
+            - button "启用影子候选" [ref=f1e124] [cursor=pointer]
+            - button "创建历史分析" [ref=f1e127] [cursor=pointer]
+        - generic [ref=f1e129]:
+          - tablist [ref=f1e130]:
+            - generic [ref=f1e132]:
+              - tab "回放与比较运行" [selected] [ref=f1e134] [cursor=pointer]
+              - tab "影子候选" [ref=f1e136] [cursor=pointer]
+          - tabpanel "回放与比较运行" [ref=f1e139]:
+            - generic [ref=f1e140]:
+              - textbox "分析运行身份" [ref=f1e141]:
+                - /placeholder: 输入完整分析运行身份
+              - button "查看指定运行" [disabled] [ref=f1e142]
+            - generic [ref=f1e145]:
+              - table [ref=f1e152]:
+                - rowgroup [ref=f1e153]:
+                  - row [ref=f1e154]:
+                    - columnheader "运行 / 规则" [ref=f1e155]
+                    - columnheader "分析类别" [ref=f1e156]
+                    - columnheader "运行状态" [ref=f1e157]
+                    - columnheader "计算进度" [ref=f1e158]
+                    - columnheader "结果 / 原因" [ref=f1e159]
+                    - columnheader "操作" [ref=f1e160]
+                - rowgroup [ref=f1e161]:
+                  - row [ref=f1e162]:
+                    - cell "fixture-cancelled history-assets" [ref=f1e163]:
+                      - button "fixture-cancelled" [ref=f1e164] [cursor=pointer]
+                      - generic [ref=f1e166]: history-assets
+                    - cell "历史回放" [ref=f1e167]
+                    - cell "已取消后续计算" [ref=f1e168]
+                    - cell "0 已提交 0 / 2 条输入" [ref=f1e170]:
+                      - progressbar [ref=f1e171]:
+                        - generic "0%" [ref=f1e174]
+                      - generic [ref=f1e175]: 已提交 0 / 2 条输入
+                    - cell [ref=f1e176]
+                    - cell [ref=f1e177]:
+                      - button "运行详情" [ref=f1e178] [cursor=pointer]
+                  - row [ref=f1e180]:
+                    - cell "fixture-compare-changed history-window" [ref=f1e181]:
+                      - button "fixture-compare-changed" [ref=f1e182] [cursor=pointer]
+                      - generic [ref=f1e184]: history-window
+                    - cell "版本比较" [ref=f1e185]
+                    - cell "计算已完成" [ref=f1e186]
+                    - cell "100 已提交 3 / 3 条输入" [ref=f1e188]:
+                      - progressbar [ref=f1e189]:
+                        - img "check-circle" [ref=f1e194]
+                      - generic [ref=f1e197]: 已提交 3 / 3 条输入
+                    - cell [ref=f1e198]
+                    - cell [ref=f1e199]:
+                      - button "运行详情" [ref=f1e200] [cursor=pointer]
+                  - row [ref=f1e202]:
+                    - cell "fixture-compare-unchanged history-window" [ref=f1e203]:
+                      - button "fixture-compare-unchanged" [ref=f1e204] [cursor=pointer]
+                      - generic [ref=f1e206]: history-window
+                    - cell "版本比较" [ref=f1e207]
+                    - cell "计算已完成" [ref=f1e208]
+                    - cell "100 已提交 3 / 3 条输入" [ref=f1e210]:
+                      - progressbar [ref=f1e211]:
+                        - img "check-circle" [ref=f1e216]
+                      - generic [ref=f1e219]: 已提交 3 / 3 条输入
+                    - cell [ref=f1e220]
+                    - cell [ref=f1e221]:
+                      - button "运行详情" [ref=f1e222] [cursor=pointer]
+                  - row [ref=f1e224]:
+                    - cell "fixture-replay-assets history-assets" [ref=f1e225]:
+                      - button "fixture-replay-assets" [ref=f1e226] [cursor=pointer]
+                      - generic [ref=f1e228]: history-assets
+                    - cell "历史回放" [ref=f1e229]
+                    - cell "计算已完成" [ref=f1e230]
+                    - cell "100 已提交 2 / 2 条输入" [ref=f1e232]:
+                      - progressbar [ref=f1e233]:
+                        - img "check-circle" [ref=f1e238]
+                      - generic [ref=f1e241]: 已提交 2 / 2 条输入
+                    - cell [ref=f1e242]
+                    - cell [ref=f1e243]:
+                      - button "运行详情" [ref=f1e244] [cursor=pointer]
+                  - row [ref=f1e246]:
+                    - cell "shadow:fixture-failure:1:1 history-failed" [ref=f1e247]:
+                      - button "shadow:fixture-failure:1:1" [ref=f1e248] [cursor=pointer]
+                      - generic [ref=f1e250]: history-failed
+                    - cell "影子计算" [ref=f1e251]
+                    - cell "计算失败" [ref=f1e252]
+                    - cell "0 已提交 0 / 1 条输入" [ref=f1e254]:
+                      - progressbar [ref=f1e255]:
+                        - img "close-circle" [ref=f1e259]
+                      - generic [ref=f1e262]: 已提交 0 / 1 条输入
+                    - 'cell "input fixture-failure-0:0 version 1: input missing_field is missing" [ref=f1e263]'
+                    - cell [ref=f1e264]:
+                      - button "运行详情" [ref=f1e265] [cursor=pointer]
+                  - row [ref=f1e267]:
+                    - cell "shadow:fixture-failure:1:2 history-failed" [ref=f1e268]:
+                      - button "shadow:fixture-failure:1:2" [ref=f1e269] [cursor=pointer]
+                      - generic [ref=f1e271]: history-failed
+                    - cell "影子计算" [ref=f1e272]
+                    - cell "等待前序影子计算完成" [ref=f1e273]
+                    - cell "0 已提交 0 / 1 条输入" [ref=f1e275]:
+                      - progressbar [ref=f1e276]:
+                        - generic "0%" [ref=f1e279]
+                      - generic [ref=f1e280]: 已提交 0 / 1 条输入
+                    - cell "waiting for previous shadow generation shadow:fixture-failure:1:1" [ref=f1e281]
+                    - cell [ref=f1e282]:
+                      - button "运行详情" [ref=f1e283] [cursor=pointer]
+                  - row [ref=f1e285]:
+                    - cell "shadow:fixture-live:1:1 history-derived" [ref=f1e286]:
+                      - button "shadow:fixture-live:1:1" [ref=f1e287] [cursor=pointer]
+                      - generic [ref=f1e289]: history-derived
+                    - cell "影子计算" [ref=f1e290]
+                    - cell "计算已完成" [ref=f1e291]
+                    - cell "100 已提交 1 / 1 条输入" [ref=f1e293]:
+                      - progressbar [ref=f1e294]:
+                        - img "check-circle" [ref=f1e299]
+                      - generic [ref=f1e302]: 已提交 1 / 1 条输入
+                    - cell [ref=f1e303]
+                    - cell [ref=f1e304]:
+                      - button "运行详情" [ref=f1e305] [cursor=pointer]
+                  - row [ref=f1e307]:
+                    - cell "shadow:fixture-live:1:2 history-derived" [ref=f1e308]:
+                      - button "shadow:fixture-live:1:2" [ref=f1e309] [cursor=pointer]
+                      - generic [ref=f1e311]: history-derived
+                    - cell "影子计算" [ref=f1e312]
+                    - cell "计算已完成" [ref=f1e313]
+                    - cell "100 已提交 1 / 1 条输入" [ref=f1e315]:
+                      - progressbar [ref=f1e316]:
+                        - img "check-circle" [ref=f1e321]
+                      - generic [ref=f1e324]: 已提交 1 / 1 条输入
+                    - cell [ref=f1e325]
+                    - cell [ref=f1e326]:
+                      - button "运行详情" [ref=f1e327] [cursor=pointer]
+                  - row [ref=f1e329]:
+                    - cell "shadow:fixture-live:1:3 history-derived" [ref=f1e330]:
+                      - button "shadow:fixture-live:1:3" [ref=f1e331] [cursor=pointer]
+                      - generic [ref=f1e333]: history-derived
+                    - cell "影子计算" [ref=f1e334]
+                    - cell "计算已完成" [ref=f1e335]
+                    - cell "100 已提交 3 / 3 条输入" [ref=f1e337]:
+                      - progressbar [ref=f1e338]:
+                        - img "check-circle" [ref=f1e343]
+                      - generic [ref=f1e346]: 已提交 3 / 3 条输入
+                    - cell [ref=f1e347]
+                    - cell [ref=f1e348]:
+                      - button "运行详情" [ref=f1e349] [cursor=pointer]
+                  - row [ref=f1e351]:
+                    - cell "shadow:fixture-live:1:4 history-derived" [ref=f1e352]:
+                      - button "shadow:fixture-live:1:4" [ref=f1e353] [cursor=pointer]
+                      - generic [ref=f1e355]: history-derived
+                    - cell "影子计算" [ref=f1e356]
+                    - cell "计算已完成" [ref=f1e357]
+                    - cell "100 已提交 3 / 3 条输入" [ref=f1e359]:
+                      - progressbar [ref=f1e360]:
+                        - img "check-circle" [ref=f1e365]
+                      - generic [ref=f1e368]: 已提交 3 / 3 条输入
+                    - cell [ref=f1e369]
+                    - cell [ref=f1e370]:
+                      - button "运行详情" [ref=f1e371] [cursor=pointer]
+              - generic [ref=f1e373]:
+                - button "上一页" [disabled] [ref=f1e375]
+                - generic [ref=f1e376]: 第1页
+                - button "下一页" [disabled] [ref=f1e379]
+      - contentinfo [ref=f1e380]:
+        - text: SmartFactory · history-fixture
+        - generic [ref=f1e381]: 界面时间使用 Asia/Shanghai 时区
+  - generic [ref=f1e762]:
+    - dialog "创建历史分析":
+      - generic [ref=f1e763]:
+        - button "关闭" [active] [ref=f1e764] [cursor=pointer]:
+          - generic "关闭" [ref=f1e765]:
+            - img "close" [ref=f1e766]
+        - generic [ref=f1e769]: 创建历史分析
+        - generic [ref=f1e772]:
+          - generic [ref=f1e773]:
+            - generic [ref=f1e775]:
+              - generic "分析类别" [ref=f1e777]
+              - generic [ref=f1e781] [cursor=pointer]:
+                - generic "按当时生效版本回放" [ref=f1e782]:
+                  - text: 按当时生效版本回放
+                  - combobox "分析类别" [ref=f1e783]
+                - img "down" [ref=f1e785]
+            - generic [ref=f1e789]:
+              - generic "已发布规则" [ref=f1e791]
+              - generic [ref=f1e795]:
+                - combobox "历史分析规则" [ref=f1e797]
+                - img "down" [ref=f1e799]
+            - generic [ref=f1e803]:
+              - generic "运行身份（可留空）" [ref=f1e805]
+              - textbox "运行身份（可留空）" [ref=f1e809]
+            - generic [ref=f1e811]:
+              - generic "设备范围（逗号分隔）" [ref=f1e813]
+              - textbox "设备范围（逗号分隔）" [ref=f1e817]
+            - generic [ref=f1e819]:
+              - generic "开始时间（Unix毫秒）" [ref=f1e821]
+              - textbox "开始时间（Unix毫秒）" [ref=f1e825]: "1791143924696"
+            - generic [ref=f1e827]:
+              - generic "结束时间（Unix毫秒）" [ref=f1e829]
+              - textbox "结束时间（Unix毫秒）" [ref=f1e833]: "1791147524696"
+            - generic [ref=f1e835]:
+              - generic "测点范围（逗号分隔）" [ref=f1e837]
+              - textbox "测点范围（逗号分隔）" [ref=f1e841]
+            - generic [ref=f1e843]:
+              - generic "输入顺序" [ref=f1e845]
+              - generic [ref=f1e849] [cursor=pointer]:
+                - generic "观测时间、来源序号和身份" [ref=f1e850]:
+                  - text: 观测时间、来源序号和身份
+                  - combobox "历史输入顺序" [ref=f1e851]
+                - img "down" [ref=f1e853]
+          - generic [ref=f1e857]:
+            - generic "分析输入来源" [ref=f1e859]
+            - generic [ref=f1e863] [cursor=pointer]:
+              - generic "范围内的实际保留数据" [ref=f1e864]:
+                - text: 范围内的实际保留数据
+                - combobox "分析输入来源" [ref=f1e865]
+              - img "down" [ref=f1e867]
+          - generic [ref=f1e871]:
+            - generic "计算历史来源" [ref=f1e873]
+            - generic [ref=f1e877] [cursor=pointer]:
+              - generic "读取实际窗口历史" [ref=f1e878]:
+                - text: 读取实际窗口历史
+                - combobox "计算历史来源" [ref=f1e879]
+              - img "down" [ref=f1e881]
+          - generic [ref=f1e885]:
+            - generic "时钟、初始状态和资产版本（可选JSON）" [ref=f1e887]
+            - textbox "历史计算条件" [ref=f1e891]: "{}"
+          - paragraph [ref=f1e892]: 所有时间和间隔均为Unix毫秒或毫秒；每份运行最多10000条输入、40000条历史和32MiB快照，提交后采用保存的输入条件。
+        - generic [ref=f1e893]:
+          - button "取消" [ref=f1e894] [cursor=pointer]
+          - button "保存输入并开始分析" [ref=f1e896] [cursor=pointer]
+```
+
+{"session": "history", "arguments": ["click", "f1e783"], "exit_code": 0}
+### Ran Playwright code
+```js
+await page.getByRole('combobox', { name: '分析类别' }).click();
+```
+### Page
+- Page URL: http://127.0.0.1:19060/#history
+- Page Title: SmartFactory 云端控制台
+### Snapshot
+- [Snapshot](.playwright-cli/page-2026-10-04T21-08-41-866Z.yml)
+
+{"session": "history", "arguments": ["snapshot"], "exit_code": 0}
+### Page
+- Page URL: http://127.0.0.1:19060/#history
+- Page Title: SmartFactory 云端控制台
+### Snapshot
+```yaml
+- generic [ref=f1e1]:
+  - generic [ref=f1e50]:
+    - complementary [ref=f1e51]:
+      - link "SF SmartFactory 生产安全控制台" [ref=f1e52] [cursor=pointer]:
+        - /url: "#overview"
+        - generic [ref=f1e53]: SF
+        - generic [ref=f1e54]:
+          - text: SmartFactory
+          - generic [ref=f1e55]: 生产安全控制台
+      - generic [ref=f1e56]: 示例工厂 / history-fixture
+      - navigation "主导航" [ref=f1e57]:
+        - button "运行概览" [ref=f1e58] [cursor=pointer]
+        - button "设备与资产" [ref=f1e60] [cursor=pointer]
+        - button "数据监控" [ref=f1e62] [cursor=pointer]
+        - button "数据分析" [ref=f1e64] [cursor=pointer]
+        - button "告警编排" [ref=f1e66] [cursor=pointer]
+        - button "联动预案" [ref=f1e68] [cursor=pointer]
+        - button "审批与执行" [ref=f1e70] [cursor=pointer]
+        - button "通知记录" [ref=f1e72] [cursor=pointer]
+        - button "历史补算" [ref=f1e74] [cursor=pointer]
+        - button "后台任务" [ref=f1e76] [cursor=pointer]
+        - button "历史分析" [ref=f1e78] [cursor=pointer]
+        - button "组织与权限" [ref=f1e80] [cursor=pointer]
+        - button "配置中心" [ref=f1e82] [cursor=pointer]
+        - button "同步插件" [ref=f1e84] [cursor=pointer]
+        - button "业务审计" [ref=f1e86] [cursor=pointer]
+        - button "运行状态" [ref=f1e88] [cursor=pointer]
+        - button "AI 助手" [ref=f1e90] [cursor=pointer]
+      - generic [ref=f1e92]:
+        - text: 独立实例 · 云端运行
+        - generic [ref=f1e94]: 规则版本与操作记录全程保存
+    - generic [ref=f1e95]:
+      - banner [ref=f1e96]:
+        - generic [ref=f1e97]:
+          - text: 云端控制台
+          - generic [ref=f1e98]: /
+          - strong [ref=f1e99]: 历史分析
+        - generic [ref=f1e100]:
+          - generic [ref=f1e102] [cursor=pointer]:
+            - generic "每秒刷新" [ref=f1e103]:
+              - text: 每秒刷新
+              - combobox "页面刷新方式" [ref=f1e104]
+            - img "down" [ref=f1e106]
+          - generic [ref=f1e109]: 平台管理员
+          - button "退出" [ref=f1e111] [cursor=pointer]
+      - main [ref=f1e113]:
+        - generic [ref=f1e114]:
+          - generic [ref=f1e115]:
+            - heading "历史分析与影子计算" [level=1] [ref=f1e116]
+            - paragraph [ref=f1e117]: 按保存的输入与历史规则分析结果，查看两侧计划、节点来源和候选与正式结果的差异。
+          - generic [ref=f1e119]:
+            - button "更新分析记录" [ref=f1e121] [cursor=pointer]
+            - button "启用影子候选" [ref=f1e124] [cursor=pointer]
+            - button "创建历史分析" [ref=f1e127] [cursor=pointer]
+        - generic [ref=f1e129]:
+          - tablist [ref=f1e130]:
+            - generic [ref=f1e132]:
+              - tab "回放与比较运行" [selected] [ref=f1e134] [cursor=pointer]
+              - tab "影子候选" [ref=f1e136] [cursor=pointer]
+          - tabpanel "回放与比较运行" [ref=f1e139]:
+            - generic [ref=f1e140]:
+              - textbox "分析运行身份" [ref=f1e141]:
+                - /placeholder: 输入完整分析运行身份
+              - button "查看指定运行" [disabled] [ref=f1e142]
+            - generic [ref=f1e145]:
+              - table [ref=f1e152]:
+                - rowgroup [ref=f1e153]:
+                  - row [ref=f1e154]:
+                    - columnheader "运行 / 规则" [ref=f1e155]
+                    - columnheader "分析类别" [ref=f1e156]
+                    - columnheader "运行状态" [ref=f1e157]
+                    - columnheader "计算进度" [ref=f1e158]
+                    - columnheader "结果 / 原因" [ref=f1e159]
+                    - columnheader "操作" [ref=f1e160]
+                - rowgroup [ref=f1e161]:
+                  - row [ref=f1e162]:
+                    - cell "fixture-cancelled history-assets" [ref=f1e163]:
+                      - button "fixture-cancelled" [ref=f1e164] [cursor=pointer]
+                      - generic [ref=f1e166]: history-assets
+                    - cell "历史回放" [ref=f1e167]
+                    - cell "已取消后续计算" [ref=f1e168]
+                    - cell "0 已提交 0 / 2 条输入" [ref=f1e170]:
+                      - progressbar [ref=f1e171]:
+                        - generic "0%" [ref=f1e174]
+                      - generic [ref=f1e175]: 已提交 0 / 2 条输入
+                    - cell [ref=f1e176]
+                    - cell [ref=f1e177]:
+                      - button "运行详情" [ref=f1e178] [cursor=pointer]
+                  - row [ref=f1e180]:
+                    - cell "fixture-compare-changed history-window" [ref=f1e181]:
+                      - button "fixture-compare-changed" [ref=f1e182] [cursor=pointer]
+                      - generic [ref=f1e184]: history-window
+                    - cell "版本比较" [ref=f1e185]
+                    - cell "计算已完成" [ref=f1e186]
+                    - cell "100 已提交 3 / 3 条输入" [ref=f1e188]:
+                      - progressbar [ref=f1e189]:
+                        - img "check-circle" [ref=f1e194]
+                      - generic [ref=f1e197]: 已提交 3 / 3 条输入
+                    - cell [ref=f1e198]
+                    - cell [ref=f1e199]:
+                      - button "运行详情" [ref=f1e200] [cursor=pointer]
+                  - row [ref=f1e202]:
+                    - cell "fixture-compare-unchanged history-window" [ref=f1e203]:
+                      - button "fixture-compare-unchanged" [ref=f1e204] [cursor=pointer]
+                      - generic [ref=f1e206]: history-window
+                    - cell "版本比较" [ref=f1e207]
+                    - cell "计算已完成" [ref=f1e208]
+                    - cell "100 已提交 3 / 3 条输入" [ref=f1e210]:
+                      - progressbar [ref=f1e211]:
+                        - img "check-circle" [ref=f1e216]
+                      - generic [ref=f1e219]: 已提交 3 / 3 条输入
+                    - cell [ref=f1e220]
+                    - cell [ref=f1e221]:
+                      - button "运行详情" [ref=f1e222] [cursor=pointer]
+                  - row [ref=f1e224]:
+                    - cell "fixture-replay-assets history-assets" [ref=f1e225]:
+                      - button "fixture-replay-assets" [ref=f1e226] [cursor=pointer]
+                      - generic [ref=f1e228]: history-assets
+                    - cell "历史回放" [ref=f1e229]
+                    - cell "计算已完成" [ref=f1e230]
+                    - cell "100 已提交 2 / 2 条输入" [ref=f1e232]:
+                      - progressbar [ref=f1e233]:
+                        - img "check-circle" [ref=f1e238]
+                      - generic [ref=f1e241]: 已提交 2 / 2 条输入
+                    - cell [ref=f1e242]
+                    - cell [ref=f1e243]:
+                      - button "运行详情" [ref=f1e244] [cursor=pointer]
+                  - row [ref=f1e246]:
+                    - cell "shadow:fixture-failure:1:1 history-failed" [ref=f1e247]:
+                      - button "shadow:fixture-failure:1:1" [ref=f1e248] [cursor=pointer]
+                      - generic [ref=f1e250]: history-failed
+                    - cell "影子计算" [ref=f1e251]
+                    - cell "计算失败" [ref=f1e252]
+                    - cell "0 已提交 0 / 1 条输入" [ref=f1e254]:
+                      - progressbar [ref=f1e255]:
+                        - img "close-circle" [ref=f1e259]
+                      - generic [ref=f1e262]: 已提交 0 / 1 条输入
+                    - 'cell "input fixture-failure-0:0 version 1: input missing_field is missing" [ref=f1e263]'
+                    - cell [ref=f1e264]:
+                      - button "运行详情" [ref=f1e265] [cursor=pointer]
+                  - row [ref=f1e267]:
+                    - cell "shadow:fixture-failure:1:2 history-failed" [ref=f1e268]:
+                      - button "shadow:fixture-failure:1:2" [ref=f1e269] [cursor=pointer]
+                      - generic [ref=f1e271]: history-failed
+                    - cell "影子计算" [ref=f1e272]
+                    - cell "等待前序影子计算完成" [ref=f1e273]
+                    - cell "0 已提交 0 / 1 条输入" [ref=f1e275]:
+                      - progressbar [ref=f1e276]:
+                        - generic "0%" [ref=f1e279]
+                      - generic [ref=f1e280]: 已提交 0 / 1 条输入
+                    - cell "waiting for previous shadow generation shadow:fixture-failure:1:1" [ref=f1e281]
+                    - cell [ref=f1e282]:
+                      - button "运行详情" [ref=f1e283] [cursor=pointer]
+                  - row [ref=f1e285]:
+                    - cell "shadow:fixture-live:1:1 history-derived" [ref=f1e286]:
+                      - button "shadow:fixture-live:1:1" [ref=f1e287] [cursor=pointer]
+                      - generic [ref=f1e289]: history-derived
+                    - cell "影子计算" [ref=f1e290]
+                    - cell "计算已完成" [ref=f1e291]
+                    - cell "100 已提交 1 / 1 条输入" [ref=f1e293]:
+                      - progressbar [ref=f1e294]:
+                        - img "check-circle" [ref=f1e299]
+                      - generic [ref=f1e302]: 已提交 1 / 1 条输入
+                    - cell [ref=f1e303]
+                    - cell [ref=f1e304]:
+                      - button "运行详情" [ref=f1e305] [cursor=pointer]
+                  - row [ref=f1e307]:
+                    - cell "shadow:fixture-live:1:2 history-derived" [ref=f1e308]:
+                      - button "shadow:fixture-live:1:2" [ref=f1e309] [cursor=pointer]
+                      - generic [ref=f1e311]: history-derived
+                    - cell "影子计算" [ref=f1e312]
+                    - cell "计算已完成" [ref=f1e313]
+                    - cell "100 已提交 1 / 1 条输入" [ref=f1e315]:
+                      - progressbar [ref=f1e316]:
+                        - img "check-circle" [ref=f1e321]
+                      - generic [ref=f1e324]: 已提交 1 / 1 条输入
+                    - cell [ref=f1e325]
+                    - cell [ref=f1e326]:
+                      - button "运行详情" [ref=f1e327] [cursor=pointer]
+                  - row [ref=f1e329]:
+                    - cell "shadow:fixture-live:1:3 history-derived" [ref=f1e330]:
+                      - button "shadow:fixture-live:1:3" [ref=f1e331] [cursor=pointer]
+                      - generic [ref=f1e333]: history-derived
+                    - cell "影子计算" [ref=f1e334]
+                    - cell "计算已完成" [ref=f1e335]
+                    - cell "100 已提交 3 / 3 条输入" [ref=f1e337]:
+                      - progressbar [ref=f1e338]:
+                        - img "check-circle" [ref=f1e343]
+                      - generic [ref=f1e346]: 已提交 3 / 3 条输入
+                    - cell [ref=f1e347]
+                    - cell [ref=f1e348]:
+                      - button "运行详情" [ref=f1e349] [cursor=pointer]
+                  - row [ref=f1e351]:
+                    - cell "shadow:fixture-live:1:4 history-derived" [ref=f1e352]:
+                      - button "shadow:fixture-live:1:4" [ref=f1e353] [cursor=pointer]
+                      - generic [ref=f1e355]: history-derived
+                    - cell "影子计算" [ref=f1e356]
+                    - cell "计算已完成" [ref=f1e357]
+                    - cell "100 已提交 3 / 3 条输入" [ref=f1e359]:
+                      - progressbar [ref=f1e360]:
+                        - img "check-circle" [ref=f1e365]
+                      - generic [ref=f1e368]: 已提交 3 / 3 条输入
+                    - cell [ref=f1e369]
+                    - cell [ref=f1e370]:
+                      - button "运行详情" [ref=f1e371] [cursor=pointer]
+              - generic [ref=f1e373]:
+                - button "上一页" [disabled] [ref=f1e375]
+                - generic [ref=f1e376]: 第1页
+                - button "下一页" [disabled] [ref=f1e379]
+      - contentinfo [ref=f1e380]:
+        - text: SmartFactory · history-fixture
+        - generic [ref=f1e381]: 界面时间使用 Asia/Shanghai 时区
+  - generic [ref=f1e762]:
+    - dialog "创建历史分析":
+      - generic [ref=f1e763]:
+        - button "关闭" [ref=f1e764] [cursor=pointer]:
+          - generic "关闭" [ref=f1e765]:
+            - img "close" [ref=f1e766]
+        - generic [ref=f1e769]: 创建历史分析
+        - generic [ref=f1e772]:
+          - generic [ref=f1e773]:
+            - generic [ref=f1e775]:
+              - generic "分析类别" [ref=f1e777]
+              - generic [ref=f1e781] [cursor=pointer]:
+                - generic "按当时生效版本回放" [ref=f1e782]:
+                  - text: 按当时生效版本回放
+                  - combobox "分析类别" [expanded] [active] [ref=f1e783]:
+                    - listbox:
+                      - option "按当时生效版本回放" [selected]: replay
+                      - option "比较两个已发布版本": compare
+                - img "down" [ref=f1e785]
+            - generic [ref=f1e789]:
+              - generic "已发布规则" [ref=f1e791]
+              - generic [ref=f1e795]:
+                - combobox "历史分析规则" [ref=f1e797]
+                - img "down" [ref=f1e799]
+            - generic [ref=f1e803]:
+              - generic "运行身份（可留空）" [ref=f1e805]
+              - textbox "运行身份（可留空）" [ref=f1e809]
+            - generic [ref=f1e811]:
+              - generic "设备范围（逗号分隔）" [ref=f1e813]
+              - textbox "设备范围（逗号分隔）" [ref=f1e817]
+            - generic [ref=f1e819]:
+              - generic "开始时间（Unix毫秒）" [ref=f1e821]
+              - textbox "开始时间（Unix毫秒）" [ref=f1e825]: "1791143924696"
+            - generic [ref=f1e827]:
+              - generic "结束时间（Unix毫秒）" [ref=f1e829]
+              - textbox "结束时间（Unix毫秒）" [ref=f1e833]: "1791147524696"
+            - generic [ref=f1e835]:
+              - generic "测点范围（逗号分隔）" [ref=f1e837]
+              - textbox "测点范围（逗号分隔）" [ref=f1e841]
+            - generic [ref=f1e843]:
+              - generic "输入顺序" [ref=f1e845]
+              - generic [ref=f1e849] [cursor=pointer]:
+                - generic "观测时间、来源序号和身份" [ref=f1e850]:
+                  - text: 观测时间、来源序号和身份
+                  - combobox "历史输入顺序" [ref=f1e851]
+                - img "down" [ref=f1e853]
+          - generic [ref=f1e857]:
+            - generic "分析输入来源" [ref=f1e859]
+            - generic [ref=f1e863] [cursor=pointer]:
+              - generic "范围内的实际保留数据" [ref=f1e864]:
+                - text: 范围内的实际保留数据
+                - combobox "分析输入来源" [ref=f1e865]
+              - img "down" [ref=f1e867]
+          - generic [ref=f1e871]:
+            - generic "计算历史来源" [ref=f1e873]
+            - generic [ref=f1e877] [cursor=pointer]:
+              - generic "读取实际窗口历史" [ref=f1e878]:
+                - text: 读取实际窗口历史
+                - combobox "计算历史来源" [ref=f1e879]
+              - img "down" [ref=f1e881]
+          - generic [ref=f1e885]:
+            - generic "时钟、初始状态和资产版本（可选JSON）" [ref=f1e887]
+            - textbox "历史计算条件" [ref=f1e891]: "{}"
+          - paragraph [ref=f1e892]: 所有时间和间隔均为Unix毫秒或毫秒；每份运行最多10000条输入、40000条历史和32MiB快照，提交后采用保存的输入条件。
+        - generic [ref=f1e893]:
+          - button "取消" [ref=f1e894] [cursor=pointer]
+          - button "保存输入并开始分析" [ref=f1e896] [cursor=pointer]
+  - generic [ref=f1e903]:
+    - generic "按当时生效版本回放" [ref=f1e904] [cursor=pointer]
+    - generic "比较两个已发布版本" [ref=f1e906] [cursor=pointer]
+```
+
+{"session": "cloud", "arguments": ["tab-new", "http://127.0.0.1:59108/edge.html#executions?execution=cancel-browser"], "exit_code": 0}
+### Result
+- 0: [SmartFactory 云端控制台](http://127.0.0.1:59107/#executions?execution=recover-browser)
+- 1: (current) [SmartFactory 现场工作台](http://127.0.0.1:59108/edge.html#executions?execution=cancel-browser)
+### Ran Playwright code
+```js
+await page.goto('http://127.0.0.1:59108/edge.html#executions?execution=cancel-browser');
+```
+### Open tabs
+- 0: [SmartFactory 云端控制台](http://127.0.0.1:59107/#executions?execution=recover-browser)
+- 1: (current) [SmartFactory 现场工作台](http://127.0.0.1:59108/edge.html#executions?execution=cancel-browser)
+### Page
+- Page URL: http://127.0.0.1:59108/edge.html#executions?execution=cancel-browser
+- Page Title: SmartFactory 现场工作台
+- Console: 1 errors, 0 warnings
+### Snapshot
+- [Snapshot](.playwright-cli/page-2026-10-04T21-09-31-031Z.yml)
+### Events
+- New console entries: .playwright-cli/console-2026-10-04T21-09-30-886Z.log#L1
+

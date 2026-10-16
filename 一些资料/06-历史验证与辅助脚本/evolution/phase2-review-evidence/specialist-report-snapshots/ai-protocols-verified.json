@@ -1,0 +1,464 @@
+{
+  "schema_version": 1,
+  "verified_at": "2026-10-04T16:12:59.570239+00:00",
+  "acceptance_ids": [
+    "E2-10",
+    "E2-11"
+  ],
+  "professional_status": "implementation_and_verification_complete_pending_coordinator_acceptance",
+  "git_head": "dde3315bd91f62be5fa3593200f9d267bc264811",
+  "implementation": [
+    "Platform/internal/ai/mcp.go",
+    "Platform/internal/ai/provider.go",
+    "Platform/internal/ai/provider_chat.go",
+    "Platform/internal/ai/provider_responses.go",
+    "Platform/internal/ai/chat.go",
+    "Platform/internal/configcenter/ai_schema.go",
+    "Platform/internal/configcenter/policy.go",
+    "Platform/internal/app/app.go"
+  ],
+  "toolchain": {
+    "go_version": "go version go1.27.1 darwin/arm64",
+    "gosumdb": "sum.golang.org",
+    "mcp_sdk": "github.com/modelcontextprotocol/go-sdk v1.8.0",
+    "go_mod_sha256": "2f7d5d4dc739448b70c153035faefda74d64338e1060592cf605b93660d17d1c",
+    "go_sum_sha256": "36634757a1cfc78a1897afdc5d091a56401eba9c7268d34a63704f0902e7387f"
+  },
+  "protocols": {
+    "mcp": {
+      "current": "2026-07-28",
+      "read": [
+        "2026-07-28",
+        "2025-11-25",
+        "2025-06-18",
+        "2025-03-26",
+        "2024-11-05"
+      ],
+      "write": [
+        "2026-07-28",
+        "2025-11-25",
+        "2025-06-18",
+        "2025-03-26",
+        "2024-11-05"
+      ]
+    },
+    "model_api": {
+      "current": "responses",
+      "read": [
+        "responses",
+        "chat_completions"
+      ],
+      "write": [
+        "responses",
+        "chat_completions"
+      ]
+    },
+    "providers": [
+      "openai",
+      "openai-compatible"
+    ],
+    "transports": [
+      "stateless Streamable HTTP with JSON results"
+    ],
+    "default_legacy_model": {
+      "provider": "openai-compatible",
+      "api": "chat_completions",
+      "stream": true
+    }
+  },
+  "source_summary": {
+    "owned_source_sha256": {
+      "Platform/internal/ai/ai_test.go": "79cd392aed9a5d6518245680f9d24105b1436862750e40f18b2fc120f592a98a",
+      "Platform/internal/ai/chat.go": "28ee0bdd8189a161bdc5eedbd13b79db64867d5e8d79ea02fc2fdd7c0899d9ef",
+      "Platform/internal/ai/config_migration_test.go": "5692ba2db52cc9d54142bd01421e838bc454274c5e9e5f50cfd21479fd683ef7",
+      "Platform/internal/ai/mcp.go": "f43dbe8b57615fd6b706f3ddcf8a544db1b6829ba131add13d0fbb23b984d0dd",
+      "Platform/internal/ai/mcp_sdk_test.go": "de72242e89f8c90facbf09fad7574547bff488425b3324bccbee9459c83b5c28",
+      "Platform/internal/ai/provider.go": "a981ff32f7404b1cf66157138f133295b50b32601f3072b0def5dab3d61a892f",
+      "Platform/internal/ai/provider_chat.go": "3e12d378c38ecbfdd9c067b190c75bcc548a8ec678782e2c9bed0ade57118265",
+      "Platform/internal/ai/provider_integrity_test.go": "8626f944d77f9097b0db35b043147ad473ad0320158fb15d701ef992f8c43314",
+      "Platform/internal/ai/provider_responses.go": "557c39ad1cda78502ad9836e58474421219c6388d649f02a07e0515706298978",
+      "Platform/internal/ai/provider_test.go": "871af93f0907f8889fa31fb5ae9bd45e1e4a10d590062d7afc201fa352ff9c20",
+      "Platform/internal/ai/responses_http_test.go": "f9d300407ec95c77f20d55bdf3d713defb21079aa6d4f003aad9322a42a7cc6b",
+      "Platform/internal/ai/testdata/legacy-store.sql": "1a5288975c72824edb638c497e89fcb6637293834f70af1e7f8b8ed7f3fe16a3",
+      "Platform/internal/ai/tools.go": "99041fdd2606f992145e7642e4b9b0d8f6601b4fe04780d9c0490f5ac1c94ee7",
+      "Platform/internal/app/app.go": "7402d238406cff73e91ada8a3f74680a82b13f6a1eab769a90694080dd7a22da",
+      "Platform/internal/configcenter/ai_schema.go": "e8f105e9bd85f3f184986e95562f262c26538b7d0fd775327dbda4cc3d6a96d8",
+      "Platform/internal/configcenter/policy.go": "43e84a044372d9347b6b58d0b7a80713ec1883e1d32e7f9a4f3ee0f673ba226d"
+    },
+    "owned_source_digest": "ad03898a5e97f3d17c6e3dfd038d1e65494e6b158bf00fdfdfa0307b8cde3dae",
+    "current_generated_sha256": {
+      "Platform/pkg/compatibility/manifest.json": "9c261755c2dd2e5c220c88b671ea5a67306e7841e37e4d81581375bac3b32423",
+      "contracts/compatibility.json": "e3d406af1848fd5c62f11312933aef9bf430b477bf2e581f8a7488c6da670cac",
+      "contracts/1.0/openapi.json": "f50426741340579da671f3f5dd092b6d3e2e2aee60dd179eb7718531b6a15036"
+    },
+    "docs_sha256": "ee7fc25dc7a1a84ef10d3b7f971a33eec7e339e2d3e9b6eaa951c855c7978cca",
+    "scope_note": "Each Go command metadata retains complete Platform Go-source fingerprints before and after. Current AI/configuration/app owned source hashes match every final command."
+  },
+  "commands": [
+    {
+      "label": "final-functional",
+      "command": [
+        "go",
+        "test",
+        "-json",
+        "./internal/ai",
+        "./internal/configcenter",
+        "./internal/app",
+        "-count=1"
+      ],
+      "working_directory": "/path/to/SmartFactory-2026/Platform",
+      "environment_overrides": {
+        "GOMODCACHE": "/private/tmp/smartfactory-evolution-gomodcache",
+        "GOCACHE": "/private/tmp/smartfactory-evolution-go-cache",
+        "GOPATH": "/private/tmp/smartfactory-evolution-gopath",
+        "GOTOOLCHAIN": "local"
+      },
+      "started_at": "2026-10-04T15:59:51.274310+00:00",
+      "finished_at": "2026-10-04T16:00:03.423274+00:00",
+      "elapsed_seconds": 12.141,
+      "exit_code": 0,
+      "log_path": "/private/tmp/smartfactory-ai-protocols/final-functional.jsonl",
+      "test_result_events": {
+        "pass": 93,
+        "fail": 0,
+        "skip": 0
+      },
+      "top_level_tests": {
+        "pass": 39,
+        "fail": 0,
+        "skip": 0
+      },
+      "leaf_tests": {
+        "pass": 80,
+        "fail": 0,
+        "skip": 0
+      },
+      "package_outcomes": [
+        {
+          "package": "competition2026/product/platform/internal/app",
+          "action": "pass"
+        },
+        {
+          "package": "competition2026/product/platform/internal/configcenter",
+          "action": "pass"
+        },
+        {
+          "package": "competition2026/product/platform/internal/ai",
+          "action": "pass"
+        }
+      ],
+      "sources_changed_during_command": [],
+      "source_fingerprint_record": "/private/tmp/smartfactory-ai-protocols/final-functional.metadata.json",
+      "source_digest_before": "1005e0e859c8524a9076899cbf188df210bc740175df23df4254d9bcb5b5cb92",
+      "source_digest_after": "1005e0e859c8524a9076899cbf188df210bc740175df23df4254d9bcb5b5cb92",
+      "owned_sources_match_current": true
+    },
+    {
+      "label": "final-race",
+      "command": [
+        "go",
+        "test",
+        "-race",
+        "-json",
+        "./internal/ai",
+        "./internal/configcenter",
+        "./internal/app",
+        "-count=1"
+      ],
+      "working_directory": "/path/to/SmartFactory-2026/Platform",
+      "environment_overrides": {
+        "GOMODCACHE": "/private/tmp/smartfactory-evolution-gomodcache",
+        "GOCACHE": "/private/tmp/smartfactory-evolution-go-cache",
+        "GOPATH": "/private/tmp/smartfactory-evolution-gopath",
+        "GOTOOLCHAIN": "local"
+      },
+      "started_at": "2026-10-04T15:59:39.079803+00:00",
+      "finished_at": "2026-10-04T16:01:42.475590+00:00",
+      "elapsed_seconds": 123.384,
+      "exit_code": 0,
+      "log_path": "/private/tmp/smartfactory-ai-protocols/final-race.jsonl",
+      "test_result_events": {
+        "pass": 93,
+        "fail": 0,
+        "skip": 0
+      },
+      "top_level_tests": {
+        "pass": 39,
+        "fail": 0,
+        "skip": 0
+      },
+      "leaf_tests": {
+        "pass": 80,
+        "fail": 0,
+        "skip": 0
+      },
+      "package_outcomes": [
+        {
+          "package": "competition2026/product/platform/internal/configcenter",
+          "action": "pass"
+        },
+        {
+          "package": "competition2026/product/platform/internal/app",
+          "action": "pass"
+        },
+        {
+          "package": "competition2026/product/platform/internal/ai",
+          "action": "pass"
+        }
+      ],
+      "sources_changed_during_command": [
+        "Platform/internal/store/river_migration_test.go"
+      ],
+      "source_fingerprint_record": "/private/tmp/smartfactory-ai-protocols/final-race.metadata.json",
+      "source_digest_before": "1005e0e859c8524a9076899cbf188df210bc740175df23df4254d9bcb5b5cb92",
+      "source_digest_after": "b18d497a0fe50f5cee1e7c663c4b88ba06dda40510fa10b42685edb71cb9a500",
+      "owned_sources_match_current": true,
+      "parallel_change_note": "Only internal/store/river_migration_test.go changed; internal/store package tests were not included in this command. AI/configuration/app owned files were stable."
+    },
+    {
+      "label": "contract-final",
+      "command": [
+        "go",
+        "test",
+        "-json",
+        "./pkg/compatibility",
+        "./cmd/sf-contracts",
+        "-count=1"
+      ],
+      "working_directory": "/path/to/SmartFactory-2026/Platform",
+      "environment_overrides": {
+        "GOMODCACHE": "/private/tmp/smartfactory-evolution-gomodcache",
+        "GOCACHE": "/private/tmp/smartfactory-evolution-go-cache",
+        "GOPATH": "/private/tmp/smartfactory-evolution-gopath",
+        "GOTOOLCHAIN": "local"
+      },
+      "started_at": "2026-10-04T16:05:55.432298+00:00",
+      "finished_at": "2026-10-04T16:05:56.138284+00:00",
+      "elapsed_seconds": 0.698,
+      "exit_code": 0,
+      "log_path": "/private/tmp/smartfactory-ai-protocols/contract-final.jsonl",
+      "test_result_events": {
+        "pass": 5,
+        "fail": 0,
+        "skip": 0
+      },
+      "top_level_tests": {
+        "pass": 5,
+        "fail": 0,
+        "skip": 0
+      },
+      "leaf_tests": {
+        "pass": 5,
+        "fail": 0,
+        "skip": 0
+      },
+      "package_outcomes": [
+        {
+          "package": "competition2026/product/platform/pkg/compatibility",
+          "action": "pass"
+        },
+        {
+          "package": "competition2026/product/platform/cmd/sf-contracts",
+          "action": "pass"
+        }
+      ],
+      "sources_changed_during_command": [],
+      "source_fingerprint_record": "/private/tmp/smartfactory-ai-protocols/contract-final.metadata.json",
+      "source_digest_before": "32cf8abb0ee334cd31ddcae6fa73f72979d5746c81aca598d3fa46ef07ffe026",
+      "source_digest_after": "32cf8abb0ee334cd31ddcae6fa73f72979d5746c81aca598d3fa46ef07ffe026",
+      "owned_sources_match_current": true
+    },
+    {
+      "label": "schema-validation",
+      "command": [
+        "/private/tmp/smartfactory-evolution-python/bin/python",
+        "scripts/check-contracts.py"
+      ],
+      "working_directory": "/path/to/SmartFactory-2026",
+      "exit_code": 0,
+      "log_path": "/private/tmp/smartfactory-ai-protocols/contract-schema-final.json",
+      "checks": {
+        "schemas": 71,
+        "example_definitions": 24,
+        "api_operations": 56,
+        "unknown_versions_rejected": true,
+        "unknown_nodes_rejected": true,
+        "references_valid": true
+      }
+    },
+    {
+      "label": "published-compatibility-validation",
+      "command": "Python JSON equality between Platform/pkg/compatibility/manifest.json and contracts/compatibility.json, plus exact MCP/model_api arrays",
+      "working_directory": "/path/to/SmartFactory-2026",
+      "exit_code": 0,
+      "log_path": "/private/tmp/smartfactory-ai-protocols/compatibility-final.json",
+      "checks": {
+        "manifest_matches_export": true,
+        "mcp": {
+          "current": "2026-07-28",
+          "read": [
+            "2026-07-28",
+            "2025-11-25",
+            "2025-06-18",
+            "2025-03-26",
+            "2024-11-05"
+          ],
+          "write": [
+            "2026-07-28",
+            "2025-11-25",
+            "2025-06-18",
+            "2025-03-26",
+            "2024-11-05"
+          ]
+        },
+        "model_api": {
+          "current": "responses",
+          "read": [
+            "responses",
+            "chat_completions"
+          ],
+          "write": [
+            "responses",
+            "chat_completions"
+          ]
+        },
+        "sha256": {
+          "Platform/pkg/compatibility/manifest.json": "9c261755c2dd2e5c220c88b671ea5a67306e7841e37e4d81581375bac3b32423",
+          "contracts/compatibility.json": "e3d406af1848fd5c62f11312933aef9bf430b477bf2e581f8a7488c6da670cac",
+          "contracts/1.0/openapi.json": "f50426741340579da671f3f5dd092b6d3e2e2aee60dd179eb7718531b6a15036"
+        }
+      }
+    },
+    {
+      "label": "diff-check",
+      "command": [
+        "git",
+        "diff",
+        "--check",
+        "--",
+        "Platform/internal/ai",
+        "Platform/internal/configcenter/ai_schema.go",
+        "Platform/internal/configcenter/policy.go",
+        "Platform/internal/app/app.go",
+        "docs/evolution/ai-protocols.md"
+      ],
+      "working_directory": "/path/to/SmartFactory-2026",
+      "exit_code": 0,
+      "log_path": "/private/tmp/smartfactory-ai-protocols/diff-check-final.txt"
+    }
+  ],
+  "coverage": {
+    "mcp": [
+      "official client negotiates all five SDK versions",
+      "discovery, read query and draft save through actual HTTP",
+      "legacy JSON-RPC and three draft kinds",
+      "precise draft integer 9223372036854775807",
+      "revision conflict, logout, resource revocation and disabled user",
+      "missing identity, dedicated identity, Origin, media types, body budget, notification and GET/DELETE semantics",
+      "manifest arrays match SDK SupportedProtocolVersions"
+    ],
+    "model_adapters": [
+      "Chat Completions and Responses streaming and non-streaming local endpoints",
+      "preserved content blocks and raw annotation integer 9007199254740993",
+      "native Responses reasoning/encrypted_content and function_call_output call_id continuity",
+      "interleaved output/content indexes and response/item identity consistency",
+      "complete terminal markers, malformed content and finish/tool mismatch",
+      "duplicate argument keys, exact integer parsing, argument/response/SSE/request/count budgets",
+      "HTTP 401/429/503 classification, credential redaction, cancellation, timeout and buffered-success cancellation"
+    ],
+    "business_http": [
+      "Responses assistant analysis/alarm/strategy draft kinds with both streaming modes",
+      "six-round discover/read/save/validate/diff/final flow",
+      "precise observation query and strategy draft parameter 9223372036854775807",
+      "truncated, failed, incomplete, argument-conflicting, duplicate-key and identity-conflicting writes rejected before tool execution",
+      "readonly draft denial, resource denial and revision conflict returned as function outputs",
+      "cancelled HTTP request creates no draft and releases delegated identity",
+      "existing Chat Completions/MCP three-kind regression continues to pass"
+    ],
+    "legacy_configuration": [
+      "complete legacy SQLite DDL captured from git base with persisted encrypted ai.model, document history, receipt, application states, outbox/audit and precise observations",
+      "authority startup schema revision 7 to 8 and document revision 12 to 13 with unchanged ciphertext/program/application history",
+      "idempotent second startup and new API fields saved as revision 9",
+      "custom schema preserved; ConfigURL subscriber does not upgrade locally",
+      "new-version subscription receipt and immutable prior receipt",
+      "same-version schema/content conflicts rejected and stale acknowledgements rejected",
+      "audit failure rolls back active revision/history/config_update/audit together"
+    ]
+  },
+  "repaired_failures": [
+    {
+      "description": "Content-block test assumed JSON member ordering inside preserved raw annotation",
+      "command": "go test -json ./internal/ai -run TestModel|TestResponses|TestChat|TestSSE -count=1",
+      "exit_code": 1,
+      "log_path": "/private/tmp/smartfactory-ai-protocols/provider-integrity-first.jsonl",
+      "failure_count": 1,
+      "repair": "Assertion checks preserved fields and exact numeric spelling without requiring JSON member ordering",
+      "verified_by": "final-functional and final-race"
+    },
+    {
+      "description": "Published compatibility file was stale and database-range test still accepted migration 3/rejected 4",
+      "command": [
+        "go",
+        "test",
+        "-json",
+        "./pkg/compatibility",
+        "./cmd/sf-contracts",
+        "-count=1"
+      ],
+      "exit_code": 1,
+      "log_path": "/private/tmp/smartfactory-ai-protocols/contract-generator.jsonl",
+      "test_result_events": {
+        "pass": 3,
+        "fail": 2,
+        "skip": 0
+      },
+      "top_level_tests": {
+        "pass": 3,
+        "fail": 2,
+        "skip": 0
+      },
+      "owner": "phase2_storage_tasks",
+      "repair": "Storage engineer synchronized the migration-range test and generated current contracts",
+      "verified_by": "contract-final and published-compatibility-validation"
+    },
+    {
+      "description": "System Python lacked jsonschema",
+      "observed_exit_code": 1,
+      "repair": "Used the existing /private/tmp/smartfactory-evolution-python environment; no new dependency was installed by this role",
+      "verified_by": "schema-validation"
+    }
+  ],
+  "shared_generation": {
+    "owner": "phase2_storage_tasks",
+    "command": [
+      "go",
+      "run",
+      "./cmd/sf-contracts"
+    ],
+    "working_directory": "/path/to/SmartFactory-2026/Platform",
+    "reported_exit_code": 0,
+    "log_path": "/private/tmp/storage-contract-generate.log",
+    "observed_output": "Exported 71 schema types, OpenAPI routes, TypeScript operation types, compatibility manifest and 24 editable definitions",
+    "independently_verified": true
+  },
+  "validation_limits": {
+    "model_endpoints": "local HTTP mocks only; no paid model was called",
+    "legacy_ai_model_database_fixture": "SQLite; a PostgreSQL-specific ai.model legacy fixture was not executed in this professional scope",
+    "gui": "Actual assistant HTTP route and business tools were tested; browser UI tests belong to the frontend role",
+    "counting": "Pass events include parent and child tests. Top-level and leaf counts are recorded separately."
+  },
+  "remaining_shared_items": [],
+  "future_work": [
+    {
+      "id": "E4-07",
+      "status": "future_phase",
+      "description": "AI evidence references and related investigation UI remain assigned to subsequent AI/frontend work"
+    }
+  ],
+  "sources": [
+    "https://github.com/modelcontextprotocol/go-sdk/blob/v1.8.0/mcp/shared.go",
+    "https://github.com/modelcontextprotocol/go-sdk/blob/v1.8.0/mcp/streamable.go",
+    "https://developers.openai.com/api/docs/guides/function-calling#streaming",
+    "https://developers.openai.com/api/docs/guides/migrate-to-responses"
+  ]
+}

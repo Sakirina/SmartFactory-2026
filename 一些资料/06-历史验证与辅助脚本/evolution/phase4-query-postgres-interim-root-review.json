@@ -1,0 +1,35 @@
+{
+  "checked_at": "2026-10-05T00:15:00.330362+00:00",
+  "scope": "Specialist PostgreSQL collation repair and finite rebuild/late commit results; source combination binding and independent review pending",
+  "records": [
+    {
+      "log": {
+        "path": ".local/evolution/query-evidence/postgres-second.jsonl",
+        "sha256": "a0ff3b2dabf06c8479e16b3f4a5fb0d15952b69876d6c7482bd5d3619cff112a"
+      },
+      "counts": {
+        "sub_pass": 30,
+        "top_pass": 9,
+        "package_pass": 3
+      },
+      "failed": [],
+      "observations": [
+        "query_projection_test.go:376: late prepared business write committed after atomic generation switch; rebuild=33.960041ms old=5 switched=6 late=7"
+      ]
+    },
+    {
+      "log": {
+        "path": ".local/evolution/query-evidence/rebuild-wire-first.jsonl",
+        "sha256": "0cca209c983c55e46b3da8728ea0b8b0973c7248a1a8867b12517b14d28c2891"
+      },
+      "counts": {
+        "top_pass": 2,
+        "package_pass": 2
+      },
+      "failed": [],
+      "observations": [
+        "query_projection_test.go:471: 400 rows: cancellation after 88.382208ms retained old snapshot; concurrent writer waited across controlled 50ms barrier and committed within 690.447166ms after release"
+      ]
+    }
+  ]
+}

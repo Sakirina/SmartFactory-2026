@@ -1,0 +1,69 @@
+[
+  {
+    "command": [
+      "which",
+      "docker"
+    ],
+    "checked_at": "2026-10-07T04:06:07.944303+00:00",
+    "returncode": 0,
+    "stdout": "/opt/homebrew/bin/docker\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "pgrep",
+      "-alf",
+      "Docker|com.docker|vpnkit|containerd|qemu|virtiofs|Virtualization"
+    ],
+    "checked_at": "2026-10-07T04:06:07.947572+00:00",
+    "returncode": 3,
+    "stdout": "",
+    "stderr": "sysmon request failed with error: sysmond service not found\npgrep: Cannot get process list\n"
+  },
+  {
+    "command": [
+      "df",
+      "-h",
+      "/private/tmp",
+      "/path/to/competition-workspace"
+    ],
+    "checked_at": "2026-10-07T04:06:07.951404+00:00",
+    "returncode": 0,
+    "stdout": "Filesystem       Size    Used   Avail Capacity iused ifree %iused  Mounted on\n/dev/disk3s5    456Gi   252Gi    37Gi    88%    1.9M  393M    0%   /System/Volumes/Data\n/dev/disk3s11   4.7Gi   3.3Gi   1.4Gi    70%    105k   15M    1%   /Volumes/Work\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "docker",
+      "context",
+      "show"
+    ],
+    "checked_at": "2026-10-07T04:06:07.953429+00:00",
+    "returncode": 0,
+    "stdout": "desktop-linux\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "docker",
+      "desktop",
+      "status"
+    ],
+    "checked_at": "2026-10-07T04:06:08.066738+00:00",
+    "timeout_seconds": 8,
+    "stdout": null,
+    "stderr": "Failed to fire hook: opening log file: unable to create a log file for docker-desktop in directory /home/developer/Library/Containers/com.docker.docker/Data/log/host: open /home/developer/Library/Containers/com.docker.docker/Data/log/host/docker-desktop.log: operation not permitted\nFailed to fire hook: opening log file: unable to create a log file for docker-desktop in directory /home/developer/Library/Containers/com.docker.docker/Data/log/host: open /home/developer/Library/Containers/com.docker.docker/Data/log/host/docker-desktop.log: operation not permitted\nFailed to fire hook: opening log file: unable to create a log file for docker-desktop in directory /home/developer/Library/Containers/com.docker.docker/Data/log/host: open /home/developer/Library/Containers/com.docker.docker/Data/log/host/docker-desktop.log: operation not permitted\nFailed to fire hook: opening log file: unable to create a log file for docker-desktop in directory /home/developer/Library/Containers/com.docker.docker/Data/log/host: open /home/developer/Library/Containers/com.docker.docker/Data/log/host/docker-desktop.log: operation not permitted\n"
+  },
+  {
+    "command": [
+      "docker",
+      "version",
+      "--format",
+      "{{json .}}"
+    ],
+    "checked_at": "2026-10-07T04:06:16.070660+00:00",
+    "returncode": 1,
+    "stdout": "{\"Client\":{\"Platform\":{\"Name\":\"Docker Engine - Community\"},\"Version\":\"29.8.1\",\"ApiVersion\":\"1.56\",\"DefaultAPIVersion\":\"1.56\",\"GitCommit\":\"4a63305d74\",\"GoVersion\":\"go1.27.1\",\"Os\":\"darwin\",\"Arch\":\"arm64\",\"BuildTime\":\"Tue Sep 15 11:21:13 2026\",\"Context\":\"desktop-linux\"},\"Server\":null}\n",
+    "stderr": "Cannot connect to the Docker daemon at unix:///home/developer/.docker/run/docker.sock. Is the docker daemon running?\n"
+  }
+]

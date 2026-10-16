@@ -1,0 +1,2165 @@
+{
+  "schema_version": 1,
+  "role": "toolchain_and_message_infrastructure_engineer",
+  "status": "completed",
+  "captured_at": "2026-10-04T18:14:59.976424+00:00",
+  "scope": {
+    "kafka": "4.0.0 KRaft persistent partitions/messages/consumer positions to 4.3.1; binary rollback before metadata finalization; independent cold-copy restore after finalization",
+    "nats": "2.11.9 through 2.12.15 to 2.14.7 per-node mTLS R3 roll; signed checkpoint and fence preservation; restarts; current exact three-node coordination and quorum loss",
+    "native": "current exact TestNativeCalculatedFieldAlarmAndRetention against isolated CE4.3.1.6 and Kafka4.3.1",
+    "deployment": "locked versions, generators, protocol readiness, migration intermediate inventory and license recognition"
+  },
+  "all_checks_passed": true,
+  "checks": {
+    "kafka_old_topics_partitions_content_offsets_positions_preserved": true,
+    "kafka_binary_rollback_before_metadata_finalization": true,
+    "kafka_metadata_downgrade_rejected_after_finalization": true,
+    "kafka_new_messages_and_positions_survive_finalized_restart": true,
+    "kafka_restored_copy_all_files_match_cold_copy_sha256": true,
+    "kafka_cold_copy_restore_after_metadata_finalization": true,
+    "nats_rolling_upgrade_old_signed_checkpoint_preserved": true,
+    "nats_fence_increase_and_stale_owner_rejected": true,
+    "nats_persistent_data_survives_single_and_all_node_restart": true,
+    "nats_current_code_real_coordination_including_quorum_fault": true,
+    "native_calculated_alarm_retention": true,
+    "deployment_release_regressions_17_passed": true,
+    "toolchain_preflight": true,
+    "go_race_coordination_thingsboard": true,
+    "temporary_services_removed": true
+  },
+  "selected_components": {
+    "kafka": {
+      "image": {
+        "reference": "apache/kafka:4.3.1",
+        "pinned": "apache/kafka@sha256:ccd1314e47ec76909e01f86308b4dcf2064f19f7c89759234322314b0e319e26",
+        "platform": "linux/amd64",
+        "compressed_bytes": 238867857,
+        "layers": [
+          {
+            "digest": "sha256:6a0ac1617861a677b045b7ff88545213ec31c0ff08763195a70a4a5adda577bb",
+            "bytes": 3864189
+          },
+          {
+            "digest": "sha256:5ef4bf1bda3522f6b64c24ee154ed6739c8ab26c1be19e7b9e564bf0f39cbf22",
+            "bytes": 16857117
+          },
+          {
+            "digest": "sha256:6e338134b21e530c8c101d288f216594c45a122a53f0d095568b2d0e943d8fec",
+            "bytes": 53301871
+          },
+          {
+            "digest": "sha256:42516208460b63f47d0044aef98b70571ce7765cc9108b0a3d14ae7fa16d7566",
+            "bytes": 128
+          },
+          {
+            "digest": "sha256:2d1a277377d10ae29a58277bdefa13f3a1cfffb295a5b7bce5ad0b0d82661629",
+            "bytes": 2281
+          },
+          {
+            "digest": "sha256:4f4fb700ef54461cfa02571ae0db9a0dc1e0cdb5577484a6d75e68dc38e8acc1",
+            "bytes": 32
+          },
+          {
+            "digest": "sha256:da9d0fb3345c8fa944451bc81ffc8d4852a9d9ce9b9ab5e6e08d634414c4bcfc",
+            "bytes": 143161855
+          },
+          {
+            "digest": "sha256:9ee28cb5e924c3c9b6ef4de6ced1d8c0de5b6fd24f9bac201bcd32b9bbc32f38",
+            "bytes": 3001
+          },
+          {
+            "digest": "sha256:f9f362c352e24fffe4dd54534c07f22a7211da3112615b479474f1de063adb49",
+            "bytes": 14535493
+          },
+          {
+            "digest": "sha256:625afcf9df2fd8c5633bb80b24b8417a6950f9dfc4d3ac2e7616d66f9fb57c8c",
+            "bytes": 7138040
+          },
+          {
+            "digest": "sha256:cb74ead52f1038ce8e2259f455558a20ebae5f06cefdcb83c399f159be4364ac",
+            "bytes": 2277
+          },
+          {
+            "digest": "sha256:c62d3fe6c5864a4a9dcbfede720c0fb8b3f07bcd0aa46248a161287a7ec9d4e6",
+            "bytes": 1573
+          }
+        ]
+      },
+      "source": {
+        "tag": "4.3.1",
+        "commit": "26b251a451ce941d3d7a55e6487bcb7f16b5ad48",
+        "source": "https://api.github.com/repos/apache/kafka/git/ref/tags/4.3.1"
+      },
+      "toolchain": {
+        "locked": "apache/kafka:4.3.1",
+        "target": "apache/kafka:4.3.1",
+        "validation": "actual_4.0.0_KRaft_persistent_messages_and_consumer_offsets_migrated_to_4.3.1; metadata4.0-IV3_binary_rollback_passed; metadata4.3-IV0_restart_and_independent_cold_copy_restore_passed; broker_API_readiness_passed",
+        "phase": 2
+      }
+    },
+    "nats": {
+      "image": {
+        "reference": "nats:2.14.7-alpine",
+        "pinned": "library/nats@sha256:b2301863d84fda2cf8260d308203708f5231b2db34d821cc518d5c4c3c79780a",
+        "platform": "linux/amd64",
+        "compressed_bytes": 11134934,
+        "layers": [
+          {
+            "digest": "sha256:53f8f5e03afd86ade91b7aa57a749f5a3d1419c113be5d8c10e7ee61bb5ab887",
+            "bytes": 3792075
+          },
+          {
+            "digest": "sha256:7a55ae9333b779b5fd7f855ae9cfc97f2d16cfb3fdbff00067b6f454a2b6ac3a",
+            "bytes": 7341889
+          },
+          {
+            "digest": "sha256:3104867fb6093de7749039ad0ea1191bf0886827ef927bc603db60474b981cf6",
+            "bytes": 561
+          },
+          {
+            "digest": "sha256:0dfe9ebb9be6b7643c1bbec85753267696cdbb26d619e30bd9c9123248321a82",
+            "bytes": 409
+          }
+        ]
+      },
+      "source": {
+        "tag": "v2.14.7",
+        "commit": "8d8b69a8c46a46a150eabb7f312607c4d9c58faf",
+        "source": "https://api.github.com/repos/nats-io/nats-server/git/ref/tags/v2.14.7"
+      },
+      "toolchain": {
+        "locked": "nats:2.14.7-alpine",
+        "target": "nats:2.14.7-alpine",
+        "validation": "actual_2.11.9_to_2.12.15_to_2.14.7_per_node_R3_mtls_roll_passed; signed_KV_checkpoint_and_fence_preserved; stale_owner_rejected; single_and_all_node_restart_passed; current_code_three_replica_coordination_quorum_fault_passed",
+        "phase": 2
+      }
+    },
+    "nats_upgrade_intermediate": {
+      "image": {
+        "reference": "nats:2.12.15-alpine",
+        "pinned": "library/nats@sha256:e01e9f09c03f60a8ded4785444ec4c5b2fd18a773b8b874daeefeff559119316",
+        "platform": "linux/amd64",
+        "compressed_bytes": 10885307,
+        "layers": [
+          {
+            "digest": "sha256:f7ee36c9aa34bbb665f975c76e5c0d1607f0674b94c84cfb0061f87006ea5d10",
+            "bytes": 3787595
+          },
+          {
+            "digest": "sha256:14eb99f85997befa44e474b78441f1157abc1003fbb2e81120d8f5ddb8bd54e7",
+            "bytes": 7096741
+          },
+          {
+            "digest": "sha256:74ff0bd79ffd6fd431f455b3c641c82c20ce704cbc7c63566ab189cb8408bf71",
+            "bytes": 561
+          },
+          {
+            "digest": "sha256:9df6c36ce2cfddd56fe15bb3b52c286d52ed54974273b8fff74be3dc6d199331",
+            "bytes": 410
+          }
+        ]
+      },
+      "source": {
+        "tag": "v2.12.15",
+        "commit": "8460a428cf3b27c8627595d630f1ccad55786d13",
+        "source": "https://api.github.com/repos/nats-io/nats-server/git/ref/tags/v2.12.15",
+        "purpose": "Offline NATS 2.11.9 to 2.12.15 to 2.14.7 rolling migration"
+      },
+      "toolchain": {
+        "locked": "nats:2.12.15-alpine",
+        "target": "nats:2.12.15-alpine",
+        "validation": "official_digest_pulled; actual_server_v2.12.15_verified; per_node_intermediate_R3_roll_passed",
+        "phase": 5,
+        "purpose": "offline_2.11.9_to_2.14.7_migration_only"
+      }
+    }
+  },
+  "executed_fixtures": {
+    "kafka": {
+      "raw_report": "/private/tmp/sf-message-kafka-20261005-final/verification.json",
+      "completed_at": "2026-10-04T17:49:07.461890+00:00"
+    },
+    "nats": {
+      "raw_report": "/private/tmp/sf-message-nats-20261005-final/verification.json",
+      "completed_at": "2026-10-04T17:50:55.949099+00:00"
+    },
+    "native": {
+      "raw_report": "/private/tmp/sf-native-calculated-20261005/verification.json",
+      "completed_at": "2026-10-04T17:57:37.764116+00:00"
+    }
+  },
+  "regression": [
+    {
+      "name": "message-deploy-tests",
+      "command": "python3 -m unittest discover -s tests -p test_message_deploy.py -v",
+      "tests": 4,
+      "passed": true,
+      "stdout": ".local/evolution/message-deploy-tests.stdout.txt",
+      "stderr": ".local/evolution/message-deploy-tests.stderr.txt"
+    },
+    {
+      "name": "message-release-tests",
+      "command": "python3 -m unittest discover -s tests -p test_release.py -v",
+      "tests": 4,
+      "passed": true,
+      "stdout": ".local/evolution/message-release-tests.stdout.txt",
+      "stderr": ".local/evolution/message-release-tests.stderr.txt"
+    },
+    {
+      "name": "message-toolchain-tests",
+      "command": "python3 -m unittest discover -s tests -p test_toolchains.py -v",
+      "tests": 7,
+      "passed": true,
+      "stdout": ".local/evolution/message-toolchain-tests.stdout.txt",
+      "stderr": ".local/evolution/message-toolchain-tests.stderr.txt"
+    },
+    {
+      "name": "message-postgres-deploy-tests",
+      "command": "python3 -m unittest discover -s tests -p test_postgres_deploy.py -v",
+      "tests": 2,
+      "passed": true,
+      "stdout": ".local/evolution/message-postgres-deploy-tests.stdout.txt",
+      "stderr": ".local/evolution/message-postgres-deploy-tests.stderr.txt"
+    }
+  ],
+  "go_race": {
+    "command": "GOTOOLCHAIN=local GOPROXY=off GOPATH=/private/tmp/smartfactory-evolution-gopath GOMODCACHE=/private/tmp/smartfactory-evolution-gomodcache GOCACHE=/private/tmp/smartfactory-evolution-go-cache go test -race ./internal/coordination ./internal/thingsboard",
+    "external_fixture_environment": "unset; unit tests ran and external-named tests skipped in this command; separate actual fixture commands ran named tests",
+    "stdout": ".local/evolution/message-go-race.stdout.txt",
+    "stderr": ".local/evolution/message-go-race.stderr.txt",
+    "exit_code": 0
+  },
+  "tested_binaries": {
+    "coordination": {
+      "path": "/private/tmp/sf-message-nats-20261005-final/coordination.test",
+      "sha256": "77558d5d410093b901a1cef6fefe5ca323a6778d79844eca75abca0c630e33de",
+      "go": "1.27.1",
+      "exact_command": "/private/tmp/sf-message-nats-20261005-final/coordination.test -test.v -test.run ^TestRealThreeReplicaCoordination$ -test.timeout 3m",
+      "raw_output": "/private/tmp/sf-message-nats-20261005-final/command-080.txt",
+      "test_duration_seconds": 8.47,
+      "source_snapshot_scope": "coordination package and module manifests captured below; production coordination code was unchanged during fixture test updates"
+    },
+    "thingsboard": {
+      "path": "/private/tmp/sf-native-calculated-20261005.test",
+      "sha256": "547bdd4aafddad63d72c520dfd566dedea568cff271e0727cb961e7d404584a7",
+      "go": "1.27.1",
+      "exact_command": "/private/tmp/sf-native-calculated-20261005.test -test.v -test.run ^TestNativeCalculatedFieldAlarmAndRetention$ -test.timeout 2m",
+      "raw_output": "/private/tmp/sf-native-calculated-20261005/command-007.txt",
+      "test_duration_seconds": 23.52,
+      "source_snapshot_matched": true
+    }
+  },
+  "source_sha256": {
+    "Platform/internal/coordination/commands.go": "3b3018e1de8fa3020ed84a6cd775af1e7f9f3cd4c676bbf6e0e859bb45a8eee6",
+    "Platform/internal/coordination/contention_test.go": "57aaab3252375ecf750cc7b6a08d02d487bb70dce9b8db9050b7eae986d77287",
+    "Platform/internal/coordination/coordinator.go": "0d9ed1e24400db510faf2409b7adf84d57252a483943301357a6d9ec4dc0b6e8",
+    "Platform/internal/coordination/infrastructure_test.go": "c71b9eb6fe1425cd01cb0b5e2f9ddd55937e487ff111893003575735b6f1b4ae",
+    "Platform/internal/coordination/integration_test.go": "e73a8ed0eb7395170574fe8d888a0213f671125c21bb0b6856bbe1d67d4fead0",
+    "Platform/internal/coordination/manager.go": "5e92a6fe3f46c83867345e9667e93da4b02df4f6e9e124d36f038fc338bdd6c4",
+    "Platform/internal/coordination/state.go": "1919c94356f781d53030a72ecded4d874ca90ed965bb41c220e5bba68faae40c",
+    "Platform/internal/thingsboard/adapter.go": "2c0c22e3dd7c40071c7537066ae2652cf8a155ef6e5c547a836461f242f0ff65",
+    "Platform/internal/thingsboard/alarms.go": "40e94d32852c50619ecae25850a112eee981f69fbeb7233a27965c860bc55e9b",
+    "Platform/internal/thingsboard/client.go": "c2e1d8c05ca846fa4593d82b75e1cd57f2c495d51d311f9970f356d30f16b215",
+    "Platform/internal/thingsboard/definitions.go": "a40d9283d31a8c38ad4946aadf2011dbc0f23698c90e657389146938906cd921",
+    "Platform/internal/thingsboard/native_test.go": "ee9289dfcadf38dd55303d51c95705833b84c4c18a623dcf18148a8bfe81a1b7",
+    "Platform/internal/thingsboard/projection_test.go": "ea099e959b5527fda9928592c2d7e54c9ffbb20bd6afed205099f8111aa18f92",
+    "Platform/internal/thingsboard/retention.go": "6cf670f9d89dacda40d3fe0ef5827514160a901566c051ec0cc52d5a43b3ed19",
+    "Platform/internal/thingsboard/telemetry_test.go": "d7a867389870c0b3120e225a91968b0cef9ab2e26156a1a470cfd9c9e9c9a599",
+    "Platform/go.mod": "2f7d5d4dc739448b70c153035faefda74d64338e1060592cf605b93660d17d1c",
+    "Platform/go.sum": "36634757a1cfc78a1897afdc5d091a56401eba9c7268d34a63704f0902e7387f",
+    "DataTransfer/go.mod": "053c9834395a76c358e7e9ad2fc55e4c36af75f8a2447fb4f2c1f13d3ee72ef1",
+    "DataTransfer/go.sum": "de149d0a44e71f8b948e111e5d65efebf316af1d574e72ed51b9ae7462956af2"
+  },
+  "kafka_recovery_cutoff": {
+    "restored_records": 42,
+    "finalized_records": 45,
+    "records_after_copy_require_replay": 3
+  },
+  "kafka_restore_source": "/private/tmp/sf-message-kafka-20261005-final/restored-data",
+  "diagnostics": {
+    "BrokerEndpoint_v4": {
+      "initial_error_logs": [
+        "/private/tmp/sf-message-kafka-20261005-v2/command-134.txt",
+        "/private/tmp/sf-message-kafka-20261005-v2/command-137.txt"
+      ],
+      "root_cause": "Docker Desktop bind mount retained pre-rename directory when the old host pathname was reused; reproduced three times with distinguishable file contents",
+      "verified_correction": "fresh independent restored-data pathname; host SHA and readonly container-visible SHA match cold copy",
+      "evidence": ".local/evolution/kafka-bind-source-diagnostic.json"
+    },
+    "nats_storage_reservation": {
+      "initial_file_limit_bytes_per_node": 2147483648,
+      "fixture_limit_bytes_per_node": 6442450944,
+      "production_limit_bytes_per_node": 2147483648,
+      "reason": "two independent prefixes reserve four 512MiB KV streams each",
+      "actual_source_cold_copy_bytes": 62701,
+      "actual_target_cold_copy_bytes": 60007,
+      "container_limit_bytes_per_node": 268435456,
+      "go_runtime_soft_limit": "192MiB"
+    },
+    "nats_startup_probes": [
+      {
+        "at": "2026-10-04T17:50:44.602566+00:00",
+        "stage": "target-cold-backup_restart",
+        "error": "=== RUN   TestPersistentThreeReplicaUpgrade\n    infrastructure_test.go:75: context deadline exceeded\n--- FAIL: TestPersistentThreeReplicaUpgrade (2.01s)\nFAIL\n",
+        "next_attempt": 2
+      }
+    ],
+    "fixture_definition_update": "current schema version, group, input/action node graph and PrepareDefinition required by current compiled plan; original coordination assertions preserved",
+    "post_run_cleanup_change": "Kafka script removal gained -v after the full migration run; 18 known fixture anonymous volumes were subsequently explicitly removed and all existing container attachments excluded"
+  },
+  "resources": {
+    "docker_host_architecture": "aarch64",
+    "image_platform": "linux/amd64",
+    "architecture_emulation": true,
+    "docker_total_memory_bytes": 8319504384,
+    "kafka_migration_memory_limit_bytes": 2147483648,
+    "kafka_migration_broker_heap_bytes": 268435456,
+    "kafka_migration_container_peak_bytes": 806240256,
+    "nats_server_mem_observed_max_bytes": 82378752,
+    "native_combined_container_limits_bytes": 6442450944,
+    "native_container_memory": {
+      "sf-native-calculated-20261005-ce": "1921396736\n1925427200\n",
+      "sf-native-calculated-20261005-kafka": "572157952\n584425472\n"
+    },
+    "native_jvm_nmt_total_committed_bytes": 901040128,
+    "native_final_states": {
+      "sf-native-calculated-20261005-ce": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 143,
+        "Error": "",
+        "StartedAt": "2026-10-04T17:55:40.847581721Z",
+        "FinishedAt": "2026-10-04T17:57:36.460164594Z"
+      },
+      "sf-native-calculated-20261005-kafka": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 143,
+        "Error": "",
+        "StartedAt": "2026-10-04T17:55:31.089640174Z",
+        "FinishedAt": "2026-10-04T17:57:37.527181928Z"
+      }
+    },
+    "cleanup": ".local/evolution/message-services-cleanup.json",
+    "postgres_retained": {
+      "container": "smartfactory-evolution-pg18-20261004",
+      "state": "running",
+      "image": "library/postgres@sha256:0377e72c5289ed2f98cf61b1a9c2db9eb9d300317fe14244492fbc94343b3d04",
+      "memory_limit_bytes": 1073741824,
+      "cpus": 2.0,
+      "command": [
+        "-c",
+        "shared_buffers=64MB",
+        "-c",
+        "max_connections=30"
+      ],
+      "sql_exit_code": 0,
+      "settings_and_connections": {
+        "server_version": "18.6 (Debian 18.6-1.pgdg13+2)",
+        "max_connections": "30",
+        "shared_buffers": "64MB",
+        "work_mem": "4MB",
+        "connections_total": 9,
+        "client_connections": 1,
+        "client_states": [
+          {
+            "state": "active",
+            "count": 1
+          }
+        ]
+      },
+      "memory_read_exit_code": 0,
+      "memory_current_and_peak_bytes": [
+        480088064,
+        554901504
+      ],
+      "settings_probe_attempts": [
+        {
+          "at": "2026-10-04T18:11:41.655495+00:00",
+          "exit_code": 2,
+          "user": "postgres",
+          "status": "default_role_probe_failed"
+        },
+        {
+          "at": "2026-10-04T18:12:11.947624+00:00",
+          "exit_code": 0,
+          "status": "configured_role_probe"
+        }
+      ]
+    },
+    "disks_after": {
+      "/Volumes/Work": {
+        "total_bytes": 5000003584,
+        "used_bytes": 2963849216,
+        "free_bytes": 2036154368
+      },
+      "/private/tmp": {
+        "total_bytes": 489384792064,
+        "used_bytes": 449582886912,
+        "free_bytes": 39801905152
+      }
+    }
+  },
+  "transfer": {
+    "authorization": "REDACTED",
+    "new_container_image": "nats:2.12.15-alpine",
+    "compressed_layer_payload_bytes": 10885307,
+    "layers": [
+      {
+        "digest": "sha256:f7ee36c9aa34bbb665f975c76e5c0d1607f0674b94c84cfb0061f87006ea5d10",
+        "bytes": 3787595
+      },
+      {
+        "digest": "sha256:14eb99f85997befa44e474b78441f1157abc1003fbb2e81120d8f5ddb8bd54e7",
+        "bytes": 7096741
+      },
+      {
+        "digest": "sha256:74ff0bd79ffd6fd431f455b3c641c82c20ce704cbc7c63566ab189cb8408bf71",
+        "bytes": 561
+      },
+      {
+        "digest": "sha256:9df6c36ce2cfddd56fe15bb3b52c286d52ed54974273b8fff74be3dc6d199331",
+        "bytes": 410
+      }
+    ],
+    "already_cached": [
+      "apache/kafka:4.0.0",
+      "apache/kafka:4.3.1",
+      "nats:2.11.9-alpine",
+      "nats:2.14.7-alpine",
+      "thingsboard/tb-node:4.3.1.6"
+    ],
+    "license_payload_bytes": 34958,
+    "license_files": [
+      {
+        "component": "nats",
+        "source_commit": "8d8b69a8c46a46a150eabb7f312607c4d9c58faf",
+        "source_path": "LICENSE",
+        "source_url": "https://raw.githubusercontent.com/nats-io/nats-server/8d8b69a8c46a46a150eabb7f312607c4d9c58faf/LICENSE",
+        "included_file": "deploy/licenses/nats/LICENSE",
+        "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      },
+      {
+        "component": "nats_upgrade_intermediate",
+        "source_commit": "8460a428cf3b27c8627595d630f1ccad55786d13",
+        "source_path": "LICENSE",
+        "source_url": "https://raw.githubusercontent.com/nats-io/nats-server/8460a428cf3b27c8627595d630f1ccad55786d13/LICENSE",
+        "included_file": "deploy/licenses/nats_upgrade_intermediate/LICENSE",
+        "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      },
+      {
+        "component": "kafka",
+        "source_commit": "26b251a451ce941d3d7a55e6487bcb7f16b5ad48",
+        "source_path": "LICENSE",
+        "source_url": "https://raw.githubusercontent.com/apache/kafka/26b251a451ce941d3d7a55e6487bcb7f16b5ad48/LICENSE",
+        "included_file": "deploy/licenses/kafka/LICENSE",
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      },
+      {
+        "component": "kafka",
+        "source_commit": "26b251a451ce941d3d7a55e6487bcb7f16b5ad48",
+        "source_path": "NOTICE",
+        "source_url": "https://raw.githubusercontent.com/apache/kafka/26b251a451ce941d3d7a55e6487bcb7f16b5ad48/NOTICE",
+        "included_file": "deploy/licenses/kafka/NOTICE",
+        "sha256": "11a23c7823a4547fda7567c458328bd77dc7326ac734c6c139b01f1538a8a38a"
+      }
+    ],
+    "wire_total_bytes": null,
+    "wire_total_note": "manifest layer bytes measured; protocol overhead and retries not separately measured",
+    "go_module_changes": false
+  },
+  "public_guide": "Wiki/消息组件升级.md",
+  "handoff_control": "docs/evolution/handoff-message-control.md",
+  "handoff_delivery": "docs/evolution/handoff-message-delivery.md",
+  "later_delivery_validation": [
+    "complete offline image archives and complete formal release/profile deployment",
+    "NATS full source cold-copy restore after target upgrade; cold source backup and persistent source restart were verified here",
+    "formal Kafka runtime 512MiB heap/1GiB container resource measurement under final combined load",
+    "existing E5-04 ThingsBoard Edge PID1 stop signal forwarding verification from stage1 handoff"
+  ],
+  "evidence_files": {
+    "/private/tmp/sf-message-kafka-20261005-final/verification.json": {
+      "purpose": "kafka raw report",
+      "bytes": 149056,
+      "sha256": "6e674aa117e491f9c161ca4a39909046b931c531ee71757f9b2d4f6be5714912"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-001.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 16,
+      "sha256": "d8760763be63067f00789fcf42648cb7e89259b37690e733415676ec0b8b6596"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-002.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 81,
+      "sha256": "a554440ee4b39911b1f8a2c2ec8df59c310879bb50868a8d8d67c9d1bd65dfd1"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-003.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 33,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-004.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 33,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-005.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 33,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-006.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 32,
+      "sha256": "c1955799635c503c4fbdeb68c5fa67ceb24caaf2e49f0c50a6207a1a56d811c6"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-007.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 11824,
+      "sha256": "683490ab1cd4db6bac169004481954d38c12fc1c5f85f382a8951d658c1bc2d7"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-008.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 52,
+      "sha256": "7c06edf7695a3681cdea1d65b724748c91c84f8bd562eb92d49dda470f3fd58b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-009.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 16,
+      "sha256": "d8760763be63067f00789fcf42648cb7e89259b37690e733415676ec0b8b6596"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-010.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 190,
+      "sha256": "77cec79641c24137064c137038b47bafbd0a4307ded2cd94a5475159619ecf4f"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-011.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 93,
+      "sha256": "8bd820f6560f5693a6a8e0b96378a3dab3b6db697ba5f7ed0d398d4415bf94ea"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-012.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 564,
+      "sha256": "dfe820d9b84e23e8ff08fa05f9602a530393d8342fb502da8a5cc928f8749d54"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-013.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 623,
+      "sha256": "dc0acce676cadb85ba8305b23cd84facbd4352d0320fd08b5a75f26061249d39"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-014.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 680,
+      "sha256": "5aa49d3c6ff577f33e48b4744089759dd0dd267d70149f04c00225cabb2e1a3c"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-015.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 582,
+      "sha256": "df291ebc3bc79bb2d5320bf017b353da0e9c3bb567c48638f911ecb857bdb36b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-016.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 622,
+      "sha256": "59ded5981914f1b33d9f3a96843a5a8a911116903846510bc4c88f0457e69696"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-017.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 26,
+      "sha256": "057f975240f1bc84f45b3b96da4541217bdea9777c3d2e3b0ce66863fd8d0931"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-018.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 44,
+      "sha256": "68da4da632efe51204bc1d9eeb699c61aecb068de8559c1c8c41ea5b3095541b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-019.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 11841,
+      "sha256": "0fd4eaac3f79f66d835e21a2aec393c48b02531350f25b8a890fff617f87befb"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-020.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 77217,
+      "sha256": "bb4b143c7d116aa081dfbf28a30c9557bc755d083133d9bcf2b9733895970be5"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-021.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 44,
+      "sha256": "68da4da632efe51204bc1d9eeb699c61aecb068de8559c1c8c41ea5b3095541b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-022.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 16,
+      "sha256": "d8760763be63067f00789fcf42648cb7e89259b37690e733415676ec0b8b6596"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-023.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 81,
+      "sha256": "22f9252bcaa0765c73284b4b99aadc5b2a5f739c80be22908b65f3f96dc4466c"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-024.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 33,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-025.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 33,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-026.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 33,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-027.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 33,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-028.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 32,
+      "sha256": "c1955799635c503c4fbdeb68c5fa67ceb24caaf2e49f0c50a6207a1a56d811c6"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-029.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 11848,
+      "sha256": "65e73a922fa8d0ddc0f0b3790e44eacc2774a5409ed90221909461e7af7ed8f8"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-030.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 93,
+      "sha256": "8bd820f6560f5693a6a8e0b96378a3dab3b6db697ba5f7ed0d398d4415bf94ea"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-031.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 785,
+      "sha256": "62134b6d557e7ca54bd21a85f2f0a0a5cf13fa8649d0879e1711d24cbefc6c89"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-032.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 844,
+      "sha256": "63795f7a5c6941279b6ca8fe9b82ed4f728f5faaec11c1adae27472e13605f76"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-033.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 901,
+      "sha256": "3a40dde1773f481cfce8181a763d68ee3e95ca95e79b0217f82beffb992a3ae6"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-034.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 1262,
+      "sha256": "c9c02ab9f1c44affc23a4e4c6d81a80d03b53afa5cce72c1daafc29e4712db72"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-035.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 622,
+      "sha256": "59ded5981914f1b33d9f3a96843a5a8a911116903846510bc4c88f0457e69696"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-036.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 1396,
+      "sha256": "e62388ebccbaf3c2a8e729decb3702da86180cc115b3a8cbefd6c4b15e51e2c3"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-037.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 122,
+      "sha256": "89fb87811750505ae7345c1eb11796c45c2451d9721c9f3e00c932937096df30"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-038.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 872,
+      "sha256": "cfa05e393ebe62194ab6ad78fee1a48102d1a3c64663c022c3a96eca5361d7f7"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-039.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 94,
+      "sha256": "966e4d34289827f7eccbda018eeddb645ce0c38352784cd14c83027dd2baa9cd"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-040.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 956,
+      "sha256": "ba0fca19b041b9b5f15726ed8d7f38993bfa6323d117bb28f5feb88134e26d6e"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-041.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 1074,
+      "sha256": "517cc07afecd1a2323cd8134843f2bad7972fc7d222f14ba56f2ab4884a53e19"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-042.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 1188,
+      "sha256": "5a57d185aaf82a23a50aa853437aab923cba6c2acd32b192e70641cdbb62e15a"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-043.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 1262,
+      "sha256": "9cf0a1a19dfe00f0352431ab4cfa772084d5ca8eb863d62b9ffbce5894fddf4d"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-044.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 622,
+      "sha256": "5ba6672edde1887ad4cd3a73968c8e0098884be2b51220f0ffae6ed7159ba613"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-045.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 26,
+      "sha256": "096b57f56d26980cbff9bb720e5abc32462ab6047d01f63ab16215d525f1d436"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-046.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 44,
+      "sha256": "68da4da632efe51204bc1d9eeb699c61aecb068de8559c1c8c41ea5b3095541b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-047.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 12373,
+      "sha256": "7de6fca464dbdd42052552fd905986584d8518a010bbed15f8cd14380d055966"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-048.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 96441,
+      "sha256": "35baee0814a42f2bd17bad50a356e91538b49f2aa69173761ccad978b92eba75"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-049.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 44,
+      "sha256": "68da4da632efe51204bc1d9eeb699c61aecb068de8559c1c8c41ea5b3095541b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-050.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 16,
+      "sha256": "d8760763be63067f00789fcf42648cb7e89259b37690e733415676ec0b8b6596"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-051.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 81,
+      "sha256": "a16f0fec440ddc99a667ae4b929d7c8e02d6b15e2fae95fbd240d313e552235f"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-052.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 33,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-053.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 33,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-054.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 33,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-055.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 33,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-056.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 33,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-057.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 33,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-058.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 33,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-059.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 33,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-060.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 33,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-061.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 32,
+      "sha256": "c1955799635c503c4fbdeb68c5fa67ceb24caaf2e49f0c50a6207a1a56d811c6"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-062.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 12331,
+      "sha256": "1bb99127e9c9732a294c3b42844ffc40b6dd575559257aa0b2b480dd88ea0058"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-063.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 94,
+      "sha256": "966e4d34289827f7eccbda018eeddb645ce0c38352784cd14c83027dd2baa9cd"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-064.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 735,
+      "sha256": "40ddd7f0ca604c68fe3f934d59b00bcfdebf89f7b941bb3448d2d2bf810a1f4d"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-065.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 853,
+      "sha256": "59701dc34ac6872dcc9419face8a1a7dc605cb44dc259698fa95b660b16a36fa"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-066.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 967,
+      "sha256": "17ec64ff6abded35d5be68f63d3b069e9aec599928c3d6168e20b130fd97861e"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-067.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 587,
+      "sha256": "a31b9821ff8a0bbb5111dbd81778ea74ab22e0ec1d6b8cc7cba5f43883d8d434"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-068.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 622,
+      "sha256": "5ba6672edde1887ad4cd3a73968c8e0098884be2b51220f0ffae6ed7159ba613"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-069.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 26,
+      "sha256": "e4291abb81f0d3112585dadb72a5e2033a2d4bc12dbba459765584778e061e36"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-070.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 44,
+      "sha256": "68da4da632efe51204bc1d9eeb699c61aecb068de8559c1c8c41ea5b3095541b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-071.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 12347,
+      "sha256": "697380f1bc25661bbae5f942b8ed2b78578224f52f734e04a3a383852e927234"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-072.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 85049,
+      "sha256": "eeb8a04070f59bd60236ada09cd5b31ec97374449139b64f44a2cf58c35981f2"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-073.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 44,
+      "sha256": "68da4da632efe51204bc1d9eeb699c61aecb068de8559c1c8c41ea5b3095541b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-074.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 16,
+      "sha256": "d8760763be63067f00789fcf42648cb7e89259b37690e733415676ec0b8b6596"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-075.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 81,
+      "sha256": "459603504eb8ee51d63456d3ae780b1b126a7f9f3ad6f0eba74e733c012d7768"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-076.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 33,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-077.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 33,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-078.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 33,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-079.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 33,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-080.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 33,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-081.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 32,
+      "sha256": "c1955799635c503c4fbdeb68c5fa67ceb24caaf2e49f0c50a6207a1a56d811c6"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-082.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 11847,
+      "sha256": "dc78af24592f86ec9d24a1ee26c8916545ff4e1fde43d5a21bbd8832df069282"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-083.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 278,
+      "sha256": "01a8c4c75d28a2cbbb04610f3956e7e9b6cdf978a0800e3e924db64e848b4cd6"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-084.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 94,
+      "sha256": "966e4d34289827f7eccbda018eeddb645ce0c38352784cd14c83027dd2baa9cd"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-085.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 956,
+      "sha256": "ba0fca19b041b9b5f15726ed8d7f38993bfa6323d117bb28f5feb88134e26d6e"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-086.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 1074,
+      "sha256": "517cc07afecd1a2323cd8134843f2bad7972fc7d222f14ba56f2ab4884a53e19"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-087.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 1188,
+      "sha256": "5a57d185aaf82a23a50aa853437aab923cba6c2acd32b192e70641cdbb62e15a"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-088.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 1262,
+      "sha256": "21935ce5c281c6ea6383dc7ec278b5f07898e534d6bdcbc2793c3972d5dea3b0"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-089.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 622,
+      "sha256": "5ba6672edde1887ad4cd3a73968c8e0098884be2b51220f0ffae6ed7159ba613"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-090.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 382,
+      "sha256": "8b47f52ac0d2311dfbc26157d7ca2592d5951e82b43f97224ca7956a3c2909dd"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-091.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 122,
+      "sha256": "89fb87811750505ae7345c1eb11796c45c2451d9721c9f3e00c932937096df30"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-092.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 594,
+      "sha256": "27bfb368ddfa78892d8d8aa8b681c55ef1e12222fb63d24ee6b96b72a3d20ae8"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-093.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 94,
+      "sha256": "05d9bb641bc9fc74424b591c6d36dcce565a84793d6af0207cd2d4947264542f"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-094.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 1027,
+      "sha256": "df926ae74bdfe8c8fdb58210f4a8ae82a3fa60ba3d08475c23a9c5bfa1769a6f"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-095.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 1145,
+      "sha256": "4f4a26d196b84dc8cb026f9963d787a04b08e384719dd89e9e3c0cf8fe1fcfe2"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-096.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 1259,
+      "sha256": "5770bfa47883da2de6802a2e81afccb8df895c189f97ccbd27882d4bcda5cab9"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-097.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 1262,
+      "sha256": "000adcc05995bd7151f16ca1af926794496cc30b5292f08345d8300de8ac5f78"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-098.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 622,
+      "sha256": "fefb8a7af2159e20bdf298a294cf5e56f601f36a224083e0083c90de9417811b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-099.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 26,
+      "sha256": "51bb74cbf414f12f2cc9b439d0c474733bd3153201398e5ac60fccaefa17aa71"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-100.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 44,
+      "sha256": "68da4da632efe51204bc1d9eeb699c61aecb068de8559c1c8c41ea5b3095541b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-101.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 12624,
+      "sha256": "733a88b006040ebbc7da4e440a52408c58298ec9251ce9d98cdd274df1e5af47"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-102.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 131815,
+      "sha256": "05fd9fdb45df301f0b23491e99750f0bcc00268af8fa206cfb5065559101a64c"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-103.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 44,
+      "sha256": "68da4da632efe51204bc1d9eeb699c61aecb068de8559c1c8c41ea5b3095541b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-104.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 16,
+      "sha256": "d8760763be63067f00789fcf42648cb7e89259b37690e733415676ec0b8b6596"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-105.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 81,
+      "sha256": "cdf60cec3a3a76de57268524704d0629871c7db315925fd23a58fdc37853c960"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-106.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 33,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-107.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 33,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-108.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 33,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-109.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 33,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-110.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 33,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-111.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 33,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-112.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 33,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-113.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 32,
+      "sha256": "c1955799635c503c4fbdeb68c5fa67ceb24caaf2e49f0c50a6207a1a56d811c6"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-114.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 12101,
+      "sha256": "41874391d7a02974e966e1820896e6fcd7bb6dba5b923dc20b6c4617ea0b8a1b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-115.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 94,
+      "sha256": "05d9bb641bc9fc74424b591c6d36dcce565a84793d6af0207cd2d4947264542f"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-116.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 1027,
+      "sha256": "df926ae74bdfe8c8fdb58210f4a8ae82a3fa60ba3d08475c23a9c5bfa1769a6f"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-117.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 1145,
+      "sha256": "4f4a26d196b84dc8cb026f9963d787a04b08e384719dd89e9e3c0cf8fe1fcfe2"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-118.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 1259,
+      "sha256": "5770bfa47883da2de6802a2e81afccb8df895c189f97ccbd27882d4bcda5cab9"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-119.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 1262,
+      "sha256": "6124cf0c095d32755fdd648184f0a28fc924a998a76589cd3a8b2aa772a85261"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-120.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 622,
+      "sha256": "fefb8a7af2159e20bdf298a294cf5e56f601f36a224083e0083c90de9417811b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-121.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 26,
+      "sha256": "159caa20d04e98a8e9488f4f89677db5e50feda214d08350ec9135763bdcb2db"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-122.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 44,
+      "sha256": "68da4da632efe51204bc1d9eeb699c61aecb068de8559c1c8c41ea5b3095541b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-123.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 12118,
+      "sha256": "0644baa6bf0fd29cea40809736b667953d12a054ea197bcb057405dda4ff4e7d"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-124.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 128206,
+      "sha256": "89734bdc8b67bfbc29ea8e037aea244e17b9d58987d45be3f952763024de1f2b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-125.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 44,
+      "sha256": "68da4da632efe51204bc1d9eeb699c61aecb068de8559c1c8c41ea5b3095541b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-126.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 5761,
+      "sha256": "7021b4cae40a9d563e995b272355a45df20300befa981e13e4d3e73560a6c651"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-127.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 16,
+      "sha256": "d8760763be63067f00789fcf42648cb7e89259b37690e733415676ec0b8b6596"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-128.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 81,
+      "sha256": "b8f4dc7b855b83a13499d4999fbcbf853497e3b48ea9bf525973da77ca50d918"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-129.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 33,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-130.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 33,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-131.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 33,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-132.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 33,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-133.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 33,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-134.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 33,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-135.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 33,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-136.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 33,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-137.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 33,
+      "sha256": "f80c416a64625efcf4f4839d56147460c53f37b005ae0ea8689d77d24a78ee0b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-138.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 32,
+      "sha256": "c1955799635c503c4fbdeb68c5fa67ceb24caaf2e49f0c50a6207a1a56d811c6"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-139.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 12347,
+      "sha256": "67e950015e8eb2dc4a33b9dc13540c298fcb00cccd18c5ef8851e15fea549fee"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-140.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 94,
+      "sha256": "966e4d34289827f7eccbda018eeddb645ce0c38352784cd14c83027dd2baa9cd"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-141.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 735,
+      "sha256": "40ddd7f0ca604c68fe3f934d59b00bcfdebf89f7b941bb3448d2d2bf810a1f4d"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-142.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 853,
+      "sha256": "59701dc34ac6872dcc9419face8a1a7dc605cb44dc259698fa95b660b16a36fa"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-143.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 967,
+      "sha256": "17ec64ff6abded35d5be68f63d3b069e9aec599928c3d6168e20b130fd97861e"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-144.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 587,
+      "sha256": "53ee6be173c87030cc33821c13c67a51929840d089bfe6ca024619f955d355aa"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-145.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 622,
+      "sha256": "5ba6672edde1887ad4cd3a73968c8e0098884be2b51220f0ffae6ed7159ba613"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-146.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 26,
+      "sha256": "2de47827a9bed281842dbab577f94fae6ff389f0dc79369668efc4fe9bd3030f"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-147.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 44,
+      "sha256": "68da4da632efe51204bc1d9eeb699c61aecb068de8559c1c8c41ea5b3095541b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-148.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 12363,
+      "sha256": "0eaca215b8ac0c436cabfc774497173b83d82b0440f822df6329976f20a0eb45"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-149.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 80736,
+      "sha256": "020e0884d4c6e6ea1c8a2f240f8bb20e42345b3a4cf9e0def2318d7182af6302"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/command-150.txt": {
+      "purpose": "kafka raw command",
+      "bytes": 44,
+      "sha256": "68da4da632efe51204bc1d9eeb699c61aecb068de8559c1c8c41ea5b3095541b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/source-cold-backup-manifest.json": {
+      "purpose": "kafka source-cold-backup",
+      "bytes": 7967,
+      "sha256": "437643c704e8df12a73e47813541d4745d28801fa63fd60abf5bc4f9d7f18866"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/source-cold-backup": {
+      "purpose": "kafka cold copy",
+      "kind": "directory"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/pre-finalization-cold-backup-manifest.json": {
+      "purpose": "kafka pre-finalization-cold-backup",
+      "bytes": 8151,
+      "sha256": "aef2a75dd4fd3118e9c8fe2f0fab72e57348bfbdf9bdb7ddaa8b2df85b60401b"
+    },
+    "/private/tmp/sf-message-kafka-20261005-final/pre-finalization-cold-backup": {
+      "purpose": "kafka cold copy",
+      "kind": "directory"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/verification.json": {
+      "purpose": "nats raw report",
+      "bytes": 36408,
+      "sha256": "840f18cb219a672264c89826e29d7e8a4101b31553c579962c10588b87f96165"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-001.txt": {
+      "purpose": "nats raw command",
+      "bytes": 314,
+      "sha256": "1c17f765aee86bc19dad34bd5e6a05d6c2100614b14dcb3af732bdc77e1f0297"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-002.txt": {
+      "purpose": "nats raw command",
+      "bytes": 11313,
+      "sha256": "351ca240f51d6bb16ef80fdc7a1c566256f612378e915f9a0223151be2596341"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-003.txt": {
+      "purpose": "nats raw command",
+      "bytes": 11313,
+      "sha256": "128ba2120a18a5940852bdd9f7ef16a2cf8116e33f5e361988223fd982cc9d92"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-004.txt": {
+      "purpose": "nats raw command",
+      "bytes": 11313,
+      "sha256": "de3e304c7de1b0a00f83e608a184aa24ebf5b1e0bba5bf65c73a6107b4007536"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-005.txt": {
+      "purpose": "nats raw command",
+      "bytes": 379,
+      "sha256": "8c6096dba5092ddf9056422f0cbf759a8cb86ec39199662ed08f59a9f7b36f66"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-006.txt": {
+      "purpose": "nats raw command",
+      "bytes": 379,
+      "sha256": "31b0530e37ca88c205e3acfa51c66207053ca5ed2e173ac721b6bbceb88f9058"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-007.txt": {
+      "purpose": "nats raw command",
+      "bytes": 314,
+      "sha256": "50368ec8f26fe05b9c3f0f2dab7717a792f125a70e3aa577202d71b8db36f732"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-008.txt": {
+      "purpose": "nats raw command",
+      "bytes": 11323,
+      "sha256": "588308cbafb2a4e85c6cf63463e6d0a199fc9a08ef4e9e213b8c7ab3b7b4cd4a"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-009.txt": {
+      "purpose": "nats raw command",
+      "bytes": 11323,
+      "sha256": "8606c28e6340ccd06182cb6d12bf2602a6727ea7c6a2181a0eb62bc8dd198103"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-010.txt": {
+      "purpose": "nats raw command",
+      "bytes": 11323,
+      "sha256": "1fe610ec09a930e47816b112a5e8641a0ee1701990c756dfd4b16c2cd3b8e9b6"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-011.txt": {
+      "purpose": "nats raw command",
+      "bytes": 56,
+      "sha256": "2803adee9f7c6f8dc0574b00373c128bf6888c6211ed88a671361b29681bd066"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-012.txt": {
+      "purpose": "nats raw command",
+      "bytes": 10739,
+      "sha256": "e2fdcfa245ea991aadf261ef4caf3de00d404d20d125c2d2c48e6a2ce1f4f796"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-013.txt": {
+      "purpose": "nats raw command",
+      "bytes": 13352,
+      "sha256": "f051de9e730571ca6cdf812949298819740f473b583c4049f12bfcdd9149a882"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-014.txt": {
+      "purpose": "nats raw command",
+      "bytes": 260,
+      "sha256": "3d869433622c32f776ffb79976426e5d8d6001f45b11d48627b7ebc67a68e507"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-015.txt": {
+      "purpose": "nats raw command",
+      "bytes": 314,
+      "sha256": "733dcc5aac8fa00faa78556dacab3757351acaf3ea4b1209ae66280e6146c0ca"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-016.txt": {
+      "purpose": "nats raw command",
+      "bytes": 12003,
+      "sha256": "8ad92e099722c8b766004b9d4170a31f7034c98a846c1572eaec7a201e99a330"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-017.txt": {
+      "purpose": "nats raw command",
+      "bytes": 11323,
+      "sha256": "8606c28e6340ccd06182cb6d12bf2602a6727ea7c6a2181a0eb62bc8dd198103"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-018.txt": {
+      "purpose": "nats raw command",
+      "bytes": 11323,
+      "sha256": "1fe610ec09a930e47816b112a5e8641a0ee1701990c756dfd4b16c2cd3b8e9b6"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-019.txt": {
+      "purpose": "nats raw command",
+      "bytes": 56,
+      "sha256": "93d90ea041aea5b2c094f24b01b05433fb73c444855c0fca9e2fea31f9d4ecd9"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-020.txt": {
+      "purpose": "nats raw command",
+      "bytes": 11323,
+      "sha256": "8606c28e6340ccd06182cb6d12bf2602a6727ea7c6a2181a0eb62bc8dd198103"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-021.txt": {
+      "purpose": "nats raw command",
+      "bytes": 10739,
+      "sha256": "41a147eb651c5bc19045dac0174718ad8a21a404378726d9460cb6370701bcea"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-022.txt": {
+      "purpose": "nats raw command",
+      "bytes": 14831,
+      "sha256": "eaafd2fdceaf92bfa2a7dc375d3408107edffb1c0445bc5b0d061b3139051fa1"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-023.txt": {
+      "purpose": "nats raw command",
+      "bytes": 260,
+      "sha256": "1591f8a3195af5c42a38328d85ff1117889d53d6d4c59068bd477f1a39a9e1f1"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-024.txt": {
+      "purpose": "nats raw command",
+      "bytes": 314,
+      "sha256": "50368ec8f26fe05b9c3f0f2dab7717a792f125a70e3aa577202d71b8db36f732"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-025.txt": {
+      "purpose": "nats raw command",
+      "bytes": 12003,
+      "sha256": "8ad92e099722c8b766004b9d4170a31f7034c98a846c1572eaec7a201e99a330"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-026.txt": {
+      "purpose": "nats raw command",
+      "bytes": 12003,
+      "sha256": "05b95e96ca1999fbbd772b466c0389de315fd046d9971eb1cc8a140c52c8d594"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-027.txt": {
+      "purpose": "nats raw command",
+      "bytes": 11323,
+      "sha256": "1fe610ec09a930e47816b112a5e8641a0ee1701990c756dfd4b16c2cd3b8e9b6"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-028.txt": {
+      "purpose": "nats raw command",
+      "bytes": 56,
+      "sha256": "5636767f068680304653109551066bb91a795267f2f340031de1f662a5cdfd8c"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-029.txt": {
+      "purpose": "nats raw command",
+      "bytes": 11323,
+      "sha256": "1fe610ec09a930e47816b112a5e8641a0ee1701990c756dfd4b16c2cd3b8e9b6"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-030.txt": {
+      "purpose": "nats raw command",
+      "bytes": 10739,
+      "sha256": "c08fc3f6b0b7062300bbe5ef86c6c8940c1965c496ccf121a005fffcc4457c2a"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-031.txt": {
+      "purpose": "nats raw command",
+      "bytes": 17184,
+      "sha256": "4748e10e474cb9cb4defe92350ce7b845f33f679738bb043dd2ec577932da302"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-032.txt": {
+      "purpose": "nats raw command",
+      "bytes": 260,
+      "sha256": "835c3b73d2d52295cbf111caa74ea9fae4e5c550805c8ad85366317fee2f347d"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-033.txt": {
+      "purpose": "nats raw command",
+      "bytes": 314,
+      "sha256": "50368ec8f26fe05b9c3f0f2dab7717a792f125a70e3aa577202d71b8db36f732"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-034.txt": {
+      "purpose": "nats raw command",
+      "bytes": 12003,
+      "sha256": "8ad92e099722c8b766004b9d4170a31f7034c98a846c1572eaec7a201e99a330"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-035.txt": {
+      "purpose": "nats raw command",
+      "bytes": 12003,
+      "sha256": "05b95e96ca1999fbbd772b466c0389de315fd046d9971eb1cc8a140c52c8d594"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-036.txt": {
+      "purpose": "nats raw command",
+      "bytes": 12003,
+      "sha256": "f57a54c2cdc6e9296f4532fa27409696beae54740c4705a21866c41ec0d9110a"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-037.txt": {
+      "purpose": "nats raw command",
+      "bytes": 12003,
+      "sha256": "8ad92e099722c8b766004b9d4170a31f7034c98a846c1572eaec7a201e99a330"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-038.txt": {
+      "purpose": "nats raw command",
+      "bytes": 12003,
+      "sha256": "05b95e96ca1999fbbd772b466c0389de315fd046d9971eb1cc8a140c52c8d594"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-039.txt": {
+      "purpose": "nats raw command",
+      "bytes": 12003,
+      "sha256": "f57a54c2cdc6e9296f4532fa27409696beae54740c4705a21866c41ec0d9110a"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-040.txt": {
+      "purpose": "nats raw command",
+      "bytes": 56,
+      "sha256": "2803adee9f7c6f8dc0574b00373c128bf6888c6211ed88a671361b29681bd066"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-041.txt": {
+      "purpose": "nats raw command",
+      "bytes": 12003,
+      "sha256": "8ad92e099722c8b766004b9d4170a31f7034c98a846c1572eaec7a201e99a330"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-042.txt": {
+      "purpose": "nats raw command",
+      "bytes": 11429,
+      "sha256": "8b474222298ffdd408ec06ee30e813fbad7f0ccdccdaef618f9251126efa6363"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-043.txt": {
+      "purpose": "nats raw command",
+      "bytes": 13532,
+      "sha256": "a56f759c881a4ee418b13d0a8ddee14a52f2fb696bdd152b188f935b8727895e"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-044.txt": {
+      "purpose": "nats raw command",
+      "bytes": 260,
+      "sha256": "3d869433622c32f776ffb79976426e5d8d6001f45b11d48627b7ebc67a68e507"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-045.txt": {
+      "purpose": "nats raw command",
+      "bytes": 314,
+      "sha256": "50368ec8f26fe05b9c3f0f2dab7717a792f125a70e3aa577202d71b8db36f732"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-046.txt": {
+      "purpose": "nats raw command",
+      "bytes": 11999,
+      "sha256": "986cdea94e3a6abb9d10645993fe1497aa6b78cf8224d4ed1feee2712ee3bef5"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-047.txt": {
+      "purpose": "nats raw command",
+      "bytes": 12003,
+      "sha256": "05b95e96ca1999fbbd772b466c0389de315fd046d9971eb1cc8a140c52c8d594"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-048.txt": {
+      "purpose": "nats raw command",
+      "bytes": 12003,
+      "sha256": "f57a54c2cdc6e9296f4532fa27409696beae54740c4705a21866c41ec0d9110a"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-049.txt": {
+      "purpose": "nats raw command",
+      "bytes": 56,
+      "sha256": "5636767f068680304653109551066bb91a795267f2f340031de1f662a5cdfd8c"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-050.txt": {
+      "purpose": "nats raw command",
+      "bytes": 12003,
+      "sha256": "f57a54c2cdc6e9296f4532fa27409696beae54740c4705a21866c41ec0d9110a"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-051.txt": {
+      "purpose": "nats raw command",
+      "bytes": 11429,
+      "sha256": "5de7efe460e1d0e8fc9441d8770cbd9ded04e3b585e0618c494664ea5abd4462"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-052.txt": {
+      "purpose": "nats raw command",
+      "bytes": 10334,
+      "sha256": "406ddb2d9c40e8755997167cb6df8e679ae7cfb1329fc5bdedde2daabeefbe44"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-053.txt": {
+      "purpose": "nats raw command",
+      "bytes": 260,
+      "sha256": "835c3b73d2d52295cbf111caa74ea9fae4e5c550805c8ad85366317fee2f347d"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-054.txt": {
+      "purpose": "nats raw command",
+      "bytes": 314,
+      "sha256": "50368ec8f26fe05b9c3f0f2dab7717a792f125a70e3aa577202d71b8db36f732"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-055.txt": {
+      "purpose": "nats raw command",
+      "bytes": 11999,
+      "sha256": "986cdea94e3a6abb9d10645993fe1497aa6b78cf8224d4ed1feee2712ee3bef5"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-056.txt": {
+      "purpose": "nats raw command",
+      "bytes": 12003,
+      "sha256": "05b95e96ca1999fbbd772b466c0389de315fd046d9971eb1cc8a140c52c8d594"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-057.txt": {
+      "purpose": "nats raw command",
+      "bytes": 12001,
+      "sha256": "b93a756a466b85c27dbb2c686301182d01915016b9692334185247b7fe8bc1f1"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-058.txt": {
+      "purpose": "nats raw command",
+      "bytes": 56,
+      "sha256": "93d90ea041aea5b2c094f24b01b05433fb73c444855c0fca9e2fea31f9d4ecd9"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-059.txt": {
+      "purpose": "nats raw command",
+      "bytes": 12003,
+      "sha256": "05b95e96ca1999fbbd772b466c0389de315fd046d9971eb1cc8a140c52c8d594"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-060.txt": {
+      "purpose": "nats raw command",
+      "bytes": 11429,
+      "sha256": "0185ab76caebd9d8bdfdf1e67ae7f3404c7cce0a484945275a1436a93f5a4eed"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-061.txt": {
+      "purpose": "nats raw command",
+      "bytes": 16358,
+      "sha256": "3c8c037504f9a69647d6acf84269a6d01473808c10ae0ed30a6adb4ab8c7b90a"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-062.txt": {
+      "purpose": "nats raw command",
+      "bytes": 260,
+      "sha256": "1591f8a3195af5c42a38328d85ff1117889d53d6d4c59068bd477f1a39a9e1f1"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-063.txt": {
+      "purpose": "nats raw command",
+      "bytes": 314,
+      "sha256": "733dcc5aac8fa00faa78556dacab3757351acaf3ea4b1209ae66280e6146c0ca"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-064.txt": {
+      "purpose": "nats raw command",
+      "bytes": 11999,
+      "sha256": "986cdea94e3a6abb9d10645993fe1497aa6b78cf8224d4ed1feee2712ee3bef5"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-065.txt": {
+      "purpose": "nats raw command",
+      "bytes": 12001,
+      "sha256": "801df0328dd89ad3ce4a54a920646ef84f99444f32f6f3dbcb84d9ebc30a60f0"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-066.txt": {
+      "purpose": "nats raw command",
+      "bytes": 12001,
+      "sha256": "b93a756a466b85c27dbb2c686301182d01915016b9692334185247b7fe8bc1f1"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-067.txt": {
+      "purpose": "nats raw command",
+      "bytes": 314,
+      "sha256": "99fd62526ba7fb4e33890f4035c5ee94d4e22a0bec8c9791adcd4c605aa1631c"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-068.txt": {
+      "purpose": "nats raw command",
+      "bytes": 139,
+      "sha256": "53b71dad7194d14af8d97b9bb4d8d377d9b4803864e230c9ef4ad402d2ec3959"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-069.txt": {
+      "purpose": "nats raw command",
+      "bytes": 314,
+      "sha256": "99fd62526ba7fb4e33890f4035c5ee94d4e22a0bec8c9791adcd4c605aa1631c"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-070.txt": {
+      "purpose": "nats raw command",
+      "bytes": 11999,
+      "sha256": "986cdea94e3a6abb9d10645993fe1497aa6b78cf8224d4ed1feee2712ee3bef5"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-071.txt": {
+      "purpose": "nats raw command",
+      "bytes": 12011,
+      "sha256": "058865c7168eee3f4f7d33a6d60759489d91f2f996bfc44f67c06811d9c82dd0"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-072.txt": {
+      "purpose": "nats raw command",
+      "bytes": 12001,
+      "sha256": "b93a756a466b85c27dbb2c686301182d01915016b9692334185247b7fe8bc1f1"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-073.txt": {
+      "purpose": "nats raw command",
+      "bytes": 379,
+      "sha256": "90d1c0ba0b590827b63041d81a02421b0f8590bbea71ae9b805f76e7994ce127"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-074.txt": {
+      "purpose": "nats raw command",
+      "bytes": 379,
+      "sha256": "2492192ba44f71d0dab351d03f313070ce6a194de75d73ed4c27e821dbfaf8ec"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-075.txt": {
+      "purpose": "nats raw command",
+      "bytes": 174,
+      "sha256": "1b68b9335af6e33dc90a0b0d40d41f0f2fd96cab9ecfbecfb08770aa2f22447f"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-076.txt": {
+      "purpose": "nats raw command",
+      "bytes": 314,
+      "sha256": "99fd62526ba7fb4e33890f4035c5ee94d4e22a0bec8c9791adcd4c605aa1631c"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-077.txt": {
+      "purpose": "nats raw command",
+      "bytes": 12010,
+      "sha256": "583f77fcbc78fce50e363d45bd6e92e1b8774b30193167e1533c2d006fd32902"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-078.txt": {
+      "purpose": "nats raw command",
+      "bytes": 12011,
+      "sha256": "6f8fbd9e26396890498ca83267e4b7f1d26a70372fad5ad591607cc9ddaf8c8d"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-079.txt": {
+      "purpose": "nats raw command",
+      "bytes": 12011,
+      "sha256": "f66ba68f3abaac70a8f892d0df247257b07d588153a100d27471753bba024fe8"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-080.txt": {
+      "purpose": "nats raw command",
+      "bytes": 1366,
+      "sha256": "d4833c41bbd44c44abcb3a2c18dcd6315b2f7d091ff43e40bb40849593bae44f"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-081.txt": {
+      "purpose": "nats raw command",
+      "bytes": 314,
+      "sha256": "e981b6dbbc21b45d8100c12e29d311327e1ce77588116273a1968f36a9057243"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-082.txt": {
+      "purpose": "nats raw command",
+      "bytes": 12010,
+      "sha256": "583f77fcbc78fce50e363d45bd6e92e1b8774b30193167e1533c2d006fd32902"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-083.txt": {
+      "purpose": "nats raw command",
+      "bytes": 12011,
+      "sha256": "1e65718d48053f3dc6aad9a8f9c472fd7fcd768db71d1bd6c48eade939e03895"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-084.txt": {
+      "purpose": "nats raw command",
+      "bytes": 12009,
+      "sha256": "517fca850b7a1fe501b842afd254cebf5f18372559140a70f357a254c39555cf"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-085.txt": {
+      "purpose": "nats raw command",
+      "bytes": 379,
+      "sha256": "463a1053b790d6f24ccef51f399730801216ffdf21258c88ab0e5bf914b91018"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-086.txt": {
+      "purpose": "nats raw command",
+      "bytes": 27125,
+      "sha256": "304395f3e873ab10c3fc692e32d7317a4e38909e558e64cfc39a3221451e10bd"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-087.txt": {
+      "purpose": "nats raw command",
+      "bytes": 31383,
+      "sha256": "0882ebc3d0f63eba3857b81bd77916547b8299f21a3bf5044a6f44defa864de2"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-088.txt": {
+      "purpose": "nats raw command",
+      "bytes": 28754,
+      "sha256": "8aa03dc470fec153548763ec2c02357a60692c83246df07721b017b582911515"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/command-089.txt": {
+      "purpose": "nats raw command",
+      "bytes": 857,
+      "sha256": "a0c66cc333f8599b90f9a7ab6dd5a3cd081f8e524b83d44a9956aa148d9cdad7"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/source_2.11.9-checkpoint.json": {
+      "purpose": "nats source_2.11.9_checkpoint",
+      "bytes": 6722,
+      "sha256": "e56f6fecc3a125b6ef3f6f4292210abf08bdd29dbad347493f628ab7e3253ff9"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/source_2.11.9-members.json": {
+      "purpose": "nats source_2.11.9",
+      "bytes": 46664,
+      "sha256": "b55a4e631f91f88e08337031e15ee1537f437b0b1cf99b2416d2df392ba8c111"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/source-cold-backup": {
+      "purpose": "nats cold copy",
+      "kind": "directory"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/source-cold-backup_restart-checkpoint.json": {
+      "purpose": "nats source-cold-backup_restart_checkpoint",
+      "bytes": 6731,
+      "sha256": "221b023d6ee9ffa73dc1a3f7517abab6e7c3bec516669176aef6818fa818221f"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/before_roll_2.12-members.json": {
+      "purpose": "nats before_roll_2.12",
+      "bytes": 46646,
+      "sha256": "7ec7821e040bbc18997d882c5a1ec3e5904057e73ecb30f7f3accb1b271d65a1"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/2.12_nats-1-checkpoint.json": {
+      "purpose": "nats 2.12_nats-1_checkpoint",
+      "bytes": 6729,
+      "sha256": "2f0024945fe5a97639349e55e134f01f22ac9585b63736b6e38129dbe4343d1d"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/2.12_nats-1-members.json": {
+      "purpose": "nats 2.12_nats-1",
+      "bytes": 47223,
+      "sha256": "a81398c8ce65c2b59fa55bf305db165fb167194a2939b244a1fc2159c27e3d9d"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/2.12_nats-2-checkpoint.json": {
+      "purpose": "nats 2.12_nats-2_checkpoint",
+      "bytes": 6731,
+      "sha256": "b49827df733b77c815875cebb07dde6155857d16b36413a6c6a03ca2b75f3808"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/2.12_nats-2-members.json": {
+      "purpose": "nats 2.12_nats-2",
+      "bytes": 47846,
+      "sha256": "4e15dc0934f3cae6f637a348523419d77471286f6a043715b13d2181a80d55b9"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/2.12_nats-3-checkpoint.json": {
+      "purpose": "nats 2.12_nats-3_checkpoint",
+      "bytes": 6734,
+      "sha256": "fca0c8c17e06733c8b9f485c8b80cb7e311da9532339eb9954cde288f07a3cb1"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/2.12_nats-3-members.json": {
+      "purpose": "nats 2.12_nats-3",
+      "bytes": 48614,
+      "sha256": "b2ab62b7213884dd2de7138dad2104a503fe3095cf1976f6f65775e0b37ee428"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/before_roll_2.14.7-members.json": {
+      "purpose": "nats before_roll_2.14.7",
+      "bytes": 48636,
+      "sha256": "df6483dbd611b6dbd0762f712752c8f3d27f7d1d62bed7117c13d74a0e4f8cc0"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/2.14.7_nats-1-checkpoint.json": {
+      "purpose": "nats 2.14.7_nats-1_checkpoint",
+      "bytes": 6734,
+      "sha256": "4fd5026ef766f3143ff66a05ea719c58d42e6dbe1efcb1acf0e22fddf6e31ad2"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/2.14.7_nats-1-members.json": {
+      "purpose": "nats 2.14.7_nats-1",
+      "bytes": 48955,
+      "sha256": "d49c7d3ba9f8045933d17c899d35f60f44c191f2139d78563d1fbef6d69ed351"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/2.14.7_nats-3-checkpoint.json": {
+      "purpose": "nats 2.14.7_nats-3_checkpoint",
+      "bytes": 6732,
+      "sha256": "8b00049fe68294358882eb58bfe327d54cf210ff4e9e3386a9a0ae9032c38749"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/2.14.7_nats-3-members.json": {
+      "purpose": "nats 2.14.7_nats-3",
+      "bytes": 49311,
+      "sha256": "860eb8765d17ba5858e55f42759783c22cc8dd051e4c77deb125c1060d89b817"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/2.14.7_nats-2-checkpoint.json": {
+      "purpose": "nats 2.14.7_nats-2_checkpoint",
+      "bytes": 6730,
+      "sha256": "538b40a5d432153206c721e876d3014d0e0c43e260fba9dc0f7c0c4d82f53721"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/2.14.7_nats-2-members.json": {
+      "purpose": "nats 2.14.7_nats-2",
+      "bytes": 49699,
+      "sha256": "5334575513a2210fec378f39d31c890125d9c928acfe683330c0e178f4bcc60f"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/upgraded_takeover-checkpoint.json": {
+      "purpose": "nats upgraded_takeover_checkpoint",
+      "bytes": 7034,
+      "sha256": "c86d01806209a17f659e7d4e9c546e163b915a66350c65189a6d9abe1dedd214"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/single_node_restart-checkpoint.json": {
+      "purpose": "nats single_node_restart_checkpoint",
+      "bytes": 6950,
+      "sha256": "07ff62398db851be8cc3726ce4b482b88cad5d18d4c1127d1c404f3d6896d816"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/single_node_restart-members.json": {
+      "purpose": "nats single_node_restart",
+      "bytes": 49731,
+      "sha256": "d05364fea2f0cee25e79207c14d1931dee062d5e554ac8d7529b570d244b3504"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/target-cold-backup": {
+      "purpose": "nats cold copy",
+      "kind": "directory"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/target-cold-backup_restart-checkpoint.json": {
+      "purpose": "nats target-cold-backup_restart_checkpoint",
+      "bytes": 6946,
+      "sha256": "b77123a46ea31b06c205eacc70b4b21b0a5c6ae934436497847bc2a1d601cbcb"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/all_node_restart-members.json": {
+      "purpose": "nats all_node_restart",
+      "bytes": 49670,
+      "sha256": "142e8f5ac73f1d1dab766d31dc81de40d0ea669fc9a456925309f0c8e244ab30"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/after_quorum_fault-checkpoint.json": {
+      "purpose": "nats after_quorum_fault_checkpoint",
+      "bytes": 6951,
+      "sha256": "756c7fd617c5a91fa1009f72c7ced0b102c0c75bb0d89c9523e387860215f08c"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/after_quorum_fault-members.json": {
+      "purpose": "nats after_quorum_fault",
+      "bytes": 49701,
+      "sha256": "94fbfac6e25ad99a304f9e6688a95261a56a42f3883fd0e38de9a6105966ebd7"
+    },
+    "/private/tmp/sf-native-calculated-20261005/verification.json": {
+      "purpose": "native raw report",
+      "bytes": 20330,
+      "sha256": "0ed5a9e3e83a97260f4f9b5e68832f62cfc7d2799741a4de2cfce703713e3555"
+    },
+    "/private/tmp/sf-native-calculated-20261005/command-001.txt": {
+      "purpose": "native raw command",
+      "bytes": 81,
+      "sha256": "6a0f7fe0d1054d984e5d083b07ccc991798e8cb2bdc41e76235b52cac9a6f304"
+    },
+    "/private/tmp/sf-native-calculated-20261005/command-002.txt": {
+      "purpose": "native raw command",
+      "bytes": 81,
+      "sha256": "6189935a2af508e9d0568b6dd10cd6f94b427ac2e06810a6c54e4513d73332a4"
+    },
+    "/private/tmp/sf-native-calculated-20261005/command-003.txt": {
+      "purpose": "native raw command",
+      "bytes": 1241,
+      "sha256": "640f08d1ca7f652d8a3a63f1edb49d14a51b2fb5b78ea5738f551074337235eb"
+    },
+    "/private/tmp/sf-native-calculated-20261005/command-004.txt": {
+      "purpose": "native raw command",
+      "bytes": 3332,
+      "sha256": "6283054d92e97dff8c1751e74e8de118ab5d1a30be4591e53f7f04ad88b458c2"
+    },
+    "/private/tmp/sf-native-calculated-20261005/command-005.txt": {
+      "purpose": "native raw command",
+      "bytes": 81,
+      "sha256": "056ec137c94c6cc519a9a448a974ff23ef4c8ed789db2da38d82517a5814640d"
+    },
+    "/private/tmp/sf-native-calculated-20261005/command-006.txt": {
+      "purpose": "native raw command",
+      "bytes": 886,
+      "sha256": "a134af235ee53627a56927e772fc1c1a6fbc4723671f37754c537b4260eab799"
+    },
+    "/private/tmp/sf-native-calculated-20261005/command-007.txt": {
+      "purpose": "native raw command",
+      "bytes": 136,
+      "sha256": "adb6a730b539b64d19cb0053fc868168d937e686f13c06968975c89ae5a677e6"
+    },
+    "/private/tmp/sf-native-calculated-20261005/command-008.txt": {
+      "purpose": "native raw command",
+      "bytes": 38,
+      "sha256": "3b71b39f2fed5afb5676439dc9d4f2dd0d3130f6e0b8bf9317f8e64fac4894f5"
+    },
+    "/private/tmp/sf-native-calculated-20261005/command-009.txt": {
+      "purpose": "native raw command",
+      "bytes": 4914,
+      "sha256": "36cc1633e05a893a89ed3038a66da7de7e4617100e39b0543a8bc20d2c97b524"
+    },
+    "/private/tmp/sf-native-calculated-20261005/command-010.txt": {
+      "purpose": "native raw command",
+      "bytes": 49,
+      "sha256": "c1d27f877d5f1a42149e901fbe779e79f2c05e0f3ffd4d658771705c29d1b70f"
+    },
+    "/private/tmp/sf-native-calculated-20261005/command-011.txt": {
+      "purpose": "native raw command",
+      "bytes": 8711,
+      "sha256": "31d17e7bd1a0a9600b7cafaa5874904464b9a10f2acd8e6af9f2e3c396ad45a9"
+    },
+    "/private/tmp/sf-native-calculated-20261005/command-012.txt": {
+      "purpose": "native raw command",
+      "bytes": 192555,
+      "sha256": "744561dc4cb3a53b5627e642969754c7f8de9ba2acf1479ba67dd7377426abcc"
+    },
+    "/private/tmp/sf-native-calculated-20261005/command-013.txt": {
+      "purpose": "native raw command",
+      "bytes": 49,
+      "sha256": "c1d27f877d5f1a42149e901fbe779e79f2c05e0f3ffd4d658771705c29d1b70f"
+    },
+    "/private/tmp/sf-native-calculated-20261005/command-014.txt": {
+      "purpose": "native raw command",
+      "bytes": 36,
+      "sha256": "8df8bd5a06e7673e43ad20c17b2f730c117e70ceb4fc8fa811dd0976e9dbfe07"
+    },
+    "/private/tmp/sf-native-calculated-20261005/command-015.txt": {
+      "purpose": "native raw command",
+      "bytes": 52,
+      "sha256": "5743f28863c98968abf267fc0d561434d57ccb7ebfc3a017d8c3e4ee32056b89"
+    },
+    "/private/tmp/sf-native-calculated-20261005/command-016.txt": {
+      "purpose": "native raw command",
+      "bytes": 10405,
+      "sha256": "300082e002acc2e00ba3b9a0d1f55eb590bd93773cd865a0588cf0b171e5a1bc"
+    },
+    "/private/tmp/sf-native-calculated-20261005/command-017.txt": {
+      "purpose": "native raw command",
+      "bytes": 464468,
+      "sha256": "681b2ac957c290ce19ae2c69f4944b09f69ab7126d26786c64c80d5107e23940"
+    },
+    "/private/tmp/sf-native-calculated-20261005/command-018.txt": {
+      "purpose": "native raw command",
+      "bytes": 52,
+      "sha256": "5743f28863c98968abf267fc0d561434d57ccb7ebfc3a017d8c3e4ee32056b89"
+    },
+    "/private/tmp/sf-native-calculated-20261005/command-019.txt": {
+      "purpose": "native raw command",
+      "bytes": 46,
+      "sha256": "d6d32a08b3166d783f62665fc3274a2caa01ab28b485099db15e6265ccd5ab07"
+    },
+    ".local/evolution/kafka-persistent-migration.json": {
+      "purpose": "kafka summary",
+      "bytes": 62607,
+      "sha256": "35e0dc8893bfc256a43efb119cf31bad73a2068a7334b1138e80205188d18c34"
+    },
+    ".local/evolution/nats-persistent-migration.json": {
+      "purpose": "nats summary",
+      "bytes": 9460,
+      "sha256": "be92de4129782386997f13c460ed7279355199327170b03f06286b8cbdf56331"
+    },
+    ".local/evolution/native-calculated-alarm-retention-verified.json": {
+      "purpose": "native exact acceptance",
+      "bytes": 20330,
+      "sha256": "0ed5a9e3e83a97260f4f9b5e68832f62cfc7d2799741a4de2cfce703713e3555"
+    },
+    ".local/evolution/message-official-image-metadata.json": {
+      "purpose": "message-official-image-metadata.json",
+      "bytes": 2859,
+      "sha256": "bedba00e8c934daa957196226602127ab538734a9f122cd6628441e38a9b119e"
+    },
+    ".local/evolution/message-nats-intermediate-image.json": {
+      "purpose": "message-nats-intermediate-image.json",
+      "bytes": 720,
+      "sha256": "e9b56d5d87fb0b8c3f265fe712f4f8012e3c168ccb7e15ad4e7141f849511093"
+    },
+    ".local/evolution/message-source-metadata.json": {
+      "purpose": "message-source-metadata.json",
+      "bytes": 565,
+      "sha256": "b7282f2e466268dbd1bde857fb1c9105707f86935269e40433c95e50d8e311a5"
+    },
+    ".local/evolution/message-services-cleanup.json": {
+      "purpose": "message-services-cleanup.json",
+      "bytes": 8073,
+      "sha256": "be6bde6055340a8007c66e3dba00a824dc5f00f630dcffeb8fa470df44cd77a3"
+    },
+    ".local/evolution/message-toolchains-verified.json": {
+      "purpose": "message-toolchains-verified.json",
+      "bytes": 792,
+      "sha256": "29c3a70783f76056ab5e6accc1bed6c64d3461e3a3634fbe14514986d1739cf9"
+    },
+    ".local/evolution/kafka-bind-source-diagnostic.json": {
+      "purpose": "kafka-bind-source-diagnostic.json",
+      "bytes": 921,
+      "sha256": "a2913ece0463e30bf4f859b0d2a276f2e70ab81036987a01657110740c3e31d4"
+    },
+    ".local/evolution/message-deploy-tests.stdout.txt": {
+      "purpose": "message-deploy-tests stdout",
+      "bytes": 541,
+      "sha256": "8049005109008af752c87f4f2f7b8e0bd4b910d4437db5edeae24ae3aa3579cb"
+    },
+    ".local/evolution/message-deploy-tests.stderr.txt": {
+      "purpose": "message-deploy-tests stderr",
+      "bytes": 824,
+      "sha256": "16057cf5be610ed8cda05f537a6f71ac1802f4f2bf932cc50065ab8e3741728f"
+    },
+    ".local/evolution/message-release-tests.stdout.txt": {
+      "purpose": "message-release-tests stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    ".local/evolution/message-release-tests.stderr.txt": {
+      "purpose": "message-release-tests stderr",
+      "bytes": 692,
+      "sha256": "358c9869bd0bc63a626f998bb8e9079965aa502a55988957182a4bb1080a5a49"
+    },
+    ".local/evolution/message-toolchain-tests.stdout.txt": {
+      "purpose": "message-toolchain-tests stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    ".local/evolution/message-toolchain-tests.stderr.txt": {
+      "purpose": "message-toolchain-tests stderr",
+      "bytes": 1153,
+      "sha256": "5189ae56db33732727f0cfa96880f037f02185278daed8ed1f901ee317a2840e"
+    },
+    ".local/evolution/message-postgres-deploy-tests.stdout.txt": {
+      "purpose": "message-postgres-deploy-tests stdout",
+      "bytes": 356,
+      "sha256": "7e2bb2865f98eb9c7cc750ae1ae8ffd0c6bb9ea49973ba2ab946c51c5023783b"
+    },
+    ".local/evolution/message-postgres-deploy-tests.stderr.txt": {
+      "purpose": "message-postgres-deploy-tests stderr",
+      "bytes": 422,
+      "sha256": "a877316638af3e7207295e2184ace2fd2cb65de4678884f5c32efcfcb62004ad"
+    },
+    ".local/evolution/message-go-race.stdout.txt": {
+      "purpose": "message-go-race stdout",
+      "bytes": 133,
+      "sha256": "a917f4776b1195152dd072e898db961cb571586de74a4ff0cef51f7383d51a85"
+    },
+    ".local/evolution/message-go-race.stderr.txt": {
+      "purpose": "message-go-race stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "/private/tmp/sf-message-kafka-20261005-v2/command-134.txt": {
+      "purpose": "original BrokerEndpoint v4 failure",
+      "bytes": 9734,
+      "sha256": "537c70ccc4de0418eafb4bc29dabd07e9cbd1929b8b74fef396a0ab33ee78e09"
+    },
+    "/private/tmp/sf-message-kafka-20261005-v2/command-137.txt": {
+      "purpose": "original BrokerEndpoint v4 failure",
+      "bytes": 9734,
+      "sha256": "537c70ccc4de0418eafb4bc29dabd07e9cbd1929b8b74fef396a0ab33ee78e09"
+    },
+    "deploy/dependencies.json": {
+      "purpose": "implementation or handoff",
+      "bytes": 1638,
+      "sha256": "26e61698577abf28b133398660c852223994f03dd879c8ddec5b659b1f7f4307"
+    },
+    "deploy/images.lock.json": {
+      "purpose": "implementation or handoff",
+      "bytes": 11946,
+      "sha256": "1610bddb8a95c19cb2d467a467a145303ccfdc01cb8a5f1ea4cec1f53fe74ca4"
+    },
+    "deploy/toolchains.json": {
+      "purpose": "implementation or handoff",
+      "bytes": 5339,
+      "sha256": "ee800d975bbe62884810bc6c8312deb85019c5df99f589edaa217edc845f0f23"
+    },
+    "deploy/compose.native.json": {
+      "purpose": "implementation or handoff",
+      "bytes": 8241,
+      "sha256": "f639bf0469b1a1977af16d5294c3e031f1af03bd9dd043ab38f5f9464fe46937"
+    },
+    "deploy/compose.site.json": {
+      "purpose": "implementation or handoff",
+      "bytes": 3016,
+      "sha256": "480bcbd6ddff452f01fc629542c31388f105ebe2d789de43574e652ceb9adc81"
+    },
+    "deploy/licenses/provenance.json": {
+      "purpose": "implementation or handoff",
+      "bytes": 4168,
+      "sha256": "250be1c4dcb35a1ba083566007baaac8475d47e81e40fa7d8bd7951aea683865"
+    },
+    "scripts/prepare-deploy.py": {
+      "purpose": "implementation or handoff",
+      "bytes": 5391,
+      "sha256": "f795ec57ee14bcee534e193c3dc68498dc7c0581c294f5ef741b6bbccd21f52d"
+    },
+    "scripts/prepare-site.py": {
+      "purpose": "implementation or handoff",
+      "bytes": 5188,
+      "sha256": "551b2de16fa2b5eb3663c16589e09cb0c51a7fdf2243402699aca4075014baed"
+    },
+    "scripts/prepare-runtime.py": {
+      "purpose": "implementation or handoff",
+      "bytes": 16041,
+      "sha256": "e17bd23ac38746402ddcb9759629542685f109a42cee2481a76a56bfdf68b187"
+    },
+    "scripts/check-kafka-upgrade.py": {
+      "purpose": "implementation or handoff",
+      "bytes": 17249,
+      "sha256": "da4389f253a035c8639f862e2fe144136488abdb3007e5ed5dc186a27ec83203"
+    },
+    "scripts/check-nats-upgrade.py": {
+      "purpose": "implementation or handoff",
+      "bytes": 12936,
+      "sha256": "a78f7f9be141110c025fb762b7445a7e53c6107d18f2cb62fd6e97ac74dbdd6f"
+    },
+    "tests/test_message_deploy.py": {
+      "purpose": "implementation or handoff",
+      "bytes": 8952,
+      "sha256": "b890750d61f5e520c344c4346571b0a50fef3abf5adf0b0de379d8c883d41d4a"
+    },
+    "Wiki/消息组件升级.md": {
+      "purpose": "implementation or handoff",
+      "bytes": 7184,
+      "sha256": "8f87ad34dfd325a62be70047ada247edcfdbd6ea7206b088425f83c65c1aaa25"
+    },
+    "docs/evolution/handoff-message-control.md": {
+      "purpose": "implementation or handoff",
+      "bytes": 2904,
+      "sha256": "765df91ed3e3c8041601376ac88f7c9b6e5819ed878880ed3acd44a7317256b2"
+    },
+    "docs/evolution/handoff-message-delivery.md": {
+      "purpose": "implementation or handoff",
+      "bytes": 4249,
+      "sha256": "0fae9f1136cb3e7a4351e87a8053c611be79ccf46b1712a1055cf1f6dfdf3de9"
+    },
+    "deploy/licenses/nats/LICENSE": {
+      "purpose": "component license",
+      "bytes": 11357,
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+    },
+    "deploy/licenses/nats_upgrade_intermediate/LICENSE": {
+      "purpose": "component license",
+      "bytes": 11357,
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+    },
+    "deploy/licenses/kafka/LICENSE": {
+      "purpose": "component license",
+      "bytes": 11358,
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    "deploy/licenses/kafka/NOTICE": {
+      "purpose": "component license",
+      "bytes": 886,
+      "sha256": "11a23c7823a4547fda7567c458328bd77dc7326ac734c6c139b01f1538a8a38a"
+    },
+    "/private/tmp/sf-message-nats-20261005-final/coordination.test": {
+      "purpose": "tested current Go binary",
+      "bytes": 40445538,
+      "sha256": "77558d5d410093b901a1cef6fefe5ca323a6778d79844eca75abca0c630e33de"
+    },
+    "/private/tmp/sf-native-calculated-20261005.test": {
+      "purpose": "tested current Go binary",
+      "bytes": 38438978,
+      "sha256": "547bdd4aafddad63d72c520dfd566dedea568cff271e0727cb961e7d404584a7"
+    },
+    ".local/evolution/message-test-binaries.buildinfo.txt": {
+      "purpose": "tested binary actual Go build metadata",
+      "bytes": 11466,
+      "sha256": "0b8fb89d9aa30c4618f4b726d8097e9ba3f3b2184f5c94e6b166d76d41576fe5"
+    }
+  },
+  "evidence_path_check": {
+    "checked_at": "2026-10-04T18:16:58.925569+00:00",
+    "all_exist": true,
+    "all_file_sha256_match": true,
+    "count": 334,
+    "failures": []
+  }
+}

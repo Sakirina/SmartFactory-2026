@@ -1,0 +1,10 @@
+{
+  "first_attempt": {
+    "exit_code": 1,
+    "observed_error": "IndexError: list index out of range",
+    "cause": "An upstream SQL excerpt requested a line after the end of its file",
+    "source": "Observed exec_command result; this is a record of the collector error rather than a saved raw log"
+  },
+  "repair": "Clip each requested excerpt to the actual file length and record the effective line range",
+  "repair_exit_code": 0
+}

@@ -1,0 +1,2263 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-10-05T11:21:27.839020+00:00",
+  "status": "checkpoint_for_configuration_engineer",
+  "overall_linux_verification_passed": false,
+  "issue_id": "P5-N04",
+  "build": {
+    "verification": {
+      "path": "/private/tmp/smartfactory-delivery-linux-preflight-build-r02-20261005/verification.json",
+      "bytes": 2737080,
+      "sha256": "2e833af8922ae4548ddf6e4a91ce37b8513243e5d44cd43bcbac3135b4c3adf4"
+    },
+    "candidate_source": "/private/tmp/smartfactory-release-restore-recovery-20261005/candidate-r02-final/source",
+    "candidate_source_sha256": "eb78474aea6d2a7b5176f910ea95eabdfdb7cc8c0a2e9cf7cd5b0b712b1b9519",
+    "public_source_sha256": "f7aecc96d99fa627cb98ce1f84d7279b8c009807a691260bb389ae069c2eb5e3",
+    "source_manifest": {
+      "path": "/private/tmp/smartfactory-delivery-linux-preflight-build-r02-20261005/bundle/source-manifest.json",
+      "bytes": 138661,
+      "sha256": "9f3194fab45222cefe1a3d06b251947da4fa18f9906c95ffb9063734245020bb"
+    },
+    "bundle_manifest": {
+      "path": "/private/tmp/smartfactory-delivery-linux-preflight-build-r02-20261005/bundle/release-manifest.json",
+      "bytes": 194633,
+      "sha256": "488bc14a57e7a82a4dba7e81fb257e397ea007bf36e3286f5998af55b9caf549"
+    },
+    "builder": {
+      "path": "/private/tmp/smartfactory-delivery-linux-preflight-builder-r02-20261005.py",
+      "bytes": 4299,
+      "sha256": "b4925f64299d1183e8f11b55f7d2e3bae05af6ca991df32f8b94af3bb28c0902"
+    },
+    "commands": [
+      {
+        "argv": [
+          "go",
+          "build",
+          "-p",
+          "1",
+          "-trimpath",
+          "-ldflags",
+          "-s -w -X competition2026/product/platform/pkg/buildinfo.Version=1.1.0-dev -X competition2026/product/platform/pkg/buildinfo.SourceSHA256=f7aecc96d99fa627cb98ce1f84d7279b8c009807a691260bb389ae069c2eb5e3",
+          "-o",
+          "/private/tmp/smartfactory-delivery-linux-preflight-build-r02-20261005/bundle/bin/",
+          "./cmd/sf-cloud",
+          "./cmd/sf-edge",
+          "./cmd/sf-config",
+          "./cmd/sf-release-agent",
+          "./cmd/sf-pki"
+        ],
+        "cwd": "/private/tmp/smartfactory-delivery-linux-preflight-build-r02-20261005/bundle/source/Platform",
+        "started_at": "2026-10-05T11:05:31.836481+00:00",
+        "completed_at": "2026-10-05T11:05:40.675069+00:00",
+        "exit_code": 0,
+        "log": "/private/tmp/smartfactory-delivery-linux-preflight-build-r02-20261005/Platform-build.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "argv": [
+          "go",
+          "build",
+          "-p",
+          "1",
+          "-trimpath",
+          "-ldflags",
+          "-s -w",
+          "-o",
+          "/private/tmp/smartfactory-delivery-linux-preflight-build-r02-20261005/bundle/bin/",
+          "./cmd/datatransfer",
+          "./cmd/dt-simulator"
+        ],
+        "cwd": "/private/tmp/smartfactory-delivery-linux-preflight-build-r02-20261005/bundle/source/DataTransfer",
+        "started_at": "2026-10-05T11:05:40.679317+00:00",
+        "completed_at": "2026-10-05T11:05:41.679010+00:00",
+        "exit_code": 0,
+        "log": "/private/tmp/smartfactory-delivery-linux-preflight-build-r02-20261005/DataTransfer-build.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ],
+    "environment": {
+      "GOTOOLCHAIN": "local",
+      "GOOS": "linux",
+      "GOARCH": "amd64",
+      "CGO_ENABLED": "0",
+      "GOMAXPROCS": "2",
+      "GOPROXY": "off",
+      "GOPATH": "/private/tmp/smartfactory-evolution-gopath",
+      "GOMODCACHE": "/private/tmp/smartfactory-evolution-gomodcache",
+      "GOCACHE": "/private/tmp/smartfactory-evolution-go-cache"
+    },
+    "toolchain": {
+      "CGO_ENABLED": "0",
+      "GOARCH": "amd64",
+      "GOOS": "linux",
+      "GOROOT": "/opt/homebrew/Cellar/go/1.27.1/libexec",
+      "GOTOOLDIR": "/opt/homebrew/Cellar/go/1.27.1/libexec/pkg/tool/darwin_arm64",
+      "GOVERSION": "go1.27.1"
+    },
+    "input_count": 6079,
+    "inputs_before_after_equal": true,
+    "retained_inputs": {
+      "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/retained-build-inputs.json",
+      "bytes": 3260917,
+      "sha256": "4f65bbb9b5f64c837e34a8e1ef83dc1bebdb84b56b86cebd3783e44b08e9574d"
+    },
+    "all_retained_hashes_match": true,
+    "binaries": {
+      "sf-pki": {
+        "path": "/private/tmp/smartfactory-delivery-linux-preflight-build-r02-20261005/bundle/bin/sf-pki",
+        "bytes": 4489376,
+        "sha256": "05d20e86b04a5dd0b10973004e6f7959a7b00fcc3e184a507977a397224f9aed"
+      },
+      "sf-release-agent": {
+        "path": "/private/tmp/smartfactory-delivery-linux-preflight-build-r02-20261005/bundle/bin/sf-release-agent",
+        "bytes": 23498912,
+        "sha256": "045539deb4d8ae36cfc89c92154dcb511c851415a8d04f1962bfcec5291fae08"
+      },
+      "sf-config": {
+        "path": "/private/tmp/smartfactory-delivery-linux-preflight-build-r02-20261005/bundle/bin/sf-config",
+        "bytes": 39293088,
+        "sha256": "c0ed5e1c4387d647c30e861aed8438a941fb7e715162a0f309ff05b8f6485070"
+      },
+      "datatransfer": {
+        "path": "/private/tmp/smartfactory-delivery-linux-preflight-build-r02-20261005/bundle/bin/datatransfer",
+        "bytes": 25440416,
+        "sha256": "da066002adfea17bd70541c08af8e0fa503561c88cb884594c2ffe7dc37796fb"
+      },
+      "sf-edge": {
+        "path": "/private/tmp/smartfactory-delivery-linux-preflight-build-r02-20261005/bundle/bin/sf-edge",
+        "bytes": 39293088,
+        "sha256": "317d22ef4ee5fdeefa309423dbae15df3801cf5db7fc5b9d0899a0bc18280ab0"
+      },
+      "sf-cloud": {
+        "path": "/private/tmp/smartfactory-delivery-linux-preflight-build-r02-20261005/bundle/bin/sf-cloud",
+        "bytes": 39293088,
+        "sha256": "607017fdccbbf63da1ce43f440b8fd1669d377c08c7d32ce765ca03cb2ee25f2"
+      },
+      "dt-simulator": {
+        "path": "/private/tmp/smartfactory-delivery-linux-preflight-build-r02-20261005/bundle/bin/dt-simulator",
+        "bytes": 17305760,
+        "sha256": "97b734f6012862c63d3963fcdebd18597a1c7b64ed6765658b253de5a8cb61a0"
+      }
+    }
+  },
+  "current_runtime": {
+    "verification": {
+      "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/verification.json",
+      "bytes": 248178,
+      "sha256": "04f306cdd0d49d8f3bdd03a7753e639b8bf9cf521aec731be6b0a26b66a24d83"
+    },
+    "driver": {
+      "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/verify-delivery-runtime.py",
+      "sha256": "4a5e732315423b88ddd8f9011fed63e789600622122851affd55232b281d5efe"
+    },
+    "invocation": {
+      "argv": [
+        "/path/to/SmartFactory-2026/scripts/verify-delivery-runtime.py",
+        "--bundle",
+        "/private/tmp/smartfactory-delivery-linux-preflight-build-r02-20261005/bundle",
+        "--directory",
+        "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005",
+        "--postgres-description",
+        "/path/to/SmartFactory-2026/.local/evolution/pg18-test.json"
+      ],
+      "cwd": "/path/to/SmartFactory-2026"
+    },
+    "failed_validation": {
+      "http_index": 28,
+      "request_started_at": "2026-10-05T11:07:45.323247+00:00",
+      "response_observed_at": "2026-10-05T11:07:46.434467+00:00",
+      "duration_seconds": 1.111220291000791,
+      "deadlock_at": "2026-10-05T11:07:46.233000+00:00",
+      "deadlock_within_request": true,
+      "http": {
+        "at": "2026-10-05T11:07:46.434467+00:00",
+        "base": "http://127.0.0.1:20190",
+        "path": "/api/sf/v1/releases/validate",
+        "method": "POST",
+        "status": 200,
+        "duration_seconds": 1.111220291000791,
+        "response": {
+          "valid": false,
+          "sha256": "8cee8d02d22ce4c31b6ad50d052bcc8a6bb7e6202f79fe72a6256c496ab7a8ad",
+          "order": [
+            "program",
+            "heartbeat",
+            "mqtt",
+            "delivery-temperature"
+          ],
+          "issues": [
+            {
+              "component_id": "mqtt",
+              "code": "configuration",
+              "message": "configuration reference is unavailable from the authority",
+              "recovery": []
+            }
+          ]
+        },
+        "request_sha256": "70674a9a905fd4cb3e045f4db91d69f23b00638658b33f0713b043f831b7fa27",
+        "request": {
+          "schema_version": "smartfactory-release-v1",
+          "id": "delivery-release-2",
+          "name": "交付包固定发布 2",
+          "program": "edge",
+          "components": [
+            {
+              "id": "program",
+              "kind": "program",
+              "version": "1.1.0-dev",
+              "sha256": "317d22ef4ee5fdeefa309423dbae15df3801cf5db7fc5b9d0899a0bc18280ab0",
+              "format": "smartfactory-executable-v1",
+              "build": {
+                "program": "edge",
+                "version": "1.1.0-dev",
+                "goos": "linux",
+                "goarch": "amd64",
+                "migration_minimum": 11,
+                "migration_maximum": 11,
+                "rule_formats": [
+                  "1.0"
+                ],
+                "configuration_formats": [
+                  "smartfactory-configuration-v1"
+                ],
+                "source_sha256": "f7aecc96d99fa627cb98ce1f84d7279b8c009807a691260bb389ae069c2eb5e3"
+              }
+            },
+            {
+              "id": "heartbeat",
+              "kind": "configuration",
+              "version": "2",
+              "sha256": "844a0dc44d57c9c8b5c23f7af5c107bfda5097e07e61bfe1647f08e1c62953fc",
+              "format": "smartfactory-configuration-v1",
+              "configuration": {
+                "kind": "parameter",
+                "id": "heartbeat.interval_ms",
+                "version": 2,
+                "digest": "844a0dc44d57c9c8b5c23f7af5c107bfda5097e07e61bfe1647f08e1c62953fc"
+              }
+            },
+            {
+              "id": "mqtt",
+              "kind": "configuration",
+              "version": "2",
+              "sha256": "6931c166d98a07fb1a9ac02778f32978c62bef579e540ffdc49cb475d6cc0944",
+              "format": "smartfactory-configuration-v1",
+              "configuration": {
+                "kind": "connector",
+                "id": "edge-a/delivery-mqtt",
+                "version": 2,
+                "digest": "6931c166d98a07fb1a9ac02778f32978c62bef579e540ffdc49cb475d6cc0944"
+              },
+              "target_node_ids": [
+                "edge-a"
+              ],
+              "required_capabilities": [
+                "connector:mqtt_device"
+              ]
+            },
+            {
+              "id": "delivery-temperature",
+              "kind": "rule",
+              "version": "2",
+              "sha256": "13e1f7652583793ec52b688952b4f56918b2326a6c4aa2db2523a9f1bc93a56a",
+              "format": "1.0",
+              "content": {
+                "id": "delivery-temperature",
+                "name": "交付温度计算",
+                "kind": "analysis",
+                "schema_version": "1.0",
+                "version": 2,
+                "status": "published",
+                "effective_ms": 0,
+                "group_id": "factory",
+                "nodes": [
+                  {
+                    "id": "source",
+                    "type": "input",
+                    "label": "温度读数",
+                    "params": null
+                  },
+                  {
+                    "id": "average",
+                    "type": "aggregate",
+                    "label": "一分钟平均值",
+                    "params": {
+                      "function": "max"
+                    }
+                  },
+                  {
+                    "id": "output",
+                    "type": "output",
+                    "label": "保存计算结果",
+                    "params": null
+                  }
+                ],
+                "connections": [
+                  {
+                    "from": "source",
+                    "from_port": "",
+                    "to": "average",
+                    "to_port": ""
+                  },
+                  {
+                    "from": "average",
+                    "from_port": "",
+                    "to": "output",
+                    "to_port": ""
+                  }
+                ],
+                "outputs": [
+                  {
+                    "key": "temperature",
+                    "type": "number",
+                    "unit": "°C",
+                    "node_id": "output",
+                    "description": "只使用 GOOD 数据计算的窗口平均温度"
+                  }
+                ],
+                "dependencies": null,
+                "selector": {
+                  "device_ids": [
+                    "climate-1"
+                  ],
+                  "keys": [
+                    "temperature"
+                  ],
+                  "window_ms": 60000
+                },
+                "policy": {}
+              }
+            }
+          ]
+        }
+      }
+    },
+    "completed_checks": [
+      {
+        "name": "actual-linux-executable-identity",
+        "passed": true,
+        "detail": {
+          "build": {
+            "program": "edge",
+            "version": "1.1.0-dev",
+            "goos": "linux",
+            "goarch": "amd64",
+            "migration_minimum": 11,
+            "migration_maximum": 11,
+            "rule_formats": [
+              "1.0"
+            ],
+            "configuration_formats": [
+              "smartfactory-configuration-v1"
+            ],
+            "source_sha256": "f7aecc96d99fa627cb98ce1f84d7279b8c009807a691260bb389ae069c2eb5e3"
+          },
+          "sha256": "317d22ef4ee5fdeefa309423dbae15df3801cf5db7fc5b9d0899a0bc18280ab0"
+        }
+      },
+      {
+        "name": "version-and-source-match-bundle",
+        "passed": true,
+        "detail": {
+          "program": "edge",
+          "version": "1.1.0-dev",
+          "goos": "linux",
+          "goarch": "amd64",
+          "migration_minimum": 11,
+          "migration_maximum": 11,
+          "rule_formats": [
+            "1.0"
+          ],
+          "configuration_formats": [
+            "smartfactory-configuration-v1"
+          ],
+          "source_sha256": "f7aecc96d99fa627cb98ce1f84d7279b8c009807a691260bb389ae069c2eb5e3"
+        }
+      },
+      {
+        "name": "all-formal-runtime-service-settings-retained",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "original-database-master-and-static-settings",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "distinct-generated-runtime-and-release-identities",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "generated-config-legacy-disabled",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "generated-config-tls-material-configured",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "generated-config-separate-cloud-authority",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "generated-cloud-legacy-disabled",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "generated-cloud-tls-material-configured",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "generated-cloud-https-center-url",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "generated-edge-a-legacy-disabled",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "generated-edge-a-tls-material-configured",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "generated-edge-a-https-center-url",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "generated-edge-a-separate-cloud-authority",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "generated-config-service-server-certificate-valid",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "generated-cloud-1-server-certificate-valid",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "generated-edge-a-server-certificate-valid",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "generated-config-service-client-certificate-valid",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "generated-config-client-cloud-1-client-certificate-valid",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "generated-edge-a-client-certificate-valid",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "generated-independent-config-database",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "generated-distinct-runtime-and-release-identities",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "generated-distinct-private-workload-credentials",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "generated-release-runtime-purpose",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "generated-workloads.json-owner-only",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "generated-workload-cloud-1.token-owner-only",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "generated-workload-edge-a.token-owner-only",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "generated-release-edge-a.token-owner-only",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "initial-own-database-connections-zero",
+        "passed": true,
+        "detail": ""
+      },
+      {
+        "name": "both-packaged-frontend-portals-serve",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "registered-connector-source-url-and-certificate-match",
+        "passed": true,
+        "detail": {
+          "audit_public_key": "q8Fsgt+fHbm6o8b62/5FtZX0NejfwNO7Qq5c9cElx6Q=",
+          "certificate_sha256": "4071ff7ea740ffb7a2d040cf1dd5f0224a2133f68c508d43c18e61e9333cf15f",
+          "encryption_public_key": "C5ySCREdT91fQrbFTd6Ow54Ss5qa72vdGiIAW0yglXE=",
+          "configuration_url": "https://edge-a:18445"
+        }
+      },
+      {
+        "name": "fixed-release-valid-1",
+        "passed": true,
+        "detail": {
+          "valid": true,
+          "sha256": "70210db3ca569df81e977c5348525f3bd2307df934a2c6ced90194833b4391c5",
+          "order": [
+            "program",
+            "heartbeat",
+            "mqtt",
+            "delivery-temperature"
+          ],
+          "issues": []
+        }
+      },
+      {
+        "name": "fixed-release-valid-2",
+        "passed": false,
+        "detail": {
+          "valid": false,
+          "sha256": "8cee8d02d22ce4c31b6ad50d052bcc8a6bb7e6202f79fe72a6256c496ab7a8ad",
+          "order": [
+            "program",
+            "heartbeat",
+            "mqtt",
+            "delivery-temperature"
+          ],
+          "issues": [
+            {
+              "component_id": "mqtt",
+              "code": "configuration",
+              "message": "configuration reference is unavailable from the authority",
+              "recovery": []
+            }
+          ]
+        }
+      },
+      {
+        "name": "all-own-services-stopped-normally-without-oom",
+        "passed": true,
+        "detail": {
+          "config": {
+            "Status": "exited",
+            "Running": false,
+            "Paused": false,
+            "Restarting": false,
+            "OOMKilled": false,
+            "Dead": false,
+            "Pid": 0,
+            "ExitCode": 0,
+            "Error": "",
+            "StartedAt": "2026-10-05T11:07:25.342647595Z",
+            "FinishedAt": "2026-10-05T11:07:49.111975384Z"
+          },
+          "cloud": {
+            "Status": "exited",
+            "Running": false,
+            "Paused": false,
+            "Restarting": false,
+            "OOMKilled": false,
+            "Dead": false,
+            "Pid": 0,
+            "ExitCode": 0,
+            "Error": "",
+            "StartedAt": "2026-10-05T11:07:25.504189012Z",
+            "FinishedAt": "2026-10-05T11:07:48.813320884Z"
+          },
+          "edge-a-network": {
+            "Status": "exited",
+            "Running": false,
+            "Paused": false,
+            "Restarting": false,
+            "OOMKilled": false,
+            "Dead": false,
+            "Pid": 0,
+            "ExitCode": 0,
+            "Error": "",
+            "StartedAt": "2026-10-05T11:07:25.416279512Z",
+            "FinishedAt": "2026-10-05T11:07:48.797312759Z"
+          },
+          "edge-a": {
+            "Status": "exited",
+            "Running": false,
+            "Paused": false,
+            "Restarting": false,
+            "OOMKilled": false,
+            "Dead": false,
+            "Pid": 0,
+            "ExitCode": 0,
+            "Error": "",
+            "StartedAt": "2026-10-05T11:07:25.574463387Z",
+            "FinishedAt": "2026-10-05T11:07:48.768529092Z"
+          },
+          "edge-a-simulator": {
+            "Status": "exited",
+            "Running": false,
+            "Paused": false,
+            "Restarting": false,
+            "OOMKilled": false,
+            "Dead": false,
+            "Pid": 0,
+            "ExitCode": 0,
+            "Error": "",
+            "StartedAt": "2026-10-05T11:07:32.501701293Z",
+            "FinishedAt": "2026-10-05T11:07:46.605154258Z",
+            "Health": {
+              "Status": "unhealthy",
+              "FailingStreak": 0,
+              "Log": [
+                {
+                  "Start": "2026-10-05T11:07:36.58353042Z",
+                  "End": "2026-10-05T11:07:36.600930003Z",
+                  "ExitCode": 0,
+                  "Output": ""
+                },
+                {
+                  "Start": "2026-10-05T11:07:38.602081712Z",
+                  "End": "2026-10-05T11:07:38.632726837Z",
+                  "ExitCode": 0,
+                  "Output": ""
+                },
+                {
+                  "Start": "2026-10-05T11:07:40.633857922Z",
+                  "End": "2026-10-05T11:07:40.675710797Z",
+                  "ExitCode": 0,
+                  "Output": ""
+                },
+                {
+                  "Start": "2026-10-05T11:07:42.676332381Z",
+                  "End": "2026-10-05T11:07:42.691552714Z",
+                  "ExitCode": 0,
+                  "Output": ""
+                },
+                {
+                  "Start": "2026-10-05T11:07:44.692184549Z",
+                  "End": "2026-10-05T11:07:44.713816965Z",
+                  "ExitCode": 0,
+                  "Output": ""
+                }
+              ]
+            }
+          },
+          "edge-a-gateway": {
+            "Status": "exited",
+            "Running": false,
+            "Paused": false,
+            "Restarting": false,
+            "OOMKilled": false,
+            "Dead": false,
+            "Pid": 0,
+            "ExitCode": 0,
+            "Error": "",
+            "StartedAt": "2026-10-05T11:07:35.073837794Z",
+            "FinishedAt": "2026-10-05T11:07:46.567495716Z"
+          },
+          "web": {
+            "Status": "exited",
+            "Running": false,
+            "Paused": false,
+            "Restarting": false,
+            "OOMKilled": false,
+            "Dead": false,
+            "Pid": 0,
+            "ExitCode": 0,
+            "Error": "",
+            "StartedAt": "2026-10-05T11:07:25.616735929Z",
+            "FinishedAt": "2026-10-05T11:07:46.582616758Z"
+          }
+        }
+      },
+      {
+        "name": "all-own-database-connections-released",
+        "passed": true,
+        "detail": ""
+      }
+    ],
+    "commands": [
+      {
+        "name": "actual-linux-edge-build-info",
+        "argv": [
+          "docker",
+          "run",
+          "--rm",
+          "--pull",
+          "never",
+          "--platform",
+          "linux/amd64",
+          "--memory",
+          "128m",
+          "--cpus",
+          "1",
+          "--network",
+          "none",
+          "--mount",
+          "type=bind,src=/private/tmp/smartfactory-delivery-linux-preflight-build-r02-20261005/bundle,dst=/bundle,readonly",
+          "--entrypoint",
+          "/bundle/bin/sf-edge",
+          "library/alpine@sha256:3e9b4b680bfc9fb5269227cffbd6d42be39fbf7c0b908123913864aa4447e764",
+          "-build-info"
+        ],
+        "cwd": "/path/to/SmartFactory-2026",
+        "exit_code": 0,
+        "duration_seconds": 0.5428828339790925,
+        "timeout_seconds": 180,
+        "timed_out": false,
+        "log": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/actual-linux-edge-build-info.log",
+        "sha256": "34a209be90152bc0bb63368241008425367fc1e95106d643aecda4e58cab74b7",
+        "log_file": {
+          "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/actual-linux-edge-build-info.log",
+          "bytes": 385,
+          "sha256": "34a209be90152bc0bb63368241008425367fc1e95106d643aecda4e58cab74b7"
+        }
+      },
+      {
+        "name": "formal-linux-bundle-preparation",
+        "argv": [
+          "python3",
+          "/private/tmp/smartfactory-delivery-linux-preflight-build-r02-20261005/bundle/scripts/prepare-runtime.py",
+          "--bundle",
+          "/private/tmp/smartfactory-delivery-linux-preflight-build-r02-20261005/bundle",
+          "--directory",
+          "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/private/prepared",
+          "--profile",
+          "capacity",
+          "--hosting",
+          "hosted",
+          "--simulation",
+          "scenes",
+          "--pki-binary",
+          "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/private/linux-pki"
+        ],
+        "cwd": "/path/to/SmartFactory-2026",
+        "exit_code": 0,
+        "duration_seconds": 1.51483941701008,
+        "timeout_seconds": 180,
+        "timed_out": false,
+        "log": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/formal-linux-bundle-preparation.log",
+        "sha256": "e3c0b8f3f9937b75d7d066930862d57b31fbf91c81bc7c47c7903f6f4f2b2c75",
+        "log_file": {
+          "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/formal-linux-bundle-preparation.log",
+          "bytes": 292,
+          "sha256": "e3c0b8f3f9937b75d7d066930862d57b31fbf91c81bc7c47c7903f6f4f2b2c75"
+        }
+      },
+      {
+        "name": "generated-config-service-server-certificate-valid",
+        "argv": [
+          "openssl",
+          "verify",
+          "-CAfile",
+          "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/private/prepared/pki/ca.pem",
+          "-purpose",
+          "sslserver",
+          "-verify_hostname",
+          "config",
+          "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/private/prepared/pki/config-service.pem"
+        ],
+        "cwd": "/path/to/SmartFactory-2026",
+        "exit_code": 0,
+        "duration_seconds": 0.009259875019779429,
+        "timeout_seconds": 180,
+        "timed_out": false,
+        "log": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/generated-config-service-server-certificate-valid.log",
+        "sha256": "c6551f21e4c231febdb4e2419f82e9826f14219b847b74f5f118d81f3e780ef2",
+        "log_file": {
+          "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/generated-config-service-server-certificate-valid.log",
+          "bytes": 122,
+          "sha256": "c6551f21e4c231febdb4e2419f82e9826f14219b847b74f5f118d81f3e780ef2"
+        }
+      },
+      {
+        "name": "generated-cloud-1-server-certificate-valid",
+        "argv": [
+          "openssl",
+          "verify",
+          "-CAfile",
+          "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/private/prepared/pki/ca.pem",
+          "-purpose",
+          "sslserver",
+          "-verify_hostname",
+          "cloud",
+          "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/private/prepared/pki/cloud-1.pem"
+        ],
+        "cwd": "/path/to/SmartFactory-2026",
+        "exit_code": 0,
+        "duration_seconds": 0.005199749983148649,
+        "timeout_seconds": 180,
+        "timed_out": false,
+        "log": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/generated-cloud-1-server-certificate-valid.log",
+        "sha256": "658d30f8c5e95aa605db3dcc93142c555f579ed161e8d8b4432bd428ada8d2bd",
+        "log_file": {
+          "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/generated-cloud-1-server-certificate-valid.log",
+          "bytes": 115,
+          "sha256": "658d30f8c5e95aa605db3dcc93142c555f579ed161e8d8b4432bd428ada8d2bd"
+        }
+      },
+      {
+        "name": "generated-edge-a-server-certificate-valid",
+        "argv": [
+          "openssl",
+          "verify",
+          "-CAfile",
+          "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/private/prepared/pki/ca.pem",
+          "-purpose",
+          "sslserver",
+          "-verify_hostname",
+          "edge-a",
+          "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/private/prepared/pki/edge-a.pem"
+        ],
+        "cwd": "/path/to/SmartFactory-2026",
+        "exit_code": 0,
+        "duration_seconds": 0.005324541009031236,
+        "timeout_seconds": 180,
+        "timed_out": false,
+        "log": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/generated-edge-a-server-certificate-valid.log",
+        "sha256": "8805aa43c3b7602fcc45e5d027b0f8ad5e3fb72ac8987754f857155fbf9c6650",
+        "log_file": {
+          "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/generated-edge-a-server-certificate-valid.log",
+          "bytes": 114,
+          "sha256": "8805aa43c3b7602fcc45e5d027b0f8ad5e3fb72ac8987754f857155fbf9c6650"
+        }
+      },
+      {
+        "name": "generated-config-service-client-certificate-valid",
+        "argv": [
+          "openssl",
+          "verify",
+          "-CAfile",
+          "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/private/prepared/pki/ca.pem",
+          "-purpose",
+          "sslclient",
+          "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/private/prepared/pki/config-service.pem"
+        ],
+        "cwd": "/path/to/SmartFactory-2026",
+        "exit_code": 0,
+        "duration_seconds": 0.005607375002000481,
+        "timeout_seconds": 180,
+        "timed_out": false,
+        "log": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/generated-config-service-client-certificate-valid.log",
+        "sha256": "c6551f21e4c231febdb4e2419f82e9826f14219b847b74f5f118d81f3e780ef2",
+        "log_file": {
+          "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/generated-config-service-client-certificate-valid.log",
+          "bytes": 122,
+          "sha256": "c6551f21e4c231febdb4e2419f82e9826f14219b847b74f5f118d81f3e780ef2"
+        }
+      },
+      {
+        "name": "generated-config-client-cloud-1-client-certificate-valid",
+        "argv": [
+          "openssl",
+          "verify",
+          "-CAfile",
+          "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/private/prepared/pki/ca.pem",
+          "-purpose",
+          "sslclient",
+          "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/private/prepared/pki/config-client-cloud-1.pem"
+        ],
+        "cwd": "/path/to/SmartFactory-2026",
+        "exit_code": 0,
+        "duration_seconds": 0.005308374995365739,
+        "timeout_seconds": 180,
+        "timed_out": false,
+        "log": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/generated-config-client-cloud-1-client-certificate-valid.log",
+        "sha256": "c419e64add7eae7a51be3bd6c098883ae36ff0add9323637188ab3ce1cc8207e",
+        "log_file": {
+          "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/generated-config-client-cloud-1-client-certificate-valid.log",
+          "bytes": 129,
+          "sha256": "c419e64add7eae7a51be3bd6c098883ae36ff0add9323637188ab3ce1cc8207e"
+        }
+      },
+      {
+        "name": "generated-edge-a-client-certificate-valid",
+        "argv": [
+          "openssl",
+          "verify",
+          "-CAfile",
+          "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/private/prepared/pki/ca.pem",
+          "-purpose",
+          "sslclient",
+          "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/private/prepared/pki/edge-a.pem"
+        ],
+        "cwd": "/path/to/SmartFactory-2026",
+        "exit_code": 0,
+        "duration_seconds": 0.005310292006470263,
+        "timeout_seconds": 180,
+        "timed_out": false,
+        "log": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/generated-edge-a-client-certificate-valid.log",
+        "sha256": "8805aa43c3b7602fcc45e5d027b0f8ad5e3fb72ac8987754f857155fbf9c6650",
+        "log_file": {
+          "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/generated-edge-a-client-certificate-valid.log",
+          "bytes": 114,
+          "sha256": "8805aa43c3b7602fcc45e5d027b0f8ad5e3fb72ac8987754f857155fbf9c6650"
+        }
+      },
+      {
+        "name": "create-distinct-private-databases-and-roles",
+        "argv": [
+          "docker",
+          "exec",
+          "-i",
+          "smartfactory-evolution-pg18-final60-20261005",
+          "psql",
+          "-U",
+          "smartfactory_evolution",
+          "-d",
+          "postgres",
+          "-v",
+          "ON_ERROR_STOP=1",
+          "-At"
+        ],
+        "cwd": "/path/to/SmartFactory-2026",
+        "exit_code": 0,
+        "duration_seconds": 0.7040603750210721,
+        "timeout_seconds": 180,
+        "timed_out": false,
+        "log": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/create-distinct-private-databases-and-roles.log",
+        "sha256": "7b9419b851307671f2c9b79d48099bf2b275b2dc18db5d9fb1b5fd2c9f2cf840",
+        "log_file": {
+          "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/create-distinct-private-databases-and-roles.log",
+          "bytes": 100,
+          "sha256": "7b9419b851307671f2c9b79d48099bf2b275b2dc18db5d9fb1b5fd2c9f2cf840"
+        }
+      },
+      {
+        "name": "initial-own-database-connections",
+        "argv": [
+          "docker",
+          "exec",
+          "-i",
+          "smartfactory-evolution-pg18-final60-20261005",
+          "psql",
+          "-U",
+          "smartfactory_evolution",
+          "-d",
+          "postgres",
+          "-v",
+          "ON_ERROR_STOP=1",
+          "-At"
+        ],
+        "cwd": "/path/to/SmartFactory-2026",
+        "exit_code": 0,
+        "duration_seconds": 0.19597012500162236,
+        "timeout_seconds": 180,
+        "timed_out": false,
+        "log": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/initial-own-database-connections.log",
+        "sha256": "d8760763be63067f00789fcf42648cb7e89259b37690e733415676ec0b8b6596",
+        "log_file": {
+          "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/initial-own-database-connections.log",
+          "bytes": 16,
+          "sha256": "d8760763be63067f00789fcf42648cb7e89259b37690e733415676ec0b8b6596"
+        }
+      },
+      {
+        "name": "validate-finite-composition",
+        "argv": [
+          "docker",
+          "compose",
+          "-f",
+          "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/private/prepared/compose.json",
+          "--profile",
+          "release",
+          "config",
+          "--quiet"
+        ],
+        "cwd": "/path/to/SmartFactory-2026",
+        "exit_code": 0,
+        "duration_seconds": 0.057388916990021244,
+        "timeout_seconds": 180,
+        "timed_out": false,
+        "log": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/validate-finite-composition.log",
+        "sha256": "d8760763be63067f00789fcf42648cb7e89259b37690e733415676ec0b8b6596",
+        "log_file": {
+          "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/validate-finite-composition.log",
+          "bytes": 16,
+          "sha256": "d8760763be63067f00789fcf42648cb7e89259b37690e733415676ec0b8b6596"
+        }
+      },
+      {
+        "name": "start-original-formal-business-services",
+        "argv": [
+          "docker",
+          "compose",
+          "-f",
+          "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/private/prepared/compose.json",
+          "up",
+          "-d",
+          "--pull",
+          "never",
+          "config",
+          "cloud",
+          "edge-a",
+          "web"
+        ],
+        "cwd": "/path/to/SmartFactory-2026",
+        "exit_code": 0,
+        "duration_seconds": 0.5765428750019055,
+        "timeout_seconds": 180,
+        "timed_out": false,
+        "log": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/start-original-formal-business-services.log",
+        "sha256": "fa21e4625336ab9dd6a0946e6729335c83529af146bb2285f38bb1b4a2077195",
+        "log_file": {
+          "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/start-original-formal-business-services.log",
+          "bytes": 1424,
+          "sha256": "fa21e4625336ab9dd6a0946e6729335c83529af146bb2285f38bb1b4a2077195"
+        }
+      },
+      {
+        "name": "formal-node-certificate-and-public-key-enrollment",
+        "argv": [
+          "python3",
+          "/private/tmp/smartfactory-delivery-linux-preflight-build-r02-20261005/bundle/scripts/enroll-local-edge.py",
+          "--state-directory",
+          "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/private/prepared",
+          "--cloud-url",
+          "http://127.0.0.1:20190",
+          "--node",
+          "edge-a"
+        ],
+        "cwd": "/path/to/SmartFactory-2026",
+        "exit_code": 0,
+        "duration_seconds": 2.2160896659770515,
+        "timeout_seconds": 180,
+        "timed_out": false,
+        "log": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/formal-node-certificate-and-public-key-enrollment.log",
+        "sha256": "06a73b253e8cd84a4d20a58ae4922a7b86ca7b6b41e99e9e178de9259ba1219a",
+        "log_file": {
+          "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/formal-node-certificate-and-public-key-enrollment.log",
+          "bytes": 96,
+          "sha256": "06a73b253e8cd84a4d20a58ae4922a7b86ca7b6b41e99e9e178de9259ba1219a"
+        }
+      },
+      {
+        "name": "start-real-simulation-and-datatransfer",
+        "argv": [
+          "docker",
+          "compose",
+          "-f",
+          "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/private/prepared/compose.json",
+          "up",
+          "-d",
+          "--pull",
+          "never",
+          "edge-a-simulator",
+          "edge-a-gateway"
+        ],
+        "cwd": "/path/to/SmartFactory-2026",
+        "exit_code": 0,
+        "duration_seconds": 2.7689098339760676,
+        "timeout_seconds": 180,
+        "timed_out": false,
+        "log": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/start-real-simulation-and-datatransfer.log",
+        "sha256": "9bdf033e1534f1a9d4c2881771d136af3f508f2b41a4293ba0ef40fe4af43d48",
+        "log_file": {
+          "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/start-real-simulation-and-datatransfer.log",
+          "bytes": 931,
+          "sha256": "9bdf033e1534f1a9d4c2881771d136af3f508f2b41a4293ba0ef40fe4af43d48"
+        }
+      },
+      {
+        "name": "id-edge-a-network-14",
+        "argv": [
+          "docker",
+          "compose",
+          "-f",
+          "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/private/prepared/compose.json",
+          "--profile",
+          "release",
+          "--profile",
+          "direct-runtime",
+          "ps",
+          "-a",
+          "-q",
+          "edge-a-network"
+        ],
+        "cwd": "/path/to/SmartFactory-2026",
+        "exit_code": 0,
+        "duration_seconds": 0.06491450002067722,
+        "timeout_seconds": 180,
+        "timed_out": false,
+        "log": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/id-edge-a-network-14.log",
+        "sha256": "81580cc64983f6bb83569d3b918a18d97403e1a3006105b4aa44dea1d8be042f",
+        "log_file": {
+          "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/id-edge-a-network-14.log",
+          "bytes": 81,
+          "sha256": "81580cc64983f6bb83569d3b918a18d97403e1a3006105b4aa44dea1d8be042f"
+        }
+      },
+      {
+        "name": "inspect-edge-a-network-15",
+        "argv": [
+          "docker",
+          "inspect",
+          "7fe3bd8f7c2c05d48343cac526086087ac5553787f57ff99e401fbc30bd6103a"
+        ],
+        "cwd": "/path/to/SmartFactory-2026",
+        "exit_code": 0,
+        "duration_seconds": 0.016632041020784527,
+        "timeout_seconds": 180,
+        "timed_out": false,
+        "log": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/inspect-edge-a-network-15.log",
+        "sha256": "30f64964ebb801546b10b4d230ce4e0b4bdd7519a6e55d40b1959f347f0c0271",
+        "log_file": {
+          "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/inspect-edge-a-network-15.log",
+          "bytes": 8339,
+          "sha256": "30f64964ebb801546b10b4d230ce4e0b4bdd7519a6e55d40b1959f347f0c0271"
+        }
+      },
+      {
+        "name": "gateway-loopback-readiness-16",
+        "argv": [
+          "docker",
+          "exec",
+          "7fe3bd8f7c2c05d48343cac526086087ac5553787f57ff99e401fbc30bd6103a",
+          "wget",
+          "-q",
+          "-O-",
+          "http://127.0.0.1:18082/readyz"
+        ],
+        "cwd": "/path/to/SmartFactory-2026",
+        "exit_code": 1,
+        "duration_seconds": 0.036799791996600106,
+        "timeout_seconds": 180,
+        "timed_out": false,
+        "log": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/gateway-loopback-readiness-16.log",
+        "sha256": "2a34470cef1a81a7348f8cc8bf1320dbd23bb74262f39a2c25e7bf5dc1c28bdd",
+        "log_file": {
+          "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/gateway-loopback-readiness-16.log",
+          "bytes": 83,
+          "sha256": "2a34470cef1a81a7348f8cc8bf1320dbd23bb74262f39a2c25e7bf5dc1c28bdd"
+        }
+      },
+      {
+        "name": "id-edge-a-network-17",
+        "argv": [
+          "docker",
+          "compose",
+          "-f",
+          "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/private/prepared/compose.json",
+          "--profile",
+          "release",
+          "--profile",
+          "direct-runtime",
+          "ps",
+          "-a",
+          "-q",
+          "edge-a-network"
+        ],
+        "cwd": "/path/to/SmartFactory-2026",
+        "exit_code": 0,
+        "duration_seconds": 0.06870787497609854,
+        "timeout_seconds": 180,
+        "timed_out": false,
+        "log": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/id-edge-a-network-17.log",
+        "sha256": "81580cc64983f6bb83569d3b918a18d97403e1a3006105b4aa44dea1d8be042f",
+        "log_file": {
+          "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/id-edge-a-network-17.log",
+          "bytes": 81,
+          "sha256": "81580cc64983f6bb83569d3b918a18d97403e1a3006105b4aa44dea1d8be042f"
+        }
+      },
+      {
+        "name": "inspect-edge-a-network-18",
+        "argv": [
+          "docker",
+          "inspect",
+          "7fe3bd8f7c2c05d48343cac526086087ac5553787f57ff99e401fbc30bd6103a"
+        ],
+        "cwd": "/path/to/SmartFactory-2026",
+        "exit_code": 0,
+        "duration_seconds": 0.017689083993900567,
+        "timeout_seconds": 180,
+        "timed_out": false,
+        "log": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/inspect-edge-a-network-18.log",
+        "sha256": "30f64964ebb801546b10b4d230ce4e0b4bdd7519a6e55d40b1959f347f0c0271",
+        "log_file": {
+          "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/inspect-edge-a-network-18.log",
+          "bytes": 8339,
+          "sha256": "30f64964ebb801546b10b4d230ce4e0b4bdd7519a6e55d40b1959f347f0c0271"
+        }
+      },
+      {
+        "name": "gateway-loopback-readiness-19",
+        "argv": [
+          "docker",
+          "exec",
+          "7fe3bd8f7c2c05d48343cac526086087ac5553787f57ff99e401fbc30bd6103a",
+          "wget",
+          "-q",
+          "-O-",
+          "http://127.0.0.1:18082/readyz"
+        ],
+        "cwd": "/path/to/SmartFactory-2026",
+        "exit_code": 0,
+        "duration_seconds": 0.05421949998708442,
+        "timeout_seconds": 180,
+        "timed_out": false,
+        "log": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/gateway-loopback-readiness-19.log",
+        "sha256": "14f46d4a300a1337471d339dc922f71c7e2e49f636a83bd00d94cc6d1df7d9e6",
+        "log_file": {
+          "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/gateway-loopback-readiness-19.log",
+          "bytes": 35,
+          "sha256": "14f46d4a300a1337471d339dc922f71c7e2e49f636a83bd00d94cc6d1df7d9e6"
+        }
+      },
+      {
+        "name": "formal-executable-artifact-upload-and-registration",
+        "argv": [
+          "python3",
+          "/private/tmp/smartfactory-delivery-linux-preflight-build-r02-20261005/bundle/scripts/register-release-artifact.py",
+          "--bundle",
+          "/private/tmp/smartfactory-delivery-linux-preflight-build-r02-20261005/bundle",
+          "--directory",
+          "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/private/prepared",
+          "--build-info",
+          "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/edge-build-info.json"
+        ],
+        "cwd": "/path/to/SmartFactory-2026",
+        "exit_code": 0,
+        "duration_seconds": 1.799732249986846,
+        "timeout_seconds": 180,
+        "timed_out": false,
+        "log": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/formal-executable-artifact-upload-and-registration.log",
+        "sha256": "33b66c414938d4e483a0337e67f5a47c0cbf581ea01ce9798bac7a45ded87578",
+        "log_file": {
+          "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/formal-executable-artifact-upload-and-registration.log",
+          "bytes": 495,
+          "sha256": "33b66c414938d4e483a0337e67f5a47c0cbf581ea01ce9798bac7a45ded87578"
+        }
+      },
+      {
+        "name": "formal-prepared-stack-stop",
+        "argv": [
+          "python3",
+          "/private/tmp/smartfactory-delivery-linux-preflight-build-r02-20261005/bundle/scripts/bootstrap-runtime.py",
+          "stop",
+          "--directory",
+          "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/private/prepared"
+        ],
+        "cwd": "/path/to/SmartFactory-2026",
+        "exit_code": 0,
+        "duration_seconds": 2.782465374999447,
+        "timeout_seconds": 180,
+        "timed_out": false,
+        "log": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/formal-prepared-stack-stop.log",
+        "sha256": "9cd5e358c6ee224744e45bafbee87a280f14b50350c9e709601a7a36da232808",
+        "log_file": {
+          "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/formal-prepared-stack-stop.log",
+          "bytes": 879,
+          "sha256": "9cd5e358c6ee224744e45bafbee87a280f14b50350c9e709601a7a36da232808"
+        }
+      },
+      {
+        "name": "final-id-config",
+        "argv": [
+          "docker",
+          "compose",
+          "-f",
+          "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/private/prepared/compose.json",
+          "--profile",
+          "release",
+          "--profile",
+          "direct-runtime",
+          "ps",
+          "-a",
+          "-q",
+          "config"
+        ],
+        "cwd": "/path/to/SmartFactory-2026",
+        "exit_code": 0,
+        "duration_seconds": 0.05696391701349057,
+        "timeout_seconds": 180,
+        "timed_out": false,
+        "log": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/final-id-config.log",
+        "sha256": "716afbd6b13d906f6575738437ea8c80d2e21ab18a6eee3932fd019e845e85db",
+        "log_file": {
+          "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/final-id-config.log",
+          "bytes": 81,
+          "sha256": "716afbd6b13d906f6575738437ea8c80d2e21ab18a6eee3932fd019e845e85db"
+        }
+      },
+      {
+        "name": "final-state-config",
+        "argv": [
+          "docker",
+          "inspect",
+          "b66284615c69c26d9125232b2ecd3a2f240dc94ac2bab9237619b30fd0d250e7"
+        ],
+        "cwd": "/path/to/SmartFactory-2026",
+        "exit_code": 0,
+        "duration_seconds": 0.015976958005921915,
+        "timeout_seconds": 180,
+        "timed_out": false,
+        "log": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/final-state-config.log",
+        "sha256": "8c1f3fb0b6a372a05d278cf414d913c3fa0f7bb4133a48eb70bcb8709386acdd",
+        "log_file": {
+          "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/final-state-config.log",
+          "bytes": 8047,
+          "sha256": "8c1f3fb0b6a372a05d278cf414d913c3fa0f7bb4133a48eb70bcb8709386acdd"
+        }
+      },
+      {
+        "name": "final-log-config",
+        "argv": [
+          "docker",
+          "logs",
+          "b66284615c69c26d9125232b2ecd3a2f240dc94ac2bab9237619b30fd0d250e7"
+        ],
+        "cwd": "/path/to/SmartFactory-2026",
+        "exit_code": 0,
+        "duration_seconds": 0.015863292006542906,
+        "timeout_seconds": 180,
+        "timed_out": false,
+        "log": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/final-log-config.log",
+        "sha256": "8c1433a9aa3870bf6f57a61b70cbbae139fbd9d36e268366e6ebb6777a6fc428",
+        "log_file": {
+          "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/final-log-config.log",
+          "bytes": 113,
+          "sha256": "8c1433a9aa3870bf6f57a61b70cbbae139fbd9d36e268366e6ebb6777a6fc428"
+        }
+      },
+      {
+        "name": "final-id-cloud",
+        "argv": [
+          "docker",
+          "compose",
+          "-f",
+          "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/private/prepared/compose.json",
+          "--profile",
+          "release",
+          "--profile",
+          "direct-runtime",
+          "ps",
+          "-a",
+          "-q",
+          "cloud"
+        ],
+        "cwd": "/path/to/SmartFactory-2026",
+        "exit_code": 0,
+        "duration_seconds": 0.05211208399850875,
+        "timeout_seconds": 180,
+        "timed_out": false,
+        "log": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/final-id-cloud.log",
+        "sha256": "a562e4b7eee1750cffc4641a508208710e3d946693f88b7bb3831ed3f3c1b013",
+        "log_file": {
+          "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/final-id-cloud.log",
+          "bytes": 81,
+          "sha256": "a562e4b7eee1750cffc4641a508208710e3d946693f88b7bb3831ed3f3c1b013"
+        }
+      },
+      {
+        "name": "final-state-cloud",
+        "argv": [
+          "docker",
+          "inspect",
+          "f5c5f77db3a3f361d654433890b1a77dad55d4fbce6c37dbd66b024a129a3acc"
+        ],
+        "cwd": "/path/to/SmartFactory-2026",
+        "exit_code": 0,
+        "duration_seconds": 0.01563174999319017,
+        "timeout_seconds": 180,
+        "timed_out": false,
+        "log": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/final-state-cloud.log",
+        "sha256": "d0251672d24e2627a6071ddf91f539d6c4f9624e2408099fdfb6c0007181b632",
+        "log_file": {
+          "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/final-state-cloud.log",
+          "bytes": 9325,
+          "sha256": "d0251672d24e2627a6071ddf91f539d6c4f9624e2408099fdfb6c0007181b632"
+        }
+      },
+      {
+        "name": "final-log-cloud",
+        "argv": [
+          "docker",
+          "logs",
+          "f5c5f77db3a3f361d654433890b1a77dad55d4fbce6c37dbd66b024a129a3acc"
+        ],
+        "cwd": "/path/to/SmartFactory-2026",
+        "exit_code": 0,
+        "duration_seconds": 0.01682166600949131,
+        "timeout_seconds": 180,
+        "timed_out": false,
+        "log": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/final-log-cloud.log",
+        "sha256": "f16363b55195fe5d1ef7d07062b2b8234aa7d4718872c2583774915c597984ca",
+        "log_file": {
+          "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/final-log-cloud.log",
+          "bytes": 31871,
+          "sha256": "f16363b55195fe5d1ef7d07062b2b8234aa7d4718872c2583774915c597984ca"
+        }
+      },
+      {
+        "name": "final-id-edge-a-network",
+        "argv": [
+          "docker",
+          "compose",
+          "-f",
+          "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/private/prepared/compose.json",
+          "--profile",
+          "release",
+          "--profile",
+          "direct-runtime",
+          "ps",
+          "-a",
+          "-q",
+          "edge-a-network"
+        ],
+        "cwd": "/path/to/SmartFactory-2026",
+        "exit_code": 0,
+        "duration_seconds": 0.053944500017678365,
+        "timeout_seconds": 180,
+        "timed_out": false,
+        "log": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/final-id-edge-a-network.log",
+        "sha256": "81580cc64983f6bb83569d3b918a18d97403e1a3006105b4aa44dea1d8be042f",
+        "log_file": {
+          "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/final-id-edge-a-network.log",
+          "bytes": 81,
+          "sha256": "81580cc64983f6bb83569d3b918a18d97403e1a3006105b4aa44dea1d8be042f"
+        }
+      },
+      {
+        "name": "final-state-edge-a-network",
+        "argv": [
+          "docker",
+          "inspect",
+          "7fe3bd8f7c2c05d48343cac526086087ac5553787f57ff99e401fbc30bd6103a"
+        ],
+        "cwd": "/path/to/SmartFactory-2026",
+        "exit_code": 0,
+        "duration_seconds": 0.01620616699801758,
+        "timeout_seconds": 180,
+        "timed_out": false,
+        "log": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/final-state-edge-a-network.log",
+        "sha256": "67aff5bb01da15caae1dc3a82d6e3c0303ec77c3b1c5b134779bbfa52f21f689",
+        "log_file": {
+          "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/final-state-edge-a-network.log",
+          "bytes": 7641,
+          "sha256": "67aff5bb01da15caae1dc3a82d6e3c0303ec77c3b1c5b134779bbfa52f21f689"
+        }
+      },
+      {
+        "name": "final-log-edge-a-network",
+        "argv": [
+          "docker",
+          "logs",
+          "7fe3bd8f7c2c05d48343cac526086087ac5553787f57ff99e401fbc30bd6103a"
+        ],
+        "cwd": "/path/to/SmartFactory-2026",
+        "exit_code": 0,
+        "duration_seconds": 0.017208457982633263,
+        "timeout_seconds": 180,
+        "timed_out": false,
+        "log": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/final-log-edge-a-network.log",
+        "sha256": "294e04e03d39a5878e6ab5589023277f6788861abe4cd2ada11a51ae4e765623",
+        "log_file": {
+          "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/final-log-edge-a-network.log",
+          "bytes": 27,
+          "sha256": "294e04e03d39a5878e6ab5589023277f6788861abe4cd2ada11a51ae4e765623"
+        }
+      },
+      {
+        "name": "final-id-edge-a",
+        "argv": [
+          "docker",
+          "compose",
+          "-f",
+          "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/private/prepared/compose.json",
+          "--profile",
+          "release",
+          "--profile",
+          "direct-runtime",
+          "ps",
+          "-a",
+          "-q",
+          "edge-a"
+        ],
+        "cwd": "/path/to/SmartFactory-2026",
+        "exit_code": 0,
+        "duration_seconds": 0.053555666003376245,
+        "timeout_seconds": 180,
+        "timed_out": false,
+        "log": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/final-id-edge-a.log",
+        "sha256": "04b7fdf3b034a53185f229647a0f3eec6c5a5c07e10b30123bf94635061ddf60",
+        "log_file": {
+          "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/final-id-edge-a.log",
+          "bytes": 81,
+          "sha256": "04b7fdf3b034a53185f229647a0f3eec6c5a5c07e10b30123bf94635061ddf60"
+        }
+      },
+      {
+        "name": "final-state-edge-a",
+        "argv": [
+          "docker",
+          "inspect",
+          "5049057b89e159df2258ba7811a63fd292834ea164601ae54ac05c741a2bb9de"
+        ],
+        "cwd": "/path/to/SmartFactory-2026",
+        "exit_code": 0,
+        "duration_seconds": 0.015476792003028095,
+        "timeout_seconds": 180,
+        "timed_out": false,
+        "log": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/final-state-edge-a.log",
+        "sha256": "354e3d01568c61f14ff27f4414201d46ba00a97dc81ce3709900d55c62ed1c84",
+        "log_file": {
+          "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/final-state-edge-a.log",
+          "bytes": 7912,
+          "sha256": "354e3d01568c61f14ff27f4414201d46ba00a97dc81ce3709900d55c62ed1c84"
+        }
+      },
+      {
+        "name": "final-log-edge-a",
+        "argv": [
+          "docker",
+          "logs",
+          "5049057b89e159df2258ba7811a63fd292834ea164601ae54ac05c741a2bb9de"
+        ],
+        "cwd": "/path/to/SmartFactory-2026",
+        "exit_code": 0,
+        "duration_seconds": 0.01937641599215567,
+        "timeout_seconds": 180,
+        "timed_out": false,
+        "log": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/final-log-edge-a.log",
+        "sha256": "83340e2e71dfea534b95a9d74ea7c6ea52851a0cd6f8650db70cc6f51a89465e",
+        "log_file": {
+          "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/final-log-edge-a.log",
+          "bytes": 28582,
+          "sha256": "83340e2e71dfea534b95a9d74ea7c6ea52851a0cd6f8650db70cc6f51a89465e"
+        }
+      },
+      {
+        "name": "final-id-edge-a-release-agent",
+        "argv": [
+          "docker",
+          "compose",
+          "-f",
+          "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/private/prepared/compose.json",
+          "--profile",
+          "release",
+          "--profile",
+          "direct-runtime",
+          "ps",
+          "-a",
+          "-q",
+          "edge-a-release-agent"
+        ],
+        "cwd": "/path/to/SmartFactory-2026",
+        "exit_code": 0,
+        "duration_seconds": 0.05311700000311248,
+        "timeout_seconds": 180,
+        "timed_out": false,
+        "log": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/final-id-edge-a-release-agent.log",
+        "sha256": "d8760763be63067f00789fcf42648cb7e89259b37690e733415676ec0b8b6596",
+        "log_file": {
+          "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/final-id-edge-a-release-agent.log",
+          "bytes": 16,
+          "sha256": "d8760763be63067f00789fcf42648cb7e89259b37690e733415676ec0b8b6596"
+        }
+      },
+      {
+        "name": "final-id-edge-a-simulator",
+        "argv": [
+          "docker",
+          "compose",
+          "-f",
+          "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/private/prepared/compose.json",
+          "--profile",
+          "release",
+          "--profile",
+          "direct-runtime",
+          "ps",
+          "-a",
+          "-q",
+          "edge-a-simulator"
+        ],
+        "cwd": "/path/to/SmartFactory-2026",
+        "exit_code": 0,
+        "duration_seconds": 0.0630432500038296,
+        "timeout_seconds": 180,
+        "timed_out": false,
+        "log": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/final-id-edge-a-simulator.log",
+        "sha256": "e82c66b60d3510b764b8cbb445ca2b73f68f7c5a2ca7375935fc692bd2fa4acb",
+        "log_file": {
+          "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/final-id-edge-a-simulator.log",
+          "bytes": 81,
+          "sha256": "e82c66b60d3510b764b8cbb445ca2b73f68f7c5a2ca7375935fc692bd2fa4acb"
+        }
+      },
+      {
+        "name": "final-state-edge-a-simulator",
+        "argv": [
+          "docker",
+          "inspect",
+          "69239000aaef29858764db90a3294a995a476378295c92c60c4d03549a8c5ecd"
+        ],
+        "cwd": "/path/to/SmartFactory-2026",
+        "exit_code": 0,
+        "duration_seconds": 0.020372875005705282,
+        "timeout_seconds": 180,
+        "timed_out": false,
+        "log": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/final-state-edge-a-simulator.log",
+        "sha256": "849486cdd4606d1a68aac3edaed4ad35bb95af9cb25e361ddb8418207fd6b9f6",
+        "log_file": {
+          "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/final-state-edge-a-simulator.log",
+          "bytes": 8814,
+          "sha256": "849486cdd4606d1a68aac3edaed4ad35bb95af9cb25e361ddb8418207fd6b9f6"
+        }
+      },
+      {
+        "name": "final-log-edge-a-simulator",
+        "argv": [
+          "docker",
+          "logs",
+          "69239000aaef29858764db90a3294a995a476378295c92c60c4d03549a8c5ecd"
+        ],
+        "cwd": "/path/to/SmartFactory-2026",
+        "exit_code": 0,
+        "duration_seconds": 0.023514333995990455,
+        "timeout_seconds": 180,
+        "timed_out": false,
+        "log": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/final-log-edge-a-simulator.log",
+        "sha256": "975c8e164cd4e75c9038f3e6ee5359f4db8ff830e77922d0bd9cb3663b40f57c",
+        "log_file": {
+          "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/final-log-edge-a-simulator.log",
+          "bytes": 447,
+          "sha256": "975c8e164cd4e75c9038f3e6ee5359f4db8ff830e77922d0bd9cb3663b40f57c"
+        }
+      },
+      {
+        "name": "final-id-edge-a-gateway",
+        "argv": [
+          "docker",
+          "compose",
+          "-f",
+          "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/private/prepared/compose.json",
+          "--profile",
+          "release",
+          "--profile",
+          "direct-runtime",
+          "ps",
+          "-a",
+          "-q",
+          "edge-a-gateway"
+        ],
+        "cwd": "/path/to/SmartFactory-2026",
+        "exit_code": 0,
+        "duration_seconds": 0.06221141599235125,
+        "timeout_seconds": 180,
+        "timed_out": false,
+        "log": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/final-id-edge-a-gateway.log",
+        "sha256": "5032640b0084a7ebf4fed73d285bca222dda74eb588b15634cc00926a5fd29f3",
+        "log_file": {
+          "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/final-id-edge-a-gateway.log",
+          "bytes": 81,
+          "sha256": "5032640b0084a7ebf4fed73d285bca222dda74eb588b15634cc00926a5fd29f3"
+        }
+      },
+      {
+        "name": "final-state-edge-a-gateway",
+        "argv": [
+          "docker",
+          "inspect",
+          "df43cb61577ffdc534ac73c220e0f2620fdfc1f3eb35dd4da00952c27996fe5f"
+        ],
+        "cwd": "/path/to/SmartFactory-2026",
+        "exit_code": 0,
+        "duration_seconds": 0.020169541996438056,
+        "timeout_seconds": 180,
+        "timed_out": false,
+        "log": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/final-state-edge-a-gateway.log",
+        "sha256": "645fc0c9c467d07f7b744bef96ed2a77ff7439130b20c5d7ecb007183ed21217",
+        "log_file": {
+          "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/final-state-edge-a-gateway.log",
+          "bytes": 7375,
+          "sha256": "645fc0c9c467d07f7b744bef96ed2a77ff7439130b20c5d7ecb007183ed21217"
+        }
+      },
+      {
+        "name": "final-log-edge-a-gateway",
+        "argv": [
+          "docker",
+          "logs",
+          "df43cb61577ffdc534ac73c220e0f2620fdfc1f3eb35dd4da00952c27996fe5f"
+        ],
+        "cwd": "/path/to/SmartFactory-2026",
+        "exit_code": 0,
+        "duration_seconds": 0.02219616700313054,
+        "timeout_seconds": 180,
+        "timed_out": false,
+        "log": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/final-log-edge-a-gateway.log",
+        "sha256": "660fa5ac3a7d63ed7146864643ea6fccdfd0eb1bdae837966bfe679bd55e972b",
+        "log_file": {
+          "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/final-log-edge-a-gateway.log",
+          "bytes": 1036,
+          "sha256": "660fa5ac3a7d63ed7146864643ea6fccdfd0eb1bdae837966bfe679bd55e972b"
+        }
+      },
+      {
+        "name": "final-id-web",
+        "argv": [
+          "docker",
+          "compose",
+          "-f",
+          "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/private/prepared/compose.json",
+          "--profile",
+          "release",
+          "--profile",
+          "direct-runtime",
+          "ps",
+          "-a",
+          "-q",
+          "web"
+        ],
+        "cwd": "/path/to/SmartFactory-2026",
+        "exit_code": 0,
+        "duration_seconds": 0.06265920799341984,
+        "timeout_seconds": 180,
+        "timed_out": false,
+        "log": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/final-id-web.log",
+        "sha256": "977e3cd9e7a258a69a6f73eb3ba02c183c3a5cb2dbf26d9859c949bbf7fe902b",
+        "log_file": {
+          "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/final-id-web.log",
+          "bytes": 81,
+          "sha256": "977e3cd9e7a258a69a6f73eb3ba02c183c3a5cb2dbf26d9859c949bbf7fe902b"
+        }
+      },
+      {
+        "name": "final-state-web",
+        "argv": [
+          "docker",
+          "inspect",
+          "c53c9edb1a79b3079f5bdd124f01c99dbc6b927356caf8f9c4932881a3642b42"
+        ],
+        "cwd": "/path/to/SmartFactory-2026",
+        "exit_code": 0,
+        "duration_seconds": 0.019935207994421944,
+        "timeout_seconds": 180,
+        "timed_out": false,
+        "log": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/final-state-web.log",
+        "sha256": "f3e1e122ca9b1d67bf018f9d1ec48509e798fc9b1c1507967105929f3d85a1fd",
+        "log_file": {
+          "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/final-state-web.log",
+          "bytes": 7972,
+          "sha256": "f3e1e122ca9b1d67bf018f9d1ec48509e798fc9b1c1507967105929f3d85a1fd"
+        }
+      },
+      {
+        "name": "final-log-web",
+        "argv": [
+          "docker",
+          "logs",
+          "c53c9edb1a79b3079f5bdd124f01c99dbc6b927356caf8f9c4932881a3642b42"
+        ],
+        "cwd": "/path/to/SmartFactory-2026",
+        "exit_code": 0,
+        "duration_seconds": 0.01843141601420939,
+        "timeout_seconds": 180,
+        "timed_out": false,
+        "log": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/final-log-web.log",
+        "sha256": "59ed67271784ae557d15105f6781e1067b55c870d638e4b5c3d330075da08b2b",
+        "log_file": {
+          "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/final-log-web.log",
+          "bytes": 371,
+          "sha256": "59ed67271784ae557d15105f6781e1067b55c870d638e4b5c3d330075da08b2b"
+        }
+      },
+      {
+        "name": "final-own-database-connections",
+        "argv": [
+          "docker",
+          "exec",
+          "-i",
+          "smartfactory-evolution-pg18-final60-20261005",
+          "psql",
+          "-U",
+          "smartfactory_evolution",
+          "-d",
+          "postgres",
+          "-v",
+          "ON_ERROR_STOP=1",
+          "-At"
+        ],
+        "cwd": "/path/to/SmartFactory-2026",
+        "exit_code": 0,
+        "duration_seconds": 0.1972205420024693,
+        "timeout_seconds": 180,
+        "timed_out": false,
+        "log": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/final-own-database-connections.log",
+        "sha256": "d8760763be63067f00789fcf42648cb7e89259b37690e733415676ec0b8b6596",
+        "log_file": {
+          "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/final-own-database-connections.log",
+          "bytes": 16,
+          "sha256": "d8760763be63067f00789fcf42648cb7e89259b37690e733415676ec0b8b6596"
+        }
+      },
+      {
+        "name": "remove-only-own-prepared-composition",
+        "argv": [
+          "docker",
+          "compose",
+          "-f",
+          "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/private/prepared/compose.json",
+          "--profile",
+          "release",
+          "--profile",
+          "direct-runtime",
+          "down"
+        ],
+        "cwd": "/path/to/SmartFactory-2026",
+        "exit_code": 0,
+        "duration_seconds": 0.21417112500057556,
+        "timeout_seconds": 180,
+        "timed_out": false,
+        "log": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/remove-only-own-prepared-composition.log",
+        "sha256": "5276ee8e57d3894cd73d5fd02839395ebaa0411c7d14c887a15631540adf5e9c",
+        "log_file": {
+          "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/remove-only-own-prepared-composition.log",
+          "bytes": 1853,
+          "sha256": "5276ee8e57d3894cd73d5fd02839395ebaa0411c7d14c887a15631540adf5e9c"
+        }
+      }
+    ],
+    "scope": "actual Linux bundle; formal preparation, TLS and distinct PostgreSQL identities, real DataTransfer, artifact registration, prepare-only, changed assignment, conversion and cached restart",
+    "native_platform_scope": "CE/Edge/Kafka installation, callbacks and PID1 retained-data restart use the separately recorded native verification; these services are not started by this finite fixture",
+    "databases": {
+      "cloud": "sf_delivery_cloud_8cf197b3c9",
+      "config": "sf_delivery_config_8cf197b3c9",
+      "edge-a": "sf_delivery_edge_a_8cf197b3c9"
+    },
+    "roles": {
+      "cloud": "sf_delivery_cloud_8cf197b3c9",
+      "config": "sf_delivery_config_8cf197b3c9",
+      "edge-a": "sf_delivery_edge_a_8cf197b3c9"
+    },
+    "formal_compose": {
+      "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/private/compose.formal.json",
+      "bytes": 24967,
+      "sha256": "5c1f1c38e7fbbca196d748b9e12ff0a8d606d89aac087418a1f9e6ebe87d53af"
+    },
+    "actual_compose_private": {
+      "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/private/prepared/compose.json",
+      "bytes": 16811,
+      "sha256": "564ea12829ef23adc3b6dc833761366259ea779a703a0fd488181f292ef4b155"
+    },
+    "profile_private": {
+      "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/private/prepared/profile.json",
+      "bytes": 503,
+      "sha256": "5bff10cb056897907219a6d042076dc4ab7705fa3f1faba2ab230ef78d97040c"
+    },
+    "final_states": {
+      "config": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-05T11:07:25.342647595Z",
+        "FinishedAt": "2026-10-05T11:07:49.111975384Z"
+      },
+      "cloud": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-05T11:07:25.504189012Z",
+        "FinishedAt": "2026-10-05T11:07:48.813320884Z"
+      },
+      "edge-a-network": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-05T11:07:25.416279512Z",
+        "FinishedAt": "2026-10-05T11:07:48.797312759Z"
+      },
+      "edge-a": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-05T11:07:25.574463387Z",
+        "FinishedAt": "2026-10-05T11:07:48.768529092Z"
+      },
+      "edge-a-simulator": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-05T11:07:32.501701293Z",
+        "FinishedAt": "2026-10-05T11:07:46.605154258Z",
+        "Health": {
+          "Status": "unhealthy",
+          "FailingStreak": 0,
+          "Log": [
+            {
+              "Start": "2026-10-05T11:07:36.58353042Z",
+              "End": "2026-10-05T11:07:36.600930003Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-05T11:07:38.602081712Z",
+              "End": "2026-10-05T11:07:38.632726837Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-05T11:07:40.633857922Z",
+              "End": "2026-10-05T11:07:40.675710797Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-05T11:07:42.676332381Z",
+              "End": "2026-10-05T11:07:42.691552714Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-05T11:07:44.692184549Z",
+              "End": "2026-10-05T11:07:44.713816965Z",
+              "ExitCode": 0,
+              "Output": ""
+            }
+          ]
+        }
+      },
+      "edge-a-gateway": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-05T11:07:35.073837794Z",
+        "FinishedAt": "2026-10-05T11:07:46.567495716Z"
+      },
+      "web": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-05T11:07:25.616735929Z",
+        "FinishedAt": "2026-10-05T11:07:46.582616758Z"
+      }
+    },
+    "all_service_exit_codes_zero": true,
+    "no_oom": true,
+    "connections_zero": true,
+    "service_containers_and_network_removed": true
+  },
+  "old_failure_relationship": {
+    "verification": {
+      "path": "/private/tmp/smartfactory-delivery-linux-preflight-runtime-loopback-fixed-20261005/verification.json",
+      "bytes": 273496,
+      "sha256": "7444858cd8dbd66184ac1c7d06bf83e00ed90a833bcf355ae5f558598a5c4009"
+    },
+    "failed_deployment_creation": {
+      "http_index": 34,
+      "request_started_at": "2026-10-05T09:18:59.595790+00:00",
+      "response_observed_at": "2026-10-05T09:19:00.007923+00:00",
+      "duration_seconds": 0.4121326660097111,
+      "deadlock_at": "2026-10-05T09:19:00.002000+00:00",
+      "deadlock_within_request": true,
+      "http": {
+        "at": "2026-10-05T09:19:00.007923+00:00",
+        "base": "http://127.0.0.1:20190",
+        "path": "/api/sf/v1/release-deployments",
+        "method": "POST",
+        "status": 409,
+        "duration_seconds": 0.4121326660097111,
+        "response": {
+          "error": "configuration reference is unavailable from the authority"
+        },
+        "request_sha256": "f3a91cf22ca8b26388651babd4dacac70b3ef9bd7a78c928bc85ce5adcbd29e1",
+        "request": {
+          "id": "delivery-prepared-two",
+          "request_id": "delivery-prepared-two",
+          "release_id": "delivery-release-2",
+          "group_id": "factory",
+          "batches": [
+            [
+              "release-edge-a"
+            ]
+          ],
+          "reason": "正式包入口与固定内容验证"
+        }
+      }
+    },
+    "database_oid": 98437,
+    "database": "sf_delivery_config_d6ef51b405",
+    "advisory_lock_unsigned": 5175393874658700308,
+    "same_document_lock_as_current": true,
+    "metadata_read_only_recheck": {
+      "path": "/private/tmp/smartfactory-delivery-linux-metadata-review-20261005/actual-810b36e0/verification.json",
+      "bytes": 150557,
+      "sha256": "5294eb11bdf0c9257dabc89836ed7bb2eb702842099700a5608b35d95b20bd13"
+    },
+    "interpretation": "原独立读取的12次200对应串行调用；这两次实际多服务运行的失败窗口分别保存同一来源文档共享锁升级形成死锁的PG原日志"
+  },
+  "deadlock_evidence": {
+    "pg_logs": [
+      {
+        "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/postgres-failure-window.log",
+        "bytes": 713,
+        "sha256": "62775be53e7229be009860d5042f477c169e1a46dd7841e40d15501977a173a2"
+      },
+      {
+        "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/postgres-original-409-window.log",
+        "bytes": 1256,
+        "sha256": "9ce4d3210a30d9116c906abd2679085ccee32b9200c8049d8bfb7ab45705fc82"
+      }
+    ],
+    "database_oid_map": {
+      "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/postgres-database-oid-map.log",
+      "bytes": 1179,
+      "sha256": "25a53bd5b794f83638d2655cc26a7e739dbf9eac87cc2ff5062446521f886b5c"
+    },
+    "lock_identification": {
+      "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/advisory-deadlock-identification.json",
+      "bytes": 806,
+      "sha256": "1c4da0e7f6fa445774fca781938f53e194655806178b7b213f6f9342401aedd6"
+    },
+    "current_database_oid": 208904,
+    "lock_identity": [
+      {
+        "namespace": "document",
+        "kind": "configuration_connector_source",
+        "id": "edge-a/delivery-mqtt:2",
+        "current_document_version": "1",
+        "unsigned_lock_key": 5175393874658700308
+      }
+    ],
+    "code_chain": "EnsureConnectorVersions tx.Read(configuration_connector_source,key) → SetEphemeral → Tx.Get → lockDocument排他锁；两个事务先持有同对象共享锁，随后分别等待对方释放共享锁。PG40P01经transactionError包装ErrRetryable/ErrConflict，configHTTPError映射409，releaseConfigurationMetadata转换为configuration reference is unavailable from the authority",
+    "raw_call_limitation": "本轮外部HTTP清单验证把配置组件错误归入valid=false；config到cloud内部HTTP未抓取逐请求正文，实际TLS身份、两份metadata先前200、PG锁对象/数据库/时间及正式受测代码均已固定",
+    "sources": [
+      {
+        "relative_path": "Platform/internal/configcenter/connector_sources.go",
+        "fixed": {
+          "path": "/private/tmp/smartfactory-delivery-linux-preflight-build-r02-20261005/bundle/source/Platform/internal/configcenter/connector_sources.go",
+          "bytes": 13888,
+          "sha256": "b6c8c8e1eccd79a387f7b3893c07a842523b4fd212b4b42da03e3f143598c953"
+        },
+        "current": {
+          "path": "/path/to/SmartFactory-2026/Platform/internal/configcenter/connector_sources.go",
+          "bytes": 13888,
+          "sha256": "b6c8c8e1eccd79a387f7b3893c07a842523b4fd212b4b42da03e3f143598c953"
+        }
+      },
+      {
+        "relative_path": "Platform/internal/configcenter/metadata.go",
+        "fixed": {
+          "path": "/private/tmp/smartfactory-delivery-linux-preflight-build-r02-20261005/bundle/source/Platform/internal/configcenter/metadata.go",
+          "bytes": 1918,
+          "sha256": "19d8f7f150cebaf630e40861d7807114b2183c326be72c2f5c7b9b7bd4d5e8f8"
+        },
+        "current": {
+          "path": "/path/to/SmartFactory-2026/Platform/internal/configcenter/metadata.go",
+          "bytes": 1918,
+          "sha256": "19d8f7f150cebaf630e40861d7807114b2183c326be72c2f5c7b9b7bd4d5e8f8"
+        }
+      },
+      {
+        "relative_path": "Platform/internal/configcenter/workload_http.go",
+        "fixed": {
+          "path": "/private/tmp/smartfactory-delivery-linux-preflight-build-r02-20261005/bundle/source/Platform/internal/configcenter/workload_http.go",
+          "bytes": 10964,
+          "sha256": "f5d24f81bb3eda97c4325f521cd8747977f1db28ed14d4f2379607f1cc018fd5"
+        },
+        "current": {
+          "path": "/path/to/SmartFactory-2026/Platform/internal/configcenter/workload_http.go",
+          "bytes": 10964,
+          "sha256": "f5d24f81bb3eda97c4325f521cd8747977f1db28ed14d4f2379607f1cc018fd5"
+        }
+      },
+      {
+        "relative_path": "Platform/internal/store/transaction.go",
+        "fixed": {
+          "path": "/private/tmp/smartfactory-delivery-linux-preflight-build-r02-20261005/bundle/source/Platform/internal/store/transaction.go",
+          "bytes": 6606,
+          "sha256": "be818c1d68a03a7bcc499ef1174e7bf62cd0aab33fdf1ecbeaad47afafd5408d"
+        },
+        "current": {
+          "path": "/path/to/SmartFactory-2026/Platform/internal/store/transaction.go",
+          "bytes": 6606,
+          "sha256": "be818c1d68a03a7bcc499ef1174e7bf62cd0aab33fdf1ecbeaad47afafd5408d"
+        }
+      },
+      {
+        "relative_path": "Platform/internal/store/store.go",
+        "fixed": {
+          "path": "/private/tmp/smartfactory-delivery-linux-preflight-build-r02-20261005/bundle/source/Platform/internal/store/store.go",
+          "bytes": 13151,
+          "sha256": "c9b343ab01e2ddd573b902b1c3f5a7a99c99416733f6c4d480ebaa9ff743d2c9"
+        },
+        "current": {
+          "path": "/path/to/SmartFactory-2026/Platform/internal/store/store.go",
+          "bytes": 13151,
+          "sha256": "c9b343ab01e2ddd573b902b1c3f5a7a99c99416733f6c4d480ebaa9ff743d2c9"
+        }
+      },
+      {
+        "relative_path": "Platform/internal/store/data.go",
+        "fixed": {
+          "path": "/private/tmp/smartfactory-delivery-linux-preflight-build-r02-20261005/bundle/source/Platform/internal/store/data.go",
+          "bytes": 17029,
+          "sha256": "4a41489d329b2332faf023aa48b2060c608667d0c175dd6a3aaa5051baf37315"
+        },
+        "current": {
+          "path": "/path/to/SmartFactory-2026/Platform/internal/store/data.go",
+          "bytes": 17029,
+          "sha256": "4a41489d329b2332faf023aa48b2060c608667d0c175dd6a3aaa5051baf37315"
+        }
+      },
+      {
+        "relative_path": "Platform/internal/api/release_configuration_client.go",
+        "fixed": {
+          "path": "/private/tmp/smartfactory-delivery-linux-preflight-build-r02-20261005/bundle/source/Platform/internal/api/release_configuration_client.go",
+          "bytes": 1616,
+          "sha256": "7795122b1eaf1d732696dee671496dd7cc30e51d756844427a147cb0694962db"
+        },
+        "current": {
+          "path": "/path/to/SmartFactory-2026/Platform/internal/api/release_configuration_client.go",
+          "bytes": 1616,
+          "sha256": "7795122b1eaf1d732696dee671496dd7cc30e51d756844427a147cb0694962db"
+        }
+      },
+      {
+        "relative_path": "Platform/internal/api/node_connector_authority.go",
+        "fixed": {
+          "path": "/private/tmp/smartfactory-delivery-linux-preflight-build-r02-20261005/bundle/source/Platform/internal/api/node_connector_authority.go",
+          "bytes": 3553,
+          "sha256": "19d8a7b0e3726e1d2306869484594308f3d1b59e5cb24520d1fd12d83a9e16da"
+        },
+        "current": {
+          "path": "/path/to/SmartFactory-2026/Platform/internal/api/node_connector_authority.go",
+          "bytes": 3553,
+          "sha256": "19d8a7b0e3726e1d2306869484594308f3d1b59e5cb24520d1fd12d83a9e16da"
+        }
+      }
+    ],
+    "postgres_log_capture_commands": [
+      [
+        "docker",
+        "logs",
+        "--since",
+        "2026-10-05T11:07:35Z",
+        "--until",
+        "2026-10-05T11:07:50Z",
+        "smartfactory-evolution-pg18-final60-20261005"
+      ],
+      [
+        "docker",
+        "logs",
+        "--since",
+        "2026-10-05T09:18:55Z",
+        "--until",
+        "2026-10-05T09:19:04Z",
+        "smartfactory-evolution-pg18-final60-20261005"
+      ]
+    ]
+  },
+  "recoverable_state": {
+    "prepared_directory": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/private/prepared",
+    "service_state": "all owned application containers stopped normally and removed; own databases, bundle, credentials and PKI retained privately",
+    "next_full_run": "use a fresh --directory with scripts/verify-delivery-runtime.py after the configuration engineer fixes and freezes applicable inputs",
+    "own_pg_databases_may_be_cloned_for_minimal_reproduction": {
+      "cloud": "sf_delivery_cloud_8cf197b3c9",
+      "config": "sf_delivery_config_8cf197b3c9",
+      "edge-a": "sf_delivery_edge_a_8cf197b3c9"
+    },
+    "pg_description_private": "/path/to/SmartFactory-2026/.local/evolution/pg18-test.json"
+  },
+  "remaining_work": {
+    "configuration_engineer": "修正EnsureConnectorVersions事务调用，实际PG并发metadata/消费者场景及适用回归，保存固定输入后通知原交付工程师",
+    "delivery_engineer": "恢复后从新固定源码构建七程序并完成首次代理转换、目标改变、双版本配置与规则、缓存恢复、后续启动、去重和审计；前端最终冻结后完成十四程序包、契约/许可/公开文档/包内入口验收和最终报告",
+    "frontend": "沿用原前端最终页面、静态产物与浏览器验收冻结条件"
+  },
+  "resources": {
+    "active_containers": {
+      "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/final-active-containers.log",
+      "bytes": 56,
+      "sha256": "678624bd2f93ce2e0a853931593c4afc3709973b9f7927d5b804bea93b8909b4"
+    },
+    "disk_capacity": {
+      "path": "/private/tmp/smartfactory-delivery-linux-runtime-r02-20261005/evidence/final-disk-capacity.log",
+      "bytes": 280,
+      "sha256": "097f6e25dca8255ffc3f63d74a1d6f1c9d38d17a6e4c6a7dc599ce7f87f82f03"
+    },
+    "additional_final_package_estimate_gib": "0.8–1.2 including fourteen-program bundle plus compressed archive; locked Docker images use reproducible preparation and are not pre-archived",
+    "all_historical_sources_binaries_databases_logs_retained": true
+  },
+  "checkpoint_capture_driver": {
+    "path": "/private/tmp/smartfactory-delivery-config-deadlock-checkpoint-20261005.py",
+    "sha256": "ea17f52785d5aeaf950ba0f941075cb35e70aa3bdabcfb0633c884e7cbcab24c",
+    "argv": [
+      "python3",
+      "/private/tmp/smartfactory-delivery-config-deadlock-checkpoint-20261005.py"
+    ],
+    "cwd": "/path/to/SmartFactory-2026",
+    "scope": "read-only go-list reconciliation, retained-copy hash verification, public configuration identity/OID evidence and checkpoint assembly; no production source changes"
+  }
+}

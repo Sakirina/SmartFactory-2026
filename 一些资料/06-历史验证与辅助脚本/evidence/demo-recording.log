@@ -1,0 +1,33 @@
+SmartFactory 实际运行演示
+云端控制台、边缘现场页面与管理大屏共用业务数据
+分析、告警和联动预案共用编排与评审流程
+当前展示温度一分钟平均值的可编辑定义
+温湿度监控：升高温度后，边缘规则启动通风
+页面中的读数和执行状态来自实际协议采集
+温度恢复至回差范围后，通风关闭
+湿度升高时启动除湿；恢复后关闭除湿
+红外感应照明：检测到人员时点亮
+人员离开后，按预案延时关闭
+危气监测：烟雾 超限，触发告警和排风预案
+危气监测：可燃气 超限，触发告警和排风预案
+危气监测：CO 超限，触发告警和排风预案
+AGV 避障：距离低于停止阈值，现场自动停车
+距离恢复后，工程师与领导分别确认恢复请求
+边缘在执行前再次检查当前条件
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+
+locator.waitFor: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for getByRole('heading', { name: '货物事件去重与累计', exact: true }) to be visible[22m
+
+    at show (/path/to/SmartFactory-2026/scripts/record-demo.mjs:85:120)
+    at async file:///path/to/SmartFactory-2026/scripts/record-demo.mjs:124:3 {
+  log: [
+    "  - waiting for getByRole('heading', { name: '货物事件去重与累计', exact: true }) to be visible"
+  ],
+  name: 'TimeoutError'
+}
+
+Node.js v22.22.3
